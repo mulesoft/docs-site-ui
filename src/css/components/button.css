@@ -1,0 +1,27 @@
+.button {
+  background: var(--tertiary);
+  border: 1px solid var(--aluminum-4);
+  border-radius: 2px;
+  color: var(--aluminum-5);
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: var(--weight-bold);
+  height: var(--nav-item-height);
+  padding: var(--xs);
+  transition: box-shadow var(--transition-speed-sm) var(--transition-timing);
+
+  &:hover {
+    border-color: var(--aluminum-5);
+    color: var(--steel-1);
+  }
+
+  &:focus {
+    border-color: var(--core-blue-3);
+    color: var(--core-blue-3);
+  }
+
+  &:active {
+    border-color: var(--core-blue-3);
+    color: var(--core-blue-3);
+  }
+}

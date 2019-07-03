@@ -1,0 +1,13 @@
+.input,
+.textarea {
+  background: var(--tertiary);
+  border: 1px solid var(--aluminum-4);
+  border-radius: 2px;
+  color: var(--steel-5);
+  font-size: 14px;
+  height: var(--input-md);
+  padding: var(--xs);
+  transition: box-shadow var(--transition-speed-sm) var(--transition-timing);
+  width: 100%;
+  word-break: normal;
+}

@@ -1,0 +1,25 @@
+.select-wrapper {
+  display: inline-block;
+  position: relative;
+
+  &::before {
+    content: '▾';
+    position: absolute;
+    right: 8px;
+    top: 2px;
+  }
+}
+
+.select {
+  appearance: none;
+  background: var(--tertiary);
+  border: 1px solid var(--aluminum-4);
+  border-radius: 2px;
+  box-shadow: none;
+  height: var(--input-md);
+  padding: var(--xs) 20px var(--xs) var(--xs); /* 20px for the arrow */
+
+  &::-ms-expand {
+    display: none;
+  }
+}

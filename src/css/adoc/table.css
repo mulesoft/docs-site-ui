@@ -1,0 +1,45 @@
+table.tableblock {
+  border-collapse: collapse;
+  display: block;
+  font-size: 14px;
+  overflow: auto;
+  width: 100%;
+
+  /* when nesting admonition */
+  & table {
+    margin-bottom: var(--xs);
+    margin-top: var(--xs);
+  }
+
+  & tbody {
+    padding: var(--sm) var(--md);
+  }
+
+  & caption {
+    text-align: left;
+  }
+
+  & p {
+    margin-bottom: 0;
+    margin-top: 0;
+  }
+
+  & th {
+    border-bottom: 2px solid var(--steel-3);
+    text-align: left;
+  }
+
+  & tr + tr {
+    border-top: 1px solid var(--aluminum-3);
+  }
+
+  & caption,
+  & td,
+  & th {
+    padding: var(--xs) var(--sm);
+
+    & + td {
+      border-left: 1px solid var(--aluminum-3);
+    }
+  }
+}

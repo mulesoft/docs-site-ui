@@ -1,0 +1,85 @@
+.admonitionblock {
+
+  & table,
+  & tr,
+  & td {
+    display: block;
+  }
+
+  & tbody {
+    border: 1px solid var(--aluminum-3);
+    border-radius: 2px;
+    color: var(--steel-1);
+    display: block;
+    font-size: 14px;
+    padding: var(--md) var(--lg) var(--sm);
+
+    &::before {
+      background-position: left 40%;
+      background-repeat: no-repeat;
+      background-size: 15px;
+      display: block;
+      font-family: var(--heading);
+      font-size: 13px;
+      font-weight: var(--weight-bold);
+      opacity: .6;
+      padding-left: 20px;
+    }
+  }
+
+  & .icon {
+    display: none;
+
+    & + .content {
+      border-left: 0; /* reset table style */
+    }
+  }
+
+  & .content {
+    padding: 0; /* reset table style */
+  }
+
+  /* types of blocks */
+  &.caution tbody {
+    background: color-mod(var(--red-3) lightness(98%));
+    border-color: color-mod(var(--red-3) lightness(85%));
+
+    &::before {
+      background-image: url(../img/icons/caution.svg);
+      color: color-mod(var(--red-3) lightness(40%));
+      content: 'CAUTION';
+    }
+  }
+
+  &.important tbody {
+    background: color-mod(var(--yellow-3) lightness(96%));
+    border-color: color-mod(var(--yellow-3) lightness(75%));
+
+    &::before {
+      background-image: url(../img/icons/important.svg);
+      color: color-mod(var(--yellow-3) lightness(40%));
+      content: 'IMPORTANT';
+    }
+  }
+
+  &.note tbody::before {
+    background-image: url(../img/icons/note.svg);
+    content: 'NOTE';
+  }
+
+  &.tip tbody::before {
+    background-image: url(../img/icons/tip.svg);
+    content: 'TIP';
+  }
+
+  &.warning tbody {
+    background: color-mod(var(--red-3) lightness(98%));
+    border-color: color-mod(var(--red-3) lightness(85%));
+
+    &::before {
+      background-image: url(../img/icons/caution.svg);
+      color: color-mod(var(--red-3) lightness(40%));
+      content: 'WARNING';
+    }
+  }
+}

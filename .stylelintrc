@@ -1,0 +1,14 @@
+{
+  "extends": "stylelint-config-standard",
+  "plugins": [
+    "stylelint-order"
+  ],
+  "rules": {
+    "comment-empty-line-before": null,
+    "function-comma-space-after": "never-single-line",
+    "no-descending-specificity": null,
+    "number-leading-zero": "never",
+    "order/properties-alphabetical-order": true,
+    "rule-empty-line-before": null,
+  }
+}

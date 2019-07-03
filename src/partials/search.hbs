@@ -1,0 +1,31 @@
+{{#if (and page.component env.COVEO_ACCESS_TOKEN)}}
+<div id="search" class="js-search-ui js-coveo CoveoSearchInterface" data-enable-automatic-responsive-mode="false">
+  <div class="CoveoAnalytics" data-search-hub="Documentation"></div>
+  <div class="modal">
+    <header class="flex align-center coveo-searchbox-wrapper">
+      <div class="CoveoSearchbox" data-placeholder="Search docs" data-enable-search-as-you-type="true" data-search-as-you-type-delay="2000"></div>
+      <svg class="flex shrink coveo-close js-search-close" width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M19.9174 1.40828C19.5074 0.935478 19.0645 0.492569 18.5917 0.0825958L10 8.67432L1.40828 0.0825958C0.935478 0.492569 0.492569 0.935478 0.0825958 1.40828L8.67432 10L0.0825964 18.5917C0.49257 19.0645 0.935479 19.5074 1.40828 19.9174L10 11.3257L18.5917 19.9174C19.0645 19.5074 19.5074 19.0645 19.9174 18.5917L11.3257 10L19.9174 1.40828Z"/></svg>
+    </header>
+    <div class="coveo-main-section">
+      <section class="coveo-facet-column">
+        <header class="facet-heading">Filter by</header>
+        <div class="flex facet-wrapper">
+          <div class="CoveoFacet" data-title="Product" data-field="@product" data-number-of-values="10" data-enable-settings="false" data-enable-facet-search="false" data-preserve-position="false"></div>
+          <div class="CoveoFacet" data-title="Version" data-field="@version" data-number-of-values="7" data-enable-settings="false" data-enable-facet-search="false" data-preserve-position="false" data-depends-on="@product" data-available-sorts="AlphaDescending"></div>
+        </div>
+      </section>
+      <section class="coveo-results-column">
+        <span class="CoveoQuerySummary" data-enable-search-tips="false"></span>
+        <div class="CoveoHiddenQuery"></div>
+        <div class="CoveoDidYouMean"></div>
+        <div class="CoveoErrorReport"></div>
+        <div class="CoveoResultList" data-layout="card" data-wait-animation="fade" data-auto-select-fields-to-include="true"></div>
+        <div class="CoveoPager"></div>
+      </section>
+    </div>
+  </div>
+</div>
+<script defer src="https://static.cloud.coveo.com/searchui/v2.4382/js/CoveoJsSearch.Lazy.min.js"></script>
+<script defer src="https://static.cloud.coveo.com/searchui/v2.4382/js/templates/templates.js"></script>
+<script defer src="{{uiRootPath}}/js/vendor/coveo.js" id="coveo-script" data-access-token="{{env.COVEO_ACCESS_TOKEN}}" data-query-pipeline="{{or env.COVEO_QUERY_PIPELINE 'doc-query-pipeline'}}"></script>
+{{/if}}

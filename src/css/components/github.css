@@ -1,0 +1,18 @@
+/* link to GitHub */
+.button-edit {
+  display: inline-flex;
+  height: auto;
+  text-decoration: none;
+
+  &:focus {
+    border-color: var(--core-blue-3);
+    box-shadow: 0 0 0 3px rgba(0,162,223,.25);
+    outline: 0;
+  }
+
+  & .svg {
+    height: 12px;
+    margin-right: 4px;
+    width: 12px;
+  }
+}

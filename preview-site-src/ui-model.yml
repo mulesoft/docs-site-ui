@@ -1,0 +1,124 @@
+antoraVersion: '2.0.0'
+site:
+  url: &home_url /home.html
+  title: MuleSoft Documentation
+  components:
+    general:
+      name: general
+      title: Home
+      url: *home_url
+      versions:
+      - version: master
+        url: *home_url
+        navigation:
+        - items:
+          - content: MuleSoft Documentation
+            url: *home_url
+          - content: Anypoint Platform Glossary
+            url: '#'
+          - content: Ecosia
+            url: https://ecosia.org
+            urlType: external
+    access-management:
+      name: access-management
+      title: Access Management
+      url: '#'
+      versions:
+      - version: master
+        url: '#'
+        navigation:
+        - items:
+          - content: About Access Management
+            url: '#'
+          - content: Managing Your Account
+            url: '#'
+          - content: Organization
+            url: '#'
+          - content: Business Groups
+            url: '#'
+          - content: Users
+            url: '#'
+          - content: Roles
+            url: '#'
+          - content: Environments
+            url: '#'
+    connector-devkit: &component
+      name: connector-devkit
+      title: Connector DevKit
+      url: '#'
+      versions:
+      - &component_version_latest
+        version: '3.9'
+        url: '#'
+        navigation:
+        - items:
+          - content: About Anypoint Connector DevKit
+            url: '#'
+          - content: Getting Started with Anypoint Connector Development
+            url: '#'
+          - content: Creating an Anypoint Connector Project
+            url: '#'
+      - &component_version
+        version: '3.8'
+        url: /connector-devkit/3.8/index.html
+        navigation:
+        - items:
+          - content: About Anypoint Connector DevKit
+            #url: /connector-devkit/3.8/index.html
+            url: '#'
+          - content: Getting Started with Anypoint Connector Development
+            # NOTE comment out url to make this a heading
+            url: '#'
+            items:
+            - content: Setting Up Your Development Environment
+              url: /connector-devkit/3.8/index.html
+              #url: '#'
+              items:
+              - content: Windows
+                #url: /connector-devkit/3.8/index.html
+                url: '#'
+              - content: Linux
+                url: '#'
+              - content: macOS
+                url: '#'
+            - content: Anypoint Connector DevKit Tutorial
+              url: '#'
+              #url: /connector-devkit/3.8/index.html
+            - content: Connector Project Structure
+              url: '#'
+            - content: DevKit Java Annotation Reference
+              url: '#'
+          - content: Creating an Anypoint Connector Project
+            url: '#'
+      - version: '3.7'
+        url: /connector-devkit/3.7/index.html
+        navigation:
+        - items:
+          - content: About Anypoint Connector DevKit
+            url: /connector-devkit/3.7/index.html
+          - content: Getting Started with Anypoint Connector Development
+            url: '#'
+          - content: Creating an Anypoint Connector Project
+            url: '#'
+      latest: *component_version_latest
+page:
+  title: &page_title About Anypoint Connector DevKit
+  url: &page_url /connector-devkit/3.8/index.html
+  component: *component
+  componentVersion: *component_version
+  version: '3.8'
+  module: ROOT
+  home: false
+  editUrl: https://github.com/mulesoft/docs-site-ui/edit/master/preview-site-src/index.adoc
+  versions:
+  - version: '3.9'
+    url: '#'
+  - version: '3.8'
+    url: '#'
+  - version: '3.7'
+    missing: true
+    url: '#'
+  breadcrumbs:
+  - content: *page_title
+    url: *page_url
+    urlType: internal

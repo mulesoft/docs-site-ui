@@ -1,0 +1,4 @@
+{
+  "description": "Build tasks for the MuleSoft docs UI project",
+  "flags.tasksDepth": 1
+}

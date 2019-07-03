@@ -1,0 +1,32 @@
+.popover {
+  background: var(--tertiary);
+  border: 1px solid var(--aluminum-3);
+  border-radius: 2px;
+  box-shadow: 0 2px 9px rgba(0,0,0,.1);
+  padding: var(--xs);
+  transform-origin: 95% 0;
+  transition: opacity var(--transition-speed-sm) var(--transition-timing), transform var(--transition-speed-sm) var(--transition-timing);
+}
+
+.tippy-popper:focus {
+  outline: 0;
+}
+
+.version-popover {
+  display: none;
+}
+
+.tippy-popper .version-popover {
+  display: block;
+}
+
+.tippy-popper .popover,
+.tippy-popper.hide .popover {
+  opacity: 0;
+  transform: scale(.95) translate3d(2px,-5px,0);
+}
+
+.tippy-popper.shown .popover {
+  opacity: 1;
+  transform: scale(1) translate3d(0,0,0);
+}

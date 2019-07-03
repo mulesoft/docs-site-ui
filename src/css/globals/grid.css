@@ -1,0 +1,44 @@
+.container {
+  margin-left: auto;
+  margin-right: auto;
+
+  @media (--xl) {
+    max-width: var(--screen-xl);
+  }
+}
+
+.flex {
+  display: flex;
+}
+
+.col {
+  flex-direction: column;
+}
+
+.align-top {
+  align-items: flex-start;
+}
+
+.align-center {
+  align-items: center;
+}
+
+.align-bottom {
+  align-items: flex-end;
+}
+
+.justify-center {
+  justify-content: center;
+}
+
+.justify-justified {
+  justify-content: space-between;
+}
+
+.grow {
+  flex: 1 1 auto;
+}
+
+.shrink {
+  flex: 0 0 auto;
+}

@@ -1,0 +1,40 @@
+/* globals */
+@import "vendor/normalize.css";
+@import "globals/reset.css";
+@import "globals/vars.css";
+@import "globals/utility.css";
+@import "globals/global.css";
+@import "globals/grid.css";
+@import "globals/typography.css";
+
+/* components */
+@import "components/breadcrumbs.css";
+@import "components/button.css";
+@import "components/github.css";
+@import "components/input.css";
+@import "components/modal.css";
+@import "components/popover.css";
+@import "components/select.css";
+@import "components/tooltip.css";
+
+/* specific */
+@import "specific/header.css";
+@import "specific/navigation.css";
+@import "specific/toc.css";
+@import "specific/toolbar.css";
+@import "specific/versions.css";
+
+/* adoc */
+@import "adoc/doc.css";
+@import "adoc/doc-footer.css";
+@import "adoc/abstract.css";
+@import "adoc/admonition-block.css";
+@import "adoc/description-list.css";
+@import "adoc/table.css";
+
+/* vendor */
+@import "vendor/coveo.css";
+
+/* other */
+@import "base.css";
+@import "highlight.css";

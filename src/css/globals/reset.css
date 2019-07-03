@@ -1,0 +1,54 @@
+/* resets that are not part of normalize */
+/* box model reset */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+/* reset lists */
+ol,
+ul {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+}
+
+/* reset inputs */
+input,
+textarea,
+select {
+  word-break: normal;
+
+  /* focus state */
+  &.focus,
+  &:focus {
+    border-color: var(--core-blue-3);
+    box-shadow: 0 0 0 3px rgba(0,162,223,.25);
+    outline: 0;
+  }
+
+  /* placeholder */
+  &::placeholder {
+    color: var(--aluminum-5);
+  }
+
+  /* checkbox radius */
+  &[type="checkbox"] {
+    border-radius: 3px;
+  }
+}
+
+textarea {
+  resize: vertical;
+}
+
+/* reset buttons */
+button {
+  &.focus,
+  &:focus {
+    border-color: var(--core-blue-3);
+    box-shadow: 0 0 0 3px rgba(0,162,223,.25);
+    outline: 0;
+  }
+}

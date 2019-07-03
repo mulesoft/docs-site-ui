@@ -1,0 +1,15 @@
+{{#if (eq page.layout '404')}}
+	<footer class="flex col align-center doc-footer">
+		{{> github}}
+	</footer>
+{{else}}
+	<footer class="flex col align-center doc-footer">
+	  <section class="section-helpful js-thanks-section">
+	    <p class="p" data-thanks="start">Was this article helpful?</p>
+	    <button class="button js-thanks" data-thanks="start" type="button">👍 Yes, thanks!</button>
+	    <button class="button js-jira" data-thanks="start" type="button">👎 No, not really.</button>
+	    <p class="p" data-thanks="end">💙 Thanks for your feedback!</p>
+	  </section>
+	  {{> github}}
+	</footer>
+{{/if}}

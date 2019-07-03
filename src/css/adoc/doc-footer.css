@@ -1,0 +1,61 @@
+.doc-footer {
+  padding-bottom: var(--xl);
+
+  & .button {
+    font-size: 12px;
+  }
+
+  & .button-edit {
+    margin-top: var(--md);
+
+    @media (--lg) {
+      display: none;
+    }
+  }
+}
+
+.section-helpful {
+  border: 1px solid var(--aluminum-3);
+  border-radius: 2px;
+  display: block;
+  font-size: 14px;
+  padding: var(--md);
+
+  @media (--md) {
+    align-items: center;
+    display: flex;
+    flex-direction: row;
+    height: 62px;
+    padding-bottom: var(--xs);
+    padding-top: var(--xs);
+  }
+
+  &.flip [data-thanks="start"],
+  & [data-thanks="end"] {
+    display: none;
+  }
+
+  &.flip [data-thanks="end"] {
+    display: block;
+    margin-bottom: 0;
+  }
+
+  & .p {
+    font-weight: var(--weight-bold);
+    margin-bottom: var(--md);
+    margin-top: 0;
+    text-align: center;
+
+    @media (--md) {
+      margin-bottom: 0;
+      text-align: left;
+    }
+  }
+
+  & .p + .button,
+  & .button + .button {
+    @media (--md) {
+      margin-left: var(--sm);
+    }
+  }
+}

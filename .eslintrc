@@ -1,0 +1,15 @@
+{
+  "extends": "standard",
+  "globals": {
+    "analytics": true,
+    "Coveo": true,
+    "localStorage": true,
+    "tippy": true
+  },
+  "rules": {
+    "arrow-parens": ["error", "always"],
+    "comma-dangle": ["error", "always-multiline"],
+    "max-len": [1, 120, 2],
+    "spaced-comment": "off"
+  }
+}

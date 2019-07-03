@@ -1,0 +1,157 @@
+= MuleSoft Documentation Site UI
+// Settings:
+:experimental:
+:hide-uri-scheme:
+// Variables:
+//:current-release: v0
+// Project URIs:
+:uri-project: https://github.com/mulesoft/docs-site-ui
+// External URIs:
+:uri-antora: https://antora.org
+:uri-git: https://git-scm.com
+:uri-git-dl: {uri-git}/downloads
+:uri-gulp: http://gulpjs.com
+:uri-node: https://nodejs.org
+:uri-nvm: https://github.com/creationix/nvm
+:uri-nvm-install: {uri-nvm}#installation
+
+This project generates the UI for the MuleSoft documentation site.
+
+== Use the UI
+
+ifdef::current-release[]
+To use this UI with Antora, add the following configuration to your playbook file:
+
+[source,yaml,subs=attributes+]
+----
+ui:
+  bundle:
+    url: {uri-project}/releases/download/{current-release}/ui-bundle.zip
+----
+endif::[]
+ifndef::current-release[]
+To use this UI with Antora, first find the URL of the UI bundle for the *Latest release* on this page:
+
+{uri-project}/releases
+
+Then, plug that URL into the your playbook file, replacing `%UI_BUNDLE_URL%` with the URL you found in the previous step.
+
+[source,yaml]
+----
+ui:
+  bundle:
+    url: %UI_BUNDLE_URL%
+----
+endif::[]
+
+Read on to learn how to build the UI from source.
+
+== Development Quickstart
+
+This section offers a basic tutorial for learning how to preview the UI and bundle it for use with Antora.
+
+=== Prerequisites
+
+To preview and bundle the UI, you need the following software on your computer:
+
+* {uri-git}[git] (command: `git`)
+* {uri-node}[Node 10] (command: `node`)
+* {uri-gulp}[Gulp CLI] (command: `gulp`)
+
+==== git
+
+First, make sure you have git installed.
+
+ $ git --version
+
+If not, {uri-git-dl}[download and install] the git package for your system.
+
+==== Node 10
+
+Next, make sure that you have at least Node 10 installed.
+
+ $ node -v
+
+If this command fails with an error, you don't have Node installed.
+If the command doesn't report a Node 10 version or better (e.g., v10.15.3), you don't have a suitable version of Node installed.
+
+While you can install Node from the official packages, we strongly recommend that you use {uri-nvm}[nvm] (Node Version Manager) to install and manage Node.
+Follow the {uri-nvm-install}[nvm installation instructions] to set up nvm on your machine.
+
+Once you've installed nvm, open a new terminal and install Node 10 using the following command:
+
+ $ nvm install 10
+
+You can switch to this version of Node at any time using the following command:
+
+ $ nvm use 10
+
+To make Node 10 the default in new terminals, type:
+
+ $ nvm alias default 10
+
+Now that you have Node 10 installed, you can proceed with installing the Gulp CLI and the project dependencies.
+
+==== Gulp CLI
+
+You'll need the Gulp command-line interface (CLI) to run the build.
+This package provides the `gulp` command which, in turn, executes the version of Gulp declared by the project.
+
+You should install the Gulp CLI globally (which resolves to a location in your user directory if you're using nvm) using the following command:
+
+ $ npm install -g gulp-cli
+
+Now that you have the prerequisites installed, you can fetch and build the default UI project.
+
+=== Clone and Initialize the UI Project
+
+Clone the UI project using git:
+
+[subs=attributes+]
+ $ git clone {uri-project} &&
+   cd "`basename $_`"
+
+The example above clones the UI project and then switches to the project folder on your filesystem.
+Stay in this project folder when executing all subsequent commands.
+
+Use npm to install the project's dependencies inside the project.
+In your terminal, execute the following command:
+
+ $ npm install
+
+This command installs the dependencies listed in [.path]_package.json_ into the [.path]_node_modules/_ folder inside the project.
+This folder does not get included in the UI bundle and should _not_ be committed to the source control repository.
+
+=== Preview the UI
+
+The UI project is configured to preview offline.
+The files in the [.path]_preview-site-src/_ folder provide the sample content that allow you to see the UI in action.
+In this folder, you'll primarily find pages written in AsciiDoc.
+These pages provide a representative sample and kitchen sink of content from the real site.
+
+To build the UI and preview it in a local web server, run the `preview` command:
+
+ $ gulp preview
+
+You'll see a URL listed in the output of this command:
+
+....
+[18:24:29] Server started http://localhost:5252
+[18:24:29] Running server
+....
+
+Navigate to this URL to preview the site locally.
+
+While this command is running, any changes you make to the source files will be instantly reflected in the browser.
+This works by monitoring the project for changes, running the `build` task if a change is detected, and sending the updates to the browser.
+
+Press kbd:[Ctrl+C] to stop the preview server and end the continuous build.
+
+=== Package for Use with Antora
+
+If you need to package the UI in order to preview the UI on the real site in local development, run the following command:
+
+ $ gulp bundle
+
+The UI bundle will be available at [.path]_build/ui-bundle.zip_.
+You can then point Antora at this bundle using the `--ui-bundle-url` command-line option.

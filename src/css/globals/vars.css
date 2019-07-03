@@ -1,0 +1,75 @@
+:root {
+  /* colors */
+  --core-blue-1: #abe2f5;
+  --core-blue-2: #48c1ed;
+  --core-blue-3: #00a2df;
+  --core-blue-4: #087299;
+  --core-blue-5: #114459;
+  --robust-blue-1: #a1b1b8;
+  --robust-blue-2: #6b8a99;
+  --robust-blue-3: #506773;
+  --robust-blue-4: #32444d;
+  --robust-blue-5: #272f33;
+  --future-green-1: #aaf2cb;
+  --future-green-2: #33cc7a;
+  --future-green-3: #17bc65;
+  --future-green-4: #0e8c48;
+  --future-green-5: #174d30;
+  --steel-1: #6b6c6d;
+  --steel-2: #58595a;
+  --steel-3: #3a3b3c;
+  --steel-4: #262728;
+  --steel-5: #121314;
+  --aluminum-1: #f9fafb;
+  --aluminum-2: #f4f5f6;
+  --aluminum-3: #e8e9ea;
+  --aluminum-4: #cacbcc;
+  --aluminum-5: #989a9b;
+  --yellow-3: #f2be24;
+  --viridian-3: #00b49d;
+  --teal-3: #00b5d1;
+  --navy-3: #178bea;
+  --indigo-3: #5e66f9;
+  --violet-3: #9a63f9;
+  --red-3: #d1344e;
+  --tertiary: #fff;
+
+  /* typography */
+  --heading: 'DIN Pro', 'Open Sans', sans-serif;
+  --sans-serif: 'Open Sans', sans-serif;
+  --monospace: 'Monaco', monospace;
+  --weight-normal: 400;
+  --weight-bold: 600;
+
+  /* dimensions */
+  --header-height: 66px;
+  --footer-height: 361px;
+  --nav-item-height: 32px;
+  --nav-width: 275px;
+  --toc-width: 250px;
+  --radius: 2px;
+  --xs: 5px;
+  --sm: 10px;
+  --md: 15px;
+  --lg: 20px;
+  --xl: 40px;
+  --input-md: 30px;
+  --screen-sm: 576px;
+  --screen-md: 768px;
+  --screen-lg: 992px;
+  --screen-xl: 1350px;
+
+  /* z-index */
+  --z-modal-header: 16;
+  --z-modal: 15;
+  --z-nav-mobile: 14;
+  --z-backdrop: 13;
+  --z-header: 12; /* marketing header */
+  --z-nav: 11;
+  --z-nav-toolbar: 10;
+
+  /* animations/transitions */
+  --transition-speed-sm: .15s;
+  --transition-speed-md: .3s;
+  --transition-timing: cubic-bezier(.46,.03,.52,.96);
+}

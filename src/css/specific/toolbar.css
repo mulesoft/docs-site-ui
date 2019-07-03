@@ -1,0 +1,26 @@
+.toolbar {
+  background: var(--tertiary);
+  border-bottom: 1px solid var(--aluminum-3);
+  padding: var(--sm) var(--lg);
+  position: sticky;
+  top: 0;
+  z-index: var(--z-nav-toolbar);
+
+  @media (--lg) {
+    padding-left: var(--xl);
+    padding-right: var(--xl);
+  }
+
+  @media (--md) {
+    display: none;
+  }
+
+  @supports (backdrop-filter: blur(10px)) {
+    backdrop-filter: blur(10px);
+    background: rgba(255,255,255,.7);
+  }
+}
+
+.nav-toggle {
+  margin-right: var(--md);
+}

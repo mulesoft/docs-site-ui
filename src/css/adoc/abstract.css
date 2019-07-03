@@ -1,0 +1,10 @@
+/* abstract */
+.abstract blockquote {
+  font-style: italic;
+
+  &::before {
+    content: "Abstract: ";
+    font-style: normal;
+    font-weight: var(--weight-bold);
+  }
+}
