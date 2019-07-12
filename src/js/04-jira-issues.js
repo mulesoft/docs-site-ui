@@ -6,14 +6,21 @@
   // open jira dialog
   window.ATL_JQ_PAGE_PROPS = {
     triggerFunction: function (showCollectorDialog) {
-      document.querySelector('.js-jira').addEventListener('click', function (e) {
+      var jiraTriggers = document.querySelectorAll('.js-jira')
+      var leaveFeedback = function (e) {
         e.preventDefault()
-        showCollectorDialog()
-      })
-      document.querySelector('.js-jira').addEventListener('touchend', function (e) {
-        e.preventDefault()
-        showCollectorDialog()
-      })
+        analytics && analytics.track('Clicked Leave Feedback', { title: document.title, url: window.location.href })
+      }
+      for (var i = 0; i < jiraTriggers.length; i++) {
+        jiraTriggers[i].addEventListener('click', function (e) {
+          leaveFeedback(e)
+          showCollectorDialog()
+        })
+        jiraTriggers[i].addEventListener('touchend', function (e) {
+          leaveFeedback(e)
+          showCollectorDialog()
+        })
+      }
     },
     fieldValues: {
       description: 'URL: ' + window.location.href,
