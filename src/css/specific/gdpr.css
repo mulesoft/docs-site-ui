@@ -77,4 +77,8 @@
   &:focus {
     opacity: 1;
   }
+
+  &:focus {
+    box-shadow: none;
+  }
 }

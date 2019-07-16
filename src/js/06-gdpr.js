@@ -8,7 +8,7 @@
 
     function closeGDPR () {
       localStorage.setItem('GDPR', 'off')
-      gdprEl.remove()
+      gdprEl.classList.remove('show')
     }
 
     if (!gdprFlag) gdprEl.classList.add('show')
