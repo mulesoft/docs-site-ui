@@ -1,18 +1,18 @@
 {{#if (eq page.layout '404')}}
-  <footer class="flex col align-center doc-footer">
-    {{> github}}
-  </footer>
+<footer class="flex col align-center doc-footer">
+{{> github}}
+</footer>
 {{else}}
-  <footer class="flex col align-center doc-footer">
-    <section class="section-helpful js-thanks-section">
-      <p class="p" data-thanks="start">Was this article helpful?</p>
-      <div class="row">
-        <button class="button js-thanks-yes" data-thanks="start" type="button">👍 Yes, thanks!</button>
-        <button class="button js-thanks-no js-jira" data-thanks="start" type="button">👎 No, not really.</button>
-        <p class="p" data-thanks="end">💙 Thanks for your feedback!</p>
-      </div>
-      <a class="link js-jira">Leave feedback…</a>
-    </section>
-    {{> github}}
-  </footer>
+<footer class="flex col align-center doc-footer">
+  <section class="section-helpful js-thanks-section">
+    <p class="p" data-thanks="start">Was this article helpful?</p>
+    <div class="row">
+      <button class="button js-thanks-yes" data-thanks="start" type="button">👍 Yes, thanks!</button>
+      <button class="button js-thanks-no js-jira" data-thanks="start" type="button">👎 No, not really.</button>
+      <p class="p" data-thanks="end">💙 Thanks for your feedback!</p>
+    </div>
+    <a class="link js-jira">Leave feedback…</a>
+  </section>
+{{> github}}
+</footer>
 {{/if}}
