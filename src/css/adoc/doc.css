@@ -146,6 +146,14 @@
     &:active {
       color: var(--core-blue-4);
     }
+
+    &[target="_blank"] {
+      background-image: url(../img/icons/external-link.svg);
+      background-position: right center;
+      background-repeat: no-repeat;
+      background-size: 12px;
+      padding-right: 16px;
+    }
   }
 
   /* images */
