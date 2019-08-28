@@ -1,7 +1,7 @@
 ;(function () {
   'use strict'
 
-  document.addEventListener('DOMContentLoaded', function() {
+  document.addEventListener('DOMContentLoaded', function () {
     var gdprFlag = localStorage.getItem('GDPR')
     var gdprEl = document.querySelector('.js-gdpr')
     var gdprClose = document.querySelector('.js-gdpr-close')
