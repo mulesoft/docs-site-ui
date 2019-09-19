@@ -8,7 +8,7 @@
   var root = document.querySelector('.js-coveo')
   var coveoInit
 
-  Coveo.SearchEndpoint.endpoints['default'] = new Coveo.SearchEndpoint({
+  Coveo.SearchEndpoint.endpoints.default = new Coveo.SearchEndpoint({
     restUri: 'https://platform.cloud.coveo.com/rest/search',
     accessToken: config.accessToken,
   })
