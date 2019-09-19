@@ -71,6 +71,10 @@
   }
 }
 
+.status-404 .nav {
+  overflow: auto;
+}
+
 .nav-list {
   overflow: hidden;
 
