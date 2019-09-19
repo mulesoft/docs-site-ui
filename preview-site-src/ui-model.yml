@@ -122,3 +122,5 @@ page:
   - content: *page_title
     url: *page_url
     urlType: internal
+origin:
+  url: https://github.com/mulesoft/docs-site-ui
