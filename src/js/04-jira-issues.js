@@ -3,29 +3,33 @@
 
   var analytics = window.analytics
 
-  // open jira dialog
-  window.ATL_JQ_PAGE_PROPS = {
-    triggerFunction: function (showCollectorDialog) {
-      var jiraTriggers = document.querySelectorAll('.js-jira')
-      var leaveFeedback = function (e) {
-        e.preventDefault()
-        analytics && analytics.track('Clicked Leave Feedback', { title: document.title, url: window.location.href })
-      }
-      for (var i = 0; i < jiraTriggers.length; i++) {
-        jiraTriggers[i].addEventListener('click', function (e) {
-          leaveFeedback(e)
-          showCollectorDialog()
-        })
-        jiraTriggers[i].addEventListener('touchend', function (e) {
-          leaveFeedback(e)
-          showCollectorDialog()
-        })
-      }
-    },
-    fieldValues: {
-      description: 'URL: ' + window.location.href,
-    },
+  var jiraTriggers = document.querySelectorAll('.js-jira')
+  if (jiraTriggers) {
+    // open jira dialog
+    window.ATL_JQ_PAGE_PROPS = {
+      triggerFunction: function (showCollectorDialog) {
+        var leaveFeedback = function (e) {
+          e.preventDefault()
+          analytics && analytics.track('Clicked Leave Feedback', { title: document.title, url: window.location.href })
+        }
+        for (var i = 0; i < jiraTriggers.length; i++) {
+          jiraTriggers[i].addEventListener('click', function (e) {
+            leaveFeedback(e)
+            showCollectorDialog()
+          })
+          jiraTriggers[i].addEventListener('touchend', function (e) {
+            leaveFeedback(e)
+            showCollectorDialog()
+          })
+        }
+      },
+      fieldValues: {
+        description: 'URL: ' + window.location.href,
+      },
+    }
   }
+
+  if (!analytics) return
 
   // saying thanks
   var thanksSection = document.querySelector('.js-thanks-section')
