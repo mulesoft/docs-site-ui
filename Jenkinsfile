@@ -7,32 +7,39 @@ def githubCredentialsId = 'mule-docs-agent-github-token'
 pipeline {
   agent any
   stages {
-    stage('Checkout') {
+    stage('Configure') {
       steps {
         script {
           if (sh(script: 'git log -1 --pretty=tformat:%s | grep -qP "^Release v\\d|\\[skip .+?\\]"', returnStatus: true) == 0) {
+            echo 'Skipping build as instructed by commit message.'
             env.SKIP_CI = 'true'
+            currentBuild.result = 'ABORTED'
           }
         }
       }
     }
     stage('Install') {
-      when { allOf { environment name: 'GIT_BRANCH', value: gitBranch; not { environment name: 'SKIP_CI', value: 'true' } } }
+      when { not { environment name: 'SKIP_CI', value: 'true' } }
       steps {
         nodejs('node10') {
           sh 'npm install --quiet --no-progress --cache=.cache/npm --no-audit'
         }
       }
     }
+    stage('Build') {
+      when { not { environment name: 'SKIP_CI', value: 'true' } } }
+      steps {
+        nodejs('node10') {
+          sh '$(npm bin)/gulp bundle'
+        }
+      }
+    }
     stage('Release') {
       when { allOf { environment name: 'GIT_BRANCH', value: gitBranch; not { environment name: 'SKIP_CI', value: 'true' } } }
       steps {
-        dir('public') {
-          deleteDir()
-        }
         withCredentials([string(credentialsId: githubCredentialsId, variable: 'GITHUB_TOKEN')]) {
           nodejs('node10') {
-            sh '$(npm bin)/gulp release'
+            sh '$(npm bin)/gulp release:publish'
           }
         }
       }
