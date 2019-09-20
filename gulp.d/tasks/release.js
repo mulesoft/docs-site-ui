@@ -1,8 +1,11 @@
 'use strict'
 
+const File = require('vinyl')
 const fs = require('fs-extra')
+const { obj: map } = require('through2')
 const Octokit = require('@octokit/rest')
 const path = require('path')
+const zip = require('gulp-vinyl-zip')
 
 function getNextReleaseNumber ({ octokit, owner, repo, variant }) {
   const prefix = `${variant}-`
@@ -30,6 +33,21 @@ function collectReleases ({ octokit, owner, repo, filter, page = 1, accum = [] }
   })
 }
 
+function versionBundle (bundleFile, tagName) {
+  return new Promise((resolve, reject) =>
+    zip.src(bundleFile)
+      .on('error', reject)
+      .pipe((() => {
+        const meta = new File({ path: 'ui.yml', contents: Buffer.from(`version: ${tagName}\n`) })
+        const stream = map((file, _, next) => file.path === meta.path && file !== meta ? next() : next(null, file))
+        stream.write(meta)
+        return stream
+      })())
+      .pipe(zip.dest(bundleFile))
+      .on('finish', () => resolve(bundleFile))
+  )
+}
+
 module.exports = (dest, bundleName, owner, repo, token, updateBranch) => async () => {
   const octokit = new Octokit({ auth: `token ${token}` })
   const branchName = process.env.GIT_BRANCH || 'master'
@@ -38,7 +56,7 @@ module.exports = (dest, bundleName, owner, repo, token, updateBranch) => async (
   const tagName = `${variant}-${await getNextReleaseNumber({ octokit, owner, repo, variant })}`
   const message = `Release ${tagName}`
   const bundleFileBasename = `${bundleName}-bundle.zip`
-  const bundleFile = path.join(dest, bundleFileBasename)
+  const bundleFile = versionBundle(path.join(dest, bundleFileBasename), tagName)
   let commit = await octokit.gitdata.getRef({ owner, repo, ref }).then((result) => result.data.object.sha)
   const readmeContent = await fs
     .readFile('README.adoc', 'utf-8')
