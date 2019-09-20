@@ -4,13 +4,38 @@ const fs = require('fs-extra')
 const Octokit = require('@octokit/rest')
 const path = require('path')
 
-module.exports = (dest, bundleName, owner, repo, token, updateMaster) => async () => {
+function getNextReleaseNumber ({ octokit, owner, repo, variant }) {
+  const prefix = `${variant}-`
+  const filter = (entry) => entry.name.startsWith(prefix)
+  return collectReleases({ octokit, owner, repo, filter }).then((releases) => {
+    if (releases.length) {
+      releases.sort((a, b) => -1 * a.name.localeCompare(b.name, 'en', { numeric: true }))
+      const latestName = releases[0].name
+      return Number(latestName.slice(prefix.length)) + 1
+    } else {
+      return 1
+    }
+  })
+}
+
+function collectReleases ({ octokit, owner, repo, filter, page = 1, accum = [] }) {
+  return octokit.repos.listReleases({ owner, repo, page, per_page: 100 }).then((result) => {
+    const releases = result.data.filter(filter)
+    const links = result.headers.link
+    if (links && links.includes('; rel="next"')) {
+      return collectReleases({ octokit, owner, repo, filter, page: page + 1, accum: accum.concat(releases) })
+    } else {
+      return accum.concat(releases)
+    }
+  })
+}
+
+module.exports = (dest, bundleName, owner, repo, token, updateBranch) => async () => {
   const octokit = new Octokit({ auth: `token ${token}` })
-  const {
-    data: { tag_name: lastTagName },
-  } = await octokit.repos.getLatestRelease({ owner, repo }).catch(() => ({ data: { tag_name: 'v0' } }))
-  const tagName = `v${Number(lastTagName.substr(1)) + 1}`
-  const ref = 'heads/master'
+  const branchName = process.env.GIT_BRANCH || 'master'
+  const variant = branchName === 'master' ? 'prod' : branchName
+  const ref = `heads/${branchName}`
+  const tagName = `${variant}-${await getNextReleaseNumber({ octokit, owner, repo, variant })}`
   const message = `Release ${tagName}`
   const bundleFileBasename = `${bundleName}-bundle.zip`
   const bundleFile = path.join(dest, bundleFileBasename)
@@ -35,7 +60,7 @@ module.exports = (dest, bundleName, owner, repo, token, updateMaster) => async (
   commit = await octokit.gitdata
     .createCommit({ owner, repo, message, tree, parents: [commit] })
     .then((result) => result.data.sha)
-  if (updateMaster) await octokit.gitdata.updateRef({ owner, repo, ref, sha: commit })
+  if (updateBranch) await octokit.gitdata.updateRef({ owner, repo, ref, sha: commit })
   const uploadUrl = await octokit.repos
     .createRelease({
       owner,
