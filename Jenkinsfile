@@ -27,7 +27,7 @@ pipeline {
       }
     }
     stage('Build') {
-      when { not { environment name: 'SKIP_CI', value: 'true' } } }
+      when { not { environment name: 'SKIP_CI', value: 'true' } }
       steps {
         nodejs('node10') {
           sh '$(npm bin)/gulp bundle'
