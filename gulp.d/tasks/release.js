@@ -56,7 +56,7 @@ module.exports = (dest, bundleName, owner, repo, token, updateBranch) => async (
   const tagName = `${variant}-${await getNextReleaseNumber({ octokit, owner, repo, variant })}`
   const message = `Release ${tagName}`
   const bundleFileBasename = `${bundleName}-bundle.zip`
-  const bundleFile = versionBundle(path.join(dest, bundleFileBasename), tagName)
+  const bundleFile = await versionBundle(path.join(dest, bundleFileBasename), tagName)
   let commit = await octokit.gitdata.getRef({ owner, repo, ref }).then((result) => result.data.object.sha)
   const readmeContent = await fs
     .readFile('README.adoc', 'utf-8')
