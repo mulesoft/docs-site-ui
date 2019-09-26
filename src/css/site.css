@@ -18,6 +18,7 @@
 @import "components/tooltip.css";
 
 /* specific */
+@import "specific/beta-banner.css";
 @import "specific/header.css";
 @import "specific/gdpr.css";
 @import "specific/navigation.css";

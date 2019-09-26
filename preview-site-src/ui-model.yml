@@ -109,7 +109,7 @@ page:
   version: '3.8'
   module: ROOT
   home: false
-  editUrl: https://github.com/mulesoft/docs-site-ui/edit/master/preview-site-src/index.adoc
+  editUrl: https://github.com/mulesoft/docs-site-ui/edit/beta/preview-site-src/index.adoc
   versions:
   - version: '3.9'
     url: '#'

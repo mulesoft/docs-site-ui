@@ -1,0 +1,17 @@
+.beta-banner {
+  background: #edf1ff;
+  border: 1px solid;
+  border-color: #506ac9;
+  border-radius: 1px;
+  display: block;
+  padding: var(--md) var(--lg) var(--sm);
+}
+.beta-heading {
+  color: #637cd8;
+  font-size: 1rem;
+  font-weight: bold;
+  text-align: left;
+}
+.beta-text {
+  font-size: .9rem;
+}

@@ -1,4 +1,4 @@
-= MuleSoft Documentation Site UI
+= MuleSoft Beta Documentation Site UI
 // Settings:
 :experimental:
 :hide-uri-scheme:
