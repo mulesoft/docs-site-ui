@@ -43,3 +43,21 @@ table.tableblock {
     }
   }
 }
+td.tableblock.valign-top {
+  vertical-align: top;
+}
+td.tableblock.valign-middle {
+  vertical-align: middle;
+}
+td.tableblock.valign-bottom {
+  vertical-align: bottom;
+}
+td.tableblock.halign-center {
+  text-align: center;
+}
+td.tableblock.halign-left {
+  text-align: left;
+}
+td.tableblock.halign-right {
+  text-align: right;
+}
