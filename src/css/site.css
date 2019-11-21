@@ -7,6 +7,9 @@
 @import "globals/grid.css";
 @import "globals/typography.css";
 
+/* pages */
+@import "pages/connector.css";
+
 /* components */
 @import "components/breadcrumbs.css";
 @import "components/button.css";
