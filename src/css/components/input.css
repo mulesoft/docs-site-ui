@@ -1,9 +1,9 @@
 .input,
 .textarea {
   background: var(--tertiary);
-  border: 1px solid var(--aluminum-4);
+  border: 1px solid var(--aluminum-3);
   border-radius: 2px;
-  color: var(--steel-5);
+  color: var(--steel-2);
   font-size: 14px;
   height: var(--input-md);
   padding: var(--xs);

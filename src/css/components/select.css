@@ -1,22 +1,27 @@
 .select-wrapper {
-  display: inline-block;
+  align-items: center;
+  display: inline-flex;
+  height: var(--input-md);
   position: relative;
 
   &::before {
     content: '▾';
+    opacity: .75;
+    pointer-events: none;
     position: absolute;
     right: 8px;
-    top: 2px;
   }
 }
 
 .select {
   appearance: none;
   background: var(--tertiary);
-  border: 1px solid var(--aluminum-4);
+  border: 1px solid var(--aluminum-3);
   border-radius: 2px;
   box-shadow: none;
-  height: var(--input-md);
+  color: var(--steel-2);
+  cursor: pointer;
+  height: 100%;
   padding: var(--xs) 20px var(--xs) var(--xs); /* 20px for the arrow */
 
   &::-ms-expand {
