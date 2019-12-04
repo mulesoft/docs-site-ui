@@ -13,6 +13,7 @@
 /* components */
 @import "components/breadcrumbs.css";
 @import "components/button.css";
+@import "components/card.css";
 @import "components/github.css";
 @import "components/input.css";
 @import "components/modal.css";
