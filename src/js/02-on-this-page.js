@@ -4,8 +4,10 @@
   var doc = document.querySelector('.doc')
   var main = document.querySelector('.main')
   var sidebar = document.querySelector('.js-toc')
-  if (!sidebar) main.classList.add('no-sidebar')
-  if (!doc) return
+  if (!doc) {
+    if (!sidebar) main.classList.add('no-sidebar')
+    return
+  }
   var menu
   var headings = find('.sect1 > h2[id]', doc)
   if (!headings.length) {
