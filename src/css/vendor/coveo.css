@@ -579,8 +579,8 @@
 .facet-callout {
   border: 1px solid var(--aluminum-3);
   border-radius: 2px;
-  padding: var(--sm);
   margin-top: var(--md);
+  padding: var(--sm);
 }
 
 .tip-header {
