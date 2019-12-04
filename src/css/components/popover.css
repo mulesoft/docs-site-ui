@@ -31,28 +31,3 @@
   opacity: 1;
   transform: scale(1) translate3d(0,0,0);
 }
-
-/* css controlled */
-.popover-wrapper {
-  padding-top: var(--xs);
-  position: absolute;
-  z-index: 1;
-}
-
-.popover-trigger {
-  outline: 0;
-}
-
-.popover-trigger .popover {
-  opacity: 0;
-  pointer-events: none;
-  transform: scale(.95) translate3d(2px,-5px,0);
-}
-
-.popover-trigger:hover .popover,
-.popover-trigger:active .popover,
-.popover-trigger:focus .popover {
-  opacity: 1;
-  pointer-events: auto;
-  transform: scale(1) translate3d(0,0,0);
-}
