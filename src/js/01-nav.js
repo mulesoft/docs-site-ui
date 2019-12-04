@@ -279,7 +279,7 @@
       flip: false,
       interactive: true,
       showOnInit: show,
-      offset: '-40, 5',
+      offset: '-60, 5',
       onHide: function (instance) {
         instance.popper.classList.remove('shown')
       },

@@ -24,6 +24,7 @@
   cursor: pointer;
   height: 100%;
   padding: var(--xs) 20px var(--xs) var(--xs); /* 20px for the arrow */
+  transition: box-shadow var(--transition-speed-sm) var(--transition-timing);
 
   &::-ms-expand {
     display: none;
