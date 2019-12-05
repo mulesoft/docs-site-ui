@@ -9,6 +9,8 @@
 
 /* pages */
 @import "pages/connector.css";
+@import "pages/connector-article.css";
+@import "pages/connector-home.css";
 
 /* components */
 @import "components/breadcrumbs.css";
