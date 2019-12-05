@@ -14,7 +14,6 @@
       role: 'menu',
       theme: 'popover-versions',
       touchHold: true, // maps touch as click (for some reason)
-      trigger: 'mouseenter focus click',
       zIndex: 14, // same as z-nav-mobile
       onHide: function (instance) {
         instance.popper.classList.remove('shown')
