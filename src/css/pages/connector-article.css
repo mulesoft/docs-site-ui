@@ -11,15 +11,14 @@
     color: var(--core-blue-3);
     text-decoration: none;
 
-    &:hover .back-arrow,
-    &:active .back-arrow,
-    &:focus .back-arrow {
+    &:hover .icon-back-arrow,
+    &:active .icon-back-arrow,
+    &:focus .icon-back-arrow {
       transform: rotate(180deg) translateX(3px);
     }
   }
 
-  & .back-arrow {
-    fill: var(--core-blue-3);
+  & .icon-back-arrow {
     margin-right: var(--xs);
     transform: rotate(180deg);
     transition: transform var(--transition-speed-sm) var(--transition-timing);
@@ -94,7 +93,6 @@
     }
 
     & .icon-external {
-      fill: currentColor;
       margin-left: var(--xs);
       opacity: .5;
     }
@@ -110,7 +108,12 @@
   margin-left: var(--xs);
   width: 16px;
 
-  .icon-help {
+  &:focus {
+    outline: 0;
+  }
+
+  & .icon-help {
     fill: var(--aluminum-5);
+    padding: 2px;
   }
 }

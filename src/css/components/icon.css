@@ -1,0 +1,10 @@
+.icon {
+  fill: currentColor;
+  height: 100%;
+  width: 100%;
+}
+
+.icon-md {
+  height: 14px;
+  width: 14px;
+}
