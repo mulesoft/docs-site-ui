@@ -258,11 +258,11 @@
     font-weight: var(--weight-normal);
     text-decoration: none;
 
-    &:hover,
-    &:focus {
+    &:hover {
       background: var(--aluminum-2);
     }
 
+    &:focus.
     &:active {
       background: #e2f8ff; /* yet another blue */
       color: var(--core-blue-3);
