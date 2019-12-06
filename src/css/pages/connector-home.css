@@ -122,6 +122,7 @@
     font-size: 14px;
     padding-left: var(--sm);
     padding-right: var(--lg);
+    white-space: nowrap;
 
     &::before {
       right: 12px;
@@ -130,6 +131,10 @@
 }
 
 /* table */
+.connectors-table-wrapper {
+  overflow-x: auto;
+}
+
 .connectors-table {
   border-collapse: collapse;
   margin-top: var(--md);
