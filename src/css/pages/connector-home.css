@@ -65,12 +65,13 @@
     }
 
     &:focus {
+      color: var(--core-blue-3);
       outline: 0;
     }
 
-    &:hover .featured-arrow,
-    &:active .featured-arrow,
-    &:focus .featured-arrow {
+    &:hover .icon-forward-arrow,
+    &:active .icon-forward-arrow,
+    &:focus .icon-forward-arrow {
       transform: translateX(5px);
     }
   }
@@ -81,7 +82,7 @@
     width: 22px;
   }
 
-  & .featured-arrow {
+  & .icon-forward-arrow {
     fill: currentColor;
     height: 12px;
     margin-left: var(--xs);
