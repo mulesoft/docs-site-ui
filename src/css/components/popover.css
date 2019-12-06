@@ -38,7 +38,7 @@
 
 /* popover-tier */
 .tippy-popper .popover-theme.popover-tier-theme {
-  color:  var(--steel-2);
+  color: var(--steel-2);
   font-size: 12px;
   padding: 0 var(--md);
 }

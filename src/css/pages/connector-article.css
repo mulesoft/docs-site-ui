@@ -46,7 +46,7 @@
     padding-left: var(--md);
     padding-right: var(--md);
 
-    &+ .row {
+    & + .row {
       margin-top: var(--sm);
     }
   }
