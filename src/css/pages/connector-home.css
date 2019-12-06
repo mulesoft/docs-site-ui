@@ -232,46 +232,6 @@
 }
 
 /* connectors popover */
-.popover-connectors {
-  color: var(--steel-2);
-  cursor: default;
-  font-size: 14px;
-  right: 0;
-  text-indent: 0;
-  top: 30px;
+.popover-connector-menu {
   width: 200px;
-
-  & .header {
-    font-weight: var(--weight-bold);
-  }
-
-  & .header,
-  & .link {
-    padding: var(--xs) var(--sm);
-  }
-
-  & .link {
-    align-items: center;
-    border-radius: 2px;
-    cursor: pointer;
-    display: flex;
-    font-weight: var(--weight-normal);
-    text-decoration: none;
-
-    &:hover {
-      background: var(--aluminum-2);
-    }
-
-    &:focus.
-    &:active {
-      background: #e2f8ff; /* yet another blue */
-      color: var(--core-blue-3);
-    }
-  }
-
-  & .icon-external {
-    fill: currentColor;
-    margin-left: var(--xs);
-    opacity: .5;
-  }
 }

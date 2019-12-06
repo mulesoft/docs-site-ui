@@ -60,6 +60,10 @@
     font-weight: var(--weight-bold);
   }
 
+  & .select {
+    line-height: 20px;
+  }
+
   & .connector-sidebar-categories {
     border-top: 1px solid var(--aluminum-2);
     margin-top: var(--md);
@@ -115,5 +119,15 @@
   & .icon-help {
     fill: var(--aluminum-5);
     padding: 2px;
+  }
+}
+
+/* connector version popover */
+.popover-connector-version {
+  white-space: nowrap;
+
+  & .col:first-child {
+    padding-right: var(--sm);
+    width: 130px;
   }
 }
