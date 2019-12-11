@@ -175,7 +175,7 @@
   }
 
   /* links */
-  & a {
+  & a:not(.button-primary) {
     color: var(--core-blue-3);
 
     &:focus {
