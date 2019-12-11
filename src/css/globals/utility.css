@@ -2,12 +2,14 @@
 vars for reference:
 --screen-md: 768px;
 --screen-lg: 992px;
---screen-xl: 1200px;
+--screen-xl: 1350px;
+--screen-xl: 1650px;
 */
 
 @custom-media --md (min-width: 768px);
 @custom-media --lg (min-width: 992px);
 @custom-media --xl (min-width: 1350px);
+@custom-media --xxl (min-width: 1650px);
 @custom-media --marketing (max-width: 992px);
 
 .no-pointer {
