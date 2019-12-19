@@ -1,28 +1,19 @@
-<tr class="tr" tabindex="0">
+<tr class="tr">
   <td class="td">
-    <img class="img" src="{{uiRootPath}}/img/icons/connectors/icon-amazon-s3.svg" width="30" alt="Amazon S3 logo">
+    <img class="img" src="{{@root.uiRootPath}}/img/icons/connectors/icon-{{delete-suffix name '-connector'}}.svg" width="30" alt="{{delete-suffix title ' Connector'}} logo">
   </td>
-  <td class="td">Amazon Dynamo DB</td>
-  <td class="td"><a class="link" href="#" tabindex="1">Mule 3</a>, <a class="link" href="#" tabindex="1">Mule 4</a></td>
-  <td class="td">Connector</td>
+  <td class="td">{{delete-suffix title ' Connector'}}</td>
   <td class="td">
-    <button class="button js-connector-menu-trigger">
-      <svg class="svg" width="16" height="16" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg">
-        <path d="M13.5 9.5C14.3284 9.5 15 8.82843 15 8C15 7.17157 14.3284 6.5 13.5 6.5C12.6716 6.5 12 7.17157 12 8C12 8.82843 12.6716 9.5 13.5 9.5Z" />
-        <path d="M8 9.5C8.82843 9.5 9.5 8.82843 9.5 8C9.5 7.17157 8.82843 6.5 8 6.5C7.17157 6.5 6.5 7.17157 6.5 8C6.5 8.82843 7.17157 9.5 8 9.5Z" />
-        <path d="M2.5 9.5C3.32843 9.5 4 8.82843 4 8C4 7.17157 3.32843 6.5 2.5 6.5C1.67157 6.5 1 7.17157 1 8C1 8.82843 1.67157 9.5 2.5 9.5Z" />
-      </svg>
-    </button>
-    {{> connectors/connectors-menu}}
+    {{#if (eq latest.version '0')}}
+    <a class="link mule3" href="{{relativize url}}">Mule 3</a>
+    {{else if (eq oldest.version '0')}}
+    <a class="link mule4" href="{{relativize url}}">Mule 4</a>,
+    <a class="link mule3" href="{{relativize oldest.url}}">Mule 3</a>
+    {{else}}
+    <a class="link mule4" href="{{relativize url}}">Mule 4</a>
+    {{/if}}
   </td>
-</tr>
-<tr class="tr" tabindex="0">
-  <td class="td">
-    <img class="img" src="{{uiRootPath}}/img/icons/connectors/icon-amazon-ec2.svg" width="30" alt="Amazon EC2 logo">
-  </td>
-  <td class="td">Amazon EC2</td>
-  <td class="td"><a class="link" href="#" tabindex="1">Mule 3</a>, <a class="link" href="#" tabindex="1">Mule 4</a></td>
-  <td class="td">Connector</td>
+  <td class="td">{{attrs.page-exchange-subtype}}</td>
   <td class="td">
     <button class="button js-connector-menu-trigger">
       <svg class="svg" width="16" height="16" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg">
@@ -31,23 +22,6 @@
         <path d="M2.5 9.5C3.32843 9.5 4 8.82843 4 8C4 7.17157 3.32843 6.5 2.5 6.5C1.67157 6.5 1 7.17157 1 8C1 8.82843 1.67157 9.5 2.5 9.5Z" />
       </svg>
     </button>
+{{> connectors-menu}}
   </td>
 </tr>
-<tr class="tr" tabindex="0">
-  <td class="td">
-    <img class="img" src="{{uiRootPath}}/img/icons/connectors/icon-amazon-rds.svg" width="30" alt="Amazon RDS logo">
-  </td>
-  <td class="td">Amazon RDS</td>
-  <td class="td"><a class="link" href="#" tabindex="1">Mule 4</a></td>
-  <td class="td">Connector</td>
-  <td class="td">
-    <button class="button js-connector-menu-trigger">
-      <svg class="svg" width="16" height="16" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg">
-        <path d="M13.5 9.5C14.3284 9.5 15 8.82843 15 8C15 7.17157 14.3284 6.5 13.5 6.5C12.6716 6.5 12 7.17157 12 8C12 8.82843 12.6716 9.5 13.5 9.5Z" />
-        <path d="M8 9.5C8.82843 9.5 9.5 8.82843 9.5 8C9.5 7.17157 8.82843 6.5 8 6.5C7.17157 6.5 6.5 7.17157 6.5 8C6.5 8.82843 7.17157 9.5 8 9.5Z" />
-        <path d="M2.5 9.5C3.32843 9.5 4 8.82843 4 8C4 7.17157 3.32843 6.5 2.5 6.5C1.67157 6.5 1 7.17157 1 8C1 8.82843 1.67157 9.5 2.5 9.5Z" />
-      </svg>
-    </button>
-  </td>
-</tr>
-

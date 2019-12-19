@@ -1,11 +1,8 @@
 <section class="connectors-table-wrapper">
   <table class="connectors-table">
-    {{> connectors-search}}
-    <tbody>
-      {{!-- just mocking things up --}}
-      {{> connectors/connectors-tablerow}}
-      {{> connectors/connectors-tablerow}}
-      {{> connectors/connectors-tablerow}}
-    </tbody>
+{{> connectors-search}}
+{{#each (connectors)}}
+{{> connectors-tablerow attrs=latest.asciidocConfig.attributes oldest=(last versions)}}
+{{/each}}
   </table>
 </section>

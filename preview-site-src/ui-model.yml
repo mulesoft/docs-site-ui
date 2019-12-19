@@ -1,4 +1,4 @@
-antoraVersion: '2.0.0'
+antoraVersion: '2.2.0'
 site:
   url: &home_url /home.html
   title: MuleSoft Documentation
@@ -7,9 +7,11 @@ site:
       name: general
       title: Home
       url: *home_url
-      versions:
-      - version: master
+      latest: &general_latest
+        version: master
         url: *home_url
+        asciidocConfig:
+          attributes: {}
         navigation:
         - items:
           - content: MuleSoft Documentation
@@ -19,13 +21,17 @@ site:
           - content: Ecosia
             url: https://ecosia.org
             urlType: external
+      versions:
+      - *general_latest
     access-management:
       name: access-management
       title: Access Management
       url: '#'
-      versions:
-      - version: master
+      latest: &access_management_latest
+        version: master
         url: '#'
+        asciidocConfig:
+          attributes: {}
         navigation:
         - items:
           - content: About Access Management
@@ -42,6 +48,47 @@ site:
             url: '#'
           - content: Environments
             url: '#'
+      versions:
+      - *access_management_latest
+    mq-connector:
+      name: mq-connector
+      title: MQ Connector
+      url: '#'
+      latest: &mq_connector_latest
+        version: '3.x'
+        url: '#'
+        asciidocConfig:
+          attributes:
+            page-exchange-type: Connector
+            page-exchange-subtype: Connector
+            page-exchange-url: https://www.anypoint.mulesoft.com/exchange/com.mulesoft.connectors/anypoint-mq-connector/
+            page-component-desc: Connect to Anypoint MQ, MuleSoft's multi-tenant cloud messaging service for the enterprise.
+            page-vendor-slug: msmq
+            page-vendor-title: MuleSoft
+      versions:
+      - *mq_connector_latest
+    salesforce-connector:
+      name: salesforce-connector
+      title: Salesforce Connector
+      url: '#'
+      latest: &salesforce_connector_latest
+        version: '9.7'
+        url: '#'
+        asciidocConfig:
+          attributes:
+            page-exchange-type: Connector
+            page-exchange-subtype: Connector
+            page-exchange-url: https://www.anypoint.mulesoft.com/exchange/com.mulesoft.connectors/mule-salesforce-connector/
+            page-component-desc: Connect to the Salesforce SOAP API, REST API, Bulk API, and Streaming API.
+            page-vendor-slug: salesforce
+            page-vendor-title: Salesforce
+      versions:
+      - *salesforce_connector_latest
+      - version: '0'
+        displayVersion: 'Mule 3'
+        url: '#'
+        asciidocConfig:
+          attributes: {}
     connector-devkit: &component
       name: connector-devkit
       title: Connector DevKit
@@ -50,6 +97,8 @@ site:
       - &component_version_latest
         version: '3.9'
         url: '#'
+        asciidocConfig:
+          attributes: {}
         navigation:
         - items:
           - content: About Anypoint Connector DevKit
@@ -61,6 +110,8 @@ site:
       - &component_version
         version: '3.8'
         url: /connector-devkit/3.8/index.html
+        asciidocConfig:
+          attributes: {}
         navigation:
         - items:
           - content: About Anypoint Connector DevKit
@@ -92,6 +143,8 @@ site:
             url: '#'
       - version: '3.7'
         url: /connector-devkit/3.7/index.html
+        asciidocConfig:
+          attributes: {}
         navigation:
         - items:
           - content: About Anypoint Connector DevKit
