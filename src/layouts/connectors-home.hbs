@@ -19,28 +19,13 @@
 </head>
 <body class="flex col">
 {{> header}}
-
 <div class="flex container wrapper">
-  {{> nav}}
+{{> nav}}
   <main class="main" data-ceiling="topbar">
-  {{> toolbar}}
-  {{#if article}}
-    {{> connectors/connectors-article}}
-  {{else}}
-    {{> connectors/connectors-home}}
-  {{/if}}
+{{> toolbar}}
+{{> connectors/connectors-home}}
   </main>
-  {{#if article}}
-  <aside class="toc toc-sidebar js-toc">
-    {{> github}}
-    {{> connectors/connectors-sidebar}}
-    <div class="js-toc">
-      <nav class="toc-menu"></nav>
-    </div>
-  </aside>
-  {{/if}}
 </div>
-
 {{> footer}}
 </body>
 </html>

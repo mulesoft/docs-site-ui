@@ -19,7 +19,24 @@
 </head>
 <body class="flex col">
 {{> header}}
+  {{#if (eq page.attributes.exchange-type 'Connector')}}
+  <div class="flex container wrapper">
+{{> nav}}
+    <main class="main" data-ceiling="topbar">
+{{> toolbar}}
+{{> connectors/connectors-article}}
+    </main>
+    <aside class="toc toc-sidebar js-toc">
+{{> github}}
+{{> connectors/connectors-sidebar}}
+      <div class="js-toc">
+        <nav class="toc-menu"></nav>
+      </div>
+    </aside>
+  </div>
+  {{else}}
 {{> body}}
+  {{/if}}
 {{> footer}}
 </body>
 </html>
