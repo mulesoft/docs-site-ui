@@ -1,40 +1,6 @@
 ;(function () {
   'use strict'
 
-  // connector menu popover
-  var connectorMenuTriggers = toArray(document.querySelectorAll('.js-connector-menu-trigger'))
-
-  if (connectorMenuTriggers.length) {
-    connectorMenuTriggers.forEach(function (connectorMenuTrigger) {
-      var connectorMenu = connectorMenuTrigger.parentNode.querySelector('.js-connector-menu')
-      tippy(connectorMenuTrigger, {
-        content: connectorMenu.innerHTML,
-        duration: [0, 150],
-        flip: false,
-        interactive: true,
-        offset: '32, 0',
-        placement: 'left-start',
-        role: 'menu',
-        theme: 'popover-versions',
-        touchHold: true, // maps touch as click (for some reason)
-        trigger: 'click',
-        zIndex: 14, // same as z-nav-mobile
-        onHide: function (instance) {
-          instance.popper.classList.remove('shown')
-        },
-        onHidden: function (instance) {
-          instance.popper.classList.add('hide')
-        },
-        onShow: function (instance) {
-          instance.popper.classList.remove('hide')
-        },
-        onShown: function (instance) {
-          instance.popper.classList.add('shown')
-        },
-      })
-    })
-  }
-
   // connector tier popover
   var connectorTierTrigger = document.querySelector('.js-connector-tier-trigger')
   /* eslint-disable max-len */
