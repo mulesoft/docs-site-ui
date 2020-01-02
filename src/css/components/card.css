@@ -3,7 +3,7 @@
   border-radius: 2px;
   box-shadow: 0 4px 16px rgba(0,0,0,.03);
   color: var(--steel-2);
-  display: flex;
+  display: block;
   flex: 1 1 33%;
   flex-direction: column;
   margin-bottom: var(--md);
@@ -20,6 +20,7 @@
   &:focus {
     border-color: var(--core-blue-3);
     box-shadow: 0 4px 16px rgba(0,162,223,.06), 0 0 0 3px rgba(0,162,223,.38);
+    color: var(--steel-2);
   }
 
   & + .card {

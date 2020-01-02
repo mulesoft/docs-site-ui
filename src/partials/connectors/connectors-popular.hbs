@@ -5,7 +5,7 @@
     {{#with (lookup @root.site.components (concat connectorName '-connector'))}}
     {{#with latest.asciidocConfig}}
     <a class="card" href="{{relativize ../url}}">
-      <img src="{{@root.uiRootPath}}/img/icons/connectors/icon-{{attributes.page-vendor-name}}.svg" alt="{{{attributes.page-vendor-title}}} Logo" class="card-img" width="71" height="50">
+      <img src="{{@root.uiRootPath}}/img/logos/{{attributes.page-vendor-name}}.png" alt="{{{attributes.page-vendor-title}}} Logo" class="card-img" height="50">
       <div>
         <div class="card-title">{{{attributes.page-vendor-title}}}</div>
         <div class="card-description">{{{attributes.page-component-desc}}}</div>
@@ -14,7 +14,7 @@
     {{/with}}
     {{else}}
     <a class="card" href="#">
-      <img src="{{@root.uiRootPath}}/img/icons/connectors/icon-{{connectorName}}.svg" alt="{{connectorName}} Logo" class="card-img" width="71" height="50">
+      <img src="{{@root.uiRootPath}}/img/logos/{{connectorName}}.png" alt="{{connectorName}} Logo" class="card-img" height="50">
       <div>
         <div class="card-title">{{connectorName}}</div>
         <div class="card-description">Description of {{connectorName}} connector goes here.</div>
