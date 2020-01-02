@@ -1,13 +1,13 @@
 <thead>
   <tr class="connectors-search">
     <td class="thead-td" colspan="2">
-      <input class="input" placeholder="Search connectors" type="search">
+      <input class="input js-connector-title" placeholder="Search connectors" type="search">
     </td>
     <td class="thead-td">
       <div class="select-wrapper">
-        <select class="select">
-          <option disabled selected>Runtime Version</option>
-          <option value="all">All</option>
+        <select class="select js-connector-runtime">
+          <option disabled selected value="">Runtime Version</option>
+          <option value="">All</option>
           <option value="mule3">Mule 3</option>
           <option value="mule4">Mule 4</option>
         </select>
@@ -15,11 +15,11 @@
     </td>
     <td class="thead-td" colspan="2">
       <div class="select-wrapper">
-        <select class="select">
-          <option disabled selected>Type</option>
-          <option value="all">All</option>
-          <option value="connector">Connector</option>
-          <option value="module">Module</option>
+        <select class="select js-connector-type">
+          <option disabled selected value="">Type</option>
+          <option value="">All</option>
+          <option value="Connector">Connector</option>
+          <option value="Module">Module</option>
         </select>
       </div>
     </td>

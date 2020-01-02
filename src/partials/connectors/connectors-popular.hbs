@@ -1,134 +1,43 @@
 <section class="connectors-popular">
   <header class="header-connectors-title">Popular Connectors</header>
   <div class="flex popular-cards">
-    <a class="card" href="//docs.mulesoft.com/connectors/salesforce/salesforce-connector">
-      <img
-        alt="Salesforce"
-        class="card-img"
-        height="50"
-        src="{{uiRootPath}}/img/logos/salesforce.png"
-        width="71"
-      >
+    {{#each (array 'salesforce' 'sap' 'amazon-s3') as |connectorName|}}
+    {{#with (lookup @root.site.components (concat connectorName '-connector'))}}
+    {{#with latest.asciidocConfig}}
+    <a class="card" href="{{relativize ../url}}">
+      <img src="{{@root.uiRootPath}}/img/icons/connectors/icon-{{attributes.page-vendor-name}}.svg" alt="{{{attributes.page-vendor-title}}} Logo" class="card-img" width="71" height="50">
       <div>
-        <div class="card-title">Salesforce</div>
-        <div class="card-description">Connect to the Salesforce SOAP API, REST API, Bulk API, and Streaming API</div>
+        <div class="card-title">{{{attributes.page-vendor-title}}}</div>
+        <div class="card-description">{{{attributes.page-component-desc}}}</div>
       </div>
     </a>
-    <a class="card" href="//docs.mulesoft.com/connectors/sap/sap-connector">
-      <img
-        alt="SAP"
-        class="card-img"
-        height="50"
-        src="{{uiRootPath}}/img/logos/sap.png"
-        width="98"
-      >
+    {{/with}}
+    {{else}}
+    <a class="card" href="#">
+      <img src="{{@root.uiRootPath}}/img/icons/connectors/icon-{{connectorName}}.svg" alt="{{connectorName}} Logo" class="card-img" width="71" height="50">
       <div>
-        <div class="card-title">SAP</div>
-        <div class="card-description">Send data to and from SAP NetWeaver-based and external systems</div>
+        <div class="card-title">{{connectorName}}</div>
+        <div class="card-description">Description of {{connectorName}} connector goes here.</div>
       </div>
     </a>
-    <a class="card" href="//docs.mulesoft.com/connectors/amazon/amazon-s3-connector">
-      <img
-        alt="Amazon S3"
-        class="card-img"
-        height="50"
-        src="{{uiRootPath}}/img/logos/amazon-s3.png"
-        width="84"
-      >
-      <div>
-        <div class="card-title">Amazon S3</div>
-        <div class="card-description">Enable connectivity to the Amazon S3 API</div>
-      </div>
-    </a>
+    {{/with}}
+    {{/each}}
   </div>
   <div class="flex flex-wrap">
-    <a class="featured-link" href="//docs.mulesoft.com/connectors/netsuite/netsuite-about">
-      <img
-        alt="Netsuite"
-        class="featured-img"
-        src="{{uiRootPath}}/img/logos/netsuite.png"
-      >
-      NetSuite
-      <svg class="icon icon-md icon-forward-arrow">
-        <use xlink:href="#icon-forward-arrow">
-      </svg>
+    {{#each (array 'netsuite' 'workday' 'dynamics365' 'kafka' 'servicenow' 'mongodb' 'box' 'redis') as |connectorName|}}
+    {{#with (lookup @root.site.components (concat connectorName '-connector'))}}
+    <a class="featured-link" href="{{relativize url}}">
+      <img src="{{@root.uiRootPath}}/img/logos/{{connectorName}}.png" alt="{{{delete-suffix title ' Connector'}}}" class="featured-img">
+      {{{delete-suffix title ' Connector'}}}
+      <svg class="icon icon-md icon-forward-arrow"><use xlink:href="#icon-forward-arrow"/></svg>
     </a>
-    <a class="featured-link" href="//docs.mulesoft.com/connectors/workday/workday-connector">
-      <img
-        alt="Workday"
-        class="featured-img"
-        src="{{uiRootPath}}/img/logos/workday.png"
-      >
-      Workday
-      <svg class="icon icon-md icon-forward-arrow">
-        <use xlink:href="#icon-forward-arrow">
-      </svg>
+    {{else}}
+    <a class="featured-link" href="#">
+      <img src="{{@root.uiRootPath}}/img/logos/{{connectorName}}.png" alt="{{connectorName}}" class="featured-img">
+      {{connectorName}}
+      <svg class="icon icon-md icon-forward-arrow"><use xlink:href="#icon-forward-arrow"/></svg>
     </a>
-    <a class="featured-link" href="//docs.mulesoft.com/connectors/microsoft/microsoft-dynamics-365-connector">
-      <img
-        alt="Dynammics 365"
-        class="featured-img"
-        src="{{uiRootPath}}/img/logos/dynamics365.png"
-      >
-      Dynamics 365
-      <svg class="icon icon-md icon-forward-arrow">
-        <use xlink:href="#icon-forward-arrow">
-      </svg>
-    </a>
-    <a class="featured-link" href="//docs.mulesoft.com/connectors/kafka/kafka-connector">
-      <img
-        alt="Kafka"
-        class="featured-img"
-        src="{{uiRootPath}}/img/logos/kafka.png"
-      >
-      Kafka
-      <svg class="icon icon-md icon-forward-arrow">
-        <use xlink:href="#icon-forward-arrow">
-      </svg>
-    </a>
-    <a class="featured-link" href="//docs.mulesoft.com/connectors/servicenow/servicenow-connector">
-      <img
-        alt="ServiceNow"
-        class="featured-img"
-        src="{{uiRootPath}}/img/logos/servicenow.png"
-      >
-      ServiceNow
-      <svg class="icon icon-md icon-forward-arrow">
-        <use xlink:href="#icon-forward-arrow">
-      </svg>
-    </a>
-    <a class="featured-link" href="//docs.mulesoft.com/connectors/mongodb/mongodb-connector">
-      <img
-        alt="MongoDB"
-        class="featured-img"
-        src="{{uiRootPath}}/img/logos/mongodb.png"
-      >
-      MongoDB
-      <svg class="icon icon-md icon-forward-arrow">
-        <use xlink:href="#icon-forward-arrow">
-      </svg>
-    </a>
-    <a class="featured-link" href="//docs.mulesoft.com/connectors/box/box-connector">
-      <img
-        alt="Box"
-        class="featured-img"
-        src="{{uiRootPath}}/img/logos/box.png"
-      >
-      Box
-      <svg class="icon icon-md icon-forward-arrow">
-        <use xlink:href="#icon-forward-arrow">
-      </svg>
-    </a>
-    <a class="featured-link" href="//docs.mulesoft.com/connectors/redis/redis-connector">
-      <img
-        alt="Redis"
-        class="featured-img"
-        src="{{uiRootPath}}/img/logos/redis.png"
-      >
-      Redis
-      <svg class="icon icon-md icon-forward-arrow">
-        <use xlink:href="#icon-forward-arrow">
-      </svg>
-    </a>
+    {{/with}}
+    {{/each}}
   </div>
 </section>

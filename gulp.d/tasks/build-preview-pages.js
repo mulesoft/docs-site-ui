@@ -98,7 +98,7 @@ function loadSampleUiModel (src) {
 }
 
 function registerPartials (src) {
-  return vfs.src('partials/*.hbs', { base: src, cwd: src }).pipe(
+  return vfs.src('partials/**/*.hbs', { base: src, cwd: src }).pipe(
     map((file, enc, next) => {
       handlebars.registerPartial(file.stem, file.contents.toString())
       next()
