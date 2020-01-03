@@ -54,3 +54,12 @@
     outline: 0;
   }
 }
+
+/* overrides when button is in a doc */
+.doc .button-primary code {
+  background: none;
+  border: 0;
+  font-weight: var(--weight-normal);
+  padding: 0;
+  top: 0; /* reset */
+}
