@@ -85,8 +85,4 @@
       },
     })
   }
-
-  function toArray (collection) {
-    return [].slice.call(collection)
-  }
 })()
