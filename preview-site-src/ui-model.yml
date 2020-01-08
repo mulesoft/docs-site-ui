@@ -50,6 +50,21 @@ site:
             url: '#'
       versions:
       - *access_management_latest
+    connectors:
+      name: connectors
+      title: Connectors
+      url: &connectors_url /connectors.html
+      latest: &connectors_latest
+        version: master
+        url: *connectors_url
+        asciidocConfig:
+          attributes: {}
+        navigation:
+        - items:
+          - content: Connectors
+            url: *connectors_url
+      versions:
+      - *connectors_latest
     mq-connector:
       name: mq-connector
       title: MQ Connector
@@ -105,26 +120,22 @@ site:
             url: '#'
           - content: Creating an Anypoint Connector Project
             url: '#'
-      - &component_version
-        version: '3.8'
-        url: /connector-devkit/3.8/index.html
+      - version: '3.8'
+        url: &index_url /index.html
         asciidocConfig:
           attributes: {}
         navigation:
         - items:
           - content: About Anypoint Connector DevKit
-            #url: /connector-devkit/3.8/index.html
             url: '#'
           - content: Getting Started with Anypoint Connector Development
             # NOTE comment out url to make this a heading
             url: '#'
             items:
             - content: Setting Up Your Development Environment
-              url: /connector-devkit/3.8/index.html
-              #url: '#'
+              url: *index_url
               items:
               - content: Windows
-                #url: /connector-devkit/3.8/index.html
                 url: '#'
               - content: Linux
                 url: '#'
@@ -132,7 +143,6 @@ site:
                 url: '#'
             - content: Anypoint Connector DevKit Tutorial
               url: '#'
-              #url: /connector-devkit/3.8/index.html
             - content: Connector Project Structure
               url: '#'
             - content: DevKit Java Annotation Reference
@@ -153,25 +163,9 @@ site:
             url: '#'
       latest: *component_version_latest
 page:
-  title: &page_title About Anypoint Connector DevKit
-  url: &page_url /connector-devkit/3.8/index.html
-  component: *component
-  componentVersion: *component_version
-  version: '3.8'
-  module: ROOT
-  home: false
-  editUrl: https://github.com/mulesoft/docs-site-ui/edit/master/preview-site-src/index.adoc
-  versions:
-  - version: '3.9'
-    url: '#'
-  - version: '3.8'
-    url: '#'
-  - version: '3.7'
-    missing: true
-    url: '#'
-  breadcrumbs:
-  - content: *page_title
-    url: *page_url
-    urlType: internal
+  src:
+    component: connector-devkit
+    version: '3.8'
   origin:
     url: https://github.com/mulesoft/docs-site-ui
+    editUrlPattern: https://github.com/mulesoft/docs-site-ui/edit/master/preview-site-src/%s
