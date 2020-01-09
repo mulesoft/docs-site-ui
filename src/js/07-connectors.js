@@ -6,31 +6,34 @@
   /* eslint-disable max-len */
   var communityTierMsg = '<p>MuleSoft or members of the community write and maintain Community Connectors.<p>Contact the partner directly for more information. You do not need any special account or license to use a Community connector.'
   var certifiedTierMsg = '<p>MuleSoft Certified connectors are developed by MuleSoft’s partners and developer community and are reviewed and certified by MuleSoft.<p>For support, customers should contact the MuleSoft partner that created the connector.'
-  var selectTierMsg = '<p>Connectors in the Select tier are mainted by MuleSoft.<p>Connectors included in the open source Mule distribution can be used by everyone, however support is only included in an Anypoint Platform subscription.'
+  var selectTierMsg = '<p>Connectors in the Select tier are maintained by MuleSoft.<p>Connectors included in the open source Mule distribution can be used by everyone, however support is only included in an Anypoint Platform subscription.'
   var premiumTierMsg = '<p>MuleSoft maintains Premium connectors. You must purchase Premium connectors as add-ons to your subscription.'
   /* eslint-enable max-len */
 
   if (connectorTierTrigger) {
     var msg
-    switch (connectorTierTrigger.getAttribute('data-tier')) {
-      case 'community':
-        msg = communityTierMsg
-        break
-      case 'certified':
-        msg = certifiedTierMsg
-        break
-      case 'select':
-        msg = selectTierMsg
-        break
-      case 'premium':
-        msg = premiumTierMsg
-        break
+    var tier = connectorTierTrigger.getAttribute('data-tier')
+    if (tier) {
+      switch (tier.toLowerCase()) {
+        case 'community':
+          msg = communityTierMsg
+          break
+        case 'certified':
+          msg = certifiedTierMsg
+          break
+        case 'select':
+          msg = selectTierMsg
+          break
+        case 'premium':
+          msg = premiumTierMsg
+          break
+      }
     }
 
     if (msg) {
       tippy(connectorTierTrigger, {
         boundary: 'window',
-        content: selectTierMsg,
+        content: msg,
         duration: [0, 150],
         flip: false,
         maxWidth: 240,
