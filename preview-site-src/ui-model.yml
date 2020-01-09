@@ -78,17 +78,22 @@ site:
     salesforce-connector:
       name: salesforce-connector
       title: Salesforce Connector
-      url: '#'
+      url: &salesforce_connector_url /connector.html
       latest: &salesforce_connector_latest
         version: '9.7'
-        url: '#'
+        url: *salesforce_connector_url
         asciidocConfig:
           attributes:
             page-component-desc: Connect to the Salesforce SOAP API, REST API, Bulk API, and Streaming API.
             page-connector-type: Connector
+            page-connector-tier: Select
             page-exchange-url: https://www.anypoint.mulesoft.com/exchange/com.mulesoft.connectors/mule-salesforce-connector/
             page-vendor-name: salesforce
             page-vendor-title: Salesforce
+        navigation:
+        - items:
+          - content: Get Started
+            url: *salesforce_connector_url
       versions:
       - *salesforce_connector_latest
       - version: '0'
