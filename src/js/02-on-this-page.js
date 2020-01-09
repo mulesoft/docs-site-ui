@@ -11,10 +11,7 @@
   var menu
   var headings = find('.sect1 > h2[id]', doc)
   if (!headings.length) {
-    if (sidebar) {
-      sidebar.parentNode.removeChild(sidebar)
-      main.classList.add('no-sidebar')
-    }
+    if (sidebar) sidebar.removeChild(sidebar.querySelector('.js-toc'))
     return
   }
   var lastActiveFragment
