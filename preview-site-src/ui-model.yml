@@ -1,4 +1,4 @@
-antoraVersion: '2.2.0'
+antoraVersion: '2.3.0-alpha.1'
 site:
   url: &home_url /home.html
   title: MuleSoft Documentation
@@ -10,8 +10,6 @@ site:
       latest: &general_latest
         version: master
         url: *home_url
-        asciidocConfig:
-          attributes: {}
         navigation:
         - items:
           - content: MuleSoft Documentation
@@ -30,8 +28,6 @@ site:
       latest: &access_management_latest
         version: master
         url: '#'
-        asciidocConfig:
-          attributes: {}
         navigation:
         - items:
           - content: About Access Management
@@ -57,8 +53,6 @@ site:
       latest: &connectors_latest
         version: master
         url: *connectors_url
-        asciidocConfig:
-          attributes: {}
         navigation:
         - items:
           - content: Connectors
@@ -100,8 +94,6 @@ site:
       - version: '0'
         displayVersion: 'Mule 3'
         url: '#'
-        asciidocConfig:
-          attributes: {}
     connector-devkit: &component
       name: connector-devkit
       title: Connector DevKit
@@ -110,8 +102,6 @@ site:
       - &component_version_latest
         version: '3.9'
         url: '#'
-        asciidocConfig:
-          attributes: {}
         navigation:
         - items:
           - content: About Anypoint Connector DevKit
@@ -122,8 +112,6 @@ site:
             url: '#'
       - version: '3.8'
         url: &index_url /index.html
-        asciidocConfig:
-          attributes: {}
         navigation:
         - items:
           - content: About Anypoint Connector DevKit
@@ -151,8 +139,6 @@ site:
             url: '#'
       - version: '3.7'
         url: /connector-devkit/3.7/index.html
-        asciidocConfig:
-          attributes: {}
         navigation:
         - items:
           - content: About Anypoint Connector DevKit
