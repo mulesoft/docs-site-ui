@@ -70,6 +70,7 @@ site:
           attributes:
             page-component-desc: Connect to Anypoint MQ, MuleSoft's multi-tenant cloud messaging service for the enterprise.
             page-connector-type: Connector
+            page-connector-tier: Select
             page-exchange-url: https://www.anypoint.mulesoft.com/exchange/com.mulesoft.connectors/anypoint-mq-connector/
             page-vendor-name: msmq
             page-vendor-title: MuleSoft

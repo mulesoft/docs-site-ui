@@ -8,13 +8,13 @@
   <div class="flex align-center">
     <div class="flex align-center justify-center connector-avatar">
       <img
-        alt="Salesforce logo"
+        alt="{{{page.attributes.vendor-title}}} logo"
         class="connector-avatar-img"
-        src="{{uiRootPath}}/img/logos/salesforce.png"
+        src="{{uiRootPath}}/img/logos/{{page.attributes.vendor-name}}.png"
         width="75"
       >
     </div>
-    <h1 class="h1">Salesforce Connector</h1>
-  </div>
+    <h1 class="h1">{{{page.title}}}</h1>
+   </div>
 </header>
 {{> article}}
