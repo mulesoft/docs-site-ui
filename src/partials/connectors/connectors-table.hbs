@@ -109,7 +109,8 @@
           ((criteria.runtime === 'mule3' && connector.oldestVersion.version !== '0') ||
           (criteria.runtime === 'mule4' && connector.latestVersion.version === '0'))) ||
           (criteria.type && connector.type !== criteria.type)) return accum
-      var row = document.importNode(tmpl.content, true)
+      var row = document.importNode(tmpl.content.querySelector('tr'), true)
+      row.dataset.href = connector.latestVersion.url
       row.querySelector('.js-connector-icon').src = connector.iconUrl
       row.querySelector('.js-connector-icon').alt = connector.title + ' logo'
       row.querySelector('.js-connector-title').textContent = connector.title
@@ -134,13 +135,26 @@
       return accum.concat(row)
     }, [])
     slot.innerHTML = ''
-    rows.forEach(function (row) { slot.appendChild(row) })
-    if (rows.length) {
-      if (typeof tippy === 'function') {
-        activateConnectorMenuTriggers(slot)
-      } else {
-        window.addEventListener('load', function () { activateConnectorMenuTriggers(slot) })
-      }
+    if (!rows.length) return
+    rows.forEach(function (row) {
+      slot.appendChild(row)
+      row.addEventListener('click', function (clickEvent) {
+        var currentNode = clickEvent.target
+        var currentTagName = undefined
+        while (currentNode && (currentTagName = currentNode.tagName) !== 'TR') {
+          if (currentTagName === 'A' || currentTagName === 'BUTTON') {
+            currentNode = undefined
+            break
+          }
+          currentNode = currentNode.parentNode
+        }
+        if (currentNode) window.location.href = currentNode.dataset.href
+      })
+    })
+    if (typeof tippy === 'function') {
+      activateConnectorMenuTriggers(slot)
+    } else {
+      window.addEventListener('load', function () { activateConnectorMenuTriggers(slot) })
     }
   }
 
