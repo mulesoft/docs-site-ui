@@ -18,4 +18,8 @@
 .ms-com-content.ms-com-content.ms-com-content-footer footer .footer-inside,
 .ms-com-content.ms-com-content.ms-com-content-footer footer .footer-bottom .footer-inside {
   max-width: var(--screen-xl);
+
+  @media (--xxl) {
+    max-width: var(--screen-xxl);
+  }
 }

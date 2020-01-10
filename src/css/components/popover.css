@@ -1,3 +1,4 @@
+.tippy-popper .popover-theme,
 .popover {
   background: var(--tertiary);
   border: 1px solid var(--aluminum-3);
@@ -8,6 +9,7 @@
   transition: opacity var(--transition-speed-sm) var(--transition-timing), transform var(--transition-speed-sm) var(--transition-timing);
 }
 
+/* tippy controlled */
 .tippy-popper:focus {
   outline: 0;
 }
@@ -20,13 +22,23 @@
   display: block;
 }
 
+.tippy-popper .popover-theme,
 .tippy-popper .popover,
-.tippy-popper.hide .popover {
+.tippy-popper.hide .popover,
+.tippy-popper.hide .popover-theme {
   opacity: 0;
   transform: scale(.95) translate3d(2px,-5px,0);
 }
 
+.tippy-popper.shown .popover-theme,
 .tippy-popper.shown .popover {
   opacity: 1;
   transform: scale(1) translate3d(0,0,0);
+}
+
+/* popover-tier */
+.tippy-popper .popover-theme.popover-tier-theme {
+  color: var(--steel-2);
+  font-size: 12px;
+  padding: 0 var(--md);
 }

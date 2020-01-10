@@ -1,0 +1,27 @@
+<div class="js-connector-menu" style="display: none;">
+  <div class="popover popover-connector-menu">
+    <header class="header">Quick links</header>
+    <ul class="list">
+      {{#if (ne latest.version '0')}}
+      <li>
+        <a class="link" href="{{relativize url}}">Mule 4</a>
+      </li>
+      {{/if}}
+      {{#if (eq oldest.version '0')}}
+      <li>
+        <a class="link" href="{{relativize oldest.url}}">Mule 3</a>
+      </li>
+      {{/if}}
+      <li>
+        <a class="link" href="#">Release notes</a>
+      </li>
+      <li>
+        <a class="link" href="{{attrs.page-exchange-url}}" target="_blank">View in Exchange
+          <svg class="icon-external" width="14" height="14" viewBox="0 0 14 14" xmlns="http://www.w3.org/2000/svg">
+            <path fill-rule="evenodd" clip-rule="evenodd" d="M6.49887 2.37637C7.46898 0.990919 9.37861 0.654142 10.7641 1.62431C12.1496 2.59448 12.4863 4.50406 11.5162 5.88961L10.2615 7.68148L9.54471 7.17958L10.7994 5.3876C11.4912 4.39959 11.2503 3.03294 10.2622 2.34112C9.27415 1.6492 7.90744 1.89016 7.21563 2.87828L5.96091 4.67015L5.24415 4.16824L6.49887 2.37637ZM8.39301 4.24781L9.10977 4.74972L5.60694 9.75224L4.89018 9.25033L8.39301 4.24781ZM6.78437 11.1218C6.0925 12.1099 4.7258 12.3509 3.73774 11.6589C2.74973 10.9671 2.50871 9.60046 3.20058 8.61235L4.45524 6.82048L3.73848 6.31857L2.48382 8.11044C1.51365 9.496 1.85038 11.4056 3.23588 12.3756C4.62139 13.3459 6.53096 13.0091 7.50113 11.6237L8.75579 9.83182L8.03904 9.3298L6.78437 11.1218Z" />
+          </svg>
+        </a>
+      </li>
+    </ul>
+  </div>
+</div>

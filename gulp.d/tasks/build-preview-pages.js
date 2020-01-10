@@ -38,33 +38,50 @@ module.exports = (src, previewSrc, previewDest, sink = () => map(), layouts = {}
           map((file, enc, next) => {
             const siteRootPath = path.relative(ospath.dirname(file.path), ospath.resolve(previewSrc))
             const uiModel = { ...baseUiModel }
-            uiModel.page = { ...uiModel.page }
             uiModel.siteRootPath = siteRootPath
             uiModel.siteRootUrl = path.join(siteRootPath, 'index.html')
             uiModel.uiRootPath = path.join(siteRootPath, '_')
             if (file.stem === '404') {
               uiModel.page = { layout: '404', title: 'Page Not Found' }
             } else {
+              const pageModel = uiModel.page = { ...uiModel.page }
               const doc = asciidoctor.load(file.contents, { safe: 'safe', attributes: ASCIIDOC_ATTRIBUTES })
-              uiModel.page.attributes = Object.entries(doc.getAttributes())
-                .filter(([name, val]) => name.startsWith('page-'))
-                .reduce((accum, [name, val]) => {
-                  accum[name.substr(5)] = val
-                  return accum
-                }, {})
-              uiModel.page.layout = doc.getAttribute('page-layout', 'default')
-              uiModel.page.title = doc.getDocumentTitle()
-              uiModel.page.contents = Buffer.from(doc.convert())
-              // FIXME load a separate UI model for each page
-              if (file.stem === 'home') {
-                Object.assign(uiModel.page, {
-                  url: '/home.html',
-                  home: true,
-                  version: 'master',
-                  component: uiModel.site.components.general,
-                  componentVersion: uiModel.site.components.general.versions[0],
-                })
+              const attributes = doc.getAttributes()
+              pageModel.layout = doc.getAttribute('page-layout', 'default')
+              pageModel.title = doc.getDocumentTitle()
+              pageModel.url = '/' + file.relative.slice(0, -5) + '.html'
+              if (file.stem === 'home') pageModel.home = true
+              const componentName = doc.getAttribute('page-component-name', pageModel.src.component)
+              const versionString = doc.getAttribute('page-version',
+                (doc.hasAttribute('page-component-name') ? undefined : pageModel.src.version))
+              if (componentName) {
+                const component = pageModel.component = uiModel.site.components[componentName]
+                pageModel.componentVersion = versionString
+                  ? component.versions.find(({ version }) => version === versionString)
+                  : component.latest
+              } else {
+                const component = pageModel.component = Object.values(uiModel.site.components)[0]
+                pageModel.componentVersion = component.latest
               }
+              pageModel.module = 'ROOT'
+              pageModel.version = pageModel.componentVersion.version
+              pageModel.editUrl = pageModel.origin.editUrlPattern.replace('%s', file.relative)
+              pageModel.breadcrumbs = [{ content: pageModel.title, url: pageModel.url, urlType: 'internal' }]
+              pageModel.versions = pageModel.component.versions.map(({ version, displayVersion, url }, idx, arr) => {
+                const pageVersion = { version, displayVersion: displayVersion || version, url }
+                if (!idx) {
+                  pageVersion.latest = true
+                } else if (idx === arr.length - 1) {
+                  delete pageVersion.url
+                  pageVersion.missing = true
+                }
+                return pageVersion
+              })
+              const componentVersionAttributes = pageModel.componentVersion.asciidocConfig.attributes
+              pageModel.attributes = Object.entries(Object.assign(attributes, componentVersionAttributes))
+                .filter(([name, val]) => name.startsWith('page-'))
+                .reduce((accum, [name, val]) => ({ ...accum, [name.substr(5)]: val }), {})
+              pageModel.contents = Buffer.from(doc.convert())
             }
             file.extname = '.html'
             file.contents = Buffer.from(layouts[uiModel.page.layout](uiModel))
@@ -79,7 +96,9 @@ module.exports = (src, previewSrc, previewDest, sink = () => map(), layouts = {}
               const navigationData = Object.values(baseUiModel.site.components).map(({ name, title, versions }) => ({
                 name,
                 title,
-                versions: versions.map((v) => ({ version: v.version, sets: v.navigation })),
+                versions: versions.map(({ version, displayVersion, navigation: sets = [] }) =>
+                  version === displayVersion ? { version, sets } : { version, displayVersion, sets }
+                ),
               }))
               const navigationDataSourceString =
                 'window.siteNavigationData = ' +
@@ -94,11 +113,20 @@ module.exports = (src, previewSrc, previewDest, sink = () => map(), layouts = {}
     )
 
 function loadSampleUiModel (src) {
-  return fs.readFile(ospath.join(src, 'ui-model.yml'), 'utf8').then((contents) => yaml.safeLoad(contents))
+  return fs.readFile(ospath.join(src, 'ui-model.yml'), 'utf8').then((contents) => {
+    const uiModel = yaml.safeLoad(contents)
+    Object.values(uiModel.site.components).forEach(({ versions }) => {
+      versions.forEach((version) => {
+        if (!('displayVersion' in version)) version.displayVersion = version.version
+        if (!('asciidocConfig' in version)) version.asciidocConfig = { attributes: {} }
+      })
+    })
+    return uiModel
+  })
 }
 
 function registerPartials (src) {
-  return vfs.src('partials/*.hbs', { base: src, cwd: src }).pipe(
+  return vfs.src('partials/**/*.hbs', { base: src, cwd: src }).pipe(
     map((file, enc, next) => {
       handlebars.registerPartial(file.stem, file.contents.toString())
       next()

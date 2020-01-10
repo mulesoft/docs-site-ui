@@ -70,8 +70,8 @@
           var previousVersionItem = document.createElement('li')
           previousVersionItem.className = 'flex align-center justify-justified li version'
           previousVersionItem.dataset.product = productName
-          previousVersionItem.dataset.version = version.version
-          previousVersionItem.appendChild(document.createTextNode(version.version))
+          previousVersionItem.dataset.version = version.displayVersion || version.version
+          previousVersionItem.appendChild(document.createTextNode(previousVersionItem.dataset.version))
           previousVersionsList.appendChild(previousVersionItem)
         })
         versionMenu.appendChild(previousVersionsList)
@@ -132,7 +132,9 @@
     navItem.classList.add('is-loaded')
     product.versions.forEach(function (version) {
       var items = ((version.sets || [])[0] || {}).items || [] // only consider items in first menu
-      if (items.length) buildNavTree(nav, navItem, product.name, version.version, items, 1, page, path)
+      if (items.length) {
+        buildNavTree(nav, navItem, product.name, version.displayVersion || version.version, items, 1, page, path)
+      }
     })
   }
 
@@ -279,7 +281,7 @@
       flip: false,
       interactive: true,
       showOnInit: show,
-      offset: '-40, 5',
+      offset: '-60, 5',
       onHide: function (instance) {
         instance.popper.classList.remove('shown')
       },
