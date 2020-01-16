@@ -25,14 +25,13 @@ module.exports = (src, previewSrc, previewDest, sink = () => map(), layouts = {}
     toPromise(
       merge(
         compileLayouts(src, layouts),
-        registerPartials(src),
         registerHelpers(src),
+        registerPartials(src),
         copyImages(previewSrc, previewDest)
       )
     ),
   ])
-    .then(([baseUiModel]) => ({ ...baseUiModel, env: process.env }))
-    .then((baseUiModel) =>
+    .then(([baseUiModel]) =>
       merge(
         vfs.src('**/*.adoc', { base: previewSrc, cwd: previewSrc }).pipe(
           map((file, enc, next) => {
@@ -115,6 +114,8 @@ module.exports = (src, previewSrc, previewDest, sink = () => map(), layouts = {}
 function loadSampleUiModel (src) {
   return fs.readFile(ospath.join(src, 'ui-model.yml'), 'utf8').then((contents) => {
     const uiModel = yaml.safeLoad(contents)
+    uiModel.env = process.env
+    uiModel.site.contentCatalog = { resolvePage, resolvePageUrl }
     Object.values(uiModel.site.components).forEach(({ versions }) => {
       versions.forEach((version) => {
         if (!('displayVersion' in version)) version.displayVersion = version.version
@@ -135,6 +136,8 @@ function registerPartials (src) {
 }
 
 function registerHelpers (src) {
+  handlebars.registerHelper('resolvePage', resolvePage)
+  handlebars.registerHelper('resolvePageUrl', resolvePageUrl)
   return vfs.src('helpers/*.js', { base: src, cwd: src }).pipe(
     map((file, enc, next) => {
       handlebars.registerHelper(file.stem, requireFromString(file.contents.toString()))
@@ -154,6 +157,14 @@ function compileLayouts (src, layouts) {
 
 function copyImages (src, dest) {
   return vfs.src('**/*.{png,svg}', { base: src, cwd: src }).pipe(vfs.dest(dest))
+}
+
+function resolvePage (spec, context = {}) {
+  if (spec) return { pub: { url: resolvePageUrl(spec) } }
+}
+
+function resolvePageUrl (spec, context = {}) {
+  if (spec) return '/' + spec.slice(0, spec.lastIndexOf('.')) + '.html'
 }
 
 function toPromise (stream) {

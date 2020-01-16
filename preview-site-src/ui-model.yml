@@ -1,4 +1,4 @@
-antoraVersion: '2.3.0-alpha.1'
+antoraVersion: '2.3.0-alpha.2'
 site:
   url: &home_url /home.html
   title: MuleSoft Documentation
@@ -89,6 +89,7 @@ site:
             page-connector-type: Connector
             page-connector-tier: Select
             page-exchange-url: https://www.anypoint.mulesoft.com/exchange/com.mulesoft.connectors/mule-salesforce-connector/
+            page-release-notes-page: connector-relnotes.adoc
             page-vendor-name: salesforce
             page-vendor-title: Salesforce
         navigation:
