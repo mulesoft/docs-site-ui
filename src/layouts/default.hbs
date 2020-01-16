@@ -17,8 +17,7 @@
 </head>
 <body class="flex col">
 {{> header}}
-  {{!--{{#if (eq page.attributes.connector-type 'Connector')}}--}}
-  {{#if (eq page.component.latest.asciidocConfig.attributes.page-connector-type 'Connector')}}
+  {{#if (eq page.attributes.connector-type 'Connector')}}
   <div class="flex container wrapper">
 {{> nav}}
     <main class="main" data-ceiling="topbar">
