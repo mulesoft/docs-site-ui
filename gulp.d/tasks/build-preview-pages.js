@@ -53,17 +53,19 @@ module.exports = (src, previewSrc, previewDest, sink = () => map(), layouts = {}
               const componentName = doc.getAttribute('page-component-name', pageModel.src.component)
               const versionString = doc.getAttribute('page-version',
                 (doc.hasAttribute('page-component-name') ? undefined : pageModel.src.version))
+              let componentVersion
               if (componentName) {
                 const component = pageModel.component = uiModel.site.components[componentName]
-                pageModel.componentVersion = versionString
+                componentVersion = pageModel.componentVersion = versionString
                   ? component.versions.find(({ version }) => version === versionString)
                   : component.latest
               } else {
                 const component = pageModel.component = Object.values(uiModel.site.components)[0]
-                pageModel.componentVersion = component.latest
+                componentVersion = pageModel.componentVersion = component.latest
               }
               pageModel.module = 'ROOT'
-              pageModel.version = pageModel.componentVersion.version
+              pageModel.version = componentVersion.version
+              pageModel.displayVersion = componentVersion.displayVersion
               pageModel.editUrl = pageModel.origin.editUrlPattern.replace('%s', file.relative)
               pageModel.breadcrumbs = [{ content: pageModel.title, url: pageModel.url, urlType: 'internal' }]
               pageModel.versions = pageModel.component.versions.map(({ version, displayVersion, url }, idx, arr) => {
@@ -76,8 +78,7 @@ module.exports = (src, previewSrc, previewDest, sink = () => map(), layouts = {}
                 }
                 return pageVersion
               })
-              const componentVersionAttributes = pageModel.componentVersion.asciidocConfig.attributes
-              pageModel.attributes = Object.entries(Object.assign(attributes, componentVersionAttributes))
+              pageModel.attributes = Object.entries({ ...attributes, ...componentVersion.asciidocConfig.attributes })
                 .filter(([name, val]) => name.startsWith('page-'))
                 .reduce((accum, [name, val]) => ({ ...accum, [name.substr(5)]: val }), {})
               pageModel.contents = Buffer.from(doc.convert())
