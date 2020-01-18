@@ -33,8 +33,10 @@
     <a class="flex align-center link" href="{{relativize this}}">Release notes</a>
     {{else}}
     {{/with}}
-    <a class="flex align-center link" href="{{page.attributes.exchange-url}}" target="_blank">View in Exchange
+    {{#if page.attributes.exchange-asset-id}}
+    <a class="flex align-center link" href="https://www.anypoint.mulesoft.com/exchange/{{page.attributes.exchange-group-id}}/{{page.attributes.exchange-asset-id}}" target="_blank">View in Exchange
       <svg class="icon icon-md icon-external"><use xlink:href="#icon-external"/></svg>
     </a>
+    {{/if}}
   </section>
 </div>

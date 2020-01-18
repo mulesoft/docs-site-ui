@@ -58,7 +58,9 @@
     "title": "{{delete-suffix connector.title ' Connector'}}",
     "type": "{{attributes.page-connector-type}}",
     "iconUrl": "{{@root.uiRootPath}}/img/icons/connectors/icon-{{delete-suffix connector.name '-connector'}}.svg",
-    "exchangeUrl": "{{attributes.page-exchange-url}}",
+    {{#if attributes.page-exchange-asset-id}}
+    "exchangeUrl": "https://www.anypoint.mulesoft.com/exchange/{{attributes.page-exchange-group-id}}/{{attributes.page-exchange-asset-id}}/",
+    {{/if}}
     {{#with (resolvePageUrl attributes.page-release-notes-page)}}
     "releaseNotesPageUrl": "{{relativize this}}",
     {{else}}
