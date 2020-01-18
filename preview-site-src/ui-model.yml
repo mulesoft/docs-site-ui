@@ -72,6 +72,7 @@ site:
             page-connector-type: Connector
             page-connector-tier: Select
             page-exchange-url: https://www.anypoint.mulesoft.com/exchange/com.mulesoft.connectors/anypoint-mq-connector/
+            page-mule-runtime-version: 4.1.1
             page-vendor-name: msmq
             page-vendor-title: MuleSoft
       versions:
@@ -89,6 +90,7 @@ site:
             page-connector-type: Connector
             page-connector-tier: Select
             page-exchange-url: https://www.anypoint.mulesoft.com/exchange/com.mulesoft.connectors/mule-salesforce-connector/
+            page-mule-runtime-version: 4.1.1
             page-release-notes-page: connector-relnotes.adoc
             page-vendor-name: salesforce
             page-vendor-title: Salesforce
@@ -101,6 +103,17 @@ site:
       - version: '0'
         displayVersion: 'Mule 3'
         url: '#'
+        asciidocConfig:
+          attributes:
+            page-component-desc: Connect to the Salesforce SOAP API, REST API, Bulk API, and Streaming API.
+            page-connector-type: Connector
+            page-connector-tier: Select
+            page-connector-versions: 5.4.10 to 8.9.x
+            page-exchange-url: https://www.anypoint.mulesoft.com/exchange/org.mule.modules/mule-module-sfdc/
+            page-mule-runtime-version: 3.5.0
+            page-release-notes-page: connector-relnotes.adoc
+            page-vendor-name: salesforce
+            page-vendor-title: Salesforce
     connector-devkit: &component
       name: connector-devkit
       title: Connector DevKit

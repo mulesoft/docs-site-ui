@@ -1,16 +1,20 @@
 <div class="connector-sidebar">
   <div class="flex align-center justify-justified row">
     <div class="col">Versions</div>
+    {{!--
     <div class="col">
 {{> connectors-version-menu}}
     </div>
+    --}}
+    <div class="col">{{#with page.attributes.connector-versions}}{{this}}{{else}}{{page.version}}.x{{/with}}</div>
   </div>
   <div class="flex align-center justify-justified row">
-    <div class="col">Mule Runtime</div>
-    <!--
+    <div class="col">Runtime</div>
+    {{#with page.attributes.mule-runtime-version}}
+    <div class="col">Mule {{this}} or later</div>
+    {{else}}
     <div class="col">{{#if (eq page.version '0')}}Mule 3{{else}}Mule 4{{/if}}</div>
-    -->
-    <div class="col">&#8805; 4.1.1</div>
+    {{/with}}
   </div>
   <div class="flex align-center justify-justified row">
     <div class="col">Tier</div>
