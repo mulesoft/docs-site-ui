@@ -54,6 +54,7 @@
   & .col:first-child,
   & .categories-header {
     color: var(--aluminum-5);
+    padding-right: var(--sm);
   }
 
   & .col:last-child {

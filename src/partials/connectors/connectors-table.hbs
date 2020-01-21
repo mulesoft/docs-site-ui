@@ -30,7 +30,7 @@
             <a class="link js-connector-qlink-mule3" href="#">Mule 3</a>
           </li>
           <li>
-            <a class="link js-connector-qlink-release-notes" href="#">Release notes</a>
+            <a class="link js-connector-qlink-relnotes" href="#">Release notes</a>
           </li>
           <li>
             <a class="link js-connector-qlink-exchange" href="#" target="_blank">View in Exchange
@@ -58,8 +58,13 @@
     "title": "{{delete-suffix connector.title ' Connector'}}",
     "type": "{{attributes.page-connector-type}}",
     "iconUrl": "{{@root.uiRootPath}}/img/icons/connectors/icon-{{delete-suffix connector.name '-connector'}}.svg",
-    "pageUrl": "{{relativize connector.url}}",
-    "exchangeUrl": "{{attributes.page-exchange-url}}",
+    {{#if attributes.page-exchange-asset-id}}
+    "exchangeUrl": "https://www.anypoint.mulesoft.com/exchange/{{attributes.page-exchange-group-id}}/{{attributes.page-exchange-asset-id}}/",
+    {{/if}}
+    {{#with (resolvePageUrl attributes.page-release-notes-page)}}
+    "releaseNotesPageUrl": "{{relativize this}}",
+    {{else}}
+    {{/with}}
     {{#with connector.latest as |latest|}}
     "latestVersion": {
       "version": "{{latest.version}}",
@@ -132,6 +137,8 @@
         row.querySelector('.js-connector-qlinks').removeChild(row.querySelector('.js-connector-qlink-mule3').parentNode)
       }
       row.querySelector('.js-connector-qlink-exchange').href = connector.exchangeUrl
+      var relnotesQLink = row.querySelector('.js-connector-qlink-relnotes')
+      if (!(relnotesQLink.href = connector.releaseNotesPageUrl)) relnotesQLink.parentNode.style.display = 'none'
       return accum.concat(row)
     }, [])
     slot.innerHTML = ''

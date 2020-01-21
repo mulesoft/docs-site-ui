@@ -1,20 +1,27 @@
 <div class="connector-sidebar">
   <div class="flex align-center justify-justified row">
-    <div class="col">Version</div>
+    <div class="col">Versions</div>
+    {{!--
     <div class="col">
 {{> connectors-version-menu}}
     </div>
+    --}}
+    <div class="col">{{#with page.attributes.connector-versions}}{{this}}{{else}}{{page.version}}.x{{/with}}</div>
   </div>
   <div class="flex align-center justify-justified row">
     <div class="col">Runtime</div>
-    <div class="col">Mule 4</div>
+    {{#with page.attributes.mule-runtime-version}}
+    <div class="col">Mule {{this}} or later</div>
+    {{else}}
+    <div class="col">{{#if (eq page.version '0')}}Mule 3{{else}}Mule 4{{/if}}</div>
+    {{/with}}
   </div>
   <div class="flex align-center justify-justified row">
     <div class="col">Tier</div>
     <div class="col">
       <div class="flex align-center">
-        Select
-        <div class="flex align-center justify-center tier-help js-connector-tier-trigger" data-tier="select">
+        {{{page.attributes.connector-tier}}}
+        <div class="flex align-center justify-center tier-help js-connector-tier-trigger" data-tier="{{{page.attributes.connector-tier}}}">
           <svg class="icon icon-help"><use xlink:href="#icon-help"/></svg>
         </div>
       </div>
@@ -22,9 +29,14 @@
   </div>
   <section class="flex col connector-sidebar-categories">
     <header class="row categories-header">Links</header>
-    <a class="flex align-center link" href="//docs.mulesoft.com/connectors/amazon/amazon-dynamodb-connector">Release notes</a>
-    <a class="flex align-center link" href="//docs.mulesoft.com/connectors/amazon/amazon-dynamodb-connector" target="_blank">View in Exchange
+    {{#with (resolvePageUrl page.attributes.release-notes-page)}}
+    <a class="flex align-center link" href="{{relativize this}}">Release notes</a>
+    {{else}}
+    {{/with}}
+    {{#if page.attributes.exchange-asset-id}}
+    <a class="flex align-center link" href="https://www.anypoint.mulesoft.com/exchange/{{page.attributes.exchange-group-id}}/{{page.attributes.exchange-asset-id}}" target="_blank">View in Exchange
       <svg class="icon icon-md icon-external"><use xlink:href="#icon-external"/></svg>
     </a>
+    {{/if}}
   </section>
 </div>

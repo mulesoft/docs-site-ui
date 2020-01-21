@@ -25,14 +25,13 @@ module.exports = (src, previewSrc, previewDest, sink = () => map(), layouts = {}
     toPromise(
       merge(
         compileLayouts(src, layouts),
-        registerPartials(src),
         registerHelpers(src),
+        registerPartials(src),
         copyImages(previewSrc, previewDest)
       )
     ),
   ])
-    .then(([baseUiModel]) => ({ ...baseUiModel, env: process.env }))
-    .then((baseUiModel) =>
+    .then(([baseUiModel]) =>
       merge(
         vfs.src('**/*.adoc', { base: previewSrc, cwd: previewSrc }).pipe(
           map((file, enc, next) => {
@@ -54,17 +53,19 @@ module.exports = (src, previewSrc, previewDest, sink = () => map(), layouts = {}
               const componentName = doc.getAttribute('page-component-name', pageModel.src.component)
               const versionString = doc.getAttribute('page-version',
                 (doc.hasAttribute('page-component-name') ? undefined : pageModel.src.version))
+              let componentVersion
               if (componentName) {
                 const component = pageModel.component = uiModel.site.components[componentName]
-                pageModel.componentVersion = versionString
+                componentVersion = pageModel.componentVersion = versionString
                   ? component.versions.find(({ version }) => version === versionString)
                   : component.latest
               } else {
                 const component = pageModel.component = Object.values(uiModel.site.components)[0]
-                pageModel.componentVersion = component.latest
+                componentVersion = pageModel.componentVersion = component.latest
               }
               pageModel.module = 'ROOT'
-              pageModel.version = pageModel.componentVersion.version
+              pageModel.version = componentVersion.version
+              pageModel.displayVersion = componentVersion.displayVersion
               pageModel.editUrl = pageModel.origin.editUrlPattern.replace('%s', file.relative)
               pageModel.breadcrumbs = [{ content: pageModel.title, url: pageModel.url, urlType: 'internal' }]
               pageModel.versions = pageModel.component.versions.map(({ version, displayVersion, url }, idx, arr) => {
@@ -77,8 +78,7 @@ module.exports = (src, previewSrc, previewDest, sink = () => map(), layouts = {}
                 }
                 return pageVersion
               })
-              const componentVersionAttributes = pageModel.componentVersion.asciidocConfig.attributes
-              pageModel.attributes = Object.entries(Object.assign(attributes, componentVersionAttributes))
+              pageModel.attributes = Object.entries({ ...attributes, ...componentVersion.asciidocConfig.attributes })
                 .filter(([name, val]) => name.startsWith('page-'))
                 .reduce((accum, [name, val]) => ({ ...accum, [name.substr(5)]: val }), {})
               pageModel.contents = Buffer.from(doc.convert())
@@ -115,6 +115,8 @@ module.exports = (src, previewSrc, previewDest, sink = () => map(), layouts = {}
 function loadSampleUiModel (src) {
   return fs.readFile(ospath.join(src, 'ui-model.yml'), 'utf8').then((contents) => {
     const uiModel = yaml.safeLoad(contents)
+    uiModel.env = process.env
+    uiModel.site.contentCatalog = { resolvePage, resolvePageUrl }
     Object.values(uiModel.site.components).forEach(({ versions }) => {
       versions.forEach((version) => {
         if (!('displayVersion' in version)) version.displayVersion = version.version
@@ -135,6 +137,8 @@ function registerPartials (src) {
 }
 
 function registerHelpers (src) {
+  handlebars.registerHelper('resolvePage', resolvePage)
+  handlebars.registerHelper('resolvePageUrl', resolvePageUrl)
   return vfs.src('helpers/*.js', { base: src, cwd: src }).pipe(
     map((file, enc, next) => {
       handlebars.registerHelper(file.stem, requireFromString(file.contents.toString()))
@@ -154,6 +158,14 @@ function compileLayouts (src, layouts) {
 
 function copyImages (src, dest) {
   return vfs.src('**/*.{png,svg}', { base: src, cwd: src }).pipe(vfs.dest(dest))
+}
+
+function resolvePage (spec, context = {}) {
+  if (spec) return { pub: { url: resolvePageUrl(spec) } }
+}
+
+function resolvePageUrl (spec, context = {}) {
+  if (spec) return '/' + spec.slice(0, spec.lastIndexOf('.')) + '.html'
 }
 
 function toPromise (stream) {
