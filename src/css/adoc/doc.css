@@ -16,7 +16,7 @@
     }
   }
 
-  /* numbered callouts from codeblocks */
+    /* numbered callouts from codeblocks */
   & .conum {
     background: var(--tertiary);
     border: 1px solid var(--aluminum-3);
@@ -175,7 +175,7 @@
   }
 
   /* links */
-  & a {
+  & a:not(.button-primary) {
     color: var(--core-blue-3);
 
     &:focus {
