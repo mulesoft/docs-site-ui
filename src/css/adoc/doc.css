@@ -16,7 +16,7 @@
     }
   }
 
-    /* numbered callouts from codeblocks */
+  /* numbered callouts from codeblocks */
   & .conum {
     background: var(--tertiary);
     border: 1px solid var(--aluminum-3);
@@ -132,26 +132,26 @@
   }
 
   & h1 .anchor {
-    margin-top: 11px;
+    margin-top: 15px;
   }
 
   & h2 .anchor {
-    margin-top: 6px;
+    margin-top: 10px;
   }
 
   & h3 .anchor {
-    margin-top: 1px;
+    margin-top: 5px;
   }
 
   & h4 .anchor {
     @media (--md) {
-      margin-top: 2px;
+      margin-top: 4px;
     }
   }
 
   & h5 .anchor {
     @media (--md) {
-      margin-top: 0;
+      margin-top: 3px;
     }
   }
 
