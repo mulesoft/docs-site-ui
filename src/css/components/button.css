@@ -1,4 +1,4 @@
-button,
+.button,
 .button-primary {
   border-radius: var(--radius);
   cursor: pointer;
@@ -10,10 +10,9 @@ button,
 .button {
   background: var(--tertiary);
   border: 1px solid var(--aluminum-4);
-  color: var(--aluminum-5); 
+  color: var(--aluminum-5);
   height: var(--nav-item-height);
   padding: var(--xs);
-  transition: box-shadow var(--transition-speed-sm) var(--transition-timing);
 
   &:hover {
     border-color: var(--aluminum-5);
@@ -64,4 +63,3 @@ button,
   padding: 0;
   top: 0; /* reset */
 }
-
