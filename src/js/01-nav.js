@@ -36,7 +36,8 @@
       productLink.appendChild(document.createTextNode(' ' + product.title))
       productHeading.appendChild(productLink)
       if (product.versions.length > 1) {
-        var currentVersion = product.versions[0].version
+        var latestVersion = product.versions[0]
+        var currentVersion = latestVersion.displayVersion || latestVersion.version
         var versionButton = document.createElement('button')
         versionButton.className = 'flex align-center shrink button versions'
         versionButton.dataset.product = productName
