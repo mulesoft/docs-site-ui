@@ -100,6 +100,9 @@ site:
         - items:
           - content: Get Started
             url: *salesforce_connector_url
+            items:
+            - content: Examples
+              url: *salesforce_connector_url
       versions:
       - *salesforce_connector_latest
       - version: '0'
@@ -117,6 +120,10 @@ site:
             page-release-notes-page: connector-relnotes.adoc
             page-vendor-name: salesforce
             page-vendor-title: Salesforce
+        navigation:
+        - items:
+          - content: For Mule 3
+            url: '#'
     connector-devkit: &component
       name: connector-devkit
       title: Connector DevKit

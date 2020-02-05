@@ -84,11 +84,7 @@
     padding-left: 25px;
   }
 
-  & > .nav-li .nav-list .nav-heading {
-    color: var(--aluminum-5);
-  }
-
-  & > .nav-li.active {
+  & > .nav-li.active > :first-child {
     & .nav-link.nav-heading {
       color: var(--core-blue-3);
     }
@@ -161,6 +157,7 @@
 
   & .span {
     border-bottom: 1px solid var(--aluminum-4);
+    color: var(--aluminum-5);
     display: inline-block;
     padding-bottom: .25em;
   }
