@@ -198,9 +198,8 @@
   }
 
   function toggleNav (e, selected, nav) {
-    var navItem
+    var navItem, navList, navListQuery
     if (!e) {
-      var navList, navListQuery
       // on page load (when navigating from the location bar)
       if (selected) {
         navListQuery = '.nav-list[data-product="' + selected.product + '"]'
