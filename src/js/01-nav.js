@@ -369,7 +369,7 @@
   }
 
   function relativize (from, to) {
-    if (!from || to.charAt() === '#') return to
+    if (!(from && to.charAt() === '/')) return to
     var hash = ''
     var hashIdx = to.indexOf('#')
     if (~hashIdx) {
