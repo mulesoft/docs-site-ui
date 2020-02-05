@@ -225,15 +225,19 @@
       navListQuery = (navItem = e.target.parentNode.parentNode).dataset.pinnedVersion
         ? '.nav-list[data-version="' + navItem.dataset.pinnedVersion + '"]'
         : '.nav-list[data-version]'
-      navItem.querySelector(navListQuery).style.display = navItem.classList.toggle('active') ? '' : 'none'
+      var navItemState = navItem.classList.toggle('active')
+      if ((navList = navItem.querySelector(navListQuery))) {
+        navList.style.display = navItemState ? '' : 'none'
+      }
       tippy.hideAll()
       window.analytics && window.analytics.track('Toggled Nav', { url: e.target.innerText.trim() })
     } else if (selected) {
-      // when changing the selected version
+      // when changing the selected version using the version selector
       navItem = nav.querySelector('.nav-li[data-product="' + selected.product + '"]')
       var navLists = navItem.querySelectorAll('.nav-list[data-product]')
-      for (var i = 0, l = navLists.length; i < l; i++) navLists[i].style.display = 'none'
-      navItem.querySelector('.nav-list[data-version="' + selected.version + '"]').style.display = ''
+      for (var i = 0, l = navLists.length; i < l; i++) {
+        navLists[i].style.display = navLists[i].dataset.version === selected.version ? '' : 'none'
+      }
       navItem.classList.add('active')
       tippy.hideAll()
     }
