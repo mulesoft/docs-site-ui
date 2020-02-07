@@ -36,7 +36,8 @@
       productLink.appendChild(document.createTextNode(' ' + product.title))
       productHeading.appendChild(productLink)
       if (product.versions.length > 1) {
-        var currentVersion = product.versions[0].version
+        var latestVersion = product.versions[0]
+        var currentVersion = latestVersion.displayVersion || latestVersion.version
         var versionButton = document.createElement('button')
         versionButton.className = 'flex align-center shrink button versions'
         versionButton.dataset.product = productName
@@ -198,9 +199,8 @@
   }
 
   function toggleNav (e, selected, nav) {
-    var navItem
+    var navItem, navList, navListQuery
     if (!e) {
-      var navList, navListQuery
       // on page load (when navigating from the location bar)
       if (selected) {
         navListQuery = '.nav-list[data-product="' + selected.product + '"]'
@@ -226,15 +226,19 @@
       navListQuery = (navItem = e.target.parentNode.parentNode).dataset.pinnedVersion
         ? '.nav-list[data-version="' + navItem.dataset.pinnedVersion + '"]'
         : '.nav-list[data-version]'
-      navItem.querySelector(navListQuery).style.display = navItem.classList.toggle('active') ? '' : 'none'
+      var navItemState = navItem.classList.toggle('active')
+      if ((navList = navItem.querySelector(navListQuery))) {
+        navList.style.display = navItemState ? '' : 'none'
+      }
       tippy.hideAll()
       window.analytics && window.analytics.track('Toggled Nav', { url: e.target.innerText.trim() })
     } else if (selected) {
-      // when changing the selected version
+      // when changing the selected version using the version selector
       navItem = nav.querySelector('.nav-li[data-product="' + selected.product + '"]')
       var navLists = navItem.querySelectorAll('.nav-list[data-product]')
-      for (var i = 0, l = navLists.length; i < l; i++) navLists[i].style.display = 'none'
-      navItem.querySelector('.nav-list[data-version="' + selected.version + '"]').style.display = ''
+      for (var i = 0, l = navLists.length; i < l; i++) {
+        navLists[i].style.display = navLists[i].dataset.version === selected.version ? '' : 'none'
+      }
       navItem.classList.add('active')
       tippy.hideAll()
     }
@@ -369,7 +373,7 @@
   }
 
   function relativize (from, to) {
-    if (!from || to.charAt() === '#') return to
+    if (!(from && to.charAt() === '/')) return to
     var hash = ''
     var hashIdx = to.indexOf('#')
     if (~hashIdx) {
