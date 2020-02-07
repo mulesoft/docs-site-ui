@@ -13,17 +13,29 @@
     svgPath.setAttribute('d', 'M15.003 21.284L6.563 9.232l1.928-.516 6.512 9.299 6.506-9.299 1.928.516-8.434 12.052z')
     chevron.appendChild(svgPath)
     var pageNavItem
+    var connectorNavItems = []
+    var connectorsNavItem
     data.splice(0, data.length).forEach(function (product) {
       var productName = product.name
       var productForPage = productName === page.product
+      var connector = isConnector(productName)
       var navItem = document.createElement('li')
       var active
       if (productForPage) {
         pageNavItem = navItem
-        !path.active.length && product.url === page.url && (active = true) && path.active.push(navItem)
+        if (!path.active.length && product.url === page.url) {
+          active = true
+          path.active.push(navItem)
+        }
+      }
+      if (productName === 'connectors') {
+        connectorsNavItem = navItem
+        if (isConnector(page.product)) active = true
+      } else if (connector) {
+        connectorNavItems.push(navItem)
       }
       navItem.className = active ? 'nav-li active' : 'nav-li'
-      navItem.dataset.depth = 0
+      navItem.dataset.depth = connector ? 1 : 0
       navItem.dataset.product = productName
       var productHeading = document.createElement('div')
       productHeading.className = 'flex align-center justify-justified'
@@ -31,7 +43,8 @@
       productLink.className = 'flex grow strong link nav-link nav-heading'
       var productIcon = document.createElement('img')
       productIcon.className = 'icon no-pointer'
-      productIcon.src = page.uiRootPath + '/img/icons/' + productName + '.svg'
+      productIcon.src = page.uiRootPath + '/img/icons/' +
+          (connector ? 'connectors/icon-' + productName.slice(0, -10) : productName) + '.svg'
       productLink.appendChild(productIcon)
       productLink.appendChild(document.createTextNode(' ' + product.title))
       productHeading.appendChild(productLink)
@@ -111,6 +124,21 @@
       }
       navList.appendChild(navItem)
     })
+    if (connectorsNavItem && connectorNavItems.length) {
+      var connectorsNavList = connectorsNavItem.querySelector('ol[data-product]')
+      if (!connectorsNavList) {
+        connectorsNavList = document.createElement('ol')
+        connectorsNavList.classList = 'nav-list parent'
+        if (!isConnector(page.product)) connectorsNavList.style.display = 'none'
+        connectorsNavList.dataset.product = 'connectors'
+        connectorsNavList.dataset.version = 'master'
+        connectorsNavItem.append(connectorsNavList)
+      }
+      connectorNavItems.forEach(function (navItem) {
+        connectorsNavList.appendChild(navItem)
+      })
+      connectorNavItems.length = 0
+    }
     nav.appendChild(navList)
     // NOTE we could mark active when navigation is built if we appended children to parent eagerly
     if (path.active.length) {
@@ -140,14 +168,25 @@
   }
 
   function buildNavTree (nav, parent, productName, version, items, level, page, path) {
-    var navList = document.createElement('ol')
-    navList.className = 'nav-list parent'
-    if (level === 1) {
-      if (!(productName === page.product && version === page.version)) navList.style.display = 'none'
-      navList.dataset.product = productName
-      navList.dataset.version = version
-    } else if (!parent.classList.contains('active')) {
-      navList.style.display = 'none'
+    var existingItems = []
+    var navList
+    if (productName === 'connectors' && version === 'master' && level === 1 &&
+        (navList = parent.querySelector('ol[data-product]'))) {
+      for (var i = 0, len = navList.children.length; i < len; i++) {
+        var navListChild = navList.removeChild(navList.firstChild)
+        if (navListChild.tagName === 'LI') existingItems[i] = navListChild
+      }
+      parent.removeChild(navList)
+    } else {
+      navList = document.createElement('ol')
+      navList.className = 'nav-list parent'
+      if (level === 1) {
+        if (!(productName === page.product && version === page.version)) navList.style.display = 'none'
+        navList.dataset.product = productName
+        navList.dataset.version = version
+      } else if (!parent.classList.contains('active')) {
+        navList.style.display = 'none'
+      }
     }
     items.forEach(function (item) {
       var navItem = document.createElement('li')
@@ -160,7 +199,7 @@
         }
       }
       navItem.className = active ? 'nav-li active' : 'nav-li'
-      navItem.dataset.depth = level
+      navItem.dataset.depth = level + (isConnector(productName) ? 1 : 0)
       if (item.items) {
         var navToggle = document.createElement('button')
         navToggle.className = 'subnav-toggle'
@@ -195,6 +234,11 @@
       }
       navList.appendChild(navItem)
     })
+    if (existingItems.length) {
+      existingItems.forEach(function (navItem) {
+        navList.appendChild(navItem)
+      })
+    }
     return parent.appendChild(navList)
   }
 
@@ -227,9 +271,7 @@
         ? '.nav-list[data-version="' + navItem.dataset.pinnedVersion + '"]'
         : '.nav-list[data-version]'
       var navItemState = navItem.classList.toggle('active')
-      if ((navList = navItem.querySelector(navListQuery))) {
-        navList.style.display = navItemState ? '' : 'none'
-      }
+      if ((navList = navItem.querySelector(navListQuery))) navList.style.display = navItemState ? '' : 'none'
       tippy.hideAll()
       window.analytics && window.analytics.track('Toggled Nav', { url: e.target.innerText.trim() })
     } else if (selected) {
@@ -370,6 +412,10 @@
 
   function getNav () {
     return document.querySelector('nav.nav')
+  }
+
+  function isConnector (productName) {
+    return productName.endsWith('-connector')
   }
 
   function relativize (from, to) {
