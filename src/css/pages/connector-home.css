@@ -181,6 +181,8 @@
     white-space: nowrap;
 
     &:first-child {
+      max-width: 50px;
+      overflow-x: hidden;
       width: 50px;
     }
 

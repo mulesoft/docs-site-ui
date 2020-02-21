@@ -44,7 +44,7 @@
       var productIcon = document.createElement('img')
       productIcon.className = 'icon no-pointer'
       productIcon.src = page.uiRootPath + '/img/icons/' +
-          (connector ? 'connectors/icon-' + productName.slice(0, -10) : productName) + '.svg'
+          (connector ? 'connectors/icon-' + productName.slice(0, productName.lastIndexOf('-')) : productName) + '.svg'
       productLink.appendChild(productIcon)
       productLink.appendChild(document.createTextNode(' ' + product.title))
       productHeading.appendChild(productLink)
@@ -415,7 +415,7 @@
   }
 
   function isConnector (productName) {
-    return productName.endsWith('-connector')
+    return productName.endsWith('-connector') || productName.endsWith('-module')
   }
 
   function relativize (from, to) {
