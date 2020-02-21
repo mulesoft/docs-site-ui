@@ -24,7 +24,7 @@
     {{/each}}
   </div>
   <div class="flex flex-wrap">
-    {{#each (array 'netsuite' 'workday' 'dynamics365' 'kafka' 'servicenow' 'mongodb' 'box' 'redis') as |connectorName|}}
+    {{#each (array 'netsuite' 'workday' 'microsoft-dynamics-365' 'kafka' 'servicenow' 'mongodb' 'box' 'redis') as |connectorName|}}
     {{#with (lookup @root.site.components (concat connectorName '-connector'))}}
     <a class="featured-link" href="{{relativize url}}">
       <img src="{{@root.uiRootPath}}/img/logos/{{connectorName}}.png" alt="{{{delete-suffix title ' Connector'}}}" class="featured-img">

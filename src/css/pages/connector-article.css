@@ -104,8 +104,8 @@
   }
 }
 
-/* tier tooltip */
-.tier-help {
+/* level tooltip */
+.level-help {
   border: 1px solid var(--aluminum-3);
   border-radius: 8px;
   cursor: pointer;

@@ -70,7 +70,7 @@ site:
           attributes:
             page-component-desc: Connect to Anypoint MQ, MuleSoft's multi-tenant cloud messaging service for the enterprise.
             page-connector-type: Connector
-            page-connector-tier: Select
+            page-connector-level: Select
             page-exchange-asset-id: anypoint-mq-connector
             page-exchange-group-id: com.mulesoft.connectors
             page-mule-runtime-version: 4.1.1
@@ -89,7 +89,7 @@ site:
           attributes:
             page-component-desc: Connect to the Salesforce SOAP API, REST API, Bulk API, and Streaming API.
             page-connector-type: Connector
-            page-connector-tier: Select
+            page-connector-level: Select
             page-exchange-asset-id: mule-salesforce-connector
             page-exchange-group-id: com.mulesoft.connectors
             page-mule-runtime-version: 4.1.1
@@ -112,7 +112,7 @@ site:
           attributes:
             page-component-desc: Connect to the Salesforce SOAP API, REST API, Bulk API, and Streaming API.
             page-connector-type: Connector
-            page-connector-tier: Select
+            page-connector-level: Select
             page-connector-versions: 5.4.10 to 8.9.x
             page-exchange-asset-id: org.mule.modules
             page-exchange-group-id: mule-module-sfdc

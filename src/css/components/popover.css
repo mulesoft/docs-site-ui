@@ -36,8 +36,8 @@
   transform: scale(1) translate3d(0,0,0);
 }
 
-/* popover-tier */
-.tippy-popper .popover-theme.popover-tier-theme {
+/* popover-level */
+.tippy-popper .popover-theme.popover-level-theme {
   color: var(--steel-2);
   font-size: 12px;
   padding: 0 var(--md);
