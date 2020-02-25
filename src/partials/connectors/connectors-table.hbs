@@ -55,7 +55,7 @@
   {{#each (connectors) as |connector|}}
   {{#with latest.asciidocConfig}}
   {
-    "title": "{{delete-suffix connector.title ' Connector'}}",
+    "title": "{{connector.title}}",
     "type": "{{attributes.page-connector-type}}",
     "iconUrl": "{{@root.uiRootPath}}/img/icons/connectors/icon-{{delete-suffix connector.name '-connector'}}.svg",
     {{#if attributes.page-exchange-asset-id}}
@@ -68,12 +68,14 @@
     {{#with connector.latest as |latest|}}
     "latestVersion": {
       "version": "{{latest.version}}",
+      "runtimeVersion": "{{#if (ends-with latest.displayVersion ' (Mule 3)')}}3{{else}}4{{/if}}",
       "url": "{{relativize latest.url}}"
     },
     {{/with}}
     {{#with (last connector.versions) as |oldest|}}
     "oldestVersion": {
       "version": "{{oldest.version}}",
+      "runtimeVersion": "{{#if (ends-with oldest.displayVersion ' (Mule 3)')}}3{{else}}4{{/if}}",
       "url": "{{relativize oldest.url}}"
     }
     {{/with}}
@@ -110,17 +112,18 @@
     var slot = table.querySelector('tbody')
     var tmpl = document.getElementById('connectors-row')
     var rows = JSON.parse(document.getElementById('connectors-data').textContent).reduce(function (accum, connector) {
-      if ((criteria.title && !connector.title.toLowerCase().includes(criteria.title)) || (criteria.runtime &&
-          ((criteria.runtime === 'mule3' && connector.oldestVersion.version !== '0') ||
-          (criteria.runtime === 'mule4' && connector.latestVersion.version === '0'))) ||
+      var connector_title = connector.title.replace(new RegExp(' ' + connector.type + '$'), '')
+      if ((criteria.title && !connector_title.toLowerCase().includes(criteria.title)) || (criteria.runtime &&
+          ((criteria.runtime === '3' && connector.oldestVersion.runtimeVersion !== '3') ||
+          (criteria.runtime === '4' && connector.latestVersion.runtimeVersion !== '4'))) ||
           (criteria.type && connector.type !== criteria.type)) return accum
       var row = document.importNode(tmpl.content.querySelector('tr'), true)
       row.dataset.href = connector.latestVersion.url
       row.querySelector('.js-connector-icon').src = connector.iconUrl
-      row.querySelector('.js-connector-icon').alt = connector.title + ' logo'
-      row.querySelector('.js-connector-title').textContent = connector.title
+      row.querySelector('.js-connector-icon').alt = connector_title + ' logo'
+      row.querySelector('.js-connector-title').textContent = connector_title
       row.querySelector('.js-connector-type').textContent = connector.type
-      if (connector.latestVersion.version === '0') {
+      if (connector.latestVersion.runtimeVersion === '3') {
         row.querySelector('.js-connector-link').removeChild(row.querySelector('.js-connector-link-mule4'))
         row.querySelector('.js-connector-link').removeChild(row.querySelector('.js-connector-link-delim'))
         row.querySelector('.js-connector-qlinks').removeChild(row.querySelector('.js-connector-qlink-mule4').parentNode)
@@ -128,12 +131,14 @@
         row.querySelector('.js-connector-link-mule4').href =
           row.querySelector('.js-connector-qlink-mule4').href = connector.latestVersion.url
       }
-      if (connector.oldestVersion.version === '0') {
+      if (connector.oldestVersion.runtimeVersion === '3') {
         row.querySelector('.js-connector-link-mule3').href =
           row.querySelector('.js-connector-qlink-mule3').href = connector.oldestVersion.url
       } else {
+        if (connector.latestVersion.runtimeVersion !== '3') {
+          row.querySelector('.js-connector-link').removeChild(row.querySelector('.js-connector-link-delim'))
+        }
         row.querySelector('.js-connector-link').removeChild(row.querySelector('.js-connector-link-mule3'))
-        row.querySelector('.js-connector-link').removeChild(row.querySelector('.js-connector-link-delim'))
         row.querySelector('.js-connector-qlinks').removeChild(row.querySelector('.js-connector-qlink-mule3').parentNode)
       }
       row.querySelector('.js-connector-qlink-exchange').href = connector.exchangeUrl

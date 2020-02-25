@@ -10,10 +10,10 @@
   </div>
   <div class="flex align-center justify-justified row">
     <div class="col">Runtime</div>
-    {{#with page.attributes.mule-runtime-version}}
+    {{#with page.attributes.runtime-version}}
     <div class="col">Mule {{this}} or later</div>
     {{else}}
-    <div class="col">{{#if (eq page.version '0')}}Mule 3{{else}}Mule 4{{/if}}</div>
+    <div class="col">{{#if (ends-with page.displayVersion ' (Mule 3)')}}Mule 3{{else}}Mule 4{{/if}}</div>
     {{/with}}
   </div>
   <div class="flex align-center justify-justified row">
