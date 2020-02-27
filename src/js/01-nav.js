@@ -43,8 +43,7 @@
       productLink.className = 'flex grow strong link nav-link nav-heading'
       var productIcon = document.createElement('img')
       productIcon.className = 'icon no-pointer'
-      productIcon.src = page.uiRootPath + '/img/icons/' +
-          (connector ? 'connectors/icon-' + productName.slice(0, productName.lastIndexOf('-')) : productName) + '.svg'
+      productIcon.src = page.uiRootPath + '/img/icons/' + (connector ? 'connectors' : productName) + '.svg'
       productLink.appendChild(productIcon)
       productLink.appendChild(document.createTextNode(' ' + product.title))
       productHeading.appendChild(productLink)
