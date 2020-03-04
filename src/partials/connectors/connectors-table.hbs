@@ -57,7 +57,7 @@
   {
     "title": "{{connector.title}}",
     "type": "{{attributes.page-connector-type}}",
-    "iconUrl": "{{@root.uiRootPath}}/img/icons/connectors/icon-{{delete-suffix connector.name '-connector'}}.svg",
+    "iconUrl": "https://anypoint.mulesoft.com/exchange/organizations/68ef9520-24e9-4cf2-b2f5-620025690913/assets/{{attributes.page-exchange-group-id}}/{{attributes.page-exchange-asset-id}}/icon/svg/",
     {{#if attributes.page-exchange-asset-id}}
     "exchangeUrl": "https://www.anypoint.mulesoft.com/exchange/{{attributes.page-exchange-group-id}}/{{attributes.page-exchange-asset-id}}/",
     {{/if}}
@@ -120,7 +120,7 @@
       var row = document.importNode(tmpl.content.querySelector('tr'), true)
       row.dataset.href = connector.latestVersion.url
       row.querySelector('.js-connector-icon').src = connector.iconUrl
-      row.querySelector('.js-connector-icon').alt = connector_title + ' logo'
+      row.querySelector('.js-connector-icon').alt = '[icon]'
       row.querySelector('.js-connector-title').textContent = connector_title
       row.querySelector('.js-connector-type').textContent = connector.type
       if (connector.latestVersion.runtimeVersion === '3') {
