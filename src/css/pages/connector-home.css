@@ -55,9 +55,9 @@
     font-weight: var(--weight-bold);
     height: 50px;
     padding-left: var(--lg);
+    padding-right: var(--md);
     text-decoration: none;
     white-space: nowrap;
-    width: 25%;
 
     @media (max-width: 1035px) {
       padding-right: var(--md);
