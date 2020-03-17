@@ -112,7 +112,7 @@
   & .magic-box-clear {
     align-items: center;
     background: none;
-    color: var(--aluminum-4);
+    color: var(--aluminum-5);
     display: flex;
     justify-content: center;
     opacity: 0;
@@ -122,7 +122,7 @@
 
     &:hover,
     &:focus {
-      color: var(--aluminum-5);
+      color: var(--steel-1);
     }
 
     &::before {
@@ -479,7 +479,7 @@
 
   & a {
     align-items: center;
-    color: var(--aluminum-5);
+    color: var(--steel-1);
     display: flex;
     font-size: 13px;
 
