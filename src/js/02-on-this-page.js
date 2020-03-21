@@ -1,6 +1,9 @@
 ;(function () {
   'use strict'
 
+  // for amplitude
+  var analytics = window.analytics
+
   var doc = document.querySelector('.doc')
   if (!doc) return
   var sidebar = document.querySelector('.js-toc')
@@ -21,6 +24,15 @@
       if (child.nodeName !== 'A') target.appendChild(child.cloneNode(true))
       return target
     }, document.createElement('a'))
+
+    // analytics
+    link.addEventListener('click', trackToC)
+    link.addEventListener('touchend', trackToC)
+
+    function trackToC () {
+      analytics && analytics.track('Clicked ToC', { title: document.title, url: window.location.href, hash: window.location.hash })
+    }
+
     links[(link.href = '#' + heading.id)] = link
     var listItem = document.createElement('li')
     listItem.appendChild(link)
