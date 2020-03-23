@@ -78,7 +78,7 @@ module.exports = (src, previewSrc, previewDest, sink = () => map(), layouts = {}
                 }
                 return pageVersion
               })
-              pageModel.attributes = Object.entries({ ...attributes, ...componentVersion.asciidocConfig.attributes })
+              pageModel.attributes = Object.entries({ ...attributes, ...componentVersion.asciidoc.attributes })
                 .filter(([name, val]) => name.startsWith('page-'))
                 .reduce((accum, [name, val]) => ({ ...accum, [name.substr(5)]: val }), {})
               pageModel.contents = Buffer.from(doc.convert())
@@ -116,11 +116,22 @@ function loadSampleUiModel (src) {
   return fs.readFile(ospath.join(src, 'ui-model.yml'), 'utf8').then((contents) => {
     const uiModel = yaml.safeLoad(contents)
     uiModel.env = process.env
-    uiModel.site.contentCatalog = { resolvePage, resolvePageUrl }
-    Object.values(uiModel.site.components).forEach(({ versions }) => {
-      versions.forEach((version) => {
+    Object.values(uiModel.site.components).forEach((component) => {
+      component.versions.forEach((version) => {
         if (!('displayVersion' in version)) version.displayVersion = version.version
-        if (!('asciidocConfig' in version)) version.asciidocConfig = { attributes: {} }
+        if (!('asciidoc' in version)) version.asciidoc = { attributes: {} }
+      })
+      Object.defineProperties(component, {
+        asciidoc: {
+          get () {
+            return this.latest.asciidoc
+          },
+        },
+        url: {
+          get () {
+            return this.latest.url
+          },
+        },
       })
     })
     return uiModel
@@ -137,8 +148,9 @@ function registerPartials (src) {
 }
 
 function registerHelpers (src) {
+  handlebars.registerHelper('relativize', relativize)
   handlebars.registerHelper('resolvePage', resolvePage)
-  handlebars.registerHelper('resolvePageUrl', resolvePageUrl)
+  handlebars.registerHelper('resolvePageURL', resolvePageURL)
   return vfs.src('helpers/*.js', { base: src, cwd: src }).pipe(
     map((file, enc, next) => {
       handlebars.registerHelper(file.stem, requireFromString(file.contents.toString()))
@@ -160,11 +172,15 @@ function copyImages (src, dest) {
   return vfs.src('**/*.{png,svg}', { base: src, cwd: src }).pipe(vfs.dest(dest))
 }
 
-function resolvePage (spec, context = {}) {
-  if (spec) return { pub: { url: resolvePageUrl(spec) } }
+function relativize (url) {
+  return url ? (url.charAt() === '#' ? url : url.slice(1)) : '#'
 }
 
-function resolvePageUrl (spec, context = {}) {
+function resolvePage (spec, context = {}) {
+  if (spec) return { pub: { url: resolvePageURL(spec) } }
+}
+
+function resolvePageURL (spec, context = {}) {
   if (spec) return '/' + spec.slice(0, spec.lastIndexOf('.')) + '.html'
 }
 
