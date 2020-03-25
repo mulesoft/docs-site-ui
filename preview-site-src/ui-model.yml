@@ -6,7 +6,6 @@ site:
     general:
       name: general
       title: Home
-      url: *home_url
       latest: &general_latest
         version: master
         url: *home_url
@@ -24,7 +23,6 @@ site:
     access-management:
       name: access-management
       title: Access Management
-      url: '#'
       latest: &access_management_latest
         version: master
         url: '#'
@@ -49,10 +47,9 @@ site:
     connectors:
       name: connectors
       title: Connectors
-      url: &connectors_url /connectors.html
       latest: &connectors_latest
         version: master
-        url: *connectors_url
+        url: &connectors_url /connectors.html
         navigation:
         - items:
           - content: Connectors
@@ -62,11 +59,10 @@ site:
     mq-connector:
       name: mq-connector
       title: MQ Connector
-      url: '#'
       latest: &mq_connector_latest
         version: '3.x'
         url: '#'
-        asciidocConfig:
+        asciidoc:
           attributes:
             page-component-desc: Connect to Anypoint MQ, MuleSoft's multi-tenant cloud messaging service for the enterprise.
             page-connector-type: Connector
@@ -81,11 +77,10 @@ site:
     salesforce-connector:
       name: salesforce-connector
       title: Salesforce Connector
-      url: &salesforce_connector_url /connector.html
       latest: &salesforce_connector_latest
         version: '9.7'
-        url: *salesforce_connector_url
-        asciidocConfig:
+        url: &salesforce_connector_url /connector.html
+        asciidoc:
           attributes:
             page-component-desc: Connect to the Salesforce SOAP API, REST API, Bulk API, and Streaming API.
             page-connector-type: Connector
@@ -108,7 +103,7 @@ site:
       - version: '8.9'
         displayVersion: '8.9 (Mule 3)'
         url: '#'
-        asciidocConfig:
+        asciidoc:
           attributes:
             page-component-desc: Connect to the Salesforce SOAP API, REST API, Bulk API, and Streaming API.
             page-connector-type: Connector
@@ -127,7 +122,6 @@ site:
     connector-devkit: &component
       name: connector-devkit
       title: Connector DevKit
-      url: '#'
       versions:
       - &component_version_latest
         version: '3.9'

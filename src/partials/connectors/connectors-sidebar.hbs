@@ -29,7 +29,7 @@
   </div>
   <section class="flex col connector-sidebar-categories">
     <header class="row categories-header">Links</header>
-    {{#with (resolvePageUrl page.attributes.release-notes-page)}}
+    {{#with (resolvePageURL page.attributes.release-notes-page)}}
     <a class="flex align-center link" href="{{relativize this}}">Release notes</a>
     {{else}}
     {{/with}}

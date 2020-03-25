@@ -53,16 +53,16 @@
 <script id="connectors-data" type="application/json">
 [
   {{#each (connectors) as |connector|}}
-  {{#with latest.asciidocConfig}}
+  {{#with asciidoc}}
   {
     "title": "{{connector.title}}",
     "type": "{{attributes.page-connector-type}}",
-    "iconUrl": "https://anypoint.mulesoft.com/exchange/organizations/68ef9520-24e9-4cf2-b2f5-620025690913/assets/{{attributes.page-exchange-group-id}}/{{attributes.page-exchange-asset-id}}/icon/svg/",
+    "iconURL": "https://anypoint.mulesoft.com/exchange/organizations/68ef9520-24e9-4cf2-b2f5-620025690913/assets/{{attributes.page-exchange-group-id}}/{{attributes.page-exchange-asset-id}}/icon/svg/",
     {{#if attributes.page-exchange-asset-id}}
-    "exchangeUrl": "https://www.anypoint.mulesoft.com/exchange/{{attributes.page-exchange-group-id}}/{{attributes.page-exchange-asset-id}}/",
+    "exchangeURL": "https://www.anypoint.mulesoft.com/exchange/{{attributes.page-exchange-group-id}}/{{attributes.page-exchange-asset-id}}/",
     {{/if}}
-    {{#with (resolvePageUrl attributes.page-release-notes-page)}}
-    "releaseNotesPageUrl": "{{relativize this}}",
+    {{#with (resolvePageURL attributes.page-release-notes-page)}}
+    "releaseNotesPageURL": "{{relativize this}}",
     {{else}}
     {{/with}}
     {{#with connector.latest as |latest|}}
@@ -119,7 +119,7 @@
           (criteria.type && connector.type !== criteria.type)) return accum
       var row = document.importNode(tmpl.content.querySelector('tr'), true)
       row.dataset.href = connector.latestVersion.url
-      row.querySelector('.js-connector-icon').src = connector.iconUrl
+      row.querySelector('.js-connector-icon').src = connector.iconURL
       row.querySelector('.js-connector-icon').alt = '[icon]'
       row.querySelector('.js-connector-title').textContent = connector_title
       row.querySelector('.js-connector-type').textContent = connector.type
@@ -141,9 +141,9 @@
         row.querySelector('.js-connector-link').removeChild(row.querySelector('.js-connector-link-mule3'))
         row.querySelector('.js-connector-qlinks').removeChild(row.querySelector('.js-connector-qlink-mule3').parentNode)
       }
-      row.querySelector('.js-connector-qlink-exchange').href = connector.exchangeUrl
+      row.querySelector('.js-connector-qlink-exchange').href = connector.exchangeURL
       var relnotesQLink = row.querySelector('.js-connector-qlink-relnotes')
-      if (!(relnotesQLink.href = connector.releaseNotesPageUrl)) relnotesQLink.parentNode.style.display = 'none'
+      if (!(relnotesQLink.href = connector.releaseNotesPageURL)) relnotesQLink.parentNode.style.display = 'none'
       return accum.concat(row)
     }, [])
     slot.innerHTML = ''

@@ -1,5 +1,5 @@
 'use strict'
 
-module.exports = function () {
-  return Object.values(this.site.components).filter((it) => it.latest.asciidocConfig.attributes['page-connector-type'])
+module.exports = function ({ data: { root: { site } } }) {
+  return Object.values(site.components).filter(({ asciidoc }) => asciidoc.attributes['page-connector-type'])
 }
