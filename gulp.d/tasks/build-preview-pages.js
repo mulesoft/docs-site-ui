@@ -118,6 +118,7 @@ function loadSampleUiModel (src) {
     uiModel.env = process.env
     Object.values(uiModel.site.components).forEach((component) => {
       component.versions.forEach((version) => {
+        Object.defineProperty(version, 'name', { value: component.name, enumerable: true })
         if (!('displayVersion' in version)) version.displayVersion = version.version
         if (!('asciidoc' in version)) version.asciidoc = { attributes: {} }
       })

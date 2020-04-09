@@ -1,4 +1,4 @@
-antoraVersion: '2.3.0-alpha.2'
+antoraVersion: '2.3.0-beta.2'
 site:
   url: &home_url /home.html
   title: MuleSoft Documentation
