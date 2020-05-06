@@ -16,7 +16,6 @@
   display: flex;
   font-size: 14px;
   height: 32px; /* match search */
-  margin-bottom: var(--sm);
 }
 
 .popover-connector-menu,

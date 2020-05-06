@@ -58,34 +58,4 @@
       })
     }
   }
-
-  var connectorVersionTrigger = document.querySelector('.js-connector-version-trigger')
-  var connectorVersion = document.querySelector('.js-connector-version')
-  if (connectorVersionTrigger && connectorVersion) {
-    tippy(connectorVersionTrigger, {
-      boundary: 'window',
-      content: connectorVersion.innerHTML,
-      duration: [0, 150],
-      interactive: true,
-      maxWidth: 400,
-      offset: '0, 5',
-      placement: 'bottom-end',
-      role: 'menu',
-      trigger: 'click',
-      touchHold: true, // maps touch as click (for some reason)
-      zIndex: 14, // same as z-nav-mobile
-      onHide: function (instance) {
-        instance.popper.classList.remove('shown')
-      },
-      onHidden: function (instance) {
-        instance.popper.classList.add('hide')
-      },
-      onShow: function (instance) {
-        instance.popper.classList.remove('hide')
-      },
-      onShown: function (instance) {
-        instance.popper.classList.add('shown')
-      },
-    })
-  }
 })()

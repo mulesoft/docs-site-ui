@@ -1,6 +1,7 @@
 .header-connectors {
   flex: 1 1 auto;
   padding: var(--lg);
+  padding-bottom: 0;
 
   @media (--md) {
     padding-left: var(--xl);

@@ -1,4 +1,4 @@
-antoraVersion: '2.3.0-beta.2'
+antoraVersion: '2.3.1'
 site:
   url: &home_url /home.html
   title: MuleSoft Documentation
@@ -100,15 +100,14 @@ site:
               url: *salesforce_connector_url
       versions:
       - *salesforce_connector_latest
-      - version: '8.9'
-        displayVersion: '8.9 (Mule 3)'
+      - version: '0.3.9'
+        displayVersion: '3.9 (Mule 3)'
         url: '#'
         asciidoc:
           attributes:
-            page-component-desc: Connect to the Salesforce SOAP API, REST API, Bulk API, and Streaming API.
+            page-component-desc: Lets you connect to the Salesforce platform.
             page-connector-type: Connector
             page-connector-level: Select
-            page-connector-versions: 5.4.10 to 8.9.x
             page-exchange-asset-id: org.mule.modules
             page-exchange-group-id: mule-module-sfdc
             page-runtime-version: 3.5.0
