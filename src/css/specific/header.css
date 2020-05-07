@@ -1,13 +1,33 @@
 /* overrides for marketing header */
-.ms-com-content-header {
+body.flex .ms-com-content.ms-com-content-header {
   border-bottom: 1px solid var(--aluminum-3);
   box-shadow: 0 3px 15px rgba(0,0,0,.025);
+  z-index: 1000;
 }
 
 /* specificity to override position */
+.ms-com-content-header.ms-com-content-header-with-banner.closed.active {
+    height: 100%;
+}
+@media screen and (max-width: 992px){
+    body .ms-com-content-header.ms-com-content-header-with-banner.closed {
+        height: auto;
+    }
+    .ms-com-content-header.ms-com-content-header-with-banner.closed.active {
+        height: 100%;
+    }
+}
+
 .ms-com-content.ms-com-content.ms-com-content-header:not(.ms-com-content-header-with-banner) {
   position: relative;
-  z-index: var(--z-header);
+}
+
+.ms-com-content.ms-com-content-header.ms-com-content-header-with-banner + .wrapper.flex  {
+    padding-top: 65px;
+}
+
+.header-scrolled .ms-com-content.ms-com-content-header.ms-com-content-header-with-banner + .wrapper nav {
+    top: 66px;
 }
 
 .ms-com-content.ms-com-content.ms-com-content-header header.ms-com-header.desktop-header .mega-menu-wrapper {
