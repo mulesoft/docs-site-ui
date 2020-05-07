@@ -67,8 +67,9 @@
   --z-nav-mobile: 1000;
   --z-backdrop: 13;
   --z-header: 12; /* marketing header */
-  --z-nav: 11;
+  --z-nav: 0;
   --z-nav-toolbar: 10;
+  --z-index-header: 1000;
 
   /* animations/transitions */
   --transition-speed-sm: .15s;

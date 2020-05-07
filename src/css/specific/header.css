@@ -2,7 +2,7 @@
 body.flex .ms-com-content.ms-com-content-header {
   border-bottom: 1px solid var(--aluminum-3);
   box-shadow: 0 3px 15px rgba(0,0,0,.025);
-  z-index: 1000;
+  z-index: var(--z-index-header);
 }
 
 /* specificity to override position */
