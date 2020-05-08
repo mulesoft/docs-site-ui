@@ -4,7 +4,7 @@ const fs = require('fs')
 const https = require('https')
 const path = require('path')
 
-const HEADER_ENDPOINT_URL = 'https://www.mulesoft.com/api/header?searchbox=false'
+const HEADER_ENDPOINT_URL = 'https://www.mulesoft.com/api/header?searchbox=false&promotion-banner'
 const HEADER_TEMPLATE_RELPATH = 'header-content.hbs'
 const FOOTER_ENDPOINT_URL = 'https://www.mulesoft.com/api/footer'
 const FOOTER_TEMPLATE_RELPATH = 'footer-content.hbs'
