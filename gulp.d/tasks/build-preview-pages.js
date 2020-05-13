@@ -130,6 +130,11 @@ function loadSampleUiModel (src) {
             return this.latest.asciidoc
           },
         },
+        title: {
+          get () {
+            return this.latest.title
+          },
+        },
         url: {
           get () {
             return this.latest.url
