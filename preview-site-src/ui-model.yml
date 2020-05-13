@@ -4,7 +4,6 @@ site:
   title: MuleSoft Documentation
   components:
     general:
-      name: general
       title: Home
       latest: &general_latest
         version: master
@@ -21,7 +20,6 @@ site:
       versions:
       - *general_latest
     access-management:
-      name: access-management
       title: Access Management
       latest: &access_management_latest
         version: master
@@ -45,7 +43,6 @@ site:
       versions:
       - *access_management_latest
     connectors:
-      name: connectors
       title: Connectors
       latest: &connectors_latest
         version: master
@@ -57,7 +54,6 @@ site:
       versions:
       - *connectors_latest
     mq-connector:
-      name: mq-connector
       title: MQ Connector
       latest: &mq_connector_latest
         version: '3.x'
@@ -75,7 +71,6 @@ site:
       versions:
       - *mq_connector_latest
     salesforce-connector:
-      name: salesforce-connector
       title: Salesforce Connector
       latest: &salesforce_connector_latest
         version: '9.7'
@@ -119,7 +114,6 @@ site:
           - content: For Mule 3
             url: '#'
     connector-devkit: &component
-      name: connector-devkit
       title: Connector DevKit
       versions:
       - &component_version_latest

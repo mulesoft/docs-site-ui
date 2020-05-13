@@ -116,7 +116,8 @@ function loadSampleUiModel (src) {
   return fs.readFile(ospath.join(src, 'ui-model.yml'), 'utf8').then((contents) => {
     const uiModel = yaml.safeLoad(contents)
     uiModel.env = process.env
-    Object.values(uiModel.site.components).forEach((component) => {
+    Object.entries(uiModel.site.components).forEach(([name, component]) => {
+      component.name = name
       component.versions.forEach((version) => {
         Object.defineProperty(version, 'name', { value: component.name, enumerable: true })
         if (!('displayVersion' in version)) version.displayVersion = version.version
