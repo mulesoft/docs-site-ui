@@ -118,6 +118,7 @@ function loadSampleUiModel (src) {
     uiModel.env = process.env
     Object.entries(uiModel.site.components).forEach(([name, component]) => {
       component.name = name
+      if (!component.versions) component.versions = [(component.latest = { url: '#' })]
       component.versions.forEach((version) => {
         Object.defineProperty(version, 'name', { value: component.name, enumerable: true })
         if (!('displayVersion' in version)) version.displayVersion = version.version
