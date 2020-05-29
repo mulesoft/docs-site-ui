@@ -4,9 +4,9 @@ site:
   title: MuleSoft Documentation
   components:
     general:
-      title: Home
       latest: &general_latest
         version: master
+        title: Home
         url: *home_url
         navigation:
         - items:
@@ -20,9 +20,9 @@ site:
       versions:
       - *general_latest
     access-management:
-      title: Access Management
       latest: &access_management_latest
         version: master
+        title: Access Management
         url: '#'
         navigation:
         - items:
@@ -43,9 +43,9 @@ site:
       versions:
       - *access_management_latest
     connectors:
-      title: Connectors
       latest: &connectors_latest
         version: master
+        title: Connectors
         url: &connectors_url /connectors.html
         navigation:
         - items:
@@ -54,9 +54,9 @@ site:
       versions:
       - *connectors_latest
     mq-connector:
-      title: MQ Connector
       latest: &mq_connector_latest
         version: '3.x'
+        title: MQ Connector
         url: '#'
         asciidoc:
           attributes:
@@ -71,9 +71,9 @@ site:
       versions:
       - *mq_connector_latest
     salesforce-connector:
-      title: Salesforce Connector
       latest: &salesforce_connector_latest
         version: '9.7'
+        title: Salesforce Connector
         url: &salesforce_connector_url /connector.html
         asciidoc:
           attributes:
@@ -96,6 +96,7 @@ site:
       versions:
       - *salesforce_connector_latest
       - version: '0.3.9'
+        title: Salesforce Connector
         displayVersion: '3.9 (Mule 3)'
         url: '#'
         asciidoc:
@@ -114,10 +115,10 @@ site:
           - content: For Mule 3
             url: '#'
     connector-devkit: &component
-      title: Connector DevKit
       versions:
       - &component_version_latest
         version: '3.9'
+        title: Connector DevKit
         url: '#'
         navigation:
         - items:
@@ -128,6 +129,7 @@ site:
           - content: Creating an Anypoint Connector Project
             url: '#'
       - version: '3.8'
+        title: Connector DevKit
         url: &index_url /index.html
         navigation:
         - items:
@@ -155,6 +157,7 @@ site:
           - content: Creating an Anypoint Connector Project
             url: '#'
       - version: '3.7'
+        title: Connector DevKit
         url: /connector-devkit/3.7/index.html
         navigation:
         - items:
