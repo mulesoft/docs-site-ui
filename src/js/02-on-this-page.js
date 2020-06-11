@@ -2,15 +2,16 @@
   'use strict'
 
   var doc = document.querySelector('.doc')
-  if (!doc) return
+  var main = document.querySelector('.main')
   var sidebar = document.querySelector('.js-toc')
+  if (!doc) {
+    if (!sidebar) main.classList.add('no-sidebar')
+    return
+  }
   var menu
   var headings = find('.sect1 > h2[id]', doc)
   if (!headings.length) {
-    if (sidebar) {
-      sidebar.parentNode.removeChild(sidebar)
-      document.querySelector('.main').classList.add('no-sidebar')
-    }
+    if (sidebar) sidebar.removeChild(sidebar.querySelector('.js-toc'))
     return
   }
   var lastActiveFragment

@@ -49,13 +49,14 @@ site:
         url: &connectors_url /connectors.html
         navigation:
         - items:
-          - content: Connectors
+          - content: All Connectors and Modules
             url: *connectors_url
       versions:
       - *connectors_latest
     mq-connector:
       latest: &mq_connector_latest
         version: '3.x'
+        displayVersion: '3.x (Mule 4)'
         title: MQ Connector
         url: '#'
         asciidoc:
@@ -73,6 +74,7 @@ site:
     salesforce-connector:
       latest: &salesforce_connector_latest
         version: '9.7'
+        displayVersion: '9.7 (Mule 4)'
         title: Salesforce Connector
         url: &salesforce_connector_url /connector.html
         asciidoc:
