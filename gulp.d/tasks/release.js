@@ -5,6 +5,7 @@ const fs = require('fs-extra')
 const { obj: map } = require('through2')
 const { Octokit } = require('@octokit/rest')
 const path = require('path')
+const vfs = require('vinyl-fs')
 const zip = require('gulp-vinyl-zip')
 
 function getNextReleaseNumber ({ octokit, owner, repo, variant }) {
@@ -35,14 +36,18 @@ function collectReleases ({ octokit, owner, repo, filter, page = 1, accum = [] }
 
 function versionBundle (bundleFile, tagName) {
   return new Promise((resolve, reject) =>
-    zip.src(bundleFile)
-      .on('error', reject)
-      .pipe((() => {
-        const meta = new File({ path: 'ui.yml', contents: Buffer.from(`version: ${tagName}\n`) })
-        const stream = map((file, _, next) => file.path === meta.path && file !== meta ? next() : next(null, file))
-        stream.write(meta)
-        return stream
-      })())
+    vfs
+      .src(bundleFile)
+      .pipe(zip.src().on('error', reject))
+      .pipe(
+        map(
+          (file, enc, next) => next(null, file),
+          function (done) {
+            this.push(new File({ path: 'ui.yml', contents: Buffer.from(`version: ${tagName}\n`) }))
+            done()
+          }
+        )
+      )
       .pipe(zip.dest(bundleFile))
       .on('finish', () => resolve(bundleFile))
   )
@@ -50,7 +55,8 @@ function versionBundle (bundleFile, tagName) {
 
 module.exports = (dest, bundleName, owner, repo, token, updateBranch) => async () => {
   const octokit = new Octokit({ auth: `token ${token}` })
-  const branchName = process.env.GIT_BRANCH || 'master'
+  let branchName = process.env.GIT_BRANCH || 'master'
+  if (branchName.startsWith('origin/')) branchName = branchName.substr(7)
   const variant = branchName === 'master' ? 'prod' : branchName
   const ref = `heads/${branchName}`
   const tagName = `${variant}-${await getNextReleaseNumber({ octokit, owner, repo, variant })}`
@@ -64,9 +70,7 @@ module.exports = (dest, bundleName, owner, repo, token, updateBranch) => async (
   const readmeBlob = await octokit.git
     .createBlob({ owner, repo, content: readmeContent, encoding: 'utf-8' })
     .then((result) => result.data.sha)
-  let tree = await octokit.git
-    .getCommit({ owner, repo, commit_sha: commit })
-    .then((result) => result.data.tree.sha)
+  let tree = await octokit.git.getCommit({ owner, repo, commit_sha: commit }).then((result) => result.data.tree.sha)
   tree = await octokit.git
     .createTree({
       owner,
@@ -90,7 +94,7 @@ module.exports = (dest, bundleName, owner, repo, token, updateBranch) => async (
     .then((result) => result.data.upload_url)
   await octokit.repos.uploadReleaseAsset({
     url: uploadUrl,
-    file: fs.createReadStream(bundleFile),
+    data: fs.createReadStream(bundleFile),
     name: bundleFileBasename,
     headers: {
       'content-length': (await fs.stat(bundleFile)).size,
