@@ -3,7 +3,7 @@
 const File = require('vinyl')
 const fs = require('fs-extra')
 const { obj: map } = require('through2')
-const Octokit = require('@octokit/rest')
+const { Octokit } = require('@octokit/rest')
 const path = require('path')
 const zip = require('gulp-vinyl-zip')
 
@@ -57,17 +57,17 @@ module.exports = (dest, bundleName, owner, repo, token, updateBranch) => async (
   const message = `Release ${tagName}`
   const bundleFileBasename = `${bundleName}-bundle.zip`
   const bundleFile = await versionBundle(path.join(dest, bundleFileBasename), tagName)
-  let commit = await octokit.gitdata.getRef({ owner, repo, ref }).then((result) => result.data.object.sha)
+  let commit = await octokit.git.getRef({ owner, repo, ref }).then((result) => result.data.object.sha)
   const readmeContent = await fs
     .readFile('README.adoc', 'utf-8')
     .then((contents) => contents.replace(/^(?:\/\/)?(:current-release: ).+$/m, `$1${tagName}`))
-  const readmeBlob = await octokit.gitdata
+  const readmeBlob = await octokit.git
     .createBlob({ owner, repo, content: readmeContent, encoding: 'utf-8' })
     .then((result) => result.data.sha)
-  let tree = await octokit.gitdata
+  let tree = await octokit.git
     .getCommit({ owner, repo, commit_sha: commit })
     .then((result) => result.data.tree.sha)
-  tree = await octokit.gitdata
+  tree = await octokit.git
     .createTree({
       owner,
       repo,
@@ -75,10 +75,10 @@ module.exports = (dest, bundleName, owner, repo, token, updateBranch) => async (
       base_tree: tree,
     })
     .then((result) => result.data.sha)
-  commit = await octokit.gitdata
+  commit = await octokit.git
     .createCommit({ owner, repo, message, tree, parents: [commit] })
     .then((result) => result.data.sha)
-  if (updateBranch) await octokit.gitdata.updateRef({ owner, repo, ref, sha: commit })
+  if (updateBranch) await octokit.git.updateRef({ owner, repo, ref, sha: commit })
   const uploadUrl = await octokit.repos
     .createRelease({
       owner,
