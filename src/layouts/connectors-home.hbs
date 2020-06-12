@@ -17,24 +17,13 @@
 </head>
 <body class="flex col">
 {{> header}}
-  {{#if page.attributes.connector-type}}
   <div class="flex container wrapper">
 {{> nav}}
     <main class="main" data-ceiling="topbar">
 {{> toolbar}}
-{{> connectors-article}}
+{{> connectors-home}}
     </main>
-    <aside class="toc toc-sidebar js-toc">
-{{> github}}
-{{> connectors-sidebar}}
-      <div class="js-toc">
-        <nav class="toc-menu"></nav>
-      </div>
-    </aside>
   </div>
-  {{else}}
-{{> body}}
-  {{/if}}
 {{> footer}}
 </body>
 </html>
