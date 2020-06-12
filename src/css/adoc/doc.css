@@ -175,20 +175,21 @@
   }
 
   /* links */
-  & a:not(.button-primary) {
-    color: var(--core-blue-3);
+  & a {
+    color: var(--steel-5);
+    font-weight: 600;
 
     &:focus {
       outline: 0;
     }
 
-    &:focus,
     &:hover {
-      color: var(--core-blue-2);
+      color: var(--steel-3);
     }
 
+    &:focus,
     &:active {
-      color: var(--core-blue-4);
+      color: var(--core-blue-3);
     }
 
     &[target="_blank"] {

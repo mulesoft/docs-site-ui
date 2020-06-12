@@ -22,6 +22,7 @@
       font-family: var(--heading);
       font-size: 13px;
       font-weight: var(--weight-bold);
+      line-height: 21px;
       opacity: .6;
       padding-left: 20px;
     }
@@ -41,23 +42,19 @@
 
   /* types of blocks */
   &.caution tbody {
-    background: color-mod(var(--red-3) lightness(98%));
-    border-color: color-mod(var(--red-3) lightness(85%));
+    border-color: var(--red-3);
 
     &::before {
       background-image: url(../img/icons/caution.svg);
-      color: color-mod(var(--red-3) lightness(40%));
       content: 'CAUTION';
     }
   }
 
   &.important tbody {
-    background: color-mod(var(--yellow-3) lightness(96%));
-    border-color: color-mod(var(--yellow-3) lightness(75%));
+    border-color: var(--yellow-3);
 
     &::before {
       background-image: url(../img/icons/important.svg);
-      color: color-mod(var(--yellow-3) lightness(40%));
       content: 'IMPORTANT';
     }
   }
@@ -73,12 +70,10 @@
   }
 
   &.warning tbody {
-    background: color-mod(var(--red-3) lightness(98%));
-    border-color: color-mod(var(--red-3) lightness(85%));
+    border-color: var(--red-3);
 
     &::before {
       background-image: url(../img/icons/caution.svg);
-      color: color-mod(var(--red-3) lightness(40%));
       content: 'WARNING';
     }
   }

@@ -31,7 +31,8 @@
 }
 
 .popover-versions-theme {
-  font-size: 12px;
+  font-size: 14px;
+  width: 170px;
 
   & .ol + .ol {
     margin-top: var(--xs);

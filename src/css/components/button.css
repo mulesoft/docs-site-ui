@@ -1,65 +1,24 @@
-.button,
-.button-primary {
-  border-radius: var(--radius);
+.button {
+  background: var(--tertiary);
+  border: 1px solid var(--aluminum-3);
+  border-radius: 2px;
+  color: var(--aluminum-5);
   cursor: pointer;
   font-size: 14px;
   font-weight: var(--weight-bold);
-  transition: box-shadow var(--transition-speed-sm) var(--transition-timing);
-}
-
-.button {
-  background: var(--tertiary);
-  border: 1px solid var(--aluminum-4);
-  color: var(--aluminum-5);
   height: var(--nav-item-height);
   padding: var(--xs);
+  transition: box-shadow var(--transition-speed-sm) var(--transition-timing);
 
   &:hover {
     border-color: var(--aluminum-5);
     color: var(--steel-1);
   }
 
+  &:active,
   &:focus {
     border-color: var(--core-blue-3);
+    box-shadow: 0 0 0 3px rgba(0,162,223,.25);
     color: var(--core-blue-3);
   }
-
-  &:active {
-    border-color: var(--core-blue-3);
-    color: var(--core-blue-3);
-  }
-}
-
-.button-primary {
-  background: var(--core-blue-3);
-  border: 0;
-  border-radius: var(--radius);
-  color: var(--tertiary);
-  display: inline-block;
-  height: 40px;
-  line-height: 40px;
-  padding: 0 13px;
-  text-decoration: none;
-
-  &:hover {
-    background-color: var(--core-blue-4);
-  }
-
-  &:active {
-    background-color: var(--core-blue-5);
-  }
-
-  &:focus {
-    box-shadow: 0 0 0 3px var(--core-blue-1);
-    outline: 0;
-  }
-}
-
-/* overrides when button is in a doc */
-.doc .button-primary code {
-  background: none;
-  border: 0;
-  font-weight: var(--weight-normal);
-  padding: 0;
-  top: 0; /* reset */
 }

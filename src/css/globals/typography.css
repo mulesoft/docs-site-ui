@@ -81,7 +81,7 @@ h6 {
 }
 
 /* links */
-.link {
+a {
   color: var(--steel-2);
 
   &:hover {
