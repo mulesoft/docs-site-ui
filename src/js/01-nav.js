@@ -169,8 +169,12 @@
   function buildNavTree (nav, parent, productName, version, items, level, page, path) {
     var existingItems = []
     var navList
-    if (productName === 'connectors' && version === 'master' && level === 1 &&
-        (navList = parent.querySelector('ol[data-product]'))) {
+    if (
+      productName === 'connectors' &&
+      version === 'master' &&
+      level === 1 &&
+      (navList = parent.querySelector('ol[data-product]'))
+    ) {
       for (var i = 0, len = navList.children.length; i < len; i++) {
         var navListChild = navList.removeChild(navList.firstChild)
         if (navListChild.tagName === 'LI') existingItems[i] = navListChild
