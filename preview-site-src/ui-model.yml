@@ -71,6 +71,24 @@ site:
             page-vendor-title: MuleSoft
       versions:
       - *mq_connector_latest
+    amazon-s3-connector:
+      latest: &s3_connector_latest
+        version: '5.6'
+        displayVersion: '5.6 (Mule 4)'
+        title: Amazon S3 Connector
+        url: '#'
+        asciidoc:
+          attributes:
+            page-component-desc: Provides connectivity to the Amazon S3 API, enabling you to interface with Amazon S3 to store objects, download and use data with other AWS services, and build applications that require internet storage.
+            page-connector-type: Connector
+            page-connector-level: Select
+            page-exchange-group-id: com.mulesoft.connectors
+            page-exchange-asset-id: mule-amazon-s3-connector
+            page-runtime-version: 4.1.1
+            page-vendor-name: amazon
+            page-vendor-title: Amazon
+      versions:
+      - *s3_connector_latest
     salesforce-connector:
       latest: &salesforce_connector_latest
         version: '9.7'
