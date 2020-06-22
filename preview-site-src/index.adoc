@@ -5,6 +5,8 @@
 The *Anypoint Connector DevKit*, or simply *DevKit*, enables the development of link:/connectors.html[Anypoint Connectors].
 An *Anypoint Connector* is an extension module to the MuleSoft Anypoint Platform that facilitates communication between third-party systems/APIs and Mule applications.
 
+https://asciidoctor.org/docs/asciidoc-writers-guide/[*Open `hello-world.raml`*^,role=button-primary]
+
 [NOTE]
 ====
 *Anypoint Connector DevKit 3.9 is the latest version of DevKit*, offering connector end user support in a few aspects of Mule app design in Studio.
