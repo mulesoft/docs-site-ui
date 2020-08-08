@@ -1,14 +1,12 @@
-antoraVersion: '2.0.0'
+antoraVersion: '2.3.3'
 site:
   url: &home_url /home.html
   title: MuleSoft Documentation
   components:
     general:
-      name: general
-      title: Home
-      url: *home_url
-      versions:
-      - version: master
+      latest: &general_latest
+        version: master
+        title: Home
         url: *home_url
         navigation:
         - items:
@@ -19,12 +17,12 @@ site:
           - content: Ecosia
             url: https://ecosia.org
             urlType: external
-    access-management:
-      name: access-management
-      title: Access Management
-      url: '#'
       versions:
-      - version: master
+      - *general_latest
+    access-management:
+      latest: &access_management_latest
+        version: master
+        title: Access Management
         url: '#'
         navigation:
         - items:
@@ -42,13 +40,105 @@ site:
             url: '#'
           - content: Environments
             url: '#'
+      versions:
+      - *access_management_latest
+    connectors:
+      latest: &connectors_latest
+        version: master
+        title: Connectors
+        url: &connectors_url /connectors.html
+        navigation:
+        - items:
+          - content: All Connectors and Modules
+            url: *connectors_url
+      versions:
+      - *connectors_latest
+    mq-connector:
+      latest: &mq_connector_latest
+        version: '3.x'
+        displayVersion: '3.x (Mule 4)'
+        title: MQ Connector
+        url: '#'
+        asciidoc:
+          attributes:
+            page-component-desc: Connect to Anypoint MQ, MuleSoft's multi-tenant cloud messaging service for the enterprise.
+            page-connector-type: Connector
+            page-connector-level: Select
+            page-exchange-asset-id: anypoint-mq-connector
+            page-exchange-group-id: com.mulesoft.connectors
+            page-runtime-version: 4.1.1
+            page-vendor-name: msmq
+            page-vendor-title: MuleSoft
+      versions:
+      - *mq_connector_latest
+    amazon-s3-connector:
+      latest: &s3_connector_latest
+        version: '5.6'
+        displayVersion: '5.6 (Mule 4)'
+        title: Amazon S3 Connector
+        url: '#'
+        asciidoc:
+          attributes:
+            page-component-desc: Provides connectivity to the Amazon S3 API, enabling you to interface with Amazon S3 to store objects, download and use data with other AWS services, and build applications that require internet storage.
+            page-connector-type: Connector
+            page-connector-level: Select
+            page-exchange-group-id: com.mulesoft.connectors
+            page-exchange-asset-id: mule-amazon-s3-connector
+            page-runtime-version: 4.1.1
+            page-vendor-name: amazon
+            page-vendor-title: Amazon
+      versions:
+      - *s3_connector_latest
+    salesforce-connector:
+      latest: &salesforce_connector_latest
+        version: '9.7'
+        displayVersion: '9.7 (Mule 4)'
+        title: Salesforce Connector
+        url: &salesforce_connector_url /connector.html
+        asciidoc:
+          attributes:
+            page-component-desc: Connect to the Salesforce SOAP API, REST API, Bulk API, and Streaming API.
+            page-connector-type: Connector
+            page-connector-level: Select
+            page-exchange-asset-id: mule-salesforce-connector
+            page-exchange-group-id: com.mulesoft.connectors
+            page-runtime-version: 4.1.1
+            page-release-notes-page: connector-relnotes.adoc
+            page-vendor-name: salesforce
+            page-vendor-title: Salesforce
+        navigation:
+        - items:
+          - content: Get Started
+            url: *salesforce_connector_url
+            items:
+            - content: Examples
+              url: *salesforce_connector_url
+      versions:
+      - *salesforce_connector_latest
+      - version: '0.3.9'
+        title: Salesforce Connector
+        displayVersion: '3.9 (Mule 3)'
+        url: '#'
+        asciidoc:
+          attributes:
+            page-component-desc: Lets you connect to the Salesforce platform.
+            page-connector-type: Connector
+            page-connector-level: Select
+            page-exchange-asset-id: org.mule.modules
+            page-exchange-group-id: mule-module-sfdc
+            page-runtime-version: 3.5.0
+            page-release-notes-page: connector-relnotes.adoc
+            page-vendor-name: salesforce
+            page-vendor-title: Salesforce
+        navigation:
+        - items:
+          - content: For Mule 3
+            url: '#'
     connector-devkit: &component
-      name: connector-devkit
-      title: Connector DevKit
-      url: '#'
       versions:
       - &component_version_latest
         version: '3.9'
+        title: Connector DevKit
         url: '#'
         navigation:
         - items:
@@ -58,24 +148,21 @@ site:
             url: '#'
           - content: Creating an Anypoint Connector Project
             url: '#'
-      - &component_version
-        version: '3.8'
-        url: /connector-devkit/3.8/index.html
+      - version: '3.8'
+        title: Connector DevKit
+        url: &index_url /index.html
         navigation:
         - items:
           - content: About Anypoint Connector DevKit
-            #url: /connector-devkit/3.8/index.html
             url: '#'
           - content: Getting Started with Anypoint Connector Development
             # NOTE comment out url to make this a heading
             url: '#'
             items:
             - content: Setting Up Your Development Environment
-              url: /connector-devkit/3.8/index.html
-              #url: '#'
+              url: *index_url
               items:
               - content: Windows
-                #url: /connector-devkit/3.8/index.html
                 url: '#'
               - content: Linux
                 url: '#'
@@ -83,7 +170,6 @@ site:
                 url: '#'
             - content: Anypoint Connector DevKit Tutorial
               url: '#'
-              #url: /connector-devkit/3.8/index.html
             - content: Connector Project Structure
               url: '#'
             - content: DevKit Java Annotation Reference
@@ -91,6 +177,7 @@ site:
           - content: Creating an Anypoint Connector Project
             url: '#'
       - version: '3.7'
+        title: Connector DevKit
         url: /connector-devkit/3.7/index.html
         navigation:
         - items:
@@ -102,26 +189,10 @@ site:
             url: '#'
       latest: *component_version_latest
 page:
-  title: &page_title About Anypoint Connector DevKit
-  url: &page_url /connector-devkit/3.8/index.html
-  component: *component
-  componentVersion: *component_version
-  version: '3.8'
-  module: ROOT
-  home: false
-  editUrl: https://github.com/mulesoft/docs-site-ui/edit/japn/preview-site-src/index.adoc
-  versions:
-  - version: '3.9'
-    url: '#'
-  - version: '3.8'
-    url: '#'
-  - version: '3.7'
-    missing: true
-    url: '#'
-  breadcrumbs:
-  - content: *page_title
-    url: *page_url
-    urlType: internal
+  src:
+    component: connector-devkit
+    version: '3.8'
   origin:
     url: https://github.com/mulesoft/docs-site-ui
+    editUrlPattern: https://github.com/mulesoft/docs-site-ui/edit/master/preview-site-src/%s
     private: true
