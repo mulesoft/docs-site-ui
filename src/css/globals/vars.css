@@ -62,6 +62,7 @@
   --screen-xxl: 1650px;
 
   /* z-index */
+  --z-gdpr: 20;
   --z-modal-header: 16;
   --z-modal: 15;
   --z-nav-mobile: 14;
