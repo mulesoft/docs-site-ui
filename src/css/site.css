@@ -26,7 +26,6 @@
 
 /* specific */
 @import "specific/header.css";
-@import "specific/gdpr.css";
 @import "specific/navigation.css";
 @import "specific/toc.css";
 @import "specific/toolbar.css";

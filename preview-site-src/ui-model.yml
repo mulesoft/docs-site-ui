@@ -194,5 +194,5 @@ page:
     version: '3.8'
   origin:
     url: https://github.com/mulesoft/docs-site-ui
-    editUrlPattern: https://github.com/mulesoft/docs-site-ui/edit/master/preview-site-src/%s
+    editUrlPattern: https://github.com/mulesoft/docs-site-ui/edit/japn/preview-site-src/%s
     private: true
