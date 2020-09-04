@@ -16,6 +16,50 @@
     }
   }
 
+  /* numbered callouts from codeblocks */
+  & .conum {
+    background: var(--tertiary);
+    border: 1px solid var(--aluminum-3);
+    border-radius: 4px;
+    font-family: var(--sans-serif);
+    font-size: 12px;
+    font-style: normal;
+    font-weight: --weight-bold;
+    padding: 0 5px;
+
+    &::after {
+      content: attr(data-value);
+      -webkit-user-select: none; /* Safari */
+      -moz-user-select: none; /* Firefox */
+      -ms-user-select: none; /* IE10+/Edge */
+      user-select: none; /* Standard */
+    }
+
+    & + b {
+      display: none;
+    }
+  }
+
+  /* collouts within the codeblock */
+  & pre .conum {
+    box-shadow: 0 2px 6px var(--aluminum-3);
+  }
+
+  /* references within codeblock */
+  & .colist {
+
+    /* numbers */
+    & td:first-of-type {
+      padding: 0 10px;
+      vertical-align: top;
+    }
+
+    /* content */
+    & td:last-of-type {
+      padding: 0;
+    }
+  }
+
   /* default spacing */
   & > h1:first-child {
     padding-top: var(--lg);
@@ -88,26 +132,26 @@
   }
 
   & h1 .anchor {
-    margin-top: 15px;
+    margin-top: 11px;
   }
 
   & h2 .anchor {
-    margin-top: 10px;
+    margin-top: 6px;
   }
 
   & h3 .anchor {
-    margin-top: 5px;
+    margin-top: 1px;
   }
 
   & h4 .anchor {
     @media (--md) {
-      margin-top: 4px;
+      margin-top: 2px;
     }
   }
 
   & h5 .anchor {
     @media (--md) {
-      margin-top: 3px;
+      margin-top: 0;
     }
   }
 
@@ -131,7 +175,7 @@
   }
 
   /* links */
-  & a {
+  & a:not(.button-primary) {
     color: var(--core-blue-3);
 
     &:focus {
