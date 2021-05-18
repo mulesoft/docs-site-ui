@@ -40,26 +40,14 @@
   }
 
   /* types of blocks */
-  &.caution tbody {
-    background: color-mod(var(--red-3) lightness(98%));
-    border-color: color-mod(var(--red-3) lightness(85%));
-
-    &::before {
-      background-image: url(../img/icons/caution.svg);
-      color: color-mod(var(--red-3) lightness(40%));
-      content: 'CAUTION';
-    }
+  &.caution tbody::before {
+    background-image: url(../img/icons/caution.svg);
+    content: 'CAUTION';
   }
 
-  &.important tbody {
-    background: color-mod(var(--yellow-3) lightness(96%));
-    border-color: color-mod(var(--yellow-3) lightness(75%));
-
-    &::before {
-      background-image: url(../img/icons/important.svg);
-      color: color-mod(var(--yellow-3) lightness(40%));
-      content: 'IMPORTANT';
-    }
+  &.important tbody::before {
+    background-image: url(../img/icons/important.svg);
+    content: 'IMPORTANT';
   }
 
   &.note tbody::before {
@@ -72,14 +60,8 @@
     content: 'TIP';
   }
 
-  &.warning tbody {
-    background: color-mod(var(--red-3) lightness(98%));
-    border-color: color-mod(var(--red-3) lightness(85%));
-
-    &::before {
-      background-image: url(../img/icons/caution.svg);
-      color: color-mod(var(--red-3) lightness(40%));
-      content: 'WARNING';
-    }
+  &.warning tbody::before {
+    background-image: url(../img/icons/caution.svg);
+    content: 'WARNING';
   }
 }

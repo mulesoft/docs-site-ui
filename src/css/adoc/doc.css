@@ -257,8 +257,12 @@
     list-style-type: circle;
   }
 
+  & .quoteblock {
+    border-left: 3px solid var(--aluminum-3);
+    padding-left: var(--md);
+  }
+
   & blockquote {
-    color: var(--aluminum-5);
     margin-left: 0;
   }
 
