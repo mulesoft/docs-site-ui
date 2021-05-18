@@ -42,6 +42,36 @@ site:
             url: '#'
       versions:
       - *access_management_latest
+    rtfcloud:
+      latest: &rtfcloud_latest
+        version: master
+        title: RTFCloud
+        url: &rtfcloud_url /rtfcloud-index.html
+        navigation:
+          - items:
+              - content: RTF Cloud Stuff
+                url: *rtfcloud_url
+      versions:
+        - *rtfcloud_latest
+    salesforce-rtfcloud:
+      latest: &salesforce_rtfcloud_latest
+        version: '3.x'
+        displayVersion: '3.x'
+        title: Salesforce RTF Cloud
+        url: '#'
+        navigation:
+          - items:
+              - content: About Salesforce RTF Cloud
+                url: '#'
+              - content: Getting Started with Salesforce RTF Cloud
+                url: '#'
+              - content: No, RTF doesn't mean "rich text format"
+                url: '#'
+        asciidoc:
+          attributes:
+            page-component-desc: Something about RTF Cloud
+      versions:
+        - *salesforce_rtfcloud_latest
     connectors:
       latest: &connectors_latest
         version: master
