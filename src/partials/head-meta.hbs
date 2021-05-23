@@ -8,6 +8,11 @@
 <meta name="google-site-verification" content="{{this}}">
 {{/with}}
 {{/if}}
+
+{{#if (and page.component env.GOOGLE_SEARCH_CONSOLE_KEY)}}
+<meta name="google-site-verification" content="{{env.GOOGLE_SEARCH_CONSOLE_KEY}}" />
+{{/if}}
+
 {{#if (or antoraVersion site.antoraVersion)}}
 <meta name="generator" content="Antora {{or antoraVersion site.antoraVersion}}">
 {{/if}}
