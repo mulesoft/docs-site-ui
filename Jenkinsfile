@@ -1,6 +1,6 @@
 #!/bin/env groovy
 
-def gitBranch = 'feature/add-nonce-for-google-analytics'
+def gitBranch = 'nonce'
 def githubCredentialsId = 'mule-docs-agent-github-token'
 
 pipeline {
