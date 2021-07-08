@@ -1,6 +1,6 @@
 #!/bin/env groovy
 
-def gitBranch = 'nonce'
+def gitBranch = 'master'
 def githubCredentialsId = 'mule-docs-agent-github-token'
 
 pipeline {
