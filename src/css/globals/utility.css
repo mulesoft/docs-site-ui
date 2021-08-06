@@ -41,6 +41,10 @@ vars for reference:
   margin-top: 0;
 }
 
+.small-top-margin {
+  margin-top: 20px;
+}
+
 .hompage-column-width {
   width: 50%;
 }
