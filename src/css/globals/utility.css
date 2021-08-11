@@ -15,3 +15,36 @@ vars for reference:
 .no-pointer {
   pointer-events: none;
 }
+
+.hidden {
+  display: none;
+}
+
+.hidden-important {
+  display: none !important;
+}
+
+.hidden-invisible {
+  display: none;
+  visibility: hidden;
+}
+
+.mega-menu-item-header-width {
+  min-width: 600px;
+}
+
+.menu-label-top-margin {
+  margin-top: 20px;
+}
+
+.no-top-margin {
+  margin-top: 0;
+}
+
+.small-top-margin {
+  margin-top: 20px;
+}
+
+.hompage-column-width {
+  width: 50%;
+}
