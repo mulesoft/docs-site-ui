@@ -41,7 +41,18 @@ site:
           - content: Environments
             url: '#'
       versions:
-      - *access_management_latest
+        - *access_management_latest
+    anypoint-cli:
+      latest: &anypoint_cli_latest
+        version: master
+        title: Anypoint CLI
+        url: '#'
+        navigation:
+        - items:
+          - content: About Anypoint CLI
+            url: '#'
+      versions:
+        - *anypoint_cli_latest
     rtfcloud:
       latest: &rtfcloud_latest
         version: master
