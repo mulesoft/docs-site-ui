@@ -1,17 +1,43 @@
 .survey {
   background: #000849;
   position: relative;
-  height: 121px;
-  left: 54px;
-  /* top: -10px; */
-  top: -65px;  
-  width: 742px;
 
+  @media (--sm) {
+    height: 286px;
+    left: 30px;
+    top: -24px;
+    width: 316px;
+  }
+
+  @media (--lg) {
+    height: 121px;
+    left: 12px;
+    width: 690px;
+    top: -65px;
+  }
+
+  @media (--xl) {
+    height: 121px;
+    left: 54px;
+    top: -65px;
+    width: 742px;
+  }
 
   & div.survey-icon {
     position: inherit;
     top: 25px;
-    left: 20px;
+
+    @media (--sm) {
+      left: 133px;
+    }
+
+    @media (--lg) {
+      left: 20px;
+    }
+
+    @media (--xl) {
+      left: 20px;
+    }
   }
 
   & div.survey-title {
@@ -23,11 +49,24 @@
     font-style: normal;
     font-weight: 600;
     height: 23px;
-    left: 105px;
     line-height: 23px;
     position: inherit;
-    top: -55px;
     width: 259.95px;
+
+    @media (--sm) {
+      left: 64px;
+      top: 26px;
+    }
+
+    @media (--lg) {
+      left: 95px;
+      top: -55px;
+    }
+
+    @media (--xl) {
+      left: 105px;
+      top: -55px;
+    }
   }
 
   & div.survey-text {
@@ -39,13 +78,29 @@
     font-style: normal;
     font-weight: normal;
     height: 40px;
-    left: 105px;
     line-height: 20px;
     position: inherit;
-    top: -42px;
-    width: 430px;
-  }
 
+    @media (--sm) {
+      left: 0px;
+      text-align: center;
+      top: 50px;
+      width: 318px;
+    }
+    @media (--lg) {
+      left: 95px;
+      text-align: left;
+      top: -42px;
+      width: 430px;
+    }
+
+    @media (--xl) {
+      left: 105px;
+      text-align: left;
+      top: -42px;
+      width: 430px;
+    }
+  }
 }
 
 a.survey-button {
@@ -54,12 +109,27 @@ a.survey-button {
   display: inline-flex;
   flex-direction: row;
   height: 40px;
-  left: 586px;
   padding: 10px 13px;
   position: inherit;
   text-decoration: none;
-  top: -90px;
-  width: 137px;
+
+  @media (--sm) {
+    left: 30px;
+    top: 90px;
+    width: 260px;
+  }
+
+  @media (--lg) {
+    left: 540px;
+    top: -90px;
+    width: 137px;
+  }
+
+  @media (--xl) {
+    left: 586px;
+    top: -90px;
+    width: 137px;
+  }
 
   &:hover {
     border-color: var(--aluminum-5);
@@ -93,6 +163,20 @@ a.survey-button {
     order: 0;
     position: static;
     top: 10px;
-    width: 107px;
+    /* width: 107px; */
+
+    @media (--sm) {
+      padding: 0px 70px;
+      /* width: 107px; */
+    }
+
+    @media (--lg) {
+      padding: 10px 0px;
+    }
+
+    @media (--xl) {
+      padding: 10px 0px;
+    }
+
   }
 }
