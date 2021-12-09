@@ -12,8 +12,8 @@
   @media (--lg) {
     height: 121px;
     left: 12px;
-    width: 690px;
     top: -65px;
+    width: 690px;
   }
 
   @media (--xl) {
@@ -82,11 +82,11 @@
     position: inherit;
 
     @media (--sm) {
-      left: 0px;
       text-align: center;
       top: 50px;
       width: 318px;
     }
+
     @media (--lg) {
       left: 95px;
       text-align: left;
@@ -109,7 +109,6 @@ a.survey-button {
   display: inline-flex;
   flex-direction: row;
   height: 40px;
-  padding: 10px 13px;
   position: inherit;
   text-decoration: none;
 
@@ -151,7 +150,6 @@ a.survey-button {
     color: #fff;
     display: flex;
     flex-grow: 0;
-    flex: none;
     font-family: var(--sans-serif);
     font-size: 14px;
     font-style: normal;
@@ -159,24 +157,21 @@ a.survey-button {
     height: 20px;
     left: 15px;
     line-height: 20px;
-    margin: 0px 5px;
+    margin: 5px;
     order: 0;
     position: static;
     top: 10px;
-    /* width: 107px; */
 
     @media (--sm) {
-      padding: 0px 70px;
-      /* width: 107px; */
+      padding-left: 70px;
     }
 
     @media (--lg) {
-      padding: 10px 0px;
+      padding-left: 10px;
     }
 
     @media (--xl) {
-      padding: 10px 0px;
+      padding-left: 10px;
     }
-
   }
 }
