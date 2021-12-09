@@ -32,7 +32,7 @@
     }
 
     @media (--lg) {
-      left: 20px;
+      left: 15px;
     }
 
     @media (--xl) {
@@ -59,7 +59,7 @@
     }
 
     @media (--lg) {
-      left: 95px;
+      left: 85px;
       top: -55px;
     }
 
@@ -88,7 +88,7 @@
     }
 
     @media (--lg) {
-      left: 95px;
+      left: 85px;
       text-align: left;
       top: -42px;
       width: 430px;
@@ -108,7 +108,7 @@ a.survey-button {
   background: #449fd9;
   display: inline-flex;
   flex-direction: row;
-  height: 40px;
+  height: 45px;
   position: inherit;
   text-decoration: none;
 
@@ -119,9 +119,9 @@ a.survey-button {
   }
 
   @media (--lg) {
-    left: 540px;
+    left: 525px;
     top: -90px;
-    width: 137px;
+    width: 155px;
   }
 
   @media (--xl) {
@@ -157,7 +157,6 @@ a.survey-button {
     height: 20px;
     left: 15px;
     line-height: 20px;
-    margin: 5px;
     order: 0;
     position: static;
     top: 10px;
