@@ -72,6 +72,23 @@ site:
             page-component-desc: Something about RTF Cloud
       versions:
         - *salesforce_rtfcloud_latest
+    api-governance:
+      latest: &api-governance_latest
+        version: '1.x'
+        displayVersion: '1.x'
+        title: API Governance
+        url: '#'
+        navigation:
+          - items:
+              - content: About API Governance
+                url: '#'
+              - content: Getting Started with API Governance
+                url: '#'
+        asciidoc:
+          attributes:
+            page-component-desc: Something about API Governance
+      versions:
+        - *api-governance_latest
     connectors:
       latest: &connectors_latest
         version: master
