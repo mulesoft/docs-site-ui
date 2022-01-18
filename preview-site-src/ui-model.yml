@@ -3,6 +3,7 @@ preview: true
 site:
   url: &home_url /home.html
   title: MuleSoft Documentation
+  keys: {}
   components:
     general:
       latest: &general_latest
@@ -27,7 +28,7 @@ site:
         url: '#'
         asciidoc:
           attributes:
-            primary-site-url: https://docs.mulesoft.com
+            primary-site-url: https://docs.mulesoft.com # enables archive site banner
         navigation:
         - items:
           - content: About Access Management
