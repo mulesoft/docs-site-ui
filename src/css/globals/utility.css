@@ -11,7 +11,6 @@ vars for reference:
 @custom-media --lg (min-width: 992px);
 @custom-media --xl (min-width: 1350px);
 @custom-media --xxl (min-width: 1650px);
-@custom-media --marketing (max-width: 992px);
 
 .no-pointer {
   pointer-events: none;

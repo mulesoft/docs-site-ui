@@ -1,7 +1,9 @@
 antoraVersion: '2.3.3'
+preview: true
 site:
   url: &home_url /home.html
   title: MuleSoft Documentation
+  keys: {}
   components:
     general:
       latest: &general_latest
@@ -24,10 +26,13 @@ site:
         version: master
         title: Access Management
         url: '#'
+        asciidoc:
+          attributes:
+            primary-site-url: https://docs.mulesoft.com # enables archive site banner
         navigation:
         - items:
           - content: About Access Management
-            url: '#'
+            url: /access-management.html
           - content: Managing Your Account
             url: '#'
           - content: Organization
