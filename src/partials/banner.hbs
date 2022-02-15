@@ -1,0 +1,9 @@
+{{#if (or preview (eq (site-profile) 'archive'))}}
+{{#with page.componentVersion.asciidoc.attributes.primary-site-url}}
+<div class="banner">
+  <div class="container wrapper">
+    <p>You&#8217;re viewing the archived MuleSoft Documentation. <a href="{{{this}}}">Go to the latest MuleSoft documentation.</a></p>
+  </div>
+</div>
+{{/with}}
+{{/if}}
