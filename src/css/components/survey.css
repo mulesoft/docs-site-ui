@@ -116,18 +116,40 @@ a.survey-button {
     left: 30px;
     top: 90px;
     width: 260px;
+    align-items: center;
+    color: #fff;
+    font-family: var(--sans-serif);
+    font-size: 14px;
+    font-style: normal;
+    font-weight: normal;
+    display: inline-grid;
+    text-align: center;
   }
 
   @media (--lg) {
     left: 525px;
     top: -90px;
     width: 155px;
+    color: #fff;
+    font-family: var(--sans-serif);
+    font-size: 14px;
+    font-style: normal;
+    font-weight: normal;
+    display: inline-grid;
+    text-align: center;
   }
 
   @media (--xl) {
     left: 586px;
     top: -90px;
     width: 137px;
+    color: #fff;
+    font-family: var(--sans-serif);
+    font-size: 14px;
+    font-style: normal;
+    font-weight: normal;
+    display: inline-grid;
+    text-align: center;
   }
 
   &:hover {
@@ -145,32 +167,4 @@ a.survey-button {
     color: var(--core-blue-3);
   }
 
-  & span.button-text {
-    align-items: center;
-    color: #fff;
-    display: flex;
-    flex-grow: 0;
-    font-family: var(--sans-serif);
-    font-size: 14px;
-    font-style: normal;
-    font-weight: normal;
-    height: 20px;
-    left: 15px;
-    line-height: 20px;
-    order: 0;
-    position: static;
-    top: 10px;
-
-    @media (--sm) {
-      padding-left: 70px;
-    }
-
-    @media (--lg) {
-      padding-left: 10px;
-    }
-
-    @media (--xl) {
-      padding-left: 10px;
-    }
-  }
 }
