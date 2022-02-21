@@ -5,21 +5,28 @@
   @media (--sm) {
     height: 286px;
     left: 30px;
-    top: -24px;
+    top: 10px;
+    width: 316px;
+  }
+
+  @media (--md) {
+    height: 286px;
+    left: 30px;
+    top: 10px;
     width: 316px;
   }
 
   @media (--lg) {
     height: 121px;
     left: 12px;
-    top: -65px;
+    top: -15px;
     width: 690px;
   }
 
   @media (--xl) {
     height: 121px;
     left: 54px;
-    top: -65px;
+    top: -15px;
     width: 742px;
   }
 
