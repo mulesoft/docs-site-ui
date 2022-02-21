@@ -4,21 +4,18 @@
 
   @media (--sm) {
     height: 286px;
-    left: 30px;
     top: -24px;
     width: 316px;
   }
 
   @media (--lg) {
-    height: 121px;
-    left: 12px;
-    top: -65px;
-    width: 690px;
+    height: 286px;
+    top: -24px;
+    width: 316px;
   }
 
   @media (--xl) {
     height: 121px;
-    left: 54px;
     top: -65px;
     width: 742px;
   }
@@ -32,7 +29,7 @@
     }
 
     @media (--lg) {
-      left: 15px;
+      left: 133px;
     }
 
     @media (--xl) {
@@ -43,7 +40,7 @@
   & div.survey-title {
     align-items: center;
     color: #fff;
-    display: flex;
+    display: inline-flex;
     font-family: var(--sans-serif);
     font-size: 18px;
     font-style: normal;
@@ -59,8 +56,8 @@
     }
 
     @media (--lg) {
-      left: 85px;
-      top: -55px;
+      left: 64px;
+      top: 26px;
     }
 
     @media (--xl) {
@@ -88,12 +85,11 @@
     }
 
     @media (--lg) {
-      left: 85px;
-      text-align: left;
-      top: -42px;
-      width: 430px;
+      text-align: center;
+      top: 50px;
+      width: 318px;
     }
-
+    
     @media (--xl) {
       left: 105px;
       text-align: left;
@@ -119,9 +115,9 @@ a.survey-button {
   }
 
   @media (--lg) {
-    left: 525px;
-    top: -90px;
-    width: 155px;
+    left: 30px;
+    top: 90px;
+    width: 260px;
   }
 
   @media (--xl) {
@@ -166,7 +162,7 @@ a.survey-button {
     }
 
     @media (--lg) {
-      padding-left: 10px;
+      padding-left: 70px;
     }
 
     @media (--xl) {
