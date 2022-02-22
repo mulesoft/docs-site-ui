@@ -7,10 +7,17 @@
 @import "globals/grid.css";
 @import "globals/typography.css";
 
+/* pages */
+@import "pages/connector.css";
+@import "pages/connector-article.css";
+@import "pages/connector-home.css";
+
 /* components */
 @import "components/breadcrumbs.css";
 @import "components/button.css";
+@import "components/card.css";
 @import "components/github.css";
+@import "components/icon.css";
 @import "components/input.css";
 @import "components/modal.css";
 @import "components/popover.css";
@@ -19,6 +26,7 @@
 
 /* specific */
 @import "specific/header.css";
+@import "specific/banner.css";
 @import "specific/gdpr.css";
 @import "specific/navigation.css";
 @import "specific/toc.css";
@@ -39,3 +47,4 @@
 /* other */
 @import "base.css";
 @import "highlight.css";
+@import "components/survey.css";

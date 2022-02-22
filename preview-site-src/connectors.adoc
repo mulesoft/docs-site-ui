@@ -1,0 +1,3 @@
+= Connectors
+:page-component-name: connectors
+:page-layout: connectors-home

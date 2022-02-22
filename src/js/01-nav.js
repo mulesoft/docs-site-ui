@@ -10,20 +10,84 @@
     chevron.setAttribute('width', '30')
     chevron.setAttribute('height', '30')
     var svgPath = document.createElementNS(chevron.namespaceURI, 'path')
-    svgPath.setAttribute('d', 'M15.003 21.284L6.563 9.232l1.928-.516 6.512 9.299 6.506-9.299 1.928.516-8.434 12.052z')
+    svgPath.setAttribute(
+      'd',
+      'M15.003 21.284L6.563 9.232l1.928-.516 6.512 9.299 6.506-9.299 1.928.516-8.434 12.052z'
+    )
     chevron.appendChild(svgPath)
     var pageNavItem
+    var connectorNavItems = []
+    var connectorsNavItem
+    var rtfcloudNavItem
+    var rtfcloudNavItems = []
+
+    // Create final navlists for groups (connectors, etc.)
+    function updateGroupedNavList (groupdNavItem, groupedNavItems) {
+      if (groupdNavItem && groupedNavItems.length) {
+        var navList = groupdNavItem.querySelector(
+          'ol[data-product]'
+        )
+        if (!navList) {
+          navList = document.createElement('ol')
+          navList.classList = 'nav-list parent'
+          if (!isConnector(page.product)) {
+            navList.style.display = 'none'
+          }
+          navList.dataset.product = 'connectors'
+          navList.dataset.version = 'master'
+          groupdNavItem.append(navList)
+        }
+        groupedNavItems.forEach(function (navItem) {
+          navList.appendChild(navItem)
+        })
+      }
+      return navList
+    }
+
+    // @TODO - if we wanted to control the sort, we'd do it here;
+    //  see https://blog.yuzutech.fr/blog/sort-antora-components/
     data.splice(0, data.length).forEach(function (product) {
       var productName = product.name
       var productForPage = productName === page.product
+      var connector = isConnector(productName)
+      var rtfcloud = isRTFCloud(productName)
       var navItem = document.createElement('li')
       var active
+
+      // Creates grouped navitems for connectores, etc
+      function groupNavItem (productName) {
+        switch (productName) {
+          case 'connectors' :
+            connectorsNavItem = navItem
+            if (isConnector(page.product)) active = true
+            break
+          case 'rtfcloud' :
+            rtfcloudNavItem = navItem
+            if (isRTFCloud(page.product)) active = true
+            break
+          default:
+            if (connector) {
+              connectorNavItems.push(navItem)
+            } else if (rtfcloud) {
+              rtfcloudNavItems.push(navItem)
+            }
+        }
+      }
+
       if (productForPage) {
         pageNavItem = navItem
-        !path.active.length && product.url === page.url && (active = true) && path.active.push(navItem)
+        if (!path.active.length && product.url === page.url) {
+          active = true
+          path.active.push(navItem)
+        }
       }
+      groupNavItem(productName)
       navItem.className = active ? 'nav-li active' : 'nav-li'
-      navItem.dataset.depth = 0
+      if (connector || rtfcloud) {
+        navItem.dataset.depth = 1
+      } else {
+        navItem.dataset.depth = 0
+      }
       navItem.dataset.product = productName
       var productHeading = document.createElement('div')
       productHeading.className = 'flex align-center justify-justified'
@@ -31,12 +95,24 @@
       productLink.className = 'flex grow strong link nav-link nav-heading'
       var productIcon = document.createElement('img')
       productIcon.className = 'icon no-pointer'
-      productIcon.src = page.uiRootPath + '/img/icons/' + productName + '.svg'
+      var iconName
+      if (connector) {
+        iconName = 'connectors'
+      } else if (rtfcloud) {
+        iconName = 'rtfcloud'
+      } else {
+        iconName = productName
+      }
+      productIcon.src =
+        page.uiRootPath +
+        '/img/icons/' + iconName + '.svg'
       productLink.appendChild(productIcon)
       productLink.appendChild(document.createTextNode(' ' + product.title))
       productHeading.appendChild(productLink)
       if (product.versions.length > 1) {
-        var currentVersion = product.versions[0].version
+        var latestVersion = product.versions[0]
+        var currentVersion =
+          latestVersion.displayVersion || latestVersion.version
         var versionButton = document.createElement('button')
         versionButton.className = 'flex align-center shrink button versions'
         versionButton.dataset.product = productName
@@ -52,10 +128,13 @@
         currentVersionList.className = 'ol'
         var currentVersionHeading = document.createElement('li')
         currentVersionHeading.className = 'li-heading'
-        currentVersionHeading.appendChild(document.createTextNode('Current version'))
+        currentVersionHeading.appendChild(
+          document.createTextNode('Current version')
+        )
         currentVersionList.appendChild(currentVersionHeading)
         var currentVersionItem = document.createElement('li')
-        currentVersionItem.className = 'flex align-center justify-justified li version'
+        currentVersionItem.className =
+          'flex align-center justify-justified li version'
         currentVersionItem.dataset.product = productName
         currentVersionItem.dataset.version = currentVersion
         currentVersionItem.appendChild(document.createTextNode(currentVersion))
@@ -64,14 +143,20 @@
         var previousVersionsList = document.createElement('ol')
         var previousVersionsHeading = document.createElement('li')
         previousVersionsHeading.className = 'li-heading'
-        previousVersionsHeading.appendChild(document.createTextNode('Previous versions'))
+        previousVersionsHeading.appendChild(
+          document.createTextNode('Previous versions')
+        )
         previousVersionsList.appendChild(previousVersionsHeading)
         product.versions.slice(1).forEach(function (version) {
           var previousVersionItem = document.createElement('li')
-          previousVersionItem.className = 'flex align-center justify-justified li version'
+          previousVersionItem.className =
+            'flex align-center justify-justified li version'
           previousVersionItem.dataset.product = productName
-          previousVersionItem.dataset.version = version.version
-          previousVersionItem.appendChild(document.createTextNode(version.version))
+          previousVersionItem.dataset.version =
+            version.displayVersion || version.version
+          previousVersionItem.appendChild(
+            document.createTextNode(previousVersionItem.dataset.version)
+          )
           previousVersionsList.appendChild(previousVersionItem)
         })
         versionMenu.appendChild(previousVersionsList)
@@ -82,24 +167,42 @@
           initVersionSelector(versionButton, versionMenu)
         } else {
           var buildNavForProductAndInitVersionSelector = function () {
-            versionButton.removeEventListener('click', buildNavForProductAndInitVersionSelector)
-            versionButton.removeEventListener('touchend', buildNavForProductAndInitVersionSelector)
+            versionButton.removeEventListener(
+              'click',
+              buildNavForProductAndInitVersionSelector
+            )
+            versionButton.removeEventListener(
+              'touchend',
+              buildNavForProductAndInitVersionSelector
+            )
             buildNavForProduct(nav, navItem, product, page)
             initVersionSelector(versionButton, versionMenu, true)
           }
-          versionButton.addEventListener('click', buildNavForProductAndInitVersionSelector)
-          versionButton.addEventListener('touchend', buildNavForProductAndInitVersionSelector)
+          versionButton.addEventListener(
+            'click',
+            buildNavForProductAndInitVersionSelector
+          )
+          versionButton.addEventListener(
+            'touchend',
+            buildNavForProductAndInitVersionSelector
+          )
         }
       }
       navItem.appendChild(productHeading)
       if (productForPage) {
         productLink.addEventListener('click', toggleNav)
         productLink.addEventListener('touchend', toggleNav)
-        buildNavForProduct(nav, navItem, product, page, { active: path.active, current: [navItem] })
+        buildNavForProduct(nav, navItem, product, page, {
+          active: path.active,
+          current: [navItem],
+        })
       } else {
         var buildNavForProductAndToggle = function (e) {
           productLink.removeEventListener('click', buildNavForProductAndToggle)
-          productLink.removeEventListener('touchend', buildNavForProductAndToggle)
+          productLink.removeEventListener(
+            'touchend',
+            buildNavForProductAndToggle
+          )
           buildNavForProduct(nav, navItem, product, page)
           toggleNav(e)
           productLink.addEventListener('click', toggleNav)
@@ -110,19 +213,28 @@
       }
       navList.appendChild(navItem)
     })
+
+    updateGroupedNavList(connectorsNavItem, connectorNavItems)
+    connectorNavItems.length = 0
+    updateGroupedNavList(rtfcloudNavItem, rtfcloudNavItems)
+    rtfcloudNavItems.length = 0
     nav.appendChild(navList)
     // NOTE we could mark active when navigation is built if we appended children to parent eagerly
     if (path.active.length) {
       path.active.forEach(function (it) {
         it.classList.add('active')
-        if (it.parentNode.classList.contains('parent')) it.parentNode.style.display = ''
+        if (it.parentNode.classList.contains('parent')) {
+          it.parentNode.style.display = ''
+        }
       })
     } else if (pageNavItem) {
       pageNavItem.classList.add('active')
     } else {
       var notice = document.createElement('div')
       notice.className = 'nav-list nav-heading'
-      notice.appendChild(document.createTextNode('Site navigation data not found.'))
+      notice.appendChild(
+        document.createTextNode('Site navigation data not found.')
+      )
       nav.replaceChild(notice, navList)
     }
   }
@@ -132,32 +244,74 @@
     navItem.classList.add('is-loaded')
     product.versions.forEach(function (version) {
       var items = ((version.sets || [])[0] || {}).items || [] // only consider items in first menu
-      if (items.length) buildNavTree(nav, navItem, product.name, version.version, items, 1, page, path)
+      if (items.length) {
+        buildNavTree(
+          nav,
+          navItem,
+          product.name,
+          version.displayVersion || version.version,
+          items,
+          1,
+          page,
+          path
+        )
+      }
     })
   }
 
-  function buildNavTree (nav, parent, productName, version, items, level, page, path) {
-    var navList = document.createElement('ol')
-    navList.className = 'nav-list parent'
-    if (level === 1) {
-      if (!(productName === page.product && version === page.version)) navList.style.display = 'none'
-      navList.dataset.product = productName
-      navList.dataset.version = version
-    } else if (!parent.classList.contains('active')) {
-      navList.style.display = 'none'
+  function buildNavTree (
+    nav,
+    parent,
+    productName,
+    version,
+    items,
+    level,
+    page,
+    path
+  ) {
+    var existingItems = []
+    var navList
+    if (
+      (productName === 'connectors' || productName === 'rtfcloud') &&
+      version === 'master' &&
+      level === 1 &&
+      (navList = parent.querySelector('ol[data-product]'))
+    ) {
+      for (var i = 0, len = navList.children.length; i < len; i++) {
+        var navListChild = navList.removeChild(navList.firstChild)
+        if (navListChild.tagName === 'LI') existingItems[i] = navListChild
+      }
+      parent.removeChild(navList)
+    } else {
+      navList = document.createElement('ol')
+      navList.className = 'nav-list parent'
+      if (level === 1) {
+        if (!(productName === page.product && version === page.version)) {
+          navList.style.display = 'none'
+        }
+        navList.dataset.product = productName
+        navList.dataset.version = version
+      } else if (!parent.classList.contains('active')) {
+        navList.style.display = 'none'
+      }
     }
     items.forEach(function (item) {
       var navItem = document.createElement('li')
       var active
       if (path && !path.active.length) {
-        if (item.url === page.url && productName === page.product && version === page.version && (active = true)) {
+        if (
+          item.url === page.url &&
+          productName === page.product &&
+          version === page.version &&
+          (active = true)
+        ) {
           path.current.concat(navItem).forEach(function (activeItem) {
             path.active.push(activeItem)
           })
         }
       }
       navItem.className = active ? 'nav-li active' : 'nav-li'
-      navItem.dataset.depth = level
+      navItem.dataset.depth = level + ((isConnector(productName) || isRTFCloud(productName)) ? 1 : 0)
       if (item.items) {
         var navToggle = document.createElement('button')
         navToggle.className = 'subnav-toggle'
@@ -168,7 +322,9 @@
       if (item.url) {
         var navLink = document.createElement('a')
         navLink.className =
-          'flex shrink align-center link nav-link' + (active ? ' active' : '') + (item.items ? ' nav-nested' : '')
+          'flex shrink align-center link nav-link' +
+          (active ? ' active' : '') +
+          (item.items ? ' nav-nested' : '')
         if (item.urlType === 'external') {
           navLink.href = item.url
           navLink.target = '_blank'
@@ -179,7 +335,9 @@
         navItem.appendChild(navLink)
       } else {
         var navHeading = document.createElement('span')
-        navHeading.className = 'flex grow align-center nav-heading' + (item.items ? ' nav-nested' : '')
+        navHeading.className =
+          'flex grow align-center nav-heading' +
+          (item.items ? ' nav-nested' : '')
         var navHeadingSpan = document.createElement('span')
         navHeadingSpan.className = 'span'
         navHeadingSpan.innerHTML = item.content
@@ -187,22 +345,40 @@
         navItem.appendChild(navHeading)
       }
       if (item.items) {
-        var nestedPath = path && { active: path.active, current: path.current.concat(navItem) }
-        buildNavTree(nav, navItem, productName, version, item.items, level + 1, page, nestedPath)
+        var nestedPath = path && {
+          active: path.active,
+          current: path.current.concat(navItem),
+        }
+        buildNavTree(
+          nav,
+          navItem,
+          productName,
+          version,
+          item.items,
+          level + 1,
+          page,
+          nestedPath
+        )
       }
       navList.appendChild(navItem)
     })
+    if (existingItems.length) {
+      existingItems.forEach(function (navItem) {
+        navList.appendChild(navItem)
+      })
+    }
     return parent.appendChild(navList)
   }
 
   function toggleNav (e, selected, nav) {
-    var navItem
+    var navItem, navList, navListQuery
     if (!e) {
-      var navList, navListQuery
       // on page load (when navigating from the location bar)
       if (selected) {
         navListQuery = '.nav-list[data-product="' + selected.product + '"]'
-        var productVersionSelector = nav.querySelector('button[data-product="' + selected.product + '"]')
+        var productVersionSelector = nav.querySelector(
+          'button[data-product="' + selected.product + '"]'
+        )
         if (productVersionSelector) {
           setPinnedVersion(productVersionSelector, selected)
           navListQuery += '[data-version="' + selected.version + '"]'
@@ -215,24 +391,44 @@
           })
         }
       }
-      nav.addEventListener('touchstart', ignoreTouchScroll, { capture: true, passive: true })
-      nav.addEventListener('touchmove', ignoreTouchScroll, { capture: true, passive: true })
-      nav.addEventListener('touchend', ignoreTouchScroll, { capture: true, passive: true })
+      nav.addEventListener('touchstart', ignoreTouchScroll, {
+        capture: true,
+        passive: true,
+      })
+      nav.addEventListener('touchmove', ignoreTouchScroll, {
+        capture: true,
+        passive: true,
+      })
+      nav.addEventListener('touchend', ignoreTouchScroll, {
+        capture: true,
+        passive: true,
+      })
       nav.querySelector('.nav-list').classList.add('is-loaded')
     } else if (e.target.classList.contains('nav-link')) {
       // when toggling a product in the sidebar
-      navListQuery = (navItem = e.target.parentNode.parentNode).dataset.pinnedVersion
+      navListQuery = (navItem = e.target.parentNode.parentNode).dataset
+        .pinnedVersion
         ? '.nav-list[data-version="' + navItem.dataset.pinnedVersion + '"]'
         : '.nav-list[data-version]'
-      navItem.querySelector(navListQuery).style.display = navItem.classList.toggle('active') ? '' : 'none'
+      var navItemState = navItem.classList.toggle('active')
+      if ((navList = navItem.querySelector(navListQuery))) {
+        navList.style.display = navItemState ? '' : 'none'
+      }
       tippy.hideAll()
-      window.analytics && window.analytics.track('Toggled Nav', { url: e.target.innerText.trim() })
+      window.analytics &&
+      window.analytics.track('Toggled Nav', {
+        url: e.target.innerText.trim(),
+      })
     } else if (selected) {
-      // when changing the selected version
-      navItem = nav.querySelector('.nav-li[data-product="' + selected.product + '"]')
+      // when changing the selected version using the version selector
+      navItem = nav.querySelector(
+        '.nav-li[data-product="' + selected.product + '"]'
+      )
       var navLists = navItem.querySelectorAll('.nav-list[data-product]')
-      for (var i = 0, l = navLists.length; i < l; i++) navLists[i].style.display = 'none'
-      navItem.querySelector('.nav-list[data-version="' + selected.version + '"]').style.display = ''
+      for (var i = 0, l = navLists.length; i < l; i++) {
+        navLists[i].style.display =
+          navLists[i].dataset.version === selected.version ? '' : 'none'
+      }
       navItem.classList.add('active')
       tippy.hideAll()
     }
@@ -251,10 +447,12 @@
   }
 
   function scrollToActive (nav, thisList) {
-    var focusElement = thisList.querySelector('.nav-link.active') || thisList.previousSibling
+    var focusElement =
+      thisList.querySelector('.nav-link.active') || thisList.previousSibling
     var navRect = nav.getBoundingClientRect()
     var midpoint = (navRect.height - navRect.top) / 2
-    var adjustment = focusElement.offsetTop + focusElement.offsetHeight / 2 - midpoint
+    var adjustment =
+      focusElement.offsetTop + focusElement.offsetHeight / 2 - midpoint
     if (adjustment > 0) nav.scrollTop = adjustment
   }
 
@@ -263,12 +461,20 @@
     if ((pinnedVersion = pinned.version)) {
       localStorage.setItem('ms-docs-' + pinned.product, pinnedVersion)
       analytics = window.analytics
-    } else if (!(pinnedVersion = localStorage.getItem('ms-docs-' + pinned.product))) {
+    } else if (
+      !(pinnedVersion = localStorage.getItem('ms-docs-' + pinned.product))
+    ) {
       return
     }
-    ;(navItem || thisButton.parentNode.parentNode).dataset.pinnedVersion = pinnedVersion
+    (
+      navItem || thisButton.parentNode.parentNode
+    ).dataset.pinnedVersion = pinnedVersion
     thisButton.querySelector('.version-label').textContent = pinnedVersion
-    analytics && analytics.track('Version Pinned', { product: pinned.product, version: pinnedVersion })
+    analytics &&
+    analytics.track('Version Pinned', {
+      product: pinned.product,
+      version: pinnedVersion,
+    })
   }
 
   function initVersionSelector (versionButton, versionMenu, show) {
@@ -279,7 +485,7 @@
       flip: false,
       interactive: true,
       showOnInit: show,
-      offset: '-40, 5',
+      offset: '-60, 5',
       onHide: function (instance) {
         instance.popper.classList.remove('shown')
       },
@@ -308,13 +514,19 @@
           cancelEvent(e)
         }
       },
-      { capture: true, passive: true }
+      {
+        capture: true,
+        passive: true,
+      }
     )
   }
 
   function switchVersion (e) {
     var thisTippy = document.querySelector('.tippy-popper')._tippy
-    var selected = { product: e.target.dataset.product, version: e.target.dataset.version }
+    var selected = {
+      product: e.target.dataset.product,
+      version: e.target.dataset.version,
+    }
     setPinnedVersion(thisTippy.reference, selected)
     toggleNav(e, selected, getNav())
     thisTippy.hide()
@@ -342,9 +554,11 @@
   }
 
   function ignoreTouchScroll (e) {
-    if (e.type === 'touchstart') dragging = false
-    else if (e.type === 'touchmove') dragging = true
-    else if (e.type === 'touchend') {
+    if (e.type === 'touchstart') {
+      dragging = false
+    } else if (e.type === 'touchmove') {
+      dragging = true
+    } else if (e.type === 'touchend') {
       if (dragging) e.stopPropagation()
       dragging = false
     }
@@ -352,10 +566,16 @@
 
   function getPage () {
     var pageProductMeta, head
-    if ((pageProductMeta = (head = document.head).querySelector('meta[name=page-component]'))) {
+    if (
+      (pageProductMeta = (head = document.head).querySelector(
+        'meta[name=page-component]'
+      ))
+    ) {
       return {
         product: pageProductMeta.getAttribute('content'),
-        version: head.querySelector('meta[name=page-version]').getAttribute('content'),
+        version: head
+          .querySelector('meta[name=page-version]')
+          .getAttribute('content'),
         url: head.querySelector('meta[name=page-url]').getAttribute('content'),
         uiRootPath: document.getElementById('site-script').dataset.uiRootPath,
       }
@@ -366,8 +586,19 @@
     return document.querySelector('nav.nav')
   }
 
+  function isConnector (productName) {
+    return (
+      productName.endsWith('-connector') || productName.endsWith('-module')
+    )
+  }
+
+  //   Check to see if the product is part of the rtf-cloud
+  function isRTFCloud (productName) {
+    return productName.endsWith('-rtfcloud')
+  }
+
   function relativize (from, to) {
-    if (!from || to.charAt() === '#') return to
+    if (!(from && to.charAt() === '/')) return to
     var hash = ''
     var hashIdx = to.indexOf('#')
     if (~hashIdx) {
@@ -375,7 +606,12 @@
       to = to.substr(0, hashIdx)
     }
     if (from === to) {
-      return hash || (to.charAt(to.length - 1) === '/' ? './' : to.substr(to.lastIndexOf('/') + 1))
+      return (
+        hash ||
+        (to.charAt(to.length - 1) === '/'
+          ? './'
+          : to.substr(to.lastIndexOf('/') + 1))
+      )
     } else {
       return (
         (computeRelativePath(from.slice(0, from.lastIndexOf('/')), to) || '.') +
@@ -387,14 +623,22 @@
   function computeRelativePath (from, to) {
     var fromParts = trimArray(from.split('/'))
     var toParts = trimArray(to.split('/'))
-    for (var i = 0, l = Math.min(fromParts.length, toParts.length), sharedPathLength = l; i < l; i++) {
+    for (
+      var i = 0,
+        l = Math.min(fromParts.length, toParts.length),
+        sharedPathLength = l;
+      i < l;
+      i++
+    ) {
       if (fromParts[i] !== toParts[i]) {
         sharedPathLength = i
         break
       }
     }
     var outputParts = []
-    for (var remain = fromParts.length - sharedPathLength; remain > 0; remain--) outputParts.push('..')
+    for (var remain = fromParts.length - sharedPathLength; remain > 0; remain--) {
+      outputParts.push('..')
+    }
     return outputParts.concat(toParts.slice(sharedPathLength)).join('/')
   }
 
@@ -414,7 +658,10 @@
   var nav, dragging
   var page = getPage()
   if (page) {
-    buildNav((nav = getNav()), window.siteNavigationData || [], page, { active: [], current: [] })
+    buildNav((nav = getNav()), window.siteNavigationData || [], page, {
+      active: [],
+      current: [],
+    })
     toggleNav(undefined, page, nav)
   }
 })()

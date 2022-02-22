@@ -42,7 +42,8 @@
   --weight-bold: 600;
 
   /* dimensions */
-  --header-height: 66px;
+  --header-height: 65px;
+  --banner-height: 60px;
   --footer-height: 361px;
   --nav-item-height: 32px;
   --nav-width: 275px;
@@ -54,6 +55,7 @@
   --lg: 20px;
   --xl: 40px;
   --input-md: 30px;
+  --input-lg: 40px;
   --screen-sm: 576px;
   --screen-md: 768px;
   --screen-lg: 992px;
@@ -64,12 +66,11 @@
   --z-gdpr: 20;
   --z-modal-header: 16;
   --z-modal: 15;
-  --z-nav-mobile: 1000;
+  --z-nav-mobile: 14;
   --z-backdrop: 13;
   --z-header: 12; /* marketing header */
-  --z-nav: 0;
+  --z-nav: 11;
   --z-nav-toolbar: 10;
-  --z-index-header: 1000;
 
   /* animations/transitions */
   --transition-speed-sm: .15s;

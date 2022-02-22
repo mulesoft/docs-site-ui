@@ -1,7 +1,12 @@
 {{#if page.component}}
+<meta name="product" content="{{page.component.title}}">
+<meta name="version" content="{{or page.displayVersion page.version}}">
 <meta name="page-url" content="{{page.url}}">
 <meta name="page-component" content="{{page.component.name}}">
-<meta name="page-version" content="{{page.version}}">
+<meta name="page-version" content="{{or page.displayVersion page.version}}">
+{{#with site.keys.googleSiteVerification}}
+<meta name="google-site-verification" content="{{this}}">
+{{/with}}
 {{/if}}
 
 {{#if (and page.component env.GOOGLE_SEARCH_CONSOLE_KEY)}}
