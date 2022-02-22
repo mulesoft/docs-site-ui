@@ -5,19 +5,29 @@
 
   @media (--sm) {
     height: 286px;
-    top: -24px;
+    left: 30px;
+    top: 10px;
+    width: 316px;
+  }
+
+  @media (--md) {
+    height: 286px;
+    left: 30px;
+    top: 10px;
     width: 316px;
   }
 
   @media (--lg) {
-    height: 286px;
-    top: -24px;
-    width: 316px;
+    height: 121px;
+    left: 12px;
+    top: -15px;
+    width: 690px;
   }
 
   @media (--xl) {
     height: 121px;
-    top: -65px;
+    left: 54px;
+    top: -15px;
     width: 742px;
   }
 
@@ -110,19 +120,41 @@ a.survey-button {
   text-decoration: none;
 
   @media (--sm) {
+    align-items: center;
+    color: #fff;
+    display: inline-grid;
+    font-family: var(--sans-serif);
+    font-size: 14px;
+    font-style: normal;
+    font-weight: normal;
     left: 30px;
+    text-align: center;
     top: 90px;
     width: 260px;
   }
 
   @media (--lg) {
-    left: 30px;
-    top: 90px;
-    width: 260px;
+    color: #fff;
+    display: inline-grid;
+    font-family: var(--sans-serif);
+    font-size: 14px;
+    font-style: normal;
+    font-weight: normal;
+    left: 525px;
+    text-align: center;
+    top: -90px;
+    width: 155px;
   }
 
   @media (--xl) {
+    color: #fff;
+    display: inline-grid;
+    font-family: var(--sans-serif);
+    font-size: 14px;
+    font-style: normal;
+    font-weight: normal;
     left: 586px;
+    text-align: center;
     top: -90px;
     width: 137px;
   }
@@ -140,34 +172,5 @@ a.survey-button {
   &:active {
     border-color: var(--core-blue-3);
     color: var(--core-blue-3);
-  }
-
-  & span.button-text {
-    align-items: center;
-    color: #fff;
-    display: flex;
-    flex-grow: 0;
-    font-family: var(--sans-serif);
-    font-size: 14px;
-    font-style: normal;
-    font-weight: normal;
-    height: 20px;
-    left: 15px;
-    line-height: 20px;
-    order: 0;
-    position: static;
-    top: 10px;
-
-    @media (--sm) {
-      padding-left: 70px;
-    }
-
-    @media (--lg) {
-      padding-left: 70px;
-    }
-
-    @media (--xl) {
-      padding-left: 10px;
-    }
   }
 }
