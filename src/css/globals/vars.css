@@ -42,7 +42,8 @@
   --weight-bold: 600;
 
   /* dimensions */
-  --header-height: 66px;
+  --header-height: 65px;
+  --banner-height: 60px;
   --footer-height: 361px;
   --nav-item-height: 32px;
   --nav-width: 275px;

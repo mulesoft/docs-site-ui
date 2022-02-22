@@ -1,7 +1,9 @@
 antoraVersion: '2.3.3'
+preview: true
 site:
   url: &home_url /home.html
   title: MuleSoft Documentation
+  keys: {}
   components:
     general:
       latest: &general_latest
@@ -24,10 +26,13 @@ site:
         version: master
         title: Access Management
         url: '#'
+        asciidoc:
+          attributes:
+            primary-site-url: https://docs.mulesoft.com # enables archive site banner
         navigation:
         - items:
           - content: About Access Management
-            url: '#'
+            url: /access-management.html
           - content: Managing Your Account
             url: '#'
           - content: Organization
@@ -41,7 +46,18 @@ site:
           - content: Environments
             url: '#'
       versions:
-      - *access_management_latest
+        - *access_management_latest
+    anypoint-cli:
+      latest: &anypoint_cli_latest
+        version: master
+        title: Anypoint CLI
+        url: '#'
+        navigation:
+        - items:
+          - content: About Anypoint CLI
+            url: '#'
+      versions:
+        - *anypoint_cli_latest
     rtfcloud:
       latest: &rtfcloud_latest
         version: master
@@ -72,6 +88,24 @@ site:
             page-component-desc: Something about RTF Cloud
       versions:
         - *salesforce_rtfcloud_latest
+    api-governance:
+      latest: &api-governance_latest
+        version: '1.x'
+        displayVersion: '1.x'
+        title: API Governance
+        url: '#'
+        navigation:
+          - items:
+              - content: About API Governance
+                url: '#'
+              - content: Getting Started with API Governance
+                url: '#'
+        asciidoc:
+          attributes:
+            page-component-desc: Something about API Governance
+      versions:
+        - *api-governance_latest
+
     connectors:
       latest: &connectors_latest
         version: master
