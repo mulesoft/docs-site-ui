@@ -1,7 +1,7 @@
 #!/bin/env groovy
 
 def gitBranch = 'master'
-def githubApiCredentialsId = 'GH_TOKEN'
+def githubCredentialsId = 'GH_TOKEN'
 
 pipeline {
   agent any
