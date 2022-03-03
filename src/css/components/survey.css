@@ -13,12 +13,14 @@
     height: 286px;
     top: -24px;
     width: 316px;
+    visibility: hidden;
   }
 
   @media (--xl) {
     height: 121px;
     top: -20px;
     width: 742px;
+    visibility: hidden;
   }
 
   & div.survey-icon {
