@@ -1,370 +1,68 @@
 .survey {
-  background: linear-gradient(180deg, #2C3792 0%, #000849 91.19%);
+  background: linear-gradient(180deg, #2c3792 0%, #000849 91.19%);
+  color: #fff;
+  height: 360px;
   margin: auto;
   position: relative;
+  width: inherit;
+}
 
-  @media (--sm) {
-    height: 286px;
-    top: -24px;
-    width: 316px;
-  }
+#hide-survey {
+  height: 286px;
+  top: -24px;
+  width: 316px;
 
   @media (--lg) {
-    height: 286px;
-    top: -24px;
-    width: 316px;
     visibility: hidden;
   }
+}
 
-  @media (--xl) {
-    height: 121px;
-    top: -20px;
-    width: 742px;
-    visibility: hidden;
-  }
+div.survey-icon {
+  padding-top: 20px;
+  text-align: center;
+}
 
-  & div.survey-icon {
-    position: inherit;
-    top: 25px;
+div.survey-title {
+  display: block;
+  font-family: var(--sans-serif);
+  font-size: 20px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: 23px;
+  position: inherit;
+  text-align: center;
+  top: 2%;
+  width: 100%;
+}
 
-    @media (--sm) {
-      left: 133px;
-    }
-
-    @media (--lg) {
-      left: 133px;
-    }
-
-    @media (--xl) {
-      left: 27px;
-      top:32px;
-    }
-  }
-
-  & div.survey-title {
-    align-items: center;
-    color: #fff;
-    display: inline-flex;
-    font-family: var(--sans-serif);
-    font-size: 20px;
-    font-style: normal;
-    font-weight: 600;
-    height: 23px;
-    line-height: 23px;
-    position: inherit;
-    width: 259.95px;
-
-    @media (--sm) {
-      left: 50px;
-      top: 34px;
-    }
-
-    @media (--lg) {
-      left: 50px;
-      top: 34px;
-    }
-
-    @media (--xl) {
-      left: 115px;
-      top: -43px;
-    }
-  }
-
-  & div.survey-subtitle {
-    align-items: center;
-    color: #fff;
-    display: flex;
-    font-family: var(--sans-serif);
-    font-size: 15px;
-    font-style: normal;
-    font-weight: normal;
-    height: 40px;
-    line-height: 20px;
-    position: inherit;
-
-    @media (--sm) {
-      left: -5px;
-      text-align: center;
-      top: 50px;
-      width: 550px;
-    }
-
-    @media (--lg) {
-      left: -5px;
-      text-align: center;
-      top: 50px;
-      width: 550px;
-    }
-
-    @media (--xl) {
-      left: 115px;
-      text-align: left;
-      top: -35px;
-
-    }
-  }
-  & div.survey-text {
-
-    @media (--sm) {
-      width: 231px;
-      margin-left: 51px;
-      margin-top: 15px;
-    }
-
-    @media (min-width: 992px)
-   a.survey-text {
-     margin-left: 51px;
-     margin-top: 15px;
-       width: 231px;
-   }
-
-    @media (--lg) {
-      width: 231px;
-      margin-left: 51px;
-      margin-top: 15px;
-    }
-
-    @media (--xl) {
-      width: auto;
-      margin-left: 0px;
-      margin-top: 0px;
-    }
-
-  }
+div.survey-text {
+  align-items: center;
+  display: block;
+  font-family: var(--sans-serif);
+  font-size: 15px;
+  font-style: normal;
+  font-weight: normal;
+  line-height: 20px;
+  margin: auto;
+  position: inherit;
+  top: 6%;
+  text-align: center;
+  width: 80%;
 }
 
 a.survey-button {
   align-items: center;
   background: #449fd9;
-  display: inline-flex;
+  color: #fff;
+  display: inline-grid;
   flex-direction: row;
   height: 45px;
+  margin-left: 8%;
   position: inherit;
+  text-align: center;
   text-decoration: none;
-
-  @media (--sm) {
-    align-items: center;
-    color: #fff;
-    display: inline-grid;
-    font-family: var(--sans-serif);
-    font-size: 14px;
-    font-style: normal;
-    font-weight: normal;
-    text-align: center;
-    left: -228px;
-    top: 80px;
-    width: 220px;
-  }
-
-  @media (min-width: 100px)
-  a.survey-button {
-
-    left: -228px;
-    top: 80px;
-    width: 220px;
-  }
-
- @media (min-width: 992px)
-a.survey-button {
-    left: -210px;
-    top: 80px;
-    width: 220px;
-}
-
-  @media (--lg) {
-    left: -228px;
-    top: 80px;
-    width: 220px;
-  }
-
-  @media (--xl) {
-    color: #fff;
-    display: inline-grid;
-    font-family: var(--sans-serif);
-    font-size: 14px;
-    font-style: normal;
-    font-weight: normal;
-    left: 40px;
-    text-align: center;
-    top: -5px;
-    width: 300px;
-
-  }
-
-  &:hover {
-    border-color: var(--aluminum-5);
-    color: var(--steel-1);
-  }
-
-  &:focus {
-    border-color: var(--core-blue-3);
-    color: var(--core-blue-3);
-  }
-
-  &:active {
-    border-color: var(--core-blue-3);
-    color: var(--core-blue-3);
-  }
-}
-
-
-/*------------------------SURVEY TOC-----------------------------------------------------------------*/
-
-.survey-toc {
-  background: linear-gradient(180deg, #2C3792 0%, #000849 91.19%);
-  margin: auto;
-  position: relative;
-  max-width:220px;
-  height:350px;
-
-  & div.survey-icon-toc {
-    position: inherit;
-    top: 25px;
-
-    @media (--sm) {
-      left: 83px;
-    }
-
-    @media (--lg) {
-      left: 83px;
-    }
-
-    @media (--xl) {
-      left: 83px;
-    }
-  }
-
-  & div.survey-title-toc {
-    text-align: center;
-    align-items: center;
-    color: #fff;
-    display: inline-flex;
-    font-family: var(--sans-serif);
-    font-size: 20px;
-    font-style: normal;
-    font-weight: 600;
-
-    line-height: 23px;
-    position: inherit;
-    width: 259.95px;
-
-    @media (--sm) {
-      left: 50px;
-      top: 34px;
-    }
-
-    @media (--lg) {
-      left: 50px;
-      top: 34px;
-    }
-
-    @media (--xl) {
-      left: 50px;
-      top: 34px;
-    }
-  }
-
-  & div.survey-subtitle-toc {
-    text-align: center;
-    align-items: center;
-    color: #fff;
-    display: flex;
-    font-family: var(--sans-serif);
-    font-size: 15px;
-    font-style: normal;
-    font-weight: normal;
-    height: 40px;
-    line-height: 20px;
-    position: inherit;
-
-    @media (--sm) {
-      left: -5px;
-      text-align: center;
-      top: 75px;
-      width: 348px;
-      margin-left: 21px;
-    }
-
-    @media (--lg) {
-      left: -5px;
-      text-align: center;
-      top: 75px;
-      width: 348px;
-      margin-left: 21px;
-    }
-
-    @media (--xl) {
-      left: -5px;
-      text-align: center;
-      top: 75px;
-      width: 348px;
-      margin-left: 21px;
-
-    }
-  }
-  & div.survey-text-toc {
-
-    @media (--sm) {
-      width: 210px;
-
-    }
-
-    @media (min-width: 992px)
-   a.survey-text {
-
-       width: 210px;
-   }
-
-    @media (--lg) {
-      width: 210px;
-
-    }
-
-    @media (--xl) {
-      width: 210px;
-      margin-left: 0px;
-      margin-top: 0px;
-    }
-
-  }
-}
-
-a.survey-button-toc {
-  align-items: center;
-  background: #449fd9;
-  display: inline-flex;
-  flex-direction: row;
-  height: 45px;
-  position: inherit;
-  text-decoration: none;
-
-  @media (--sm) {
-    align-items: center;
-    color: #fff;
-    display: inline-grid;
-    font-family: var(--sans-serif);
-    font-size: 14px;
-    font-style: normal;
-    font-weight: normal;
-    text-align: center;
-    left: -172px;
-    top: 88px;
-    width: 192px;
-  }
-
-
-  @media (--lg) {
-    left: -172px;
-    top: 88px;
-    width: 192px;
-  }
-
-  @media (--xl) {
-    left: -172px;
-    top: 88px;
-    width: 192px;
-
-  }
+  top: 15%;
+  width: 85%;
 
   &:hover {
     border-color: var(--aluminum-5);
