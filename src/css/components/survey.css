@@ -1,5 +1,5 @@
 .survey {
-  background: linear-gradient(180deg, #2c3792 0%, #000849 91.19%);
+  background: linear-gradient(180deg,#2c3792 0%,#000849 91.19%);
   color: #fff;
   height: 360px;
   margin: auto;
@@ -45,8 +45,8 @@ div.survey-text {
   line-height: 20px;
   margin: auto;
   position: inherit;
-  top: 6%;
   text-align: center;
+  top: 6%;
   width: 80%;
 }
 
