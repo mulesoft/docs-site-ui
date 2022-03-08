@@ -71,15 +71,11 @@ a.survey-button {
 
   &:focus {
     border-color: var(--core-blue-3);
-    color: var(--core-blue-3);
+    color: #fff;
   }
 
   &:hover {
     border-color: var(--aluminum-5);
     color: var(--steel-1);
-  }
-
-  &:visited {
-    color: #fff;
   }
 }
