@@ -71,7 +71,6 @@ a.survey-button {
 
   &:focus {
     border-color: var(--core-blue-3);
-    color: #fff;
   }
 
   &:hover {
