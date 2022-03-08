@@ -64,9 +64,9 @@ a.survey-button {
   top: 15%;
   width: 85%;
 
-  &:hover {
-    border-color: var(--aluminum-5);
-    color: var(--steel-1);
+  &:active {
+    border-color: var(--core-blue-3);
+    color: var(--core-blue-3);
   }
 
   &:focus {
@@ -74,8 +74,12 @@ a.survey-button {
     color: var(--core-blue-3);
   }
 
-  &:active {
-    border-color: var(--core-blue-3);
-    color: var(--core-blue-3);
+  &:hover {
+    border-color: var(--aluminum-5);
+    color: var(--steel-1);
+  }
+
+  &:visited {
+    color: #fff;
   }
 }
