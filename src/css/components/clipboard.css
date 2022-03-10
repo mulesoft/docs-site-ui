@@ -1,39 +1,95 @@
 .content {
-    position: relative;
+  position: relative;
 }
 
-.listingblock:hover .clipboard {
-     display: block;
- }
+.doc .source-toolbox {
+  color: var(--pre-annotation-font-color);
+  display: flex;
+  font-family: var(--body-font-family);
+  font-size: calc(13.5 / var(--rem-base) * 1rem);
+  line-height: 1;
+  position: absolute;
+  right: .5rem;
+  top: .25rem;
+  visibility: hidden;
+}
 
- .clipboard {
-    -webkit-text-size-adjust: 100%;
-    -webkit-font-smoothing: antialiased;
-    margin: 0;
-    overflow: visible;
-    text-transform: none;
-    appearance: none;
-    border: 0;
-    border-radius: 0;
-    line-height: 1;
-    cursor: auto;
-    font-family: inherit;
-    position: absolute;
-    top: 0;
-    right: 0;
-    background: #1779ba;
-    color: white;
-    font-size: 0.8rem;
-    padding: 0.75rem 1rem;
-    z-index: 1;
-    outline: 0;
- }
+.doc .listingblock:hover .source-toolbox {
+  visibility: visible;
+}
 
- code + .clipboard {
-     top: 2rem !important;
- }
+.doc .source-toolbox .source-lang {
+  font-size: .96em;
+  letter-spacing: .075em;
+  line-height: 1.0425;
+  text-transform: uppercase;
+}
 
- .clipboard:hover, .clipboard:focus, .clipboard:active {
-     outline: 0;
-     background-color: #eee9e6;
- }
+.doc .source-toolbox > :not(:last-child)::after {
+  content: "|";
+  letter-spacing: 0;
+  padding: 0 1ch;
+}
+
+.doc .source-toolbox .copy-button {
+  align-items: center;
+  background: transparent;
+  border: none;
+  color: inherit;
+  display: flex;
+  flex-direction: column;
+  font-size: inherit;
+  height: 1em;
+  line-height: inherit;
+  outline: none;
+  padding: 0;
+  width: 1em;
+}
+
+.doc .source-toolbox .copy-icon {
+  flex: none;
+  height: inherit;
+  margin-bottom: 0;
+  margin-top: 0;
+  width: inherit;
+}
+
+.doc .source-toolbox img.copy-icon {
+  filter: invert(50.2%);
+}
+
+.doc .source-toolbox svg.copy-icon {
+  fill: currentColor;
+}
+
+.doc .source-toolbox .copy-toast {
+  background-color: var(--doc-font-color);
+  border-radius: .25em;
+  color: var(--color-white);
+  cursor: auto;
+  display: inline-flex;
+  flex: none;
+  justify-content: center;
+  margin-top: 1em;
+  opacity: 0;
+  padding: .5em;
+  position: relative;
+  transition: opacity .5s ease .75s;
+}
+
+.doc .source-toolbox .copy-toast::after {
+  border: .55em solid transparent;
+  border-left-color: var(--doc-font-color);
+  content: "";
+  height: 1em;
+  position: absolute;
+  top: 0;
+  transform: rotate(-90deg) translateX(50%) translateY(50%);
+  transform-origin: left;
+  width: 1em;
+}
+
+.doc .source-toolbox .copy-button.clicked .copy-toast {
+  opacity: 1;
+  transition: none;
+}
