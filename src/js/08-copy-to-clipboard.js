@@ -31,7 +31,7 @@
     if (window.navigator.clipboard) {
       ;(copy = document.createElement('button')).className = 'copy-button'
       copy.setAttribute('title', 'Copy to clipboard')
-      var uiRootPath = document.getElementById("site-script").dataset.uiRootPath
+      var uiRootPath = document.getElementById('site-script').dataset.uiRootPath
       if (config.svgAs === 'svg') {
         var svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg')
         svg.setAttribute('class', 'copy-icon')
