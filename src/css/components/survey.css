@@ -1,25 +1,23 @@
 .survey {
   background: #000849;
+  margin: auto;
   position: relative;
 
   @media (--sm) {
     height: 286px;
-    left: 30px;
     top: -24px;
     width: 316px;
   }
 
   @media (--lg) {
-    height: 121px;
-    left: 12px;
-    top: -65px;
-    width: 690px;
+    height: 286px;
+    top: -24px;
+    width: 316px;
   }
 
   @media (--xl) {
     height: 121px;
-    left: 54px;
-    top: -65px;
+    top: -20px;
     width: 742px;
   }
 
@@ -32,7 +30,7 @@
     }
 
     @media (--lg) {
-      left: 15px;
+      left: 133px;
     }
 
     @media (--xl) {
@@ -43,7 +41,7 @@
   & div.survey-title {
     align-items: center;
     color: #fff;
-    display: flex;
+    display: inline-flex;
     font-family: var(--sans-serif);
     font-size: 18px;
     font-style: normal;
@@ -59,8 +57,8 @@
     }
 
     @media (--lg) {
-      left: 85px;
-      top: -55px;
+      left: 64px;
+      top: 26px;
     }
 
     @media (--xl) {
@@ -69,7 +67,7 @@
     }
   }
 
-  & div.survey-text {
+  & div.survey-subtitle {
     align-items: center;
     color: #fff;
     display: flex;
@@ -82,23 +80,24 @@
     position: inherit;
 
     @media (--sm) {
+      left: -5px;
       text-align: center;
       top: 50px;
-      width: 318px;
+      width: 550px;
     }
 
     @media (--lg) {
-      left: 85px;
-      text-align: left;
-      top: -42px;
-      width: 430px;
+      left: -5px;
+      text-align: center;
+      top: 50px;
+      width: 550px;
     }
 
     @media (--xl) {
       left: 105px;
       text-align: left;
       top: -42px;
-      width: 430px;
+      width: 600px;
     }
   }
 }
@@ -113,20 +112,35 @@ a.survey-button {
   text-decoration: none;
 
   @media (--sm) {
-    left: 30px;
-    top: 90px;
-    width: 260px;
+    align-items: center;
+    color: #fff;
+    display: inline-grid;
+    font-family: var(--sans-serif);
+    font-size: 14px;
+    font-style: normal;
+    font-weight: normal;
+    left: -274px;
+    text-align: center;
+    top: 80px;
+    width: 300px;
   }
 
   @media (--lg) {
-    left: 525px;
-    top: -90px;
-    width: 155px;
+    left: -274px;
+    top: 80px;
+    width: 300px;
   }
 
   @media (--xl) {
-    left: 586px;
-    top: -90px;
+    color: #fff;
+    display: inline-grid;
+    font-family: var(--sans-serif);
+    font-size: 14px;
+    font-style: normal;
+    font-weight: normal;
+    left: 40px;
+    text-align: center;
+    top: -5px;
     width: 137px;
   }
 
@@ -143,34 +157,5 @@ a.survey-button {
   &:active {
     border-color: var(--core-blue-3);
     color: var(--core-blue-3);
-  }
-
-  & span.button-text {
-    align-items: center;
-    color: #fff;
-    display: flex;
-    flex-grow: 0;
-    font-family: var(--sans-serif);
-    font-size: 14px;
-    font-style: normal;
-    font-weight: normal;
-    height: 20px;
-    left: 15px;
-    line-height: 20px;
-    order: 0;
-    position: static;
-    top: 10px;
-
-    @media (--sm) {
-      padding-left: 70px;
-    }
-
-    @media (--lg) {
-      padding-left: 10px;
-    }
-
-    @media (--xl) {
-      padding-left: 10px;
-    }
   }
 }
