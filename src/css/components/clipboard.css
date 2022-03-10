@@ -1,0 +1,39 @@
+.content {
+    position: relative;
+}
+
+.listingblock:hover .clipboard {
+     display: block;
+ }
+
+ .clipboard {
+    -webkit-text-size-adjust: 100%;
+    -webkit-font-smoothing: antialiased;
+    margin: 0;
+    overflow: visible;
+    text-transform: none;
+    appearance: none;
+    border: 0;
+    border-radius: 0;
+    line-height: 1;
+    cursor: auto;
+    font-family: inherit;
+    position: absolute;
+    top: 0;
+    right: 0;
+    background: #1779ba;
+    color: white;
+    font-size: 0.8rem;
+    padding: 0.75rem 1rem;
+    z-index: 1;
+    outline: 0;
+ }
+
+ code + .clipboard {
+     top: 2rem !important;
+ }
+
+ .clipboard:hover, .clipboard:focus, .clipboard:active {
+     outline: 0;
+     background-color: #eee9e6;
+ }
