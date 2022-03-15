@@ -1,6 +1,6 @@
 'use strict'
 
-const asciidoctor = require('asciidoctor.js')()
+const asciidoctor = require('asciidoctor')()
 const fs = require('fs-extra')
 const handlebars = require('handlebars')
 const { inspect } = require('util')
