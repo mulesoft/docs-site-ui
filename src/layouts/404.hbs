@@ -1,14 +1,17 @@
 <!DOCTYPE html>
 <html>
+
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1.0">
-<title>{{{detag (or page.title 'Page Not Found')}}}{{#if site.title}} | {{{site.title}}}{{/if}}</title>
-{{> head}}
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <title>{{{detag (or page.title 'Page Not Found')}}}{{#if site.title}} | {{{site.title}}}{{/if}}</title>
+    {{> head}}
 </head>
+
 <body class="status-404 flex col">
-{{> header}}
-{{> body}}
-{{> footer}}
+    {{> header}}
+    {{> body}}
+    {{> footer}}
 </body>
+
 </html>

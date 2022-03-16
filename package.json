@@ -14,7 +14,7 @@
   ],
   "devDependencies": {
     "@octokit/rest": "~18.0",
-    "asciidoctor.js": "1.5.9",
+    "asciidoctor": "2.2.6",
     "autoprefixer": "~9.8",
     "browser-pack-flat": "~3.4",
     "browserify": "~16.5",
@@ -37,7 +37,7 @@
     "gulp-uglify": "~3.0",
     "gulp-vinyl-zip": "~2.2",
     "handlebars": "~4.7",
-    "highlight.js": "~9.18",
+    "highlight.js": "~10.4",
     "js-yaml": "~3.14",
     "merge-stream": "~2.0",
     "postcss-calc": "~7.0",
