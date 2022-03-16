@@ -1,4 +1,4 @@
-;(function () {
+; (function () {
   'use strict'
 
   var analytics = window.analytics
@@ -25,6 +25,7 @@
   var searchTrigger = document.querySelector('.js-search-trigger')
   var searchUI = document.querySelector('.js-search-ui')
   var searchClose = document.querySelector('.js-search-close')
+  var searchBox = document.querySelector('.CoveoSearchbox')
 
   function showCoveo () {
     if (!coveoInit) {
@@ -38,6 +39,7 @@
     searchUI.classList.add('show')
     nav.classList.remove('active')
     tippy.hideAll()
+    searchBox.focus()
     analytics && analytics.track('Clicked Open Search')
   }
 
@@ -58,7 +60,7 @@
   searchClose.addEventListener('click', hideCoveo)
   searchClose.addEventListener('touchend', hideCoveo)
   document.addEventListener('keydown', function (e) {
-    if (e.keyCode === 27) hideCoveo(e)
+    if (e.key === 27) hideCoveo(e)
   })
   root.addEventListener('click', clickThru)
   root.addEventListener('touchend', clickThru)

@@ -15,7 +15,9 @@
     <div class="col">Level</div>
     <div class="col">
       <div class="flex align-center">
-        {{{page.attributes.connector-level}}}
+        <a target="_blank" rel="noopener noreferrer" href="https://www.mulesoft.com/legal/versioning-back-support-policy#anypoint-connectors">
+          {{{page.attributes.connector-level}}}
+        </a>
         <div class="flex align-center justify-center level-help js-connector-level-trigger" data-level="{{{page.attributes.connector-level}}}">
           <svg class="icon icon-help"><use xlink:href="#icon-help"/></svg>
         </div>
@@ -35,3 +37,7 @@
     {{/if}}
   </section>
 </div>
+<div class="js-toc">
+  <nav class="toc-menu"></nav>
+</div>
+{{> survey-toc}}
