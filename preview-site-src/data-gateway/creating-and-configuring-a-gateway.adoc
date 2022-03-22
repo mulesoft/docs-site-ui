@@ -1,7 +1,4 @@
 = Creating and Configuring a Gateway
-ifndef::env-site,env-github[]
-include::_attributes.adoc[]
-endif::[]
 :keywords: data gateway, salesforce, sap, oracle
 
 == Overview

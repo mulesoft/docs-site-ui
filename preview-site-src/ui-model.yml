@@ -14,6 +14,8 @@ site:
         - items:
           - content: Welcome
             url: *index_url
+          - content: Mulesoft documentation landing page
+            url: /home.html
           - content: Glossary
             url: /glossary.html
           - content: Ecosia (external link)
@@ -36,28 +38,56 @@ site:
       versions:
         - *element_latest
     salesforce-rtfcloud:
-      latest: &salesforce_rtfcloud_latest
-        version: '3.x'
-        displayVersion: '3.x'
-        title: Test nav headers
-        url: '#'
-        navigation:
-          - items:
-              - content: Parent page
-                url: /parent-page.html
-                items:
-                - content: Child page (dead page. Don't click)
-                  url: '#'
-                  items:
-                  - content: Grandchild page (also dead page. don't click)
-                    url: '#'
-                - content: Second child page (also dead page. Don't click)
-                  url: '#'
-        asciidoc:
-          attributes:
-            page-component-desc: Something about headers
       versions:
-        - *salesforce_rtfcloud_latest
+      - &component_version_latest
+        version: '3.9'
+        title: Test nav header 
+        navigation:
+        - items:
+          - content: Dead page 1 for 3.9 (don't click)
+            url: '#'
+          - content: Dead page 2 for 3.9 (don't click)
+            url: '#'
+          - content: Dead page 3 for 3.9 (don't click)
+            url: '#'
+          - content: Dead page 4 for 3.9 (don't click)
+            url: '#'
+      - version: '3.8'
+        title: Test nav header 
+        navigation:
+        - items:
+          - content: Dead page 1 for 3.8 (don't click)
+            url: '#'
+          - content: Dead page 2 for 3.8 (don't click)
+            items:
+            - content: Dead page 3 for 3.8 (don't click)
+              url: '#'
+              items:
+              - content: Dead page 4 for 3.8 (don't click)
+                url: '#'
+              - content: Dead page 5 for 3.8 (don't click)
+                url: '#'
+              - content: Dead page 6 for 3.8 (don't click)
+                url: '#'
+            - content: Dead page 7 for 3.8 (don't click)
+              url: '#'
+            - content: Dead page 8 for 3.8 (don't click)
+              url: '#'
+            - content: Dead page 9 for 3.8 (don't click)
+              url: '#'
+          - content: Dead page 10 for 3.8 (don't click)
+            url: '#'
+      - version: '3.7'
+        title: Test nav header
+        navigation:
+        - items:
+          - content: Dead page 1 for 3.7 (don't click)
+            url: '#'
+          - content: Dead page 2 for 3.7 (don't click)
+            url: '#'
+          - content: Dead page 3 for 3.7 (don't click)
+            url: '#'
+      latest: *component_version_latest
     api-governance:
       latest: &data_gateway_latest
         version: '1.x'
@@ -99,7 +129,7 @@ site:
         version: '3.x'
         displayVersion: '3.x (Mule 4)'
         title: MQ Connector
-        url: '#'
+        url: /placeholder.html
         asciidoc:
           attributes:
             page-component-desc: Connect to Anypoint MQ, MuleSoft's multi-tenant cloud messaging service for the enterprise.
@@ -110,6 +140,10 @@ site:
             page-runtime-version: 4.1.1
             page-vendor-name: msmq
             page-vendor-title: MuleSoft
+        navigation:
+        - items:
+          - content: Dead page (do not click)
+            url: '#'
       versions:
       - *mq_connector_latest
     amazon-s3-connector:
@@ -117,7 +151,7 @@ site:
         version: '5.6'
         displayVersion: '5.6 (Mule 4)'
         title: Amazon S3 Connector
-        url: '#'
+        url: /placeholder.html
         asciidoc:
           attributes:
             page-component-desc: Provides connectivity to the Amazon S3 API, enabling you to interface with Amazon S3 to store objects, download and use data with other AWS services, and build applications that require internet storage.
@@ -128,6 +162,10 @@ site:
             page-runtime-version: 4.1.1
             page-vendor-name: amazon
             page-vendor-title: Amazon
+        navigation:
+        - items:
+          - content: Dead page (do not click)
+            url: '#'
       versions:
       - *s3_connector_latest
     salesforce-connector:
@@ -135,7 +173,7 @@ site:
         version: '9.7'
         displayVersion: '9.7 (Mule 4)'
         title: Salesforce Connector
-        url: &salesforce_connector_url /connector.html
+        url: &salesforce_connector_url /salesforce-connector/salesforce-connector.html
         asciidoc:
           attributes:
             page-component-desc: Connect to the Salesforce SOAP API, REST API, Bulk API, and Streaming API.
@@ -151,9 +189,8 @@ site:
         - items:
           - content: Get Started
             url: *salesforce_connector_url
-            items:
-            - content: Examples
-              url: *salesforce_connector_url
+          - content: Examples
+            url: /salesforce-connector/examples.html
       versions:
       - *salesforce_connector_latest
       - version: '0.3.9'
@@ -174,64 +211,9 @@ site:
         navigation:
         - items:
           - content: For Mule 3
-            url: '#'
+            url: /salesforce-connector/salesforce-connector.html
           - content: Salesforce Connector Authentication
-            url: &salesforce_connector_authentication /salesforce-connector-authentication.html
-    connector-devkit: &component
-      versions:
-      - &component_version_latest
-        version: '3.9'
-        title: Connector DevKit
-        url: '#'
-        navigation:
-        - items:
-          - content: Dead page 1 for 3.9 (don't click)
-            url: '#'
-          - content: Dead page 2 for 3.9 (don't click)
-            url: '#'
-          - content: Dead page 3 for 3.9 (don't click)
-            url: '#'
-          - content: Dead page 4 for 3.9 (don't click)
-            url: '#'
-      - version: '3.8'
-        title: Connector DevKit
-        url: &index_url /index.html
-        navigation:
-        - items:
-          - content: Dead page 1 for 3.8 (don't click)
-            url: '#'
-          - content: Dead page 2 for 3.8 (don't click)
-            # NOTE comment out url to make this a heading
-            url: '#'
-            items:
-            - content: Dead page 3 for 3.8 (don't click)
-              url: '#'
-              items:
-              - content: Dead page 4 for 3.8 (don't click)
-                url: '#'
-              - content: Dead page 5 for 3.8 (don't click)
-                url: '#'
-              - content: Dead page 6 for 3.8 (don't click)
-                url: '#'
-            - content: Dead page 7 for 3.8 (don't click)
-              url: '#'
-            - content: Dead page 8 for 3.8 (don't click)
-              url: '#'
-            - content: Dead page 9 for 3.8 (don't click)
-              url: '#'
-          - content: Dead page 10 for 3.8 (don't click)
-            url: '#'
-      - version: '3.7'
-        title: Connector DevKit
-        navigation:
-        - items:
-          - content: Dead page 1 for 3.7 (don't click)
-            url: '#'
-          - content: Dead page 2 for 3.7 (don't click)
-            url: '#'
-          - content: Dead page 3 for 3.7 (don't click)
-            url: '#'
-      latest: *component_version_latest
+            url: /salesforce-connector/salesforce-connector-authentication.html
 page:
   src:
     component: general

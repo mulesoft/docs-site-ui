@@ -1,7 +1,4 @@
 = Installing Anypoint Data Gateway
-ifndef::env-site,env-github[]
-include::_attributes.adoc[]
-endif::[]
 :keywords: data gateway, salesforce, sap, oracle, installing
 
 The Anypoint™ Data Gateway can be installed as a Salesforce managed package, or accessed through the Anypoint Platform. For details on installing managed packages in Salesforce, see the https://help.salesforce.com/apex/HTViewHelpDoc?id=distribution_installing_packages.htm[official Salesforce documentation].

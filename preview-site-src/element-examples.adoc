@@ -1,7 +1,4 @@
 = Elements
-ifndef::env-site,env-github[]
-include::_attributes.adoc[]
-endif::[]
 :keywords: code, code blocks, code snippets, snippets
 
 This page contains different elements like tables, code blocks, etc. so you can verify that everything looks ok.
@@ -162,6 +159,41 @@ term 3::
 * unordered list item
 .. ordered list item
 ... another ordered list item
+
+== Table
+
+https://docs.asciidoctor.org/asciidoc/latest/tables/build-a-basic-table/[ref]
+
+=== Basic table
+
+[cols="3,2,3"]
+|===
+|This content is placed in the first cell of column 1
+|This line starts with a vertical bar so this content is placed in a new cell in column 2 |When the processor encounters a whitespace followed by a vertical bar it ends the previous cell and starts a new cell
+|===
+
+=== Nesting table
+
+[cols="1,2a"]
+|===
+| Col 1 | Col 2
+
+| Cell 1.1
+| Cell 1.2
+
+| Cell 2.1
+| Cell 2.2
+
+[cols="2,1"]
+!===
+! Col1 ! Col2
+
+! C11
+! C12
+
+!===
+
+|===
 
 == Text
 

@@ -1,7 +1,4 @@
 = Troubleshooting Data Gateway
-ifndef::env-site,env-github[]
-include::_attributes.adoc[]
-endif::[]
 :keywords: data gateway, salesforce, sap, oracle, db2, odata, mysql, sqlserver
 
 == Entitlements Support

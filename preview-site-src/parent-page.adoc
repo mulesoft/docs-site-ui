@@ -1,4 +1,0 @@
-= Parent page
-:page-component-name: salesforce-rtfcloud
-
-This page has no useful content. It's just for testing the parent-children relationship of its children pages.
