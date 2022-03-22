@@ -1,7 +1,7 @@
 antoraVersion: '2.3.3'
 preview: true
 site:
-  url: &home_url /home.html
+  url: &index_url /index.html
   title: MuleSoft Documentation
   keys: {}
   components:
@@ -9,103 +9,80 @@ site:
       latest: &general_latest
         version: master
         title: Home
-        url: *home_url
+        url: *index_url
         navigation:
         - items:
-          - content: MuleSoft Documentation
-            url: *home_url
-          - content: Anypoint Platform Glossary
-            url: '#'
-          - content: Ecosia
+          - content: Welcome
+            url: *index_url
+          - content: Glossary
+            url: /glossary.html
+          - content: Ecosia (external link)
             url: https://ecosia.org
             urlType: external
       versions:
       - *general_latest
     access-management:
-      latest: &access_management_latest
+      latest: &element_latest
         version: master
-        title: Access Management
+        title: Elements
         url: '#'
         asciidoc:
           attributes:
             primary-site-url: https://docs.mulesoft.com # enables archive site banner
         navigation:
         - items:
-          - content: About Access Management
-            url: /access-management.html
-          - content: Managing Your Account
-            url: '#'
-          - content: Organization
-            url: '#'
-          - content: Business Groups
-            url: '#'
-          - content: Users
-            url: '#'
-          - content: Roles
-            url: '#'
-          - content: Environments
-            url: '#'
+          - content: Element Examples
+            url: /element-examples.html
       versions:
-        - *access_management_latest
-    anypoint-cli:
-      latest: &anypoint_cli_latest
-        version: master
-        title: Anypoint CLI
-        url: '#'
-        navigation:
-        - items:
-          - content: About Anypoint CLI
-            url: '#'
-      versions:
-        - *anypoint_cli_latest
-    rtfcloud:
-      latest: &rtfcloud_latest
-        version: master
-        title: RTFCloud
-        url: &rtfcloud_url /rtfcloud-index.html
-        navigation:
-          - items:
-              - content: RTF Cloud Stuff
-                url: *rtfcloud_url
-      versions:
-        - *rtfcloud_latest
+        - *element_latest
     salesforce-rtfcloud:
       latest: &salesforce_rtfcloud_latest
         version: '3.x'
         displayVersion: '3.x'
-        title: Salesforce RTF Cloud
+        title: Test nav headers
         url: '#'
         navigation:
           - items:
-              - content: About Salesforce RTF Cloud
-                url: '#'
-              - content: Getting Started with Salesforce RTF Cloud
-                url: '#'
-              - content: No, RTF doesn't mean "rich text format"
-                url: '#'
+              - content: Parent page
+                url: /parent-page.html
+                items:
+                - content: Child page (dead page. Don't click)
+                  url: '#'
+                  items:
+                  - content: Grandchild page (also dead page. don't click)
+                    url: '#'
+                - content: Second child page (also dead page. Don't click)
+                  url: '#'
         asciidoc:
           attributes:
-            page-component-desc: Something about RTF Cloud
+            page-component-desc: Something about headers
       versions:
         - *salesforce_rtfcloud_latest
     api-governance:
-      latest: &api-governance_latest
+      latest: &data_gateway_latest
         version: '1.x'
         displayVersion: '1.x'
-        title: API Governance
+        title: Data Gateway (more realistic pages, all images broken)
         url: '#'
         navigation:
           - items:
-              - content: About API Governance
-                url: '#'
-              - content: Getting Started with API Governance
-                url: '#'
+              - content: Data Gateway
+                url: /data-gateway/data-gateway.html
+              - content: Installing Anypoint Data Gateway
+                url: /data-gateway/installing-anypoint-data-gateway.html
+              - content: Creating and Configuring a Gateway
+                url: /data-gateway/creating-and-configuring-a-gateway.html
+              - content: Managing Gateways
+                url: /data-gateway/managing-gateways.html
+              - content: Quick Guide to Accessing Gateways and Objects
+                url: /data-gateway/quick-guide-to-accessing-gateways-and-objects.html
+              - content: Troubleshooting Data Gateway
+                url: /data-gateway/troubleshooting-data-gateway.html
         asciidoc:
           attributes:
-            page-component-desc: Something about API Governance
+            page-component-desc: Something about Data Gateway
       versions:
-        - *api-governance_latest
-
+        - *data_gateway_latest
     connectors:
       latest: &connectors_latest
         version: master
@@ -208,56 +185,56 @@ site:
         url: '#'
         navigation:
         - items:
-          - content: About Anypoint Connector DevKit
+          - content: Dead page 1 for 3.9 (don't click)
             url: '#'
-          - content: Getting Started with Anypoint Connector Development
+          - content: Dead page 2 for 3.9 (don't click)
             url: '#'
-          - content: Creating an Anypoint Connector Project
+          - content: Dead page 3 for 3.9 (don't click)
+            url: '#'
+          - content: Dead page 4 for 3.9 (don't click)
             url: '#'
       - version: '3.8'
         title: Connector DevKit
         url: &index_url /index.html
         navigation:
         - items:
-          - content: About Anypoint Connector DevKit
+          - content: Dead page 1 for 3.8 (don't click)
             url: '#'
-          - content: Getting Started with Anypoint Connector Development
+          - content: Dead page 2 for 3.8 (don't click)
             # NOTE comment out url to make this a heading
             url: '#'
             items:
-            - content: Setting Up Your Development Environment
-              url: *index_url
+            - content: Dead page 3 for 3.8 (don't click)
+              url: '#'
               items:
-              - content: Windows
+              - content: Dead page 4 for 3.8 (don't click)
                 url: '#'
-              - content: Linux
+              - content: Dead page 5 for 3.8 (don't click)
                 url: '#'
-              - content: macOS
+              - content: Dead page 6 for 3.8 (don't click)
                 url: '#'
-            - content: Anypoint Connector DevKit Tutorial
+            - content: Dead page 7 for 3.8 (don't click)
               url: '#'
-            - content: Connector Project Structure
+            - content: Dead page 8 for 3.8 (don't click)
               url: '#'
-            - content: DevKit Java Annotation Reference
+            - content: Dead page 9 for 3.8 (don't click)
               url: '#'
-          - content: Creating an Anypoint Connector Project
+          - content: Dead page 10 for 3.8 (don't click)
             url: '#'
       - version: '3.7'
         title: Connector DevKit
-        url: /connector-devkit/3.7/index.html
         navigation:
         - items:
-          - content: About Anypoint Connector DevKit
-            url: /connector-devkit/3.7/index.html
-          - content: Getting Started with Anypoint Connector Development
+          - content: Dead page 1 for 3.7 (don't click)
             url: '#'
-          - content: Creating an Anypoint Connector Project
+          - content: Dead page 2 for 3.7 (don't click)
+            url: '#'
+          - content: Dead page 3 for 3.7 (don't click)
             url: '#'
       latest: *component_version_latest
 page:
   src:
-    component: connector-devkit
-    version: '3.8'
+    component: general
   origin:
     url: https://github.com/mulesoft/docs-site-ui
     editUrlPattern: https://github.com/mulesoft/docs-site-ui/edit/master/preview-site-src/%s
