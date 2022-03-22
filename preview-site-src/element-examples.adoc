@@ -199,7 +199,7 @@ https://docs.asciidoctor.org/asciidoc/latest/tables/build-a-basic-table/[ref]
 
 This is *bold*. This is _italic_. This is *_bold and italic_*. https://docs.antora.org/antora/latest/asciidoc/bold/[ref]
 
-This is a new paragraph for a monospace `word`, and a monospace `phrase of text`. `*_monospace bold italic phrase_*` & ``**__char__**``acter``**__s__**`` https://docs.antora.org/antora/latest/asciidoc/monospace/[ref]
+This is a new paragraph for a monospace `word`, and a monospace `phrase of text`. `*_monospace bold italic phrase_*` & ``**__char__**``actor``**__s__**`` https://docs.antora.org/antora/latest/asciidoc/monospace/[ref]
 
 Let's #highlight this phrase# and the i and s in th##is##. https://docs.antora.org/antora/latest/asciidoc/highlight/[ref]
 
