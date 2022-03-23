@@ -43,6 +43,9 @@
       var searchBox = document.querySelector('[form=coveo-dummy-form]')
       if (searchBox) {
         searchBox.focus()
+        searchBox.addEventListener('keydown', function (e) {
+          if (e.keyCode === 27) hideCoveo(e)
+        })
         clearInterval(checkExist)
       }
     }, 300)
