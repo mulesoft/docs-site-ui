@@ -198,6 +198,8 @@ site:
         - items:
           - content: For Mule 3
             url: '#'
+          - content: Salesforce Connector Authentication
+            url: &salesforce_connector_authentication /salesforce-connector-authentication.html
     connector-devkit: &component
       versions:
       - &component_version_latest
