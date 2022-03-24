@@ -15,6 +15,7 @@ const srcDir = 'src'
 const destDir = `${previewDestDir}/_`
 const partialsDir = `${srcDir}/partials`
 const { reload: livereload } = process.env.LIVERELOAD === 'true' ? require('gulp-connect') : {}
+const serverConfig = { host: '0.0.0.0', port: 5252, livereload }
 
 const task = require('./gulp.d/tasks')
 const glob = {
@@ -105,7 +106,7 @@ const previewBuildTask = createTask({
 
 const previewServeTask = createTask({
   name: 'preview:serve',
-  call: task.serve(previewDestDir, { port: 5252, livereload }, () => watch(glob.all, previewBuildTask)),
+  call: task.serve(previewDestDir, serverConfig, () => watch(glob.all, previewBuildTask)),
 })
 
 const previewTask = createTask({
