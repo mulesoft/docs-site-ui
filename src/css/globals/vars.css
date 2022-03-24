@@ -65,13 +65,14 @@
   --screen-xxl: 1650px;
 
   /* z-index */
-  --z-gdpr: 20;
-  --z-modal-header: 16;
-  --z-modal: 15;
-  --z-nav-mobile: 14;
-  --z-backdrop: 13;
-  --z-header: 12; /* marketing header */
-  --z-nav: 10;
+  --z-gdpr: 18;
+  --z-modal-header: 17;
+  --z-modal: 16;
+  --z-nav-mobile: 15;
+  --z-backdrop: 14;
+  --z-header: 13;
+  --z-banner: 12;
+  --z-nav: 11;
   --z-nav-toolbar: 10;
 
   /* animations/transitions */
