@@ -1,7 +1,7 @@
 /* globals */
 @import "vendor/normalize.css";
-@import "globals/reset.css";
 @import "globals/vars.css";
+@import "globals/reset.css";
 @import "globals/utility.css";
 @import "globals/global.css";
 @import "globals/grid.css";
