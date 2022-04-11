@@ -1,0 +1,228 @@
+= Elements
+:keywords: code, code blocks, code snippets, snippets
+
+This page contains different elements like tables, code blocks, etc. so you can verify that everything looks ok.
+
+== Admonitions
+
+https://docs.antora.org/antora/latest/asciidoc/admonitions/[ref]
+
+NOTE: If you go into the basement, see if you can find Kenny's parka.
+
+TIP: After someone sticks a fork in a socket, you'll need to reset the circuit in the dark basement.
+
+WARNING: Never go into the basement.
+
+CAUTION: Don't stick forks in electric sockets.
+
+[#important]
+IMPORTANT: A monster lives in the basement.
+
+== Code Blocks
+
+https://docs.antora.org/antora/latest/asciidoc/source/[ref]
+
+Below are code blocks of different languages (they are highlighted differently).
+
+=== No highlights
+
+[source]
+----
+# Insert logic here
+----
+
+=== Java
+
+[source,java,linenums]
+----
+@XmlRootElement(name = "person")
+@XmlAccessorType(XmlAccessType.FIELD)
+public class Person
+{
+    private String name;
+    private String dob;
+
+    @XmlElementWrapper(name = "emailAddresses")
+    @XmlElement(name = "emailAddress")
+    private List<EmailAddress> emailAddresses;
+
+    public String getName() { return name; }
+    public void setName(String name) { this.name = name; }
+    public String getDob() { return dob; }
+    public void setDob(String dob) { this.dob = dob; }
+    public List<EmailAddress> getEmailAddresses() { return emailAddresses; }
+    public void setEmailAddresses(List<EmailAddress> emailAddresses) { this.emailAddresses = emailAddresses; }
+}
+----
+
+=== XML
+
+[source,xml,linenums]
+----
+<mule xmlns:aggregators="http://www.mulesoft.org/schema/mule/aggregators"
+	xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core"
+	xmlns:http="http://www.mulesoft.org/schema/mule/http"
+	xmlns:file="http://www.mulesoft.org/schema/mule/file"
+	xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core
+	http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+	http://www.mulesoft.org/schema/mule/file
+	http://www.mulesoft.org/schema/mule/file/current/mule-file.xsd
+	http://www.mulesoft.org/schema/mule/http
+	http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd
+	http://www.mulesoft.org/schema/mule/ee/core
+	http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd
+	http://www.mulesoft.org/schema/mule/aggregators
+	http://www.mulesoft.org/schema/mule/aggregators/current/mule-aggregators.xsd">
+----
+
+=== YAML
+
+[source,yaml,linenums]
+----
+Notification:
+type: object
+properties:
+    id: string
+    domain: string
+    priority?: string
+    read: boolean
+    readOn?: datetime
+    createdAt: datetime
+    href: string
+    properties: object
+----
+
+== Embedded media
+
+=== Image
+
+https://docs.antora.org/antora/latest/page/image-resource-id-examples/[ref]
+
+Block image:
+
+image::images/devkitoverviewarchitecture.png[alt text]
+
+Here's an inline image:images/devkitoverviewarchitecture.png[optional attribute,optional attribute] image.
+
+=== Video
+
+https://docs.antora.org/antora/latest/asciidoc/embed-video/[ref]
+
+video::rPQoq7ThGAU[youtube]
+
+// https://docs.antora.org/antora/latest/asciidoc/comments/[ref]
+// this is a comment. You won't see me on the page ;)
+
+== List
+
+https://docs.antora.org/antora/latest/asciidoc/lists/[ref]
+
+=== Ordered lists
+
+. Step 1
+. Step 2
+.. Details
+... Mini-details
+.... Micro-details
+..... We're really down in the weeds now.
+.. More details
+. Step 3
+
+=== Unordered lists
+
+* Item A
+* Item B
+** Item B1
+*** Details
+**** More details
+***** Details about the details
+** Item B2
+* Item C
+
+=== Description lists
+
+term 1::
+This description needs two paragraphs.
+To attach them both to term 1, use a list continuation (+) on the line separating the paragraphs.
++
+This is the second paragraph for term 1.
+
+term 2:: This description includes an admonition block.
+Like additional paragraphs, blocks also need to be connected with a +.
++
+NOTE: An admonition block that is part of term 2's description.
+
+term 3::
+* unordered list item
+.. ordered list item
+... another ordered list item
+
+== Table
+
+https://docs.asciidoctor.org/asciidoc/latest/tables/build-a-basic-table/[ref]
+
+=== Basic table
+
+[cols="3,2,3"]
+|===
+|This content is placed in the first cell of column 1
+|This line starts with a vertical bar so this content is placed in a new cell in column 2 |When the processor encounters a whitespace followed by a vertical bar it ends the previous cell and starts a new cell
+|===
+
+=== Nesting table
+
+[cols="1,2a"]
+|===
+| Col 1 | Col 2
+
+| Cell 1.1
+| Cell 1.2
+
+| Cell 2.1
+| Cell 2.2
+
+[cols="2,1"]
+!===
+! Col1 ! Col2
+
+! C11
+! C12
+
+!===
+
+|===
+
+== Text
+
+This is *bold*. This is _italic_. This is *_bold and italic_*. https://docs.antora.org/antora/latest/asciidoc/bold/[ref]
+
+This is a new paragraph for a monospace `word`, and a monospace `phrase of text`. `*_monospace bold italic phrase_*` & ``**__char__**``actor``**__s__**`` https://docs.antora.org/antora/latest/asciidoc/monospace/[ref]
+
+Let's #highlight this phrase# and the i and s in th##is##. https://docs.antora.org/antora/latest/asciidoc/highlight/[ref]
+
+&#169; &#8656; &#8592; &#174; https://docs.antora.org/antora/latest/asciidoc/special-characters-and-symbols/[ref]
+
+The chemical formula for water is H~2~O. What is the answer to E=mc^2^? https://docs.antora.org/antora/latest/asciidoc/subscript-and-superscript/[ref]
+
+== URL
+
+https://docs.antora.org/antora/latest/asciidoc/external-urls/[ref]
+
+Looking for help?
+Visit the https://antora.zulipchat.com[Antora chat room].
+
+== Xref
+
+https://docs.antora.org/antora/latest/asciidoc/in-page-xref/[ref]
+
+This is an in-page cross reference for the Code blocks section above: <<_code_blocks>>.
+
+This is the same in-page cross reference:
+<<_code_blocks,Check it out>>!
+
+This is an in-page cross reference for the #important ID: <<important,Click me>>.
+
+xref:index.adoc[Return to homepage]
