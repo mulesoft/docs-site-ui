@@ -11,10 +11,6 @@
     padding-right: var(--xl);
   }
 
-  @media (--md) {
-    display: none;
-  }
-
   @supports (backdrop-filter: blur(10px)) {
     backdrop-filter: blur(10px);
     background: rgba(255,255,255,.7);
