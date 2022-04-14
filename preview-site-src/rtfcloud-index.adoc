@@ -1,3 +1,0 @@
-= Runtime Fabric
-:page-component-name: rtfcloud
-:page-layout: rtfcloud-home
