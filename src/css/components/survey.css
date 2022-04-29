@@ -23,7 +23,7 @@ div.survey-icon {
 }
 
 div.survey-title {
-  display: block;
+  display: inline-block;
   font-family: var(--sans-serif);
   font-size: 20px;
   font-style: normal;
@@ -37,17 +37,17 @@ div.survey-title {
 
 div.survey-text {
   align-items: center;
-  display: block;
+  display: inline-block;
   font-family: var(--sans-serif);
   font-size: 15px;
   font-style: normal;
   font-weight: normal;
   line-height: 20px;
-  margin: auto;
+  margin: auto 10%;
   position: inherit;
   text-align: center;
   top: 6%;
-  width: 80%;
+  width: auto;
 }
 
 a.survey-button {
