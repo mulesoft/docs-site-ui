@@ -23,3 +23,25 @@
     max-width: var(--screen-xxl);
   }
 }
+
+.try-free {
+  margin-top: 40px;
+}
+
+@media screen and (max-width: 1160px) {
+  .ms-com-content.ms-com-content-header header.ms-com-header .header-wrapper .header-inside>.logo {
+    background-image: url(https://www.mulesoft.com/endpoints/assets/graphics/graphics.svgz);
+    width: 43px;
+  }
+}
+
+.mega-menu-container-left {
+  display: inline-block;
+  vertical-align: top;
+  margin-right: 70px;
+}
+
+.mega-menu-container-right {
+  display: inline-block;
+  vertical-align: top;
+}
