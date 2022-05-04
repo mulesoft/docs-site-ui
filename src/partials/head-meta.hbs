@@ -12,7 +12,7 @@
 <meta name="generator" content="Antora {{or antoraVersion site.antoraVersion}}">
 {{/if}}
 <link rel="stylesheet" href="{{uiRootPath}}/css/site.css">
-{{#if (and page.component env.COVEO_ACCESS_TOKEN)}}
+{{#if env.COVEO_ACCESS_TOKEN}}
 <link rel="stylesheet" href="https://static.cloud.coveo.com/searchui/v2.4382/css/CoveoFullSearch.min.css">
 {{/if}}
 {{> marketing-styles}}
