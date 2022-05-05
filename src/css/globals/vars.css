@@ -39,7 +39,8 @@
   --sans-serif: 'Open Sans', sans-serif;
   --monospace: 'Monaco', monospace;
   --weight-normal: 400;
-  --weight-bold: 600;
+  --weight-medium: 600;
+  --weight-bold: 700;
 
   /* dimensions */
   --header-height: 65px;

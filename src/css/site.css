@@ -41,6 +41,9 @@
 @import "adoc/description-list.css";
 @import "adoc/table.css";
 
+/* more pages */
+@import "pages/home.css";
+
 /* vendor */
 @import "vendor/coveo.css";
 

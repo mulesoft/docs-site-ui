@@ -24,7 +24,7 @@
     font-family: var(--sans-serif);
     font-size: 12px;
     font-style: normal;
-    font-weight: --weight-bold;
+    font-weight: var(--weight-bold);
     padding: 0 5px;
 
     &::after {
