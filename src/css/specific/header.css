@@ -9,6 +9,11 @@
   height: 102px;
   position: relative;
   z-index: var(--z-header);
+  /* height: 102px; */
+}
+
+.ms-com-content.ms-com-content-header:not(.ms-com-content-header-with-banner).active {
+  position: absolute;
 }
 
 .ms-com-content.ms-com-content-header:not(.ms-com-content-header-with-banner).active {
