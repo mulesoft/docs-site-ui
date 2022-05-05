@@ -16,10 +16,6 @@
   position: absolute;
 }
 
-.ms-com-content.ms-com-content-header:not(.ms-com-content-header-with-banner).active {
-  position: absolute;
-}
-
 .ms-com-content.ms-com-content.ms-com-content-header header.ms-com-header.desktop-header .mega-menu-wrapper {
   position: absolute;
 }
