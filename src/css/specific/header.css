@@ -6,9 +6,9 @@
 
 /* specificity to override position */
 .ms-com-content.ms-com-content.ms-com-content-header:not(.ms-com-content-header-with-banner) {
-  z-index: var(--z-header);
   height: 102px;
   position: relative;
+  z-index: var(--z-header);
 }
 
 .ms-com-content.ms-com-content-header:not(.ms-com-content-header-with-banner).active {
