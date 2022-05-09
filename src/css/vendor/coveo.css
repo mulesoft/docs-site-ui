@@ -18,6 +18,8 @@
 
   /* close button */
   & .coveo-close {
+    background-color: var(--aluminum-1);
+    border: none;
     cursor: pointer;
     fill: var(--aluminum-4);
     height: var(--lg);
