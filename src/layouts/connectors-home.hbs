@@ -13,7 +13,7 @@
 {{#if page.keywords}}
 <meta name="keywords" content="{{page.keywords}}">
 {{/if}}
-{{#if (ne (site-profile) 'prod')}}
+{{#if (and (ne (site-profile) 'jp') (ne (site-profile) 'prod'))}}
 <meta name="robots" content="noindex">
 {{/if}}
 {{> head}}
