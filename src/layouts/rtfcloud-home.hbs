@@ -13,6 +13,9 @@
 {{#if page.keywords}}
 <meta name="keywords" content="{{page.keywords}}">
 {{/if}}
+{{#if (ne (site-profile) 'prod')}}
+<meta name="robots" content="noindex">
+{{/if}}
 {{> head}}
 </head>
 <body class="flex col">
