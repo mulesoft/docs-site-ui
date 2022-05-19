@@ -4,6 +4,9 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    {{#if (and (ne (site-profile) 'jp') (ne (site-profile) 'prod'))}}
+    <meta name="robots" content="noindex">
+    {{/if}}
     <title>{{{detag (or page.title 'Page Not Found')}}}{{#if site.title}} | {{{site.title}}}{{/if}}</title>
     {{> head}}
 </head>
