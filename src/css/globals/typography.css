@@ -88,9 +88,6 @@ h6 {
     color: var(--steel-4);
   }
 
-  &:focus {
-    outline: 0;
-  }
 
   &:focus,
   &:active {
