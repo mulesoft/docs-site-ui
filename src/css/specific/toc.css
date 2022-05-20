@@ -28,10 +28,6 @@
   padding: var(--xs) var(--sm);
   text-decoration: none;
 
-  &:focus {
-    outline: 0;
-  }
-
   &:hover,
   &:focus,
   &:active {
