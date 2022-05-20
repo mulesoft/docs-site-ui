@@ -214,6 +214,8 @@ https://docs.antora.org/antora/latest/asciidoc/external-urls/[ref]
 Looking for help?
 Visit the https://antora.zulipchat.com[Antora chat room].
 
+This is the https://antora.zulipchat.com[external link^] for the same URL.
+
 == Xref
 
 https://docs.antora.org/antora/latest/asciidoc/in-page-xref/[ref]
