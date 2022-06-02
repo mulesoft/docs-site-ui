@@ -1,5 +1,6 @@
 :root {
   /* colors */
+  --core-blue-0: #f2fafd;
   --core-blue-1: #abe2f5;
   --core-blue-2: #48c1ed;
   --core-blue-3: #00a2df;
@@ -39,7 +40,8 @@
   --sans-serif: 'Open Sans', sans-serif;
   --monospace: 'Monaco', monospace;
   --weight-normal: 400;
-  --weight-bold: 600;
+  --weight-medium: 500;
+  --weight-bold: 700;
 
   /* dimensions */
   --header-height: 65px;
