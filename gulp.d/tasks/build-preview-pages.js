@@ -36,6 +36,7 @@ module.exports = (src, previewSrc, previewDest, sink = () => map(), layouts = {}
         map((file, enc, next) => {
           const siteRootPath = path.relative(ospath.dirname(file.path), ospath.resolve(previewSrc))
           const uiModel = { ...baseUiModel }
+          delete uiModel.nav
           uiModel.siteRootPath = siteRootPath
           uiModel.uiRootPath = path.join(siteRootPath, '_')
           if (file.stem === '404') {
@@ -100,10 +101,20 @@ module.exports = (src, previewSrc, previewDest, sink = () => map(), layouts = {}
                 version === displayVersion ? { version, sets } : { version, displayVersion, sets }
               ),
             }))
-            const navigationDataSourceString =
-              'window.siteNavigationData = ' +
-              inspect(navigationData, { depth: null, maxArrayLength: null, breakLength: 250 })
-            file.contents = Buffer.from(navigationDataSourceString)
+            const navigationSubcomponents = baseUiModel.nav.subcomponents
+            const navigationGroups = baseUiModel.nav.groups
+            const navigationDataSource =
+              'siteNavigationData = ' +
+              inspect(navigationData, { depth: null, maxArrayLength: null, breakLength: 250 }) +
+              '\n' +
+              'siteNavigationData.subcomponents = ' +
+              inspect(navigationSubcomponents, { depth: null, maxArrayLength: null, breakLength: 250 }) +
+              '\n' +
+              'siteNavigationData.groups = ' +
+              inspect(navigationGroups, { depth: null, maxArrayLength: null, breakLength: 250 }) +
+              '\n' +
+              'siteNavigationData.homeUrl = "' + baseUiModel.site.homeUrl + '"'
+            file.contents = Buffer.from(navigationDataSource)
             next(null, file)
           })
         )

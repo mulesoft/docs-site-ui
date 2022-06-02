@@ -3,7 +3,7 @@
 
   var doc = document.querySelector('.doc')
   var main = document.querySelector('.main')
-  var sidebar = document.querySelector('.js-toc')
+  var sidebar = document.querySelector('.toc-sidebar')
   if (!doc) {
     if (!sidebar) main.classList.add('no-sidebar')
     return
@@ -85,16 +85,16 @@
     })
     if (activeFragment) {
       if (lastActiveFragment) {
-        links[lastActiveFragment].classList.remove('active')
+        links[lastActiveFragment].classList.remove('is-active')
       }
       var activeLink = links[activeFragment]
-      activeLink.classList.add('active')
+      activeLink.classList.add('is-active')
       if (menu.scrollHeight > menu.offsetHeight) {
         menu.scrollTop = Math.max(0, activeLink.offsetTop + activeLink.offsetHeight - menu.offsetHeight)
       }
       lastActiveFragment = activeFragment
     } else if (lastActiveFragment) {
-      links[lastActiveFragment].classList.remove('active')
+      links[lastActiveFragment].classList.remove('is-active')
       lastActiveFragment = undefined
     }
   }

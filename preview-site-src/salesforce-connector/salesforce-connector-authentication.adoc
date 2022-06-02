@@ -1,5 +1,7 @@
 = Salesforce Connector Authentication - Mule 3
 :page-aliases: 3.9@mule-runtime::salesforce-connector-authentication.adoc
+:page-component-name: salesforce-connector
+:page-version: 0.3.9
 
 Support Category: https://www.mulesoft.com/legal/versioning-back-support-policy#anypoint-connectors[Select]
 

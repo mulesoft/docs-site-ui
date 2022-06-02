@@ -15,6 +15,7 @@
       "exports": "always-multiline"
     }],
     "max-len": [1, 120, 2],
+    "no-cond-assign": "off",
     "spaced-comment": "off"
   }
 }

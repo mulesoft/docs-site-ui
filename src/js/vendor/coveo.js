@@ -19,7 +19,7 @@
 
   // modal setup
   var backdrop = document.querySelector('.modal-backdrop')
-  var nav = document.querySelector('nav.nav')
+  var nav = document.querySelector('.nav')
 
   // show/hide coveo search
   var searchTrigger = nav.querySelector('.search button')
@@ -46,7 +46,7 @@
     document.body.classList.add('no-scroll')
     document.body.classList.remove('mobile')
     searchUI.classList.add('show')
-    nav.classList.remove('active')
+    nav.classList.remove('is-active')
     tippy.hideAll()
     focusOnSearchBox()
     analytics && analytics.track('Clicked Open Search')
