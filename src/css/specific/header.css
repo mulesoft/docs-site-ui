@@ -1,7 +1,6 @@
 /* overrides for marketing header */
 .ms-com-content-header {
-  border-bottom: 1px solid var(--aluminum-3);
-  box-shadow: 0 3px 15px rgba(0,0,0,.025);
+  box-shadow: 0 1px 0 var(--aluminum-3), 0 3px 15px rgba(0,0,0,.025);
 }
 
 /* specificity to override position */
