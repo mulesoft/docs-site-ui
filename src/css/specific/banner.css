@@ -1,6 +1,6 @@
 .banner {
   align-items: center;
-  background-color: #f2fafd;
+  background-color: var(--color-brand-light-blue-tint);
   display: flex;
   height: var(--banner-height);
   position: sticky;

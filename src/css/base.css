@@ -1,5 +1,5 @@
 :root {
-  /* NOTE tint colors are 15% transparent */
+  /* NOTE tint colors are 15% transparent (except for light-blue) */
   /* primary */
   --color-brand-black: #000;
   --color-brand-red: #ea2328;
@@ -7,7 +7,10 @@
   --color-brand-white: #fff;
   /* secondary */
   --color-brand-light-blue: #00ace0;
+  /*
   --color-brand-light-blue-tint: #d9f3fb;
+  */
+  --color-brand-light-blue-tint: #f2fafd;
   --color-brand-pink: #eb4971;
   --color-brand-green: #00b9be;
   --color-brand-purple: #b36cdb;
