@@ -6,6 +6,13 @@
 }
 
 @font-face {
+  font-family: "DIN Pro";
+  font-style: normal;
+  font-weight: 700;
+  src: url(../font/din-pro-bold.woff) format("woff");
+}
+
+@font-face {
   font-family: "Open Sans";
   font-style: normal;
   font-weight: 400;
