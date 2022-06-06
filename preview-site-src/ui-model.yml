@@ -1,7 +1,8 @@
 antoraVersion: '2.3.3'
 preview: true
 site:
-  url: &index_url /index.html
+  url: &index_url /
+  homeUrl: &home_url /home.html
   title: MuleSoft Documentation
   keys: {}
   components:
@@ -15,7 +16,7 @@ site:
           - content: Welcome
             url: *index_url
           - content: Mulesoft documentation landing page
-            url: /home.html
+            url: *home_url
           - content: Glossary
             url: /glossary.html
           - content: Ecosia (external link)

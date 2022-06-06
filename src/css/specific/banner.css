@@ -1,16 +1,16 @@
 .banner {
   align-items: center;
-  background-color: #f2fafd;
+  background-color: var(--core-blue-0);
   display: flex;
   height: var(--banner-height);
   position: sticky;
   top: 0;
-  z-index: var(--z-header);
+  z-index: var(--z-banner);
 }
 
 .banner p {
   color: #087299;
-  font-size: 14px;
+  font-size: 12px;
   line-height: 1.35;
   margin: 0 1em;
 }
@@ -22,4 +22,10 @@
 .banner + .flex.container > .nav,
 .banner + .flex.container > .toc {
   max-height: calc(100vh - var(--banner-height));
+}
+
+@media (--md) {
+  .banner p {
+    font-size: 14px;
+  }
 }
