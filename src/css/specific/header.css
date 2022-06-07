@@ -10,7 +10,7 @@
   z-index: var(--z-header);
 
   @media (min-width: 991px) {
-      height: 93px;
+    height: 93px;
   }
 }
 
