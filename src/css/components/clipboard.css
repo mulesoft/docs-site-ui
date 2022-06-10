@@ -11,11 +11,6 @@
   position: absolute;
   right: .5rem;
   top: .25rem;
-  visibility: hidden;
-}
-
-.doc .listingblock:hover .source-toolbox {
-  visibility: visible;
 }
 
 .doc .source-toolbox .source-lang {
