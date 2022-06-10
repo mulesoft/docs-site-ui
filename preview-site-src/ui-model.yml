@@ -1,4 +1,4 @@
-antoraVersion: '2.3.3'
+antoraVersion: '3.0.1'
 preview: true
 site:
   url: &index_url /
