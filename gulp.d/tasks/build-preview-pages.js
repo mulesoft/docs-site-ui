@@ -37,7 +37,6 @@ module.exports = (src, previewSrc, previewDest, sink = () => map(), layouts = {}
           const siteRootPath = path.relative(ospath.dirname(file.path), ospath.resolve(previewSrc))
           const uiModel = { ...baseUiModel }
           uiModel.siteRootPath = siteRootPath
-          uiModel.siteRootUrl = path.join(siteRootPath, 'index.html')
           uiModel.uiRootPath = path.join(siteRootPath, '_')
           if (file.stem === '404') {
             uiModel.page = { layout: '404', title: 'Page Not Found' }

@@ -1,7 +1,8 @@
 antoraVersion: '3.0.1'
 preview: true
 site:
-  url: &index_url /index.html
+  url: &index_url /
+  homeUrl: &home_url /home.html
   title: MuleSoft Documentation
   keys: {}
   components:
@@ -15,7 +16,7 @@ site:
           - content: Welcome
             url: *index_url
           - content: Mulesoft documentation landing page
-            url: /home.html
+            url: *home_url
           - content: Glossary
             url: /glossary.html
           - content: Ecosia (external link)
@@ -214,6 +215,30 @@ site:
             url: /salesforce-connector/salesforce-connector.html
           - content: Salesforce Connector Authentication
             url: /salesforce-connector/salesforce-connector-authentication.html
+    amazon-sns-connector:
+      latest: &s3_connector_latest
+        version: '4.7'
+        display_version: 4.7 (Mule 4)
+        title: Amazon SNS Connector
+        url: /placeholder.html
+        asciidoc:
+          attributes:
+            page-component-desc: Provides connectivity to the Amazon Simple Notification Service (Amazon SNS) API, enabling you to build distributed web-enabled applications.
+            page-connector-type: Connector
+            page-connector-level: Select
+            page-exchange-group-id: com.mulesoft.connectors
+            page-exchange-asset-id: mule-amazon-sns-connector
+            page-icon-extension: png
+            page-runtime-version: 4.1.1
+            page-release-notes-page: release-notes::connector/amazon-sns-connector-release-notes-mule-4.adoc
+            page-vendor-name: amazon
+            page-vendor-title: Amazon
+        navigation:
+        - items:
+          - content: Dead page (do not click)
+            url: '#'
+      versions:
+      - *s3_connector_latest
 page:
   src:
     component: general

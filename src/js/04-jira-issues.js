@@ -17,10 +17,6 @@
             leaveFeedback(e)
             showCollectorDialog()
           })
-          jiraTriggers[i].addEventListener('touchend', function (e) {
-            leaveFeedback(e)
-            showCollectorDialog()
-          })
         }
       },
       fieldValues: {
@@ -48,7 +44,5 @@
   }
 
   thanksYesTrigger.addEventListener('click', trackHelpful)
-  thanksYesTrigger.addEventListener('touchend', trackHelpful)
   thanksNoTrigger.addEventListener('click', trackNotHelpful)
-  thanksNoTrigger.addEventListener('touchend', trackNotHelpful)
 })()
