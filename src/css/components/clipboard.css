@@ -60,7 +60,7 @@
 .doc .source-toolbox .copy-toast {
   background-color: var(--doc-font-color);
   border-radius: .25em;
-  color: #fff;
+  color: var(--steel-1);
   cursor: auto;
   display: inline-flex;
   flex: none;
