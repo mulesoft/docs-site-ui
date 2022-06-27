@@ -10,11 +10,6 @@
     padding-left: var(--xl);
     padding-right: var(--xl);
   }
-
-  @supports (backdrop-filter: blur(10px)) {
-    backdrop-filter: blur(10px);
-    background: rgba(255,255,255,.7);
-  }
 }
 
 .nav-toggle {

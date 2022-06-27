@@ -184,7 +184,6 @@ button.subnav-toggle {
   z-index: 1;
   &:focus {
     box-shadow: none;
-    outline: 0;
   }
   &::before {
     content: "+";
@@ -192,6 +191,10 @@ button.subnav-toggle {
     text-align: center;
     width: 1.5em;
   }
+}
+
+.nav-li {
+  margin: 1px;
 }
 
 .nav-li.active > button.subnav-toggle::before {

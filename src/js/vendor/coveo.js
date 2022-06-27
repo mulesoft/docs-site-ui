@@ -1,4 +1,4 @@
-; (function () {
+;(function () {
   'use strict'
 
   var analytics = window.analytics
@@ -22,11 +22,21 @@
   var nav = document.querySelector('nav.nav')
 
   // show/hide coveo search
-  var searchTrigger = document.querySelector('.js-search-trigger')
+  var searchTrigger = nav.querySelector('.search button')
   var searchUI = document.querySelector('.js-search-ui')
   var searchClose = document.querySelector('.js-search-close')
 
-  function showCoveo () {
+  function focusOnSearchBox () {
+    var checkExist = setInterval(function () {
+      var searchBox = document.querySelector('[form=coveo-dummy-form]')
+      if (searchBox) {
+        searchBox.focus()
+        clearInterval(checkExist)
+      }
+    }, 300)
+  }
+
+  function showCoveo (e) {
     if (!coveoInit) {
       Coveo.init(root)
       coveoInit = true
@@ -38,17 +48,9 @@
     searchUI.classList.add('show')
     nav.classList.remove('active')
     tippy.hideAll()
+    focusOnSearchBox()
     analytics && analytics.track('Clicked Open Search')
-    var checkExist = setInterval(function () {
-      var searchBox = document.querySelector('[form=coveo-dummy-form]')
-      if (searchBox) {
-        searchBox.focus()
-        searchBox.addEventListener('keydown', function (e) {
-          if (e.keyCode === 27) hideCoveo(e)
-        })
-        clearInterval(checkExist)
-      }
-    }, 300)
+    trapEvent(e)
   }
 
   function hideCoveo (e) {
@@ -57,19 +59,15 @@
     searchUI.classList.remove('show')
   }
 
-  function clickThru (e) {
+  function trapEvent (e) {
     e.stopPropagation()
   }
 
   searchTrigger.addEventListener('click', showCoveo)
-  searchTrigger.addEventListener('touchend', showCoveo)
-  window.addEventListener('click', hideCoveo)
-  window.addEventListener('touchend', hideCoveo)
+  backdrop.addEventListener('click', hideCoveo)
   searchClose.addEventListener('click', hideCoveo)
-  searchClose.addEventListener('touchend', hideCoveo)
   document.addEventListener('keydown', function (e) {
     if (e.keyCode === 27) hideCoveo(e)
   })
-  root.addEventListener('click', clickThru)
-  root.addEventListener('touchend', clickThru)
+  root.addEventListener('click', trapEvent)
 })()
