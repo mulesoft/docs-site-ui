@@ -26,6 +26,16 @@
   var searchUI = document.querySelector('.js-search-ui')
   var searchClose = document.querySelector('.js-search-close')
 
+  function focusOnSearchBox () {
+    var checkExist = setInterval(function () {
+      var searchBox = document.querySelector('[form=coveo-dummy-form]')
+      if (searchBox) {
+        searchBox.focus()
+        clearInterval(checkExist)
+      }
+    }, 300)
+  }
+
   function showCoveo (e) {
     if (!coveoInit) {
       Coveo.init(root)
@@ -38,6 +48,7 @@
     searchUI.classList.add('show')
     nav.classList.remove('active')
     tippy.hideAll()
+    focusOnSearchBox()
     analytics && analytics.track('Clicked Open Search')
     trapEvent(e)
   }
