@@ -15,6 +15,5 @@
     if (!gdprFlag) gdprEl.classList.add('show')
 
     gdprClose.addEventListener('click', closeGDPR)
-    gdprClose.addEventListener('touchend', closeGDPR)
   })
 })()

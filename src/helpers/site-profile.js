@@ -1,3 +1,7 @@
 'use strict'
 
-module.exports = ({ data: { root: { site } } }) => site.keys.siteProfile
+module.exports = ({
+  data: {
+    root: { site },
+  },
+}) => site.keys.siteProfile
