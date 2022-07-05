@@ -29,3 +29,21 @@
     font-size: 14px;
   }
 }
+
+#deprecated-banner {
+  background-color: #ffe3a2;
+  color: black;
+  height: 30px;
+  justify-content: center;
+  left: 0%;
+  position: fixed;
+  right: 0%;
+  text-align: center;
+  top: 96%;
+  width: 100%;
+}
+
+#deprecated-banner p {
+  color: black;
+  font-size: 11px;
+}
