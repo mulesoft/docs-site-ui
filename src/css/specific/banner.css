@@ -33,17 +33,22 @@
 #deprecated-banner {
   background-color: #ffe3a2;
   color: black;
-  height: 4%;
+  height: 8%;
   justify-content: center;
   left: 0%;
   position: fixed;
   right: 0%;
   text-align: center;
-  top: 96%;
+  top: 92%;
   width: 100%;
+
+  @media (--md) {
+    height: 4%;
+    top: 96%;
+  }
 }
 
 #deprecated-banner p {
   color: black;
-  font-size: 11px;
+  font-size: 12px;
 }
