@@ -33,13 +33,13 @@
 #deprecated-banner {
   background-color: #ffe3a2;
   color: black;
-  height: 30px;
+  height: 4%;
   justify-content: center;
   left: 0%;
   position: fixed;
   right: 0%;
   text-align: center;
-  top: 96.5%;
+  top: 96%;
   width: 100%;
 }
 
