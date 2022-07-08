@@ -95,6 +95,24 @@ properties:
     properties: object
 ----
 
+=== Dataweave
+
+.Transform
+[source,dataweave,linenums]
+----
+%dw 2.0
+output application/xml
+---
+{
+  order: {
+    'type': 'Book',
+    'title': payload.title,
+    'author': upper(payload.author),
+    'year': payload.year
+  }
+}
+----
+
 == Embedded media
 
 === Image
