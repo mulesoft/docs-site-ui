@@ -7,9 +7,10 @@
   var config = (document.getElementById('site-script') || { dataset: {} }).dataset
 
   ;[].slice.call(document.querySelectorAll('.doc pre.highlight, .doc .literalblock pre')).forEach(function (pre) {
-    var code, language, lang, copy, toast, toolbox
+    var code, dwTryMe, language, lang, copy, toast, toolbox
+    var uiRootPath = document.getElementById('site-script').dataset.uiRootPath
+    code = pre.querySelector('code')
     if (pre.classList.contains('highlight')) {
-      code = pre.querySelector('code')
       if ((language = code.dataset.lang) && language !== 'console') {
         ;(lang = document.createElement('span')).className = 'source-lang'
         lang.appendChild(document.createTextNode(language))
@@ -26,12 +27,26 @@
     } else {
       return
     }
+    if (language === 'dataweave') {
+      ;(dwTryMe = document.createElement('span')).className = 'dw-tryme'
+      dwTryMe.display = 'flex'
+      var dw = document.createElement('button')
+      dw.className = 'copy-button'
+      dw.setAttribute('title', 'View in DataWeave')
+      // TODO: use a proper icon
+      var dwImg = document.createElement('img')
+      dwImg.src = uiRootPath + '/img/icons/octicons-16.svg#view-clippy'
+      dwImg.alt = 'copy icon'
+      dwImg.className = 'copy-icon'
+      dw.appendChild(dwImg)
+      dwTryMe.appendChild(dw)
+    }
     ;(toolbox = document.createElement('div')).className = 'source-toolbox'
     if (lang) toolbox.appendChild(lang)
+    if (dwTryMe) toolbox.appendChild(dwTryMe)
     if (window.navigator.clipboard) {
       ;(copy = document.createElement('button')).className = 'copy-button'
       copy.setAttribute('title', 'Copy to clipboard')
-      var uiRootPath = document.getElementById('site-script').dataset.uiRootPath
       if (config.svgAs === 'svg') {
         var svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg')
         svg.setAttribute('class', 'copy-icon')
