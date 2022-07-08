@@ -9,8 +9,10 @@
 {{/if}}
 {{#if page.componentVersion.asciidoc.attributes.deprecated}}
   <div class="banner" id="deprecated-banner">
-      <p>We are no longer updating this version of the documentation. 
-          Switch to the <a href="{{{replace page.canonicalUrl page.version page.component.latest.version}}}">latest version</a>, 
-          or use the version selector in the left navigation.</p>
+    {{#with page.canonicalUrl}}
+    <p>We are no longer updating this version of the documentation. 
+        Switch to the <a href="{{{replace this page.version page.component.latest.version}}}">latest version</a>, 
+        or use the version selector in the left navigation.</p>
+    {{/with}}
   </div>
 {{/if}}
