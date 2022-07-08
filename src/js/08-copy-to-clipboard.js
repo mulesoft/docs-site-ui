@@ -29,11 +29,18 @@
 
         // TODO: use a proper icon
         var dwImg = document.createElement('img')
-        dwImg.src = uiRootPath + '/img/icons/octicons-16.svg#view-clippy'
+        dwImg.src = uiRootPath + '/img/icons/lab-default.svg'
         dwImg.alt = 'try me icon'
         dwImg.className = 'code-snippet-icon'
 
         dwButton.appendChild(dwImg)
+        dwButton.addEventListener('mouseover', function () {
+          dwButton.firstChild.src = uiRootPath + '/img/icons/lab-hover.svg'
+        })
+        dwButton.addEventListener('mouseout', function () {
+          dwButton.firstChild.src = uiRootPath + '/img/icons/lab-default.svg'
+        })
+
         dwA.appendChild(dwButton)
         dwTryMe.appendChild(dwA)
       }
@@ -59,16 +66,22 @@
         var svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg')
         svg.setAttribute('class', 'code-snippet-icon')
         var use = document.createElementNS('http://www.w3.org/2000/svg', 'use')
-        use.setAttribute('href', uiRootPath + '/img/icons/octicons-16.svg#icon-clippy')
+        use.setAttribute('href', uiRootPath + '/img/icons/copy-default.svg')
         svg.appendChild(use)
         copy.appendChild(svg)
       } else {
         var img = document.createElement('img')
-        img.src = uiRootPath + '/img/icons/octicons-16.svg#view-clippy'
+        img.src = uiRootPath + '/img/icons/copy-default.svg'
         img.alt = 'copy icon'
         img.className = 'code-snippet-icon'
         copy.appendChild(img)
       }
+      copy.addEventListener('mouseover', function () {
+        copy.firstChild.src = uiRootPath + '/img/icons/copy-hover.svg'
+      })
+      copy.addEventListener('mouseout', function () {
+        copy.firstChild.src = uiRootPath + '/img/icons/copy-default.svg'
+      })
       ;(toast = document.createElement('span')).className = 'copy-toast'
       toast.appendChild(document.createTextNode('Copied!'))
       copy.appendChild(toast)
