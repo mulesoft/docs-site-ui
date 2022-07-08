@@ -9,11 +9,33 @@
   ;[].slice.call(document.querySelectorAll('.doc pre.highlight, .doc .literalblock pre')).forEach(function (pre) {
     var code, dwTryMe, language, lang, copy, toast, toolbox
     var uiRootPath = document.getElementById('site-script').dataset.uiRootPath
-    code = pre.querySelector('code')
     if (pre.classList.contains('highlight')) {
+      code = pre.querySelector('code')
       if ((language = code.dataset.lang) && language !== 'console') {
         ;(lang = document.createElement('span')).className = 'source-lang'
         lang.appendChild(document.createTextNode(language))
+      }
+      if (language === 'dataweave') {
+        ;(dwTryMe = document.createElement('span')).className = 'dw-tryme'
+        dwTryMe.id = 'dw-tryme'
+        var dwButton = document.createElement('button')
+        dwButton.className = 'code-snippet-button'
+        dwButton.setAttribute('title', 'Try in DataWeave Playground')
+
+        var dwA = document.createElement('a')
+        dwA.className = 'dw-playground-link'
+        dwA.href = 'https://developer.mulesoft.com/learn/dataweave/playground'
+        dwA.target = '_blank'
+
+        // TODO: use a proper icon
+        var dwImg = document.createElement('img')
+        dwImg.src = uiRootPath + '/img/icons/octicons-16.svg#view-clippy'
+        dwImg.alt = 'try me icon'
+        dwImg.className = 'code-snippet-icon'
+
+        dwButton.appendChild(dwImg)
+        dwA.appendChild(dwButton)
+        dwTryMe.appendChild(dwA)
       }
     } else if (pre.innerText.startsWith('$ ')) {
       var block = pre.parentNode.parentNode
@@ -27,29 +49,15 @@
     } else {
       return
     }
-    if (language === 'dataweave') {
-      ;(dwTryMe = document.createElement('span')).className = 'dw-tryme'
-      dwTryMe.display = 'flex'
-      var dw = document.createElement('button')
-      dw.className = 'copy-button'
-      dw.setAttribute('title', 'View in DataWeave')
-      // TODO: use a proper icon
-      var dwImg = document.createElement('img')
-      dwImg.src = uiRootPath + '/img/icons/octicons-16.svg#view-clippy'
-      dwImg.alt = 'copy icon'
-      dwImg.className = 'copy-icon'
-      dw.appendChild(dwImg)
-      dwTryMe.appendChild(dw)
-    }
     ;(toolbox = document.createElement('div')).className = 'source-toolbox'
     if (lang) toolbox.appendChild(lang)
     if (dwTryMe) toolbox.appendChild(dwTryMe)
     if (window.navigator.clipboard) {
-      ;(copy = document.createElement('button')).className = 'copy-button'
+      ;(copy = document.createElement('button')).className = 'code-snippet-button'
       copy.setAttribute('title', 'Copy to clipboard')
       if (config.svgAs === 'svg') {
         var svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg')
-        svg.setAttribute('class', 'copy-icon')
+        svg.setAttribute('class', 'code-snippet-icon')
         var use = document.createElementNS('http://www.w3.org/2000/svg', 'use')
         use.setAttribute('href', uiRootPath + '/img/icons/octicons-16.svg#icon-clippy')
         svg.appendChild(use)
@@ -58,7 +66,7 @@
         var img = document.createElement('img')
         img.src = uiRootPath + '/img/icons/octicons-16.svg#view-clippy'
         img.alt = 'copy icon'
-        img.className = 'copy-icon'
+        img.className = 'code-snippet-icon'
         copy.appendChild(img)
       }
       ;(toast = document.createElement('span')).className = 'copy-toast'
