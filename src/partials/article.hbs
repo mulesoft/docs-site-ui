@@ -10,17 +10,17 @@
             If you typed the URL of this page manually, please double check that you entered the address correctly.</p>
     </div>
     {{else}}
+    {{#if page.componentVersion.asciidoc.attributes.deprecated}}
+    <div id="deprecated-container">
+        {{#with page.canonicalUrl}}
+        <p>We are no longer updating this version of the documentation. 
+            Switch to the <a href="{{{replace this page.version page.component.latest.version}}}">latest version</a>, 
+            or use the version selector in the left navigation.</p>
+        {{/with}}
+    </div>
     {{#if page.title}}
     <h1 class="page">{{{page.title}}}</h1>
     {{/if}}
-    {{#if page.componentVersion.asciidoc.attributes.deprecated}}
-        <div id="deprecated-container">
-            {{#with page.canonicalUrl}}
-            <p>We are no longer updating this version of the documentation. 
-                Switch to the <a href="{{{replace this page.version page.component.latest.version}}}">latest version</a>, 
-                or use the version selector in the left navigation.</p>
-            {{/with}}
-        </div>
     {{/if}}
     {{{page.contents}}}
     {{/if}}
