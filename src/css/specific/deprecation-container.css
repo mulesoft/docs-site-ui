@@ -1,19 +1,18 @@
 #deprecated-container {
-    background-color: #ffe3a2;
-    font-size: 14px;
-    justify-content: center;
-    margin-top: 20px;
-    text-align: center;
-  
-    @media (--lg) {
-      font-size: 12px;
-      margin-top: 0;
-    }
-  }
-  
-  #deprecated-container p {
+  background-color: #ffe3a2;
+  font-size: 14px;
+  justify-content: center;
+  /* margin-top: 20px; */
+  text-align: left;
+
+  @media (--lg) {
     font-size: 12px;
-    margin: auto 40px;
-    padding-bottom: 15px;
-    padding-top: 15px;
   }
+}
+
+#deprecated-container p {
+  font-size: 12px;
+  margin: 12px 40px -20px 40px;
+  padding-bottom: 15px;
+  padding-top: 15px;
+}
