@@ -31,3 +31,16 @@
     max-width: var(--screen-xxl);
   }
 }
+
+.ms-com-content.ms-com-content-header.br-nav.closed.new-nav.with-helmet {
+  @media (max-width: 991px) {
+    height: 97px;
+  }
+}
+
+.ms-com-content.ms-com-content-header.br-nav.closed.new-nav.with-helmet.active {
+  @media (max-width: 991px) {
+    height: 100%;
+    padding-top: 65px;
+  }
+}
