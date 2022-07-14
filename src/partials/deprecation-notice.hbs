@@ -1,5 +1,5 @@
 <div class="deprecation-notice">
   <p>We are no longer updating this version of the documentation. Switch to the
-    <a href="{{{replace page.canonicalUrl page.version page.component.latest.version}}}">latest version</a>, 
+    <a href="{{#if page.canonicalUrl}}{{{replace page.canonicalUrl page.version page.component.latest.version}}}{{else}}{{site.url}}/{{page.component.latest.name}}/{{page.component.latest.version}}{{/if}}">latest version</a>, 
     or use the version selector in the left navigation.</p>
 </div>
