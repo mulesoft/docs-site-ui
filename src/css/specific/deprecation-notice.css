@@ -1,17 +1,9 @@
 .deprecation-notice {
   background: #ffe3a2;
   font-size: 12px;
-  height: 85px;
+  height: fit-content;
   margin-bottom: -20px;
   z-index: var(--z-backdrop);
-
-  @media (--lg) {
-    height: 75px;
-  }
-
-  @media (--xl) {
-    height: 60px;
-  }
 
   & p {
     margin: 12px 40px -20px 40px;
