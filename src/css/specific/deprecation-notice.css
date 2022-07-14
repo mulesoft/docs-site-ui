@@ -16,6 +16,15 @@
 
     & a {
       color: #002196;
+
+      &:hover,
+      &:active,
+      &:focus {
+        background-color: #e8f8ff;
+        border: 1px solid;
+        border-radius: 5px;
+        text-decoration: none;
+      }
     }
   }
 }
