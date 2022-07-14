@@ -175,7 +175,7 @@
   }
 
   /* links */
-  & a:not(.button-primary) {
+  & a:not(.button-primary):not(.deprecation-notice-link) {
     color: var(--core-blue-3);
 
     &:focus {
