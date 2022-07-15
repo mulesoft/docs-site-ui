@@ -1,13 +1,17 @@
-{{#if (or preview (or (eq (site-profile) 'beta') (eq (site-profile) 'archive')))}}
-<div class="banner">
-  <div class="container wrapper">
-    <p>You&#8217;re viewing the {{site-profile}} MuleSoft Documentation. 
-      {{#if (eq (site-profile) 'archive')}} 
-        {{#with page.componentVersion.asciidoc.attributes.primary-site-url}}
-        <a href="{{{this}}}">Go to the latest MuleSoft documentation.</a>
-        {{/with}}
-      {{/if}}
-    </p>
+{{#if
+  (or preview (or (eq (site-profile) "beta") (eq (site-profile) "archive")))
+}}
+  <div class="banner">
+    <div class="container wrapper">
+      <p>You&#8217;re viewing the
+        {{site-profile}}
+        MuleSoft Documentation.
+        {{#if (eq (site-profile) "archive")}}
+          {{#with page.componentVersion.asciidoc.attributes.primary-site-url}}
+            <a href="{{{this}}}">Go to the latest MuleSoft documentation.</a>
+          {{/with}}
+        {{/if}}
+      </p>
+    </div>
   </div>
-</div>
 {{/if}}
