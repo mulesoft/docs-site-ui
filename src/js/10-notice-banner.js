@@ -4,7 +4,7 @@
   window.onscroll = function () {
     makeSticky()
   }
-  var depContainer = document.getElementsByClassName('deprecation-notice')[0]
+  var depContainer = document.getElementsByClassName('notice')[0]
   var toolBar = document.getElementsByClassName('toolbar')[0]
   var sticky = depContainer.offsetTop
 

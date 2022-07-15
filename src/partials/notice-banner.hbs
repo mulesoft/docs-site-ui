@@ -1,0 +1,15 @@
+{{#if page.attributes.notice-banner-message}}
+<div class="notice-banner">
+  <p>{{page.attributes.notice-banner-message}}</p>
+</div>
+{{else}}
+  {{#if page.componentVersion.asciidoc.attributes.deprecated}}
+  <div class="notice-banner">
+    <p>We are no longer updating this version of the documentation. Switch to the
+      <a 
+        class="notice-banner-link"
+        href="{{#if page.canonicalUrl}}{{{replace page.canonicalUrl page.version page.component.latest.version}}}{{else}}{{{replace page.url page.version page.component.latest.version}}}{{/if}}">latest version</a>, 
+      or use the version selector in the left navigation.</p>
+  </div>
+  {{/if}}
+{{/if}}

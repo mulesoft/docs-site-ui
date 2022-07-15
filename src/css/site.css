@@ -26,7 +26,7 @@
 
 /* specific */
 @import "specific/banner.css";
-@import "specific/deprecation-notice.css";
+@import "specific/notice-banner.css";
 @import "specific/gdpr.css";
 @import "specific/header.css";
 @import "specific/navigation.css";
