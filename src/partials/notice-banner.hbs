@@ -3,10 +3,10 @@
   <p>{{page.attributes.notice-banner-message}}</p>
 </div>
 {{else}}
-  {{#if (or page.componentVersion.asciidoc.attributes.deprecated page.componentVersion.asciidoc.attributes.olderVersion)}}
+  {{#if (or page.componentVersion.asciidoc.attributes.noLongerUpdated page.componentVersion.asciidoc.attributes.olderVersion)}}
   <div class="notice-banner">
     <p>
-      {{#if page.componentVersion.asciidoc.attributes.deprecated}}
+      {{#if page.componentVersion.asciidoc.attributes.noLongerUpdated}}
       We are no longer updating this version of the documentation.
       {{else}}
       {{#if page.componentVersion.asciidoc.attributes.olderVersion}}
