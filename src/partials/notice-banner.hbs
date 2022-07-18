@@ -3,9 +3,17 @@
   <p>{{page.attributes.notice-banner-message}}</p>
 </div>
 {{else}}
-  {{#if page.componentVersion.asciidoc.attributes.deprecated}}
+  {{#if (or page.componentVersion.asciidoc.attributes.deprecated page.componentVersion.asciidoc.attributes.noLongerUpdated)}}
   <div class="notice-banner">
-    <p>We are no longer updating this version of the documentation. Switch to the
+    <p>
+      {{#if page.componentVersion.asciidoc.attributes.deprecated}}
+      We are no longer updating this version of the documentation.
+      {{else}}
+        {{#if page.componentVersion.asciidoc.attributes.noLongerUpdated}}
+        You’re viewing an older version of the documentation.
+        {{/if}}
+      {{/if}}
+      Switch to the
       <a 
         class="notice-banner-link"
         href="{{#if page.canonicalUrl}}{{{replace page.canonicalUrl page.version page.component.latest.version}}}{{else}}{{{replace page.url page.version page.component.latest.version}}}{{/if}}">latest version</a>, 
