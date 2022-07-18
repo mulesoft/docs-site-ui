@@ -19,6 +19,17 @@ CAUTION: Don't stick forks in electric sockets.
 [#important]
 IMPORTANT: A monster lives in the basement.
 
+== MathJax
+
+Asciimath:
+asciimath:[`x/x={(1,if x!=0),(text{undefined},if x=0):}`]
+
+Latexmath:
+latexmath:[$C = \alpha + \beta Y^{\gamma} + \epsilon$]
+
+Stem:
+stem:[sqrt(4) = 2]
+
 == Code Blocks
 
 https://docs.antora.org/antora/latest/asciidoc/source/[ref]
