@@ -25,10 +25,12 @@
 @import "components/tooltip.css";
 
 /* specific */
-@import "specific/header.css";
 @import "specific/banner.css";
+@import "specific/notice-banner.css";
 @import "specific/gdpr.css";
 @import "specific/nav.css";
+@import "specific/header.css";
+@import "specific/navigation.css";
 @import "specific/toc.css";
 @import "specific/toolbar.css";
 

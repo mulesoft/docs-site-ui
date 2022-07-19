@@ -15,7 +15,7 @@ const srcDir = 'src'
 const destDir = `${previewDestDir}/_`
 const partialsDir = `${srcDir}/partials`
 const { reload: livereload } = process.env.LIVERELOAD === 'true' ? require('gulp-connect') : {}
-const serverConfig = { host: '0.0.0.0', port: 5252, livereload }
+const serverConfig = { host: '0.0.0.0', port: 8080, livereload }
 
 const task = require('./gulp.d/tasks')
 const glob = {
