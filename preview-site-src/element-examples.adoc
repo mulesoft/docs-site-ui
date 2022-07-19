@@ -1,5 +1,6 @@
 = Elements
 :keywords: code, code blocks, code snippets, snippets
+:page-notice-banner-message: This is a custom notice message
 
 This page contains different elements like tables, code blocks, etc. so you can verify that everything looks ok.
 
