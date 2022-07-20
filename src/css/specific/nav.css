@@ -98,7 +98,8 @@ svg.nav-icon {
   filter: grayscale(1);
   flex: none;
   height: 1.6em;
-  margin-right: .5em;
+  margin-left: .1em;
+  margin-right: .4em;
   opacity: .75;
   width: 1.5em;
 }
