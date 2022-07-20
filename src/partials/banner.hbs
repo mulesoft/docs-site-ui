@@ -4,7 +4,11 @@
   <div class="banner">
     <div class="container wrapper">
       <p>You&#8217;re viewing the
+        {{#if preview}}
+        preview
+        {{else}}
         {{site-profile}}
+        {{/if}}
         MuleSoft Documentation.
         {{#if (eq (site-profile) "archive")}}
           {{#with page.componentVersion.asciidoc.attributes.primary-site-url}}
