@@ -504,7 +504,7 @@
       theme: 'popover-versions',
       touchHold: true, // maps touch as click (for some reason)
       trigger: 'click',
-      zIndex: 14, // same as z-nav-mobile
+      zIndex: getZIndex(getNav()) + 1, // always 1 higher than the nav so that it shows
     })
     versionButton.addEventListener(
       'touchstart',
@@ -584,6 +584,11 @@
 
   function getNav () {
     return document.querySelector('nav.nav')
+  }
+
+  function getZIndex (qs) {
+    var style = window.getComputedStyle(qs)
+    return parseInt(style.zIndex)
   }
 
   function isConnector (productName) {
