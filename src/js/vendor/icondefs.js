@@ -113,6 +113,14 @@
       ],
     },
     {
+      id: 'icon-nav-component-general',
+      viewBox: '0 0 14 15',
+      paths: [
+        { d: 'M1.36278 0L1.36787 3.94183L7.40742 3.95558L7.40236 0.0376971L8.73519 0.00265382L8.6981 5.27362L0 5.28486L0.0369378 0.0348597L1.36278 0Z', transform: 'translate(2.8598 6.64626)', fill: '#00A3E0' },
+        { d: 'M6.00319 0L11.7143 4.23063V5.86337L5.97677 1.61317L0 5.5623L0.137638 3.91056L6.00319 0Z', transform: 'translate(1.198 1.32681) scale(0.999808) rotate(-1.50596)', fill: '#087299' },
+      ],
+    },
+    {
       id: 'icon-nav-component-gov-cloud',
       viewBox: '0 0 30 30',
       paths: [
