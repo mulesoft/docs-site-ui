@@ -3,21 +3,30 @@
   <p>{{page.attributes.notice-banner-message}}</p>
 </div>
 {{else}}
-  {{#if (or page.componentVersion.asciidoc.attributes.noLongerUpdated page.componentVersion.asciidoc.attributes.olderVersion)}}
-  <div class="notice-banner">
-    <p>
-      {{#if page.componentVersion.asciidoc.attributes.noLongerUpdated}}
-      We are no longer updating this version of the documentation.
+<div class="notice-banner">
+  {{#with page.componentVersion.asciidoc.attributes}}
+    {{#if (or this.endOfLife (or this.noLongerUpdated this.olderVersion))}}
+      {{#if this.endOfLife}}
+      <p>This version of the product has reached 
+        <a class="notice-banner-link" href="https://www.mulesoft.com/legal/versioning-back-support-policy">End of Life</a>
+        and is no longer supported.</p>
       {{else}}
-      {{#if page.componentVersion.asciidoc.attributes.olderVersion}}
-      You’re viewing an older version of the documentation.
+      <p>
+        {{#if this.noLongerUpdated}}
+        We are no longer updating this version of the documentation.
+        {{else}}
+          {{#if this.olderVersion}}
+          You’re viewing an older version of the documentation.
+          {{/if}}
+        {{/if}}
+        You can switch to the
+        <a 
+          class="notice-banner-link"
+          href="{{site.url}}{{page.latest.url}}">latest version</a>, 
+        or use the version selector in the left navigation.
+      </p>
       {{/if}}
     {{/if}}
-      You can switch to the
-      <a 
-        class="notice-banner-link"
-        href="{{site.url}}{{page.latest.url}}">latest version</a>, 
-      or use the version selector in the left navigation.</p>
-  </div>
-  {{/if}}
+  {{/with}}
+</div>
 {{/if}}
