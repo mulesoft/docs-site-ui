@@ -127,11 +127,11 @@
 
   function appendHomeComponent (components, homeUrl) {
     var found = components.some(function (candidate) {
-      return candidate.name === 'home'
+      return candidate.name === 'general'
     })
     if (found) return components
     return components.concat({
-      name: 'home',
+      name: 'general',
       title: 'Home',
       versions: [{ version: '', sets: [{ content: 'Home', url: homeUrl }] }],
     })
