@@ -494,6 +494,7 @@
         instance.popper.classList.add('hide')
       },
       onShow: function (instance) {
+        hideExistingVersions()
         instance.popper.classList.remove('hide')
       },
       onShown: function (instance) {
@@ -551,6 +552,13 @@
 
   function cancelEvent (e) {
     e.stopPropagation()
+  }
+
+  function hideExistingVersions () {
+    var versions = document.querySelectorAll('.tippy-popper')
+    for (var i = 0, l = versions.length; i < l; i++) {
+      versions[i].classList.remove('shown')
+    }
   }
 
   function ignoreTouchScroll (e) {
