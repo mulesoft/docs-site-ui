@@ -5,7 +5,6 @@ const browserify = require('browserify')
 const buffer = require('vinyl-buffer')
 const concat = require('gulp-concat')
 const cssnano = require('cssnano')
-const fetch = (...args) => import('node-fetch').then(({ default: fetch }) => fetch(...args))
 const fs = require('fs-extra')
 const imagemin = require('gulp-imagemin')
 const { obj: map } = require('through2')
@@ -21,9 +20,8 @@ const postcssUrl = require('postcss-url')
 const postcssVar = require('postcss-custom-properties')
 const uglify = require('gulp-uglify')
 const vfs = require('vinyl-fs')
-const { resolve } = require('path')
 
-module.exports = (src, dest, preview) => async () => {
+module.exports = (src, dest, preview) => () => {
   const opts = { base: src, cwd: src }
   const sourcemaps = preview || process.env.SOURCEMAPS === 'true'
   const postcssPlugins = [
@@ -49,7 +47,6 @@ module.exports = (src, dest, preview) => async () => {
     preview ? () => {} : cssnano({ preset: 'default' }),
   ]
 
-  await setHeaderContent()
   return merge(
     vfs
       .src('js/+([0-9])-*.js', { ...opts, sourcemaps })
@@ -113,11 +110,4 @@ module.exports = (src, dest, preview) => async () => {
     vfs.src('layouts/*.hbs', opts),
     vfs.src('partials/**/*.hbs', opts)
   ).pipe(vfs.dest(dest, { sourcemaps: sourcemaps && '.' }))
-}
-
-async function setHeaderContent () {
-  const h = await fetch('https://www.mulesoft.com/api/header')
-  const header = await h.json()
-  fs.writeFileSync('src/partials/header-content.hbs', header.data)
-  resolve()
 }
