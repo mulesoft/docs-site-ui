@@ -3,6 +3,7 @@
 const asciidoctor = require('asciidoctor')()
 const fs = require('fs-extra')
 const handlebars = require('handlebars')
+const fetch = (...args) => import('node-fetch').then(({ default: fetch }) => fetch(...args))
 const { inspect } = require('util')
 const { obj: map } = require('through2')
 const merge = require('merge-stream')
@@ -11,6 +12,7 @@ const path = ospath.posix
 const requireFromString = require('require-from-string')
 const vfs = require('vinyl-fs')
 const yaml = require('js-yaml')
+const { resolve } = require('path')
 
 const ASCIIDOC_ATTRIBUTES = {
   experimental: '',
@@ -22,6 +24,7 @@ const ASCIIDOC_ATTRIBUTES = {
 module.exports = (src, previewSrc, previewDest, sink = () => map(), layouts = {}) => () =>
   Promise.all([
     loadSampleUiModel(previewSrc),
+    setHeaderContent(),
     toPromise(
       merge(
         compileLayouts(src, layouts),
@@ -153,6 +156,13 @@ function registerPartials (src) {
       next()
     })
   )
+}
+
+async function setHeaderContent () {
+  const h = await fetch('https://www.mulesoft.com/api/header')
+  const header = await h.json()
+  fs.writeFileSync('src/partials/header-content.hbs', header.data)
+  resolve()
 }
 
 function registerHelpers (src) {
