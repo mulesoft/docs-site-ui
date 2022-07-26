@@ -13,7 +13,6 @@
     "last 2 versions"
   ],
   "devDependencies": {
-    "@djencks/asciidoctor-mathjax": "^0.0.8",
     "@octokit/rest": "~18.0",
     "asciidoctor": "2.2.6",
     "autoprefixer": "~9.8",
