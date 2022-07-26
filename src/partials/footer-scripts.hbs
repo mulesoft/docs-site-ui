@@ -5,14 +5,5 @@
 {{#if (and page.component env.JIRA_COLLECTOR_ID)}}
 <script async src="{{uiRootPath}}/js/vendor/feedback.js" id="feedback-script" data-collector-id="{{env.JIRA_COLLECTOR_ID}}"></script>
 {{/if}}
-<script type="text/x-mathjax-config">
-MathJax.Hub.Config({
-  messageStyle: "none",
-  tex2jax: { inlineMath: [["\\(", "\\)"]], displayMath: [["\\[", "\\]"]], ignoreClass: "nostem|nolatexmath" },
-  asciimath2jax: { delimiters: [["\\$", "\\$"]], ignoreClass: "nostem|noasciimath" },
-  TeX: { equationNumbers: { autoNumber: "none" } }
-});
-</script>
-<script async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_HTMLorMML"></script>
 {{> search}}
 {{> marketing-scripts}}
