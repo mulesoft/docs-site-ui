@@ -3,10 +3,13 @@
   <p>{{page.attributes.notice-banner-message}}</p>
 </div>
 {{else}}
-  {{#with page.componentVersion.asciidoc.attributes}}
-    {{#if (or this.endOfLife (or this.noLongerUpdated this.olderVersion))}}
+    {{#if 
+      (or page.componentVersion.asciidoc.attributes.endOfLife 
+      (or page.componentVersion.asciidoc.attributes.noLongerUpdated 
+      page.componentVersion.asciidoc.attributes.olderVersion))
+    }}
     <div class="notice-banner">
-      {{#if this.endOfLife}}
+      {{#if page.componentVersion.asciidoc.attributes.endOfLife}}
       <p>This version of the product has reached 
         <a class="notice-banner-link" 
           href="https://www.mulesoft.com/legal/versioning-back-support-policy"
@@ -15,10 +18,10 @@
       </p>
       {{else}}
       <p>
-        {{#if this.noLongerUpdated}}
+        {{#if page.componentVersion.asciidoc.attributes.noLongerUpdated}}
         We are no longer updating this version of the documentation.
         {{else}}
-          {{#if this.olderVersion}}
+          {{#if page.componentVersion.asciidoc.attributes.olderVersion}}
           You’re viewing an older version of the documentation.
           {{/if}}
         {{/if}}
@@ -31,5 +34,4 @@
       {{/if}}
     </div>
     {{/if}}
-  {{/with}}
 {{/if}}
