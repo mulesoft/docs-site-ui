@@ -13,9 +13,9 @@
     "last 2 versions"
   ],
   "devDependencies": {
+    "@djencks/asciidoctor-mathjax": "^0.0.8",
     "@octokit/rest": "~18.0",
     "asciidoctor": "2.2.6",
-    "asciidoctor-mathjax": "0.0.5",
     "autoprefixer": "~9.8",
     "browser-pack-flat": "~3.4",
     "browserify": "~16.5",
