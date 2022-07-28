@@ -56,7 +56,7 @@ a.nav-text:not([href]),
 
 .nav-groups {
   flex: auto;
-  padding: 25px var(--lg) var(--md);
+  padding: 25px 10px;
   position: relative;
   scrollbar-gutter: stable;
 }

@@ -76,8 +76,6 @@
 }
 
 .nav-list {
-  overflow: hidden;
-
   /* for product icons */
   & > .nav-li .nav-link,
   & > .nav-li .nav-heading {
