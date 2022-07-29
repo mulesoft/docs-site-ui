@@ -29,10 +29,9 @@
 @import "specific/notice-banner.css";
 @import "specific/gdpr.css";
 @import "specific/header.css";
-@import "specific/navigation.css";
+@import "specific/nav.css";
 @import "specific/toc.css";
 @import "specific/toolbar.css";
-@import "specific/versions.css";
 
 /* adoc */
 @import "adoc/doc.css";

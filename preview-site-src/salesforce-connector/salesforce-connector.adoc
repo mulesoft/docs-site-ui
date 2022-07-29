@@ -1,6 +1,8 @@
 = Salesforce Connector
 :keywords: salesforce connector, inbound, outbound, streaming, poll, dataweave, datasense
 :page-aliases: 3.9@mule-runtime::salesforce-connector.adoc
+:page-component-name: salesforce-connector
+:page-version: 0.3.9
 
 https://www.mulesoft.com/legal/versioning-back-support-policy#anypoint-connectors[_Select_]
 

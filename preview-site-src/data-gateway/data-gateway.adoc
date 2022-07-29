@@ -1,5 +1,6 @@
 = About Anypoint Data Gateway
 :keywords: data gateway, salesforce, sap, oracle
+:page-component-name: api-governance
 
 == Overview
 

@@ -1,4 +1,6 @@
 = Salesforce - Examples - Mule 4
+:page-component-name: salesforce-connector
+:page-version: 9.7
 
 [[accandtrans]]
 == Example: Accept and Transform Data
