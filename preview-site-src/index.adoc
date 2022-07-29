@@ -43,8 +43,6 @@ Even though it is not required to perform a thorough validation every time you m
 
 [%interactive]
 * [ ] A list of links should be visible and clickable (to take you to the corresponding header).
-* [ ] The survey banner should be visible at the bottom _of the TOC_ and is clickable.
-* [ ] Adjust the width of the window - the survey banner should be moved to the bottom _of the page_.
 * [ ] In most of the pages (except for 404 page, connectors home page, etc.), you can see the "Edit on Github" link at the top, even though they lead to 404 pages.
 
 == Preview Site Limitations

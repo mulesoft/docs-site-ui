@@ -1,0 +1,35 @@
+.notice-banner {
+  background: #ffe3a2;
+  font-size: 12px;
+  height: fit-content;
+  margin-bottom: -20px;
+  z-index: var(--z-backdrop);
+
+  & p {
+    margin: 12px 40px -20px 40px;
+    padding-bottom: 15px;
+    padding-top: 15px;
+
+    @media (--lg) {
+      padding-top: 10px;
+    }
+
+    & a {
+      color: #002196;
+
+      &:hover,
+      &:active,
+      &:focus {
+        background-color: #e8f8ff;
+        border: 1px solid;
+        border-radius: 5px;
+        text-decoration: none;
+      }
+    }
+  }
+}
+
+.sticky {
+  position: sticky;
+  top: 50px;
+}
