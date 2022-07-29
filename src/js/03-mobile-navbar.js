@@ -1,35 +1,25 @@
 ;(function () {
   'use strict'
 
-  var backdrop = document.querySelector('.modal-backdrop')
-  var nav = document.querySelector('nav.nav')
-  var navToggle = document.querySelector('.nav-toggle')
-
-  function openNav (e) {
-    document.body.addEventListener('click', closeNav)
-    document.body.addEventListener('touchend', closeNav)
-    cancelBubble(e)
-    nav.classList.add('active')
-    document.body.classList.add('no-scroll', 'mobile')
-    backdrop.classList.add('show', 'mobile')
+  function bindNavToggle (backdrop, body, nav, navToggle) {
+    backdrop.addEventListener('click', toggleNav.bind(nav, backdrop, body))
+    navToggle.addEventListener('click', toggleNav.bind(nav, backdrop, body))
   }
 
-  function closeNav (e) {
-    document.body.removeEventListener('click', closeNav)
-    document.body.removeEventListener('touchend', closeNav)
-    nav.classList.remove('active')
-    document.body.classList.remove('no-scroll', 'mobile')
-    backdrop.classList.remove('show', 'mobile')
-  }
-
-  function cancelBubble (e) {
+  function toggleNav (backdrop, body, e) {
+    if (e.target === backdrop && !this.classList.contains('is-active')) return
+    body.classList.toggle('mobile')
+    body.classList.toggle('no-scroll')
+    backdrop.classList.toggle('mobile')
+    backdrop.classList.toggle('show')
+    this.classList.toggle('is-active')
     e.stopPropagation()
-    if (!e.target.href) e.preventDefault()
   }
 
-  navToggle.addEventListener('click', openNav)
-  navToggle.addEventListener('touchend', openNav)
-
-  nav.addEventListener('click', cancelBubble)
-  nav.addEventListener('touchend', cancelBubble)
+  bindNavToggle(
+    document.querySelector('.modal-backdrop'),
+    document.body,
+    document.querySelector('.nav'),
+    document.querySelector('.nav-toggle')
+  )
 })()

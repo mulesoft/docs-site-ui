@@ -44,7 +44,7 @@
   --weight-bold: 700;
 
   /* dimensions */
-  --header-height: 65px;
+  --header-height: 93px; /* includes 28px of helmet */
   --banner-height: 60px;
   --footer-height: 361px;
   --nav-item-height: 32px;

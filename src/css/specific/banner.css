@@ -19,13 +19,14 @@
   color: inherit;
 }
 
-.banner + .flex.container > .nav,
-.banner + .flex.container > .toc {
-  max-height: calc(100vh - var(--banner-height));
-}
-
 @media (--md) {
   .banner p {
     font-size: 14px;
+  }
+
+  .banner + .flex.container > .nav,
+  .banner + .flex.container > .toc {
+    max-height: calc(100vh - var(--header-height) - var(--banner-height));
+    top: var(--banner-height);
   }
 }

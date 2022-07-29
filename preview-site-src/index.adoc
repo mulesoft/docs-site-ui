@@ -1,6 +1,8 @@
 = Welcome to the preview site!
 :keywords: preview, previewing, preview site
 :experimental:
+:page-component-name: connector-devkit
+:page-version: 3.8
 
 This is the preview site. Before you make any changes, please make sure that the elements are displaying correctly.
 
