@@ -86,7 +86,6 @@
       return componentsAccum
     }, {})
     var componentPool = Object.assign({}, components)
-    // var parent
     data.subcomponents.forEach(function (subcomponent) {
       var targetComponent = components[subcomponent.parent]
       if (!(targetComponent || {}).unversioned) {
@@ -121,7 +120,7 @@
           var iconId = it.url
             ? 'icon-nav-page' + it.url.replace(/(?:\.html|\/)$/, '').replace(/[/#]/g, '-')
             : 'icon-nav-page-' + component.name + '-' + it.content?.toLowerCase().replace(/ +/g, '-')
-          if (document.getElementById(iconId)) it.iconId = iconId
+          it.iconId = document.getElementById(iconId) ? iconId : 'icon-nav-component'
         })
       }
       return groupsAccum
@@ -164,12 +163,7 @@
   }
 
   function createNavTitleForGroup (groupData) {
-    var navTitle = createElement('h3.nav-title', groupData.title)
-    if (groupData.iconId) {
-      navTitle.classList.add('has-icon')
-      navTitle.insertBefore(createSvgElement('.icon.nav-group-icon', '#' + groupData.iconId), navTitle.firstChild)
-    }
-    return navTitle
+    return createElement('h3.nav-title', groupData.title)
   }
 
   function createNavListForGroup (groupData, page) {
