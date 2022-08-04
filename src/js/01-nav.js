@@ -110,6 +110,7 @@
         iconId: groupIconId,
         components: (groupComponents = Object.values(selectComponents(group.components, componentPool))),
         title: group.title,
+        spreadSingleItem: group.spreadSingleItem,
       })
       var component
       if (!groupComponents.length) {
@@ -121,7 +122,7 @@
           var iconId = it.url
             ? 'icon-nav-page' + it.url.replace(/(?:\.html|\/)$/, '').replace(/[/#]/g, '-')
             : 'icon-nav-page-' + component.name + '-' + it.content?.toLowerCase().replace(/ +/g, '-')
-          if (document.getElementById(iconId)) it.iconId = iconId
+          it.iconId = document.getElementById(iconId) ? iconId : 'icon-nav-component'
         })
       }
       return groupsAccum
@@ -174,7 +175,10 @@
 
   function createNavListForGroup (groupData, page) {
     var componentsData = groupData.components
-    if (componentsData.length === 1 && componentsData[0].unversioned && componentsData[0].nav.items.length) {
+    if (componentsData.length === 1 &&
+      componentsData[0].unversioned &&
+      componentsData[0].nav.items.length &&
+      groupData.spreadSingleItem) {
       return createNavList(componentsData[0].nav, page)
     }
     var navList = createElement('ul.nav-list')
