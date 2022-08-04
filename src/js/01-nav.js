@@ -109,6 +109,7 @@
         iconId: groupIconId,
         components: (groupComponents = Object.values(selectComponents(group.components, componentPool))),
         title: group.title,
+        spreadSingleItem: group.spreadSingleItem,
       })
       var component
       if (!groupComponents.length) {
@@ -168,7 +169,10 @@
 
   function createNavListForGroup (groupData, page) {
     var componentsData = groupData.components
-    if (componentsData.length === 1 && componentsData[0].unversioned && componentsData[0].nav.items.length) {
+    if (componentsData.length === 1 &&
+      componentsData[0].unversioned &&
+      componentsData[0].nav.items.length &&
+      groupData.spreadSingleItem) {
       return createNavList(componentsData[0].nav, page)
     }
     var navList = createElement('ul.nav-list')
