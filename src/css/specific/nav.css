@@ -21,9 +21,12 @@
     -webkit-tap-highlight-color: transparent;
   }
   & .search {
+    background: white;
     box-shadow: 0 1px 0 var(--aluminum-3);
     display: flex;
     padding: var(--md);
+    position: sticky;
+    top: 0;
     z-index: inherit;
     & button {
       align-items: center;
