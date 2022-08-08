@@ -123,7 +123,7 @@
             : 'icon-nav-page-' + component.name + '-' + it.content?.toLowerCase().replace(/ +/g, '-')
           it.iconId = document.getElementById(iconId)
             ? iconId : group.spreadSingleItem
-              ? 'icon-nav-component' : groupIconId
+              ? 'icon-nav-component' : it.iconId
         })
       }
       return groupsAccum
