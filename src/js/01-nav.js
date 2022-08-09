@@ -122,7 +122,9 @@
           var iconId = it.url
             ? 'icon-nav-page' + it.url.replace(/(?:\.html|\/)$/, '').replace(/[/#]/g, '-')
             : 'icon-nav-page-' + component.name + '-' + it.content?.toLowerCase().replace(/ +/g, '-')
-          it.iconId = document.getElementById(iconId) ? iconId : 'icon-nav-component'
+          it.iconId = document.getElementById(iconId)
+            ? iconId : group.spreadSingleItem
+              ? 'icon-nav-component' : it.iconId
         })
       }
       return groupsAccum
