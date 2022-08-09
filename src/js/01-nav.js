@@ -107,7 +107,8 @@
       var groupComponents
       groupsAccum.push({
         iconId: groupIconId,
-        components: (groupComponents = Object.values(selectComponents(group.components, componentPool))),
+        components: (groupComponents = Object.values(
+          selectComponents(group.components, componentPool, group.exclude))),
         title: group.title,
         spreadSingleItem: group.spreadSingleItem,
       })
@@ -143,16 +144,18 @@
     })
   }
 
-  function selectComponents (patterns, pool) {
+  function selectComponents (patterns, pool, exclude) {
     return coerceToArray(patterns).reduce(function (accum, pattern) {
       if (~pattern.indexOf('*')) {
         var rx = new RegExp('^' + pattern.replace(/[*]/g, '.*?') + '$')
-        Object.keys(pool).forEach(function (candidate) {
-          if (rx.test(candidate)) {
-            accum[candidate] = pool[candidate]
-            delete pool[candidate]
-          }
-        })
+        Object.keys(pool)
+          .filter((x) => coerceToArray(exclude).indexOf(x) === -1)
+          .forEach(function (candidate) {
+            if (rx.test(candidate)) {
+              accum[candidate] = pool[candidate]
+              delete pool[candidate]
+            }
+          })
       } else if (pattern in pool) {
         accum[pattern] = pool[pattern]
         delete pool[pattern]
