@@ -18,7 +18,7 @@ const postcssImport = require('postcss-import')
 const postcssNesting = require('postcss-nesting')
 const postcssUrl = require('postcss-url')
 const postcssVar = require('postcss-custom-properties')
-const uglify = require('gulp-uglify')
+const uglify = require('gulp-terser')
 const vfs = require('vinyl-fs')
 
 module.exports = (src, dest, preview) => () => {
