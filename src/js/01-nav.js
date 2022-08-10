@@ -3,13 +3,13 @@
   'use strict'
 
   function buildNav (navData, nav, page) {
-    if (!page) return
     if (nav.classList.contains('fit')) {
       ;(fitNav = fitNav.bind(nav))() // eslint-disable-line no-func-assign
       window.addEventListener('scroll', fitNav)
       window.addEventListener('resize', fitNav)
     }
-    relativize = relativize.bind(null, page.url) // eslint-disable-line no-func-assign
+    var pageURL = page ? page.url : '/index.html'
+    relativize = relativize.bind(null, pageURL) // eslint-disable-line no-func-assign
     var navGroups = createElement('.nav-groups.scrollbar')
     reshapeNavData(navData).groups.forEach(function (groupData) {
       var navGroup = createElement('.nav-group')
@@ -192,7 +192,9 @@
     var navItem = createElement('li.nav-item', { dataset: { component: componentName } })
     navItem.appendChild(createNavTitle(navItem, componentData, page))
     var versionData
-    if (page.component === componentName) {
+    if (!page) {
+      return navItem
+    } else if (page.component === componentName) {
       versionData = componentData.versions[page.version]
     } else if (isSubcomponent(page.component, componentData)) {
       versionData = componentData.versions['']
@@ -209,7 +211,8 @@
     var navLink = createElement('a.link.nav-text', componentData.title)
     if (componentData.name === 'home') {
       var homeUrl = componentData.nav.url
-      if ((navLink.href = relativize(homeUrl)) === relativize(page.url)) {
+      var pageURL = page ? page.url : '/index.html'
+      if ((navLink.href = relativize(homeUrl)) === relativize(pageURL)) {
         navItem.classList.add('is-active')
         navLink.setAttribute('aria-current', 'page')
       }
@@ -236,14 +239,13 @@
     var navVersionDropdown = createElement('.nav-version-dropdown')
     navVersionDropdown.addEventListener('click', trapEvent)
     var navVersionButton = createElement('button.button.nav-version-button')
-    var activeVersion = componentData.name === page.component ? page.version : currentVersionData.version
+    var activeVersion = componentData.name === page?.component ? page.version : currentVersionData.version
     var activeDisplayVersion = componentData.versions[activeVersion].displayVersion
     navVersionButton.appendChild(
       createElement('span.nav-version', { dataset: { version: activeVersion } }, activeDisplayVersion)
     )
-    if (page.navVersionIconId) {
-      navVersionButton.appendChild(createSvgElement('.icon.nav-version-icon', '#' + page.navVersionIconId))
-    }
+    var navVersionIconId = page?.navVersionIconId ? page.navVersionIconId : 'icon-nav-version'
+    navVersionButton.appendChild(createSvgElement('.icon.nav-version-icon', '#' + navVersionIconId))
     var navVersionMenu = createElement('ul.nav-version-menu')
     versions.reduce(function (lastVersionData, versionData) {
       if (versionData === currentVersionData) {
@@ -280,7 +282,7 @@
           navLink.classList.add('has-icon')
           navLink.insertBefore(createSvgElement('.icon.nav-icon', '#' + navItemData.iconId), navLink.firstChild)
         }
-        if (navItemData.url === page.url) {
+        if (navItemData.url === page?.url) {
           ;(lineage || []).forEach(function (el) {
             el.classList.add('is-active')
           })
