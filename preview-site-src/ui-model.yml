@@ -354,6 +354,7 @@ nav:
     components: [home, release-notes, does-not-exist]
   - title: Getting Started
     components: general
+    spreadSingleItem: true
   - title: Docs by Product
     components: ['*', anypoint-cli]
 page:
