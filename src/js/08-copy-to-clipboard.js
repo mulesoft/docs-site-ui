@@ -24,7 +24,7 @@
 
         var dwA = document.createElement('a')
         dwA.className = 'dw-playground-link'
-        dwA.href = 'https://developer.mulesoft.com/learn/dataweave/playground'
+        dwA.href = constructDWPlaygroundURL(code.dataset?.sourceUrl)
         dwA.target = '_blank'
 
         var dwImg = document.createElement('img')
@@ -89,6 +89,13 @@
     pre.appendChild(toolbox)
     if (copy) copy.addEventListener('click', writeToClipboard.bind(copy, code))
   })
+
+  function constructDWPlaygroundURL (sourceUrl) {
+    var path = sourceUrl ? '?projectMethod=GHRepo&repo=mulesoft%2Fdocs-dataweave&path=' +
+      encodeURIComponent(sourceUrl)
+      : ''
+    return 'https://developer.mulesoft.com/learn/dataweave/playground' + path
+  }
 
   function extractCommands (text) {
     var cmds = []
