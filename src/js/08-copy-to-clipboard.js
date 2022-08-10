@@ -15,7 +15,7 @@
         ;(lang = document.createElement('span')).className = 'source-lang'
         lang.appendChild(document.createTextNode(language))
       }
-      if (language === 'dataweave') {
+      if (['dataweave', 'dw'].includes(language)) {
         ;(dwTryMe = document.createElement('span')).className = 'dw-tryme'
         dwTryMe.id = 'dw-tryme'
         var dwButton = document.createElement('button')
@@ -27,7 +27,6 @@
         dwA.href = 'https://developer.mulesoft.com/learn/dataweave/playground'
         dwA.target = '_blank'
 
-        // TODO: use a proper icon
         var dwImg = document.createElement('img')
         dwImg.src = uiRootPath + '/img/icons/lab-default.svg'
         dwImg.alt = 'try me icon'
