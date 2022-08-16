@@ -7,12 +7,41 @@
   var config = (document.getElementById('site-script') || { dataset: {} }).dataset
 
   ;[].slice.call(document.querySelectorAll('.doc pre.highlight, .doc .literalblock pre')).forEach(function (pre) {
-    var code, language, lang, copy, toast, toolbox
+    var code, dwTryMe, language, lang, copy, toast, toolbox
+    var uiRootPath = document.getElementById('site-script').dataset.uiRootPath
     if (pre.classList.contains('highlight')) {
       code = pre.querySelector('code')
       if ((language = code.dataset.lang) && language !== 'console') {
         ;(lang = document.createElement('span')).className = 'source-lang'
         lang.appendChild(document.createTextNode(language))
+      }
+      if (['dataweave', 'dw'].includes(language)) {
+        ;(dwTryMe = document.createElement('span')).className = 'dw-tryme'
+        dwTryMe.id = 'dw-tryme'
+        var dwButton = document.createElement('button')
+        dwButton.className = 'code-snippet-button'
+        dwButton.setAttribute('title', 'Try in DataWeave Playground')
+
+        var dwA = document.createElement('a')
+        dwA.className = 'dw-playground-link'
+        dwA.href = constructDWPlaygroundURL(code.dataset?.sourceUrl)
+        dwA.target = '_blank'
+
+        var dwImg = document.createElement('img')
+        dwImg.src = uiRootPath + '/img/icons/lab-default.svg'
+        dwImg.alt = 'try me icon'
+        dwImg.className = 'code-snippet-icon'
+
+        dwButton.appendChild(dwImg)
+        dwButton.addEventListener('mouseover', function () {
+          dwButton.firstChild.src = uiRootPath + '/img/icons/lab-hover.svg'
+        })
+        dwButton.addEventListener('mouseout', function () {
+          dwButton.firstChild.src = uiRootPath + '/img/icons/lab-default.svg'
+        })
+
+        dwA.appendChild(dwButton)
+        dwTryMe.appendChild(dwA)
       }
     } else if (pre.innerText.startsWith('$ ')) {
       var block = pre.parentNode.parentNode
@@ -28,24 +57,30 @@
     }
     ;(toolbox = document.createElement('div')).className = 'source-toolbox'
     if (lang) toolbox.appendChild(lang)
+    if (dwTryMe) toolbox.appendChild(dwTryMe)
     if (window.navigator.clipboard) {
-      ;(copy = document.createElement('button')).className = 'copy-button'
+      ;(copy = document.createElement('button')).className = 'code-snippet-button'
       copy.setAttribute('title', 'Copy to clipboard')
-      var uiRootPath = document.getElementById('site-script').dataset.uiRootPath
       if (config.svgAs === 'svg') {
         var svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg')
-        svg.setAttribute('class', 'copy-icon')
+        svg.setAttribute('class', 'code-snippet-icon')
         var use = document.createElementNS('http://www.w3.org/2000/svg', 'use')
-        use.setAttribute('href', uiRootPath + '/img/icons/octicons-16.svg#icon-clippy')
+        use.setAttribute('href', uiRootPath + '/img/icons/copy-default.svg')
         svg.appendChild(use)
         copy.appendChild(svg)
       } else {
         var img = document.createElement('img')
-        img.src = uiRootPath + '/img/icons/octicons-16.svg#view-clippy'
+        img.src = uiRootPath + '/img/icons/copy-default.svg'
         img.alt = 'copy icon'
-        img.className = 'copy-icon'
+        img.className = 'code-snippet-icon'
         copy.appendChild(img)
       }
+      copy.addEventListener('mouseover', function () {
+        copy.firstChild.src = uiRootPath + '/img/icons/copy-hover.svg'
+      })
+      copy.addEventListener('mouseout', function () {
+        copy.firstChild.src = uiRootPath + '/img/icons/copy-default.svg'
+      })
       ;(toast = document.createElement('span')).className = 'copy-toast'
       toast.appendChild(document.createTextNode('Copied!'))
       copy.appendChild(toast)
@@ -54,6 +89,13 @@
     pre.appendChild(toolbox)
     if (copy) copy.addEventListener('click', writeToClipboard.bind(copy, code))
   })
+
+  function constructDWPlaygroundURL (sourceUrl) {
+    var path = sourceUrl ? '?projectMethod=GHRepo&repo=mulesoft%2Fdocs-dataweave&path=' +
+      encodeURIComponent(sourceUrl)
+      : ''
+    return 'https://developer.mulesoft.com/learn/dataweave/playground' + path
+  }
 
   function extractCommands (text) {
     var cmds = []

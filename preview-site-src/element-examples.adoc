@@ -108,6 +108,13 @@ properties:
     properties: object
 ----
 
+=== Dataweave
+
+[source,dataweave,linenums]
+----
+include::preview-site-src/cookbook-dw/add-and-subtract-time/transform.dwl[]
+----
+
 == Embedded media
 
 === Image
