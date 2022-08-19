@@ -126,6 +126,7 @@
             ? iconId : group.spreadSingleItem
               ? 'icon-nav-component' : it.iconId
         })
+        if (group.homeTitle) component.title = group.homeTitle
       }
       return groupsAccum
     }, [])
