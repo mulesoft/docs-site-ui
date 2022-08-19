@@ -15,7 +15,7 @@
         ;(lang = document.createElement('span')).className = 'source-lang'
         lang.appendChild(document.createTextNode(language))
       }
-      if (['dataweave', 'dw'].includes(language)) {
+      if (['dataweave', 'dw'].includes(language.toLowerCase()) && code.dataset?.sourceUrl) {
         ;(dwTryMe = document.createElement('span')).className = 'dw-tryme'
         dwTryMe.id = 'dw-tryme'
         var dwButton = document.createElement('button')
