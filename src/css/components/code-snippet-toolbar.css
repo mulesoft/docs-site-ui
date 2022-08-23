@@ -56,10 +56,6 @@
   width: inherit;
 }
 
-/* .doc .source-toolbox img.code-snippet-icon {
-  mix-blend-mode: darken;
-} */
-
 .doc .source-toolbox svg.code-snippet-icon {
   fill: currentColor;
 }
