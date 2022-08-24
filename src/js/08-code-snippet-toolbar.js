@@ -15,12 +15,12 @@
         ;(lang = document.createElement('span')).className = 'source-lang'
         lang.appendChild(document.createTextNode(language))
       }
-      if (['dataweave', 'dw'].includes(language.toLowerCase()) && code.dataset?.sourceUrl) {
+      if (relatesToDataweave(language) && code.dataset?.sourceUrl) {
         ;(dwTryMe = document.createElement('span')).className = 'dw-tryme'
         dwTryMe.id = 'dw-tryme'
         var dwButton = document.createElement('button')
         dwButton.className = 'code-snippet-button'
-        dwButton.setAttribute('title', 'Try in DataWeave Playground')
+        dwButton.setAttribute('title', 'Edit in Playground')
 
         var dwA = document.createElement('a')
         dwA.className = 'dw-playground-link'
@@ -57,10 +57,9 @@
     }
     ;(toolbox = document.createElement('div')).className = 'source-toolbox'
     if (lang) toolbox.appendChild(lang)
-    if (dwTryMe) toolbox.appendChild(dwTryMe)
     if (window.navigator.clipboard) {
       ;(copy = document.createElement('button')).className = 'code-snippet-button'
-      copy.setAttribute('title', 'Copy to clipboard')
+      copy.setAttribute('title', 'Copy to Clipboard')
       if (config.svgAs === 'svg') {
         var svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg')
         svg.setAttribute('class', 'code-snippet-icon')
@@ -75,17 +74,20 @@
         img.className = 'code-snippet-icon'
         copy.appendChild(img)
       }
-      copy.addEventListener('mouseover', function () {
+
+      copy.firstChild.addEventListener('mouseover', function () {
         copy.firstChild.src = uiRootPath + '/img/icons/copy-hover.svg'
       })
-      copy.addEventListener('mouseout', function () {
+      copy.firstChild.addEventListener('mouseout', function () {
         copy.firstChild.src = uiRootPath + '/img/icons/copy-default.svg'
       })
+
       ;(toast = document.createElement('span')).className = 'copy-toast'
-      toast.appendChild(document.createTextNode('Copied!'))
+      toast.appendChild(document.createTextNode('✓ Copied'))
       copy.appendChild(toast)
       toolbox.appendChild(copy)
     }
+    if (dwTryMe) toolbox.appendChild(dwTryMe)
     pre.appendChild(toolbox)
     if (copy) copy.addEventListener('click', writeToClipboard.bind(copy, code))
   })
@@ -95,6 +97,11 @@
       encodeURIComponent(sourceUrl)
       : ''
     return 'https://developer.mulesoft.com/learn/dataweave/playground' + path
+  }
+
+  function relatesToDataweave (language) {
+    return language &&
+      ['dataweave', 'dw', 'json', 'xml'].includes(language.toLowerCase())
   }
 
   function extractCommands (text) {
