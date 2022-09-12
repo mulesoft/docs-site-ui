@@ -188,6 +188,7 @@
     &:hover {
       background-color: #c0edff;
       border-radius: 5px;
+      padding: 2px;
     }
 
     &[target="_blank"]:not(.dw-playground-link) {
