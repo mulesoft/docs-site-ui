@@ -178,12 +178,14 @@
   & a:not(.button-primary):not(.notice-banner-link) {
     color: #002196;
 
-    &:active,
-    &:focus,
-    &:hover {
+    &:focus {
       border-radius: 5px;
       outline: 2px solid #888;
       text-decoration: none;
+    }
+
+    &:hover {
+      background-color: #becff5;
     }
 
     &[target="_blank"]:not(.dw-playground-link) {
