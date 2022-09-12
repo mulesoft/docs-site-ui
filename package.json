@@ -12,6 +12,14 @@
   "browserslist": [
     "last 2 versions"
   ],
+  "scripts": {
+    "build": "npx gulp bundle",
+    "deploy": "npx gulp release",
+    "format": "npx gulp format",
+    "lint": "npx gulp lint",
+    "release": "npx gulp release",
+    "start": "npx gulp preview"
+  },
   "devDependencies": {
     "@octokit/rest": "~18.0",
     "asciidoctor": "2.2.6",
