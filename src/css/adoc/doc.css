@@ -176,13 +176,13 @@
 
   /* links */
   & a:not(.button-primary):not(.notice-banner-link) {
-    
+    color: #002196;
+
     &:active,
     &:focus,
     &:hover {
-      outline: 3px solid #888;
       border-radius: 5px;
-      color: #002196;
+      outline: 2px solid #888;
       text-decoration: none;
     }
 
