@@ -81,7 +81,6 @@
       copy.firstChild.addEventListener('mouseout', function () {
         copy.firstChild.src = uiRootPath + '/img/icons/copy-default.svg'
       })
-
       ;(toast = document.createElement('span')).className = 'copy-toast'
       toast.appendChild(document.createTextNode('✓ Copied'))
       copy.appendChild(toast)
@@ -93,15 +92,14 @@
   })
 
   function constructDWPlaygroundURL (sourceUrl) {
-    var path = sourceUrl ? '?projectMethod=GHRepo&repo=mulesoft%2Fdocs-dataweave&path=' +
-      encodeURIComponent(sourceUrl)
+    var path = sourceUrl
+      ? '?projectMethod=GHRepo&repo=mulesoft%2Fdocs-dataweave&path=' + encodeURIComponent(sourceUrl)
       : ''
     return 'https://developer.mulesoft.com/learn/dataweave/playground' + path
   }
 
   function relatesToDataweave (language) {
-    return language &&
-      ['dataweave', 'dw', 'json', 'xml'].includes(language.toLowerCase())
+    return language && ['dataweave', 'dw', 'json', 'xml'].includes(language.toLowerCase())
   }
 
   function extractCommands (text) {
