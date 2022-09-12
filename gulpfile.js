@@ -24,9 +24,9 @@ const glob = {
   js: ['gulpfile.js', 'gulp.d/**/*.js', `${srcDir}/{helpers,js}/**/*.js`, `!${srcDir}/js/**/*.min.js`],
 }
 
-const getHeaderContentTask = createTask({
-  name: 'get-header-content',
-  call: task.getHeaderContent(partialsDir),
+const getMarketingContentTask = createTask({
+  name: 'get-marketing-content',
+  call: task.getMarketingContent(partialsDir),
 })
 
 const cleanTask = createTask({
@@ -71,7 +71,7 @@ const buildTask = createTask({
 
 const bundleBuildTask = createTask({
   name: 'bundle:build',
-  call: series(cleanTask, lintTask, buildTask),
+  call: series(cleanTask, lintTask, getMarketingContentTask, formatTask, buildTask),
 })
 
 const bundlePackTask = createTask({
@@ -83,13 +83,13 @@ const bundlePackTask = createTask({
 const bundleTask = createTask({
   name: 'bundle',
   desc: 'Clean, lint, build, and bundle the UI for publishing',
-  call: series(getHeaderContentTask, bundleBuildTask, bundlePackTask),
+  call: series(bundleBuildTask, bundlePackTask),
 })
 
 const releasePublishTask = createTask({
   desc: 'Publish the release to GitHub by attaching it to a new tag',
   name: 'release:publish',
-  call: series(getHeaderContentTask, task.release(buildDir, bundleName, owner, repo, process.env.GITHUB_TOKEN)),
+  call: series(task.release(buildDir, bundleName, owner, repo, process.env.GITHUB_TOKEN)),
 })
 
 const releaseTask = createTask({
@@ -117,7 +117,7 @@ const previewServeTask = createTask({
 const previewTask = createTask({
   name: 'preview',
   desc: 'Generate a preview site and launch a server to view it',
-  call: series(getHeaderContentTask, previewBuildTask, previewServeTask),
+  call: series(getMarketingContentTask, formatTask, previewBuildTask, previewServeTask),
 })
 
 const updateTask = createTask({
