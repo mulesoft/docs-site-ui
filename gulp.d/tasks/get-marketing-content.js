@@ -2,6 +2,7 @@
 
 const fs = require('fs-extra')
 const fetch = (...args) => import('node-fetch').then(({ default: fetch }) => fetch(...args))
+const pretty = require('pretty')
 
 module.exports = () => async () => {
   updateContent('header')
@@ -13,7 +14,7 @@ async function updateContent (component) {
   if (await isGoodStatus(content.status)) {
     const body = await content.json()
     if (await hasValidData(body)) {
-      fs.writeFileSync(`src/partials/${component}-content.hbs`, body.data)
+      fs.writeFileSync(`src/partials/${component}-content.hbs`, pretty(body.data))
     }
   }
 }

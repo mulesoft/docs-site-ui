@@ -57,6 +57,7 @@
     "postcss-nesting": "~7.0",
     "postcss-url": "~8.0",
     "prettier-eslint": "~11.0",
+    "pretty": "^2.0.0",
     "require-directory": "~2.1",
     "require-from-string": "~2.0",
     "stylelint": "~13.6",
