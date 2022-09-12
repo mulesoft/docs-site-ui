@@ -89,7 +89,7 @@ const bundleTask = createTask({
 const releasePublishTask = createTask({
   desc: 'Publish the release to GitHub by attaching it to a new tag',
   name: 'release:publish',
-  call: series(task.release(buildDir, bundleName, owner, repo, process.env.GITHUB_TOKEN)),
+  call: task.release(buildDir, bundleName, owner, repo, process.env.GITHUB_TOKEN),
 })
 
 const releaseTask = createTask({
