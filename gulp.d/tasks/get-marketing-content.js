@@ -5,7 +5,7 @@ const fetch = (...args) => import('node-fetch').then(({ default: fetch }) => fet
 
 module.exports = () => async () => {
   updateContent('header')
-  updateContent('footer')
+  // updateContent('footer')
 }
 
 async function updateContent (component) {
