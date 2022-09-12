@@ -1,7 +1,7 @@
 {{#if page.component}}
 <footer class="flex col align-center doc-footer">
   {{#if (or env.GOOGLE_ANALYTICS_KEY env.JIRA_COLLECTOR_ID)}}
-  <section class="section-helpful js-thanks-section">
+  <div class="section-helpful js-thanks-section">
     <p class="p" data-thanks="start">Was this article helpful?</p>
     {{#if env.GOOGLE_ANALYTICS_KEY}}
     <div class="row">
@@ -13,7 +13,7 @@
     {{#if env.JIRA_COLLECTOR_ID}}
     <a class="link js-jira">Leave feedback…</a>
     {{/if}}
-  </section>
+  </div>
   {{/if}}
   {{> github}}
 </footer>
