@@ -185,10 +185,12 @@
     &:focus,
     &:hover {
       color: var(--core-blue-2);
+      outline: 3px solid #888;
     }
 
     &:active {
       color: var(--core-blue-4);
+      outline: 3px solid #888;
     }
 
     &[target="_blank"]:not(.dw-playground-link) {
