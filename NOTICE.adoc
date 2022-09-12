@@ -1,0 +1,22 @@
+= Notices for the MuleSoft Documentation UI Project
+
+This UI for Antora is produced and maintained by the MuleSoft Documentation team.
+
+== Copyright
+
+This UI is derived from the https://gitlab.com/antora/antora-ui-default/[Antora Default UI].
+Modifications have been applied to align the theme and behavior of the UI with the MuleSoft brand and documentation requirements.
+MuleSoft brand elements, including icons, images, and fonts, and the visual design of this UI are copyright MuleSoft LLC, a Salesforce company.
+All rights to the brand elements and visual design are reserved and not licensed under the terms mentioned below.
+
+== Source Code
+
+The project is maintained in the following source code repository:
+
+* https://github.com/mulesoft/docs-site-ui
+
+== Source Code Licenses
+
+As a derivative work of the Antora Default UI project, the source code in this repository is licensed under the terms of the https://www.mozilla.org/en-US/MPL/2.0/[Mozilla Public License 2.0 (MPL-2.0)].
+
+The file [.path]_src/js/01-nav.js_ is copied from the https://gitlab.com/opendevise/oss/antora-navigator-extension/-/blob/main/data/js/nav.js[Antora Navigator Extension project] and is licensed under the terms of the Mozilla Public License 2.0 (MPL-2.0).

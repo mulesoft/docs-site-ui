@@ -1,5 +1,6 @@
 = Troubleshooting Data Gateway
 :keywords: data gateway, salesforce, sap, oracle, db2, odata, mysql, sqlserver
+:page-component-name: api-governance
 
 == Entitlements Support
 
