@@ -1,11 +1,13 @@
-(function () {
+;(function () {
   'use strict'
 
   var depContainer = document.getElementsByClassName('notice-banner')[0]
   if (depContainer) {
     var toolBar = document.getElementsByClassName('toolbar')[0]
     var sticky = depContainer.offsetTop
-    window.onscroll = function () { makeSticky(depContainer, toolBar, sticky) }
+    window.onscroll = function () {
+      makeSticky(depContainer, toolBar, sticky)
+    }
   }
 
   function makeSticky (dc, t, s) {
