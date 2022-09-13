@@ -28,6 +28,10 @@
         outline: 2px solid #747474;
         text-decoration: none;
       }
+
+      &:visited {
+        color: #002196;
+      }
     }
   }
 }
