@@ -10,7 +10,7 @@
   background: var(--tertiary);
   border-bottom: 1px solid var(--aluminum-3);
   box-shadow: 0 3px 15px rgba(0,0,0,.025);
-  height: 90px;
+  height: 110px;
   padding: var(--lg);
   position: sticky;
   top: 0;
@@ -21,7 +21,7 @@
     background-color: var(--aluminum-1);
     border: none;
     cursor: pointer;
-    fill: var(--aluminum-4);
+    fill: var(--steel-2);
     height: var(--lg);
     margin-left: var(--md);
     padding: var(--xs);
@@ -32,6 +32,22 @@
     &:active {
       fill: var(--red-3);
     }
+  }
+}
+
+.CoveoSearchbox {
+  width: 70%;
+
+  @media (min-width: 270px) {
+    width: 80%;
+  }
+
+  @media (min-width: 450px) {
+    width: 90%;
+  }
+
+  @media (min-width: 780px) {
+    width: 95%;
   }
 }
 
@@ -64,7 +80,7 @@
         text-indent: 0;
 
         &::placeholder {
-          color: var(--aluminum-5);
+          color: var(--steel-2);
         }
       }
     }
