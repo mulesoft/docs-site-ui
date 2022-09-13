@@ -31,6 +31,7 @@
       var searchBox = document.querySelector('[form=coveo-dummy-form]')
       if (searchBox) {
         searchBox.focus()
+        searchBox.setAttribute('id', 'coveo-form')
         clearInterval(checkExist)
       }
     }, 300)
