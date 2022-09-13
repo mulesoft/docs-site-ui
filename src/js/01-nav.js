@@ -93,22 +93,23 @@
         return
       }
       var targetItems = targetComponent.nav.items
-      Object.values(selectComponents(subcomponent.components, componentPool)).sort(function (a, b) {
-        if (!subcomponent.sortAll) return 0
-        if (!a.title) return 1
-        if (a.title?.toLowerCase() < b.title?.toLowerCase()) return -1
-      }).forEach(function (component) {
-        var iconId = 'icon-nav-component-' + component.name
-        component.iconId = document.getElementById(iconId) ? iconId : targetComponent.iconId
-        targetItems.push(component)
-      })
+      Object.values(selectComponents(subcomponent.components, componentPool))
+        .sort(function (a, b) {
+          if (!subcomponent.sortAll) return 0
+          if (!a.title) return 1
+          if (a.title?.toLowerCase() < b.title?.toLowerCase()) return -1
+        })
+        .forEach(function (component) {
+          var iconId = 'icon-nav-component-' + component.name
+          component.iconId = document.getElementById(iconId) ? iconId : targetComponent.iconId
+          targetItems.push(component)
+        })
     })
     var groups = data.groups.reduce(function (groupsAccum, group) {
       var groupComponents
       groupsAccum.push({
         iconId: groupIconId,
-        components: (groupComponents = Object.values(
-          selectComponents(group.components, componentPool, group.exclude))),
+        components: (groupComponents = Object.values(selectComponents(group.components, componentPool, group.exclude))),
         title: group.title,
         spreadSingleItem: group.spreadSingleItem,
       })
@@ -123,8 +124,10 @@
             ? 'icon-nav-page' + it.url.replace(/(?:\.html|\/)$/, '').replace(/[/#]/g, '-')
             : 'icon-nav-page-' + component.name + '-' + it.content?.toLowerCase().replace(/ +/g, '-')
           it.iconId = document.getElementById(iconId)
-            ? iconId : group.spreadSingleItem
-              ? 'icon-nav-component' : it.iconId
+            ? iconId
+            : group.spreadSingleItem
+              ? 'icon-nav-component'
+              : it.iconId
         })
         if (group.homeTitle) component.title = group.homeTitle
       }
@@ -177,10 +180,12 @@
 
   function createNavListForGroup (groupData, page) {
     var componentsData = groupData.components
-    if (componentsData.length === 1 &&
+    if (
+      componentsData.length === 1 &&
       componentsData[0].unversioned &&
       componentsData[0].nav.items.length &&
-      groupData.spreadSingleItem) {
+      groupData.spreadSingleItem
+    ) {
       return createNavList(componentsData[0].nav, page)
     }
     var navList = createElement('ul.nav-list')
