@@ -130,7 +130,7 @@
   & .magic-box-clear {
     align-items: center;
     background: none;
-    color: var(--aluminum-4);
+    color: var(--steel-2);
     display: flex;
     justify-content: center;
     opacity: 0;
