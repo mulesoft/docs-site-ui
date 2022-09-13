@@ -6,7 +6,7 @@ const pretty = require('pretty')
 
 module.exports = () => async () => {
   updateContent('header')
-  updateContent('footer')
+  // updateContent('footer')
 }
 
 async function updateContent (component) {
