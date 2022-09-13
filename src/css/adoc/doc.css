@@ -191,6 +191,10 @@
       padding: 2px;
     }
 
+    &:visited {
+      color: #681da8;
+    }
+
     &[target="_blank"]:not(.dw-playground-link) {
       background-image: url(../img/icons/external-link.svg);
       background-position: right center;
