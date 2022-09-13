@@ -15,14 +15,17 @@
     }
 
     & a {
-      color: #002196;
+      &:hover {
+        background-color: #e8f8ff;
+        border-radius: 5px;
+        outline: 2px solid #747474;
+        text-decoration: none;
+      }
 
-      &:hover,
       &:active,
       &:focus {
-        background-color: #e8f8ff;
-        border: 1px solid;
         border-radius: 5px;
+        outline: 2px solid #747474;
         text-decoration: none;
       }
     }
