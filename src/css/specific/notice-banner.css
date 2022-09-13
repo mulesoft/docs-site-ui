@@ -20,10 +20,14 @@
         background-color: #e8f8ff;
         border-radius: 5px;
         outline: 2px solid #747474;
+        padding: 1px;
         text-decoration: none;
       }
 
-      &:active,
+      &:active {
+        background-color: #abd6e8;
+      }
+
       &:focus {
         border-radius: 5px;
         outline: 2px solid #747474;
