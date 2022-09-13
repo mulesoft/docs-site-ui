@@ -289,8 +289,8 @@
   }
 
   & .coveo-facet-values {
-    padding-top: 0;
     max-width: 85%;
+    padding-top: 0;
   }
 
   & .coveo-facet-value {
