@@ -21,7 +21,6 @@
         border-radius: 5px;
         outline: 2px solid #747474;
         padding: 1px;
-        text-decoration: none;
       }
 
       &:active {
@@ -31,7 +30,6 @@
       &:focus {
         border-radius: 5px;
         outline: 2px solid #747474;
-        text-decoration: none;
       }
 
       &:visited {
