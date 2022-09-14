@@ -302,6 +302,7 @@
       }
       if (navItemData.items) {
         var navItemToggle = createElement('button.nav-item-toggle')
+        navItemToggle.setAttribute('aria-expanded', navItem.classList.contains('is-active'))
         if (page.navItemToggleIconId) {
           navItemToggle.appendChild(createSvgElement('.icon.nav-item-toggle-icon', '#' + page.navItemToggleIconId))
         }
@@ -393,6 +394,10 @@
 
   function toggleSubNav () {
     this.classList.toggle('is-active')
+    var toggleButton = this.querySelector('.nav-item-toggle')
+    if (toggleButton) {
+      toggleButton.ariaExpanded = (this.classList.contains('is-active'))
+    }
   }
 
   function selectVersion (navItem, componentData, page, e) {
