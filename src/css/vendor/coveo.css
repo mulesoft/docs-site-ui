@@ -289,7 +289,6 @@
   }
 
   & .coveo-facet-values {
-    max-width: 85%;
     padding-top: 0;
   }
 
@@ -464,7 +463,9 @@
   /* facet value */
   & .coveo-facet-value-caption {
     flex: 1 1 auto;
+    line-height: 130%;
     order: 2;
+    white-space: break-spaces;
   }
 
   /* facet result count */
