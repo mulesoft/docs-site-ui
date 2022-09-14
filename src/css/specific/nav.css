@@ -175,6 +175,7 @@ svg.nav-icon {
     display: block;
   }
 
+  &.focus,
   &:focus {
     outline: 2px solid #888;
   }
