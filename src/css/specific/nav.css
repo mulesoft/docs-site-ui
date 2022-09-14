@@ -47,7 +47,7 @@
 .nav-text {
   display: flex;
 
-  &:focus {
+  &:focus-visible {
     border-radius: var(--radius);
     outline: 2px solid #888;
   }
