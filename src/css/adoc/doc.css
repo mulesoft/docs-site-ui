@@ -176,19 +176,23 @@
 
   /* links */
   & a:not(.button-primary):not(.notice-banner-link) {
-    color: var(--core-blue-3);
+    color: #002196;
 
+    &:active,
     &:focus {
-      outline: 0;
+      border-radius: 5px;
+      outline: 2px solid #888;
+      text-decoration: none;
     }
 
-    &:focus,
     &:hover {
-      color: var(--core-blue-2);
+      background-color: #c0edff;
+      border-radius: 5px;
+      padding: 1px;
     }
 
-    &:active {
-      color: var(--core-blue-4);
+    &:visited {
+      color: #681da8;
     }
 
     &[target="_blank"]:not(.dw-playground-link) {

@@ -16,14 +16,24 @@
 
     & a {
       color: #002196;
-
-      &:hover,
-      &:active,
-      &:focus {
+      &:hover {
         background-color: #e8f8ff;
-        border: 1px solid;
         border-radius: 5px;
-        text-decoration: none;
+        outline: 2px solid #747474;
+        padding: 1px;
+      }
+
+      &:active {
+        background-color: #abd6e8;
+      }
+
+      &:focus {
+        border-radius: 5px;
+        outline: 2px solid #747474;
+      }
+
+      &:visited {
+        color: #002196;
       }
     }
   }
