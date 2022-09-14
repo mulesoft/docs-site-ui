@@ -302,7 +302,8 @@
       }
       if (navItemData.items) {
         var navItemToggle = createElement('button.nav-item-toggle')
-        navItemToggle.setAttribute('aria-expanded', navItem.classList.contains('is-active'))
+        navItemToggle.ariaExpanded = navItem.classList.contains('is-active')
+        if (navItemData.content) navItemToggle.ariaLabel = `Toggle ${navItemData.content}`
         if (page.navItemToggleIconId) {
           navItemToggle.appendChild(createSvgElement('.icon.nav-item-toggle-icon', '#' + page.navItemToggleIconId))
         }
