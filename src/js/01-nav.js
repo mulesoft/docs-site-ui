@@ -395,9 +395,7 @@
   function toggleSubNav () {
     this.classList.toggle('is-active')
     var toggleButton = this.querySelector('.nav-item-toggle')
-    if (toggleButton) {
-      toggleButton.ariaExpanded = (this.classList.contains('is-active'))
-    }
+    if (toggleButton) toggleButton.ariaExpanded = this.classList.contains('is-active')
   }
 
   function selectVersion (navItem, componentData, page, e) {
