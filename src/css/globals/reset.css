@@ -44,7 +44,7 @@ textarea {
 }
 
 /* reset buttons */
-button {
+button:not(.nav-item-toggle) {
   &.focus,
   &:focus {
     border-color: var(--core-blue-3);
