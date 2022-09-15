@@ -118,17 +118,14 @@
       opacity: .5;
       outline: 0;
     }
-
-    &::before {
-      background-image: url(../img/icons/anchor.svg);
-      background-position: center;
-      background-repeat: no-repeat;
-      background-size: var(--lg);
-      content: '';
-      display: block;
-      height: var(--lg);
-      width: var(--lg);
-    }
+  }
+  
+  & .anchor-image {
+    display: block;
+    height: var(--lg);
+    margin-bottom: 0;
+    margin-top: 0;
+    width: var(--lg);
   }
 
   & h1 .anchor {
@@ -160,7 +157,6 @@
   & ol,
   & dl,
   & figure,
-  & img,
   & blockquote,
   & table {
     margin-bottom: var(--md);
