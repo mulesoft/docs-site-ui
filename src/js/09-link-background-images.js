@@ -5,9 +5,10 @@
 
   const externalLinks = document.querySelectorAll('[target="_blank"]')
   externalLinks.forEach(function (externalLink) {
-    if (!externalLink.classList.contains('dw-playground-link')) {
+    if (!isDataWeavePlaygroundLink(externalLink)) {
       const externalLinkImg = createLinkImage('external-link')
-      externalLinkImg.alt = 'leaving the site'
+      externalLinkImg.alt = 'Leaving the Site'
+      externalLinkImg.setAttribute('title', 'Leaving the Site')
       externalLink.appendChild(externalLinkImg)
     }
   })
@@ -17,6 +18,7 @@
     const anchorImg = createLinkImage('anchor')
     const headerText = anchor.parentElement.textContent
     if (headerText) anchorImg.alt = `Jump to ${headerText}`
+    anchorImg.setAttribute('title', 'Copy Anchor Link')
     anchor.appendChild(anchorImg)
   })
 
@@ -26,5 +28,9 @@
     img.classList.add(`${element}-image`)
     img.src = `${uiRootPath}/img/icons/${element}.svg`
     return img
+  }
+
+  function isDataWeavePlaygroundLink (e) {
+    return e.classList.contains('dw-playground-link')
   }
 })()
