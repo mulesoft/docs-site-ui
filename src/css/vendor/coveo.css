@@ -58,7 +58,7 @@
   /* input */
   & .magic-box {
     background: #fefefe;
-    border: 1px solid var(--aluminum-4);
+    border: 1px solid #67768b;
     border-radius: 4px;
     box-shadow: inset 0 0 6px rgba(0,0,0,.025);
     color: var(--steel-2);
@@ -284,8 +284,12 @@
   }
 
   & .coveo-facet-value-label-wrapper {
-    align-items: center;
+    align-items: flex-start;
     display: flex;
+
+    & input[type='checkbox'] {
+      margin-top: 4px;
+    }
   }
 
   & .coveo-facet-values {
@@ -364,13 +368,13 @@
 
     /* date */
     & .CoveoFieldValue {
-      color: var(--aluminum-4);
+      color: #67768b;
     }
   }
 
   /* query summary (results a out of b) */
   & .CoveoQuerySummary {
-    color: var(--aluminum-4);
+    color: #67768b;
     font-family: var(--heading);
     font-size: 14px;
     font-weight: var(--weight-bold);
@@ -448,6 +452,7 @@
 
 /* facet checkboxes */
 .coveo-facet-value.coveo-facet-value {
+  line-height: 160%;
 
   /* use default checkbox */
   & .coveo-facet-value-checkbox {
@@ -463,21 +468,20 @@
   /* facet value */
   & .coveo-facet-value-caption {
     flex: 1 1 auto;
-    line-height: 130%;
     order: 2;
     white-space: break-spaces;
   }
 
   /* facet result count */
   & .coveo-facet-value-count {
-    color: var(--aluminum-4);
+    color: #67768b;
     order: 3;
   }
 }
 
 /* did you mean */
 .CoveoDidYouMean.CoveoDidYouMean {
-  border: 1px solid var(--aluminum-4);
+  border: 1px solid #67768b;
   border-radius: 2px;
   font-size: 13px;
   margin: var(--sm) 0;
