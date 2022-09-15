@@ -1,23 +1,27 @@
 ;(function () {
   'use strict'
 
-  // Add alt text/title to external links.
-  // See https://stackoverflow.com/questions/4216035/css-background-image-alt-attribute
-  // on why this is done using JS instead of CSS.
-  var externalLinks = document.querySelectorAll('[target="_blank"]')
-
-  externalLinks.forEach(function (link) {
-    link.title = 'leaving the site'
+  let uiRootPath = document.getElementById('site-script').dataset.uiRootPath
+  
+  let externalLinks = document.querySelectorAll('[target="_blank"]')
+  externalLinks.forEach(function (externalLink) {
+    let externalLinkImg = createImage('external-link')
+    externalLinkImg.alt = 'leaving the site'
+    externalLink.appendChild(externalLinkImg)
   })
 
-  var anchors = document.querySelectorAll('.anchor')
-  var uiRootPath = document.getElementById('site-script').dataset.uiRootPath
+  let anchors = document.querySelectorAll('.anchor')
   anchors.forEach(function (anchor) {
-    let anchorImg = document.createElement('img')
-    anchorImg.classList.add('anchor-image')
-    anchorImg.src = uiRootPath + '/img/icons/anchor.svg'
+    let anchorImg = createImage('anchor')
     let headerText = anchor.parentElement.textContent
     if (headerText) anchorImg.alt = `Jump to ${headerText}` 
     anchor.appendChild(anchorImg)
   })
+
+  function createImage(element) {
+    let img = document.createElement('img')
+    img.classList.add(`${element}-image`)
+    img.src = `${uiRootPath}/img/icons/${element}.svg`
+    return img
+  }
 })()
