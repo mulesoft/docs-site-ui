@@ -22,10 +22,10 @@
     border: none;
     cursor: pointer;
     fill: var(--steel-2);
-    height: var(--lg);
+    height: var(--xxl);
     margin-left: var(--md);
     padding: var(--xs);
-    width: var(--lg);
+    width: var(--xxl);
 
     &:hover,
     &:focus,
@@ -38,16 +38,28 @@
 .CoveoSearchbox {
   width: 70%;
 
-  @media (min-width: 270px) {
+  @media (min-width: 300px) {
+    width: 74%;
+  }
+
+  @media (min-width: 375px) {
     width: 80%;
   }
 
-  @media (min-width: 450px) {
+  @media (min-width: 410px) {
+    width: 82%;
+  }
+
+  @media (min-width: 535px) {
+    width: 87%;
+  }
+
+  @media (min-width: 670px) {
     width: 90%;
   }
 
-  @media (min-width: 780px) {
-    width: 95%;
+  @media (min-width: 820px) {
+    width: 92%;
   }
 }
 
@@ -77,6 +89,7 @@
 
       & > input {
         font-family: var(--sans-serif);
+        font-size: inherit;
         text-indent: 0;
 
         &::placeholder {
