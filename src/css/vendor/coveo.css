@@ -75,6 +75,7 @@
     box-shadow: inset 0 0 6px rgba(0,0,0,.025);
     color: var(--steel-2);
     transition: box-shadow var(--transition-speed-sm) var(--transition-timing);
+    width: 74%;
 
     /* focus state */
     &.magic-box-hasFocus {
