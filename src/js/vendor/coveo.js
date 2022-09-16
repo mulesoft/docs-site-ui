@@ -64,11 +64,28 @@
     e.stopPropagation()
   }
 
+  function resizeCoveoOmnibox () {
+    var checkExist = setInterval(function () {
+      const coveoOmnibox = document.getElementsByClassName('CoveoOmnibox')[0]
+      if (coveoOmnibox) {
+        const coveoResultsColumn = document.getElementsByClassName('coveo-results-column')[0]
+        coveoOmnibox.style.width =
+          coveoResultsColumn && window.innerWidth >= 768 ? `${coveoResultsColumn.offsetWidth}px` : '92%'
+      }
+      clearInterval(checkExist)
+    }, 300)
+  }
+
   searchTrigger.addEventListener('click', showCoveo)
+  searchTrigger.addEventListener('click', resizeCoveoOmnibox)
   backdrop.addEventListener('click', hideCoveo)
   searchClose.addEventListener('click', hideCoveo)
   document.addEventListener('keydown', function (e) {
     if (e.keyCode === 27) hideCoveo(e)
   })
+
+  window.onresize = function (e) {
+    resizeCoveoOmnibox()
+  }
   root.addEventListener('click', trapEvent)
 })()
