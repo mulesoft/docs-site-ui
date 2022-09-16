@@ -476,6 +476,14 @@
   & .coveo-facet-value-count {
     color: #67768b;
     order: 3;
+
+    &::before {
+      content: "(";
+    }
+
+    &::after {
+      content: ")";
+    }
   }
 }
 
