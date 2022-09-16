@@ -20,7 +20,7 @@
 
   @media (--lg) {
     left: 0;
-    max-width: calc(var(--screen-lg) - var(--lg) - var(--lg));
+    max-width: calc(var(--screen-lg) - var(--lg) - var(--md));
     right: 0;
     width: 100%;
   }
