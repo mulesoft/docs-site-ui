@@ -18,7 +18,7 @@
     const anchorImg = createLinkImage('anchor')
     const headerText = anchor.parentElement.textContent
     if (headerText) anchorImg.alt = `Jump to ${headerText}`
-    anchorImg.setAttribute('title', 'Copy Anchor Link')
+    anchorImg.setAttribute('title', `Jump to ${headerText}`)
     anchor.appendChild(anchorImg)
   })
 
