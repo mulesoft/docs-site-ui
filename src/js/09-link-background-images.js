@@ -19,15 +19,13 @@
     const headerText = anchor.parentElement.textContent
     if (headerText) anchorImg.alt = `Jump to ${headerText}`
     anchorImg.setAttribute('title', `Jump to ${headerText}`)
-    anchor.addEventListener('click', function () {
-      const minHeight = getMinHeight()
-      console.log(minHeight)
-      var autoScrollDown = setInterval(function () {
-        if (anchor.scrollHeight <= minHeight) window.scrollBy(0, -minHeight / 1.1)
-        clearInterval(autoScrollDown)
-      }, 50)
-    })
+
+    anchor.addEventListener('click', function () { adjustScrollPosition(anchor) })
     anchor.appendChild(anchorImg)
+
+    const sideLinks = [...document.querySelectorAll('.toc-menu a')]
+    const sideLink = sideLinks.filter((a) => a.textContent === headerText)
+    if (sideLink.length > 0) sideLink[0].addEventListener('click', function () { adjustScrollPosition(anchor) })
   })
 
   function createLinkImage (element) {
@@ -40,6 +38,21 @@
 
   function isDataWeavePlaygroundLink (e) {
     return e.classList.contains('dw-playground-link')
+  }
+
+  function adjustScrollPosition (anchor) {
+    const minHeight = getMinHeight()
+    var tries = 0
+    console.log(anchor, minHeight, tries)
+    var autoScrollDown = setInterval(function () {
+      if (anchor.getBoundingClientRect().top <= minHeight) {
+        window.scrollBy(0, -minHeight / 1.1)
+        clearInterval(autoScrollDown)
+      }
+      if (++tries === 10) {
+        clearInterval(autoScrollDown)
+      }
+    }, 50)
   }
 
   function getMinHeight () {
