@@ -43,7 +43,6 @@
   function adjustScrollPosition (anchor) {
     const minHeight = getMinHeight()
     var tries = 0
-    console.log(anchor, minHeight, tries)
     var autoScrollDown = setInterval(function () {
       if (anchor.getBoundingClientRect().top <= minHeight) {
         window.scrollBy(0, -minHeight / 1.1)
