@@ -52,6 +52,11 @@
 
 .nav-text {
   display: flex;
+
+  &:focus-visible {
+    border-radius: var(--radius);
+    outline: 2px solid #888;
+  }
 }
 
 a.nav-text {
@@ -171,10 +176,19 @@ svg.nav-icon {
   opacity: .8;
   padding: 0;
   position: absolute;
-  width: 1.5em;
+  width: 1.2em;
   &::before {
     content: "+";
     display: block;
+  }
+
+  &:focus-visible {
+    border-radius: var(--radius);
+    outline: 2px solid #888;
+  }
+
+  &:hover {
+    filter: brightness(0%);
   }
 }
 
