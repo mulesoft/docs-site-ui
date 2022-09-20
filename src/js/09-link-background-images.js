@@ -20,11 +20,12 @@
     if (headerText) anchorImg.alt = `Jump to ${headerText}`
     anchorImg.setAttribute('title', `Jump to ${headerText}`)
     anchor.addEventListener('click', function () {
-      const toolbar = document.querySelector('.toolbar')
+      const minHeight = getMinHeight()
+      console.log(minHeight)
       var autoScrollDown = setInterval(function () {
-        if (anchor.scrollHeight <= toolbar.scrollHeight) window.scrollBy(0, -toolbar.scrollHeight/2)
+        if (anchor.scrollHeight <= minHeight) window.scrollBy(0, -minHeight / 1.1)
         clearInterval(autoScrollDown)
-      }, 10)
+      }, 50)
     })
     anchor.appendChild(anchorImg)
   })
@@ -39,5 +40,11 @@
 
   function isDataWeavePlaygroundLink (e) {
     return e.classList.contains('dw-playground-link')
+  }
+
+  function getMinHeight () {
+    const toolbar = document.querySelector('.toolbar')
+    const noticeBanner = document.querySelector('.notice-banner')
+    return noticeBanner ? toolbar.scrollHeight + noticeBanner.scrollHeight : toolbar.scrollHeight
   }
 })()
