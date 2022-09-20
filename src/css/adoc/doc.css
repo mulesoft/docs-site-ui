@@ -163,9 +163,9 @@
     margin-top: var(--md);
   }
 
-  pre,
-  table,
-  aside {
+  & pre,
+  & table,
+  & aside {
     margin-bottom: var(--lg);
     margin-top: var(--lg);
   }
