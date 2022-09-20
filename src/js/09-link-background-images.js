@@ -20,10 +20,11 @@
     if (headerText) anchorImg.alt = `Jump to ${headerText}`
     anchorImg.setAttribute('title', `Jump to ${headerText}`)
     anchor.addEventListener('click', function () {
+      const toolbar = document.querySelector('.toolbar')
       var autoScrollDown = setInterval(function () {
-        if (anchor.scrollHeight <= 30) window.scrollBy(0, -20)
+        if (anchor.scrollHeight <= toolbar.scrollHeight) window.scrollBy(0, -toolbar.scrollHeight/2)
         clearInterval(autoScrollDown)
-      }, 10) 
+      }, 10)
     })
     anchor.appendChild(anchorImg)
   })
