@@ -19,6 +19,12 @@
     const headerText = anchor.parentElement.textContent
     if (headerText) anchorImg.alt = `Jump to ${headerText}`
     anchorImg.setAttribute('title', `Jump to ${headerText}`)
+    anchor.addEventListener('click', function () {
+      var autoScrollDown = setInterval(function () {
+        if (anchor.scrollHeight <= 30) window.scrollBy(0, -20)
+        clearInterval(autoScrollDown)
+      }, 10) 
+    })
     anchor.appendChild(anchorImg)
   })
 
