@@ -14,7 +14,7 @@
     reshapeNavData(navData).groups.forEach(function (groupData) {
       var navGroup = createElement('.nav-group')
       if (groupData.title) navGroup.appendChild(createNavTitleForGroup(groupData))
-      navGroup.appendChild(createNavListForGroup(groupData, page))
+      navGroup.appendChild(createNavListForGroup(groupData, page, isArchiveSite(navData)))
       navGroups.appendChild(navGroup)
     })
     navGroups.addEventListener('mousedown', inhibitSelectionOnSecondClick)
@@ -178,7 +178,7 @@
     return createElement('h3.nav-title', groupData.title)
   }
 
-  function createNavListForGroup (groupData, page) {
+  function createNavListForGroup (groupData, page, isArchiveSite) {
     var componentsData = groupData.components
     if (
       componentsData.length === 1 &&
@@ -190,15 +190,15 @@
     }
     var navList = createElement('ul.nav-list')
     componentsData.forEach(function (componentData) {
-      navList.appendChild(createNavItemForComponent(componentData, page))
+      navList.appendChild(createNavItemForComponent(componentData, page, isArchiveSite))
     })
     return navList
   }
 
-  function createNavItemForComponent (componentData, page) {
+  function createNavItemForComponent (componentData, page, isArchiveSite) {
     var componentName = componentData.name
     var navItem = createElement('li.nav-item', { dataset: { component: componentName } })
-    navItem.appendChild(createNavTitle(navItem, componentData, page))
+    navItem.appendChild(createNavTitle(navItem, componentData, page, isArchiveSite))
     var versionData
     if (page.component === componentName) {
       versionData = componentData.versions[page.version]
@@ -212,7 +212,7 @@
     return navItem
   }
 
-  function createNavTitle (navItem, componentData, page) {
+  function createNavTitle (navItem, componentData, page, isArchiveSite) {
     var navTitle = createElement('.nav-title')
     var navLink = createElement('a.link.nav-text', componentData.title)
     if (componentData.name === 'home') {
@@ -229,11 +229,13 @@
       navLink.insertBefore(createSvgElement('.icon.nav-icon', '#' + componentData.iconId), navLink.firstChild)
     }
     navTitle.appendChild(navLink)
-    if (!componentData.unversioned) navTitle.appendChild(createNavVersionDropdown(navItem, componentData, page))
+    if (!componentData.unversioned) {
+      navTitle.appendChild(createNavVersionDropdown(navItem, componentData, page, isArchiveSite))
+    }
     return navTitle
   }
 
-  function createNavVersionDropdown (navItem, componentData, page) {
+  function createNavVersionDropdown (navItem, componentData, page, isArchiveSite) {
     var versions = Object.values(componentData.versions)
     var currentVersionData =
       versions.length > 1
@@ -254,12 +256,14 @@
     }
     var navVersionMenu = createElement('ul.nav-version-menu')
     versions.reduce(function (lastVersionData, versionData) {
-      if (versionData === currentVersionData) {
-        navVersionMenu.appendChild(createElement('li.nav-version-label', 'Current version'))
-      } else if (versionData.prerelease) {
-        if (!lastVersionData) navVersionMenu.appendChild(createElement('li.nav-version-label', 'Prerelease versions'))
-      } else if (lastVersionData === currentVersionData) {
-        navVersionMenu.appendChild(createElement('li.nav-version-label', 'Previous versions'))
+      if (!isArchiveSite) {
+        if (versionData === currentVersionData) {
+          navVersionMenu.appendChild(createElement('li.nav-version-label', 'Current version'))
+        } else if (versionData.prerelease) {
+          if (!lastVersionData) navVersionMenu.appendChild(createElement('li.nav-version-label', 'Prerelease versions'))
+        } else if (lastVersionData === currentVersionData) {
+          navVersionMenu.appendChild(createElement('li.nav-version-label', 'Previous versions'))
+        }
       }
       var versionDataset = { version: versionData.version }
       navVersionMenu
@@ -532,6 +536,17 @@
 
   function coerceToArray (val) {
     return Array.isArray(val) ? val : [val]
+  }
+
+  function isArchiveSite (navData) {
+    const t = navData.groups
+      ? navData.groups.filter((a) => hasArchiveInName(a.homeTitle) || hasArchiveInName(a.title))
+      : []
+    return t.length > 0
+  }
+
+  function hasArchiveInName (name) {
+    return String(name).toLowerCase().includes('archive')
   }
 
   buildNav(extractNavData(window), document.querySelector('.nav'), getPage())
