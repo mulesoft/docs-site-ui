@@ -1,7 +1,7 @@
 /* globals */
 @import "vendor/normalize.css";
-@import "globals/reset.css";
 @import "globals/vars.css";
+@import "globals/reset.css";
 @import "globals/utility.css";
 @import "globals/global.css";
 @import "globals/grid.css";
@@ -16,6 +16,7 @@
 @import "components/breadcrumbs.css";
 @import "components/button.css";
 @import "components/card.css";
+@import "components/code-snippet-toolbar.css";
 @import "components/github.css";
 @import "components/icon.css";
 @import "components/input.css";
@@ -25,11 +26,13 @@
 @import "components/tooltip.css";
 
 /* specific */
+@import "specific/banner.css";
+@import "specific/notice-banner.css";
+@import "specific/gdpr.css";
 @import "specific/header.css";
-@import "specific/navigation.css";
+@import "specific/nav.css";
 @import "specific/toc.css";
 @import "specific/toolbar.css";
-@import "specific/versions.css";
 
 /* adoc */
 @import "adoc/doc.css";
@@ -43,5 +46,4 @@
 @import "vendor/coveo.css";
 
 /* other */
-@import "base.css";
 @import "highlight.css";

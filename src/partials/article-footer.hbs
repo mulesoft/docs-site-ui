@@ -2,12 +2,12 @@
 <footer class="flex col align-center doc-footer">
   {{#if (or env.GOOGLE_ANALYTICS_KEY env.JIRA_COLLECTOR_ID)}}
   <section class="section-helpful js-thanks-section">
-    <p class="p" data-thanks="start">Was this article helpful?</p>
+    <h2 data-thanks="start">Was this article helpful?</h2>
     {{#if env.GOOGLE_ANALYTICS_KEY}}
     <div class="row">
       <button class="button js-thanks-yes" data-thanks="start" type="button">👍 Yes, thanks!</button>
       <button class="button js-thanks-no js-jira" data-thanks="start" type="button">👎 No, not really.</button>
-      <p class="p" data-thanks="end">💙 Thanks for your feedback!</p>
+      <h2 data-thanks="end">💙 Thanks for your feedback!</h2>
     </div>
     {{/if}}
     {{#if env.JIRA_COLLECTOR_ID}}
@@ -15,6 +15,6 @@
     {{/if}}
   </section>
   {{/if}}
-{{> github}}
+  {{> github}}
 </footer>
 {{/if}}

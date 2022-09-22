@@ -13,6 +13,9 @@
 {{#if page.keywords}}
 <meta name="keywords" content="{{page.keywords}}">
 {{/if}}
+{{#if (and (ne (site-profile) 'jp') (ne (site-profile) 'prod'))}}
+<meta name="robots" content="none, noarchive">
+{{/if}}
 {{> head}}
 </head>
 <body class="flex col">
@@ -24,12 +27,9 @@
 {{> toolbar}}
 {{> connectors-article}}
     </main>
-    <aside class="toc toc-sidebar js-toc">
+    <aside class="toc toc-sidebar scrollbar">
 {{> github}}
 {{> connectors-sidebar}}
-      <div class="js-toc">
-        <nav class="toc-menu"></nav>
-      </div>
     </aside>
   </div>
   {{else}}

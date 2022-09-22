@@ -12,9 +12,17 @@
   "browserslist": [
     "last 2 versions"
   ],
+  "scripts": {
+    "build": "npx gulp bundle",
+    "deploy": "npx gulp release",
+    "format": "npx gulp format",
+    "lint": "npx gulp lint",
+    "release": "npx gulp release",
+    "start": "npx gulp preview"
+  },
   "devDependencies": {
     "@octokit/rest": "~18.0",
-    "asciidoctor.js": "1.5.9",
+    "asciidoctor": "2.2.6",
     "autoprefixer": "~9.8",
     "browser-pack-flat": "~3.4",
     "browserify": "~16.5",
@@ -34,12 +42,14 @@
     "gulp-imagemin": "~6.2",
     "gulp-postcss": "~8.0",
     "gulp-stylelint": "~13.0",
+    "gulp-terser": "^2.1.0",
     "gulp-uglify": "~3.0",
     "gulp-vinyl-zip": "~2.2",
     "handlebars": "~4.7",
-    "highlight.js": "~9.18",
+    "highlight.js": "9.18.3",
     "js-yaml": "~3.14",
     "merge-stream": "~2.0",
+    "node-fetch": "^2.6.7",
     "postcss-calc": "~7.0",
     "postcss-custom-media": "~7.0",
     "postcss-custom-properties": "~9.1",
@@ -47,6 +57,7 @@
     "postcss-nesting": "~7.0",
     "postcss-url": "~8.0",
     "prettier-eslint": "~11.0",
+    "pretty": "^2.0.0",
     "require-directory": "~2.1",
     "require-from-string": "~2.0",
     "stylelint": "~13.6",

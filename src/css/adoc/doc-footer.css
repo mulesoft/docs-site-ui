@@ -22,10 +22,10 @@
   flex-direction: column;
   padding: var(--md) var(--xl);
 
-  & .row {
+  /* uncomment this block when GUS feedback is implemented */
+  /* & .row {
     border-bottom: 1px solid var(--aluminum-3);
-    padding-bottom: var(--md);
-  }
+  } */
 
   &.flip [data-thanks="start"],
   & [data-thanks="end"] {
@@ -37,9 +37,10 @@
     margin-bottom: 0;
   }
 
-  & .p {
+  & h2 {
     font-size: 14px;
     font-weight: var(--weight-bold);
+    margin-bottom: var(--sm);
     margin-top: 0;
     text-align: center;
   }
