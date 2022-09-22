@@ -1,6 +1,7 @@
 .toolbar {
   background: var(--tertiary);
   border-bottom: 1px solid var(--aluminum-3);
+  margin-top: 10px;
   padding: var(--sm) var(--lg);
   position: sticky;
   top: 0;
@@ -9,15 +10,6 @@
   @media (--lg) {
     padding-left: var(--xl);
     padding-right: var(--xl);
-  }
-
-  @media (--md) {
-    display: none;
-  }
-
-  @supports (backdrop-filter: blur(10px)) {
-    backdrop-filter: blur(10px);
-    background: rgba(255,255,255,.7);
   }
 }
 

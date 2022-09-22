@@ -4,7 +4,7 @@
     <tbody></tbody>
   </table>
 </section>
-<template id="connectors-row" style="display: none">
+<template id="connectors-row" class="hidden">
 <tr class="tr">
   <td class="td">
     <img src="" class="img js-connector-icon" width="30" alt="icon">
@@ -19,7 +19,7 @@
     <button class="button js-connector-menu-trigger">
       <svg class="svg" width="16" height="16"><use xlink:href="#icon-kabob"/></svg>
     </button>
-    <div class="js-connector-menu" style="display: none">
+    <div class="js-connector-menu hidden">
       <div class="popover popover-connector-menu">
         <header class="header">Quick links</header>
         <ul class="list js-connector-qlinks">
@@ -43,21 +43,14 @@
   </td>
 </tr>
 </template>
-<svg xmlns="http://www.w3.org/2000/svg" style="display: none">
-  <symbol id="icon-kabob" viewBox="0 0 16 16">
-    <path d="M13.5 9.5C14.3284 9.5 15 8.82843 15 8C15 7.17157 14.3284 6.5 13.5 6.5C12.6716 6.5 12 7.17157 12 8C12 8.82843 12.6716 9.5 13.5 9.5Z" />
-    <path d="M8 9.5C8.82843 9.5 9.5 8.82843 9.5 8C9.5 7.17157 8.82843 6.5 8 6.5C7.17157 6.5 6.5 7.17157 6.5 8C6.5 8.82843 7.17157 9.5 8 9.5Z" />
-    <path d="M2.5 9.5C3.32843 9.5 4 8.82843 4 8C4 7.17157 3.32843 6.5 2.5 6.5C1.67157 6.5 1 7.17157 1 8C1 8.82843 1.67157 9.5 2.5 9.5Z" />
-  </symbol>
-</svg>
-<script id="connectors-data" type="application/json">
+<script nonce="**CSP_NONCE**" id="connectors-data" type="application/json">
 [
   {{#each (connectors) as |connector|}}
   {{#with asciidoc}}
   {
     "title": "{{connector.title}}",
     "type": "{{attributes.page-connector-type}}",
-    "iconURL": "https://anypoint.mulesoft.com/exchange/organizations/68ef9520-24e9-4cf2-b2f5-620025690913/assets/{{attributes.page-exchange-group-id}}/{{attributes.page-exchange-asset-id}}/icon/svg/",
+    "iconURL": "https://anypoint.mulesoft.com/exchange/organizations/68ef9520-24e9-4cf2-b2f5-620025690913/assets/{{attributes.page-exchange-group-id}}/{{attributes.page-exchange-asset-id}}/icon/{{#if (not (isNull attributes.page-icon-extension))}}{{attributes.page-icon-extension}}{{else}}svg{{/if}}/",
     {{#if attributes.page-exchange-asset-id}}
     "exchangeURL": "https://www.anypoint.mulesoft.com/exchange/{{attributes.page-exchange-group-id}}/{{attributes.page-exchange-asset-id}}/",
     {{/if}}
@@ -86,7 +79,7 @@
   {{/each}}
 ]
 </script>
-<script>//<![CATA[
+<script nonce="**CSP_NONCE**">//<![CATA[
 ;(function () {
   populateConnectorsTable()
 

@@ -10,6 +10,5 @@
 
   for (var i = 0; i < gitHubLinks.length; i++) {
     gitHubLinks[i].addEventListener('click', trackGitHub)
-    gitHubLinks[i].addEventListener('touchend', trackGitHub)
   }
 })()

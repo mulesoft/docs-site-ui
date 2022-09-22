@@ -1,5 +1,4 @@
-= MuleSoft Documentation
-:page-component-name: general
+= MuleSoft Documentation (preview site)
 :linkattrs:
 :experimental:
 

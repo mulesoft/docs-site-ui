@@ -1,7 +1,7 @@
 #!/bin/env groovy
 
 def gitBranch = 'japn'
-def githubCredentialsId = 'mule-docs-agent-github-token'
+def githubCredentialsId = 'GH_TOKEN'
 
 pipeline {
   agent any
@@ -37,7 +37,7 @@ pipeline {
       when { allOf { environment name: 'GIT_BRANCH', value: gitBranch; not { environment name: 'SKIP_CI', value: 'true' } } }
       steps {
         withCredentials([string(credentialsId: githubCredentialsId, variable: 'GITHUB_TOKEN')]) {
-          nodejs('node10') {
+          nodejs('node12') {
             sh '$(npm bin)/gulp release:publish'
           }
         }

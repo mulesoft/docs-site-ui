@@ -15,6 +15,7 @@ const srcDir = 'src'
 const destDir = `${previewDestDir}/_`
 const partialsDir = `${srcDir}/partials`
 const { reload: livereload } = process.env.LIVERELOAD === 'true' ? require('gulp-connect') : {}
+const serverConfig = { host: '0.0.0.0', port: 8080, livereload }
 
 const task = require('./gulp.d/tasks')
 const glob = {
@@ -22,6 +23,11 @@ const glob = {
   css: [`${srcDir}/css/**/*.css`, `!${srcDir}/css/**/*.min.css`],
   js: ['gulpfile.js', 'gulp.d/**/*.js', `${srcDir}/{helpers,js}/**/*.js`, `!${srcDir}/js/**/*.min.js`],
 }
+
+const getMarketingContentTask = createTask({
+  name: 'get-marketing-content',
+  call: task.getMarketingContent(partialsDir),
+})
 
 const cleanTask = createTask({
   name: 'clean',
@@ -105,13 +111,13 @@ const previewBuildTask = createTask({
 
 const previewServeTask = createTask({
   name: 'preview:serve',
-  call: task.serve(previewDestDir, { port: 5252, livereload }, () => watch(glob.all, previewBuildTask)),
+  call: task.serve(previewDestDir, serverConfig, () => watch(glob.all, previewBuildTask)),
 })
 
 const previewTask = createTask({
   name: 'preview',
   desc: 'Generate a preview site and launch a server to view it',
-  call: series(previewBuildTask, previewServeTask),
+  call: series(getMarketingContentTask, formatTask, previewBuildTask, previewServeTask),
 })
 
 const updateTask = createTask({

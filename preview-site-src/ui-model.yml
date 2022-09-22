@@ -1,47 +1,176 @@
-antoraVersion: '2.3.3'
+antoraVersion: '3.0.1'
+preview: true
 site:
-  url: &home_url /home.html
+  url: &index_url /
+  homeUrl: &home_url /home.html
   title: MuleSoft Documentation
+  keys: {}
   components:
     general:
       latest: &general_latest
         version: master
         title: Home
-        url: *home_url
+        url: *index_url
         navigation:
-        - items:
-          - content: MuleSoft Documentation
-            url: *home_url
-          - content: Anypoint Platform Glossary
-            url: '#'
-          - content: Ecosia
-            url: https://ecosia.org
-            urlType: external
+        - content: Home
+          url: *home_url
+          # NOTE: the url of each item maps 1-to-1 with an icon in src/js/vendor/icondefs.js
+          items:
+          - content: Build and Deploy an API
+            url: '#general-api-led-overview'
+          - content: Browser Support
+            url: '#general-browser-support'
+          - content: Hosting Options
+            url: '#general-intro-platform-hosting'
+          - content: Glossary
+            url: /general/glossary.html
+          - content: Contribute
+            url: '#general-contribute'
       versions:
       - *general_latest
+    release-notes:
+      latest: &release_notes_latest
+        version: master
+        title: Release Notes
+        url: '#'
+        navigation:
+        - items:
+          - content: Release Notes by Month
+            url: '#'
+          - content: Release Notes by Product
+            url: '#'
+          - content: Release Notes Archive
+            url: '#'
+      versions:
+      - *release_notes_latest
     access-management:
       latest: &access_management_latest
         version: master
         title: Access Management
         url: '#'
+        asciidoc:
+          attributes:
+            primary-site-url: https://docs.mulesoft.com # enables archive site banner
         navigation:
         - items:
-          - content: About Access Management
-            url: '#'
+          - content: Element Examples
+            url: /element-examples.html
           - content: Managing Your Account
-            url: '#'
-          - content: Organization
-            url: '#'
-          - content: Business Groups
             url: '#'
           - content: Users
             url: '#'
-          - content: Roles
+          - content: Business Groups
             url: '#'
-          - content: Environments
-            url: '#'
+            items:
+            - content: Organization
+              url: '#'
+            - content: Environments
+              url: '#'
+            - content: Roles
+              url: '#'
+          - content: External
+            url: https://ecosia.org
+            urlType: external
       versions:
       - *access_management_latest
+    anypoint-cli:
+      latest: &anypoint_cli_latest
+        version: master
+        title: Anypoint CLI
+        url: '#'
+        navigation:
+        - items:
+          - content: About Anypoint CLI
+            url: '#'
+      versions:
+      - *anypoint_cli_latest
+    rtfcloud:
+      latest: &rtfcloud_latest
+        version: master
+        title: RTFCloud
+        url: &rtfcloud_url /rtfcloud-index.html
+        navigation:
+          - items:
+            - content: RTF Cloud Stuff
+              url: *rtfcloud_url
+      versions:
+      - *rtfcloud_latest
+    salesforce-rtfcloud:
+      versions:
+      - &salesforce_rtfcloud_latest
+        version: '3.9'
+        title: Salesforce RTFCloud
+        navigation:
+        - items:
+          - content: Dead page 1 for 3.9 (don't click)
+            url: '#'
+          - content: Dead page 2 for 3.9 (don't click)
+            url: '#'
+          - content: Dead page 3 for 3.9 (don't click)
+            url: '#'
+          - content: Dead page 4 for 3.9 (don't click)
+            url: '#'
+      - version: '3.8'
+        title: Salesforce RTFCloud
+        navigation:
+        - items:
+          - content: Dead page 1 for 3.8 (don't click)
+            url: '#'
+          - content: Dead page 2 for 3.8 (don't click)
+            items:
+            - content: Dead page 3 for 3.8 (don't click)
+              url: '#'
+              items:
+              - content: Dead page 4 for 3.8 (don't click)
+                url: '#'
+              - content: Dead page 5 for 3.8 (don't click)
+                url: '#'
+              - content: Dead page 6 for 3.8 (don't click)
+                url: '#'
+            - content: Dead page 7 for 3.8 (don't click)
+              url: '#'
+            - content: Dead page 8 for 3.8 (don't click)
+              url: '#'
+            - content: Dead page 9 for 3.8 (don't click)
+              url: '#'
+          - content: Dead page 10 for 3.8 (don't click)
+            url: '#'
+      - version: '3.7'
+        title: Salesforce RTFCloud
+        navigation:
+        - items:
+          - content: Dead page 1 for 3.7 (don't click)
+            url: '#'
+          - content: Dead page 2 for 3.7 (don't click)
+            url: '#'
+          - content: Dead page 3 for 3.7 (don't click)
+            url: '#'
+      latest: *salesforce_rtfcloud_latest
+    api-governance:
+      latest: &data_gateway_latest
+        version: '1.x'
+        displayVersion: '1.x'
+        title: Data Gateway (more realistic pages, all images broken)
+        url: '#'
+        navigation:
+          - items:
+            - content: Data Gateway
+              url: /data-gateway/data-gateway.html
+            - content: Installing Anypoint Data Gateway
+              url: /data-gateway/installing-anypoint-data-gateway.html
+            - content: Creating and Configuring a Gateway
+              url: /data-gateway/creating-and-configuring-a-gateway.html
+            - content: Managing Gateways
+              url: /data-gateway/managing-gateways.html
+            - content: Quick Guide to Accessing Gateways and Objects
+              url: /data-gateway/quick-guide-to-accessing-gateways-and-objects.html
+            - content: Troubleshooting Data Gateway
+              url: /data-gateway/troubleshooting-data-gateway.html
+        asciidoc:
+          attributes:
+            page-component-desc: Something about Data Gateway
+      versions:
+      - *data_gateway_latest
     connectors:
       latest: &connectors_latest
         version: master
@@ -69,10 +198,14 @@ site:
             page-runtime-version: 4.1.1
             page-vendor-name: msmq
             page-vendor-title: MuleSoft
+        navigation:
+        - items:
+          - content: Dead page (do not click)
+            url: '#'
       versions:
       - *mq_connector_latest
     amazon-s3-connector:
-      latest: &s3_connector_latest
+      latest: &amazon_s3_connector_latest
         version: '5.6'
         displayVersion: '5.6 (Mule 4)'
         title: Amazon S3 Connector
@@ -87,14 +220,18 @@ site:
             page-runtime-version: 4.1.1
             page-vendor-name: amazon
             page-vendor-title: Amazon
+        navigation:
+        - items:
+          - content: Dead page (do not click)
+            url: '#'
       versions:
-      - *s3_connector_latest
+      - *amazon_s3_connector_latest
     salesforce-connector:
       latest: &salesforce_connector_latest
         version: '9.7'
         displayVersion: '9.7 (Mule 4)'
         title: Salesforce Connector
-        url: &salesforce_connector_url /connector.html
+        url: &salesforce_connector_url /salesforce-connector/salesforce-connector.html
         asciidoc:
           attributes:
             page-component-desc: Connect to the Salesforce SOAP API, REST API, Bulk API, and Streaming API.
@@ -110,9 +247,8 @@ site:
         - items:
           - content: Get Started
             url: *salesforce_connector_url
-            items:
-            - content: Examples
-              url: *salesforce_connector_url
+          - content: Examples
+            url: /salesforce-connector/examples.html
       versions:
       - *salesforce_connector_latest
       - version: '0.3.9'
@@ -133,10 +269,12 @@ site:
         navigation:
         - items:
           - content: For Mule 3
-            url: '#'
+            url: /salesforce-connector/salesforce-connector.html
+          - content: Salesforce Connector Authentication
+            url: /salesforce-connector/salesforce-connector-authentication.html
     connector-devkit: &component
       versions:
-      - &component_version_latest
+      - &connector_devkit_latest
         version: '3.9'
         title: Connector DevKit
         url: '#'
@@ -157,7 +295,7 @@ site:
             url: '#'
           - content: Getting Started with Anypoint Connector Development
             # NOTE comment out url to make this a heading
-            url: '#'
+            #url: '#'
             items:
             - content: Setting Up Your Development Environment
               url: *index_url
@@ -176,6 +314,8 @@ site:
               url: '#'
           - content: Creating an Anypoint Connector Project
             url: '#'
+          - content: Last Item
+            url: '#'
       - version: '3.7'
         title: Connector DevKit
         url: /connector-devkit/3.7/index.html
@@ -187,11 +327,38 @@ site:
             url: '#'
           - content: Creating an Anypoint Connector Project
             url: '#'
-      latest: *component_version_latest
+      latest: *connector_devkit_latest
+    docusign-connector:
+      latest: &docusign_connector_latest
+        version: master
+        title: DocuSign Connector
+        url: '#'
+        navigation:
+        - items:
+          - content: About DocuSign Connector
+            url: '#'
+          - content: DocuSign Connector Reference
+            url: '#'
+      versions:
+      - *docusign_connector_latest
+nav:
+  subcomponents:
+  - parent: connectors
+    components: ['salesforce*-connector', '*-connector']
+  - parent: rtfcloud
+    components: '*-rtfcloud'
+  #- parent: does-not-exist
+  #  components: 'access-management'
+  groups:
+  - root: true
+    components: [home, release-notes, does-not-exist]
+  - title: Getting Started
+    components: general
+  - title: Docs by Product
+    components: ['*', anypoint-cli]
 page:
   src:
-    component: connector-devkit
-    version: '3.8'
+    component: general
   origin:
     url: https://github.com/mulesoft/docs-site-ui
     editUrlPattern: https://github.com/mulesoft/docs-site-ui/edit/japn/preview-site-src/%s

@@ -6,6 +6,13 @@
 }
 
 @font-face {
+  font-family: "DIN Pro";
+  font-style: normal;
+  font-weight: 700;
+  src: url(../font/din-pro-bold.woff) format("woff");
+}
+
+@font-face {
   font-family: "Open Sans";
   font-style: normal;
   font-weight: 400;
@@ -18,7 +25,7 @@
 @font-face {
   font-family: "Open Sans";
   font-style: normal;
-  font-weight: 600;
+  font-weight: 700;
   src:
     local("Open Sans SemiBold"),
     local("Open Sans-SemiBold"),
@@ -86,10 +93,6 @@ h6 {
 
   &:hover {
     color: var(--steel-4);
-  }
-
-  &:focus {
-    outline: 0;
   }
 
   &:focus,

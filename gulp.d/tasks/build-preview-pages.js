@@ -1,6 +1,6 @@
 'use strict'
 
-const asciidoctor = require('asciidoctor.js')()
+const asciidoctor = require('asciidoctor')()
 const fs = require('fs-extra')
 const handlebars = require('handlebars')
 const { inspect } = require('util')
@@ -19,99 +19,113 @@ const ASCIIDOC_ATTRIBUTES = {
   'source-highlighter': 'highlight.js',
 }
 
-module.exports = (src, previewSrc, previewDest, sink = () => map(), layouts = {}) => () =>
-  Promise.all([
-    loadSampleUiModel(previewSrc),
-    toPromise(
-      merge(
-        compileLayouts(src, layouts),
-        registerHelpers(src),
-        registerPartials(src),
-        copyImages(previewSrc, previewDest)
-      )
-    ),
-  ]).then(([baseUiModel]) =>
-    merge(
-      vfs.src('**/*.adoc', { base: previewSrc, cwd: previewSrc }).pipe(
-        map((file, enc, next) => {
-          const siteRootPath = path.relative(ospath.dirname(file.path), ospath.resolve(previewSrc))
-          const uiModel = { ...baseUiModel }
-          uiModel.siteRootPath = siteRootPath
-          uiModel.siteRootUrl = path.join(siteRootPath, 'index.html')
-          uiModel.uiRootPath = path.join(siteRootPath, '_')
-          if (file.stem === '404') {
-            uiModel.page = { layout: '404', title: 'Page Not Found' }
-          } else {
-            const pageModel = (uiModel.page = { ...uiModel.page })
-            const doc = asciidoctor.load(file.contents, { safe: 'safe', attributes: ASCIIDOC_ATTRIBUTES })
-            const attributes = doc.getAttributes()
-            pageModel.layout = doc.getAttribute('page-layout', 'default')
-            pageModel.title = doc.getDocumentTitle()
-            pageModel.url = '/' + file.relative.slice(0, -5) + '.html'
-            if (file.stem === 'home') pageModel.home = true
-            const componentName = doc.getAttribute('page-component-name', pageModel.src.component)
-            const versionString = doc.getAttribute(
-              'page-version',
-              doc.hasAttribute('page-component-name') ? undefined : pageModel.src.version
-            )
-            let componentVersion
-            if (componentName) {
-              const component = (pageModel.component = uiModel.site.components[componentName])
-              componentVersion = pageModel.componentVersion = versionString
-                ? component.versions.find(({ version }) => version === versionString)
-                : component.latest
-            } else {
-              const component = (pageModel.component = Object.values(uiModel.site.components)[0])
-              componentVersion = pageModel.componentVersion = component.latest
-            }
-            pageModel.module = 'ROOT'
-            pageModel.version = componentVersion.version
-            pageModel.displayVersion = componentVersion.displayVersion
-            pageModel.editUrl = pageModel.origin.editUrlPattern.replace('%s', file.relative)
-            pageModel.breadcrumbs = [{ content: pageModel.title, url: pageModel.url, urlType: 'internal' }]
-            pageModel.versions = pageModel.component.versions.map(({ version, displayVersion, url }, idx, arr) => {
-              const pageVersion = { version, displayVersion: displayVersion || version, url }
-              if (!idx) {
-                pageVersion.latest = true
-              } else if (idx === arr.length - 1) {
-                delete pageVersion.url
-                pageVersion.missing = true
+module.exports =
+  (src, previewSrc, previewDest, sink = () => map(), layouts = {}) =>
+    () =>
+      Promise.all([
+        loadSampleUiModel(previewSrc),
+        toPromise(
+          merge(
+            compileLayouts(src, layouts),
+            registerHelpers(src),
+            registerPartials(src),
+            copyImages(previewSrc, previewDest)
+          )
+        ),
+      ]).then(([baseUiModel]) =>
+        merge(
+          vfs.src('**/*.adoc', { base: previewSrc, cwd: previewSrc }).pipe(
+            map((file, enc, next) => {
+              const siteRootPath = path.relative(ospath.dirname(file.path), ospath.resolve(previewSrc))
+              const uiModel = { ...baseUiModel }
+              delete uiModel.nav
+              uiModel.siteRootPath = siteRootPath
+              uiModel.uiRootPath = path.join(siteRootPath, '_')
+              if (file.stem === '404') {
+                uiModel.page = { layout: '404', title: 'Page Not Found' }
+              } else {
+                const pageModel = (uiModel.page = { ...uiModel.page })
+                const doc = asciidoctor.load(file.contents, { safe: 'safe', attributes: ASCIIDOC_ATTRIBUTES })
+                const attributes = doc.getAttributes()
+                pageModel.layout = doc.getAttribute('page-layout', 'default')
+                pageModel.title = doc.getDocumentTitle()
+                pageModel.url = '/' + file.relative.slice(0, -5) + '.html'
+                if (file.stem === 'home') pageModel.home = true
+                const componentName = doc.getAttribute('page-component-name', pageModel.src.component)
+                const versionString = doc.getAttribute(
+                  'page-version',
+                  doc.hasAttribute('page-component-name') ? undefined : pageModel.src.version
+                )
+                let componentVersion
+                if (componentName) {
+                  const component = (pageModel.component = uiModel.site.components[componentName])
+                  componentVersion = pageModel.componentVersion = versionString
+                    ? component.versions.find(({ version }) => version === versionString)
+                    : component.latest
+                } else {
+                  const component = (pageModel.component = Object.values(uiModel.site.components)[0])
+                  componentVersion = pageModel.componentVersion = component.latest
+                }
+                pageModel.module = 'ROOT'
+                pageModel.version = componentVersion.version
+                pageModel.displayVersion = componentVersion.displayVersion
+                pageModel.editUrl = pageModel.origin.editUrlPattern.replace('%s', file.relative)
+                pageModel.breadcrumbs = [{ content: pageModel.title, url: pageModel.url, urlType: 'internal' }]
+                pageModel.versions = pageModel.component.versions.map(({ version, displayVersion, url }, idx, arr) => {
+                  const pageVersion = { version, displayVersion: displayVersion || version, url }
+                  if (!idx) {
+                    pageVersion.latest = true
+                  } else if (idx === arr.length - 1) {
+                    delete pageVersion.url
+                    pageVersion.missing = true
+                  }
+                  return pageVersion
+                })
+                pageModel.attributes = Object.entries({ ...attributes, ...componentVersion.asciidoc.attributes })
+                  .filter(([name, val]) => name.startsWith('page-'))
+                  .reduce((accum, [name, val]) => ({ ...accum, [name.substr(5)]: val }), {})
+                pageModel.contents = Buffer.from(doc.convert())
               }
-              return pageVersion
+              file.extname = '.html'
+              file.contents = Buffer.from(layouts[uiModel.page.layout](uiModel))
+              next(null, file)
             })
-            pageModel.attributes = Object.entries({ ...attributes, ...componentVersion.asciidoc.attributes })
-              .filter(([name, val]) => name.startsWith('page-'))
-              .reduce((accum, [name, val]) => ({ ...accum, [name.substr(5)]: val }), {})
-            pageModel.contents = Buffer.from(doc.convert())
-          }
-          file.extname = '.html'
-          file.contents = Buffer.from(layouts[uiModel.page.layout](uiModel))
-          next(null, file)
-        })
-      ),
-      vfs
-        // TODO remove need for empty file
-        .src('site-navigation-data.js', { base: previewSrc, cwd: previewSrc })
-        .pipe(
-          map((file, enc, next) => {
-            const navigationData = Object.values(baseUiModel.site.components).map(({ name, title, versions }) => ({
-              name,
-              title,
-              versions: versions.map(({ version, displayVersion, navigation: sets = [] }) =>
-                version === displayVersion ? { version, sets } : { version, displayVersion, sets }
-              ),
-            }))
-            const navigationDataSourceString =
-              'window.siteNavigationData = ' +
-              inspect(navigationData, { depth: null, maxArrayLength: null, breakLength: 250 })
-            file.contents = Buffer.from(navigationDataSourceString)
-            next(null, file)
-          })
+          ),
+          vfs
+          // TODO remove need for empty file
+            .src('site-navigation-data.js', { base: previewSrc, cwd: previewSrc })
+            .pipe(
+              map((file, enc, next) => {
+                const navigationData = Object.values(baseUiModel.site.components).map(({ name, title, versions }) => ({
+                  name,
+                  title,
+                  versions: versions.map(({ version, displayVersion, navigation: sets = [] }) =>
+                    version === displayVersion ? { version, sets } : { version, displayVersion, sets }
+                  ),
+                }))
+                const navigationSubcomponents = baseUiModel.nav.subcomponents
+                const navigationGroups = baseUiModel.nav.groups
+                const navigationDataSource =
+                'siteNavigationData = ' +
+                inspect(navigationData, { depth: null, maxArrayLength: null, breakLength: 250 }) +
+                '\n' +
+                'siteNavigationData.subcomponents = ' +
+                inspect(navigationSubcomponents, { depth: null, maxArrayLength: null, breakLength: 250 }) +
+                '\n' +
+                'siteNavigationData.groups = ' +
+                inspect(navigationGroups, { depth: null, maxArrayLength: null, breakLength: 250 }) +
+                '\n' +
+                'siteNavigationData.homeUrl = "' +
+                baseUiModel.site.homeUrl +
+                '"'
+                file.contents = Buffer.from(navigationDataSource)
+                next(null, file)
+              })
+            )
         )
-    )
-      .pipe(vfs.dest(previewDest))
-      .pipe(sink())
-  )
+          .pipe(vfs.dest(previewDest))
+          .pipe(sink())
+      )
 
 function loadSampleUiModel (src) {
   return fs.readFile(ospath.join(src, 'ui-model.yml'), 'utf8').then((contents) => {
