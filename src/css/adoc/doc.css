@@ -118,17 +118,14 @@
       opacity: .5;
       outline: 0;
     }
+  }
 
-    &::before {
-      background-image: url(../img/icons/anchor.svg);
-      background-position: center;
-      background-repeat: no-repeat;
-      background-size: var(--lg);
-      content: '';
-      display: block;
-      height: var(--lg);
-      width: var(--lg);
-    }
+  & .anchor-image {
+    display: block;
+    height: var(--lg);
+    margin-bottom: 0;
+    margin-top: 0;
+    width: var(--lg);
   }
 
   & h1 .anchor {
@@ -160,16 +157,15 @@
   & ol,
   & dl,
   & figure,
-  & img,
   & blockquote,
   & table {
     margin-bottom: var(--md);
     margin-top: var(--md);
   }
 
-  pre,
-  table,
-  aside {
+  & pre,
+  & table,
+  & aside {
     margin-bottom: var(--lg);
     margin-top: var(--lg);
   }
@@ -194,14 +190,11 @@
     &:visited {
       color: #681da8;
     }
+  }
 
-    &[target="_blank"]:not(.dw-playground-link) {
-      background-image: url(../img/icons/external-link.svg);
-      background-position: right center;
-      background-repeat: no-repeat;
-      background-size: 12px;
-      padding-right: 16px;
-    }
+  & .external-link-image {
+    margin-left: 4px;
+    width: 12px;
   }
 
   /* images */
