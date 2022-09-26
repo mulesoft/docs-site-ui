@@ -20,12 +20,18 @@
     if (headerText) anchorImg.alt = `Jump to ${headerText}`
     anchorImg.setAttribute('title', `Jump to ${headerText}`)
 
-    anchor.addEventListener('click', function () { adjustScrollPosition(anchor) })
+    anchor.addEventListener('click', function () {
+      adjustScrollPosition(anchor)
+    })
     anchor.appendChild(anchorImg)
 
     const sideLinks = [...document.querySelectorAll('.toc-menu a')]
     const sideLink = sideLinks.filter((a) => a.textContent === headerText)
-    if (sideLink.length > 0) sideLink[0].addEventListener('click', function () { adjustScrollPosition(anchor) })
+    if (sideLink.length > 0) {
+      sideLink[0].addEventListener('click', function () {
+        adjustScrollPosition(anchor)
+      })
+    }
   })
 
   function createLinkImage (element) {
