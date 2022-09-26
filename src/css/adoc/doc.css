@@ -171,7 +171,7 @@
   }
 
   /* links */
-  & a:not(.button-primary):not(.notice-banner-link) {
+  & a:not(.button-primary):not(.dw-playground-link):not(.notice-banner-link) {
     color: #002196;
 
     &:active,
