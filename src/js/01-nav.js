@@ -539,7 +539,7 @@
   }
 
   function isArchiveSite () {
-    return window.location.href.includes('archive')
+    return window.location.host.includes('archive')
   }
 
   buildNav(extractNavData(window), document.querySelector('.nav'), getPage())
