@@ -229,7 +229,9 @@
       navLink.insertBefore(createSvgElement('.icon.nav-icon', '#' + componentData.iconId), navLink.firstChild)
     }
     navTitle.appendChild(navLink)
-    if (!componentData.unversioned) navTitle.appendChild(createNavVersionDropdown(navItem, componentData, page))
+    if (!componentData.unversioned) {
+      navTitle.appendChild(createNavVersionDropdown(navItem, componentData, page))
+    }
     return navTitle
   }
 
@@ -254,12 +256,14 @@
     }
     var navVersionMenu = createElement('ul.nav-version-menu')
     versions.reduce(function (lastVersionData, versionData) {
-      if (versionData === currentVersionData) {
-        navVersionMenu.appendChild(createElement('li.nav-version-label', 'Current version'))
-      } else if (versionData.prerelease) {
-        if (!lastVersionData) navVersionMenu.appendChild(createElement('li.nav-version-label', 'Prerelease versions'))
-      } else if (lastVersionData === currentVersionData) {
-        navVersionMenu.appendChild(createElement('li.nav-version-label', 'Previous versions'))
+      if (!isArchiveSite()) {
+        if (versionData === currentVersionData) {
+          navVersionMenu.appendChild(createElement('li.nav-version-label', 'Current version'))
+        } else if (versionData.prerelease) {
+          if (!lastVersionData) navVersionMenu.appendChild(createElement('li.nav-version-label', 'Prerelease versions'))
+        } else if (lastVersionData === currentVersionData) {
+          navVersionMenu.appendChild(createElement('li.nav-version-label', 'Previous versions'))
+        }
       }
       var versionDataset = { version: versionData.version }
       navVersionMenu
@@ -532,6 +536,10 @@
 
   function coerceToArray (val) {
     return Array.isArray(val) ? val : [val]
+  }
+
+  function isArchiveSite () {
+    return window.location.host.includes('archive')
   }
 
   buildNav(extractNavData(window), document.querySelector('.nav'), getPage())
