@@ -14,7 +14,7 @@
     reshapeNavData(navData).groups.forEach(function (groupData) {
       var navGroup = createElement('.nav-group')
       if (groupData.title) navGroup.appendChild(createNavTitleForGroup(groupData))
-      navGroup.appendChild(createNavListForGroup(groupData, page, isArchiveSite(navData)))
+      navGroup.appendChild(createNavListForGroup(groupData, page))
       navGroups.appendChild(navGroup)
     })
     navGroups.addEventListener('mousedown', inhibitSelectionOnSecondClick)
@@ -178,7 +178,7 @@
     return createElement('h3.nav-title', groupData.title)
   }
 
-  function createNavListForGroup (groupData, page, isArchiveSite) {
+  function createNavListForGroup (groupData, page) {
     var componentsData = groupData.components
     if (
       componentsData.length === 1 &&
@@ -190,15 +190,15 @@
     }
     var navList = createElement('ul.nav-list')
     componentsData.forEach(function (componentData) {
-      navList.appendChild(createNavItemForComponent(componentData, page, isArchiveSite))
+      navList.appendChild(createNavItemForComponent(componentData, page))
     })
     return navList
   }
 
-  function createNavItemForComponent (componentData, page, isArchiveSite) {
+  function createNavItemForComponent (componentData, page) {
     var componentName = componentData.name
     var navItem = createElement('li.nav-item', { dataset: { component: componentName } })
-    navItem.appendChild(createNavTitle(navItem, componentData, page, isArchiveSite))
+    navItem.appendChild(createNavTitle(navItem, componentData, page))
     var versionData
     if (page.component === componentName) {
       versionData = componentData.versions[page.version]
@@ -212,7 +212,7 @@
     return navItem
   }
 
-  function createNavTitle (navItem, componentData, page, isArchiveSite) {
+  function createNavTitle (navItem, componentData, page) {
     var navTitle = createElement('.nav-title')
     var navLink = createElement('a.link.nav-text', componentData.title)
     if (componentData.name === 'home') {
@@ -230,12 +230,12 @@
     }
     navTitle.appendChild(navLink)
     if (!componentData.unversioned) {
-      navTitle.appendChild(createNavVersionDropdown(navItem, componentData, page, isArchiveSite))
+      navTitle.appendChild(createNavVersionDropdown(navItem, componentData, page))
     }
     return navTitle
   }
 
-  function createNavVersionDropdown (navItem, componentData, page, isArchiveSite) {
+  function createNavVersionDropdown (navItem, componentData, page) {
     var versions = Object.values(componentData.versions)
     var currentVersionData =
       versions.length > 1
@@ -256,7 +256,7 @@
     }
     var navVersionMenu = createElement('ul.nav-version-menu')
     versions.reduce(function (lastVersionData, versionData) {
-      if (!isArchiveSite) {
+      if (!isArchiveSite()) {
         if (versionData === currentVersionData) {
           navVersionMenu.appendChild(createElement('li.nav-version-label', 'Current version'))
         } else if (versionData.prerelease) {
@@ -538,15 +538,8 @@
     return Array.isArray(val) ? val : [val]
   }
 
-  function isArchiveSite (navData) {
-    const t = navData.groups
-      ? navData.groups.filter((a) => hasArchiveInName(a.homeTitle) || hasArchiveInName(a.title))
-      : []
-    return t.length > 0
-  }
-
-  function hasArchiveInName (name) {
-    return String(name).toLowerCase().includes('archive')
+  function isArchiveSite () {
+    return window.location.href.includes('archive')
   }
 
   buildNav(extractNavData(window), document.querySelector('.nav'), getPage())
