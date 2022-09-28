@@ -215,6 +215,7 @@
   function createNavTitle (navItem, componentData, page) {
     var navTitle = createElement('.nav-title')
     var navLink = createElement('a.link.nav-text', componentData.title)
+    navLink.setAttribute('tabindex', '0')
     if (componentData.name === 'home') {
       var homeUrl = componentData.nav.url
       if ((navLink.href = relativize(homeUrl)) === relativize(page.url)) {
@@ -223,6 +224,7 @@
       }
     } else {
       navLink.addEventListener('click', toggleNav.bind(navItem, componentData, false, page))
+      navLink.addEventListener('focus', toggleNav.bind(navItem, componentData, false, page))
     }
     if (componentData.iconId) {
       navTitle.classList.add('has-icon')
