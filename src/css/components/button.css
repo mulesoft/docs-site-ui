@@ -10,13 +10,13 @@
 .button {
   background: var(--tertiary);
   border: 1px solid var(--aluminum-4);
-  color: var(--aluminum-5);
+  color: var(--steel-2);
   height: var(--nav-item-height);
   padding: var(--xs);
 
   &:hover {
-    border-color: var(--aluminum-5);
-    color: var(--steel-1);
+    border-color: var(--steel-2);
+    color: var(--steel-2);
   }
 
   &:focus {

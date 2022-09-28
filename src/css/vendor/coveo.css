@@ -1,6 +1,6 @@
 /* override coveo defaults */
 .CoveoSearchInterface.CoveoSearchInterface {
-  color: var(--steel-2);
+  color: var(--steel-3);
   font-family: var(--sans-serif);
   font-size: 16px;
 }
@@ -21,7 +21,7 @@
     background-color: var(--aluminum-1);
     border: none;
     cursor: pointer;
-    fill: var(--steel-2);
+    fill: var(--steel-3);
     height: var(--xxl);
     margin-left: var(--md);
     padding: var(--xs);
@@ -73,7 +73,7 @@
     border: 1px solid #67768b;
     border-radius: 4px;
     box-shadow: inset 0 0 6px rgba(0,0,0,.025);
-    color: var(--steel-2);
+    color: var(--steel-3);
     transition: box-shadow var(--transition-speed-sm) var(--transition-timing);
     width: 74%;
 
@@ -94,7 +94,7 @@
         text-indent: 0;
 
         &::placeholder {
-          color: var(--steel-2);
+          color: var(--steel-3);
         }
       }
     }
@@ -144,7 +144,7 @@
   & .magic-box-clear {
     align-items: center;
     background: none;
-    color: var(--steel-2);
+    color: var(--steel-3);
     display: flex;
     justify-content: center;
     opacity: 0;
@@ -154,7 +154,7 @@
 
     &:hover,
     &:focus {
-      color: var(--aluminum-5);
+      color: var(--steel-2);
     }
 
     &::before {
@@ -185,7 +185,7 @@
 
   & .magic-box-suggestion {
     border-top: 0;
-    color: var(--steel-2);
+    color: var(--steel-3);
     padding: var(--sm);
 
     &:hover,
@@ -220,7 +220,7 @@
 
   /* facet things */
   & .facet-heading {
-    color: var(--steel-2);
+    color: var(--steel-3);
     font-family: var(--heading);
     font-size: 14px;
     font-weight: var(--weight-bold);
@@ -282,7 +282,7 @@
     padding: 0;
 
     & .coveo-facet-header-title {
-      color: var(--steel-2);
+      color: var(--steel-3);
       font-size: 12px;
     }
 
@@ -436,7 +436,7 @@
     }
 
     & .CoveoResultLink {
-      color: var(--steel-2);
+      color: var(--steel-3);
       font-family: var(--heading);
       font-size: 14px;
       font-weight: var(--weight-bold);
@@ -525,7 +525,7 @@
 
   & a {
     align-items: center;
-    color: var(--aluminum-5);
+    color: var(--steel-2);
     display: flex;
     font-size: 13px;
 
@@ -641,6 +641,6 @@
 }
 
 .tip-text {
-  color: var(--steel-2);
+  color: var(--steel-3);
   font-size: 12px;
 }

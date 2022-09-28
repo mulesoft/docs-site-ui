@@ -54,7 +54,7 @@
 
   & .col:first-child,
   & .categories-header {
-    color: var(--aluminum-5);
+    color: var(--steel-2);
     padding-right: var(--sm);
   }
 
@@ -119,7 +119,7 @@
   }
 
   & .icon-help {
-    fill: var(--aluminum-5);
+    fill: var(--steel-2);
     padding: 2px;
   }
 }

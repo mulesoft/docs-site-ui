@@ -30,7 +30,7 @@ select {
 
   /* placeholder */
   &::placeholder {
-    color: var(--steel-2);
+    color: var(--steel-3);
   }
 
   /* checkbox radius */

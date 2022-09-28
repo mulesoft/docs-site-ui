@@ -1,7 +1,7 @@
 .nav {
   background: var(--tertiary);
   box-shadow: 1px 0 0 var(--aluminum-3), 3px 0 15px rgb(0 0 0 / .025);
-  color: var(--steel-2);
+  color: var(--steel-3);
   display: flex;
   flex-direction: column;
   font-size: 14px;
@@ -30,8 +30,8 @@
     z-index: inherit;
     & button {
       align-items: center;
-      border-color: var(--steel-2);
-      color: var(--steel-2);
+      border-color: var(--steel-3);
+      color: var(--steel-3);
       display: flex;
       font-weight: var(--weight-bold);
       line-height: 1;
@@ -211,8 +211,8 @@ svg.nav-icon {
   transform: translateY(.075em);
 
   &:hover {
-    border-color: var(--aluminum-5);
-    color: var(--steel-1);
+    border-color: var(--steel-2);
+    color: var(--steel-2);
   }
 
   &:focus,

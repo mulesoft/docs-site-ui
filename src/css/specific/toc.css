@@ -26,7 +26,7 @@
 
 .toc-menu a {
   border-left: 3px solid var(--aluminum-3);
-  color: var(--aluminum-5);
+  color: var(--steel-2);
   display: block;
   font-size: 12px;
   padding: var(--xs) var(--sm);
@@ -36,12 +36,12 @@
   &:focus,
   &:active {
     border-left-color: var(--aluminum-4);
-    color: var(--steel-1);
+    color: var(--steel-2);
   }
 
   &.is-active {
     border-color: var(--core-blue-3);
-    color: var(--steel-1);
+    color: var(--steel-2);
   }
 
   & code {
