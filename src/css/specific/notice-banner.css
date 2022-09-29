@@ -15,7 +15,7 @@
     }
 
     & a {
-      color: #002196;
+      color: var(--secondary-navy);
       &:hover {
         background-color: #e8f8ff;
         border-radius: 5px;
@@ -33,7 +33,7 @@
       }
 
       &:visited {
-        color: #002196;
+        color: var(--secondary-navy);
       }
     }
   }

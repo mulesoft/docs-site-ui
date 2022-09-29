@@ -10,28 +10,28 @@
 .button {
   background: var(--tertiary);
   border: 1px solid var(--aluminum-4);
-  color: var(--aluminum-5);
+  color: var(--steel-2);
   height: var(--nav-item-height);
   padding: var(--xs);
 
   &:hover {
-    border-color: var(--aluminum-5);
-    color: var(--steel-1);
+    border-color: var(--steel-2);
+    color: var(--steel-2);
   }
 
   &:focus {
-    border-color: var(--core-blue-3);
-    color: var(--core-blue-3);
+    border-color: var(--secondary-navy);
+    color: var(--secondary-navy);
   }
 
   &:active {
-    border-color: var(--core-blue-3);
-    color: var(--core-blue-3);
+    border-color: var(--secondary-navy);
+    color: var(--secondary-navy);
   }
 }
 
 .button-primary {
-  background: var(--core-blue-3);
+  background: var(--secondary-navy);
   border: 0;
   border-radius: var(--radius);
   color: var(--tertiary);
