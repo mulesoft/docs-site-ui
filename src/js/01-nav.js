@@ -129,7 +129,6 @@
               ? 'icon-nav-component'
               : it.iconId
         })
-        if (group.homeTitle) component.title = group.homeTitle
       }
       return groupsAccum
     }, [])
@@ -143,7 +142,7 @@
     if (found) return components
     return components.concat({
       name: 'home',
-      title: 'Home',
+      title: setTitle('Home'),
       versions: [{ version: '', sets: [{ content: 'Home', url: homeUrl }] }],
     })
   }
@@ -538,8 +537,13 @@
     return Array.isArray(val) ? val : [val]
   }
 
+  function setTitle (title) {
+    return isArchiveSite() ? `Archive ${title}` : title
+  }
+
   function isArchiveSite () {
-    return window.location.host.includes('archive')
+    return true
+    // return window.location.host.includes('archive')
   }
 
   buildNav(extractNavData(window), document.querySelector('.nav'), getPage())
