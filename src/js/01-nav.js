@@ -604,8 +604,7 @@
   }
 
   function isArchiveSite () {
-    return true
-    // return window.location.host.includes('archive')
+    return window.location.host.includes('archive')
   }
 
   buildNav(extractNavData(window), document.querySelector('.nav'), getPage())
