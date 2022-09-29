@@ -171,8 +171,8 @@
   }
 
   /* links */
-  & a:not(.button-primary):not(.notice-banner-link) {
-    color: #002196;
+  & a:not(.button-primary):not(.dw-playground-link):not(.notice-banner-link) {
+    color: var(--secondary-navy);
 
     &:active,
     &:focus {
@@ -279,7 +279,7 @@
   }
 
   & blockquote {
-    color: var(--aluminum-5);
+    color: var(--steel-2);
     margin-left: 0;
   }
 

@@ -1,7 +1,7 @@
 .nav {
   background: var(--tertiary);
   box-shadow: 1px 0 0 var(--aluminum-3), 3px 0 15px rgb(0 0 0 / .025);
-  color: var(--steel-2);
+  color: var(--steel-3);
   display: flex;
   flex-direction: column;
   font-size: 14px;
@@ -30,8 +30,8 @@
     z-index: inherit;
     & button {
       align-items: center;
-      border-color: var(--steel-2);
-      color: var(--steel-2);
+      border-color: var(--steel-3);
+      color: var(--steel-3);
       display: flex;
       font-weight: var(--weight-bold);
       line-height: 1;
@@ -135,7 +135,7 @@ svg.nav-icon {
     }
     &.is-active > .nav-title .nav-text,
     & > [aria-current=page] {
-      color: var(--core-blue-3);
+      color: var(--secondary-navy);
     }
     &.is-active {
       & > .nav-title .nav-icon {
@@ -211,15 +211,15 @@ svg.nav-icon {
   transform: translateY(.075em);
 
   &:hover {
-    border-color: var(--aluminum-5);
-    color: var(--steel-1);
+    border-color: var(--steel-2);
+    color: var(--steel-2);
   }
 
   &:focus,
   &:active {
     background: var(--tertiary);
-    border-color: var(--core-blue-3);
-    color: var(--core-blue-3);
+    border-color: var(--secondary-navy);
+    color: var(--secondary-navy);
   }
 
   & svg.nav-version-icon {
@@ -257,7 +257,9 @@ svg.nav-icon {
     transition: opacity var(--transition-speed-sm) var(--transition-timing), transform var(--transition-speed-sm) var(--transition-timing), max-height 0s var(--transition-speed-sm);
   }
 
-  & li {
+  & button,
+  & span {
+    display: list-item;
     padding: var(--xs) var(--sm);
   }
 
@@ -270,8 +272,12 @@ svg.nav-icon {
   }
 
   & .nav-version-option {
+    background: none;
+    border: 0;
     border-radius: 2px;
     cursor: pointer;
+    text-align: left;
+    width: 100%;
 
     &:hover,
     &:focus {
@@ -280,7 +286,7 @@ svg.nav-icon {
 
     &:active {
       background: #e2f8ff;
-      color: var(--core-blue-3);
+      color: var(--secondary-navy);
     }
   }
 }

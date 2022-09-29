@@ -214,6 +214,7 @@
   function createNavTitle (navItem, componentData, page) {
     var navTitle = createElement('.nav-title')
     var navLink = createElement('a.link.nav-text', componentData.title)
+    navLink.setAttribute('tabindex', '0')
     if (componentData.name === 'home') {
       var homeUrl = componentData.nav.url
       if ((navLink.href = relativize(homeUrl)) === relativize(page.url)) {
@@ -221,7 +222,16 @@
         navLink.setAttribute('aria-current', 'page')
       }
     } else {
-      navLink.addEventListener('click', toggleNav.bind(navItem, componentData, false, page))
+      navLink.addEventListener('mousedown', function (e) {
+        toggleNav.call(navItem, componentData, false, page)
+        e.preventDefault()
+      })
+      navLink.addEventListener('keydown', function (e) {
+        if (isSpaceOrEnterKey(e.keyCode)) {
+          toggleNav.call(navItem, componentData, false, page)
+          e.preventDefault()
+        }
+      })
     }
     if (componentData.iconId) {
       navTitle.classList.add('has-icon')
@@ -253,27 +263,78 @@
     if (page.navVersionIconId) {
       navVersionButton.appendChild(createSvgElement('.icon.nav-version-icon', '#' + page.navVersionIconId))
     }
-    var navVersionMenu = createElement('ul.nav-version-menu')
+    var navVersionMenu = createElement('div.nav-version-menu')
     versions.reduce(function (lastVersionData, versionData) {
       if (!isArchiveSite()) {
         if (versionData === currentVersionData) {
-          navVersionMenu.appendChild(createElement('li.nav-version-label', 'Current version'))
+          navVersionMenu.appendChild(createElement('span.nav-version-label', 'Current version'))
         } else if (versionData.prerelease) {
-          if (!lastVersionData) navVersionMenu.appendChild(createElement('li.nav-version-label', 'Prerelease versions'))
+          if (!lastVersionData) {
+            navVersionMenu.appendChild(createElement('span.nav-version-label', 'Prerelease versions'))
+          }
         } else if (lastVersionData === currentVersionData) {
-          navVersionMenu.appendChild(createElement('li.nav-version-label', 'Previous versions'))
+          navVersionMenu.appendChild(createElement('span.nav-version-label', 'Previous versions'))
         }
       }
       var versionDataset = { version: versionData.version }
+      var navVersionOption = createElement(
+        'button.nav-version-option',
+        { dataset: versionDataset },
+        versionData.displayVersion
+      )
+      navVersionOption.setAttribute('tabindex', '-1')
+      navVersionOption.addEventListener('keydown', function (e) {
+        if (isSpaceOrEnterKey(e.keyCode)) {
+          setTabIndexForVersions()
+        }
+      })
       navVersionMenu
-        .appendChild(createElement('li.nav-version-option', { dataset: versionDataset }, versionData.displayVersion))
+        .appendChild(navVersionOption)
         .addEventListener('click', selectVersion.bind(navVersionMenu, navItem, componentData, page))
       return versionData
     }, undefined)
-    navVersionButton.addEventListener('click', toggleVersionMenu.bind(navVersionMenu))
+    navVersionButton.addEventListener('mousedown', function (e) {
+      toggleVersionMenu.call(navVersionMenu)
+      e.preventDefault()
+    })
+    navVersionButton.addEventListener('keydown', function (e) {
+      if (isSpaceOrEnterKey(e.keyCode)) {
+        toggleVersionMenu.call(navVersionMenu)
+        e.preventDefault()
+      }
+    })
+    navVersionButton.addEventListener('blur', function (e) {
+      autoCloseVersionDropdown(navVersionMenu)
+    })
     navVersionDropdown.appendChild(navVersionButton)
     navVersionDropdown.appendChild(navVersionMenu)
+    navVersionMenu.lastChild.addEventListener('blur', function (e) {
+      autoCloseVersionDropdown(navVersionMenu)
+    })
     return navVersionDropdown
+  }
+
+  function isSpaceOrEnterKey (keyCode) {
+    return [13, 32].includes(keyCode)
+  }
+
+  function autoCloseVersionDropdown (navVersionMenu) {
+    setTimeout(function () {
+      if (!navVersionMenu.contains(document.activeElement)) {
+        closeVersionMenu()
+        setTabIndexForVersions()
+      }
+    }, 100)
+  }
+
+  function setTabIndexForVersions () {
+    setTimeout(function () {
+      var tabIndex = document.querySelector('.nav-version-menu.is-active') ? 0 : -1
+      const navVersionOptions = document.querySelectorAll('.nav-version-option')
+      navVersionOptions.forEach(function (navVersionOption) {
+        navVersionOption.setAttribute('tabindex', tabIndex)
+      })
+    }, 200)
   }
 
   function createNavList (navEntryData, page, version, lineage) {
@@ -429,6 +490,7 @@
     this.classList.remove('is-clipped')
     this.style.maxHeight = height
     this.classList.add('is-active')
+    setTabIndexForVersions()
   }
 
   function getNavGroupsBottom () {

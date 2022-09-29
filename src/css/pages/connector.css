@@ -20,7 +20,7 @@
 
 .popover-connector-menu,
 .popover-connector-version {
-  color: var(--steel-2);
+  color: var(--steel-3);
   cursor: default;
   font-size: 14px;
 
@@ -48,7 +48,7 @@
     &:focus,
     &:active {
       background: #e2f8ff; /* yet another blue */
-      color: var(--core-blue-3);
+      color: var(--secondary-navy);
     }
   }
 
