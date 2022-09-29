@@ -227,7 +227,12 @@
         toggleNav.call(navItem, componentData, false, page)
         e.preventDefault()
       })
-      navLink.addEventListener('focus', toggleNav.bind(navItem, componentData, false, page))
+      navLink.addEventListener('keydown', function (e) {
+        if (isSpaceOrEnterKey(e.keyCode)) {
+          toggleNav.call(navItem, componentData, false, page)
+          e.preventDefault()
+        }
+      })
     }
     if (componentData.iconId) {
       navTitle.classList.add('has-icon')
@@ -280,7 +285,7 @@
       )
       navVersionOption.setAttribute('tabindex', '-1')
       navVersionOption.addEventListener('keydown', function (e) {
-        if (e.keyCode === 13 || e.keyCode === 32) {
+        if (isSpaceOrEnterKey(e.keyCode)) {
           setTabIndexForVersions()
         }
       })
@@ -294,7 +299,7 @@
       e.preventDefault()
     })
     navVersionButton.addEventListener('keydown', function (e) {
-      if (e.keyCode === 13 || e.keyCode === 32) {
+      if (isSpaceOrEnterKey(e.keyCode)) {
         toggleVersionMenu.call(navVersionMenu)
         e.preventDefault()
       }
@@ -308,6 +313,10 @@
       autoCloseVersionDropdown(navVersionMenu)
     })
     return navVersionDropdown
+  }
+
+  function isSpaceOrEnterKey (keyCode) {
+    return [13, 32].includes(keyCode)
   }
 
   function autoCloseVersionDropdown (navVersionMenu) {
