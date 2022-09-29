@@ -272,9 +272,9 @@ svg.nav-icon {
   }
 
   & .nav-version-option {
+    background: none;
     border: 0;
     border-radius: 2px;
-    background: none;
     cursor: pointer;
     text-align: left;
     width: 100%;
