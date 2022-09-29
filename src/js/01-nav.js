@@ -223,7 +223,10 @@
         navLink.setAttribute('aria-current', 'page')
       }
     } else {
-      navLink.addEventListener('click', toggleNav.bind(navItem, componentData, false, page))
+      navLink.addEventListener('mousedown', function (e) {
+        toggleNav.call(navItem, componentData, false, page)
+        e.preventDefault()
+      })
       navLink.addEventListener('focus', toggleNav.bind(navItem, componentData, false, page))
     }
     if (componentData.iconId) {
@@ -256,37 +259,72 @@
     if (page.navVersionIconId) {
       navVersionButton.appendChild(createSvgElement('.icon.nav-version-icon', '#' + page.navVersionIconId))
     }
-    var navVersionMenu = createElement('ul.nav-version-menu')
+    var navVersionMenu = createElement('div.nav-version-menu')
     versions.reduce(function (lastVersionData, versionData) {
       if (!isArchiveSite()) {
         if (versionData === currentVersionData) {
-          navVersionMenu.appendChild(createElement('li.nav-version-label', 'Current version'))
+          navVersionMenu.appendChild(createElement('span.nav-version-label', 'Current version'))
         } else if (versionData.prerelease) {
-          if (!lastVersionData) navVersionMenu.appendChild(createElement('li.nav-version-label', 'Prerelease versions'))
+          if (!lastVersionData) navVersionMenu.appendChild(createElement('span.nav-version-label', 'Prerelease versions'))
         } else if (lastVersionData === currentVersionData) {
-          navVersionMenu.appendChild(createElement('li.nav-version-label', 'Previous versions'))
+          navVersionMenu.appendChild(createElement('span.nav-version-label', 'Previous versions'))
         }
       }
       var versionDataset = { version: versionData.version }
       var navVersionOption = createElement(
-        'li.nav-version-option',
+        'button.nav-version-option',
         { dataset: versionDataset },
         versionData.displayVersion
       )
-      navVersionOption.setAttribute('tabindex', '0')
-      navVersionOption.setAttribute('role', 'button')
+      navVersionOption.setAttribute('tabindex', '-1')
       navVersionOption.addEventListener('keydown', function (e) {
-        if (e.keyCode === 'enter') selectVersion.bind(navVersionMenu, navItem, componentData, page)
+        if (e.keyCode === 13 || e.keyCode === 32) {
+          setTabIndexForVersions()
+        }
       })
       navVersionMenu
         .appendChild(navVersionOption)
         .addEventListener('click', selectVersion.bind(navVersionMenu, navItem, componentData, page))
       return versionData
     }, undefined)
-    navVersionButton.addEventListener('click', toggleVersionMenu.bind(navVersionMenu))
+    navVersionButton.addEventListener('mousedown', function (e) {
+      toggleVersionMenu.call(navVersionMenu)
+      e.preventDefault()
+    })
+    navVersionButton.addEventListener('keydown', function (e) {
+      if (e.keyCode === 13 || e.keyCode === 32) {
+        toggleVersionMenu.call(navVersionMenu)
+        e.preventDefault()
+      }
+    })
+    navVersionButton.addEventListener('blur', function (e) {
+      autoCloseVersionDropdown(navVersionMenu)
+    })
     navVersionDropdown.appendChild(navVersionButton)
     navVersionDropdown.appendChild(navVersionMenu)
+    navVersionMenu.lastChild.addEventListener('blur', function (e) {
+      autoCloseVersionDropdown(navVersionMenu)
+    })
     return navVersionDropdown
+  }
+
+  function autoCloseVersionDropdown (navVersionMenu) {
+    setTimeout(function () {
+      if (!navVersionMenu.contains(document.activeElement)) {
+        closeVersionMenu()
+        setTabIndexForVersions()
+      }
+    }, 100)
+  }
+
+  function setTabIndexForVersions () {
+    setTimeout( function () {
+      var tabIndex = document.querySelector('.is-active') ? 0 : -1
+      const navVersionOptions = document.querySelectorAll('.nav-version-option')
+      navVersionOptions.forEach(function(navVersionOption){
+        navVersionOption.setAttribute('tabindex', tabIndex)
+      })
+    }, 200)
   }
 
   function createNavList (navEntryData, page, version, lineage) {
@@ -442,6 +480,7 @@
     this.classList.remove('is-clipped')
     this.style.maxHeight = height
     this.classList.add('is-active')
+    setTabIndexForVersions()
   }
 
   function getNavGroupsBottom () {
@@ -459,6 +498,15 @@
       menu.classList.add('is-clipped')
       menu.style.maxHeight = 0
       menu.classList.remove('is-active')
+      return true
+    }
+  }
+
+  function unhideVersionMenu (menu, force) {
+    if (force || !menu.classList.contains('is-active')) {
+      menu.classList.remove('is-clipped')
+      menu.style.maxHeight = null
+      menu.classList.add('is-active')
       return true
     }
   }

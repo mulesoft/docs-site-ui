@@ -257,7 +257,9 @@ svg.nav-icon {
     transition: opacity var(--transition-speed-sm) var(--transition-timing), transform var(--transition-speed-sm) var(--transition-timing), max-height 0s var(--transition-speed-sm);
   }
 
-  & li {
+  & button,
+  & span {
+    display: list-item;
     padding: var(--xs) var(--sm);
   }
 
@@ -270,8 +272,12 @@ svg.nav-icon {
   }
 
   & .nav-version-option {
+    border: 0;
     border-radius: 2px;
+    background: none;
     cursor: pointer;
+    text-align: left;
+    width: 100%;
 
     &:hover,
     &:focus {
