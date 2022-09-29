@@ -172,7 +172,7 @@
 
   /* links */
   & a:not(.button-primary):not(.dw-playground-link):not(.notice-banner-link) {
-    color: #002196;
+    color: var(--secondary-navy);
 
     &:active,
     &:focus {

@@ -135,7 +135,7 @@ svg.nav-icon {
     }
     &.is-active > .nav-title .nav-text,
     & > [aria-current=page] {
-      color: var(--core-blue-3);
+      color: var(--secondary-navy);
     }
     &.is-active {
       & > .nav-title .nav-icon {
@@ -218,8 +218,8 @@ svg.nav-icon {
   &:focus,
   &:active {
     background: var(--tertiary);
-    border-color: var(--core-blue-3);
-    color: var(--core-blue-3);
+    border-color: var(--secondary-navy);
+    color: var(--secondary-navy);
   }
 
   & svg.nav-version-icon {
@@ -280,7 +280,7 @@ svg.nav-icon {
 
     &:active {
       background: #e2f8ff;
-      color: var(--core-blue-3);
+      color: var(--secondary-navy);
     }
   }
 }

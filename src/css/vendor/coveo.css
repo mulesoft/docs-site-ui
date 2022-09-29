@@ -80,7 +80,7 @@
     /* focus state */
     &.magic-box-hasFocus {
       background: var(--tertiary);
-      border-color: var(--core-blue-3);
+      border-color: var(--secondary-navy);
       box-shadow: 0 0 0 3px rgba(0,162,223,.25);
       outline: 0;
     }
@@ -136,7 +136,7 @@
     }
 
     & .coveo-search-button-loading-svg {
-      color: var(--core-blue-3);
+      color: var(--secondary-navy);
     }
   }
 
@@ -340,7 +340,7 @@
   & .coveo-facet-more,
   & .coveo-facet-less {
     background: none;
-    color: var(--core-blue-3);
+    color: var(--secondary-navy);
     font-size: 12px;
     text-align: left;
 
@@ -447,7 +447,7 @@
 
       &:hover,
       &:focus {
-        color: var(--core-blue-3);
+        color: var(--secondary-navy);
       }
     }
   }
@@ -532,7 +532,7 @@
     &:hover,
     &:focus,
     &:active {
-      color: var(--core-blue-3);
+      color: var(--secondary-navy);
     }
   }
 

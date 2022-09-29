@@ -9,7 +9,7 @@
   }
 
   & .link {
-    color: var(--core-blue-3);
+    color: var(--secondary-navy);
     text-decoration: none;
 
     &:hover .icon-back-arrow,
@@ -95,7 +95,7 @@
     &:focus,
     &:active {
       background: #e2f8ff; /* yet another blue */
-      color: var(--core-blue-3);
+      color: var(--secondary-navy);
     }
 
     & .icon-external {

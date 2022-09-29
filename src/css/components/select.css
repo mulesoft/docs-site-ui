@@ -26,7 +26,7 @@
   transition: box-shadow var(--transition-speed-sm) var(--transition-timing);
 
   &:focus {
-    border-color: var(--core-blue-3);
+    border-color: var(--secondary-navy);
     box-shadow: 0 0 0 3px rgba(0,162,223,.25);
     outline: 0;
   }

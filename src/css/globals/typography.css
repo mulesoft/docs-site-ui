@@ -91,12 +91,9 @@ h6 {
 .link {
   color: var(--steel-3);
 
-  &:hover {
-    color: var(--steel-4);
-  }
-
+  &:active,
   &:focus,
-  &:active {
-    color: var(--core-blue-3);
+  &:hover {
+    color: var(--secondary-navy);
   }
 }

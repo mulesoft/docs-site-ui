@@ -20,18 +20,18 @@
   }
 
   &:focus {
-    border-color: var(--core-blue-3);
-    color: var(--core-blue-3);
+    border-color: var(--secondary-navy);
+    color: var(--secondary-navy);
   }
 
   &:active {
-    border-color: var(--core-blue-3);
-    color: var(--core-blue-3);
+    border-color: var(--secondary-navy);
+    color: var(--secondary-navy);
   }
 }
 
 .button-primary {
-  background: var(--core-blue-3);
+  background: var(--secondary-navy);
   border: 0;
   border-radius: var(--radius);
   color: var(--tertiary);

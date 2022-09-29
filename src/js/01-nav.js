@@ -268,8 +268,18 @@
         }
       }
       var versionDataset = { version: versionData.version }
+      var navVersionOption = createElement(
+        'li.nav-version-option',
+        { dataset: versionDataset },
+        versionData.displayVersion
+      )
+      navVersionOption.setAttribute('tabindex', '0')
+      navVersionOption.setAttribute('role', 'button')
+      navVersionOption.addEventListener('keydown', function (e) {
+        if (e.keyCode === 'enter') selectVersion.bind(navVersionMenu, navItem, componentData, page)
+      })
       navVersionMenu
-        .appendChild(createElement('li.nav-version-option', { dataset: versionDataset }, versionData.displayVersion))
+        .appendChild(navVersionOption)
         .addEventListener('click', selectVersion.bind(navVersionMenu, navItem, componentData, page))
       return versionData
     }, undefined)

@@ -46,7 +46,7 @@
   }
 
   & .link {
-    color: var(--core-blue-3);
+    color: var(--secondary-navy);
     cursor: pointer;
     font-size: 12px;
     margin-top: var(--md);

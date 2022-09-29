@@ -48,7 +48,7 @@
     &:focus,
     &:active {
       background: #e2f8ff; /* yet another blue */
-      color: var(--core-blue-3);
+      color: var(--secondary-navy);
     }
   }
 

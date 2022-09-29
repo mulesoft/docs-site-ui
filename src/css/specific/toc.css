@@ -36,12 +36,12 @@
   &:focus,
   &:active {
     border-left-color: var(--aluminum-4);
-    color: var(--steel-2);
+    color: var(--steel-4);
   }
 
   &.is-active {
-    border-color: var(--core-blue-3);
-    color: var(--steel-2);
+    border-color: var(--secondary-navy);
+    color: var(--steel-4);
   }
 
   & code {
