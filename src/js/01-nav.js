@@ -265,7 +265,9 @@
         if (versionData === currentVersionData) {
           navVersionMenu.appendChild(createElement('span.nav-version-label', 'Current version'))
         } else if (versionData.prerelease) {
-          if (!lastVersionData) navVersionMenu.appendChild(createElement('span.nav-version-label', 'Prerelease versions'))
+          if (!lastVersionData) {
+            navVersionMenu.appendChild(createElement('span.nav-version-label', 'Prerelease versions'))
+          }
         } else if (lastVersionData === currentVersionData) {
           navVersionMenu.appendChild(createElement('span.nav-version-label', 'Previous versions'))
         }
@@ -318,10 +320,10 @@
   }
 
   function setTabIndexForVersions () {
-    setTimeout( function () {
-      var tabIndex = document.querySelector('.is-active') ? 0 : -1
+    setTimeout(function () {
+      var tabIndex = document.querySelector('.nav-version-menu.is-active') ? 0 : -1
       const navVersionOptions = document.querySelectorAll('.nav-version-option')
-      navVersionOptions.forEach(function(navVersionOption){
+      navVersionOptions.forEach(function (navVersionOption) {
         navVersionOption.setAttribute('tabindex', tabIndex)
       })
     }, 200)
@@ -498,15 +500,6 @@
       menu.classList.add('is-clipped')
       menu.style.maxHeight = 0
       menu.classList.remove('is-active')
-      return true
-    }
-  }
-
-  function unhideVersionMenu (menu, force) {
-    if (force || !menu.classList.contains('is-active')) {
-      menu.classList.remove('is-clipped')
-      menu.style.maxHeight = null
-      menu.classList.add('is-active')
       return true
     }
   }
