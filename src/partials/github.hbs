@@ -1,4 +1,4 @@
-{{#if (or (and page.fileUri (not env.CI)) (and page.editUrl (not page.origin.private))) }}
+{{#if (and (or (and page.fileUri (not env.CI)) (and page.editUrl (not page.origin.private))) (ne (site-profile) "archive")) }}
     <a target="_blank" class="flex shrink align-center button button-edit js-github" 
     {{#if (and page.fileUri (not env.CI))}}
     href="{{page.fileUri}}"
