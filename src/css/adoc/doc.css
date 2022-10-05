@@ -18,13 +18,13 @@
 
   /* numbered callouts from codeblocks */
   & .conum {
-    background: var(--tertiary);
-    border: 1px solid var(--aluminum-3);
-    border-radius: 4px;
+    background: #1a5492;
+    border-radius: 10px;
+    color: white;
     font-family: var(--sans-serif);
     font-size: 12px;
     font-style: normal;
-    font-weight: --weight-bold;
+    font-weight: var(--weight-bold);
     padding: 0 5px;
 
     &::after {
