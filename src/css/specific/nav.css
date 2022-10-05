@@ -52,15 +52,14 @@
 
 .nav-text {
   display: flex;
-
-  &:focus-visible {
-    border-radius: var(--radius);
-    outline: 2px solid #888;
-  }
 }
 
 a.nav-text {
   text-decoration: none;
+  &:focus {
+    border-radius: var(--radius);
+    outline: 2px solid #888;
+  }
 }
 
 a.nav-text:not([href]),
