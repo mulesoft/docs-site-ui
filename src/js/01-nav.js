@@ -300,6 +300,7 @@
     navVersionButton.addEventListener('keydown', function (e) {
       if (isSpaceOrEnterKey(e.keyCode)) {
         toggleVersionMenu.call(navVersionMenu)
+        setTabIndexForVersions()
         e.preventDefault()
       }
     })
