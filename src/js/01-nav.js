@@ -246,20 +246,15 @@
 
   function createNavVersionDropdown (navItem, componentData, page) {
     var versions = Object.values(componentData.versions)
-    var currentVersionData =
-      versions.length > 1
-        ? versions.find(function (version) {
-          return !version.prerelease
-        }) || versions[0]
-        : versions[0]
+    var currentVersionData = getCurrentVersionData(versions)
     var navVersionDropdown = createElement('.nav-version-dropdown')
     navVersionDropdown.addEventListener('click', trapEvent)
     var navVersionButton = createElement('button.button.nav-version-button')
     var activeVersion = componentData.name === page.component ? page.version : currentVersionData.version
     var activeDisplayVersion = componentData.versions[activeVersion].displayVersion
-    navVersionButton.appendChild(
-      createElement('span.nav-version', { dataset: { version: activeVersion } }, activeDisplayVersion)
-    )
+    var navVersion = createElement('span.nav-version', { dataset: { version: activeVersion } }, activeDisplayVersion)
+    if (activeVersion === currentVersionData.version) addCurrentVersionIndicator(navVersionButton)
+    navVersionButton.appendChild(navVersion)
     if (page.navVersionIconId) {
       navVersionButton.appendChild(createSvgElement('.icon.nav-version-icon', '#' + page.navVersionIconId))
     }
@@ -288,6 +283,9 @@
           setTabIndexForVersions()
         }
       })
+      if (versionData === currentVersionData) {
+        navVersionOption = addCurrentVersionIndicator(navVersionOption)
+      }
       navVersionMenu
         .appendChild(navVersionOption)
         .addEventListener('click', selectVersion.bind(navVersionMenu, navItem, componentData, page))
@@ -304,15 +302,57 @@
         e.preventDefault()
       }
     })
+    navVersionDropdown.appendChild(navVersionButton)
+    navVersionDropdown.appendChild(navVersionMenu)
     navVersionButton.addEventListener('blur', function (e) {
       autoCloseVersionDropdown(navVersionMenu)
     })
-    navVersionDropdown.appendChild(navVersionButton)
-    navVersionDropdown.appendChild(navVersionMenu)
     navVersionMenu.lastChild.addEventListener('blur', function (e) {
       autoCloseVersionDropdown(navVersionMenu)
     })
     return navVersionDropdown
+  }
+
+  function getCurrentVersionData (versions) {
+    return versions.length > 1
+      ? versions.find(function (version) {
+        return !version.prerelease
+      }) || versions[0]
+      : versions[0]
+  }
+
+  function addCurrentVersionIndicator (parentElement) {
+    var currentVersionIndicator = createCurrentVersionIndicator()
+    parentElement.insertBefore(currentVersionIndicator, parentElement.firstChild)
+    return parentElement
+  }
+
+  function createCurrentVersionIndicator () {
+    const currentVersionIndicatorSpan = document.createElement('span')
+    currentVersionIndicatorSpan.setAttribute('role', 'tool-tip')
+    currentVersionIndicatorSpan.classList.add('tooltip-dot')
+    tippy(currentVersionIndicatorSpan, {
+      arrow: tippy.roundArrow,
+      content: 'This is the latest version.',
+      distance: 100,
+      duration: [0, 150],
+      maxWidth: 150,
+      placement: 'top',
+      theme: 'current-version-popover',
+      touchHold: true, // maps touch as click (for some reason)
+      zIndex: 14, // same as z-nav-mobile
+    })
+    return currentVersionIndicatorSpan
+  }
+
+  function removeCurrentVersionIndicator (parentElement) {
+    if (isToolTipDot(parentElement.firstChild)) {
+      parentElement.removeChild(parentElement.firstChild)
+    }
+  }
+
+  function isToolTipDot (element) {
+    return element.classList.contains('tooltip-dot')
   }
 
   function isSpaceOrEnterKey (keyCode) {
@@ -467,6 +507,12 @@
 
   function selectVersion (navItem, componentData, page, e) {
     toggleNav.call(navItem, componentData, e.target.dataset.version, page)
+    const navVersionButton = document.querySelector('.is-active .nav-version-button')
+    if (e.target.dataset.version === getCurrentVersionData(Object.values(componentData.versions)).version) {
+      addCurrentVersionIndicator(navVersionButton)
+    } else {
+      removeCurrentVersionIndicator(navVersionButton)
+    }
     hideVersionMenu(this)
   }
 
