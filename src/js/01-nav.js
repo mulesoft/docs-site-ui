@@ -323,17 +323,21 @@
 
   function addCurrentVersionIndicator (parentElement) {
     if (!isToolTipDot(parentElement.firstChild)) {
-      var currentVersionIndicator = createCurrentVersionIndicator()
+      console.log(parentElement)
+      var tabIndex = parentElement.classList.contains('nav-version-button') ? 0 : -1
+      var currentVersionIndicator = createCurrentVersionIndicator(tabIndex)
       parentElement.insertBefore(currentVersionIndicator, parentElement.firstChild)
     }
     return parentElement
   }
 
-  function createCurrentVersionIndicator () {
+  function createCurrentVersionIndicator (tabIndex) {
     const currentVersionIndicatorSpan = document.createElement('span')
     currentVersionIndicatorSpan.setAttribute('role', 'tool-tip')
     currentVersionIndicatorSpan.classList.add('tooltip-dot')
+    currentVersionIndicatorSpan.setAttribute('tabindex', tabIndex)
     tippy(currentVersionIndicatorSpan, {
+      a11y: true,
       arrow: tippy.roundArrow,
       content: 'This is the latest version.',
       distance: 100,
@@ -376,6 +380,10 @@
       const navVersionOptions = document.querySelectorAll('.nav-version-option')
       navVersionOptions.forEach(function (navVersionOption) {
         navVersionOption.setAttribute('tabindex', tabIndex)
+      })
+      const tooltipDots = document.querySelectorAll('.nav-version-menu .tooltip-dot')
+      tooltipDots.forEach(function (tooltipDot) {
+        tooltipDot.setAttribute('tabindex', tabIndex)
       })
     }, 200)
   }
@@ -510,7 +518,8 @@
   function selectVersion (navItem, componentData, page, e) {
     toggleNav.call(navItem, componentData, e.target.dataset.version, page)
     const navVersionButton = document.querySelector(
-      `[data-component="${navItem.getAttribute('data-component')}"] .nav-version-button`)
+      `[data-component="${navItem.getAttribute('data-component')}"] .nav-version-button`
+    )
     if (e.target.dataset.version === getCurrentVersionData(Object.values(componentData.versions)).version) {
       addCurrentVersionIndicator(navVersionButton)
     } else {
