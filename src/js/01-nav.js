@@ -322,8 +322,10 @@
   }
 
   function addCurrentVersionIndicator (parentElement) {
-    var currentVersionIndicator = createCurrentVersionIndicator()
-    parentElement.insertBefore(currentVersionIndicator, parentElement.firstChild)
+    if (!isToolTipDot(parentElement.firstChild)) {
+      var currentVersionIndicator = createCurrentVersionIndicator()
+      parentElement.insertBefore(currentVersionIndicator, parentElement.firstChild)
+    }
     return parentElement
   }
 
@@ -352,7 +354,7 @@
   }
 
   function isToolTipDot (element) {
-    return element.classList.contains('tooltip-dot')
+    return element?.classList?.contains('tooltip-dot')
   }
 
   function isSpaceOrEnterKey (keyCode) {
@@ -507,7 +509,8 @@
 
   function selectVersion (navItem, componentData, page, e) {
     toggleNav.call(navItem, componentData, e.target.dataset.version, page)
-    const navVersionButton = document.querySelector('.is-active .nav-version-button')
+    const navVersionButton = document.querySelector(
+      `[data-component="${navItem.getAttribute('data-component')}"] .nav-version-button`)
     if (e.target.dataset.version === getCurrentVersionData(Object.values(componentData.versions)).version) {
       addCurrentVersionIndicator(navVersionButton)
     } else {
