@@ -5,7 +5,7 @@
 
   const externalLinks = document.querySelectorAll('.doc [target="_blank"]')
   externalLinks.forEach(function (externalLink) {
-    if (!isDataWeavePlaygroundLink(externalLink)) {
+    if (!isDataWeavePlaygroundLink(externalLink) && !isFooterLink(externalLink)) {
       const externalLinkImg = createLinkImage('external-link')
       externalLinkImg.alt = 'Leaving the Site'
       externalLinkImg.setAttribute('title', 'Leaving the Site')
@@ -44,6 +44,10 @@
 
   function isDataWeavePlaygroundLink (e) {
     return e.classList.contains('dw-playground-link')
+  }
+
+  function isFooterLink (e) {
+    return e.offsetParent.tagName === 'FOOTER'
   }
 
   function adjustScrollPosition (anchor) {

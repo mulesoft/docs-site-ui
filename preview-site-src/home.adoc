@@ -1,77 +1,140 @@
-= MuleSoft Documentation (preview site)
-:linkattrs:
-:experimental:
+= [.brand]#MuleSoft# Documentation
+:page-layout: home
+:page-fragmentize:
+:!sectids:
+ifndef::env-site[:imagesdir: ../images]
 
-Use Anypoint Platform to build a structured application network that connects applications, data, and devices with reusable APIs.
+[#cta]
+xref:api-led-overview.adoc[New to MuleSoft? Start here.]
 
-== Explore Anypoint Exchange
+[#the-road]
+== The Road to Digital Transformation
 
-The APIs you build in MuleSoft to integrate applications and services are, by design, reusable and built with enterprise security in mind.
-You can discover these APIs, as well as connectors, samples, and templates in
-https://www.anypoint.mulesoft.com/exchange/[Exchange^].
+image::getting-started.png[Getting Started]
 
-RAML fragments, custom packages, videos, links to documentation, and other assets are also available.
+--
+[discrete]
+=== Getting Started
 
-== Design and Build Integrations
+Build the digital transformation your business needs.
 
-Anypoint Studio is an Eclipse-based IDE that helps you create Mule apps and APIs, and Design Center is the cloud-based tool.
+* xref:api-led-overview.adoc[Tutorial: Build an API from start to finish].
+--
 
+image::discover.png[Discover]
+
+--
+[discrete]
+=== Discover
+
+Browse Exchange to find existing API specifications, templates, examples, and other assets that you can reuse for your projects.
+
+* https://www.anypoint.mulesoft.com/exchange/[Discover reusable assets^].
+--
+
+image::design.png[Design]
+
+--
+[discrete]
+=== Design
+
+Create and publish new API specifications from scratch.
+
+* xref:design-center::design-create-publish-api-specs.adoc[Create a reusable API specification].
+* xref:access-management::index.adoc[Manage access to your Anypoint Platform account].
+* xref:general::security.adoc[Build security into your application network].
+--
+
+image::develop-and-test.png[Develop and Test]
+
+--
+[discrete]
+=== Develop & Test
+
+Build and test APIs and integration apps.
+
+* xref:studio::index.adoc[Develop your API].
+* xref:connectors::index.adoc[Connect your data, systems, and apps].
+* xref:mule-runtime::mule-app-dev.adoc[Develop the Mule app that integrates systems, services, APIs, and devices].
+* xref:dataweave::index.adoc[Access and transform data within the Mule app].
+* xref:munit::index.adoc[Build automated tests for your APIs and integrations].
+--
+
+image::deploy.png[Deploy]
+
+--
+[discrete]
+=== Deploy
+
+Deploy APIs and apps to your hosting targets, and secure them with policies.
+
+* xref:runtime-manager::deployment-strategies.adoc[Choose a deployment option].
+* xref:api-manager::api-proxy-landing-page.adoc[Configure a proxy for your API].
+* xref:gateway::policies-overview.adoc[Create policies to secure your API].
+--
+
+image::monitor.png[Monitor]
+
+--
+[discrete]
+=== Monitor
+
+Monitor your APIs and integrations using dashboards, metrics, and visualization.
+
+* xref:monitoring::index.adoc[View metrics for integration apps and APIs].
+* xref:api-functional-monitoring::index.adoc[Test the functional behavior and performance of your API].
+* xref:runtime-manager::monitoring.adoc[Monitor your deployed apps].
+--
+
+== Quick Links
+
+[#latest-releases]
+=== Latest Releases
+
+// removing table until we can automate, keeping hidden here for future reference
+[cols=10;90]
 |===
-| Creating Mule Apps | Creating APIs
+|April 11
+|xref:api-functional-monitoring/api-functional-monitoring-release-notes.adoc[API Functional Monitoring 2.1]
 
-| link:#[Building Mule Apps in Anypoint Studio] | link:#[Importing APIs from Design Center to Anypoint Studio]
-| link:#[Building Apps in Design Center]  | link:#[Creating APIs in Design Center]
+|April 11
+|xref:connector/connector-db.adoc#1-13-0[Database Connector 1.13]
+
+|April 2
+|xref:design-center/design-center-release-notes-api_specs.adoc#2-41-0[API Designer (Crowd) Release Notes 2.41]
+
+|April 2
+|xref:api-mocking-service/api-mocking-service-release-notes.adoc#2-38-0[API Mocking Service Release Notes 2.38]
+
+|March 31
+|xref:studio/anypoint-studio-7.12-with-4.4-runtime-release-notes.adoc[Anypoint Studio 7.12]
 |===
 
-Studio 7 includes link:#[Mule Runtime (Mule) 4], the runtime environment where you deploy Mule apps and APIs.
-Earlier versions of Studio include link:#[Mule 3].
+xref:#[View all release notes,role=view-all]
 
-|===
-| Mule 3 | Mule 4
+[#popular-topics]
+=== Popular Topics
 
-| link:#[Connectors for Mule 3] | link:#[Connectors for Mule 4]
-| link:#[DataWeave 1 for Mule 3]  | link:#[DataWeave 2 for Mule 4]
-| link:#[APIkit 3] | link:#[APIkit 4]
-| link:#[Connector DevKit] | link:#[Mule SDKs]
-|===
+//Date Range 5/01/2022 - 6/01/2022 (omits #1 ranking link to landing page, of course)
+* xref:dataweave::dataweave-cookbook-format-dates.adoc[Format Dates and Times]
+* xref:dataweave::dw-operators.adoc[DataWeave Operators]
+* xref:dataweave::dw-core-functions-filter.adoc[DataWeave Function: filter]
+* xref:dataweave::dw-core-functions-map.adoc[DataWeave Function: map]
+* xref:mule-runtime::batch-processing-concept.adoc[Batch Processing]
+* xref:dataweave::dataweave-functions.adoc[DataWeave Reference]
+* xref:connectors::index.adoc[Connectors]
+// rank #8-10:
+// * xref:mule-runtime::mule-error-concept.adoc[Mule Errors]
+// * xref:mule-runtime::cloudhub-architecture.adoc[CloudHub Architecture]
+// * xref:dataweave::dw-core-functions-contains.adoc[DataWeave Function: contains]
 
-You can test and run the apps and APIs you build from Studio or Design Center.
 
-== Deploy Integrations
+[#more-resources]
+=== More Resources
 
-* link:#[Choosing a deployment strategy]
-* link:#[Installing Standalone Mule 3]
-* link:#[Installing Standalone Mule 4]
-
-== Test Integrations
-
-* link:#[Testing with MUnit]
-* link:#[Troubleshooting]
-
-== Manage Integrations
-
-* link:#[Anypoint Monitoring]
-* link:#[API Functional Monitoring]
-* link:#[Runtime Monitoring]
-
-== Manage Anypoint Platform Features
-
-* link:#[Design Center]
-* link:#[API Manager]
-* link:#[Access Management]
-
-== More Resources
-
-* link:#[Release Notes]
-* http://developer.mulesoft.com[MuleSoft developer site^]
-* https://training.mulesoft.com/[Training^]
-
-== Contributing to the Documentation
-
-To contribute to this documentation, select btn:[Edit in Github] on the page you wish to modify, and submit a pull request to the git repo.
-Your improvements to MuleSoft documentation are appreciated by the entire community.
-Thank you!
-
-== Archived Documentation
-
-When an older version of a product is no longer supported, including products with end-of-life status, the documentation moves to an https://docs.archive.mulesoft.com/[archive site^].
+* https://developer.mulesoft.com/learn/dataweave/[DataWeave Playground^]
+* https://help.mulesoft.com/s/[MuleSoft Help Center^]
+* https://developer.mulesoft.com/tutorials-and-howtos/getting-started/hello-mule[Developer Tutorials^]
+* https://training.mulesoft.com/[Mulesoft Training^]
+* https://trailhead.salesforce.com/content/learn/modules/mulesoft-basics[Trailhead: API Lifecycle Management with Anypoint Platform^]
+* https://archive.docs.mulesoft.com/[Archived Documentation^]

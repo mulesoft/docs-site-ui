@@ -7,6 +7,7 @@ const { inspect } = require('util')
 const { obj: map } = require('through2')
 const merge = require('merge-stream')
 const ospath = require('path')
+const { parse } = require('node-html-parser')
 const path = ospath.posix
 const requireFromString = require('require-from-string')
 const vfs = require('vinyl-fs')
@@ -85,6 +86,7 @@ module.exports =
                   .filter(([name, val]) => name.startsWith('page-'))
                   .reduce((accum, [name, val]) => ({ ...accum, [name.substr(5)]: val }), {})
                 pageModel.contents = Buffer.from(doc.convert())
+                if (doc.isAttribute('page-fragmentize')) pageModel.contents = fragmentize(pageModel.contents)
               }
               file.extname = '.html'
               file.contents = Buffer.from(layouts[uiModel.page.layout](uiModel))
@@ -209,4 +211,23 @@ function resolvePageURL (spec, context = {}) {
 
 function toPromise (stream) {
   return new Promise((resolve, reject) => stream.on('error', reject).on('finish', resolve))
+}
+
+function fragmentize (contents) {
+  const HEADING_TAGS = { h2: true, h3: true, h4: true, h5: true, h6: true }
+  return parse(`<div>${contents.toString()}</div>`)
+    .querySelectorAll('[id]')
+    .reduce((accum, el) => {
+      const { id, parentNode, rawTagName } = el
+      if (
+        HEADING_TAGS[rawTagName] &&
+        parentNode &&
+        !el.classList.contains('discrete') &&
+        parentNode.classList.contains('sect' + String.fromCharCode(rawTagName.charCodeAt(1) - 1))
+      ) {
+        el = parentNode
+      }
+      accum[id] = el.outerHTML
+      return accum
+    }, {})
 }

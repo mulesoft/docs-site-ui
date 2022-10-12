@@ -56,7 +56,9 @@
   function reshapeNavData (data) {
     var groupIconId = document.getElementById('icon-nav-group') && 'icon-nav-group'
     var componentIconId = document.getElementById('icon-nav-component') && 'icon-nav-component'
-    var components = appendHomeComponent(data.components, data.homeUrl).reduce(function (componentsAccum, component) {
+    var components = appendHomeComponent(data.components, data.homeUrl)
+    components = appendArchiveComponent(components)
+    components = components.reduce(function (componentsAccum, component) {
       var versions
       var iconId = 'icon-nav-component-' + component.name
       componentsAccum[component.name] = component = Object.assign({}, component, {
@@ -147,6 +149,21 @@
     })
   }
 
+  function appendArchiveComponent (components) {
+    var found = components.some(function (candidate) {
+      return candidate.name === 'archive'
+    })
+    if (found) return components
+    if (!isArchiveSite()) {
+      return components.concat({
+        name: 'archive',
+        title: 'Archived Documentation',
+        versions: [{ version: '', sets: [{ content: 'Archive', url: 'https://archive.docs.mulesoft.com/' }] }],
+      })
+    }
+    return components
+  }
+
   function selectComponents (patterns, pool, exclude) {
     return coerceToArray(patterns).reduce(function (accum, pattern) {
       if (~pattern.indexOf('*')) {
@@ -221,6 +238,8 @@
         navItem.classList.add('is-active')
         navLink.setAttribute('aria-current', 'page')
       }
+    } else if (componentData.name === 'archive') {
+      navLink.href = componentData.nav.url
     } else {
       navLink.addEventListener('mousedown', function (e) {
         toggleNav.call(navItem, componentData, false, page)
@@ -246,20 +265,15 @@
 
   function createNavVersionDropdown (navItem, componentData, page) {
     var versions = Object.values(componentData.versions)
-    var currentVersionData =
-      versions.length > 1
-        ? versions.find(function (version) {
-          return !version.prerelease
-        }) || versions[0]
-        : versions[0]
+    var currentVersionData = getCurrentVersionData(versions)
     var navVersionDropdown = createElement('.nav-version-dropdown')
     navVersionDropdown.addEventListener('click', trapEvent)
     var navVersionButton = createElement('button.button.nav-version-button')
     var activeVersion = componentData.name === page.component ? page.version : currentVersionData.version
     var activeDisplayVersion = componentData.versions[activeVersion].displayVersion
-    navVersionButton.appendChild(
-      createElement('span.nav-version', { dataset: { version: activeVersion } }, activeDisplayVersion)
-    )
+    var navVersion = createElement('span.nav-version', { dataset: { version: activeVersion } }, activeDisplayVersion)
+    if (activeVersion === currentVersionData.version) addCurrentVersionIndicator(navVersionButton)
+    navVersionButton.appendChild(navVersion)
     if (page.navVersionIconId) {
       navVersionButton.appendChild(createSvgElement('.icon.nav-version-icon', '#' + page.navVersionIconId))
     }
@@ -288,6 +302,9 @@
           setTabIndexForVersions()
         }
       })
+      if (versionData === currentVersionData) {
+        navVersionOption = addCurrentVersionIndicator(navVersionOption)
+      }
       navVersionMenu
         .appendChild(navVersionOption)
         .addEventListener('click', selectVersion.bind(navVersionMenu, navItem, componentData, page))
@@ -304,15 +321,61 @@
         e.preventDefault()
       }
     })
+    navVersionDropdown.appendChild(navVersionButton)
+    navVersionDropdown.appendChild(navVersionMenu)
     navVersionButton.addEventListener('blur', function (e) {
       autoCloseVersionDropdown(navVersionMenu)
     })
-    navVersionDropdown.appendChild(navVersionButton)
-    navVersionDropdown.appendChild(navVersionMenu)
     navVersionMenu.lastChild.addEventListener('blur', function (e) {
       autoCloseVersionDropdown(navVersionMenu)
     })
     return navVersionDropdown
+  }
+
+  function getCurrentVersionData (versions) {
+    return versions.length > 1
+      ? versions.find(function (version) {
+        return !version.prerelease
+      }) || versions[0]
+      : versions[0]
+  }
+
+  function addCurrentVersionIndicator (parentElement) {
+    if (!isToolTipDot(parentElement.firstChild)) {
+      var tabIndex = parentElement.classList.contains('nav-version-button') ? 0 : -1
+      var currentVersionIndicator = createCurrentVersionIndicator(tabIndex)
+      parentElement.insertBefore(currentVersionIndicator, parentElement.firstChild)
+    }
+    return parentElement
+  }
+
+  function createCurrentVersionIndicator (tabIndex) {
+    const currentVersionIndicatorSpan = document.createElement('span')
+    currentVersionIndicatorSpan.setAttribute('role', 'tool-tip')
+    currentVersionIndicatorSpan.classList.add('tooltip-dot')
+    currentVersionIndicatorSpan.setAttribute('tabindex', tabIndex)
+    tippy(currentVersionIndicatorSpan, {
+      arrow: tippy.roundArrow,
+      content: 'This is the latest version.',
+      distance: 100,
+      duration: [0, 150],
+      maxWidth: 150,
+      placement: 'top',
+      theme: 'current-version-popover',
+      touchHold: true, // maps touch as click (for some reason)
+      zIndex: 14, // same as z-nav-mobile
+    })
+    return currentVersionIndicatorSpan
+  }
+
+  function removeCurrentVersionIndicator (parentElement) {
+    if (isToolTipDot(parentElement.firstChild)) {
+      parentElement.removeChild(parentElement.firstChild)
+    }
+  }
+
+  function isToolTipDot (element) {
+    return element?.classList?.contains('tooltip-dot')
   }
 
   function isSpaceOrEnterKey (keyCode) {
@@ -334,6 +397,10 @@
       const navVersionOptions = document.querySelectorAll('.nav-version-option')
       navVersionOptions.forEach(function (navVersionOption) {
         navVersionOption.setAttribute('tabindex', tabIndex)
+      })
+      const tooltipDots = document.querySelectorAll('.nav-version-menu .tooltip-dot')
+      tooltipDots.forEach(function (tooltipDot) {
+        tooltipDot.setAttribute('tabindex', tabIndex)
       })
     }, 200)
   }
@@ -467,6 +534,14 @@
 
   function selectVersion (navItem, componentData, page, e) {
     toggleNav.call(navItem, componentData, e.target.dataset.version, page)
+    const navVersionButton = document.querySelector(
+      `[data-component="${navItem.getAttribute('data-component')}"] .nav-version-button`
+    )
+    if (e.target.dataset.version === getCurrentVersionData(Object.values(componentData.versions)).version) {
+      addCurrentVersionIndicator(navVersionButton)
+    } else {
+      removeCurrentVersionIndicator(navVersionButton)
+    }
     hideVersionMenu(this)
   }
 

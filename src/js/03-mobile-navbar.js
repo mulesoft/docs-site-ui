@@ -2,8 +2,8 @@
   'use strict'
 
   function bindNavToggle (backdrop, body, nav, navToggle) {
-    backdrop.addEventListener('click', toggleNav.bind(nav, backdrop, body))
-    navToggle.addEventListener('click', toggleNav.bind(nav, backdrop, body))
+    if (backdrop) backdrop.addEventListener('click', toggleNav.bind(nav, backdrop, body))
+    if (navToggle) navToggle.addEventListener('click', toggleNav.bind(nav, backdrop, body))
   }
 
   function toggleNav (backdrop, body, e) {

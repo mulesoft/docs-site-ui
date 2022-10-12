@@ -5,3 +5,23 @@
   font-size: 11px;
   padding: var(--xs);
 }
+
+.tooltip-div {
+  display: contents;
+}
+
+.tooltip {
+  display: inline-block;
+  padding-left: 3px;
+  position: relative;
+}
+
+.tooltip-dot {
+  background-color: #5e8ef9;
+  border-radius: 50%;
+  display: inline-block;
+  height: 5px;
+  margin-bottom: 2px;
+  margin-right: 3px;
+  width: 5px;
+}
