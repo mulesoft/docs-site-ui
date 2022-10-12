@@ -337,7 +337,6 @@
     currentVersionIndicatorSpan.classList.add('tooltip-dot')
     currentVersionIndicatorSpan.setAttribute('tabindex', tabIndex)
     tippy(currentVersionIndicatorSpan, {
-      a11y: true,
       arrow: tippy.roundArrow,
       content: 'This is the latest version.',
       distance: 100,
