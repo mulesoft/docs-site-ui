@@ -10,9 +10,9 @@
     }
   }
 
-  var noticeBannerCloseButton = document.querySelector('.notice-banner-close')
+  var noticeBannerCloseButton = document.querySelector('.notice-banner-close-button')
   if (noticeBannerCloseButton) {
-    noticeBannerCloseButton.addEventListener('click', function (e) {
+    noticeBannerCloseButton.addEventListener('click', function (_e) {
       if (noticeBannerContainer) {
         noticeBannerContainer.classList.add('hide')
       }
