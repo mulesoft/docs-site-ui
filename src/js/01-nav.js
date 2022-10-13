@@ -323,7 +323,6 @@
 
   function addCurrentVersionIndicator (parentElement) {
     if (!isToolTipDot(parentElement.firstChild)) {
-      console.log(parentElement)
       var tabIndex = parentElement.classList.contains('nav-version-button') ? 0 : -1
       var currentVersionIndicator = createCurrentVersionIndicator(tabIndex)
       parentElement.insertBefore(currentVersionIndicator, parentElement.firstChild)
