@@ -240,6 +240,7 @@
       }
     } else if (componentData.name === 'archive') {
       navLink.href = componentData.nav.url
+      navLink.target = '_blank'
     } else {
       navLink.addEventListener('mousedown', function (e) {
         toggleNav.call(navItem, componentData, false, page)
