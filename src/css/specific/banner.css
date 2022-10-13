@@ -1,11 +1,19 @@
 .banner {
   align-items: center;
   background-color: var(--core-blue-0);
-  display: flex;
   height: var(--banner-height);
   position: sticky;
   top: 0;
   z-index: var(--z-banner);
+
+  & .banner-close-button {
+    background: none;
+    border: none;
+    cursor: pointer;
+    float: right;
+    font-size: 20px;
+    padding: 11px 17px;
+  }
 }
 
 .banner p {

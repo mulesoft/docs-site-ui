@@ -27,6 +27,26 @@
     })
   }
 
+  var bannerCloseButton = document.querySelector('.banner-close-button')
+  var banner = document.querySelector('.banner')
+  if (bannerCloseButton) {
+    bannerCloseButton.addEventListener('click', function (_e) {
+      if (banner) {
+        banner.classList.add('hide')
+        banner.classList.remove('flex')
+      }
+    })
+    bannerCloseButton.addEventListener('keydown', function (e) {
+      if (isSpaceOrEnterKey(e.keyCode)) {
+        if (banner) {
+          banner.classList.add('hide')
+          banner.classList.remove('flex')
+          e.preventDefault()
+        }
+      }
+    })
+  }
+
   function makeSticky (dc, t, s) {
     if (window.pageYOffset + t.offsetHeight + 10 > s) {
       dc.classList.add('sticky')
