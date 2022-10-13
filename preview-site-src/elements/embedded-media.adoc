@@ -1,0 +1,24 @@
+= Embedded media
+:keywords: embedded, media, video, image
+:page-component-name: elements
+:page-notice-banner-message: This is a custom notice message about embedded media
+
+== Image
+
+https://docs.antora.org/antora/latest/page/image-resource-id-examples/[Antora docs reference^]
+
+Here's an inline image: image:images/devkitoverviewarchitecture.png["alt text", height=30px], do you see it?
+
+And here is a block image:
+
+image::images/devkitoverviewarchitecture.png[alt text]
+
+
+== Video
+
+https://docs.antora.org/antora/latest/asciidoc/embed-video/[Antora docs reference^]
+
+video::rPQoq7ThGAU[youtube]
+
+// https://docs.antora.org/antora/latest/asciidoc/comments/[ref]
+// this is a comment. You won't see me on the page ;)

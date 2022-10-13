@@ -1,8 +1,8 @@
-antoraVersion: '3.0.1'
+antoraVersion: '3.0.3'
 preview: true
 site:
   url: &index_url /
-  homeUrl: &home_url /home.html
+  homeUrl: *index_url
   title: MuleSoft Documentation
   keys: {}
   components:
@@ -13,19 +13,20 @@ site:
         url: *index_url
         navigation:
         - content: Home
-          url: *home_url
+          url: *index_url
           # NOTE: the url of each item maps 1-to-1 with an icon in src/js/vendor/icondefs.js
           items:
           - content: Build and Deploy an API
-            url: '#general-api-led-overview'
+            url: /general/api-led-overview.html
           - content: Browser Support
-            url: '#general-browser-support'
-          - content: Hosting Options
-            url: '#general-intro-platform-hosting'
+            url: /general/browser-support.html
           - content: Glossary
             url: /general/glossary.html
           - content: Contribute
-            url: '#general-contribute'
+            url: /general/contribute.html
+          - content: External Link Test
+            url: https://www.ecosia.org/
+            urlType: external
       versions:
       - *general_latest
     release-notes:
@@ -36,43 +37,34 @@ site:
         navigation:
         - items:
           - content: Release Notes by Month
-            url: '#'
+            url: /release-notes/by-date-index.html
           - content: Release Notes by Product
-            url: '#'
+            url: /release-notes/
           - content: Release Notes Archive
-            url: '#'
+            url: /release-notes/archive-index.html
       versions:
       - *release_notes_latest
-    access-management:
-      latest: &access_management_latest
+    elements:
+      latest: &elements_latest
         version: master
-        title: Access Management
+        title: Elements
         url: '#'
-        asciidoc:
-          attributes:
-            primary-site-url: https://docs.mulesoft.com # enables archive site banner
         navigation:
         - items:
-          - content: Element Examples
-            url: /element-examples.html
-          - content: Managing Your Account
-            url: '#'
-          - content: Users
-            url: '#'
-          - content: Business Groups
-            url: '#'
-            items:
-            - content: Organization
-              url: '#'
-            - content: Environments
-              url: '#'
-            - content: Roles
-              url: '#'
-          - content: External
-            url: https://ecosia.org
-            urlType: external
+          - content: Admonition
+            url: /elements/admonition.html
+          - content: Code Block
+            url: /elements/code-block.html
+          - content: Embedded Media
+            url: /elements/embedded-media.html
+          - content: List
+            url: /elements/list.html
+          - content: Table
+            url: /elements/table.html
+          - content: Miscellaneous
+            url: /elements/miscellaneous.html
       versions:
-      - *access_management_latest
+      - *elements_latest
     anypoint-cli:
       latest: &anypoint_cli_latest
         version: master
@@ -347,13 +339,12 @@ nav:
     components: ['salesforce*-connector', '*-connector']
   - parent: rtfcloud
     components: '*-rtfcloud'
-  #- parent: does-not-exist
-  #  components: 'access-management'
   groups:
   - root: true
-    components: [home, release-notes, does-not-exist]
+    components: [home, release-notes, archive]
   - title: Getting Started
     components: general
+    spreadSingleItem: true
   - title: Docs by Product
     components: ['*', anypoint-cli]
 page:
