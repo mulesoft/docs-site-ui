@@ -19,6 +19,7 @@
 
 .tippy-box[data-theme~="current-version-popover"] {
   background: var(--secondary-navy);
+  border: none;
   color: var(--tertiary);
   font-size: 11px;
   padding: 10px;
@@ -26,6 +27,7 @@
 
 .tippy-box[data-theme~="gray-archive-link-popover"] {
   background: var(--secondary-navy);
+  border: none;
   color: white;
 
   & .tippy-svg-arrow > svg {
@@ -35,6 +37,7 @@
 
 .tippy-box[data-theme~="white-archive-link-popover"] {
   background: white;
+  border: none;
   color: black;
 
   & .tippy-svg-arrow > svg {
