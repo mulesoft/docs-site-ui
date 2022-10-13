@@ -17,13 +17,13 @@ site:
           # NOTE: the url of each item maps 1-to-1 with an icon in src/js/vendor/icondefs.js
           items:
           - content: Build and Deploy an API
-            url: /general/api-led-overview.html
+            url: /api-led-overview.html
           - content: Browser Support
-            url: /general/browser-support.html
+            url: /browser-support.html
           - content: Glossary
-            url: /general/glossary.html
+            url: /glossary.html
           - content: Contribute
-            url: /general/contribute.html
+            url: /contribute.html
           - content: External Link Test
             url: https://www.ecosia.org/
             urlType: external
