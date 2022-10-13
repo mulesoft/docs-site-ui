@@ -22,14 +22,14 @@
     if (closeButton) addEventListeners(bannerDiv, closeButton, classToRemove)
   }
 
-  function makeSticky (noticeBannerDiv) {
+  function makeSticky (bannerDiv) {
     var toolbar = document.querySelector('.toolbar')
-    var sticky = noticeBannerDiv.offsetTop
+    var sticky = bannerDiv.offsetTop
     window.onscroll = function () {
       if (window.pageYOffset + toolbar.offsetHeight + 10 > sticky) {
-        noticeBannerDiv.classList.add('sticky')
+        bannerDiv.classList.add('sticky')
       } else {
-        noticeBannerDiv.classList.remove('sticky')
+        bannerDiv.classList.remove('sticky')
       }
     }
   }
