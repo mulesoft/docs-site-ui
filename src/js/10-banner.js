@@ -5,12 +5,12 @@
   enhanceNoticeBanner()
 
   function enhanceTopBanner () {
-    var topBannerDiv = document.querySelector('.top-banner')
+    const topBannerDiv = document.querySelector('.top-banner')
     if (topBannerDiv) makeBannerCloseButtonFunctional(topBannerDiv, '.top-banner-close-button', 'flex')
   }
 
   function enhanceNoticeBanner () {
-    var noticeBannerDiv = document.querySelector('.notice-banner')
+    const noticeBannerDiv = document.querySelector('.notice-banner')
     if (noticeBannerDiv) {
       makeSticky(noticeBannerDiv)
       makeBannerCloseButtonFunctional(noticeBannerDiv, '.notice-banner-close-button')
@@ -18,13 +18,13 @@
   }
 
   function makeBannerCloseButtonFunctional (bannerDiv, buttonClassName, classToRemove) {
-    var closeButton = document.querySelector(buttonClassName)
+    const closeButton = document.querySelector(buttonClassName)
     if (closeButton) addEventListeners(bannerDiv, closeButton, classToRemove)
   }
 
   function makeSticky (bannerDiv) {
-    var toolbar = document.querySelector('.toolbar')
-    var sticky = bannerDiv.offsetTop
+    const toolbar = document.querySelector('.toolbar')
+    const sticky = bannerDiv.offsetTop
     window.onscroll = function () {
       if (window.pageYOffset + toolbar.offsetHeight + 10 > sticky) {
         bannerDiv.classList.add('sticky')
