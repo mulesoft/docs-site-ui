@@ -363,7 +363,7 @@
       placement: 'top',
       theme: 'current-version-popover',
       touchHold: true, // maps touch as click (for some reason)
-      zIndex: 14, // same as z-nav-mobile
+      zIndex: 16, // same as z-nav-mobile
     })
     return currentVersionIndicatorSpan
   }
