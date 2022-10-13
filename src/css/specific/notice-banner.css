@@ -43,7 +43,8 @@
     border: none;
     cursor: pointer;
     float: right;
-    font-size: var(--md);
+    font-size: 20px;
+    padding: 11px 17px;
   }
 }
 
