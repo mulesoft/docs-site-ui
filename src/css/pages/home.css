@@ -197,6 +197,12 @@ body.home {
       }
     }
 
+    & div.paragraph {
+      & p {
+        font-size: var(--lg);
+      }
+    }
+
     & footer {
       display: grid;
       font-size: 14px;
