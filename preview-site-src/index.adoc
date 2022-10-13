@@ -45,7 +45,7 @@ Create and publish new API specifications from scratch.
 * xref:general::security.adoc[Build security into your application network.]
 --
 
-image::develop-and-test.png[Develop and Test]
+image::develop.png[Develop and Test]
 
 --
 [discrete]
