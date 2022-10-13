@@ -1,58 +1,56 @@
 ;(function () {
   'use strict'
 
-  var noticeBannerContainer = document.querySelector('.notice-banner')
-  if (noticeBannerContainer) {
+  enhanceTopBanner()
+  enhanceNoticeBanner()
+
+  function enhanceTopBanner () {
+    var topBannerDiv = document.querySelector('.top-banner')
+    if (topBannerDiv) makeBannerCloseButtonFunctional(topBannerDiv, '.top-banner-close-button', 'flex')
+  }
+
+  function enhanceNoticeBanner () {
+    var noticeBannerDiv = document.querySelector('.notice-banner')
+    if (noticeBannerDiv) {
+      makeSticky(noticeBannerDiv)
+      makeBannerCloseButtonFunctional(noticeBannerDiv, '.notice-banner-close-button')
+    }
+  }
+
+  function makeBannerCloseButtonFunctional (bannerDiv, buttonClassName, classToRemove) {
+    var closeButton = document.querySelector(buttonClassName)
+    if (closeButton) addEventListeners(bannerDiv, closeButton, classToRemove)
+  }
+
+  function makeSticky (noticeBannerDiv) {
     var toolbar = document.querySelector('.toolbar')
-    var sticky = noticeBannerContainer.offsetTop
+    var sticky = noticeBannerDiv.offsetTop
     window.onscroll = function () {
-      makeSticky(noticeBannerContainer, toolbar, sticky)
+      if (window.pageYOffset + toolbar.offsetHeight + 10 > sticky) {
+        noticeBannerDiv.classList.add('sticky')
+      } else {
+        noticeBannerDiv.classList.remove('sticky')
+      }
     }
   }
 
-  var noticeBannerCloseButton = document.querySelector('.notice-banner-close-button')
-  if (noticeBannerCloseButton) {
-    noticeBannerCloseButton.addEventListener('click', function (_e) {
-      if (noticeBannerContainer) {
-        noticeBannerContainer.classList.add('hide')
-      }
+  function addEventListeners (bannerDiv, closeButton, classToRemove) {
+    closeButton.addEventListener('click', function (_e) {
+      if (bannerDiv) hideBanner(bannerDiv, classToRemove)
     })
-    noticeBannerCloseButton.addEventListener('keydown', function (e) {
+    closeButton.addEventListener('keydown', function (e) {
       if (isSpaceOrEnterKey(e.keyCode)) {
-        if (noticeBannerContainer) {
-          noticeBannerContainer.classList.add('hide')
+        if (bannerDiv) {
+          hideBanner(bannerDiv, classToRemove)
           e.preventDefault()
         }
       }
     })
   }
 
-  var bannerCloseButton = document.querySelector('.banner-close-button')
-  var banner = document.querySelector('.banner')
-  if (bannerCloseButton) {
-    bannerCloseButton.addEventListener('click', function (_e) {
-      if (banner) {
-        banner.classList.add('hide')
-        banner.classList.remove('flex')
-      }
-    })
-    bannerCloseButton.addEventListener('keydown', function (e) {
-      if (isSpaceOrEnterKey(e.keyCode)) {
-        if (banner) {
-          banner.classList.add('hide')
-          banner.classList.remove('flex')
-          e.preventDefault()
-        }
-      }
-    })
-  }
-
-  function makeSticky (dc, t, s) {
-    if (window.pageYOffset + t.offsetHeight + 10 > s) {
-      dc.classList.add('sticky')
-    } else {
-      dc.classList.remove('sticky')
-    }
+  function hideBanner (bannerDiv, classToRemove) {
+    bannerDiv.classList.add('hide')
+    if (classToRemove) bannerDiv.classList.remove(classToRemove)
   }
 
   function isSpaceOrEnterKey (keyCode) {
