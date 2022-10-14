@@ -5,3 +5,17 @@
   font-size: 11px;
   padding: var(--xs);
 }
+
+.tooltip-dot {
+  background-color: #5e8ef9;
+  border-radius: 50%;
+  display: inline-block;
+  height: 5px;
+  margin-bottom: 2px;
+  margin-right: 3px;
+  width: 5px;
+
+  @media screen and (max-width: 768px) {
+    display: none;
+  }
+}

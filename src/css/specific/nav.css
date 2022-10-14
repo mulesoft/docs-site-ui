@@ -257,7 +257,7 @@ svg.nav-icon {
   }
 
   & button,
-  & span {
+  & span:not(.tooltip-dot) {
     display: list-item;
     padding: var(--xs) var(--sm);
   }

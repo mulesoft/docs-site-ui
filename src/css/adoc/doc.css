@@ -100,7 +100,6 @@
   }
 
   & .anchor {
-    display: inline-block;
     float: right;
     height: var(--lg);
     opacity: 0;
