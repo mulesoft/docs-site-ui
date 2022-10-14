@@ -86,6 +86,12 @@ body.home {
         color: #fff;
         display: inline-block;
         padding: 10px 20px;
+
+        &:active,
+        &:focus,
+        &:hover {
+          background-color: var(--core-blue-3);
+        }
       }
     }
 
