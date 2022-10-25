@@ -82,13 +82,13 @@ body.home {
       }
 
       & #cta a {
-        background-color: var(--core-blue-4);
+        background-color: var(--core-blue-3);
         color: #fff;
         display: inline-block;
         padding: 10px 20px;
 
         &:hover {
-          background-color: var(--core-blue-3);
+          background-color: var(--core-blue-4);
         }
       }
     }
