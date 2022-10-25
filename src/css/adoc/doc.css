@@ -189,7 +189,8 @@
       background-color: #c0edff;
       border-radius: 5px;
       color: var(--secondary-navy);
-      padding: 1px;
+      margin-left: -3px;
+      padding: 1px 3px;
     }
   }
 
