@@ -46,13 +46,35 @@ function getMostRecentlyUpdatedPages (
       : pagesUIModel.length
   for (let i = 0; i < maxNumberOfPages; i++) {
     const page = pagesUIModel[i]
-    if (page.attributes?.revdate) {
+    if (
+      page.attributes?.revdate &&
+      isValidDate(page.title, page.attributes?.revdate)
+    ) {
       resultList.push({
-        revdate: page.attributes?.revdate,
+        revdateWithoutYear: removeYear(
+          page.attributes?.revdate
+        ),
         title: page.title,
         url: page.url,
       })
     }
   }
   return resultList
+}
+
+function isValidDate (pageTitle, dateString) {
+  const dateObj = Date.parse(dateString)
+  if (isNaN(dateObj)) {
+    console.warn(
+      `${pageTitle} has an invalid rev date: ${dateString}. Please alert the writers to fix it.`
+    )
+  }
+  return !isNaN(dateObj)
+}
+
+function removeYear (dateString) {
+  const dateObj = new Date(dateString)
+  return `${dateObj.toLocaleString('default', {
+    month: 'short',
+  })} ${dateObj.getDate()}`
 }
