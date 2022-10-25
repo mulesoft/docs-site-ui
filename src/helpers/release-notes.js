@@ -4,21 +4,21 @@ module.exports = (numOfItems, { data }) => {
     const pages = contentCatalog.getPages(
       ({ asciidoc, out }) => {
         if (!out || !asciidoc) return
-        return isReleaseNotes(asciidoc)
+        return isReleaseNotesWithRevdate(asciidoc)
       }
     )
     const { buildPageUiModel } = module.parent.require(
       '@antora/page-composer/build-ui-model'
     )
-    const pagesUIModel = pages.map((page) =>
-      buildPageUiModel(site, page, contentCatalog)
-    )
-    pagesUIModel.sort(
-      (a, b) =>
-        new Date(b.attributes.revdate) -
-        new Date(a.attributes.revdate)
-    )
-    console.log(pagesUIModel)
+    const pagesUIModel = pages
+      .map((page) =>
+        buildPageUiModel(site, page, contentCatalog)
+      )
+      .sort(
+        (a, b) =>
+          new Date(b.attributes.revdate) -
+          new Date(a.attributes.revdate)
+      )
     return getMostRecentlyUpdatedPages(
       pagesUIModel,
       numOfItems
@@ -26,11 +26,12 @@ module.exports = (numOfItems, { data }) => {
   }
 }
 
-function isReleaseNotes (asciidoc) {
+function isReleaseNotesWithRevdate (asciidoc) {
   return (
     asciidoc.attributes &&
     asciidoc.attributes['page-component-name'] ===
-      'release-notes'
+      'release-notes' &&
+    asciidoc.attributes['page-revdate']
   )
 }
 
@@ -44,13 +45,14 @@ function getMostRecentlyUpdatedPages (
       ? numOfItems
       : pagesUIModel.length
   for (let i = 0; i < maxNumberOfPages; i++) {
-    if (pagesUIModel[i].attributes?.revdate) {
+    const page = pagesUIModel[i]
+    if (page.attributes?.revdate) {
       resultList.push({
-        title: pagesUIModel[i].title,
-        revdate: pagesUIModel[i].attributes?.revdate,
+        revdate: page.attributes?.revdate,
+        title: page.title,
+        url: page.url,
       })
     }
   }
-  console.log(resultList)
   return resultList
 }
