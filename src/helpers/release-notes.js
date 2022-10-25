@@ -48,7 +48,7 @@ function getMostRecentlyUpdatedPages (
     const page = pagesUIModel[i]
     if (
       page.attributes?.revdate &&
-      isValidDate(page.title, page.attributes?.revdate)
+      isValidDate(page.attributes?.revdate)
     ) {
       resultList.push({
         revdateWithoutYear: removeYear(
@@ -62,13 +62,8 @@ function getMostRecentlyUpdatedPages (
   return resultList
 }
 
-function isValidDate (pageTitle, dateString) {
+function isValidDate (dateString) {
   const dateObj = Date.parse(dateString)
-  if (isNaN(dateObj)) {
-    console.warn(
-      `${pageTitle} has an invalid rev date: ${dateString}. Please alert the writers to fix it.`
-    )
-  }
   return !isNaN(dateObj)
 }
 
