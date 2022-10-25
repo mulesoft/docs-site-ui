@@ -39,6 +39,7 @@
   function createToolTip (color) {
     const img = document.createElement('img')
     img.setAttribute('role', 'tool-tip')
+    img.setAttribute('tabindex', '0')
     img.classList.add('tooltip')
     img.src = `${uiRootPath}/img/icons/tooltip-${color}.svg`
     return img
