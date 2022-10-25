@@ -14,11 +14,10 @@ module.exports = (numOfItems, { data }) => {
       .map((page) =>
         buildPageUiModel(site, page, contentCatalog)
       )
-      .sort(
-        (a, b) =>
-          new Date(b.attributes.revdate) -
-          new Date(a.attributes.revdate)
+      .filter((page) =>
+        isValidDate(page.attributes?.revdate)
       )
+      .sort(byDate)
     return getMostRecentlyUpdatedPages(
       pagesUIModel,
       numOfItems
@@ -35,6 +34,13 @@ function isReleaseNotesWithRevdate (asciidoc) {
   )
 }
 
+function byDate (a, b) {
+  return (
+    new Date(b.attributes.revdate) -
+    new Date(a.attributes.revdate)
+  )
+}
+
 function getMostRecentlyUpdatedPages (
   pagesUIModel,
   numOfItems
@@ -46,10 +52,7 @@ function getMostRecentlyUpdatedPages (
       : pagesUIModel.length
   for (let i = 0; i < maxNumberOfPages; i++) {
     const page = pagesUIModel[i]
-    if (
-      page.attributes?.revdate &&
-      isValidDate(page.attributes?.revdate)
-    ) {
+    if (page.attributes?.revdate) {
       resultList.push({
         revdateWithoutYear: removeYear(
           page.attributes?.revdate
@@ -62,13 +65,13 @@ function getMostRecentlyUpdatedPages (
   return resultList
 }
 
-function isValidDate (dateString) {
-  const dateObj = Date.parse(dateString)
+function isValidDate (dateStr) {
+  const dateObj = Date.parse(dateStr)
   return !isNaN(dateObj)
 }
 
-function removeYear (dateString) {
-  const dateObj = new Date(dateString)
+function removeYear (dateStr) {
+  const dateObj = new Date(dateStr)
   return `${dateObj.toLocaleString('default', {
     month: 'short',
   })} ${dateObj.getDate()}`
