@@ -4,14 +4,17 @@
   var analytics = window.analytics
 
   // coveo setup
-  var config = document.getElementById('coveo-script').dataset
+  var config =
+    document.getElementById('coveo-script').dataset
   var root = document.querySelector('.js-coveo')
   var coveoInit
 
-  Coveo.SearchEndpoint.endpoints.default = new Coveo.SearchEndpoint({
-    restUri: 'https://platform.cloud.coveo.com/rest/search',
-    accessToken: config.accessToken,
-  })
+  Coveo.SearchEndpoint.endpoints.default =
+    new Coveo.SearchEndpoint({
+      restUri:
+        'https://platform.cloud.coveo.com/rest/search',
+      accessToken: config.accessToken,
+    })
 
   root.addEventListener('buildingQuery', function (e) {
     e.detail.queryBuilder.pipeline = config.queryPipeline
@@ -24,18 +27,26 @@
   // show/hide coveo search
   var searchTrigger = nav.querySelector('.search button')
   var searchUI = document.querySelector('.js-search-ui')
-  var searchClose = document.querySelector('.js-search-close')
+  var searchClose = document.querySelector(
+    '.js-search-close'
+  )
 
   function focusOnSearchBox () {
     var maxTries = 1000
     var checkExist = setInterval(function () {
-      var searchBox = document.querySelector('[form=coveo-dummy-form]')
+      var searchBox = document.querySelector(
+        '[form=coveo-dummy-form]'
+      )
       if (searchBox) {
         searchBox.setAttribute('id', 'coveo-form')
         searchBox.focus()
-        var suggestions = document.querySelector('.magic-box-hasSuggestion')
+        var suggestions = document.querySelector(
+          '.magic-box-hasSuggestion'
+        )
         if (suggestions) {
-          suggestions.classList.remove('magic-box-hasSuggestion')
+          suggestions.classList.remove(
+            'magic-box-hasSuggestion'
+          )
           clearInterval(checkExist)
         }
       }
@@ -72,18 +83,27 @@
 
   function resizeCoveoOmnibox () {
     var checkExist = setInterval(function () {
-      const coveoOmnibox = document.getElementsByClassName('CoveoOmnibox')[0]
+      const coveoOmnibox =
+        document.getElementsByClassName('CoveoOmnibox')[0]
       if (coveoOmnibox) {
-        const coveoResultsColumn = document.getElementsByClassName('coveo-results-column')[0]
+        const coveoResultsColumn =
+          document.getElementsByClassName(
+            'coveo-results-column'
+          )[0]
         coveoOmnibox.style.width =
-          coveoResultsColumn && window.innerWidth >= 768 ? `${coveoResultsColumn.offsetWidth}px` : '92%'
+          coveoResultsColumn && window.innerWidth >= 768
+            ? `${coveoResultsColumn.offsetWidth}px`
+            : '92%'
       }
       clearInterval(checkExist)
     }, 300)
   }
 
   searchTrigger.addEventListener('click', showCoveo)
-  searchTrigger.addEventListener('click', resizeCoveoOmnibox)
+  searchTrigger.addEventListener(
+    'click',
+    resizeCoveoOmnibox
+  )
   backdrop.addEventListener('click', hideCoveo)
   searchClose.addEventListener('click', hideCoveo)
   document.addEventListener('keydown', function (e) {

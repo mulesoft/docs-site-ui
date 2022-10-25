@@ -1,13 +1,19 @@
 ;(function () {
   'use strict'
 
-  const archiveLinks = document.querySelectorAll("a[href='https://archive.docs.mulesoft.com/']")
-  var uiRootPath = document.getElementById('site-script').dataset.uiRootPath
+  const archiveLinks = document.querySelectorAll(
+    "a[href='https://archive.docs.mulesoft.com/']"
+  )
+  var uiRootPath =
+    document.getElementById('site-script').dataset
+      .uiRootPath
   archiveLinks.forEach(function (archiveLink) {
     const tooltipDiv = document.createElement('div')
     tooltipDiv.classList.add('tooltip-div')
     archiveLink.parentElement.appendChild(tooltipDiv)
-    const colorScheme = inLeftNav(archiveLink) ? 'gray' : 'white'
+    const colorScheme = inLeftNav(archiveLink)
+      ? 'gray'
+      : 'white'
     const toolTip = createToolTip(colorScheme)
     tooltipDiv.appendChild(toolTip)
 

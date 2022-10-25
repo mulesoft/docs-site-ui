@@ -2,7 +2,9 @@
   'use strict'
 
   // connector level popover
-  var connectorTierTrigger = document.querySelector('.js-connector-level-trigger')
+  var connectorTierTrigger = document.querySelector(
+    '.js-connector-level-trigger'
+  )
   /* eslint-disable max-len */
   var communityTierMsg =
     '<p>MuleSoft or members of the community write and maintain Community Connectors.<p>Contact the partner directly for more information. You do not need any special account or license to use a Community connector.'
@@ -16,7 +18,8 @@
 
   if (connectorTierTrigger) {
     var msg
-    var level = connectorTierTrigger.getAttribute('data-level')
+    var level =
+      connectorTierTrigger.getAttribute('data-level')
     if (level) {
       switch (level.toLowerCase()) {
         case 'community':

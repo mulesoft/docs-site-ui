@@ -1,27 +1,47 @@
 'use strict'
 
 const pkg = require('./package.json')
-const [owner, repo] = new URL(pkg.repository.url).pathname.slice(1).split('/')
+const [owner, repo] = new URL(pkg.repository.url).pathname
+  .slice(1)
+  .split('/')
 
 const { parallel, series, watch } = require('gulp')
 const createTask = require('./gulp.d/lib/create-task')
 const exportTasks = require('./gulp.d/lib/export-tasks')
 
 const bundleName = 'ui'
-const buildDir = process.env.CONTEXT === 'deploy-preview' ? 'public/dist' : 'build'
+const buildDir =
+  process.env.CONTEXT === 'deploy-preview'
+    ? 'public/dist'
+    : 'build'
 const previewSrcDir = 'preview-site-src'
 const previewDestDir = 'public'
 const srcDir = 'src'
 const destDir = `${previewDestDir}/_`
 const partialsDir = `${srcDir}/partials`
-const { reload: livereload } = process.env.LIVERELOAD === 'true' ? require('gulp-connect') : {}
-const serverConfig = { host: '0.0.0.0', port: 8080, livereload }
+const { reload: livereload } =
+  process.env.LIVERELOAD === 'true'
+    ? require('gulp-connect')
+    : {}
+const serverConfig = {
+  host: '0.0.0.0',
+  port: 8080,
+  livereload,
+}
 
 const task = require('./gulp.d/tasks')
 const glob = {
   all: [srcDir, previewSrcDir],
-  css: [`${srcDir}/css/**/*.css`, `!${srcDir}/css/**/*.min.css`],
-  js: ['gulpfile.js', 'gulp.d/**/*.js', `${srcDir}/{helpers,js}/**/*.js`, `!${srcDir}/js/**/*.min.js`],
+  css: [
+    `${srcDir}/css/**/*.css`,
+    `!${srcDir}/css/**/*.min.css`,
+  ],
+  js: [
+    'gulpfile.js',
+    'gulp.d/**/*.js',
+    `${srcDir}/{helpers,js}/**/*.js`,
+    `!${srcDir}/js/**/*.min.js`,
+  ],
 }
 
 const getMarketingContentTask = createTask({
@@ -65,7 +85,9 @@ const buildTask = createTask({
   call: task.build(
     srcDir,
     destDir,
-    process.argv.slice(2).some((name) => name.startsWith('preview'))
+    process.argv
+      .slice(2)
+      .some((name) => name.startsWith('preview'))
   ),
 })
 
@@ -89,7 +111,13 @@ const bundleTask = createTask({
 const releasePublishTask = createTask({
   desc: 'Publish the release to GitHub by attaching it to a new tag',
   name: 'release:publish',
-  call: task.release(buildDir, bundleName, owner, repo, process.env.GITHUB_TOKEN),
+  call: task.release(
+    buildDir,
+    bundleName,
+    owner,
+    repo,
+    process.env.GITHUB_TOKEN
+  ),
 })
 
 const releaseTask = createTask({
@@ -100,7 +128,12 @@ const releaseTask = createTask({
 
 const buildPreviewPagesTask = createTask({
   name: 'preview:build-pages',
-  call: task.buildPreviewPages(srcDir, previewSrcDir, previewDestDir, livereload),
+  call: task.buildPreviewPages(
+    srcDir,
+    previewSrcDir,
+    previewDestDir,
+    livereload
+  ),
 })
 
 const previewBuildTask = createTask({
@@ -111,13 +144,20 @@ const previewBuildTask = createTask({
 
 const previewServeTask = createTask({
   name: 'preview:serve',
-  call: task.serve(previewDestDir, serverConfig, () => watch(glob.all, previewBuildTask)),
+  call: task.serve(previewDestDir, serverConfig, () =>
+    watch(glob.all, previewBuildTask)
+  ),
 })
 
 const previewTask = createTask({
   name: 'preview',
   desc: 'Generate a preview site and launch a server to view it',
-  call: series(getMarketingContentTask, formatTask, previewBuildTask, previewServeTask),
+  call: series(
+    getMarketingContentTask,
+    formatTask,
+    previewBuildTask,
+    previewServeTask
+  ),
 })
 
 const updateTask = createTask({

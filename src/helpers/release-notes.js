@@ -1,31 +1,32 @@
 module.exports = (numOfItems, { data }) => {
   const { contentCatalog, site } = data.root
-  const pages = contentCatalog.getPages(
-    ({ asciidoc, out }) => {
-      if (!out || !asciidoc) return
-      return isReleaseNotes(asciidoc)
-    }
-  )
-  const { buildPageUiModel } = module.parent.require(
-    '@antora/page-composer/build-ui-model'
-  )
-  const pagesUIModel = pages.map((page) =>
-    buildPageUiModel(site, page, contentCatalog)
-  )
-  console.log(pagesUIModel)
-  pagesUIModel.sort(
-    (a, b) =>
-      new Date(b.attributes.revdate) -
-      new Date(a.attributes.revdate)
-  )
-  console.log(pagesUIModel)
-  return getMostRecentlyUpdatedPages(
-    pagesUIModel,
-    numOfItems
-  )
+  if (contentCatalog) {
+    const pages = contentCatalog.getPages(
+      ({ asciidoc, out }) => {
+        if (!out || !asciidoc) return
+        return isReleaseNotes(asciidoc)
+      }
+    )
+    const { buildPageUiModel } = module.parent.require(
+      '@antora/page-composer/build-ui-model'
+    )
+    const pagesUIModel = pages.map((page) =>
+      buildPageUiModel(site, page, contentCatalog)
+    )
+    pagesUIModel.sort(
+      (a, b) =>
+        new Date(b.attributes.revdate) -
+        new Date(a.attributes.revdate)
+    )
+    console.log(pagesUIModel)
+    return getMostRecentlyUpdatedPages(
+      pagesUIModel,
+      numOfItems
+    )
+  }
 }
 
-function isReleaseNotes(asciidoc) {
+function isReleaseNotes (asciidoc) {
   return (
     asciidoc.attributes &&
     asciidoc.attributes['page-component-name'] ===
@@ -33,12 +34,12 @@ function isReleaseNotes(asciidoc) {
   )
 }
 
-function getMostRecentlyUpdatedPages(
+function getMostRecentlyUpdatedPages (
   pagesUIModel,
   numOfItems
 ) {
-  let resultList = []
-  let maxNumberOfPages =
+  const resultList = []
+  const maxNumberOfPages =
     pagesUIModel.length > numOfItems
       ? numOfItems
       : pagesUIModel.length

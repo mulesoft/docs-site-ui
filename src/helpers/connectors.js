@@ -6,6 +6,7 @@ module.exports = function ({
   },
 }) {
   return Object.values(site.components).filter(
-    ({ asciidoc = { attributes: {} } }) => asciidoc.attributes['page-connector-type']
+    ({ asciidoc = { attributes: {} } }) =>
+      asciidoc.attributes['page-connector-type']
   )
 }

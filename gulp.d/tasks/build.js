@@ -23,7 +23,8 @@ const vfs = require('vinyl-fs')
 
 module.exports = (src, dest, preview) => () => {
   const opts = { base: src, cwd: src }
-  const sourcemaps = preview || process.env.SOURCEMAPS === 'true'
+  const sourcemaps =
+    preview || process.env.SOURCEMAPS === 'true'
   const postcssPlugins = [
     postcssImport,
     postcssUrl([
@@ -33,15 +34,23 @@ module.exports = (src, dest, preview) => () => {
           const relpath = asset.pathname.substr(1)
           const abspath = require.resolve(relpath)
           const basename = ospath.basename(abspath)
-          const destpath = ospath.join(dest, 'font', basename)
-          if (!fs.pathExistsSync(destpath)) fs.copySync(abspath, destpath)
+          const destpath = ospath.join(
+            dest,
+            'font',
+            basename
+          )
+          if (!fs.pathExistsSync(destpath)) {
+            fs.copySync(abspath, destpath)
+          }
           return path.join('..', 'font', basename)
         },
       },
     ]),
     postcssCustomMedia,
     postcssNesting,
-    postcssVar({ preserve: preview ? 'preserve-computed' : false }),
+    postcssVar({
+      preserve: preview ? 'preserve-computed' : false,
+    }),
     preview ? postcssCalc : () => {},
     autoprefixer,
     preview ? () => {} : cssnano({ preset: 'default' }),
@@ -58,16 +67,23 @@ module.exports = (src, dest, preview) => () => {
         // see https://gulpjs.org/recipes/browserify-multiple-destination.html
         map((file, enc, next) => {
           if (file.relative.endsWith('.bundle.js')) {
-            file.contents = browserify(file.relative, { basedir: src, detectGlobals: false })
+            file.contents = browserify(file.relative, {
+              basedir: src,
+              detectGlobals: false,
+            })
               .plugin('browser-pack-flat/plugin')
               .bundle()
-            file.path = file.path.slice(0, file.path.length - 10) + '.js'
+            file.path =
+              file.path.slice(0, file.path.length - 10) +
+              '.js'
             next(null, file)
           } else {
-            fs.readFile(file.path, 'UTF-8').then((contents) => {
-              file.contents = Buffer.from(contents)
-              next(null, file)
-            })
+            fs.readFile(file.path, 'UTF-8').then(
+              (contents) => {
+                file.contents = Buffer.from(contents)
+                next(null, file)
+              }
+            )
           }
         })
       )
@@ -75,12 +91,21 @@ module.exports = (src, dest, preview) => () => {
       .pipe(uglify()),
     vfs
       .src(
-        [require.resolve('@popperjs/core/dist/umd/popper.min.js'), require.resolve('tippy.js/dist/tippy.umd.min.js')],
+        [
+          require.resolve(
+            '@popperjs/core/dist/umd/popper.min.js'
+          ),
+          require.resolve('tippy.js/dist/tippy.umd.min.js'),
+        ],
         opts
       )
       .pipe(
         map((file, _enc, next) => {
-          file.contents = Buffer.from(file.contents.toString().replace(/\n\/\/# sourceMappingURL=.*/, ''))
+          file.contents = Buffer.from(
+            file.contents
+              .toString()
+              .replace(/\n\/\/# sourceMappingURL=.*/, '')
+          )
           next(null, file)
         })
       )
@@ -92,23 +117,30 @@ module.exports = (src, dest, preview) => () => {
         preview
           ? map()
           : map((file, enc, next) => {
-            file.contents = Buffer.from(file.contents.toString().replace(/(\*\/|}(?!}))/g, '$1\n'))
+            file.contents = Buffer.from(
+              file.contents
+                .toString()
+                .replace(/(\*\/|}(?!}))/g, '$1\n')
+            )
             next(null, file)
           })
       ),
     vfs.src('font/*.{ttf,woff*(2)}', opts),
-    vfs
-      .src('img/**/*.{gif,ico,jpg,png,svg}', opts)
-      .pipe(
-        imagemin(
-          [
-            imagemin.gifsicle(),
-            imagemin.jpegtran(),
-            imagemin.optipng(),
-            imagemin.svgo({ plugins: [{ removeViewBox: false }] }),
-          ].reduce((accum, it) => (it ? accum.concat(it) : accum), [])
+    vfs.src('img/**/*.{gif,ico,jpg,png,svg}', opts).pipe(
+      imagemin(
+        [
+          imagemin.gifsicle(),
+          imagemin.jpegtran(),
+          imagemin.optipng(),
+          imagemin.svgo({
+            plugins: [{ removeViewBox: false }],
+          }),
+        ].reduce(
+          (accum, it) => (it ? accum.concat(it) : accum),
+          []
         )
-      ),
+      )
+    ),
     vfs.src('helpers/*.js', opts),
     vfs.src('layouts/*.hbs', opts),
     vfs.src('partials/**/*.hbs', opts)
