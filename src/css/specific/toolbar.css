@@ -12,6 +12,12 @@
   }
 }
 
+.toolbar {
+  @media (--md) {
+    display: none;
+  }
+}
+
 .nav-toggle {
   margin-right: var(--md);
 
