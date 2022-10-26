@@ -12,7 +12,7 @@
   top: 0;
   transform: translateX(-100%);
   transition: transform var(--transition-speed-sm) var(--transition-timing);
-  width: var(--nav-width);
+  width: var(--mobile-nav-width);
   z-index: var(--z-nav-mobile);
   &.is-active {
     transform: none;
@@ -47,6 +47,11 @@
         border-width: 2px;
       }
     }
+  }
+
+  @media (--md) {
+    min-width: var(--min-nav-width);
+    width: var(--nav-width);
   }
 }
 

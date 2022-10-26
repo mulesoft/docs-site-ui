@@ -49,7 +49,9 @@
   --banner-height: 50px;
   --footer-height: 361px;
   --nav-item-height: 32px;
+  --mobile-nav-width: 275px;
   --nav-width: 350px;
+  --min-nav-width: 300px;
   --toc-width: 250px;
   --radius: 2px;
   --xs: 5px;
