@@ -152,10 +152,12 @@ body.home {
       border: 1px solid var(--aluminum-4);
       color: var(--steel-2);
       display: inline-block;
+      font-size: 16px;
       padding: 10px 12px;
 
       &:active,
       &:focus {
+        background-color: var(--aluminum-4);
         outline: 2px solid #888;
       }
 
