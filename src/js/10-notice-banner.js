@@ -1,13 +1,30 @@
 ;(function () {
   'use strict'
 
-  var depContainer = document.getElementsByClassName('notice-banner')[0]
-  if (depContainer) {
-    var toolBar = document.getElementsByClassName('toolbar')[0]
-    var sticky = depContainer.offsetTop
+  var noticeBannerContainer = document.querySelector('.notice-banner')
+  if (noticeBannerContainer) {
+    var toolbar = document.querySelector('.toolbar')
+    var sticky = noticeBannerContainer.offsetTop
     window.onscroll = function () {
-      makeSticky(depContainer, toolBar, sticky)
+      makeSticky(noticeBannerContainer, toolbar, sticky)
     }
+  }
+
+  var noticeBannerCloseButton = document.querySelector('.notice-banner-close-button')
+  if (noticeBannerCloseButton) {
+    noticeBannerCloseButton.addEventListener('click', function (_e) {
+      if (noticeBannerContainer) {
+        noticeBannerContainer.classList.add('hide')
+      }
+    })
+    noticeBannerCloseButton.addEventListener('keydown', function (e) {
+      if (isSpaceOrEnterKey(e.keyCode)) {
+        if (noticeBannerContainer) {
+          noticeBannerContainer.classList.add('hide')
+          e.preventDefault()
+        }
+      }
+    })
   }
 
   function makeSticky (dc, t, s) {
@@ -16,5 +33,9 @@
     } else {
       dc.classList.remove('sticky')
     }
+  }
+
+  function isSpaceOrEnterKey (keyCode) {
+    return [13, 32].includes(keyCode)
   }
 })()

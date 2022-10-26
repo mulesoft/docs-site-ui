@@ -36,29 +36,15 @@
 
     if (msg) {
       tippy(connectorTierTrigger, {
-        boundary: 'window',
+        allowHTML: true,
         content: msg,
-        duration: [0, 150],
-        flip: false,
+        // duration: [0, 150],
         maxWidth: 240,
-        offset: '0, 10',
+        offset: [0, 10],
         placement: 'bottom-end',
-        role: 'menu',
-        theme: 'popover popover-level',
+        theme: 'connector-popover',
         touchHold: true, // maps touch as click (for some reason)
         zIndex: 14, // same as z-nav-mobile
-        onHide: function (instance) {
-          instance.popper.classList.remove('shown')
-        },
-        onHidden: function (instance) {
-          instance.popper.classList.add('hide')
-        },
-        onShow: function (instance) {
-          instance.popper.classList.remove('hide')
-        },
-        onShown: function (instance) {
-          instance.popper.classList.add('shown')
-        },
       })
     }
   }

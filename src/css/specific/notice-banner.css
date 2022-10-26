@@ -37,6 +37,15 @@
       }
     }
   }
+
+  & .notice-banner-close-button {
+    background: none;
+    border: none;
+    cursor: pointer;
+    float: right;
+    font-size: 20px;
+    padding: 11px 17px;
+  }
 }
 
 .sticky {
