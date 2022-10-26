@@ -150,6 +150,15 @@ svg.nav-icon {
         content: "-";
       }
     }
+    & .external-link-image {
+      margin-right: -5px;
+      width: 12px;
+      
+      @media (--md) {
+        margin-left: 4px;
+        margin-right: 0;
+      }
+    }
   }
   & .nav-list {
     & > .nav-item {
@@ -281,8 +290,9 @@ svg.nav-icon {
     border-radius: 2px;
     color: var(--steel-3);
     cursor: pointer;
+    float: right;
     text-align: left;
-    width: 100%;
+    width: 90%;
 
     &:hover,
     &:focus {

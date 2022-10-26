@@ -5,13 +5,22 @@
     document.getElementById('site-script').dataset
       .uiRootPath
 
-  const externalLinks = document.querySelectorAll(
-    '.doc [target="_blank"]'
-  )
-  externalLinks.forEach(function (externalLink) {
+  document
+    .querySelectorAll('.nav [target="_blank"]')
+    .forEach(function (externalLink) {
+      addLinkImage(externalLink)
+    })
+
+  document
+    .querySelectorAll('.doc [target="_blank"]')
+    .forEach(function (externalLink) {
+      addLinkImage(externalLink)
+    })
+
+  function addLinkImage (link) {
     if (
-      !isDataWeavePlaygroundLink(externalLink) &&
-      !isFooterLink(externalLink)
+      !isDataWeavePlaygroundLink(link) &&
+      !isFooterLink(link)
     ) {
       const externalLinkImg =
         createLinkImage('external-link')
@@ -20,9 +29,9 @@
         'title',
         'Leaving the Site'
       )
-      externalLink.appendChild(externalLinkImg)
+      link.appendChild(externalLinkImg)
     }
-  })
+  }
 
   const anchors = document.querySelectorAll('.anchor')
   anchors.forEach(function (anchor) {
