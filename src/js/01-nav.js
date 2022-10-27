@@ -13,7 +13,9 @@
     var navGroups = createElement('.nav-groups.scrollbar')
     reshapeNavData(navData).groups.forEach(function (groupData) {
       var navGroup = createElement('.nav-group')
-      if (groupData.title) navGroup.appendChild(createNavTitleForGroup(groupData))
+      if (groupData.title) {
+        navGroup.appendChild(createNavTitleForGroup(groupData))
+      }
       navGroup.appendChild(createNavListForGroup(groupData, page))
       navGroups.appendChild(navGroup)
     })
@@ -28,14 +30,21 @@
   function extractNavData (source) {
     var components = source.siteNavigationData
     var homeUrl = components.homeUrl
-    if (!homeUrl) homeUrl = (homeUrl = document.querySelector('a.home-link')) ? homeUrl.getAttribute('href') : '/'
+    if (!homeUrl) {
+      homeUrl = (homeUrl = document.querySelector('a.home-link')) ? homeUrl.getAttribute('href') : '/'
+    }
     delete components.homeUrl
     var subcomponents = components.subcomponents || []
     delete components.subcomponents
     var groups = components.groups || [{ root: true, components: ['home', '*'] }]
     delete components.groups
     delete source.siteNavigationData
-    return { homeUrl: homeUrl, components: components, subcomponents: subcomponents, groups: groups }
+    return {
+      homeUrl: homeUrl,
+      components: components,
+      subcomponents: subcomponents,
+      groups: groups,
+    }
   }
 
   function getPage () {
@@ -56,7 +65,9 @@
   function reshapeNavData (data) {
     var groupIconId = document.getElementById('icon-nav-group') && 'icon-nav-group'
     var componentIconId = document.getElementById('icon-nav-component') && 'icon-nav-component'
-    var components = appendHomeComponent(data.components, data.homeUrl).reduce(function (componentsAccum, component) {
+    var components = appendHomeComponent(data.components, data.homeUrl)
+    components = appendArchiveComponent(components)
+    components = components.reduce(function (componentsAccum, component) {
       var versions
       var iconId = 'icon-nav-component-' + component.name
       componentsAccum[component.name] = component = Object.assign({}, component, {
@@ -67,7 +78,9 @@
             version: versionName,
             nav: Object.assign({ items: [] }, version.sets[0]),
           })
-          if (versionName && !version.displayVersion) version.displayVersion = versionName
+          if (versionName && !version.displayVersion) {
+            version.displayVersion = versionName
+          }
           version.sets.slice(1).forEach(function (set) {
             version.nav.items = version.nav.items.concat(set.items) // quick fix to merge multiple sets together
           })
@@ -97,7 +110,9 @@
         .sort(function (a, b) {
           if (!subcomponent.sortAll) return 0
           if (!a.title) return 1
-          if (a.title?.toLowerCase() < b.title?.toLowerCase()) return -1
+          if (a.title?.toLowerCase() < b.title?.toLowerCase()) {
+            return -1
+          }
         })
         .forEach(function (component) {
           var iconId = 'icon-nav-component-' + component.name
@@ -118,7 +133,9 @@
         groupsAccum.pop()
       } else if (groupComponents.length === 1 && (component = groupComponents[0]).unversioned) {
         var items = component.nav.items
-        if ((items[0] || {}).url === data.homeUrl) component.nav.items = items.slice(1)
+        if ((items[0] || {}).url === data.homeUrl) {
+          component.nav.items = items.slice(1)
+        }
         component.nav.items.forEach(function (it) {
           var iconId = it.url
             ? 'icon-nav-page' + it.url.replace(/(?:\.html|\/)$/, '').replace(/[/#]/g, '-')
@@ -143,8 +160,38 @@
     return components.concat({
       name: 'home',
       title: setTitle('Home'),
-      versions: [{ version: '', sets: [{ content: 'Home', url: homeUrl }] }],
+      versions: [
+        {
+          version: '',
+          sets: [{ content: 'Home', url: homeUrl }],
+        },
+      ],
     })
+  }
+
+  function appendArchiveComponent (components) {
+    var found = components.some(function (candidate) {
+      return candidate.name === 'archive'
+    })
+    if (found) return components
+    if (!isArchiveSite()) {
+      return components.concat({
+        name: 'archive',
+        title: 'Archived Documentation',
+        versions: [
+          {
+            version: '',
+            sets: [
+              {
+                content: 'Archive',
+                url: 'https://archive.docs.mulesoft.com/',
+              },
+            ],
+          },
+        ],
+      })
+    }
+    return components
   }
 
   function selectComponents (patterns, pool, exclude) {
@@ -196,7 +243,9 @@
 
   function createNavItemForComponent (componentData, page) {
     var componentName = componentData.name
-    var navItem = createElement('li.nav-item', { dataset: { component: componentName } })
+    var navItem = createElement('li.nav-item', {
+      dataset: { component: componentName },
+    })
     navItem.appendChild(createNavTitle(navItem, componentData, page))
     var versionData
     if (page.component === componentName) {
@@ -206,7 +255,9 @@
     } else {
       return navItem
     }
-    if (versionData.nav) page.scope = navItem.appendChild(createNavList(versionData.nav, page, versionData.version))
+    if (versionData.nav) {
+      page.scope = navItem.appendChild(createNavList(versionData.nav, page, versionData.version))
+    }
     navItem.classList.add('is-active')
     return navItem
   }
@@ -221,6 +272,9 @@
         navItem.classList.add('is-active')
         navLink.setAttribute('aria-current', 'page')
       }
+    } else if (componentData.name === 'archive') {
+      navLink.href = componentData.nav.url
+      navLink.target = '_blank'
     } else {
       navLink.addEventListener('mousedown', function (e) {
         toggleNav.call(navItem, componentData, false, page)
@@ -245,20 +299,24 @@
   }
 
   function createNavVersionDropdown (navItem, componentData, page) {
-    var versions = Object.values(componentData.versions)
-    var currentVersionData = getCurrentVersionData(versions)
-    var navVersionDropdown = createElement('.nav-version-dropdown')
+    const versions = Object.values(componentData.versions)
+    const currentVersionData = getCurrentVersionData(versions)
+    const navVersionDropdown = createElement('.nav-version-dropdown')
     navVersionDropdown.addEventListener('click', trapEvent)
-    var navVersionButton = createElement('button.button.nav-version-button')
-    var activeVersion = componentData.name === page.component ? page.version : currentVersionData.version
-    var activeDisplayVersion = componentData.versions[activeVersion].displayVersion
-    var navVersion = createElement('span.nav-version', { dataset: { version: activeVersion } }, activeDisplayVersion)
-    if (activeVersion === currentVersionData.version) addCurrentVersionIndicator(navVersionButton)
+    const navVersionButton = createElement('button.button.nav-version-button')
+    navVersionButton.setAttribute('tabindex', '-1')
+    const activeVersion = componentData.name === page.component ? page.version : currentVersionData.version
+    const activeDisplayVersion = componentData.versions[activeVersion].displayVersion
+    const navVersion = createElement('span.nav-version', { dataset: { version: activeVersion } }, activeDisplayVersion)
+    navVersion.setAttribute('tabindex', '0')
+    if (activeVersion === currentVersionData.version) {
+      addCurrentVersionIndicator(navVersionButton, 'tooltip-dot-nav-version-menu')
+    }
     navVersionButton.appendChild(navVersion)
     if (page.navVersionIconId) {
       navVersionButton.appendChild(createSvgElement('.icon.nav-version-icon', '#' + page.navVersionIconId))
     }
-    var navVersionMenu = createElement('div.nav-version-menu')
+    const navVersionMenu = createElement('div.nav-version-menu')
     versions.reduce(function (lastVersionData, versionData) {
       if (!isArchiveSite()) {
         if (versionData === currentVersionData) {
@@ -271,8 +329,10 @@
           navVersionMenu.appendChild(createElement('span.nav-version-label', 'Previous versions'))
         }
       }
-      var versionDataset = { version: versionData.version }
-      var navVersionOption = createElement(
+      const versionDataset = {
+        version: versionData.version,
+      }
+      const navVersionOption = createElement(
         'button.nav-version-option',
         { dataset: versionDataset },
         versionData.displayVersion
@@ -284,7 +344,7 @@
         }
       })
       if (versionData === currentVersionData) {
-        navVersionOption = addCurrentVersionIndicator(navVersionOption)
+        addCurrentVersionIndicator(navVersionMenu, 'tooltip-dot-nav-version')
       }
       navVersionMenu
         .appendChild(navVersionOption)
@@ -295,7 +355,7 @@
       toggleVersionMenu.call(navVersionMenu)
       e.preventDefault()
     })
-    navVersionButton.addEventListener('keydown', function (e) {
+    navVersion.addEventListener('keydown', function (e) {
       if (isSpaceOrEnterKey(e.keyCode)) {
         toggleVersionMenu.call(navVersionMenu)
         setTabIndexForVersions()
@@ -304,7 +364,7 @@
     })
     navVersionDropdown.appendChild(navVersionButton)
     navVersionDropdown.appendChild(navVersionMenu)
-    navVersionButton.addEventListener('blur', function (e) {
+    navVersion.addEventListener('blur', function (e) {
       autoCloseVersionDropdown(navVersionMenu)
     })
     navVersionMenu.lastChild.addEventListener('blur', function (e) {
@@ -321,19 +381,22 @@
       : versions[0]
   }
 
-  function addCurrentVersionIndicator (parentElement) {
+  function addCurrentVersionIndicator (parentElement, className) {
     if (!isToolTipDot(parentElement.firstChild)) {
-      var tabIndex = parentElement.classList.contains('nav-version-button') ? 0 : -1
-      var currentVersionIndicator = createCurrentVersionIndicator(tabIndex)
-      parentElement.insertBefore(currentVersionIndicator, parentElement.firstChild)
+      const tabIndex = parentElement.classList.contains('nav-version-button') ? 0 : -1
+      const currentVersionIndicator = createCurrentVersionIndicator(tabIndex, className)
+      const versionElement = parentElement.querySelector('.nav-version-label')
+        ? parentElement.firstChild.nextSibling
+        : parentElement.firstChild
+      parentElement.insertBefore(currentVersionIndicator, versionElement)
     }
     return parentElement
   }
 
-  function createCurrentVersionIndicator (tabIndex) {
+  function createCurrentVersionIndicator (tabIndex, className) {
     const currentVersionIndicatorSpan = document.createElement('span')
     currentVersionIndicatorSpan.setAttribute('role', 'tool-tip')
-    currentVersionIndicatorSpan.classList.add('tooltip-dot')
+    currentVersionIndicatorSpan.classList.add(className, 'tooltip-dot')
     currentVersionIndicatorSpan.setAttribute('tabindex', tabIndex)
     tippy(currentVersionIndicatorSpan, {
       arrow: tippy.roundArrow,
@@ -344,7 +407,7 @@
       placement: 'top',
       theme: 'current-version-popover',
       touchHold: true, // maps touch as click (for some reason)
-      zIndex: 14, // same as z-nav-mobile
+      zIndex: 16, // same as z-nav-mobile
     })
     return currentVersionIndicatorSpan
   }
@@ -356,7 +419,10 @@
   }
 
   function isToolTipDot (element) {
-    return element?.classList?.contains('tooltip-dot')
+    return (
+      element?.classList?.contains('tooltip-dot-nav-version') ||
+      element?.classList?.contains('tooltip-dot-nav-version-menu')
+    )
   }
 
   function isSpaceOrEnterKey (keyCode) {
@@ -374,12 +440,12 @@
 
   function setTabIndexForVersions () {
     setTimeout(function () {
-      var tabIndex = document.querySelector('.nav-version-menu.is-active') ? 0 : -1
+      const tabIndex = document.querySelector('.nav-version-menu.is-active') ? 0 : -1
       const navVersionOptions = document.querySelectorAll('.nav-version-option')
       navVersionOptions.forEach(function (navVersionOption) {
         navVersionOption.setAttribute('tabindex', tabIndex)
       })
-      const tooltipDots = document.querySelectorAll('.nav-version-menu .tooltip-dot')
+      const tooltipDots = document.querySelectorAll('.nav-version-menu .tooltip-dot-nav-version')
       tooltipDots.forEach(function (tooltipDot) {
         tooltipDot.setAttribute('tabindex', tabIndex)
       })
@@ -411,13 +477,17 @@
         navItem.appendChild(navLink)
       } else {
         navItem.appendChild(createElement('span.nav-text', navItemData.content))
-        if (navItemData.items) navItem.lastChild.addEventListener('click', toggleSubNav.bind(navItem))
+        if (navItemData.items) {
+          navItem.lastChild.addEventListener('click', toggleSubNav.bind(navItem))
+        }
       }
       if (navItemData.items) {
         var navItemToggle = createElement('button.nav-item-toggle')
         navItemToggle.setAttribute('type', 'button')
         navItemToggle.ariaExpanded = navItem.classList.contains('is-active')
-        if (navItemData.content) navItemToggle.ariaLabel = `Toggle ${navItemData.content}`
+        if (navItemData.content) {
+          navItemToggle.ariaLabel = `Toggle ${navItemData.content}`
+        }
         if (page.navItemToggleIconId) {
           navItemToggle.appendChild(createSvgElement('.icon.nav-item-toggle-icon', '#' + page.navItemToggleIconId))
         }
@@ -432,7 +502,9 @@
 
   function ensureNavList (navItem, componentData, selectedVersion, page) {
     if (componentData.unversioned) {
-      if (!navItem.querySelector('.nav-list')) navItem.appendChild(createNavList(componentData.nav, page))
+      if (!navItem.querySelector('.nav-list')) {
+        navItem.appendChild(createNavList(componentData.nav, page))
+      }
     } else {
       var versionData
       var navVersion = navItem.querySelector('.nav-version')
@@ -447,7 +519,9 @@
       var navList = navItem.querySelector('.nav-list[data-version="' + selectedVersion + '"]')
       var firstNavList = navItem.querySelector('.nav-list[data-version]')
       if (navList) {
-        if (navList !== firstNavList) navItem.insertBefore(navList, firstNavList)
+        if (navList !== firstNavList) {
+          navItem.insertBefore(navList, firstNavList)
+        }
       } else {
         navList = createNavList(versionData.nav, page, selectedVersion)
         firstNavList ? navItem.insertBefore(navList, firstNavList) : navItem.appendChild(navList)
@@ -484,7 +558,11 @@
     svg.setAttribute('xmlns', svg.namespaceURI)
     svg.setAttribute('width', '1em')
     svg.setAttribute('height', '1em')
-    if (typeof attrs === 'string' && attrs.charAt() === '.') attrs = { className: attrs.split('.').slice(1).join(' ') }
+    if (typeof attrs === 'string' && attrs.charAt() === '.') {
+      attrs = {
+        className: attrs.split('.').slice(1).join(' '),
+      }
+    }
     if (attrs) {
       var className = attrs.className
       if (className) {
@@ -502,7 +580,9 @@
   }
 
   function toggleNav (componentData, selectedVersion, page) {
-    if (!selectedVersion && this.classList.contains('is-active')) return this.classList.remove('is-active')
+    if (!selectedVersion && this.classList.contains('is-active')) {
+      return this.classList.remove('is-active')
+    }
     ensureNavList(this, componentData, selectedVersion, page)
     this.classList[selectedVersion ? 'add' : 'toggle']('is-active')
   }
@@ -510,7 +590,9 @@
   function toggleSubNav () {
     this.classList.toggle('is-active')
     var toggleButton = this.querySelector('.nav-item-toggle')
-    if (toggleButton) toggleButton.ariaExpanded = this.classList.contains('is-active')
+    if (toggleButton) {
+      toggleButton.ariaExpanded = this.classList.contains('is-active')
+    }
   }
 
   function selectVersion (navItem, componentData, page, e) {
@@ -519,7 +601,7 @@
       `[data-component="${navItem.getAttribute('data-component')}"] .nav-version-button`
     )
     if (e.target.dataset.version === getCurrentVersionData(Object.values(componentData.versions)).version) {
-      addCurrentVersionIndicator(navVersionButton)
+      addCurrentVersionIndicator(navVersionButton, 'tooltip-dot-nav-version-menu')
     } else {
       removeCurrentVersionIndicator(navVersionButton)
     }
@@ -532,7 +614,9 @@
     var height = this.dataset.height
     if (!height) {
       var measurement = document.body.appendChild(
-        createElement('div', { style: 'position: absolute; top: 0; left: 0; visibility: hidden' })
+        createElement('div', {
+          style: 'position: absolute; top: 0; left: 0; visibility: hidden',
+        })
       )
       var thisClone = Object.assign(this.cloneNode(true), {
         style: 'max-height: none; position: static; transform: none; transition: none',
@@ -543,7 +627,9 @@
     closeVersionMenu()
     this.style.marginTop = null
     var bottom = this.getBoundingClientRect().top + parseFloat(height) + 20
-    if (bottom > maxBottom) this.style.marginTop = maxBottom - bottom + 'px'
+    if (bottom > maxBottom) {
+      this.style.marginTop = maxBottom - bottom + 'px'
+    }
     this.classList.remove('is-clipped')
     this.style.maxHeight = height
     this.classList.add('is-active')
@@ -585,7 +671,11 @@
   function scrollToCurrentPageItem (container, scope) {
     container.scrollTop = 0
     if (!scope) return
-    var target = (scope.querySelector('[aria-current=page]') || { parentNode: scope.previousElementSibling }).parentNode
+    var target = (
+      scope.querySelector('[aria-current=page]') || {
+        parentNode: scope.previousElementSibling,
+      }
+    ).parentNode
     var containerRect = container.getBoundingClientRect()
     var midpoint = (containerRect.height - containerRect.top) * 0.5
     var adjustment = target.offsetTop + target.offsetHeight * 0.5 - midpoint

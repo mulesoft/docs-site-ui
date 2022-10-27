@@ -277,7 +277,7 @@ svg.nav-icon {
     color: var(--steel-3);
     cursor: pointer;
     text-align: left;
-    width: 100%;
+    width: 90%;
 
     &:hover,
     &:focus {

@@ -6,16 +6,39 @@
   padding: var(--xs);
 }
 
+.tooltip-div {
+  display: contents;
+}
+
+.tooltip {
+  display: inline-block;
+  margin-right: 10px;
+  padding-left: 3px;
+  position: relative;
+
+  @media (--md) {
+    margin-right: 28px;
+  }
+}
+
 .tooltip-dot {
   background-color: #5e8ef9;
   border-radius: 50%;
-  display: inline-block;
+  float: left;
   height: 5px;
-  margin-bottom: 2px;
-  margin-right: 3px;
   width: 5px;
 
-  @media screen and (max-width: 768px) {
-    display: none;
+  &.tooltip-dot-nav-version-menu {
+    margin-bottom: 1px;
+    margin-right: 3px;
   }
+
+  &.tooltip-dot-nav-version {
+    margin-left: 6px;
+    margin-top: 8px;
+  }
+
+  /* @media screen and (max-width: 768px) {
+    display: none;
+  } */
 }
