@@ -12,10 +12,10 @@
         {{#each (release-notes page.componentVersion.asciidoc.attributes.numberOfReleaseNotesItems)}}
         <tr>
           <td class="tableblock halign-left valign-top">
-            <p class="tableblock">{{this.revdateWithoutYear}}</p>
+            <p class="tableblock">{{./revdateWithoutYear}}</p>
           </td>
           <td class="tableblock halign-left valign-top">
-            <p class="tableblock"><a href={{relativize this.url}}#{{this.latestVersionAnchor}} class="xref unresolved">{{this.title}} {{this.latestVersionName}}</a></p>
+            <p class="tableblock"><a href={{relativize ./url}}#{{./latestVersionAnchor}} class="xref unresolved">{{./title}} {{./latestVersionName}}</a></p>
           </td>
         </tr>
         <tr>
