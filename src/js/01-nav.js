@@ -432,28 +432,34 @@
     componentData,
     page
   ) {
-    var versions = Object.values(componentData.versions)
-    var currentVersionData = getCurrentVersionData(versions)
-    var navVersionDropdown = createElement(
+    const versions = Object.values(componentData.versions)
+    const currentVersionData =
+      getCurrentVersionData(versions)
+    const navVersionDropdown = createElement(
       '.nav-version-dropdown'
     )
     navVersionDropdown.addEventListener('click', trapEvent)
-    var navVersionButton = createElement(
+    const navVersionButton = createElement(
       'button.button.nav-version-button'
     )
-    var activeVersion =
+    navVersionButton.setAttribute('tabindex', '-1')
+    const activeVersion =
       componentData.name === page.component
         ? page.version
         : currentVersionData.version
-    var activeDisplayVersion =
+    const activeDisplayVersion =
       componentData.versions[activeVersion].displayVersion
-    var navVersion = createElement(
+    const navVersion = createElement(
       'span.nav-version',
       { dataset: { version: activeVersion } },
       activeDisplayVersion
     )
+    navVersion.setAttribute('tabindex', '0')
     if (activeVersion === currentVersionData.version) {
-      addCurrentVersionIndicator(navVersionButton)
+      addCurrentVersionIndicator(
+        navVersionButton,
+        'tooltip-dot-nav-version-menu'
+      )
     }
     navVersionButton.appendChild(navVersion)
     if (page.navVersionIconId) {
@@ -464,7 +470,7 @@
         )
       )
     }
-    var navVersionMenu = createElement(
+    const navVersionMenu = createElement(
       'div.nav-version-menu'
     )
     versions.reduce(function (
@@ -497,8 +503,10 @@
           )
         }
       }
-      var versionDataset = { version: versionData.version }
-      var navVersionOption = createElement(
+      const versionDataset = {
+        version: versionData.version,
+      }
+      const navVersionOption = createElement(
         'button.nav-version-option',
         { dataset: versionDataset },
         versionData.displayVersion
@@ -513,8 +521,9 @@
         }
       )
       if (versionData === currentVersionData) {
-        navVersionOption = addCurrentVersionIndicator(
-          navVersionOption
+        addCurrentVersionIndicator(
+          navVersionMenu,
+          'tooltip-dot-nav-version'
         )
       }
       navVersionMenu
@@ -538,19 +547,16 @@
         e.preventDefault()
       }
     )
-    navVersionButton.addEventListener(
-      'keydown',
-      function (e) {
-        if (isSpaceOrEnterKey(e.keyCode)) {
-          toggleVersionMenu.call(navVersionMenu)
-          setTabIndexForVersions()
-          e.preventDefault()
-        }
+    navVersion.addEventListener('keydown', function (e) {
+      if (isSpaceOrEnterKey(e.keyCode)) {
+        toggleVersionMenu.call(navVersionMenu)
+        setTabIndexForVersions()
+        e.preventDefault()
       }
-    )
+    })
     navVersionDropdown.appendChild(navVersionButton)
     navVersionDropdown.appendChild(navVersionMenu)
-    navVersionButton.addEventListener('blur', function (e) {
+    navVersion.addEventListener('blur', function (e) {
       autoCloseVersionDropdown(navVersionMenu)
     })
     navVersionMenu.lastChild.addEventListener(
@@ -570,31 +576,42 @@
       : versions[0]
   }
 
-  function addCurrentVersionIndicator (parentElement) {
+  function addCurrentVersionIndicator (
+    parentElement,
+    className
+  ) {
     if (!isToolTipDot(parentElement.firstChild)) {
-      var tabIndex = parentElement.classList.contains(
+      const tabIndex = parentElement.classList.contains(
         'nav-version-button'
       )
         ? 0
         : -1
-      var currentVersionIndicator =
-        createCurrentVersionIndicator(tabIndex)
+      const currentVersionIndicator =
+        createCurrentVersionIndicator(tabIndex, className)
+      const versionElement = parentElement.querySelector(
+        '.nav-version-label'
+      )
+        ? parentElement.firstChild.nextSibling
+        : parentElement.firstChild
       parentElement.insertBefore(
         currentVersionIndicator,
-        parentElement.firstChild
+        versionElement
       )
     }
     return parentElement
   }
 
-  function createCurrentVersionIndicator (tabIndex) {
+  function createCurrentVersionIndicator (
+    tabIndex,
+    className
+  ) {
     const currentVersionIndicatorSpan =
       document.createElement('span')
     currentVersionIndicatorSpan.setAttribute(
       'role',
       'tool-tip'
     )
-    currentVersionIndicatorSpan.classList.add('tooltip-dot')
+    currentVersionIndicatorSpan.classList.add(className)
     currentVersionIndicatorSpan.setAttribute(
       'tabindex',
       tabIndex
@@ -620,7 +637,14 @@
   }
 
   function isToolTipDot (element) {
-    return element?.classList?.contains('tooltip-dot')
+    return (
+      element?.classList?.contains(
+        'tooltip-dot-nav-version'
+      ) ||
+      element?.classList?.contains(
+        'tooltip-dot-nav-version-menu'
+      )
+    )
   }
 
   function isSpaceOrEnterKey (keyCode) {
@@ -640,7 +664,7 @@
 
   function setTabIndexForVersions () {
     setTimeout(function () {
-      var tabIndex = document.querySelector(
+      const tabIndex = document.querySelector(
         '.nav-version-menu.is-active'
       )
         ? 0
@@ -654,7 +678,7 @@
         navVersionOption.setAttribute('tabindex', tabIndex)
       })
       const tooltipDots = document.querySelectorAll(
-        '.nav-version-menu .tooltip-dot'
+        '.nav-version-menu .tooltip-dot-nav-version'
       )
       tooltipDots.forEach(function (tooltipDot) {
         tooltipDot.setAttribute('tabindex', tabIndex)
@@ -918,7 +942,10 @@
         Object.values(componentData.versions)
       ).version
     ) {
-      addCurrentVersionIndicator(navVersionButton)
+      addCurrentVersionIndicator(
+        navVersionButton,
+        'tooltip-dot-nav-version-menu'
+      )
     } else {
       removeCurrentVersionIndicator(navVersionButton)
     }
