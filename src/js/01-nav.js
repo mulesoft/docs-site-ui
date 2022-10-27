@@ -611,7 +611,10 @@
       'role',
       'tool-tip'
     )
-    currentVersionIndicatorSpan.classList.add(className)
+    currentVersionIndicatorSpan.classList.add(
+      className,
+      'tooltip-dot'
+    )
     currentVersionIndicatorSpan.setAttribute(
       'tabindex',
       tabIndex

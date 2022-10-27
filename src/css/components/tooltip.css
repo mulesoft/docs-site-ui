@@ -21,26 +21,24 @@
   }
 }
 
-.tooltip-dot-nav-version-menu {
+.tooltip-dot {
   background-color: #5e8ef9;
   border-radius: 50%;
   float: left;
   height: 5px;
-  margin-bottom: 1px;
-  margin-right: 3px;
   width: 5px;
+
+  &.tooltip-dot-nav-version-menu {
+    margin-bottom: 1px;
+    margin-right: 3px;
+  }
+  
+  &.tooltip-dot-nav-version {
+    margin-left: 6px;
+    margin-top: 8px;
+  }
+}
 
   /* @media screen and (max-width: 768px) {
     display: none;
   } */
-}
-
-.tooltip-dot-nav-version {
-  background-color: #5e8ef9;
-  border-radius: 50%;
-  float: left;
-  height: 5px;
-  margin-left: 6px;
-  margin-top: 8px;
-  width: 5px;
-}
