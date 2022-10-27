@@ -153,7 +153,7 @@ svg.nav-icon {
     & .external-link-image {
       margin-right: -5px;
       width: 12px;
-      
+
       @media (--md) {
         margin-left: 4px;
         margin-right: 0;
@@ -248,6 +248,7 @@ svg.nav-icon {
   box-shadow: 0 0 0 1px var(--aluminum-3), 0 2px 9px rgba(0,0,0,.1);
   font-size: .75rem;
   max-height: 0;
+  max-width: 135px;
   opacity: 0;
   overflow: hidden;
   padding: var(--xs);
@@ -271,7 +272,7 @@ svg.nav-icon {
   }
 
   & button,
-  & span:not(.tooltip-dot) {
+  & span:not(.tooltip-dot-nav-version-menu):not(.tooltip-dot-nav-version) {
     display: list-item;
     padding: var(--xs) var(--sm);
   }
