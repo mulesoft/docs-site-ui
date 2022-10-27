@@ -32,13 +32,13 @@
     margin-bottom: 1px;
     margin-right: 3px;
   }
-  
+
   &.tooltip-dot-nav-version {
     margin-left: 6px;
     margin-top: 8px;
   }
-}
-
+  
   /* @media screen and (max-width: 768px) {
     display: none;
   } */
+}
