@@ -21,7 +21,7 @@
   }
 }
 
-.tooltip-dot {
+.tooltip-dot-nav-version-menu {
   background-color: #5e8ef9;
   border-radius: 50%;
   float: left;
@@ -30,7 +30,17 @@
   margin-right: 3px;
   width: 5px;
 
-  @media screen and (max-width: 768px) {
+  /* @media screen and (max-width: 768px) {
     display: none;
-  }
+  } */
+}
+
+.tooltip-dot-nav-version {
+  background-color: #5e8ef9;
+  border-radius: 50%;
+  float: left;
+  height: 5px;
+  margin-left: 6px;
+  margin-top: 8px;
+  width: 5px;
 }
