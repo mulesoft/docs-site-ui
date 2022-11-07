@@ -200,6 +200,12 @@
     width: 12px;
   }
 
+  & .button-primary {
+    & .external-link-image {
+      filter: brightness(20) saturate(0);
+    }
+  }
+
   /* images */
   & img {
     max-width: 100%;
