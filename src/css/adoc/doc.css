@@ -47,7 +47,6 @@
 
   /* references within codeblock */
   & .colist {
-
     /* numbers */
     & td:first-of-type {
       padding: 0 10px;
@@ -232,7 +231,7 @@
       border: 0;
       border-radius: 0;
       display: block;
-      padding: 0;
+      padding: 15px 0;
       top: 0;
     }
   }
