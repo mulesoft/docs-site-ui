@@ -157,11 +157,12 @@ body.home {
 
       &:active,
       &:focus {
-        background-color: var(--aluminum-4);
+        color: var(--secondary-navy);
         outline: 2px solid #888;
       }
 
       &:hover {
+        background-color: var(--aluminum-4);
         color: var(--secondary-navy);
       }
     }
