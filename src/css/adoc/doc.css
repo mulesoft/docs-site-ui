@@ -103,7 +103,6 @@
     float: right;
     height: var(--lg);
     opacity: 0;
-    padding-right: var(--sm);
     transform: scale(.9);
     transition: opacity var(--transition-speed-sm) var(--transition-timing), transform var(--transition-speed-sm) var(--transition-timing);
 
@@ -189,9 +188,12 @@
       background-color: #c0edff;
       border-radius: 5px;
       color: var(--secondary-navy);
-      margin-left: -3px;
-      margin-right: -3px;
-      padding: 1px 3px;
+
+      &:not(.anchor) {
+        margin-left: -3px;
+        margin-right: -3px;
+        padding: 1px 3px;
+      }
     }
   }
 
