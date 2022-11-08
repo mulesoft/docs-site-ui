@@ -2,6 +2,7 @@
   flex: 1 1 auto;
   height: var(--input-md); /* match search input */
   overflow-x: auto;
+  overflow-y: hidden;
   white-space: nowrap;
 
   & .link {
@@ -46,5 +47,22 @@
     pointer-events: none;
     transform: rotate(-90deg);
     width: var(--md);
+  }
+
+  &:hover {
+    &::-webkit-scrollbar {
+      -webkit-appearance: none;
+      appearance: none;
+    }
+
+    &::-webkit-scrollbar:horizontal {
+      height: 11px;
+    }
+
+    &::-webkit-scrollbar-thumb {
+      background-color: rgba(0,0,0,.5);
+      border: 2px solid white; /* should match background, can't be transparent */
+      border-radius: 8px;
+    }
   }
 }
