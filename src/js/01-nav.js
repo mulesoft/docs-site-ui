@@ -174,7 +174,7 @@
       return candidate.name === 'archive'
     })
     if (found) return components
-    if (!isArchiveSite()) {
+    if (!isArchiveSite() && !isBetaSite()) {
       return components.concat({
         name: 'archive',
         title: 'Archived Documentation',
@@ -752,6 +752,10 @@
 
   function isArchiveSite () {
     return window.location.host.includes('archive')
+  }
+
+  function isBetaSite () {
+    return window.location.host.includes('beta')
   }
 
   buildNav(extractNavData(window), document.querySelector('.nav'), getPage())
