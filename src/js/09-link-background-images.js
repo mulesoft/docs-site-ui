@@ -5,30 +5,19 @@
     document.getElementById('site-script').dataset
       .uiRootPath
 
-  document
-    .querySelectorAll('.nav [target="_blank"]')
-    .forEach(function (externalLink) {
-      addLinkImage(externalLink)
-    })
+  document.querySelectorAll('.nav [target="_blank"]').forEach(function (externalLink) {
+    addLinkImage(externalLink)
+  })
 
-  document
-    .querySelectorAll('.doc [target="_blank"]')
-    .forEach(function (externalLink) {
-      addLinkImage(externalLink)
-    })
+  document.querySelectorAll('.doc [target="_blank"]').forEach(function (externalLink) {
+    addLinkImage(externalLink)
+  })
 
   function addLinkImage (link) {
-    if (
-      !isDataWeavePlaygroundLink(link) &&
-      !isFooterLink(link)
-    ) {
-      const externalLinkImg =
-        createLinkImage('external-link')
+    if (!isDataWeavePlaygroundLink(link) && !isFooterLink(link)) {
+      const externalLinkImg = createLinkImage('external-link')
       externalLinkImg.alt = 'Leaving the Site'
-      externalLinkImg.setAttribute(
-        'title',
-        'Leaving the Site'
-      )
+      externalLinkImg.setAttribute('title', 'Leaving the Site')
       link.appendChild(externalLinkImg)
     }
   }
