@@ -26,13 +26,13 @@
 @import "components/tooltip.css";
 
 /* specific */
-@import "specific/banner.css";
 @import "specific/notice-banner.css";
 @import "specific/gdpr.css";
 @import "specific/header.css";
 @import "specific/nav.css";
 @import "specific/toc.css";
 @import "specific/toolbar.css";
+@import "specific/top-banner.css";
 
 /* adoc */
 @import "adoc/doc.css";

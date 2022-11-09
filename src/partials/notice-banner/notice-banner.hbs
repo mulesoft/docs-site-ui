@@ -1,0 +1,30 @@
+{{#if page.attributes.notice-banner-message}}
+<div class="notice-banner">
+  <button class="notice-banner-close-button" title="Close notice banner">&times;</button>
+  <p>{{page.attributes.notice-banner-message}}</p>
+</div>
+{{else}}
+{{#if (or page.componentVersion.asciidoc.attributes.endOfLife (or
+page.componentVersion.asciidoc.attributes.endOfLifeScheduled (or
+page.componentVersion.asciidoc.attributes.noLongerUpdated page.componentVersion.asciidoc.attributes.olderVersion)))}}
+<div class="notice-banner">
+  <button class="notice-banner-close-button" title="Close notice banner">&times;</button>
+  <p>
+    {{#if page.componentVersion.asciidoc.attributes.endOfLife}}
+    {{> message-for-eol-banner}}
+    {{else}}
+    {{#if page.componentVersion.asciidoc.attributes.endOfLifeScheduled}}
+    {{> message-for-eol-scheduled-banner}}
+    {{else}}
+    {{> message-for-old-banner}}
+    {{/if}}
+    {{/if}}
+    {{#if page.latest.url}}
+    You can switch to the
+    <a class="notice-banner-link" href="{{site.url}}{{page.latest.url}}">latest version</a>,
+    or use the version selector in the left navigation.
+    {{/if}}
+  </p>
+</div>
+{{/if}}
+{{/if}}
