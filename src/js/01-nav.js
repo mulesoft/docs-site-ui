@@ -174,7 +174,7 @@
       return candidate.name === 'archive'
     })
     if (found) return components
-    if (!isArchiveSite() && !isBetaSite()) {
+    if (!isArchiveSite() && !isExternalBetaSite() && !isInternalBetaSite()) {
       return components.concat({
         name: 'archive',
         title: 'Archived Documentation',
@@ -754,8 +754,12 @@
     return window.location.host.includes('archive')
   }
 
-  function isBetaSite () {
+  function isExternalBetaSite () {
     return window.location.host.includes('beta')
+  }
+
+  function isInternalBetaSite () {
+    return window.location.host.includes('dev-docs-internal')
   }
 
   buildNav(extractNavData(window), document.querySelector('.nav'), getPage())

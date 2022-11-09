@@ -6,7 +6,7 @@
     </a>
   </li>
   {{#with page.componentVersion}}
-  {{#if (and ./title (not (or ./root (eq @root.page.breadcrumbs.0.content ./title))))}}
+  {{#if (and ./title (and (ne ./title 'Home') (not (or ./root (eq @root.page.breadcrumbs.0.content ./title)))))}}
   <li class="flex align-center li"><a class="link" href="{{{relativize ./url}}}">{{{./title}}}</a></li>
   {{/if}}
   {{/with}}
