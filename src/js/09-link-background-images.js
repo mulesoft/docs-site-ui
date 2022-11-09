@@ -3,15 +3,22 @@
 
   const uiRootPath = document.getElementById('site-script').dataset.uiRootPath
 
-  const externalLinks = document.querySelectorAll('.doc [target="_blank"]')
-  externalLinks.forEach(function (externalLink) {
-    if (!isDataWeavePlaygroundLink(externalLink)) {
+  document.querySelectorAll('.nav [target="_blank"]').forEach(function (externalLink) {
+    addLinkImage(externalLink)
+  })
+
+  document.querySelectorAll('.doc [target="_blank"]').forEach(function (externalLink) {
+    addLinkImage(externalLink)
+  })
+
+  function addLinkImage (link) {
+    if (!isDataWeavePlaygroundLink(link) && !isFooterLink(link)) {
       const externalLinkImg = createLinkImage('external-link')
       externalLinkImg.alt = 'Leaving the Site'
       externalLinkImg.setAttribute('title', 'Leaving the Site')
-      externalLink.appendChild(externalLinkImg)
+      link.appendChild(externalLinkImg)
     }
-  })
+  }
 
   const anchors = document.querySelectorAll('.anchor')
   anchors.forEach(function (anchor) {
@@ -44,6 +51,10 @@
 
   function isDataWeavePlaygroundLink (e) {
     return e.classList.contains('dw-playground-link')
+  }
+
+  function isFooterLink (e) {
+    return e.offsetParent.tagName === 'FOOTER'
   }
 
   function adjustScrollPosition (anchor) {
