@@ -41,15 +41,17 @@
   --sans-serif: 'Open Sans', sans-serif;
   --monospace: 'Monaco', monospace;
   --weight-normal: 400;
-  --weight-medium: 500;
+  --weight-medium: 600;
   --weight-bold: 700;
 
   /* dimensions */
   --header-height: 93px; /* includes 28px of helmet */
-  --banner-height: 60px;
+  --banner-height: 50px;
   --footer-height: 361px;
   --nav-item-height: 32px;
-  --nav-width: 275px;
+  --mobile-nav-width: 275px;
+  --nav-width: 300px;
+  --min-nav-width: 300px;
   --toc-width: 250px;
   --radius: 2px;
   --xs: 5px;
