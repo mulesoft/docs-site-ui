@@ -1,17 +1,9 @@
 module.exports = (numOfItems, { data }) => {
   const { contentCatalog, site } = data.root
   if (contentCatalog) {
-    const rawPages =
-      getDatedReleaseNotesRawPages(contentCatalog)
-    const pageUiModels = turnRawPagesIntoPageUiModels(
-      site,
-      rawPages,
-      contentCatalog
-    )
-    return getMostRecentlyUpdatedPages(
-      pageUiModels,
-      numOfItems
-    )
+    const rawPages = getDatedReleaseNotesRawPages(contentCatalog)
+    const pageUiModels = turnRawPagesIntoPageUiModels(site, rawPages, contentCatalog)
+    return getMostRecentlyUpdatedPages(pageUiModels, numOfItems)
   }
 }
 
@@ -24,35 +16,21 @@ function getDatedReleaseNotesRawPages (contentCatalog) {
 
 function getReleaseNotesWithRevdate (asciidoc) {
   const attributes = asciidoc.attributes
-  return (
-    asciidoc.attributes &&
-    isReleaseNotes(attributes) &&
-    hasRevDate(attributes)
-  )
+  return asciidoc.attributes && isReleaseNotes(attributes) && hasRevDate(attributes)
 }
 
 function isReleaseNotes (attributes) {
-  return (
-    attributes['page-component-name'] === 'release-notes'
-  )
+  return attributes['page-component-name'] === 'release-notes'
 }
 
 function hasRevDate (attributes) {
   return attributes['page-revdate']
 }
 
-function turnRawPagesIntoPageUiModels (
-  site,
-  pages,
-  contentCatalog
-) {
-  const { buildPageUiModel } = module.parent.require(
-    '@antora/page-composer/build-ui-model'
-  )
+function turnRawPagesIntoPageUiModels (site, pages, contentCatalog) {
+  const { buildPageUiModel } = module.parent.require('@antora/page-composer/build-ui-model')
   return pages
-    .map((page) =>
-      buildPageUiModel(site, page, contentCatalog)
-    )
+    .map((page) => buildPageUiModel(site, page, contentCatalog))
     .filter((page) => isValidDate(page.attributes?.revdate))
     .sort(sortByRevDate)
 }
@@ -63,24 +41,12 @@ function isValidDate (dateStr) {
 }
 
 function sortByRevDate (a, b) {
-  return (
-    new Date(b.attributes.revdate) -
-    new Date(a.attributes.revdate)
-  )
+  return new Date(b.attributes.revdate) - new Date(a.attributes.revdate)
 }
 
-function getMostRecentlyUpdatedPages (
-  pageUIModels,
-  numOfItems
-) {
-  const maxNumberOfPages =
-    pageUIModels.length > numOfItems
-      ? numOfItems
-      : pageUIModels.length
-  const resultList = getResultList(
-    pageUIModels,
-    maxNumberOfPages
-  )
+function getMostRecentlyUpdatedPages (pageUIModels, numOfItems) {
+  const maxNumberOfPages = pageUIModels.length > numOfItems ? numOfItems : pageUIModels.length
+  const resultList = getResultList(pageUIModels, maxNumberOfPages)
   return resultList
 }
 
@@ -96,15 +62,11 @@ function getResultList (pageUIModels, maxNumberOfPages) {
 }
 
 function getSelectedAttributes (page) {
-  const latestVersion = getLatestVersion(
-    page.contents.toString()
-  )
+  const latestVersion = getLatestVersion(page.contents.toString())
   return {
     latestVersionAnchor: latestVersion?.anchor,
     latestVersionName: latestVersion?.innerText,
-    revdateWithoutYear: removeYear(
-      page.attributes?.revdate
-    ),
+    revdateWithoutYear: removeYear(page.attributes?.revdate),
     title: cleanTitle(page.title),
     url: page.url,
   }

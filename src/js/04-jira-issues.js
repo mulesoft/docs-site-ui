@@ -17,13 +17,10 @@
             })
         }
         for (var i = 0; i < jiraTriggers.length; i++) {
-          jiraTriggers[i].addEventListener(
-            'click',
-            function (e) {
-              leaveFeedback(e)
-              showCollectorDialog()
-            }
-          )
+          jiraTriggers[i].addEventListener('click', function (e) {
+            leaveFeedback(e)
+            showCollectorDialog()
+          })
         }
       },
       fieldValues: {
@@ -35,14 +32,9 @@
   if (!analytics) return
 
   // saying thanks
-  var thanksSection = document.querySelector(
-    '.js-thanks-section'
-  )
-  var thanksYesTrigger = thanksSection.querySelector(
-    '.js-thanks-yes'
-  )
-  var thanksNoTrigger =
-    thanksSection.querySelector('.js-thanks-no')
+  var thanksSection = document.querySelector('.js-thanks-section')
+  var thanksYesTrigger = thanksSection.querySelector('.js-thanks-yes')
+  var thanksNoTrigger = thanksSection.querySelector('.js-thanks-no')
   var sayThanks = function () {
     thanksSection.classList.add('flip')
   }

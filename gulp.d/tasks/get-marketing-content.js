@@ -1,10 +1,7 @@
 'use strict'
 
 const fs = require('fs-extra')
-const fetch = (...args) =>
-  import('node-fetch').then(({ default: fetch }) =>
-    fetch(...args)
-  )
+const fetch = (...args) => import('node-fetch').then(({ default: fetch }) => fetch(...args))
 const pretty = require('pretty')
 
 module.exports = () => async () => {
@@ -13,22 +10,15 @@ module.exports = () => async () => {
 }
 
 async function updateContent (component) {
-  const content = await fetch(
-    `https://www.mulesoft.com/api/${component}`
-  )
+  const content = await fetch(`https://www.mulesoft.com/api/${component}`)
   if (await isGoodStatus(content.status)) {
     try {
       const body = await content.json()
       if (await hasValidData(body)) {
-        fs.writeFileSync(
-          `src/partials/${component}-content.hbs`,
-          pretty(body.data)
-        )
+        fs.writeFileSync(`src/partials/${component}-content.hbs`, pretty(body.data))
       }
     } catch (error) {
-      console.warn(
-        'mulesoft endpoint returns invalid data. Keeping old version, no action is required.'
-      )
+      console.warn('mulesoft endpoint returns invalid data. Keeping old version, no action is required.')
     }
   }
 }

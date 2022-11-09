@@ -3,24 +3,15 @@
 
   function bindNavToggle (backdrop, body, nav, navToggle) {
     if (backdrop) {
-      backdrop.addEventListener(
-        'click',
-        toggleNav.bind(nav, backdrop, body)
-      )
+      backdrop.addEventListener('click', toggleNav.bind(nav, backdrop, body))
     }
     if (navToggle) {
-      navToggle.addEventListener(
-        'click',
-        toggleNav.bind(nav, backdrop, body)
-      )
+      navToggle.addEventListener('click', toggleNav.bind(nav, backdrop, body))
     }
   }
 
   function toggleNav (backdrop, body, e) {
-    if (
-      e.target === backdrop &&
-      !this.classList.contains('is-active')
-    ) {
+    if (e.target === backdrop && !this.classList.contains('is-active')) {
       return
     }
     body.classList.toggle('mobile')

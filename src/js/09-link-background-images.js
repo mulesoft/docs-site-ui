@@ -1,9 +1,7 @@
 ;(function () {
   'use strict'
 
-  const uiRootPath =
-    document.getElementById('site-script').dataset
-      .uiRootPath
+  const uiRootPath = document.getElementById('site-script').dataset.uiRootPath
 
   document.querySelectorAll('.nav [target="_blank"]').forEach(function (externalLink) {
     addLinkImage(externalLink)
@@ -34,12 +32,8 @@
     })
     anchor.appendChild(anchorImg)
 
-    const sideLinks = [
-      ...document.querySelectorAll('.toc-menu a'),
-    ]
-    const sideLink = sideLinks.filter(
-      (a) => a.textContent === headerText
-    )
+    const sideLinks = [...document.querySelectorAll('.toc-menu a')]
+    const sideLink = sideLinks.filter((a) => a.textContent === headerText)
     if (sideLink.length > 0) {
       sideLink[0].addEventListener('click', function () {
         adjustScrollPosition(anchor)
@@ -79,11 +73,7 @@
 
   function getMinHeight () {
     const toolbar = document.querySelector('.toolbar')
-    const noticeBanner = document.querySelector(
-      '.notice-banner'
-    )
-    return noticeBanner
-      ? toolbar.scrollHeight + noticeBanner.scrollHeight
-      : toolbar.scrollHeight
+    const noticeBanner = document.querySelector('.notice-banner')
+    return noticeBanner ? toolbar.scrollHeight + noticeBanner.scrollHeight : toolbar.scrollHeight
   }
 })()

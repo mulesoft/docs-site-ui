@@ -10,11 +10,7 @@ module.exports = (...tasks) => {
         displayName: 'default',
       })
     }
-    return tasks.reduce(
-      (acc, it) =>
-        (acc[it.displayName || it.name] = it) && acc,
-      seed
-    )
+    return tasks.reduce((acc, it) => (acc[it.displayName || it.name] = it) && acc, seed)
   } else {
     return seed
   }

@@ -11,9 +11,7 @@
     var headings = find('.sect1 > h2[id]', doc)
     if (!headings.length) {
       if (sidebar) {
-        sidebar.removeChild(
-          sidebar.querySelector('.js-toc')
-        )
+        sidebar.removeChild(sidebar.querySelector('.js-toc'))
       }
       return
     }
@@ -21,15 +19,12 @@
     var links = {}
 
     var list = headings.reduce(function (accum, heading) {
-      var link = toArray(heading.childNodes).reduce(
-        function (target, child) {
-          if (child.nodeName !== 'A') {
-            target.appendChild(child.cloneNode(true))
-          }
-          return target
-        },
-        document.createElement('a')
-      )
+      var link = toArray(heading.childNodes).reduce(function (target, child) {
+        if (child.nodeName !== 'A') {
+          target.appendChild(child.cloneNode(true))
+        }
+        return target
+      }, document.createElement('a'))
       links[(link.href = '#' + heading.id)] = link
       var listItem = document.createElement('li')
       listItem.appendChild(link)
@@ -37,10 +32,7 @@
       return accum
     }, document.createElement('ol'))
 
-    if (
-      !(menu =
-        sidebar && sidebar.querySelector('.toc-menu'))
-    ) {
+    if (!(menu = sidebar && sidebar.querySelector('.toc-menu'))) {
       menu = document.createElement('div')
       menu.className = 'toc-menu'
     }
@@ -52,24 +44,17 @@
     var startOfContent = doc.querySelector('h1.page + *')
     if (startOfContent) {
       // generate list
-      var options = headings.reduce(function (
-        accum,
-        heading
-      ) {
-        var option = toArray(heading.childNodes).reduce(
-          function (target, child) {
-            if (child.nodeName !== 'A') {
-              target.appendChild(child.cloneNode(true))
-            }
-            return target
-          },
-          document.createElement('option')
-        )
+      var options = headings.reduce(function (accum, heading) {
+        var option = toArray(heading.childNodes).reduce(function (target, child) {
+          if (child.nodeName !== 'A') {
+            target.appendChild(child.cloneNode(true))
+          }
+          return target
+        }, document.createElement('option'))
         option.value = '#' + heading.id
         accum.appendChild(option)
         return accum
-      },
-      document.createElement('select'))
+      }, document.createElement('select'))
 
       var selectWrap = document.createElement('div')
       selectWrap.classList.add('select-wrapper')
@@ -85,8 +70,7 @@
       // jump on change
       options.addEventListener('change', function (e) {
         var thisOptions = e.currentTarget.options
-        window.location.hash =
-          thisOptions[thisOptions.selectedIndex].value
+        window.location.hash = thisOptions[thisOptions.selectedIndex].value
       })
 
       // add to page
@@ -99,9 +83,7 @@
     var targetPosition = doc.parentNode.offsetTop
     var activeFragment
     headings.some(function (heading) {
-      if (
-        heading.getBoundingClientRect().top < targetPosition
-      ) {
+      if (heading.getBoundingClientRect().top < targetPosition) {
         activeFragment = '#' + heading.id
       } else {
         return true
@@ -109,33 +91,22 @@
     })
     if (activeFragment) {
       if (lastActiveFragment) {
-        links[lastActiveFragment].classList.remove(
-          'is-active'
-        )
+        links[lastActiveFragment].classList.remove('is-active')
       }
       var activeLink = links[activeFragment]
       activeLink.classList.add('is-active')
       if (menu.scrollHeight > menu.offsetHeight) {
-        menu.scrollTop = Math.max(
-          0,
-          activeLink.offsetTop +
-            activeLink.offsetHeight -
-            menu.offsetHeight
-        )
+        menu.scrollTop = Math.max(0, activeLink.offsetTop + activeLink.offsetHeight - menu.offsetHeight)
       }
       lastActiveFragment = activeFragment
     } else if (lastActiveFragment) {
-      links[lastActiveFragment].classList.remove(
-        'is-active'
-      )
+      links[lastActiveFragment].classList.remove('is-active')
       lastActiveFragment = undefined
     }
   }
 
   function find (selector, from) {
-    return toArray(
-      (from || document).querySelectorAll(selector)
-    )
+    return toArray((from || document).querySelectorAll(selector))
   }
 
   function toArray (collection) {

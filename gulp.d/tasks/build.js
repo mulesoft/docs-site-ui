@@ -23,8 +23,7 @@ const vfs = require('vinyl-fs')
 
 module.exports = (src, dest, preview) => () => {
   const opts = { base: src, cwd: src }
-  const sourcemaps =
-    preview || process.env.SOURCEMAPS === 'true'
+  const sourcemaps = preview || process.env.SOURCEMAPS === 'true'
   const postcssPlugins = [
     postcssImport,
     postcssUrl([
@@ -34,11 +33,7 @@ module.exports = (src, dest, preview) => () => {
           const relpath = asset.pathname.substr(1)
           const abspath = require.resolve(relpath)
           const basename = ospath.basename(abspath)
-          const destpath = ospath.join(
-            dest,
-            'font',
-            basename
-          )
+          const destpath = ospath.join(dest, 'font', basename)
           if (!fs.pathExistsSync(destpath)) {
             fs.copySync(abspath, destpath)
           }
@@ -73,17 +68,13 @@ module.exports = (src, dest, preview) => () => {
             })
               .plugin('browser-pack-flat/plugin')
               .bundle()
-            file.path =
-              file.path.slice(0, file.path.length - 10) +
-              '.js'
+            file.path = file.path.slice(0, file.path.length - 10) + '.js'
             next(null, file)
           } else {
-            fs.readFile(file.path, 'UTF-8').then(
-              (contents) => {
-                file.contents = Buffer.from(contents)
-                next(null, file)
-              }
-            )
+            fs.readFile(file.path, 'UTF-8').then((contents) => {
+              file.contents = Buffer.from(contents)
+              next(null, file)
+            })
           }
         })
       )
@@ -91,21 +82,12 @@ module.exports = (src, dest, preview) => () => {
       .pipe(uglify()),
     vfs
       .src(
-        [
-          require.resolve(
-            '@popperjs/core/dist/umd/popper.min.js'
-          ),
-          require.resolve('tippy.js/dist/tippy.umd.min.js'),
-        ],
+        [require.resolve('@popperjs/core/dist/umd/popper.min.js'), require.resolve('tippy.js/dist/tippy.umd.min.js')],
         opts
       )
       .pipe(
         map((file, _enc, next) => {
-          file.contents = Buffer.from(
-            file.contents
-              .toString()
-              .replace(/\n\/\/# sourceMappingURL=.*/, '')
-          )
+          file.contents = Buffer.from(file.contents.toString().replace(/\n\/\/# sourceMappingURL=.*/, ''))
           next(null, file)
         })
       )
@@ -117,11 +99,7 @@ module.exports = (src, dest, preview) => () => {
         preview
           ? map()
           : map((file, enc, next) => {
-            file.contents = Buffer.from(
-              file.contents
-                .toString()
-                .replace(/(\*\/|}(?!}))/g, '$1\n')
-            )
+            file.contents = Buffer.from(file.contents.toString().replace(/(\*\/|}(?!}))/g, '$1\n'))
             next(null, file)
           })
       ),
@@ -135,10 +113,7 @@ module.exports = (src, dest, preview) => () => {
           imagemin.svgo({
             plugins: [{ removeViewBox: false }],
           }),
-        ].reduce(
-          (accum, it) => (it ? accum.concat(it) : accum),
-          []
-        )
+        ].reduce((accum, it) => (it ? accum.concat(it) : accum), [])
       )
     ),
     vfs.src('helpers/*.js', opts),

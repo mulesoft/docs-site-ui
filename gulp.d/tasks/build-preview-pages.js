@@ -21,13 +21,7 @@ const ASCIIDOC_ATTRIBUTES = {
 }
 
 module.exports =
-  (
-    src,
-    previewSrc,
-    previewDest,
-    sink = () => map(),
-    layouts = {}
-  ) =>
+  (src, previewSrc, previewDest, sink = () => map(), layouts = {}) =>
     () =>
       Promise.all([
         loadSampleUiModel(previewSrc),
@@ -48,17 +42,11 @@ module.exports =
             })
             .pipe(
               map((file, enc, next) => {
-                const siteRootPath = path.relative(
-                  ospath.dirname(file.path),
-                  ospath.resolve(previewSrc)
-                )
+                const siteRootPath = path.relative(ospath.dirname(file.path), ospath.resolve(previewSrc))
                 const uiModel = { ...baseUiModel }
                 delete uiModel.nav
                 uiModel.siteRootPath = siteRootPath
-                uiModel.uiRootPath = path.join(
-                  siteRootPath,
-                  '_'
-                )
+                uiModel.uiRootPath = path.join(siteRootPath, '_')
                 if (file.stem === '404') {
                   uiModel.page = {
                     layout: '404',
@@ -68,64 +56,36 @@ module.exports =
                   const pageModel = (uiModel.page = {
                     ...uiModel.page,
                   })
-                  const doc = asciidoctor.load(
-                    file.contents,
-                    {
-                      safe: 'safe',
-                      attributes: ASCIIDOC_ATTRIBUTES,
-                    }
-                  )
+                  const doc = asciidoctor.load(file.contents, {
+                    safe: 'safe',
+                    attributes: ASCIIDOC_ATTRIBUTES,
+                  })
                   const attributes = doc.getAttributes()
-                  pageModel.layout = doc.getAttribute(
-                    'page-layout',
-                    'default'
-                  )
+                  pageModel.layout = doc.getAttribute('page-layout', 'default')
                   pageModel.title = doc.getDocumentTitle()
-                  pageModel.url =
-                  '/' + file.relative.slice(0, -5) + '.html'
+                  pageModel.url = '/' + file.relative.slice(0, -5) + '.html'
                   if (file.stem === 'home') {
                     pageModel.home = true
                   }
-                  const componentName = doc.getAttribute(
-                    'page-component-name',
-                    pageModel.src.component
-                  )
+                  const componentName = doc.getAttribute('page-component-name', pageModel.src.component)
                   const versionString = doc.getAttribute(
                     'page-version',
-                    doc.hasAttribute('page-component-name')
-                      ? undefined
-                      : pageModel.src.version
+                    doc.hasAttribute('page-component-name') ? undefined : pageModel.src.version
                   )
                   let componentVersion
                   if (componentName) {
-                    const component = (pageModel.component =
-                    uiModel.site.components[componentName])
-                    componentVersion =
-                    pageModel.componentVersion =
-                      versionString
-                        ? component.versions.find(
-                          ({ version }) =>
-                            version === versionString
-                        )
-                        : component.latest
+                    const component = (pageModel.component = uiModel.site.components[componentName])
+                    componentVersion = pageModel.componentVersion = versionString
+                      ? component.versions.find(({ version }) => version === versionString)
+                      : component.latest
                   } else {
-                    const component = (pageModel.component =
-                    Object.values(
-                      uiModel.site.components
-                    )[0])
-                    componentVersion =
-                    pageModel.componentVersion =
-                      component.latest
+                    const component = (pageModel.component = Object.values(uiModel.site.components)[0])
+                    componentVersion = pageModel.componentVersion = component.latest
                   }
                   pageModel.module = 'ROOT'
                   pageModel.version = componentVersion.version
-                  pageModel.displayVersion =
-                  componentVersion.displayVersion
-                  pageModel.editUrl =
-                  pageModel.origin.editUrlPattern.replace(
-                    '%s',
-                    file.relative
-                  )
+                  pageModel.displayVersion = componentVersion.displayVersion
+                  pageModel.editUrl = pageModel.origin.editUrlPattern.replace('%s', file.relative)
                   pageModel.breadcrumbs = [
                     {
                       content: pageModel.title,
@@ -133,35 +93,25 @@ module.exports =
                       urlType: 'internal',
                     },
                   ]
-                  pageModel.versions =
-                  pageModel.component.versions.map(
-                    (
-                      { version, displayVersion, url },
-                      idx,
-                      arr
-                    ) => {
-                      const pageVersion = {
-                        version,
-                        displayVersion:
-                          displayVersion || version,
-                        url,
-                      }
-                      if (!idx) {
-                        pageVersion.latest = true
-                      } else if (idx === arr.length - 1) {
-                        delete pageVersion.url
-                        pageVersion.missing = true
-                      }
-                      return pageVersion
+                  pageModel.versions = pageModel.component.versions.map(({ version, displayVersion, url }, idx, arr) => {
+                    const pageVersion = {
+                      version,
+                      displayVersion: displayVersion || version,
+                      url,
                     }
-                  )
+                    if (!idx) {
+                      pageVersion.latest = true
+                    } else if (idx === arr.length - 1) {
+                      delete pageVersion.url
+                      pageVersion.missing = true
+                    }
+                    return pageVersion
+                  })
                   pageModel.attributes = Object.entries({
                     ...attributes,
                     ...componentVersion.asciidoc.attributes,
                   })
-                    .filter(([name, val]) =>
-                      name.startsWith('page-')
-                    )
+                    .filter(([name, val]) => name.startsWith('page-'))
                     .reduce(
                       (accum, [name, val]) => ({
                         ...accum,
@@ -169,19 +119,13 @@ module.exports =
                       }),
                       {}
                     )
-                  pageModel.contents = Buffer.from(
-                    doc.convert()
-                  )
+                  pageModel.contents = Buffer.from(doc.convert())
                   if (doc.isAttribute('page-fragmentize')) {
-                    pageModel.contents = fragmentize(
-                      pageModel.contents
-                    )
+                    pageModel.contents = fragmentize(pageModel.contents)
                   }
                 }
                 file.extname = '.html'
-                file.contents = Buffer.from(
-                  layouts[uiModel.page.layout](uiModel)
-                )
+                file.contents = Buffer.from(layouts[uiModel.page.layout](uiModel))
                 next(null, file)
               })
             ),
@@ -193,26 +137,15 @@ module.exports =
             })
             .pipe(
               map((file, enc, next) => {
-                const navigationData = Object.values(
-                  baseUiModel.site.components
-                ).map(({ name, title, versions }) => ({
+                const navigationData = Object.values(baseUiModel.site.components).map(({ name, title, versions }) => ({
                   name,
                   title,
-                  versions: versions.map(
-                    ({
-                      version,
-                      displayVersion,
-                      navigation: sets = [],
-                    }) =>
-                      version === displayVersion
-                        ? { version, sets }
-                        : { version, displayVersion, sets }
+                  versions: versions.map(({ version, displayVersion, navigation: sets = [] }) =>
+                    version === displayVersion ? { version, sets } : { version, displayVersion, sets }
                   ),
                 }))
-                const navigationSubcomponents =
-                baseUiModel.nav.subcomponents
-                const navigationGroups =
-                baseUiModel.nav.groups
+                const navigationSubcomponents = baseUiModel.nav.subcomponents
+                const navigationGroups = baseUiModel.nav.groups
                 const navigationDataSource =
                 'siteNavigationData = ' +
                 inspect(navigationData, {
@@ -238,9 +171,7 @@ module.exports =
                 'siteNavigationData.homeUrl = "' +
                 baseUiModel.site.homeUrl +
                 '"'
-                file.contents = Buffer.from(
-                  navigationDataSource
-                )
+                file.contents = Buffer.from(navigationDataSource)
                 next(null, file)
               })
             )
@@ -250,114 +181,84 @@ module.exports =
       )
 
 function loadSampleUiModel (src) {
-  return fs
-    .readFile(ospath.join(src, 'ui-model.yml'), 'utf8')
-    .then((contents) => {
-      const uiModel = yaml.safeLoad(contents)
-      uiModel.env = process.env
-      Object.entries(uiModel.site.components).forEach(
-        ([name, component]) => {
-          component.name = name
-          if (!component.versions) {
-            component.versions = [
-              (component.latest = { url: '#' }),
-            ]
-          }
-          component.versions.forEach((version) => {
-            Object.defineProperty(version, 'name', {
-              value: component.name,
-              enumerable: true,
-            })
-            if (!('displayVersion' in version)) {
-              version.displayVersion = version.version
-            }
-            if (!('asciidoc' in version)) {
-              version.asciidoc = { attributes: {} }
-            }
-          })
-          Object.defineProperties(component, {
-            asciidoc: {
-              get () {
-                return this.latest.asciidoc
-              },
-            },
-            title: {
-              get () {
-                return this.latest.title
-              },
-            },
-            url: {
-              get () {
-                return this.latest.url
-              },
-            },
-          })
+  return fs.readFile(ospath.join(src, 'ui-model.yml'), 'utf8').then((contents) => {
+    const uiModel = yaml.safeLoad(contents)
+    uiModel.env = process.env
+    Object.entries(uiModel.site.components).forEach(([name, component]) => {
+      component.name = name
+      if (!component.versions) {
+        component.versions = [(component.latest = { url: '#' })]
+      }
+      component.versions.forEach((version) => {
+        Object.defineProperty(version, 'name', {
+          value: component.name,
+          enumerable: true,
+        })
+        if (!('displayVersion' in version)) {
+          version.displayVersion = version.version
         }
-      )
-      return uiModel
+        if (!('asciidoc' in version)) {
+          version.asciidoc = { attributes: {} }
+        }
+      })
+      Object.defineProperties(component, {
+        asciidoc: {
+          get () {
+            return this.latest.asciidoc
+          },
+        },
+        title: {
+          get () {
+            return this.latest.title
+          },
+        },
+        url: {
+          get () {
+            return this.latest.url
+          },
+        },
+      })
     })
+    return uiModel
+  })
 }
 
 function registerPartials (src) {
-  return vfs
-    .src('partials/**/*.hbs', { base: src, cwd: src })
-    .pipe(
-      map((file, enc, next) => {
-        handlebars.registerPartial(
-          file.stem,
-          file.contents.toString()
-        )
-        next()
-      })
-    )
+  return vfs.src('partials/**/*.hbs', { base: src, cwd: src }).pipe(
+    map((file, enc, next) => {
+      handlebars.registerPartial(file.stem, file.contents.toString())
+      next()
+    })
+  )
 }
 
 function registerHelpers (src) {
   handlebars.registerHelper('relativize', relativize)
   handlebars.registerHelper('resolvePage', resolvePage)
-  handlebars.registerHelper(
-    'resolvePageURL',
-    resolvePageURL
+  handlebars.registerHelper('resolvePageURL', resolvePageURL)
+  return vfs.src('helpers/*.js', { base: src, cwd: src }).pipe(
+    map((file, enc, next) => {
+      handlebars.registerHelper(file.stem, requireFromString(file.contents.toString()))
+      next()
+    })
   )
-  return vfs
-    .src('helpers/*.js', { base: src, cwd: src })
-    .pipe(
-      map((file, enc, next) => {
-        handlebars.registerHelper(
-          file.stem,
-          requireFromString(file.contents.toString())
-        )
-        next()
-      })
-    )
 }
 
 function compileLayouts (src, layouts) {
-  return vfs
-    .src('layouts/*.hbs', { base: src, cwd: src })
-    .pipe(
-      map((file, enc, next) => {
-        layouts[file.stem] = handlebars.compile(
-          file.contents.toString(),
-          { preventIndent: true }
-        )
-        next()
-      })
-    )
+  return vfs.src('layouts/*.hbs', { base: src, cwd: src }).pipe(
+    map((file, enc, next) => {
+      layouts[file.stem] = handlebars.compile(file.contents.toString(), { preventIndent: true })
+      next()
+    })
+  )
 }
 
 function copyImages (src, dest) {
-  return vfs
-    .src('**/*.{png,svg}', { base: src, cwd: src })
-    .pipe(vfs.dest(dest))
+  return vfs.src('**/*.{png,svg}', { base: src, cwd: src }).pipe(vfs.dest(dest))
 }
 
 function relativize (url) {
-  return url
-    ? url.charAt() === '#'
-      ? url
-      : url.slice(1)
-    : '#'
+  return url ? (url.charAt() === '#' ? url : url.slice(1)) : '#'
 }
 
 function resolvePage (spec, context = {}) {
@@ -366,16 +267,12 @@ function resolvePage (spec, context = {}) {
 
 function resolvePageURL (spec, context = {}) {
   if (spec) {
-    return (
-      '/' + spec.slice(0, spec.lastIndexOf('.')) + '.html'
-    )
+    return '/' + spec.slice(0, spec.lastIndexOf('.')) + '.html'
   }
 }
 
 function toPromise (stream) {
-  return new Promise((resolve, reject) =>
-    stream.on('error', reject).on('finish', resolve)
-  )
+  return new Promise((resolve, reject) => stream.on('error', reject).on('finish', resolve))
 }
 
 function fragmentize (contents) {
@@ -394,12 +291,7 @@ function fragmentize (contents) {
         HEADING_TAGS[rawTagName] &&
         parentNode &&
         !el.classList.contains('discrete') &&
-        parentNode.classList.contains(
-          'sect' +
-            String.fromCharCode(
-              rawTagName.charCodeAt(1) - 1
-            )
-        )
+        parentNode.classList.contains('sect' + String.fromCharCode(rawTagName.charCodeAt(1) - 1))
       ) {
         el = parentNode
       }

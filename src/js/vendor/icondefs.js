@@ -570,33 +570,19 @@
       path: { d: 'M20.262 19.557l3.82 5.455a15.981 15.981 0 0 1-3.07 2.154L17.2 21.72a9.331 9.331 0 0 1-3.73.78 9.375 9.375 0 1 1 9.376-9.375c0 2.497-.992 4.752-2.583 6.432zM13.47 5.625c-4.136 0-7.5 3.364-7.5 7.5s3.364 7.5 7.5 7.5c4.135 0 7.5-3.364 7.5-7.5s-3.365-7.5-7.5-7.5z', fill: '#989A9B', 'fill-rule': 'evenodd', 'clip-rule': 'evenodd' },
     },
   ]
-  var icondefs = Object.assign(
-    document.createElement('div'),
-    { id: 'icondefs', hidden: true }
-  )
+  var icondefs = Object.assign(document.createElement('div'), { id: 'icondefs', hidden: true })
   icondefs.appendChild(
     defs.reduce(function (parent, icondef) {
-      var symbol = Object.assign(
-        document.createElementNS(
-          'http://www.w3.org/2000/svg',
-          'symbol'
-        ),
-        { id: icondef.id }
-      )
+      var symbol = Object.assign(document.createElementNS('http://www.w3.org/2000/svg', 'symbol'), { id: icondef.id })
       symbol.setAttribute('viewBox', icondef.viewBox)
-      var contents = icondef.contents ||
-        icondef.paths || [icondef.path]
+      var contents = icondef.contents || icondef.paths || [icondef.path]
       if (Array.isArray(contents)) {
         contents.forEach(function (props) {
           symbol.appendChild(
-            Object.entries(props).reduce(function (
-              tag,
-              prop
-            ) {
+            Object.entries(props).reduce(function (tag, prop) {
               tag.setAttribute(prop[0], prop[1])
               return tag
-            },
-            document.createElementNS('http://www.w3.org/2000/svg', 'path'))
+            }, document.createElementNS('http://www.w3.org/2000/svg', 'path'))
           )
         })
       } else {
@@ -604,10 +590,7 @@
       }
       parent.appendChild(symbol)
       return parent
-    }, document.createElementNS(
-      'http://www.w3.org/2000/svg',
-      'svg'
-    ))
+    }, document.createElementNS('http://www.w3.org/2000/svg', 'svg'))
   )
   document.body.appendChild(icondefs)
 })()

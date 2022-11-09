@@ -17,27 +17,16 @@ module.exports = () => {
         .concat(' file')
         .concat(report.unchanged === 1 ? '' : 's')
         .concat(' unchanged')
-      console.log(
-        `prettier-eslint: ${changed}; ${unchanged}`
-      )
+      console.log(`prettier-eslint: ${changed}; ${unchanged}`)
     } else {
-      console.log(
-        `prettier-eslint: left ${report.unchanged} file${
-          report.unchanged === 1 ? '' : 's'
-        } unchanged`
-      )
+      console.log(`prettier-eslint: left ${report.unchanged} file${report.unchanged === 1 ? '' : 's'} unchanged`)
     }
   })
 
   function format (file, enc, next) {
     if (file.isNull()) return next()
     if (file.isStream()) {
-      return next(
-        new PluginError(
-          'gulp-prettier-eslint',
-          'Streaming not supported'
-        )
-      )
+      return next(new PluginError('gulp-prettier-eslint', 'Streaming not supported'))
     }
 
     const input = file.contents.toString()
