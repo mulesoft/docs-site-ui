@@ -1,38 +1,48 @@
 ;(() => {
   'use strict'
 
-  addToolTipsToAllArchiveLinks() // eslint-disable-line no-use-before-define
-
   const addToolTipsToAllArchiveLinks = () => {
     const archiveLinks = document.querySelectorAll("a[href='https://archive.docs.mulesoft.com/']")
     archiveLinks.forEach((archiveLink) => addToolTip(archiveLink))
   }
 
-  const addToolTip = (element) => {
-    const tooltipIcon = createTooltipIcon(element)
+  const addToolTip = (archiveLink) => {
     const tooltipDiv = createTooltipDiv()
-    element.parentElement.appendChild(tooltipDiv)
+    archiveLink.parentElement.appendChild(tooltipDiv)
+
+    const tooltipIcon = createTooltipIcon(archiveLink)
     tooltipDiv.appendChild(tooltipIcon)
   }
 
-  const createTooltipIcon = (element) => {
-    const tooltipIconColor = inLeftNav(element) ? 'gray' : 'white'
+  const createTooltipDiv = () => {
+    const tooltipDiv = document.createElement('div')
+    tooltipDiv.classList.add('tooltip-div')
+    return tooltipDiv
+  }
 
+  const createTooltipIcon = (archiveLink) => {
     const tooltipIcon = document.createElement('img')
-    tooltipIcon.classList.add('tooltip')
-    tooltipIcon.setAttribute('alt', 'Archived Documentation information')
-    tooltipIcon.setAttribute('role', 'tool-tip')
-    tooltipIcon.setAttribute('tabindex', '0')
-
-    const uiRootPath = document.getElementById('site-script').dataset.uiRootPath
-    tooltipIcon.src = `${uiRootPath}/img/icons/tooltip-${tooltipIconColor}.svg`
-
-    applyTippy(tooltipIcon, tooltipIconColor)
+    const iconColor = inLeftNav(archiveLink) ? 'gray' : 'white'
+    setIconAttributes(tooltipIcon, iconColor)
     return tooltipIcon
+  }
+
+  const setIconAttributes = (icon, color) => {
+    icon.classList.add('tooltip')
+    icon.setAttribute('alt', 'Archived Documentation information')
+    icon.setAttribute('role', 'tool-tip')
+    icon.setAttribute('tabindex', '0')
+    icon.src = setSrcSVGPath(color)
+    applyTippy(icon, color)
   }
 
   const inLeftNav = (element) => {
     return element.classList.contains('nav-text')
+  }
+
+  const setSrcSVGPath = (color) => {
+    const uiRootPath = document.getElementById('site-script').dataset.uiRootPath
+    return `${uiRootPath}/img/icons/tooltip-${color}.svg`
   }
 
   const applyTippy = (element, color) => {
@@ -51,9 +61,5 @@
     })
   }
 
-  const createTooltipDiv = () => {
-    const tooltipDiv = document.createElement('div')
-    tooltipDiv.classList.add('tooltip-div')
-    return tooltipDiv
-  }
+  addToolTipsToAllArchiveLinks()
 })()
