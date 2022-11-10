@@ -1,0 +1,37 @@
+= Table
+:keywords: table, tables
+:page-component-name: elements
+:page-notice-banner-message: This is a custom notice message about tables
+
+https://docs.asciidoctor.org/asciidoc/latest/tables/build-a-basic-table/[Antora docs reference^]
+
+== Basic table
+
+[cols="3,2,3"]
+|===
+|This content is placed in the first cell of column 1
+|This line starts with a vertical bar so this content is placed in a new cell in column 2 |When the processor encounters a whitespace followed by a vertical bar it ends the previous cell and starts a new cell
+|===
+
+== Nesting table
+
+[cols="1,2a"]
+|===
+| Col 1 | Col 2
+
+| Cell 1.1
+| Cell 1.2
+
+| Cell 2.1
+| Cell 2.2
+
+[cols="2,1"]
+!===
+! Col1 ! Col2
+
+! C11
+! C12
+
+!===
+
+|===

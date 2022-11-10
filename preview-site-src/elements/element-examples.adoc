@@ -1,0 +1,74 @@
+= Elements
+:page-component-name: elements
+:page-notice-banner-message: This is a custom notice message
+
+This page contains different elements like tables, code blocks, etc. so you can verify that everything looks ok.
+
+== Table
+
+https://docs.asciidoctor.org/asciidoc/latest/tables/build-a-basic-table/[ref]
+
+=== Basic table
+
+[cols="3,2,3"]
+|===
+|This content is placed in the first cell of column 1
+|This line starts with a vertical bar so this content is placed in a new cell in column 2 |When the processor encounters a whitespace followed by a vertical bar it ends the previous cell and starts a new cell
+|===
+
+=== Nesting table
+
+[cols="1,2a"]
+|===
+| Col 1 | Col 2
+
+| Cell 1.1
+| Cell 1.2
+
+| Cell 2.1
+| Cell 2.2
+
+[cols="2,1"]
+!===
+! Col1 ! Col2
+
+! C11
+! C12
+
+!===
+
+|===
+
+== Text
+
+This is *bold*. This is _italic_. This is *_bold and italic_*. https://docs.antora.org/antora/latest/asciidoc/bold/[ref]
+
+This is a new paragraph for a monospace `word`, and a monospace `phrase of text`. `*_monospace bold italic phrase_*` & ``**__char__**``actor``**__s__**`` https://docs.antora.org/antora/latest/asciidoc/monospace/[ref]
+
+Let's #highlight this phrase# and the i and s in th##is##. https://docs.antora.org/antora/latest/asciidoc/highlight/[ref]
+
+&#169; &#8656; &#8592; &#174; https://docs.antora.org/antora/latest/asciidoc/special-characters-and-symbols/[ref]
+
+The chemical formula for water is H~2~O. What is the answer to E=mc^2^? https://docs.antora.org/antora/latest/asciidoc/subscript-and-superscript/[ref]
+
+== URL
+
+https://docs.antora.org/antora/latest/asciidoc/external-urls/[ref]
+
+Looking for help?
+Visit the https://antora.zulipchat.com[Antora chat room].
+
+This is the https://antora.zulipchat.com[external link^] for the same URL.
+
+== Xref
+
+https://docs.antora.org/antora/latest/asciidoc/in-page-xref/[ref]
+
+This is an in-page cross reference for the Code blocks section above: <<_code_blocks>>.
+
+This is the same in-page cross reference:
+<<_code_blocks,Check it out>>!
+
+This is an in-page cross reference for the #important ID: <<important,Click me>>.
+
+xref:index.adoc[Return to homepage]
