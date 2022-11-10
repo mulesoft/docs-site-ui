@@ -1,24 +1,33 @@
 ;(function () {
   'use strict'
 
-  const archiveLinks = document.querySelectorAll("a[href='https://archive.docs.mulesoft.com/']")
-  archiveLinks.forEach(function (archiveLink) {
+  addToolTipsToAllArchiveLinks()
+
+  function addToolTipsToAllArchiveLinks () {
+    const archiveLinks = document.querySelectorAll("a[href='https://archive.docs.mulesoft.com/']")
+    archiveLinks.forEach((archiveLink) => addToolTip(archiveLink))
+  }
+
+  function addToolTip (archiveLink) {
     const tooltipIcon = createTooltipIcon(archiveLink)
     const tooltipDiv = createTooltipDiv()
-    tooltipDiv.appendChild(tooltipIcon)
     archiveLink.parentElement.appendChild(tooltipDiv)
-  })
+    tooltipDiv.appendChild(tooltipIcon)
+  }
 
   function createTooltipIcon (archiveLink) {
-    const color = inLeftNav(archiveLink) ? 'gray' : 'white'
+    const tooltipIconColor = inLeftNav(archiveLink) ? 'gray' : 'white'
+
     const tooltipIcon = document.createElement('img')
     tooltipIcon.classList.add('tooltip')
+    tooltipIcon.setAttribute('alt', 'Archived Documentation information')
     tooltipIcon.setAttribute('role', 'tool-tip')
     tooltipIcon.setAttribute('tabindex', '0')
-    tooltipIcon.setAttribute('alt', 'Archived Documentation information')
+
     const uiRootPath = document.getElementById('site-script').dataset.uiRootPath
-    tooltipIcon.src = `${uiRootPath}/img/icons/tooltip-${color}.svg`
-    addTooltip(tooltipIcon, color)
+    tooltipIcon.src = `${uiRootPath}/img/icons/tooltip-${tooltipIconColor}.svg`
+
+    applyTippy(tooltipIcon, tooltipIconColor)
     return tooltipIcon
   }
 
@@ -26,7 +35,7 @@
     return archiveLink.classList.contains('nav-text')
   }
 
-  function addTooltip (tooltipIcon, color) {
+  function applyTippy (tooltipIcon, color) {
     tippy(tooltipIcon, {
       arrow: tippy.roundArrow,
       content:
