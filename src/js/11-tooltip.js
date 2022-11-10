@@ -8,15 +8,15 @@
     archiveLinks.forEach((archiveLink) => addToolTip(archiveLink))
   }
 
-  const addToolTip = (archiveLink) => {
-    const tooltipIcon = createTooltipIcon(archiveLink)
+  const addToolTip = (link) => {
+    const tooltipIcon = createTooltipIcon(link)
     const tooltipDiv = createTooltipDiv()
-    archiveLink.parentElement.appendChild(tooltipDiv)
+    link.parentElement.appendChild(tooltipDiv)
     tooltipDiv.appendChild(tooltipIcon)
   }
 
-  const createTooltipIcon = (archiveLink) => {
-    const tooltipIconColor = inLeftNav(archiveLink) ? 'gray' : 'white'
+  const createTooltipIcon = (link) => {
+    const tooltipIconColor = inLeftNav(link) ? 'gray' : 'white'
 
     const tooltipIcon = document.createElement('img')
     tooltipIcon.classList.add('tooltip')
@@ -31,12 +31,12 @@
     return tooltipIcon
   }
 
-  const inLeftNav = (archiveLink) => {
-    return archiveLink.classList.contains('nav-text')
+  const inLeftNav = (element) => {
+    return element.classList.contains('nav-text')
   }
 
-  const applyTippy = (tooltipIcon, color) => {
-    tippy(tooltipIcon, {
+  const applyTippy = (element, color) => {
+    tippy(element, {
       arrow: tippy.roundArrow,
       content:
         'When a product version is no longer supported, ' +
