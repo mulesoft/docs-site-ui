@@ -1,21 +1,21 @@
-;(function () {
+;(() => {
   'use strict'
 
-  addToolTipsToAllArchiveLinks()
+  addToolTipsToAllArchiveLinks() // eslint-disable-line no-use-before-define
 
-  function addToolTipsToAllArchiveLinks () {
+  const addToolTipsToAllArchiveLinks = () => {
     const archiveLinks = document.querySelectorAll("a[href='https://archive.docs.mulesoft.com/']")
     archiveLinks.forEach((archiveLink) => addToolTip(archiveLink))
   }
 
-  function addToolTip (archiveLink) {
+  const addToolTip = (archiveLink) => {
     const tooltipIcon = createTooltipIcon(archiveLink)
     const tooltipDiv = createTooltipDiv()
     archiveLink.parentElement.appendChild(tooltipDiv)
     tooltipDiv.appendChild(tooltipIcon)
   }
 
-  function createTooltipIcon (archiveLink) {
+  const createTooltipIcon = (archiveLink) => {
     const tooltipIconColor = inLeftNav(archiveLink) ? 'gray' : 'white'
 
     const tooltipIcon = document.createElement('img')
@@ -31,17 +31,17 @@
     return tooltipIcon
   }
 
-  function inLeftNav (archiveLink) {
+  const inLeftNav = (archiveLink) => {
     return archiveLink.classList.contains('nav-text')
   }
 
-  function applyTippy (tooltipIcon, color) {
+  const applyTippy = (tooltipIcon, color) => {
     tippy(tooltipIcon, {
       arrow: tippy.roundArrow,
       content:
-      'When a product version is no longer supported, ' +
-      'including products with end-of-life status, ' +
-      'its documentation moves to an archive site.',
+        'When a product version is no longer supported, ' +
+        'including products with end-of-life status, ' +
+        'its documentation moves to an archive site.',
       duration: [0, 150],
       maxWidth: 240,
       offset: [0, 15],
@@ -51,7 +51,7 @@
     })
   }
 
-  function createTooltipDiv () {
+  const createTooltipDiv = () => {
     const tooltipDiv = document.createElement('div')
     tooltipDiv.classList.add('tooltip-div')
     return tooltipDiv
