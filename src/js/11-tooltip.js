@@ -8,15 +8,15 @@
     archiveLinks.forEach((archiveLink) => addToolTip(archiveLink))
   }
 
-  const addToolTip = (link) => {
-    const tooltipIcon = createTooltipIcon(link)
+  const addToolTip = (element) => {
+    const tooltipIcon = createTooltipIcon(element)
     const tooltipDiv = createTooltipDiv()
-    link.parentElement.appendChild(tooltipDiv)
+    element.parentElement.appendChild(tooltipDiv)
     tooltipDiv.appendChild(tooltipIcon)
   }
 
-  const createTooltipIcon = (link) => {
-    const tooltipIconColor = inLeftNav(link) ? 'gray' : 'white'
+  const createTooltipIcon = (element) => {
+    const tooltipIconColor = inLeftNav(element) ? 'gray' : 'white'
 
     const tooltipIcon = document.createElement('img')
     tooltipIcon.classList.add('tooltip')
