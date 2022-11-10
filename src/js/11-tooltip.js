@@ -32,7 +32,7 @@
     icon.setAttribute('alt', 'Archived Documentation information')
     icon.setAttribute('role', 'tool-tip')
     icon.setAttribute('tabindex', '0')
-    icon.src = setSrcSVGPath(color)
+    setSrcSVGPath(icon, color)
     applyTippy(icon, color)
   }
 
@@ -40,13 +40,13 @@
     return element.classList.contains('nav-text')
   }
 
-  const setSrcSVGPath = (color) => {
+  const setSrcSVGPath = (icon, color) => {
     const uiRootPath = document.getElementById('site-script').dataset.uiRootPath
-    return `${uiRootPath}/img/icons/tooltip-${color}.svg`
+    icon.src = `${uiRootPath}/img/icons/tooltip-${color}.svg`
   }
 
-  const applyTippy = (element, color) => {
-    tippy(element, {
+  const applyTippy = (icon, color) => {
+    tippy(icon, {
       arrow: tippy.roundArrow,
       content:
         'When a product version is no longer supported, ' +
