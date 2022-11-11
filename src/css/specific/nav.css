@@ -75,13 +75,6 @@ a.nav-text {
   }
 }
 
-.nav-group > .nav-list > .nav-item > .nav-list > .nav-item > a.nav-text {
-  &:hover {
-    color: var(--steel-3);
-    text-decoration: underline;
-  }
-}
-
 a.nav-text:not([href]),
 .nav-item-toggle + span.nav-text {
   cursor: pointer;
@@ -173,6 +166,10 @@ svg.nav-icon {
       margin-top: var(--sm);
       & > .nav-text {
         font-weight: initial;
+        &:hover {
+          color: var(--steel-3);
+          text-decoration: underline;
+        }
       }
       &[data-component] {
         margin-left: -.5em;
