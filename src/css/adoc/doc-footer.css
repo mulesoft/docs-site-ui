@@ -1,8 +1,10 @@
 .doc-footer {
   padding-bottom: var(--xl);
+  padding-left: 40px;
 
   & .button {
     font-size: 12px;
+    margin-left: var(--sm);
   }
 
   & .button-edit {
@@ -20,7 +22,7 @@
   border-radius: 2px;
   display: flex;
   flex-direction: column;
-  padding: var(--md) var(--xl);
+  padding: var(--sm) var(--lg);
 
   /* uncomment this block when GUS feedback is implemented */
   /* & .row {
@@ -37,12 +39,10 @@
     margin-bottom: 0;
   }
 
-  & h2 {
+  & span {
     font-size: 14px;
     font-weight: var(--weight-bold);
-    margin-bottom: var(--sm);
-    margin-top: 0;
-    text-align: center;
+    margin-right: var(--xl);
   }
 
   & .link {
