@@ -28,6 +28,13 @@
   height: 5px;
   width: 5px;
 
+  &::after {
+    content: '';
+    padding: 8px;
+    position: absolute;
+    transform: translate(-50%,-50%);
+  }
+
   &.tooltip-dot-nav-version-menu {
     margin-bottom: 1px;
     margin-right: 3px;
