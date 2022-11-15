@@ -26,7 +26,15 @@
   border-radius: 50%;
   float: left;
   height: 5px;
+  outline-style: none;
   width: 5px;
+
+  &::after {
+    content: '';
+    padding: 8px;
+    position: absolute;
+    transform: translate(-50%,-50%);
+  }
 
   &.tooltip-dot-nav-version-menu {
     margin-bottom: 1px;
@@ -38,8 +46,4 @@
     margin-left: 6px;
     margin-top: 8px;
   }
-
-  /* @media screen and (max-width: 768px) {
-    display: none;
-  } */
 }
