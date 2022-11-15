@@ -26,6 +26,7 @@
   border-radius: 50%;
   float: left;
   height: 5px;
+  outline-style: none;
   width: 5px;
 
   &::after {
@@ -44,8 +45,4 @@
     margin-left: 6px;
     margin-top: 8px;
   }
-
-  /* @media screen and (max-width: 768px) {
-    display: none;
-  } */
 }
