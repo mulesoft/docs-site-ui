@@ -1,33 +1,24 @@
-module.exports = (numOfItems, { data }) => {
-  const { contentCatalog, site } = data.root
-  if (contentCatalog) {
-    const rawPages = getDatedReleaseNotesRawPages(contentCatalog)
-    const pageUiModels = turnRawPagesIntoPageUiModels(site, rawPages, contentCatalog)
-    return getMostRecentlyUpdatedPages(pageUiModels, numOfItems)
-  }
-}
-
-function getDatedReleaseNotesRawPages (contentCatalog) {
+const getDatedReleaseNotesRawPages = (contentCatalog) => {
   return contentCatalog.getPages(({ asciidoc, out }) => {
     if (!asciidoc || !out) return
     return getReleaseNotesWithRevdate(asciidoc)
   })
 }
 
-function getReleaseNotesWithRevdate (asciidoc) {
+const getReleaseNotesWithRevdate = (asciidoc) => {
   const attributes = asciidoc.attributes
   return asciidoc.attributes && isReleaseNotes(attributes) && hasRevDate(attributes)
 }
 
-function isReleaseNotes (attributes) {
+const isReleaseNotes = (attributes) => {
   return attributes['page-component-name'] === 'release-notes'
 }
 
-function hasRevDate (attributes) {
+const hasRevDate = (attributes) => {
   return attributes['page-revdate']
 }
 
-function turnRawPagesIntoPageUiModels (site, pages, contentCatalog) {
+const turnRawPagesIntoPageUiModels = (site, pages, contentCatalog) => {
   const { buildPageUiModel } = module.parent.require('@antora/page-composer/build-ui-model')
   return pages
     .map((page) => buildPageUiModel(site, page, contentCatalog))
@@ -35,22 +26,22 @@ function turnRawPagesIntoPageUiModels (site, pages, contentCatalog) {
     .sort(sortByRevDate)
 }
 
-function isValidDate (dateStr) {
+const isValidDate = (dateStr) => {
   const dateObj = Date.parse(dateStr)
   return !isNaN(dateObj)
 }
 
-function sortByRevDate (a, b) {
+const sortByRevDate = (a, b) => {
   return new Date(b.attributes.revdate) - new Date(a.attributes.revdate)
 }
 
-function getMostRecentlyUpdatedPages (pageUIModels, numOfItems) {
+const getMostRecentlyUpdatedPages = (pageUIModels, numOfItems) => {
   const maxNumberOfPages = pageUIModels.length > numOfItems ? numOfItems : pageUIModels.length
   const resultList = getResultList(pageUIModels, maxNumberOfPages)
   return resultList
 }
 
-function getResultList (pageUIModels, maxNumberOfPages) {
+const getResultList = (pageUIModels, maxNumberOfPages) => {
   const resultList = []
   for (let i = 0; i < maxNumberOfPages; i++) {
     const page = pageUIModels[i]
@@ -61,7 +52,7 @@ function getResultList (pageUIModels, maxNumberOfPages) {
   return resultList
 }
 
-function getSelectedAttributes (page) {
+const getSelectedAttributes = (page) => {
   const latestVersion = getLatestVersion(page.contents.toString())
   return {
     latestVersionAnchor: latestVersion?.anchor,
@@ -72,30 +63,46 @@ function getSelectedAttributes (page) {
   }
 }
 
-function getLatestVersion (contentsStr) {
+const getLatestVersion = (contentsStr) => {
   const nodes = parseHTML(contentsStr)
   const firstVersion = nodes.querySelector('h2')
   if (firstVersion) {
-    return {
+    const output = {
       anchor: firstVersion.id,
-      innerText: firstVersion.innerText,
     }
+    if (isVersion(firstVersion.innerText)) output.innerText = firstVersion.innerText
+    return output
   }
 }
 
-function parseHTML (html) {
+const parseHTML = (html) => {
   const { parse } = require('node-html-parser')
   return parse(html)
 }
 
-function removeYear (dateStr) {
+const isVersion = (versionText) => {
+  // https://confluence.internal.salesforce.com/pages/viewpage.action?spaceKey=MTDT&title=Use+the+Release+Notes+Templates
+  // examples: 1.0, 1.0.0, 2.11, 11.0, 4.x, 2.11.x
+  return versionText.search('^([0-9])+.([0-9a-z])+(.[0-9])*$') > -1
+}
+
+const removeYear = (dateStr) => {
   const dateObj = new Date(dateStr)
   return `${dateObj.toLocaleString('default', {
     month: 'short',
   })} ${dateObj.getDate()}`
 }
 
-function cleanTitle (title) {
+const cleanTitle = (title) => {
   const splitList = title.split('Release Notes')
   return splitList[0].trim()
+}
+
+module.exports = (numOfItems, { data }) => {
+  const { contentCatalog, site } = data.root
+  if (contentCatalog) {
+    const rawPages = getDatedReleaseNotesRawPages(contentCatalog)
+    const pageUiModels = turnRawPagesIntoPageUiModels(site, rawPages, contentCatalog)
+    return getMostRecentlyUpdatedPages(pageUiModels, numOfItems)
+  }
 }
