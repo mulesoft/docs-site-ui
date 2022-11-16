@@ -1,5 +1,5 @@
 /* eslint-disable no-var */
-;(function () {
+;(() => {
   'use strict'
 
   function buildNav (navData, nav, page) {
@@ -133,7 +133,7 @@
         groupsAccum.pop()
       } else if (groupComponents.length === 1 && (component = groupComponents[0]).unversioned) {
         var items = component.nav.items
-        if ((items[0] || {}).url === data.homeUrl) {
+        if (!isBetaSite() && ((items[0] || {}).url === data.homeUrl)) {
           component.nav.items = items.slice(1)
         }
         component.nav.items.forEach(function (it) {
