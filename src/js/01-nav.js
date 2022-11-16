@@ -757,7 +757,7 @@
   }
 
   function isArchiveSite () {
-    return true
+    return window.location.host.includes('archive')
   }
 
   function isBetaSite () {
