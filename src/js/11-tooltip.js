@@ -2,22 +2,26 @@
   'use strict'
 
   const addToolTipsToAllArchiveLinks = () => {
-    if (isNewLandingPage()) {
-      const archiveLinks = document.querySelectorAll("a[href='https://archive.docs.mulesoft.com/']")
-      archiveLinks.forEach((archiveLink) => addToolTip(archiveLink))
-    }
-  }
-
-  const isNewLandingPage = () => {
-    return document.querySelector('#cta')
+    const archiveLinks = document.querySelectorAll("a[href='https://archive.docs.mulesoft.com/']")
+    archiveLinks.forEach((archiveLink) => addToolTip(archiveLink))
   }
 
   const addToolTip = (archiveLink) => {
-    const tooltipDiv = createTooltipDiv()
-    archiveLink.parentElement.appendChild(tooltipDiv)
+    if (!onOldLandingPage(archiveLink)) {
+      const tooltipDiv = createTooltipDiv()
+      archiveLink.parentElement.appendChild(tooltipDiv)
 
-    const tooltipIcon = createTooltipIcon(archiveLink)
-    tooltipDiv.appendChild(tooltipIcon)
+      const tooltipIcon = createTooltipIcon(archiveLink)
+      tooltipDiv.appendChild(tooltipIcon)
+    }
+  }
+
+  const onOldLandingPage = (archiveLink) => {
+    return !document.querySelector('#cta') && !inLeftNav(archiveLink)
+  }
+
+  const inLeftNav = (element) => {
+    return element.classList.contains('nav-text')
   }
 
   const createTooltipDiv = () => {
@@ -31,10 +35,6 @@
     const iconColor = inLeftNav(archiveLink) ? 'gray' : 'white'
     setIconAttributes(tooltipIcon, iconColor)
     return tooltipIcon
-  }
-
-  const inLeftNav = (element) => {
-    return element.classList.contains('nav-text')
   }
 
   const setIconAttributes = (icon, color) => {
