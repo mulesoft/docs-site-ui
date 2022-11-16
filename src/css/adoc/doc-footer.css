@@ -1,6 +1,7 @@
 .doc-footer {
   padding-bottom: var(--xl);
-  padding-left: 40px;
+  padding-left: var(--xl);
+  padding-top: 300px;
 
   & .button {
     font-size: 12px;
