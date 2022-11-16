@@ -1,4 +1,4 @@
-;(function () {
+;(() => {
   'use strict'
 
   const uiRootPath = document.getElementById('site-script').dataset.uiRootPath
