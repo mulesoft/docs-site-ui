@@ -384,13 +384,15 @@
   }
 
   function addCurrentVersionIndicator (parentElement, className) {
-    if (!isToolTipDot(parentElement.firstChild)) {
-      const tabIndex = parentElement.classList.contains('nav-version-button') ? 0 : -1
-      const currentVersionIndicator = createCurrentVersionIndicator(tabIndex, className)
-      const versionElement = parentElement.querySelector('.nav-version-label')
-        ? parentElement.firstChild.nextSibling
-        : parentElement.firstChild
-      parentElement.insertBefore(currentVersionIndicator, versionElement)
+    if (!isArchiveSite()) {
+      if (!isToolTipDot(parentElement.firstChild)) {
+        const tabIndex = parentElement.classList.contains('nav-version-button') ? 0 : -1
+        const currentVersionIndicator = createCurrentVersionIndicator(tabIndex, className)
+        const versionElement = parentElement.querySelector('.nav-version-label')
+          ? parentElement.firstChild.nextSibling
+          : parentElement.firstChild
+        parentElement.insertBefore(currentVersionIndicator, versionElement)
+      }
     }
     return parentElement
   }
@@ -755,7 +757,7 @@
   }
 
   function isArchiveSite () {
-    return window.location.host.includes('archive')
+    return true
   }
 
   function isBetaSite () {
