@@ -2,8 +2,14 @@
   'use strict'
 
   const addToolTipsToAllArchiveLinks = () => {
-    const archiveLinks = document.querySelectorAll("a[href='https://archive.docs.mulesoft.com/']")
-    archiveLinks.forEach((archiveLink) => addToolTip(archiveLink))
+    if (isNewLandingPage()) {
+      const archiveLinks = document.querySelectorAll("a[href='https://archive.docs.mulesoft.com/']")
+      archiveLinks.forEach((archiveLink) => addToolTip(archiveLink))
+    }
+  }
+
+  const isNewLandingPage = () => {
+    return document.querySelector('#cta')
   }
 
   const addToolTip = (archiveLink) => {
@@ -22,20 +28,13 @@
 
   const createTooltipIcon = (archiveLink) => {
     const tooltipIcon = document.createElement('img')
-    const iconColor = inLeftNav(archiveLink) || inOldPage(archiveLink) ? 'gray' : 'white'
+    const iconColor = inLeftNav(archiveLink) ? 'gray' : 'white'
     setIconAttributes(tooltipIcon, iconColor)
     return tooltipIcon
   }
 
   const inLeftNav = (element) => {
     return element.classList.contains('nav-text')
-  }
-
-  const inOldPage = (archiveLink) => {
-    if (!inLeftNav(archiveLink)) {
-      const footer = document.querySelector('footer')
-      return window.getComputedStyle(footer).backgroundColor === 'rgba(0, 0, 0, 0)'
-    }
   }
 
   const setIconAttributes = (icon, color) => {
