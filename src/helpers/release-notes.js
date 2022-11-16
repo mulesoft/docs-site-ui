@@ -87,10 +87,12 @@ const isVersion = (versionText) => {
 }
 
 const removeYear = (dateStr) => {
-  const dateObj = new Date(dateStr)
-  return `${dateObj.toLocaleString('default', {
-    month: 'short',
-  })} ${dateObj.getDate()}`
+  if (isValidDate(dateStr)) {
+    const dateObj = new Date(dateStr)
+    return `${dateObj.toLocaleString('default', {
+      month: 'short',
+    })} ${dateObj.getDate()}`
+  }
 }
 
 const cleanTitle = (title) => {
