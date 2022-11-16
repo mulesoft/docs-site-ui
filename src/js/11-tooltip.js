@@ -22,9 +22,20 @@
 
   const createTooltipIcon = (archiveLink) => {
     const tooltipIcon = document.createElement('img')
-    const iconColor = inLeftNav(archiveLink) ? 'gray' : 'white'
+    const iconColor = inLeftNav(archiveLink) || inOldPage(archiveLink) ? 'gray' : 'white'
     setIconAttributes(tooltipIcon, iconColor)
     return tooltipIcon
+  }
+
+  const inLeftNav = (element) => {
+    return element.classList.contains('nav-text')
+  }
+
+  const inOldPage = (archiveLink) => {
+    if (!inLeftNav(archiveLink)) {
+      const footer = document.querySelector('footer')
+      return window.getComputedStyle(footer).backgroundColor === 'rgba(0, 0, 0, 0)'
+    }
   }
 
   const setIconAttributes = (icon, color) => {
@@ -34,10 +45,6 @@
     icon.setAttribute('tabindex', '0')
     setSrcSVGPath(icon, color)
     applyTippy(icon, color)
-  }
-
-  const inLeftNav = (element) => {
-    return element.classList.contains('nav-text')
   }
 
   const setSrcSVGPath = (icon, color) => {
