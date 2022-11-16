@@ -1,16 +1,16 @@
-;(function () {
+;(() => {
   'use strict'
 
-  if (isHomePage()) {
-    hideToolBarAtLargeScreenSize()
-  }
-
-  function isHomePage () {
+  const isHomePage = () => {
     return document.querySelector('#latest-releases')
   }
 
-  function hideToolBarAtLargeScreenSize () {
+  const hideToolBarAtLargeScreenSize = () => {
     const toolbar = document.querySelector('.toolbar')
     toolbar.classList.add('toolbar-home')
+  }
+
+  if (isHomePage()) {
+    hideToolBarAtLargeScreenSize()
   }
 })()
