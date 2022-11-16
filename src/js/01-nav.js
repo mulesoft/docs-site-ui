@@ -174,7 +174,7 @@
       return candidate.name === 'archive'
     })
     if (found) return components
-    if (isLocalSite() || (!isArchiveSite() && !isExternalBetaSite() && !isInternalBetaSite())) {
+    if (!isArchiveSite() && !isBetaSite()) {
       return components.concat({
         name: 'archive',
         title: 'Archived Documentation',
@@ -758,6 +758,10 @@
     return window.location.host.includes('archive')
   }
 
+  function isBetaSite () {
+    return isExternalBetaSite() || isInternalBetaSite()
+  }
+
   function isExternalBetaSite () {
     return window.location.host.includes('beta')
   }
@@ -766,13 +770,17 @@
     return window.location.host.includes('dev-docs-internal')
   }
 
-  function isLocalSite () {
-    return isPreviewSite() || window.location.href.startsWith('file://')
-  }
+  // function isLocalSite () {
+  //   return isPreviewSite() || isLocalFileSite()
+  // }
 
-  function isPreviewSite () {
-    return window.location.href.startsWith('localhost')
-  }
+  // function isLocalFileSite () {
+  //   window.location.href.startsWith('file://')
+  // }
+
+  // function isPreviewSite () {
+  //   return window.location.href.startsWith('localhost')
+  // }
 
   buildNav(extractNavData(window), document.querySelector('.nav'), getPage())
 })()
