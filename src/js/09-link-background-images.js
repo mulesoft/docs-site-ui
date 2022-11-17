@@ -41,6 +41,7 @@
 
       const headerText = anchor.parentElement.textContent
       if (headerText) {
+        anchor.setAttribute('aria-label', `Jump to ${headerText}`)
         const anchorImg = createAnchorImg(headerText)
         anchor.appendChild(anchorImg)
 
@@ -65,8 +66,8 @@
 
   const adjustScrollPosition = (anchor) => {
     const minHeight = getMinHeight()
-    var tries = 0
-    var autoScrollDown = setInterval(() => {
+    let tries = 0
+    const autoScrollDown = setInterval(() => {
       if (anchor.getBoundingClientRect().top <= minHeight) {
         window.scrollBy(0, -minHeight / 1.1)
         clearInterval(autoScrollDown)
