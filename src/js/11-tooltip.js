@@ -2,8 +2,9 @@
   'use strict'
 
   const addToolTipsToAllArchiveLinks = () => {
-    const archiveLinks = document.querySelectorAll("a[href='https://archive.docs.mulesoft.com/']")
-    archiveLinks.forEach((archiveLink) => addToolTip(archiveLink))
+    document
+      .querySelectorAll("a[href='https://archive.docs.mulesoft.com/']")
+      .forEach((archiveLink) => addToolTip(archiveLink))
   }
 
   const addToolTip = (archiveLink) => {
