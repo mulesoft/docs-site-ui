@@ -35,34 +35,32 @@
 
   const processAnchorLinks = () => {
     document.querySelectorAll('.anchor').forEach((anchor) => {
-      const anchorImg = createLinkImage('anchor')
-      const headerText = anchor.parentElement.textContent
-      if (headerText) anchorImg.alt = `Jump to ${headerText}`
-      anchorImg.setAttribute('title', `Jump to ${headerText}`)
-
       anchor.addEventListener('click', () => {
         adjustScrollPosition(anchor)
       })
-      anchor.appendChild(anchorImg)
 
-      const sideLinks = [...document.querySelectorAll('.toc-menu a')].filter((a) => a.textContent === headerText)
-      if (sideLinks.length > 0) {
-        sideLinks[0].addEventListener('click', () => {
-          adjustScrollPosition(anchor)
-        })
+      const headerText = anchor.parentElement.textContent
+      if (headerText) {
+        const anchorImg = createAnchorImg(headerText)
+        anchor.appendChild(anchorImg)
+
+        const sidebarLinks = [...document.querySelectorAll('.toc-menu a')].filter((a) => a.textContent === headerText)
+        if (sidebarLinks.length > 0) {
+          sidebarLinks[0].addEventListener('click', () => {
+            adjustScrollPosition(anchor)
+          })
+        }
       }
     })
   }
 
-  const processSamePageLinks = () => {
-    const samePageLinks = [...document.querySelectorAll('.doc a')].filter((a) => a.href.includes('#'))
-    samePageLinks.forEach((samePageLink) => {
-      const href = samePageLink.href.split('#')[1]
-      const destLinkElement = document.querySelector(`#${href}`)
-      samePageLink.addEventListener('click', () => {
-        adjustScrollPosition(destLinkElement)
-      })
-    })
+  const createAnchorImg = (headerText) => {
+    const anchorImg = createLinkImage('anchor')
+    if (headerText) {
+      anchorImg.alt = `Jump to ${headerText}`
+      anchorImg.setAttribute('title', `Jump to ${headerText}`)
+    }
+    return anchorImg
   }
 
   const adjustScrollPosition = (anchor) => {
@@ -83,6 +81,17 @@
     const toolbar = document.querySelector('.toolbar')
     const noticeBanner = document.querySelector('.notice-banner')
     return noticeBanner ? toolbar.scrollHeight + noticeBanner.scrollHeight : toolbar.scrollHeight
+  }
+
+  const processSamePageLinks = () => {
+    const samePageLinks = [...document.querySelectorAll('.doc a')].filter((a) => a.href.includes('#'))
+    samePageLinks.forEach((samePageLink) => {
+      const href = samePageLink.href.split('#')[1]
+      const destLinkElement = document.querySelector(`#${href}`)
+      samePageLink.addEventListener('click', () => {
+        adjustScrollPosition(destLinkElement)
+      })
+    })
   }
 
   processExternalLinks('.nav')
