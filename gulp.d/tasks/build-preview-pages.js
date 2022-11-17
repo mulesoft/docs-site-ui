@@ -93,7 +93,9 @@ module.exports =
                       urlType: 'internal',
                     },
                   ]
+                  /* eslint-disable max-len */
                   pageModel.versions = pageModel.component.versions.map(({ version, displayVersion, url }, idx, arr) => {
+                  /* eslint-enable max-len */
                     const pageVersion = {
                       version,
                       displayVersion: displayVersion || version,
