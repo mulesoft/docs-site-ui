@@ -133,7 +133,6 @@
         groupsAccum.pop()
       } else if (groupComponents.length === 1 && (component = groupComponents[0]).unversioned) {
         const items = component.nav.items
-        console.log(items)
         if ((items[0] || {}).url === '/general/index.html') {
           component.nav.items = items.slice(1)
         }
