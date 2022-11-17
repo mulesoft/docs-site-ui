@@ -120,24 +120,25 @@
           targetItems.push(component)
         })
     })
-    var groups = data.groups.reduce(function (groupsAccum, group) {
-      var groupComponents
+    const groups = data.groups.reduce(function (groupsAccum, group) {
+      let groupComponents
       groupsAccum.push({
         iconId: groupIconId,
         components: (groupComponents = Object.values(selectComponents(group.components, componentPool, group.exclude))),
         title: group.title,
         spreadSingleItem: group.spreadSingleItem,
       })
-      var component
+      let component
       if (!groupComponents.length) {
         groupsAccum.pop()
       } else if (groupComponents.length === 1 && (component = groupComponents[0]).unversioned) {
-        var items = component.nav.items
-        if (!isBetaSite() && (items[0] || {}).url === data.homeUrl) {
+        const items = component.nav.items
+        console.log(items)
+        if ((items[0] || {}).url === '/general/index.html') {
           component.nav.items = items.slice(1)
         }
         component.nav.items.forEach(function (it) {
-          var iconId = it.url
+          const iconId = it.url
             ? 'icon-nav-page' + it.url.replace(/(?:\.html|\/)$/, '').replace(/[/#]/g, '-')
             : 'icon-nav-page-' + component.name + '-' + it.content?.toLowerCase().replace(/ +/g, '-')
           it.iconId = document.getElementById(iconId)
@@ -170,7 +171,7 @@
   }
 
   function appendArchiveComponent (components) {
-    var found = components.some(function (candidate) {
+    const found = components.some(function (candidate) {
       return candidate.name === 'archive'
     })
     if (found) return components
