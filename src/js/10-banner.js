@@ -1,23 +1,23 @@
 ;(() => {
   'use strict'
 
-  const processNoticeBanner = () => {
-    const noticeBannerDiv = document.querySelector('.doc .notice-banner.paragraph')
-    if (noticeBannerDiv) {
+  const processPartialNoticeBanner = () => {
+    const partialNoticeBannerDiv = document.querySelector('.doc .notice-banner.paragraph')
+    if (partialNoticeBannerDiv) {
       removeExistingNoticeBanner()
-      moveNoticeBanner(noticeBannerDiv)
-      addCloseButton(noticeBannerDiv)
+      moveNoticeBannerToDoc(partialNoticeBannerDiv)
+      addCloseButton(partialNoticeBannerDiv)
     }
   }
 
   const removeExistingNoticeBanner = () => {
-    const noticeBannerDiv = document.querySelector('.doc .notice-banner:not(.paragraph)')
-    if (noticeBannerDiv) noticeBannerDiv.remove()
+    const versionNoticeBannerDiv = document.querySelector('.doc .notice-banner:not(.paragraph)')
+    if (versionNoticeBannerDiv) versionNoticeBannerDiv.remove()
   }
 
-  const moveNoticeBanner = (noticeBannerDiv) => {
+  const moveNoticeBannerToDoc = (noticeBannerDiv) => {
     const doc = document.querySelector('.doc')
-    doc.insertBefore(noticeBannerDiv, doc.firstChild)
+    if (doc) doc.insertBefore(noticeBannerDiv, doc.firstChild)
   }
 
   const addCloseButton = (noticeBannerDiv) => {
@@ -89,7 +89,7 @@
     return [13, 32].includes(keyCode)
   }
 
-  processNoticeBanner()
+  processPartialNoticeBanner()
   enhanceTopBanner()
   enhanceNoticeBanner()
 })()
