@@ -88,10 +88,14 @@
     const samePageLinks = [...document.querySelectorAll('.doc a')].filter((a) => a.href.includes('#'))
     samePageLinks.forEach((samePageLink) => {
       const href = samePageLink.href.split('#')[1]
-      const destLinkElement = document.querySelector(`#${href}`)
-      samePageLink.addEventListener('click', () => {
-        adjustScrollPosition(destLinkElement)
-      })
+      try {
+        const destLinkElement = document.querySelector(`#${href}`)
+        samePageLink.addEventListener('click', () => {
+          adjustScrollPosition(destLinkElement)
+        })
+      } catch {
+        console.warn(`${href} is not a valid selector, skipping.`)
+      }
     })
   }
 
