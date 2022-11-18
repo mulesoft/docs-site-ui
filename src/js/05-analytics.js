@@ -1,17 +1,20 @@
-;(function () {
+;(() => {
   'use strict'
 
-  var analytics = window.analytics
+  const addGithubTracker = () => {
+    const githubLinks = document.querySelectorAll('.js-github')
+    githubLinks.forEach((githubLink) => {
+      githubLink.addEventListener('click', trackGithub)
+    })
+  }
 
-  var gitHubLinks = document.querySelectorAll('.js-github')
-  var trackGitHub = function () {
+  const trackGithub = () => {
+    const analytics = window.analytics
     analytics &&
       analytics.track('Clicked GitHub Link', {
         url: window.location.href,
       })
   }
 
-  for (var i = 0; i < gitHubLinks.length; i++) {
-    gitHubLinks[i].addEventListener('click', trackGitHub)
-  }
+  addGithubTracker()
 })()
