@@ -80,9 +80,7 @@
 
   const hideBanner = (bannerDiv, classToRemove) => {
     bannerDiv.classList.add('hide')
-    if (classToRemove) {
-      bannerDiv.classList.remove(classToRemove)
-    }
+    if (classToRemove) bannerDiv.classList.remove(classToRemove)
   }
 
   const isSpaceOrEnterKey = (keyCode) => {
