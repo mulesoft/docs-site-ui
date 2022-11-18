@@ -11,11 +11,11 @@
   }
 
   const trackGithub = () => {
-    const analytics = window.analytics
-    analytics &&
-      analytics.track('Clicked GitHub Link', {
+    if (window.analytics) {
+      window.analytics.track('Clicked GitHub Link', {
         url: window.location.href,
       })
+    }
   }
 
   addGithubTracker()
