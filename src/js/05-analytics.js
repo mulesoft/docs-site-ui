@@ -2,10 +2,12 @@
   'use strict'
 
   const addGithubTracker = () => {
-    const githubLinks = document.querySelectorAll('.js-github')
-    githubLinks.forEach((githubLink) => {
-      githubLink.addEventListener('click', trackGithub)
-    })
+    if (window.analytics) {
+      const githubLinks = document.querySelectorAll('.js-github')
+      githubLinks.forEach((githubLink) => {
+        githubLink.addEventListener('click', trackGithub)
+      })
+    }
   }
 
   const trackGithub = () => {
