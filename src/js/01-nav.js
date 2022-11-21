@@ -289,7 +289,9 @@
     }
     if (componentData.iconId) {
       navTitle.classList.add('has-icon')
-      navLink.insertBefore(createSvgElement('.icon.nav-icon', '#' + componentData.iconId), navLink.firstChild)
+      const iconElement = createSvgElement('.icon.nav-icon', '#' + componentData.iconId)
+      iconElement.setAttribute('alt', '')
+      navLink.insertBefore(iconElement, navLink.firstChild)
     }
     navTitle.appendChild(navLink)
     if (!componentData.unversioned) {
@@ -465,7 +467,9 @@
         var navLink = createElement('a.link.nav-text', { href: relativize(navItemData.url) }, navItemData.content)
         if (navItemData.iconId) {
           navLink.classList.add('has-icon')
-          navLink.insertBefore(createSvgElement('.icon.nav-icon', '#' + navItemData.iconId), navLink.firstChild)
+          const iconElement = createSvgElement('.icon.nav-icon', '#' + navItemData.iconId)
+          iconElement.setAttribute('alt', '')
+          navLink.insertBefore(iconElement, navLink.firstChild)
         }
         if (navItemData.url === page.url) {
           ;(lineage || []).forEach(function (el) {

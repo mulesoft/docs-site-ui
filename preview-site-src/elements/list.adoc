@@ -1,0 +1,46 @@
+= List
+:keywords: list, lists, ordered, unordered
+:page-component-name: elements
+:page-notice-banner-message: This is a custom notice message about lists
+
+https://docs.antora.org/antora/latest/asciidoc/lists/[Antora docs reference^]
+
+== Ordered lists
+
+. Step 1
+. Step 2
+.. Details
+... Mini-details
+.... Micro-details
+..... We're really down in the weeds now.
+.. More details
+. Step 3
+
+== Unordered lists
+
+* Item A
+* Item B
+** Item B1
+*** Details
+**** More details
+***** Details about the details
+** Item B2
+* Item C
+
+== Description lists
+
+term 1::
+This description needs two paragraphs.
+To attach them both to term 1, use a list continuation (+) on the line separating the paragraphs.
++
+This is the second paragraph for term 1.
+
+term 2:: This description includes an admonition block.
+Like additional paragraphs, blocks also need to be connected with a +.
++
+NOTE: An admonition block that is part of term 2's description.
+
+term 3::
+* unordered list item
+.. ordered list item
+... another ordered list item

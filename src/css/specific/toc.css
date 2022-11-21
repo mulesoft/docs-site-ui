@@ -6,6 +6,7 @@
 .toc-sidebar {
   display: none;
   flex: 0 0 auto;
+  height: fit-content;
   max-width: var(--toc-width);
   padding: var(--lg) var(--md) var(--xl);
   position: sticky;
@@ -32,16 +33,24 @@
   padding: var(--xs) var(--sm);
   text-decoration: none;
 
-  &:hover,
-  &:focus,
-  &:active {
-    border-left-color: var(--aluminum-4);
-    color: var(--steel-4);
+  &:hover {
+    border-left-color: var(--steel-2);
+    color: var(--steel-2);
+    font-weight: var(--weight-bold);
   }
 
+  &:focus {
+    border-radius: var(--radius);
+    outline: 2px solid #888;
+  }
+
+  &:active,
   &.is-active {
+    background-color: #e8e9ea;
     border-color: var(--secondary-navy);
-    color: var(--steel-4);
+    border-width: 5px;
+    color: var(--secondary-navy);
+    margin-left: -1px;
   }
 
   & code {
