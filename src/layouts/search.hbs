@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    {{#if (and (ne (site-profile) 'jp') (ne (site-profile) 'prod'))}}
+    <meta name="robots" content="none, noarchive">
+    <!-- Coveo -->
+    {{!-- <link
+      rel="stylesheet"
+      href="https://static.cloud.coveo.com/atomic/v1.110.1/themes/coveo.css"/>
+    <script type="module" src="https://static.cloud.coveo.com/atomic/v1.110.1/atomic.esm.js"></script>
+    <script>
+      (async () => {
+        await customElements.whenDefined("atomic-search-interface");
+        const searchInterface = document.querySelector("#search");
+
+        await searchInterface.initialize({
+          accessToken: "{{env.COVEO_ACCESS_TOKEN}}",
+          organizationId: "mulesoftprodqzggq6re",
+        });
+        searchInterface.executeFirstSearch();
+      })();
+    </script> --}}
+    {{/if}}
+    <title>{{{detag (or page.title 'Search Results')}}}{{#if site.title}} | {{{site.title}}}{{/if}}</title>
+    {{> head}}
+    <!-- Custom Coveo Elements Lazy Loading -->
+    {{!-- <script type="module" src="_/js/vendor/dev-docs-dmc-search.esm.js"></script>
+    <link href="_/css/vendor/coveo.css" rel="stylesheet" />
+    <link href="_/css/vendor/dev-docs-dmc-search.css" rel="stylesheet" /> --}}
+</head>
+
+<body class="status-404 flex col">
+    {{> header}}
+    <body>
+        <atomic-search-interface id="search" search-hub="dev-docs-dmc-search">
+            <atomic-search-layout>
+                <atomic-layout-section section="search">
+                    <atomic-search-box></atomic-search-box>
+                </atomic-layout-section>
+                <atomic-layout-section section="facets">
+                    <atomic-facet
+                        field="product"
+                        label="Product Component"
+                        display-values-as="checkbox"
+                    ></atomic-facet
+                    ><atomic-facet
+                        field="version"
+                        label="Product Version"
+                        display-values-as="checkbox"
+                        sortCriteria="alphanumeric"
+                    ></atomic-facet>
+                </atomic-layout-section>
+
+                <atomic-layout-section section="main" class="main">
+                    <atomic-layout-section section="status">
+                        <atomic-breadbox></atomic-breadbox>
+                        <atomic-query-summary></atomic-query-summary>
+                        <atomic-refine-toggle></atomic-refine-toggle>
+                        <atomic-sort-dropdown
+                            ><atomic-sort-expression
+                                label="Relevance"
+                                expression="relevancy"
+                            ></atomic-sort-expression
+                            ><atomic-sort-expression
+                                label="Version (Descending)"
+                                expression="version descending"
+                            ></atomic-sort-expression>
+                            {{!-- <atomic-sort-expression
+                                label="Most recent"
+                                expression="date descending"></atomic-sort-expression> --}}
+                        </atomic-sort-dropdown>
+                        <atomic-did-you-mean></atomic-did-you-mean>
+                    </atomic-layout-section>
+                    <atomic-layout-section section="results">
+                        <results-manager></results-manager>
+                        <atomic-query-error></atomic-query-error>
+                        <atomic-no-results></atomic-no-results>
+                    </atomic-layout-section>
+                    <atomic-layout-section section="pagination">
+                        <atomic-load-more-results></atomic-load-more-results>
+                    </atomic-layout-section>
+                </atomic-layout-section>
+            </atomic-search-layout>
+        </atomic-search-interface>
+  </body>
+    {{> footer}}
+</body>
+
+</html>

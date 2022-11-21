@@ -17,7 +17,12 @@ const partialsDir = `${srcDir}/partials`
 const { reload: livereload } = process.env.LIVERELOAD === 'true' ? require('gulp-connect') : {}
 const serverConfig = { host: '0.0.0.0', port: 8080, livereload }
 
+// For stencil, needed for search
+var cp = require('child_process')
+var gulp = require('gulp')
+
 const task = require('./gulp.d/tasks')
+const { setUncaughtExceptionCaptureCallback } = require('process')
 const glob = {
   all: [srcDir, previewSrcDir],
   css: [`${srcDir}/css/**/*.css`, `!${srcDir}/css/**/*.min.css`],
@@ -124,6 +129,10 @@ const updateTask = createTask({
   name: 'update',
   desc: 'Update header and footer partials from endpoint',
   call: task.update(partialsDir),
+})
+
+gulp.task('reset', function () {
+  return cp.exec('npx stencil build')
 })
 
 module.exports = exportTasks(

@@ -762,5 +762,8 @@
     return window.location.host.includes('dev-docs-internal')
   }
 
-  buildNav(extractNavData(window), document.querySelector('.nav'), getPage())
+  var navSelector = document.querySelector('.nav')
+  if (navSelector !== null) {
+    buildNav(extractNavData(window), navSelector, getPage())
+  }
 })()

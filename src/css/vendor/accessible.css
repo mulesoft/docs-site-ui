@@ -1,19 +1,19 @@
 :root {
   /* Primary colors */
-  --atomic-primary: #1372ec;
-  --atomic-primary-light: #399ffe;
-  --atomic-primary-dark: #1a50ad;
+  --atomic-primary: #303f9f;
+  --atomic-primary-light: #666ad1;
+  --atomic-primary-dark: #001970;
   --atomic-on-primary: #ffffff;
-  --atomic-ring-primary: rgba(19, 114, 236, 0.5);
+  --atomic-ring-primary: rgba(48, 63, 159, 0.5);
 
   /* Neutral colors */
-  --atomic-neutral-dark: #626971;
-  --atomic-neutral: #e5e8e8;
-  --atomic-neutral-light: #f6f7f9;
+  --atomic-neutral-dark: #424242;
+  --atomic-neutral: #757575;
+  --atomic-neutral-light: #e0e0e0;
 
   /* Semantic colors */
   --atomic-background: #ffffff;
-  --atomic-on-background: #282829;
+  --atomic-on-background: #000000;
   --atomic-success: #12a244;
   --atomic-error: #ce3f00;
   --atomic-visited: #752e9c;
@@ -42,4 +42,7 @@
   /* Layout */
   --atomic-layout-spacing-x: 1.5rem;
   --atomic-layout-spacing-y: 1rem;
+
+  /* Component specific */
+  --atomic-rating-icon-outline: #775d00;
 }

@@ -16,10 +16,13 @@
     e.stopPropagation()
   }
 
-  bindNavToggle(
-    document.querySelector('.modal-backdrop'),
-    document.body,
-    document.querySelector('.nav'),
-    document.querySelector('.nav-toggle')
-  )
+  var navToggle = document.querySelector('.nav-toggle')
+  if (navToggle !== null) {
+    bindNavToggle(
+      document.querySelector('.modal-backdrop'),
+      document.body,
+      document.querySelector('.nav'),
+      document.querySelector('.nav-toggle')
+    )
+  }
 })()

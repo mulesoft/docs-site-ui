@@ -96,6 +96,8 @@ module.exports = (src, dest, preview) => () => {
             next(null, file)
           })
       ),
+    vfs.src('css/vendor/*.css', opts),
+    vfs.src('js/vendor/atomic/*', opts),
     vfs.src('font/*.{ttf,woff*(2)}', opts),
     vfs
       .src('img/**/*.{gif,ico,jpg,png,svg}', opts)
