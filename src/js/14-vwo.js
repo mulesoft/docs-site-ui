@@ -1,10 +1,19 @@
 ;(() => {
   'use strict'
 
-  for (const item of document.querySelectorAll('.doc a')) {
+  const landingPagePathnames = ['/general/', '/general/index', '/general/11-2022-index']
+
+  const isLandingPage = () => {
+    const output = landingPagePathnames.filter((pathName) =>
+      '/beta-new-landing-page/general/11-2022-index'.endsWith(pathName)
+    )
+    return output.length > 0
+  }
+
+  const addVMOListener = (item) => {
     item.addEventListener(
       'click',
-      (evt) => {
+      (_evt) => {
         window._vis_opt_queue = window._vis_opt_queue || []
         window._vis_opt_queue.push(() => {
           try {
@@ -19,4 +28,12 @@
       false
     )
   }
+
+  document.addEventListener('DOMContentLoaded', () => {
+    if (isLandingPage()) {
+      document.querySelectorAll('.doc a').forEach((item) => {
+        addVMOListener(item)
+      })
+    }
+  })
 })()
