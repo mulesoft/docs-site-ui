@@ -93,9 +93,7 @@
         samePageLink.addEventListener('click', () => {
           adjustScrollPosition(destLinkElement)
         })
-      } catch {
-        console.warn(`${href} is not a valid selector, skipping.`)
-      }
+      } catch {}
     })
   }
 
