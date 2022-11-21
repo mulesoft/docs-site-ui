@@ -39,6 +39,7 @@
   &.tooltip-dot-nav-version-menu {
     margin-bottom: 1px;
     margin-right: 3px;
+    z-index: var(--z-modal);
   }
 
   &.tooltip-dot-nav-version {

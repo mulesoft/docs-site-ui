@@ -10,16 +10,22 @@ module.exports = () => async () => {
 }
 
 async function updateContent (component) {
-  const content = await fetch(`https://www.mulesoft.com/api/${component}`)
-  if (await isGoodStatus(content.status)) {
-    try {
-      const body = await content.json()
-      if (await hasValidData(body)) {
-        fs.writeFileSync(`src/partials/${component}-content.hbs`, pretty(body.data))
+  try {
+    const content = await fetch(`https://www.mulesoft.com/api/${component}`)
+    if (await isGoodStatus(content.status)) {
+      try {
+        const body = await content.json()
+        if (await hasValidData(body)) {
+          fs.writeFileSync(`src/partials/${component}-content.hbs`, pretty(body.data))
+        }
+      } catch (error) {
+        console.warn(
+          `mulesoft endpoint returns invalid data. Keeping old version, no action is required. Error: ${error}`
+        )
       }
-    } catch (error) {
-      console.warn('mulesoft endpoint returns invalid data. Keeping old version, no action is required.')
     }
+  } catch (error) {
+    console.warn(`cannot fetch content right now. Please try again later. Error: ${error}`)
   }
 }
 

@@ -1,4 +1,4 @@
-;(function () {
+;(() => {
   'use strict'
 
   /* eslint-disable max-len */
@@ -14,18 +14,20 @@
   }
   /* eslint-enable max-len */
 
-  var connectorTierTrigger = document.querySelector('.js-connector-level-trigger')
-  if (connectorTierTrigger) {
-    const level = connectorTierTrigger.getAttribute('data-level')
-    if (level) {
-      const msg = msgMap[level.toLowerCase()]
-      if (msg) {
-        createConnectorLevelPopover(msg)
+  const addPopoverToConnectorLevel = () => {
+    var connectorTierTrigger = document.querySelector('.js-connector-level-trigger')
+    if (connectorTierTrigger) {
+      const level = connectorTierTrigger.getAttribute('data-level')
+      if (level) {
+        const msg = msgMap[level.toLowerCase()]
+        if (msg) {
+          createConnectorLevelPopover(connectorTierTrigger, msg)
+        }
       }
     }
   }
 
-  function createConnectorLevelPopover (msg) {
+  const createConnectorLevelPopover = (connectorTierTrigger, msg) => {
     tippy(connectorTierTrigger, {
       allowHTML: true,
       content: msg,
@@ -37,4 +39,6 @@
       zIndex: 14, // same as z-nav-mobile
     })
   }
+
+  addPopoverToConnectorLevel()
 })()
