@@ -4,9 +4,7 @@
   const landingPagePathnames = ['/general/', '/general/index', '/general/11-2022-index']
 
   const isLandingPage = () => {
-    const output = landingPagePathnames.filter((pathName) =>
-      '/beta-new-landing-page/general/11-2022-index'.endsWith(pathName)
-    )
+    const output = landingPagePathnames.filter((pathName) => window.location.pathname.endsWith(pathName))
     return output.length > 0
   }
 
