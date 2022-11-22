@@ -1,9 +1,9 @@
 ;(() => {
   'use strict'
 
-  var doc = document.querySelector('.doc')
-  var main = document.querySelector('.main')
-  var sidebar = document.querySelector('.toc-sidebar')
+  const main = document.querySelector('.main')
+  const doc = document.querySelector('.doc')
+  const sidebar = document.querySelector('.toc-sidebar')
   if (!doc || !sidebar) {
     main.classList.add('no-sidebar')
   } else {
@@ -74,6 +74,8 @@
       })
 
       // add to page
+      console.log(startOfContent)
+      console.log(selectWrap)
       doc.insertBefore(selectWrap, startOfContent)
     }
   }
