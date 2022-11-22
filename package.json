@@ -60,6 +60,7 @@
     "js-yaml": "~3.14",
     "merge-stream": "~2.0",
     "netlify-cli": "11.8.2",
+    "node-html-parser": "~5.2",
     "node-fetch": "^2.6.7",
     "postcss-calc": "~7.0",
     "postcss-custom-media": "~7.0",

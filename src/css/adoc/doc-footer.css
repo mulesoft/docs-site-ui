@@ -1,10 +1,10 @@
 .doc-footer {
   padding-bottom: var(--xl);
-  padding-left: 40px;
+  padding-left: var(--xl);
+  padding-top: 100px;
 
   & .button {
     font-size: 12px;
-    margin-left: var(--sm);
   }
 
   & .button-edit {
@@ -23,6 +23,11 @@
   display: flex;
   flex-direction: column;
   padding: var(--sm) var(--lg);
+  width: 70%;
+
+  @media (min-width: 810px) {
+    width: max-content;
+  }
 
   /* uncomment this block when GUS feedback is implemented */
   /* & .row {

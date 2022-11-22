@@ -1,5 +1,5 @@
 /* eslint-disable no-var */
-;(function () {
+;(() => {
   'use strict'
 
   function buildNav (navData, nav, page) {
@@ -120,24 +120,24 @@
           targetItems.push(component)
         })
     })
-    var groups = data.groups.reduce(function (groupsAccum, group) {
-      var groupComponents
+    const groups = data.groups.reduce(function (groupsAccum, group) {
+      let groupComponents
       groupsAccum.push({
         iconId: groupIconId,
         components: (groupComponents = Object.values(selectComponents(group.components, componentPool, group.exclude))),
         title: group.title,
         spreadSingleItem: group.spreadSingleItem,
       })
-      var component
+      let component
       if (!groupComponents.length) {
         groupsAccum.pop()
       } else if (groupComponents.length === 1 && (component = groupComponents[0]).unversioned) {
-        var items = component.nav.items
-        if ((items[0] || {}).url === data.homeUrl) {
+        const items = component.nav.items
+        if ((items[0] || {}).url.includes('/general/')) {
           component.nav.items = items.slice(1)
         }
         component.nav.items.forEach(function (it) {
-          var iconId = it.url
+          const iconId = it.url
             ? 'icon-nav-page' + it.url.replace(/(?:\.html|\/)$/, '').replace(/[/#]/g, '-')
             : 'icon-nav-page-' + component.name + '-' + it.content?.toLowerCase().replace(/ +/g, '-')
           it.iconId = document.getElementById(iconId)
@@ -170,11 +170,11 @@
   }
 
   function appendArchiveComponent (components) {
-    var found = components.some(function (candidate) {
+    const found = components.some(function (candidate) {
       return candidate.name === 'archive'
     })
     if (found) return components
-    if (!isArchiveSite() && !isExternalBetaSite() && !isInternalBetaSite()) {
+    if (!isArchiveSite() && !isBetaSite()) {
       return components.concat({
         name: 'archive',
         title: 'Archived Documentation',
@@ -384,13 +384,15 @@
   }
 
   function addCurrentVersionIndicator (parentElement, className) {
-    if (!isToolTipDot(parentElement.firstChild)) {
-      const tabIndex = parentElement.classList.contains('nav-version-button') ? 0 : -1
-      const currentVersionIndicator = createCurrentVersionIndicator(tabIndex, className)
-      const versionElement = parentElement.querySelector('.nav-version-label')
-        ? parentElement.firstChild.nextSibling
-        : parentElement.firstChild
-      parentElement.insertBefore(currentVersionIndicator, versionElement)
+    if (!isArchiveSite()) {
+      if (!isToolTipDot(parentElement.firstChild)) {
+        const tabIndex = parentElement.classList.contains('nav-version-button') ? 0 : -1
+        const currentVersionIndicator = createCurrentVersionIndicator(tabIndex, className)
+        const versionElement = parentElement.querySelector('.nav-version-label')
+          ? parentElement.firstChild.nextSibling
+          : parentElement.firstChild
+        parentElement.insertBefore(currentVersionIndicator, versionElement)
+      }
     }
     return parentElement
   }
@@ -758,6 +760,10 @@
     return window.location.host.includes('archive')
   }
 
+  function isBetaSite () {
+    return isExternalBetaSite() || isInternalBetaSite()
+  }
+
   function isExternalBetaSite () {
     return window.location.host.includes('beta')
   }
@@ -766,8 +772,17 @@
     return window.location.host.includes('dev-docs-internal')
   }
 
-  var navSelector = document.querySelector('.nav')
-  if (navSelector !== null) {
-    buildNav(extractNavData(window), navSelector, getPage())
-  }
+  // function isLocalSite () {
+  //   return isPreviewSite() || isLocalFileSite()
+  // }
+
+  // function isLocalFileSite () {
+  //   window.location.href.startsWith('file://')
+  // }
+
+  // function isPreviewSite () {
+  //   return window.location.href.startsWith('localhost')
+  // }
+
+  buildNav(extractNavData(window), document.querySelector('.nav'), getPage())
 })()
