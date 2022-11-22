@@ -1,9 +1,9 @@
 ;(() => {
   'use strict'
 
-  const main = document.querySelector('.main')
-  const doc = document.querySelector('.doc')
-  const sidebar = document.querySelector('.toc-sidebar')
+  var doc = document.querySelector('.doc')
+  var main = document.querySelector('.main')
+  var sidebar = document.querySelector('.toc-sidebar')
   if (!doc || !sidebar) {
     main.classList.add('no-sidebar')
   } else {
