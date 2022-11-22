@@ -1,0 +1,29 @@
+<div class='panel'>
+  <div class='sect2'>
+    <h3 id="latest-releases"><a class="anchor" href="#latest-releases"><img role="link" class="anchor-image"
+          src="../_/img/icons/anchor.svg" alt="Jump to Latest Releases" title="Jump to Latest Releases"></a>Latest
+      Releases</h3>
+    <table class="tableblock frame-all grid-all stretch">
+      <colgroup>
+        <col style="width: 10%;">
+        <col style="width: 90%;">
+      </colgroup>
+      <tbody>
+        {{#each (release-notes page.componentVersion.asciidoc.attributes.numberOfReleaseNotesItems)}}
+        <tr>
+          <td class="tableblock halign-left valign-top">
+            <p class="tableblock">{{./revdateWithoutYear}}</p>
+          </td>
+          <td class="tableblock halign-left valign-top">
+            <p class="tableblock"><a href={{relativize ./url}}#{{./latestVersionAnchor}} class="xref unresolved">{{./title}} {{./latestVersionName}}</a></p>
+          </td>
+        </tr>
+        <tr>
+          {{/each}}
+      </tbody>
+    </table>
+    <div class="paragraph">
+      <p><a href="../release-notes/index.html" class="view-all">View all release notes</a></p>
+    </div>
+  </div>
+</div>

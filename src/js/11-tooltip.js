@@ -2,16 +2,27 @@
   'use strict'
 
   const addToolTipsToAllArchiveLinks = () => {
-    const archiveLinks = document.querySelectorAll("a[href='https://archive.docs.mulesoft.com/']")
-    archiveLinks.forEach((archiveLink) => addToolTip(archiveLink))
+    document
+      .querySelectorAll("a[href='https://archive.docs.mulesoft.com/']")
+      .forEach((archiveLink) => addToolTip(archiveLink))
   }
 
   const addToolTip = (archiveLink) => {
-    const tooltipDiv = createTooltipDiv()
-    archiveLink.parentElement.appendChild(tooltipDiv)
+    if (!onOldLandingPage(archiveLink)) {
+      const tooltipDiv = createTooltipDiv()
+      archiveLink.parentElement.appendChild(tooltipDiv)
 
-    const tooltipIcon = createTooltipIcon(archiveLink)
-    tooltipDiv.appendChild(tooltipIcon)
+      const tooltipIcon = createTooltipIcon(archiveLink)
+      tooltipDiv.appendChild(tooltipIcon)
+    }
+  }
+
+  const onOldLandingPage = (archiveLink) => {
+    return !document.querySelector('#cta') && !inLeftNav(archiveLink)
+  }
+
+  const inLeftNav = (element) => {
+    return element.classList.contains('nav-text')
   }
 
   const createTooltipDiv = () => {
@@ -34,10 +45,6 @@
     icon.setAttribute('tabindex', '0')
     setSrcSVGPath(icon, color)
     applyTippy(icon, color)
-  }
-
-  const inLeftNav = (element) => {
-    return element.classList.contains('nav-text')
   }
 
   const setSrcSVGPath = (icon, color) => {
