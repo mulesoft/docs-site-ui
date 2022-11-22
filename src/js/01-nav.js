@@ -783,6 +783,8 @@
   // function isPreviewSite () {
   //   return window.location.href.startsWith('localhost')
   // }
-
-  buildNav(extractNavData(window), document.querySelector('.nav'), getPage())
+  var navSelector = document.querySelector('.nav')
+  if (navSelector !== null) {
+    buildNav(extractNavData(window), document.querySelector('.nav'), getPage())
+  }
 })()

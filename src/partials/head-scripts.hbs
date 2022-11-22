@@ -39,11 +39,6 @@ window.settings_timer=setTimeout(function () {_vwo_code.finish() },settings_tole
           accessToken: "{{env.COVEO_ACCESS_TOKEN}}",
           organizationId: "mulesoftprodqzggq6re",
         });
-        searchInterface.i18n.addResourceBundle('en', 'translation', {
-            'search': 'Search ...'
-        });
-        const englishTexts = searchInterface.i18n.getResourceBundle('en', 'translation');
-        console.log(englishTexts);
         searchInterface.executeFirstSearch();
       })();
 </script>
@@ -58,10 +53,5 @@ window.settings_timer=setTimeout(function () {_vwo_code.finish() },settings_tole
  --atomic-ring-primary: #ABE2F575;
  --atomic-font-family: var(--sans-serif);
  --atomic-border-radius: 2px;
- atomic-search-box::part(label-button) {
- justify-content: center;
- padding-bottom: 1rem;
- border-bottom: 2px solid var(--atomic-neutral)
-}
 }
 </style>
