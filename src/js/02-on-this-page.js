@@ -74,8 +74,6 @@
       })
 
       // add to page
-      console.log(startOfContent)
-      console.log(selectWrap)
       doc.insertBefore(selectWrap, startOfContent)
     }
   }
