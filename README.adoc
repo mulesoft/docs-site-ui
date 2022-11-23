@@ -158,15 +158,16 @@ You can then point Antora at this bundle using the `--ui-bundle-url` command-lin
 
 == Search update
 
-Per Dennis, here are the colors for the search button (check indicate they should be done):
-✓ Default background: #002196
-✓ Default icon: #FFFFFF (white)
-✓ Mouse hover background: #087299
-✓ Mouse hover icon: #FFFFFF (white)
-On click background: #114459
-✓ On click icon: #FFFFFF (white)
-✓ Keyboard focus: (use box-shadow property)
-✓ box-shadow: 0 0 0 3px #ABE2F5;
+Per Dennis, here are the colors for the search button (check indicate they should be done already):
+
+* ✓ Default background: #002196
+* ✓ Default icon: #FFFFFF (white)
+* ✓ Mouse hover background: #087299
+* ✓ Mouse hover icon: #FFFFFF (white)
+* On click background: #114459
+* ✓ On click icon: #FFFFFF (white)
+* ✓ Keyboard focus: (use box-shadow property)
+* ✓ box-shadow: 0 0 0 3px #ABE2F5;
 
 To run the cypress tests, first do `npx run search` to start the server, then
 
