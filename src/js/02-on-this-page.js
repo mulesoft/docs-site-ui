@@ -1,124 +1,117 @@
-(() => {
-  "use strict";
+;(() => {
+  'use strict'
 
-  var doc = document.querySelector(".doc");
-  var main = document.querySelector(".main");
-  var sidebar = document.querySelector(".toc-sidebar");
+  var doc = document.querySelector('.doc')
+  var main = document.querySelector('.main')
+  var sidebar = document.querySelector('.toc-sidebar')
   if (main !== null) {
     if (!doc || !sidebar) {
-      main.classList.add("no-sidebar");
+      main.classList.add('no-sidebar')
     } else {
-      var menu;
-      var headings = find(".sect1 > h2[id]", doc);
+      var menu
+      var headings = find('.sect1 > h2[id]', doc)
       if (!headings.length) {
         if (sidebar) {
-          sidebar.removeChild(sidebar.querySelector(".js-toc"));
+          sidebar.removeChild(sidebar.querySelector('.js-toc'))
         }
-        return;
+        return
       }
-      var lastActiveFragment;
-      var links = {};
+      var lastActiveFragment
+      var links = {}
 
       var list = headings.reduce(function (accum, heading) {
         var link = toArray(heading.childNodes).reduce(function (target, child) {
-          if (child.nodeName !== "A") {
-            target.appendChild(child.cloneNode(true));
+          if (child.nodeName !== 'A') {
+            target.appendChild(child.cloneNode(true))
           }
-          return target;
-        }, document.createElement("a"));
-        links[(link.href = "#" + heading.id)] = link;
-        var listItem = document.createElement("li");
-        listItem.appendChild(link);
-        accum.appendChild(listItem);
-        return accum;
-      }, document.createElement("ol"));
+          return target
+        }, document.createElement('a'))
+        links[(link.href = '#' + heading.id)] = link
+        var listItem = document.createElement('li')
+        listItem.appendChild(link)
+        accum.appendChild(listItem)
+        return accum
+      }, document.createElement('ol'))
 
-      if (!(menu = sidebar && sidebar.querySelector(".toc-menu"))) {
-        menu = document.createElement("div");
-        menu.className = "toc-menu";
+      if (!(menu = sidebar && sidebar.querySelector('.toc-menu'))) {
+        menu = document.createElement('div')
+        menu.className = 'toc-menu'
       }
 
-      menu.appendChild(list);
+      menu.appendChild(list)
 
-      if (sidebar) window.addEventListener("scroll", onScroll);
+      if (sidebar) window.addEventListener('scroll', onScroll)
 
-      var startOfContent = doc.querySelector("h1.page + *");
+      var startOfContent = doc.querySelector('h1.page + *')
       if (startOfContent) {
         // generate list
         var options = headings.reduce(function (accum, heading) {
-          var option = toArray(heading.childNodes).reduce(function (
-            target,
-            child
-          ) {
-            if (child.nodeName !== "A") {
-              target.appendChild(child.cloneNode(true));
+          var option = toArray(heading.childNodes).reduce(function (target, child) {
+            if (child.nodeName !== 'A') {
+              target.appendChild(child.cloneNode(true))
             }
-            return target;
-          },
-          document.createElement("option"));
-          option.value = "#" + heading.id;
-          accum.appendChild(option);
-          return accum;
-        }, document.createElement("select"));
+            return target
+          }, document.createElement('option'))
+          option.value = '#' + heading.id
+          accum.appendChild(option)
+          return accum
+        }, document.createElement('select'))
 
-        var selectWrap = document.createElement("div");
-        selectWrap.classList.add("select-wrapper");
-        selectWrap.appendChild(options);
+        var selectWrap = document.createElement('div')
+        selectWrap.classList.add('select-wrapper')
+        selectWrap.appendChild(options)
 
         // create jump to label
-        var jumpTo = document.createElement("option");
-        jumpTo.innerHTML = "Jump to…";
-        jumpTo.setAttribute("disabled", true);
-        options.insertBefore(jumpTo, options.firstChild);
-        options.className = "toc toc-embedded select";
+        var jumpTo = document.createElement('option')
+        jumpTo.innerHTML = 'Jump to…'
+        jumpTo.setAttribute('disabled', true)
+        options.insertBefore(jumpTo, options.firstChild)
+        options.className = 'toc toc-embedded select'
 
         // jump on change
-        options.addEventListener("change", function (e) {
-          var thisOptions = e.currentTarget.options;
-          window.location.hash = thisOptions[thisOptions.selectedIndex].value;
-        });
+        options.addEventListener('change', function (e) {
+          var thisOptions = e.currentTarget.options
+          window.location.hash = thisOptions[thisOptions.selectedIndex].value
+        })
 
         // add to page
-        doc.insertBefore(selectWrap, startOfContent);
+        doc.insertBefore(selectWrap, startOfContent)
       }
     }
   }
 
-  function onScroll() {
+  function onScroll () {
     // NOTE equivalent to: doc.parentNode.getBoundingClientRect().top + window.pageYOffset
-    var targetPosition = doc.parentNode.offsetTop;
-    var activeFragment;
+    var targetPosition = doc.parentNode.offsetTop
+    var activeFragment
     headings.some(function (heading) {
       if (heading.getBoundingClientRect().top < targetPosition) {
-        activeFragment = "#" + heading.id;
+        activeFragment = '#' + heading.id
       } else {
-        return true;
+        return true
       }
-    });
+    })
     if (activeFragment) {
       if (lastActiveFragment) {
-        links[lastActiveFragment].classList.remove("is-active");
+        links[lastActiveFragment].classList.remove('is-active')
       }
-      var activeLink = links[activeFragment];
-      activeLink.classList.add("is-active");
+      var activeLink = links[activeFragment]
+      activeLink.classList.add('is-active')
       if (menu.scrollHeight > menu.offsetHeight) {
-        menu.scrollTop = Math.max(
-          0,
-          activeLink.offsetTop + activeLink.offsetHeight - menu.offsetHeight
-        );
+        menu.scrollTop = Math.max(0, activeLink.offsetTop + activeLink.offsetHeight - menu.offsetHeight)
       }
-      lastActiveFragment = activeFragment;
+      lastActiveFragment = activeFragment
     } else if (lastActiveFragment) {
-      links[lastActiveFragment].classList.remove("is-active");
-      lastActiveFragment = undefined;
+      links[lastActiveFragment].classList.remove('is-active')
+      lastActiveFragment = undefined
     }
   }
 
-  function find(selector, from) {
-    return toArray((from || document).querySelectorAll(selector));
+  function find (selector, from) {
+    return toArray((from || document).querySelectorAll(selector))
   }
 
-  function toArray(collection) {
-    return [].slice.call(collection);
+  function toArray (collection) {
+    return [].slice.call(collection)
   }
-})();
+})()
