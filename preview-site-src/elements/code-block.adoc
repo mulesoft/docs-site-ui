@@ -1,0 +1,88 @@
+= Code Block
+:keywords: code, code block, code blocks, code snippets, snippets
+:page-component-name: elements
+:page-notice-banner-message: This is a custom notice message about code blocks
+
+https://docs.antora.org/antora/latest/asciidoc/source/[Antora docs reference^]
+
+The following are code blocks of different languages (they are highlighted differently).
+
+== No highlights
+
+[source]
+----
+# Insert logic here
+----
+
+== Java
+
+[source,java,linenums]
+----
+@XmlRootElement(name = "person")
+@XmlAccessorType(XmlAccessType.FIELD)
+public class Person
+{
+    private String name;
+    private String dob;
+
+    @XmlElementWrapper(name = "emailAddresses")
+    @XmlElement(name = "emailAddress")
+    private List<EmailAddress> emailAddresses;
+
+    public String getName() { return name; }
+    public void setName(String name) { this.name = name; }
+    public String getDob() { return dob; }
+    public void setDob(String dob) { this.dob = dob; }
+    public List<EmailAddress> getEmailAddresses() { return emailAddresses; }
+    public void setEmailAddresses(List<EmailAddress> emailAddresses) { this.emailAddresses = emailAddresses; }
+}
+----
+
+== XML
+
+[source,xml,linenums]
+----
+<mule xmlns:aggregators="http://www.mulesoft.org/schema/mule/aggregators"
+	xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core"
+	xmlns:http="http://www.mulesoft.org/schema/mule/http"
+	xmlns:file="http://www.mulesoft.org/schema/mule/file"
+	xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core
+	http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+	http://www.mulesoft.org/schema/mule/file
+	http://www.mulesoft.org/schema/mule/file/current/mule-file.xsd
+	http://www.mulesoft.org/schema/mule/http
+	http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd
+	http://www.mulesoft.org/schema/mule/ee/core
+	http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd
+	http://www.mulesoft.org/schema/mule/aggregators
+	http://www.mulesoft.org/schema/mule/aggregators/current/mule-aggregators.xsd">
+----
+
+== YAML
+
+[source,yaml,linenums]
+----
+Notification:
+type: object
+properties:
+    id: string
+    domain: string
+    priority?: string
+    read: boolean
+    readOn?: datetime
+    createdAt: datetime
+    href: string
+    properties: object
+----
+
+== Dataweave
+
+NOTE: The playground button doesn't work here (yet) because the asciidoc extension that adds the button is in docs-site-playbook.
+
+[source,dataweave,linenums]
+----
+include::preview-site-src/cookbook-dw/add-and-subtract-time/transform.dwl[]
+----

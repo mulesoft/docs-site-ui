@@ -4,10 +4,14 @@
   var CMD_RX = /^\$ (\S[^\\\n]*(\\\n(?!\$ )[^\\\n]*)*)(?=\n|$)/gm
   var LINE_CONTINUATION_RX = /( ) *\\\n *|\\\n( ?) */g
   var TRAILING_SPACE_RX = / +$/gm
-  var config = (document.getElementById('site-script') || { dataset: {} }).dataset
+  var config = (
+    document.getElementById('site-script') || {
+      dataset: {},
+    }
+  ).dataset
 
   ;[].slice.call(document.querySelectorAll('.doc pre.highlight, .doc .literalblock pre')).forEach(function (pre) {
-    var code, dwTryMe, language, lang, copy, toast, toolbox
+    var code, dwPlayground, language, lang, copy, toast, toolbox
     var uiRootPath = document.getElementById('site-script').dataset.uiRootPath
     if (pre.classList.contains('highlight')) {
       code = pre.querySelector('code')
@@ -16,8 +20,8 @@
         lang.appendChild(document.createTextNode(language))
       }
       if (relatesToDataweave(language) && code.dataset?.sourceUrl) {
-        ;(dwTryMe = document.createElement('span')).className = 'dw-tryme'
-        dwTryMe.id = 'dw-tryme'
+        ;(dwPlayground = document.createElement('span')).className = 'dw-playground'
+        dwPlayground.id = 'dw-playground'
         var dwButton = document.createElement('button')
         dwButton.className = 'code-snippet-button'
         dwButton.setAttribute('title', 'Edit in Playground')
@@ -29,7 +33,7 @@
 
         var dwImg = document.createElement('img')
         dwImg.src = uiRootPath + '/img/icons/lab-default.svg'
-        dwImg.alt = 'try me icon'
+        dwImg.alt = 'Edit in Playground icon'
         dwImg.className = 'code-snippet-icon'
 
         dwButton.appendChild(dwImg)
@@ -41,7 +45,7 @@
         })
 
         dwA.appendChild(dwButton)
-        dwTryMe.appendChild(dwA)
+        dwPlayground.appendChild(dwA)
       }
     } else if (pre.innerText.startsWith('$ ')) {
       var block = pre.parentNode.parentNode
@@ -86,9 +90,11 @@
       copy.appendChild(toast)
       toolbox.appendChild(copy)
     }
-    if (dwTryMe) toolbox.appendChild(dwTryMe)
+    if (dwPlayground) toolbox.appendChild(dwPlayground)
     pre.appendChild(toolbox)
-    if (copy) copy.addEventListener('click', writeToClipboard.bind(copy, code))
+    if (copy) {
+      copy.addEventListener('click', writeToClipboard.bind(copy, code))
+    }
   })
 
   function constructDWPlaygroundURL (sourceUrl) {
@@ -105,13 +111,17 @@
   function extractCommands (text) {
     var cmds = []
     var m
-    while ((m = CMD_RX.exec(text))) cmds.push(m[1].replace(LINE_CONTINUATION_RX, '$1$2'))
+    while ((m = CMD_RX.exec(text))) {
+      cmds.push(m[1].replace(LINE_CONTINUATION_RX, '$1$2'))
+    }
     return cmds.join(' && ')
   }
 
   function writeToClipboard (code) {
     var text = code.innerText.replace(TRAILING_SPACE_RX, '')
-    if (code.dataset.lang === 'console' && text.startsWith('$ ')) text = extractCommands(text)
+    if (code.dataset.lang === 'console' && text.startsWith('$ ')) {
+      text = extractCommands(text)
+    }
     window.navigator.clipboard.writeText(text).then(
       function () {
         this.classList.add('clicked')

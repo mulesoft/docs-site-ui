@@ -1,13 +1,22 @@
 {{#if page.component}}
-<footer class="flex col align-center doc-footer">
+<footer class="flex col align-left doc-footer">
   {{#if (or env.GOOGLE_ANALYTICS_KEY env.JIRA_COLLECTOR_ID)}}
   <section class="section-helpful js-thanks-section">
-    <p class="p" data-thanks="start">Was this article helpful?</p>
     {{#if env.GOOGLE_ANALYTICS_KEY}}
     <div class="row">
-      <button class="button js-thanks-yes" data-thanks="start" type="button">👍 Yes, thanks!</button>
-      <button class="button js-thanks-no js-jira" data-thanks="start" type="button">👎 No, not really.</button>
-      <p class="p" data-thanks="end">💙 Thanks for your feedback!</p>
+      <span data-thanks="start">Was this article helpful?</span>
+      <button class="button js-thanks-yes" data-thanks="start" type="button">
+        <img src="{{@root.uiRootPath}}/img/icons/thumbs-up.png" alt="" height="12">
+        Yes, thanks!
+      </button>
+      <button class="button js-thanks-no js-jira" data-thanks="start" type="button">
+        <img src="{{@root.uiRootPath}}/img/icons/thumbs-down.png" alt="" height="12">
+        No, not really.
+      </button>
+      <span data-thanks="end">
+        <img src="{{@root.uiRootPath}}/img/icons/blue-heart.png" alt="" height="14">
+        Thanks for your feedback!
+      </span>
     </div>
     {{/if}}
     {{#if env.JIRA_COLLECTOR_ID}}

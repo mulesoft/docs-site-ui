@@ -1,75 +1,81 @@
-;(function () {
+;(() => {
   'use strict'
 
   var doc = document.querySelector('.doc')
   var main = document.querySelector('.main')
   var sidebar = document.querySelector('.toc-sidebar')
-  if (!doc) {
-    if (!sidebar) main.classList.add('no-sidebar')
-    return
-  }
-  var menu
-  var headings = find('.sect1 > h2[id]', doc)
-  if (!headings.length) {
-    if (sidebar) sidebar.removeChild(sidebar.querySelector('.js-toc'))
-    return
-  }
-  var lastActiveFragment
-  var links = {}
+  if (!doc || !sidebar) {
+    main.classList.add('no-sidebar')
+  } else {
+    var menu
+    var headings = find('.sect1 > h2[id]', doc)
+    if (!headings.length) {
+      if (sidebar) {
+        sidebar.removeChild(sidebar.querySelector('.js-toc'))
+      }
+      return
+    }
+    var lastActiveFragment
+    var links = {}
 
-  var list = headings.reduce(function (accum, heading) {
-    var link = toArray(heading.childNodes).reduce(function (target, child) {
-      if (child.nodeName !== 'A') target.appendChild(child.cloneNode(true))
-      return target
-    }, document.createElement('a'))
-    links[(link.href = '#' + heading.id)] = link
-    var listItem = document.createElement('li')
-    listItem.appendChild(link)
-    accum.appendChild(listItem)
-    return accum
-  }, document.createElement('ol'))
-
-  if (!(menu = sidebar && sidebar.querySelector('.toc-menu'))) {
-    menu = document.createElement('div')
-    menu.className = 'toc-menu'
-  }
-
-  menu.appendChild(list)
-
-  if (sidebar) window.addEventListener('scroll', onScroll)
-
-  var startOfContent = doc.querySelector('h1.page + *')
-  if (startOfContent) {
-    // generate list
-    var options = headings.reduce(function (accum, heading) {
-      var option = toArray(heading.childNodes).reduce(function (target, child) {
-        if (child.nodeName !== 'A') target.appendChild(child.cloneNode(true))
+    var list = headings.reduce(function (accum, heading) {
+      var link = toArray(heading.childNodes).reduce(function (target, child) {
+        if (child.nodeName !== 'A') {
+          target.appendChild(child.cloneNode(true))
+        }
         return target
-      }, document.createElement('option'))
-      option.value = '#' + heading.id
-      accum.appendChild(option)
+      }, document.createElement('a'))
+      links[(link.href = '#' + heading.id)] = link
+      var listItem = document.createElement('li')
+      listItem.appendChild(link)
+      accum.appendChild(listItem)
       return accum
-    }, document.createElement('select'))
+    }, document.createElement('ol'))
 
-    var selectWrap = document.createElement('div')
-    selectWrap.classList.add('select-wrapper')
-    selectWrap.appendChild(options)
+    if (!(menu = sidebar && sidebar.querySelector('.toc-menu'))) {
+      menu = document.createElement('div')
+      menu.className = 'toc-menu'
+    }
 
-    // create jump to label
-    var jumpTo = document.createElement('option')
-    jumpTo.innerHTML = 'Jump to…'
-    jumpTo.setAttribute('disabled', true)
-    options.insertBefore(jumpTo, options.firstChild)
-    options.className = 'toc toc-embedded select'
+    menu.appendChild(list)
 
-    // jump on change
-    options.addEventListener('change', function (e) {
-      var thisOptions = e.currentTarget.options
-      window.location.hash = thisOptions[thisOptions.selectedIndex].value
-    })
+    if (sidebar) window.addEventListener('scroll', onScroll)
 
-    // add to page
-    doc.insertBefore(selectWrap, startOfContent)
+    var startOfContent = doc.querySelector('h1.page + *')
+    if (startOfContent) {
+      // generate list
+      var options = headings.reduce(function (accum, heading) {
+        var option = toArray(heading.childNodes).reduce(function (target, child) {
+          if (child.nodeName !== 'A') {
+            target.appendChild(child.cloneNode(true))
+          }
+          return target
+        }, document.createElement('option'))
+        option.value = '#' + heading.id
+        accum.appendChild(option)
+        return accum
+      }, document.createElement('select'))
+
+      var selectWrap = document.createElement('div')
+      selectWrap.classList.add('select-wrapper')
+      selectWrap.appendChild(options)
+
+      // create jump to label
+      var jumpTo = document.createElement('option')
+      jumpTo.innerHTML = 'Jump to…'
+      jumpTo.setAttribute('disabled', true)
+      options.insertBefore(jumpTo, options.firstChild)
+      options.className = 'toc toc-embedded select'
+
+      // jump on change
+      options.addEventListener('change', function (e) {
+        var thisOptions = e.currentTarget.options
+        window.location.hash = thisOptions[thisOptions.selectedIndex].value
+      })
+
+      // add to page
+      doc.insertBefore(selectWrap, startOfContent)
+    }
   }
 
   function onScroll () {

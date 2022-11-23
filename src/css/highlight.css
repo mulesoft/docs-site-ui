@@ -6,7 +6,7 @@
 .hljs-keyword,
 .hljs-selector-tag {
   color: #66d9ef;
-  font-weight: var(--weight-medium);
+  font-weight: var(--weight-bold);
 }
 
 .hljs-subst {
@@ -44,5 +44,5 @@
 }
 
 .hljs-strong {
-  font-weight: var(--weight-medium);
+  font-weight: var(--weight-bold);
 }

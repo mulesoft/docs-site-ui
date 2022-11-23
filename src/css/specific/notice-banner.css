@@ -15,24 +15,36 @@
     }
 
     & a {
+      color: var(--secondary-navy);
       &:hover {
         background-color: #e8f8ff;
         border-radius: 5px;
         outline: 2px solid #747474;
-        text-decoration: none;
+        padding: 1px;
       }
 
-      &:active,
+      &:active {
+        background-color: #abd6e8;
+      }
+
       &:focus {
         border-radius: 5px;
         outline: 2px solid #747474;
-        text-decoration: none;
       }
 
       &:visited {
-        color: #002196;
+        color: var(--secondary-navy);
       }
     }
+  }
+
+  & .notice-banner-close-button {
+    background: none;
+    border: none;
+    cursor: pointer;
+    float: right;
+    font-size: 20px;
+    padding: 11px 17px;
   }
 }
 

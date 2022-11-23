@@ -1,0 +1,17 @@
+= Release Note Archive
+:keywords: release notes archive
+
+The following release notes apply to products or releases that have reached End of Life:
+
+* xref:analytics/anypoint-analytics-release-notes.adoc[Anypoint Analytics Release Notes]
+* xref:platform/anypoint-november-release.adoc[Anypoint Platform (2017) Release Notes]
+* xref:api-designer/api-designer-release-notes.adoc[API Designer (Pre-Crowd) Release Notes]
+* xref:api-notebook/api-notebook-release-notes.adoc[API Notebook Release Notes]
+* xref:cloudhub/cloudhub-r40-migration-guide.adoc[CloudHub R40 Migration Guide Release Notes]
+* xref:connector-devkit/anypoint-connector-devkit-studio-plugin-release-notes.adoc[Connector DevKit Studio Plugin Release Notes]
+* xref:dmt/dmt-release-notes.adoc[DevKit Migration Tool Release Notes]
+* xref:eu-cloud/anypoint-eu-control-plane.adoc[EU Control Plane (2017) Release Notes]
+* xref:mule-app-maven-plugin/mule-app-maven-plugin-release-notes.adoc[Mule App Maven Plugin Release Notes]
+* xref:mule-mmc/mule-management-console.adoc[Mule Management Console Release Notes]
+* xref:platform/release-bulletins.adoc[Mule Release Bulletins Release Notes]
+* xref:mule-runtime/mule-archive.adoc[Mule Runtime Release Notes] (3.7.n, 3.6.n, 3.5.n, 3.4.n, 3.3.n, 3.2.n, 3.1.n)
