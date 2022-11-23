@@ -29,7 +29,7 @@ pipeline {
       when { not { environment name: 'SKIP_CI', value: 'true' } }
       steps {
         nodejs('node12') {
-          sh '$(npm bin)/gulp bundle'
+          sh 'npx gulp bundle'
         }
       }
     }
@@ -38,7 +38,7 @@ pipeline {
       steps {
         withCredentials([string(credentialsId: githubCredentialsId, variable: 'GITHUB_TOKEN')]) {
           nodejs('node12') {
-            sh '$(npm bin)/gulp release:publish'
+            sh 'npx gulp release:publish'
           }
         }
       }
