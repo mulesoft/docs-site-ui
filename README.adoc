@@ -159,14 +159,15 @@ You can then point Antora at this bundle using the `--ui-bundle-url` command-lin
 == Search update
 
 Per Dennis, here are the colors for the search button (check indicate they should be done):
-✓ Default background: #002196
-✓ Default icon: #FFFFFF (white)
-✓ Mouse hover background: #087299
-✓ Mouse hover icon: #FFFFFF (white)
-On click background: #114459
-✓ On click icon: #FFFFFF (white)
-✓ Keyboard focus: (use box-shadow property)
-✓ box-shadow: 0 0 0 3px #ABE2F5;
+
+* ✓ Default background: #002196
+* ✓ Default icon: #FFFFFF (white)
+* ✓ Mouse hover background: #087299
+* ✓ Mouse hover icon: #FFFFFF (white)
+* On click background: #114459
+* ✓ On click icon: #FFFFFF (white)
+* ✓ Keyboard focus: (use box-shadow property)
+* ✓ box-shadow: 0 0 0 3px #ABE2F5;
 
 To run the cypress tests, first do `npx run search` to start the server, then
 
@@ -174,3 +175,5 @@ To run the cypress tests, first do `npx run search` to start the server, then
 1. Make `gulp preview` run faster
 2. Figure out a way to run the preview and cypress tests in a single command
 3. Tests work from Electron, but not from command-line; why?
+4. Change pagination, see https://docs.coveo.com/en/atomic/latest/reference/components/atomic-pager/
+5. Updates at https://github.com/mulesoft/dev-docs-dmc-search require coveo cli - https://docs.coveo.com/en/cli/
