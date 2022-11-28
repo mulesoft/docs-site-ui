@@ -55,7 +55,7 @@ This section offers a basic tutorial for learning how to preview the UI and bund
 To preview and bundle the UI, you need the following software on your computer:
 
 * {uri-git}[git] (command: `git`)
-* {uri-node}[Node 12] (command: `node`)
+* {uri-node}[Node 16] (command: `node`)
 * {uri-gulp}[Gulp CLI] (command: `gulp`)
 
 ==== git
@@ -66,31 +66,25 @@ First, make sure you have git installed.
 
 If not, {uri-git-dl}[download and install] the git package for your system.
 
-==== Node 12
+==== Node 16
 
-Next, make sure that you have at least Node 12 installed.
+Next, make sure that you have at least Node 16 installed.
 
  $ node -v
 
 If this command fails with an error, you don't have Node installed.
-If the command doesn't report a Node 12 version or better (e.g., v12.22.10), you don't have a suitable version of Node installed.
+If the command doesn't report a Node 16 version or better (for example, v16.27.0), you don't have a suitable version of Node installed.
 
 While you can install Node from the official packages, we strongly recommend that you use {uri-nvm}[nvm] (Node Version Manager) to install and manage Node.
 Follow the {uri-nvm-install}[nvm installation instructions] to set up nvm on your machine.
 
-Once you've installed nvm, open a new terminal and install Node 12 using the following command:
+Once you've installed nvm, open a new terminal and install Node 16 using the following command:
 
- $ nvm install 12
+ $ nvm install 16 --default
 
-You can switch to this version of Node at any time using the following command:
+Verify again that you have Node 16 installed by running:
 
- $ nvm use 12
-
-To make Node 12 the default in new terminals, type:
-
- $ nvm alias default 12
-
-Now that you have Node 12 installed, you can proceed with installing the Gulp CLI and the project dependencies.
+ $ node -v
 
 ==== Gulp CLI
 
@@ -158,7 +152,6 @@ You can then point Antora at this bundle using the `--ui-bundle-url` command-lin
 
 == Search update
 
-
 Per Dennis, here are the colors for the search button (check indicate they should be done):
 
 * ✓ Default background: #002196
@@ -170,12 +163,11 @@ Per Dennis, here are the colors for the search button (check indicate they shoul
 * ✓ Keyboard focus: (use box-shadow property)
 * ✓ box-shadow: 0 0 0 3px #ABE2F5;
 
-
 To run the cypress tests, first do `npx run search` to start the server, then
 
 === To Do
-1. Make `gulp preview` run faster
-2. Figure out a way to run the preview and cypress tests in a single command
-3. Tests work from Electron, but not from command-line; why?
-4. Change pagination, see https://docs.coveo.com/en/atomic/latest/reference/components/atomic-pager/
-5. Updates at https://github.com/mulesoft/dev-docs-dmc-search require coveo cli - https://docs.coveo.com/en/cli/
+
+1. Figure out a way to run the preview and cypress tests in a single command
+2. Tests work from Electron, but not from command-line; why?
+3. Change pagination, see https://docs.coveo.com/en/atomic/latest/reference/components/atomic-pager/
+4. Updates at https://github.com/mulesoft/dev-docs-dmc-search require coveo cli - https://docs.coveo.com/en/cli/
