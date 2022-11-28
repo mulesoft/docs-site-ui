@@ -44,3 +44,30 @@
     padding-top: 65px;
   }
 }
+
+.skip-link-container {
+  left: 20%;
+  position: absolute;
+  top: 10px;
+
+  &:focus-within {
+    z-index: 500;
+  }
+}
+
+.skip-link {
+  -webkit-text-size-adjust: 100%;
+  border: 1px solid #555;
+  border-radius: 3px;
+  box-sizing: border-box;
+  color: #007185;
+  font-family: "Amazon Ember",Arial,sans-serif;
+  font-size: 14px;
+  line-height: 20px;
+  margin-left: 7px;
+  padding: 7px 8px 7px 8px;
+  text-decoration: none;
+  top: 10px;
+  background-color: #fff;
+  z-index: -1;
+}
