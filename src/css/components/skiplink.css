@@ -1,33 +1,31 @@
 
 .skip-link-container {
-    left: 20%;
-    position: absolute;
-    top: 10px;
-  
-    &:focus-within {
-      z-index: 500;
-    }
-  }
-  
-  .skip-link {
-    -webkit-text-size-adjust: 100%;
-    border: 1px solid #555;
-    border-radius: 3px;
-    box-sizing: border-box;
-    cursor: pointer;
-    font-family: "Amazon Ember",Arial,sans-serif;
-    font-size: 14px;
-    line-height: 20px;
-    margin-left: 7px;
-    padding: 7px 8px 7px 8px;
-    text-decoration: none;
-    top: 10px;
-    background-color: #fff;
-    z-index: -1;
+  left: 20%;
+  position: absolute;
+  top: 10px;
 
-    &:focus {
-        color: var(--secondary-navy);
-        outline: 2px solid #888;
-    }
+  &:focus-within {
+    z-index: 500;
   }
-  
+}
+
+.skip-link {
+  background-color: #fff;
+  border: 1px solid #555;
+  border-radius: 3px;
+  box-sizing: border-box;
+  cursor: pointer;
+  font-size: 14px;
+  line-height: 20px;
+  margin-left: 7px;
+  padding: 7px 8px 7px 8px;
+  text-decoration: none;
+  -webkit-text-size-adjust: 100%;
+  top: 10px;
+  z-index: -1;
+
+  &:focus {
+    color: var(--secondary-navy);
+    outline: 2px solid #888;
+  }
+}
