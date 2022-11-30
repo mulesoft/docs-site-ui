@@ -20,7 +20,7 @@ pipeline {
     stage('Install') {
       when { not { environment name: 'SKIP_CI', value: 'true' } }
       steps {
-        nodejs('node14') {
+        nodejs('node12') {
           sh 'npm install --quiet --no-progress --cache=.cache/npm --no-audit'
         }
       }
@@ -28,7 +28,7 @@ pipeline {
     stage('Build') {
       when { not { environment name: 'SKIP_CI', value: 'true' } }
       steps {
-        nodejs('node14') {
+        nodejs('node12') {
           sh 'npx gulp bundle'
         }
       }
@@ -37,7 +37,7 @@ pipeline {
       when { allOf { environment name: 'GIT_BRANCH', value: gitBranch; not { environment name: 'SKIP_CI', value: 'true' } } }
       steps {
         withCredentials([string(credentialsId: githubCredentialsId, variable: 'GITHUB_TOKEN')]) {
-          nodejs('node14') {
+          nodejs('node12') {
             sh 'npx gulp release:publish'
           }
         }
