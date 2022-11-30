@@ -22,10 +22,11 @@
   border-radius: 2px;
   display: flex;
   flex-direction: column;
+  max-width: max-content;
   padding: var(--sm) var(--lg);
   width: 70%;
 
-  @media (min-width: 810px) {
+  @media (min-width: 540px) {
     width: max-content;
   }
 
