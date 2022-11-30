@@ -20,7 +20,7 @@ pipeline {
     stage('Install') {
       when { not { environment name: 'SKIP_CI', value: 'true' } }
       steps {
-        nodejs('node12') {
+        nodejs('node16') {
           sh 'npm install --quiet --no-progress --cache=.cache/npm --no-audit'
         }
       }
@@ -28,7 +28,7 @@ pipeline {
     stage('Build') {
       when { not { environment name: 'SKIP_CI', value: 'true' } }
       steps {
-        nodejs('node12') {
+        nodejs('node16') {
           sh 'npx gulp bundle'
         }
       }
