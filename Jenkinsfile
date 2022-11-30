@@ -37,7 +37,7 @@ pipeline {
       when { allOf { environment name: 'GIT_BRANCH', value: gitBranch; not { environment name: 'SKIP_CI', value: 'true' } } }
       steps {
         withCredentials([string(credentialsId: githubCredentialsId, variable: 'GITHUB_TOKEN')]) {
-          nodejs('node12') {
+          nodejs('node16') {
             sh 'npx gulp release:publish'
           }
         }
