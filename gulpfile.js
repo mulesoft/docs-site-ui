@@ -121,7 +121,7 @@ const previewServeTask = createTask({
 const previewTask = createTask({
   name: 'preview',
   desc: 'Generate a preview site and launch a server to view it',
-  call: series(getMarketingContentTask, formatTask, previewBuildTask, previewServeTask),
+  call: series(getMarketingContentTask, previewBuildTask, previewServeTask),
 })
 
 const updateTask = createTask({
