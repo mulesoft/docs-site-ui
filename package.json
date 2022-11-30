@@ -13,12 +13,13 @@
     "last 2 versions"
   ],
   "scripts": {
-    "build": "npx gulp bundle",
-    "deploy": "npx gulp release",
+    "bundle": "npx gulp bundle",
     "format": "npx gulp format",
     "lint": "npx gulp lint",
+    "preview": "npx gulp preview",
     "release": "npx gulp release",
-    "start": "npx gulp preview"
+    "clean": "rm -rf node_modules/",
+    "reinstall": "npm run clean && npm install"
   },
   "devDependencies": {
     "@octokit/rest": "19.0.5",
