@@ -1,10 +1,14 @@
 
 .skip-link-container {
   left: 20%;
+  opacity: 0;
   position: absolute;
   top: 10px;
+  transition: opacity 0.2s linear, z-index 0.5s linear;
+  z-index: 0;
 
   &:focus-within {
+    opacity: 1;
     z-index: 500;
   }
 }
@@ -23,7 +27,7 @@
   -webkit-text-size-adjust: 100%;
   top: 10px;
   z-index: -1;
-
+  
   &:focus {
     color: var(--secondary-navy);
     outline: 2px solid #888;
