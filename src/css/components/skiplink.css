@@ -9,7 +9,7 @@
   padding: 5px 5px;
   position: absolute;
   top: 10px;
-  transition: opacity 0.3s linear, z-index 0.5s linear;
+  transition: opacity .3s linear, z-index .5s linear;
   z-index: 0;
 
   &:focus-within {
@@ -31,7 +31,7 @@
   -webkit-text-size-adjust: 100%;
   top: 10px;
   z-index: -1;
-  
+
   &:focus {
     color: var(--secondary-navy);
     outline: 2px solid #888;
