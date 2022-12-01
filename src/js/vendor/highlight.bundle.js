@@ -23,5 +23,5 @@
   hljs.registerLanguage('swift', require('highlight.js/lib/languages/swift'))
   hljs.registerLanguage('xml', require('highlight.js/lib/languages/xml'))
   hljs.registerLanguage('yaml', require('highlight.js/lib/languages/yaml'))
-  hljs.initHighlightingOnLoad()
+  hljs.highlightAll()
 })()
