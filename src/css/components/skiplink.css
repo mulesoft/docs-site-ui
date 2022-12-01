@@ -6,9 +6,9 @@
   box-sizing: border-box;
   left: 20%;
   opacity: 0;
-  padding: 5px 5px;
+  padding: 6px 10px;
   position: absolute;
-  top: 10px;
+  top: 6px;
   transition: opacity .3s linear, z-index .5s linear;
   z-index: 0;
 
