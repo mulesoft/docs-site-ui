@@ -13,12 +13,10 @@
       focusOn(e, '#search-button')
     })
 
-
     mainContentSkipLink.addEventListener('keydown', (e) => {
       const selectors = toolbarIsVisible() ? '.toolbar a:not(.home-link)' : '.doc a'
       focusOn(e, selectors)
     })
-
 
     if (hasAside()) {
       pageNavSkipLink.addEventListener('keydown', (e) => {
