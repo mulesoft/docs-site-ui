@@ -68,7 +68,7 @@
     "stylelint-order": "4.1.0",
     "through2": "3.0.2",
     "tippy.js": "6.3.7",
-    "typeface-open-sans": "0.0.75",
+    "typeface-open-sans": "1.1.13",
     "vinyl-buffer": "1.0.1",
     "vinyl-fs": "3.0.3"
   }
