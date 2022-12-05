@@ -5,6 +5,10 @@
     const skipLinks = document.querySelectorAll('.skip-link')
     const [leftNavSkipLink, mainContentSkipLink, pageNavSkipLink] = skipLinks
 
+    clickToRemoveFocus(leftNavSkipLink)
+    clickToRemoveFocus(mainContentSkipLink)
+    clickToRemoveFocus(pageNavSkipLink)
+
     leftNavSkipLink.addEventListener('keydown', (e) => {
       focusOn(e, '#search-button')
     })
@@ -23,6 +27,15 @@
     }
   }
 
+  const clickToRemoveFocus = (element) => {
+    if (element) {
+      element.addEventListener('click', (e) => {
+        element.blur()
+        e.preventDefault()
+      })
+    }
+  }
+
   const focusOn = (e, selectors) => {
     if (isSpaceOrEnterKey(e.keyCode)) {
       document.querySelector(selectors).focus()
@@ -30,12 +43,16 @@
     }
   }
 
+  const hasAside = () => {
+    return document.querySelector('.js-toc')
+  }
+
   const isSpaceOrEnterKey = (keyCode) => {
     return [13, 32].includes(keyCode)
   }
 
-  const hasAside = () => {
-    return document.querySelector('.js-toc')
+  const removeElement = (element) => {
+    element.remove()
   }
 
   const toolbarIsVisible = () => {
@@ -44,10 +61,6 @@
       return window.getComputedStyle(toolbar).display !== 'none'
     }
     return false
-  }
-
-  const removeElement = (element) => {
-    element.remove()
   }
 
   addEventListenersToSkipLinks()
