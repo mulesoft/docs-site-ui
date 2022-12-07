@@ -23,14 +23,14 @@ module.exports = () => {
     }
   })
 
-  function format (file, enc, next) {
+  async function format (file, _enc, next) {
     if (file.isNull()) return next()
     if (file.isStream()) {
       return next(new PluginError('gulp-prettier-eslint', 'Streaming not supported'))
     }
 
     const input = file.contents.toString()
-    const output = prettierEslint({
+    const output = await prettierEslint({
       text: input,
       filePath: file.path,
     })
