@@ -110,7 +110,7 @@ module.exports = (src, dest, preview) => () => {
       imagemin(
         [
           imagemin.gifsicle(),
-          imagemin.jpegtran(),
+          imagemin.mozjpeg(),
           imagemin.optipng(),
           imagemin.svgo({
             plugins: [{ removeViewBox: false }],

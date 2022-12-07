@@ -16,7 +16,7 @@ async function updateContent (component) {
       try {
         const body = await content.json()
         if (await hasValidData(body)) {
-          fs.writeFileSync(`src/partials/${component}-content.hbs`, pretty(body.data))
+          fs.writeFileSync(`src/partials/${component}/${component}-content.hbs`, pretty(body.data))
         }
       } catch (error) {
         console.warn(

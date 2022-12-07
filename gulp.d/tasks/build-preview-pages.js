@@ -184,7 +184,7 @@ module.exports =
 
 function loadSampleUiModel (src) {
   return fs.readFile(ospath.join(src, 'ui-model.yml'), 'utf8').then((contents) => {
-    const uiModel = yaml.safeLoad(contents)
+    const uiModel = yaml.load(contents)
     uiModel.env = process.env
     Object.entries(uiModel.site.components).forEach(([name, component]) => {
       component.name = name

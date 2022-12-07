@@ -20,7 +20,7 @@ pipeline {
     stage('Install') {
       when { not { environment name: 'SKIP_CI', value: 'true' } }
       steps {
-        nodejs('node10') {
+        nodejs('node12') {
           sh 'npm install --quiet --no-progress --cache=.cache/npm --no-audit'
         }
       }
@@ -28,8 +28,8 @@ pipeline {
     stage('Build') {
       when { not { environment name: 'SKIP_CI', value: 'true' } }
       steps {
-        nodejs('node10') {
-          sh '$(npm bin)/gulp bundle'
+        nodejs('node12') {
+          sh 'npx gulp bundle'
         }
       }
     }
@@ -38,7 +38,7 @@ pipeline {
       steps {
         withCredentials([string(credentialsId: githubCredentialsId, variable: 'GITHUB_TOKEN')]) {
           nodejs('node12') {
-            sh '$(npm bin)/gulp release:publish'
+            sh 'npx gulp release:publish'
           }
         }
       }
