@@ -640,6 +640,7 @@
     this.style.maxHeight = height
     this.classList.add('is-active')
     setTabIndexForVersions()
+    this.parentElement.querySelector('.nav-version-button').classList.add('selector-active')
   }
 
   function getNavGroupsBottom () {
@@ -647,13 +648,16 @@
   }
 
   function closeVersionMenu (e) {
-    var visibleMenu = this.querySelector('.nav-version-menu.is-active')
-    if (visibleMenu) hideVersionMenu(visibleMenu, true)
+    const visibleMenu = this.querySelector('.nav-version-menu.is-active')
+    if (visibleMenu) {
+      hideVersionMenu(visibleMenu, true)
+    }
     if (e) trapEvent(e)
   }
 
   function hideVersionMenu (menu, force) {
     if (force || menu.classList.contains('is-active')) {
+      menu.parentElement.querySelector('.nav-version-button').classList.remove('selector-active')
       menu.classList.add('is-clipped')
       menu.style.maxHeight = 0
       menu.classList.remove('is-active')
