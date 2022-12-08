@@ -633,7 +633,7 @@
   align-items: center;
   display: flex;
   font-size: 14px;
-  font-weight: var(--weight-medium);;
+  font-weight: var(--weight-medium);
 }
 
 .tip-svg {
