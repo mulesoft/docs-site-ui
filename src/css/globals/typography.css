@@ -8,14 +8,14 @@
 @font-face {
   font-family: "DIN Pro";
   font-style: normal;
-  font-weight: var(--weight-bold);
+  font-weight: var(--weight-bold);;
   src: url(../font/din-pro-bold.woff) format("woff");
 }
 
 @font-face {
   font-family: "Open Sans";
   font-style: normal;
-  font-weight: var(--weight-normal);
+  font-weight: var(--weight-normal);;
   src:
     local("Open Sans Regular"),
     local("Open Sans-Regular"),
@@ -25,7 +25,7 @@
 @font-face {
   font-family: "Open Sans";
   font-style: normal;
-  font-weight: var(--weight-bold);
+  font-weight: var(--weight-bold);;
   src:
     local("Open Sans SemiBold"),
     local("Open Sans-SemiBold"),
