@@ -640,6 +640,7 @@
     this.style.maxHeight = height
     this.classList.add('is-active')
     setTabIndexForVersions()
+    this.parentElement.querySelector('.nav-version-button').classList.add('focus')
   }
 
   function getNavGroupsBottom () {
@@ -648,7 +649,11 @@
 
   function closeVersionMenu (e) {
     var visibleMenu = this.querySelector('.nav-version-menu.is-active')
-    if (visibleMenu) hideVersionMenu(visibleMenu, true)
+    if (visibleMenu) {
+      hideVersionMenu(visibleMenu, true)
+      console.log(visibleMenu.parentElement.querySelector('.nav-version-button'))
+      visibleMenu.parentElement.querySelector('.nav-version-button').classList.remove('focus')
+    }
     if (e) trapEvent(e)
   }
 
