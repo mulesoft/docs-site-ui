@@ -248,16 +248,19 @@ svg.nav-icon {
 
   &:focus,
   &:active {
-    background: var(--tertiary);
-    border-color: var(--secondary-navy);
-    color: var(--secondary-navy);
-    font-weight: bold;
+    border: none;
   }
 
   & svg.nav-version-icon {
     height: 1em;
     margin: 0 .125em;
     width: 1em;
+  }
+
+  &.selector-active {
+    border: 1px solid var(--secondary-navy);
+    box-shadow: 0 0 0 3px rgba(0,162,223,.25);
+    font-weight: var(--weight-bold);
   }
 }
 
