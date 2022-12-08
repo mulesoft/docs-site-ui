@@ -221,6 +221,8 @@ svg.nav-icon {
 
   &:focus {
     border: 1px solid var(--secondary-navy);
+    box-shadow: 0 0 0 3px rgba(0,162,223,.25);
+    margin-right: -17px;
   }
 }
 
@@ -240,20 +242,25 @@ svg.nav-icon {
 
   &:hover {
     border-color: var(--steel-2);
+    box-shadow: 0 0 0 3px rgba(88,89,90,.3);
     color: var(--steel-2);
   }
 
   &:focus,
   &:active {
-    background: var(--tertiary);
-    border-color: var(--secondary-navy);
-    color: var(--secondary-navy);
+    border: none;
   }
 
   & svg.nav-version-icon {
     height: 1em;
     margin: 0 .125em;
     width: 1em;
+  }
+
+  &.selector-active {
+    border: 1px solid var(--secondary-navy);
+    box-shadow: 0 0 0 3px rgba(0,162,223,.25);
+    font-weight: var(--weight-bold);
   }
 }
 
@@ -277,6 +284,7 @@ svg.nav-icon {
   z-index: var(--z-nav);
 
   &.is-active {
+    font-weight: var(--weight-bold);
     opacity: 1;
     pointer-events: auto;
     transform: scale(1) translate3d(0,0,0);
