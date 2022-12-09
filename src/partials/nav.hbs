@@ -1,10 +1,19 @@
 <nav class="nav fit" aria-label="Docs">
-  {{#if env.COVEO_ACCESS_TOKEN}}
+    <atomic-search-interface id="search" search-hub="dev-docs-dmc-search">
+        <atomic-search-layout>
+            <atomic-layout-section section="search">
+                <atomic-search-box redirection-url="/search.html">
+                    <atomic-search-box-query-suggestions max-with-query="3" max-without-query="3"/>
+                    <atomic-search-box-recent-queries  max-with-query="3" max-without-query="3"/>
+                </atomic-search-box>
+            </atomic-layout-section>
+    </atomic-search-layout>
+  {{!-- {{#if env.COVEO_ACCESS_TOKEN}}
   <div class="search">
     <button class="button" id="search-button">
       <svg class="icon" xmlns="http://www.w3.org/2000/svg" alt=""><use xlink:href="#icon-search"/></svg>
       Search docs
     </button>
   </div>
-  {{/if}}
+  {{/if}} --}}
 </nav>

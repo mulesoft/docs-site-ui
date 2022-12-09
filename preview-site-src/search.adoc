@@ -1,0 +1,2 @@
+= Search
+:page-layout: search-page

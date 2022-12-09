@@ -172,7 +172,7 @@
     &:not(footer *) {
       color: var(--secondary-navy);
       &:visited {
-        color: #681da8;
+        color: var(--violet-4);
       }
     }
 
