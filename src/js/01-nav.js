@@ -3,7 +3,7 @@
   'use strict'
 
   function buildNav (navData, nav, page) {
-    if (!page) return
+    if (!nav || !page) return
     if (nav.classList.contains('fit')) {
       ;(fitNav = fitNav.bind(nav))() // eslint-disable-line no-func-assign
       window.addEventListener('scroll', fitNav)
