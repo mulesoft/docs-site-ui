@@ -1,6 +1,13 @@
 ;(() => {
   'use strict'
 
+  const searchboxInLeftNav = () => {
+    const leftNav = document.querySelector('nav.nav')
+    if (leftNav) {
+      return leftNav.contains(document.querySelector('atomic-search-interface'))
+    }
+  }
+
   const updateAtomicElements = () => {
     let tries = 10
     const setPlaceholderText = setInterval(() => {
@@ -11,7 +18,7 @@
         if (comboBox) {
           comboBox.placeholder = 'Search Docs'
           const searchboxDiv = searchboxShadowRoot.querySelector('div')
-          if (searchboxDiv) {
+          if (searchboxDiv && !searchboxInLeftNav()) {
             searchboxDiv.style.maxWidth = '80%'
           }
           clearInterval(setPlaceholderText)
