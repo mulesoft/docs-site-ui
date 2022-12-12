@@ -1,6 +1,7 @@
 ;(() => {
   'use strict'
 
+  const vwoGoalID = 150
   const landingPagePathnames = ['/general/', '/general/index', '/general/11-2022-index']
 
   const isLandingPage = () => {
@@ -16,7 +17,7 @@
         window._vis_opt_queue.push(() => {
           try {
             /* eslint-disable no-undef */
-            _vis_opt_register_conversion(2, 145)
+            _vis_opt_register_conversion(2, vwoGoalID)
             /* eslint-enable no-undef */
           } catch (_error) {
             console.warn('_vis_opt_register_conversion not defined. Skipping...')
