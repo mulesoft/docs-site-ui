@@ -84,7 +84,9 @@
     }
 
     markMainAsNoSidebar () {
-      this.main?.classList.add('no-sidebar')
+      if (this.main) {
+        this.main.classList.add('no-sidebar')
+      }
     }
 
     onScroll () {
