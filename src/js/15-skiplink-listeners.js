@@ -58,14 +58,6 @@
     }
   }
 
-  const getFocusableSearchBox = () => {
-    const atomicSearchbox = document.querySelector('atomic-search-box')
-    const searchboxShadowRoot = atomicSearchbox && atomicSearchbox.shadowRoot
-    if (searchboxShadowRoot) {
-      return searchboxShadowRoot.querySelector('input')
-    }
-  }
-
   const getSkipLinks = () => {
     return document.querySelectorAll('.skip-link')
   }
