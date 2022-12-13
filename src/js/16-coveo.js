@@ -14,9 +14,9 @@
       const atomicSearchbox = document.querySelector('atomic-search-box')
       const searchboxShadowRoot = atomicSearchbox && atomicSearchbox.shadowRoot
       if (searchboxShadowRoot) {
-        const comboBox = searchboxShadowRoot.querySelector('[role="combobox"]')
-        if (comboBox) {
-          comboBox.placeholder = 'Search Docs'
+        const searchboxInput = searchboxShadowRoot.querySelector('input')
+        if (searchboxInput) {
+          searchboxInput.placeholder = 'Search Docs'
           const searchboxDiv = searchboxShadowRoot.querySelector('div')
           if (searchboxDiv && !searchboxInLeftNav()) {
             searchboxDiv.style.maxWidth = '80%'
