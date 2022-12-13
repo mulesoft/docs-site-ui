@@ -64,7 +64,7 @@
     padding: 1px 3px;
 
     &:not(.mulecopy a) {
-     margin-right: 7px;
+      margin-right: 7px;
     }
   }
 
