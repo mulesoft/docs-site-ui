@@ -2,21 +2,25 @@
   'use strict'
 
   const addEventListenersToSkipLinks = () => {
-    const skipLinks = document.querySelectorAll('.skip-link')
+    let skipLinks = getSkipLinks()
     const [leftNavSkipLink, mainContentSkipLink, pageNavSkipLink] = skipLinks
 
-    clickToRemoveFocus(leftNavSkipLink)
-    clickToRemoveFocus(mainContentSkipLink)
-    clickToRemoveFocus(pageNavSkipLink)
+    if (hasNav()) {
+      leftNavSkipLink.addEventListener('keydown', (e) => {
+        focusOn(e, '#search-button')
+      })
+    } else {
+      removeElement(leftNavSkipLink)
+    }
 
-    leftNavSkipLink.addEventListener('keydown', (e) => {
-      focusOn(e, '#search-button')
-    })
-
-    mainContentSkipLink.addEventListener('keydown', (e) => {
-      const selectors = toolbarIsVisible() ? '.toolbar a:not(.home-link)' : '.doc a'
-      focusOn(e, selectors)
-    })
+    if (hasMain()) {
+      mainContentSkipLink.addEventListener('keydown', (e) => {
+        const selectors = toolbarIsVisible() ? '.toolbar a:not(.home-link)' : '.doc a'
+        focusOn(e, selectors)
+      })
+    } else {
+      removeElement(mainContentSkipLink)
+    }
 
     if (hasAside()) {
       pageNavSkipLink.addEventListener('keydown', (e) => {
@@ -25,10 +29,17 @@
     } else {
       removeElement(pageNavSkipLink)
     }
+
+    skipLinks = getSkipLinks()
+    if (skipLinks.length > 0) {
+      clickToRemoveFocus(skipLinks)
+    } else {
+      removeElement(skipLinks)
+    }
   }
 
-  const clickToRemoveFocus = (element) => {
-    if (element) {
+  const clickToRemoveFocus = (elements) => {
+    for (const element of elements) {
       element.addEventListener('click', (e) => {
         element.blur()
         e.preventDefault()
@@ -38,13 +49,37 @@
 
   const focusOn = (e, selectors) => {
     if (isSpaceOrEnterKey(e.keyCode)) {
-      document.querySelector(selectors).focus()
+      if (typeof selectors === 'string') {
+        document.querySelector(selectors).focus()
+      } else {
+        selectors.focus()
+      }
       e.preventDefault()
     }
   }
 
+  const getFocusableSearchBox = () => {
+    const atomicSearchbox = document.querySelector('atomic-search-box')
+    const searchboxShadowRoot = atomicSearchbox && atomicSearchbox.shadowRoot
+    if (searchboxShadowRoot) {
+      return searchboxShadowRoot.querySelector('input')
+    }
+  }
+
+  const getSkipLinks = () => {
+    return document.querySelectorAll('.skip-link')
+  }
+
   const hasAside = () => {
     return document.querySelector('.js-toc')
+  }
+
+  const hasMain = () => {
+    return document.querySelector('main')
+  }
+
+  const hasNav = () => {
+    return document.querySelector('nav.nav')
   }
 
   const isSpaceOrEnterKey = (keyCode) => {
