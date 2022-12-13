@@ -1,4 +1,7 @@
 <nav class="flex align-center toolbar">
+  {{log page.title}}
+  {{#if (ne page.title 'Search Docs')}}
   <button class="button nav-toggle">Menu</button>
-{{> breadcrumbs}}
+  {{/if}}
+  {{> breadcrumbs}}
 </nav>
