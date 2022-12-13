@@ -24,7 +24,7 @@
 
 .ms-com-content.ms-com-content.ms-com-content-header header.ms-com-header .header-wrapper .header-inside,
 .ms-com-content.ms-com-content.ms-com-content-footer footer .footer-inside,
-.ms-com-content.ms-com-content.ms-com-content-footer footer .footer-bottom .footer-inside {
+.ms-com-content.ms-com-content.ms-com-content-footer footer .footer-bottom .footer-inside, {
   max-width: var(--screen-xl);
 
   @media (--xxl) {
@@ -43,4 +43,36 @@
     height: 100%;
     padding-top: 65px;
   }
+}
+
+.ms-com-content.ms-com-content-footer footer .footer-top a {
+  color: var(--secondary-navy) !important;
+
+  &:active,
+  &:focus {
+    border-radius: 5px;
+    outline: 2px solid #888;
+    text-decoration: none;
+  }
+
+  &:hover {
+    background-color: #c0edff;
+    border-radius: 5px;
+    color: var(--secondary-navy);
+    margin-left: -3px;
+    margin-right: -3px;
+    padding: 1px 3px;
+
+    &:not(.mulecopy a) {
+     margin-right: 7px;
+    }
+  }
+
+  &:visited {
+    color: #681da8;
+  }
+}
+
+.footer-copyright {
+  color: #757575 !important;
 }
