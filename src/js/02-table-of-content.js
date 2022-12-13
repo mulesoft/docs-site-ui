@@ -15,7 +15,7 @@
       this.main = main
       this.sidebar = sidebar
       this.headings = find('.sect1 > h2[id]', this.doc)
-      this.startOfContent = this.doc?.querySelector('h1.page + *')
+      this.startOfContent = doc?.querySelector('h1.page + *')
 
       this.lastActiveFragment = undefined
       this.menu = undefined
