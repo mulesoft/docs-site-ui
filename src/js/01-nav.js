@@ -2,7 +2,7 @@
 ;(() => {
   'use strict'
 
-  function buildNav (navData, nav, page) {
+  const buildNav = (navData, nav, page) => {
     if (!page) return
     if (nav.classList.contains('fit')) {
       ;(fitNav = fitNav.bind(nav))() // eslint-disable-line no-func-assign
@@ -10,9 +10,9 @@
       window.addEventListener('resize', fitNav)
     }
     relativize = relativize.bind(null, page.url) // eslint-disable-line no-func-assign
-    var navGroups = createElement('.nav-groups.scrollbar')
-    reshapeNavData(navData).groups.forEach(function (groupData) {
-      var navGroup = createElement('.nav-group')
+    const navGroups = createElement('.nav-groups.scrollbar')
+    reshapeNavData(navData).groups.forEach((groupData) => {
+      const navGroup = createElement('.nav-group')
       if (groupData.title) {
         navGroup.appendChild(createNavTitleForGroup(groupData))
       }
@@ -27,16 +27,16 @@
     scrollToCurrentPageItem(navGroups, page.scope)
   }
 
-  function extractNavData (source) {
-    var components = source.siteNavigationData
-    var homeUrl = components.homeUrl
+  const extractNavData = (source) => {
+    const components = source.siteNavigationData
+    let homeUrl = components.homeUrl
     if (!homeUrl) {
       homeUrl = (homeUrl = document.querySelector('a.home-link')) ? homeUrl.getAttribute('href') : '/'
     }
     delete components.homeUrl
-    var subcomponents = components.subcomponents || []
+    const subcomponents = components.subcomponents || []
     delete components.subcomponents
-    var groups = components.groups || [{ root: true, components: ['home', '*'] }]
+    const groups = components.groups || [{ root: true, components: ['home', '*'] }]
     delete components.groups
     delete source.siteNavigationData
     return {
@@ -47,11 +47,11 @@
     }
   }
 
-  function getPage () {
-    var head = document.head
-    var pageComponentMeta = head.querySelector('meta[name=page-component]')
+  const getPage = () => {
+    const head = document.head
+    const pageComponentMeta = head.querySelector('meta[name=page-component]')
     if (!pageComponentMeta) return
-    var pageVersion = head.querySelector('meta[name=page-version]').getAttribute('content')
+    let pageVersion = head.querySelector('meta[name=page-version]').getAttribute('content')
     if (pageVersion === 'master') pageVersion = ''
     return {
       component: pageComponentMeta.getAttribute('content'),
@@ -62,18 +62,18 @@
     }
   }
 
-  function reshapeNavData (data) {
-    var groupIconId = document.getElementById('icon-nav-group') && 'icon-nav-group'
-    var componentIconId = document.getElementById('icon-nav-component') && 'icon-nav-component'
-    var components = appendHomeComponent(data.components, data.homeUrl)
+  const reshapeNavData = (data) => {
+    const groupIconId = document.getElementById('icon-nav-group') && 'icon-nav-group'
+    const componentIconId = document.getElementById('icon-nav-component') && 'icon-nav-component'
+    let components = appendHomeComponent(data.components, data.homeUrl)
     components = appendArchiveComponent(components)
     components = components.reduce(function (componentsAccum, component) {
-      var versions
-      var iconId = 'icon-nav-component-' + component.name
+      let versions
+      const iconId = 'icon-nav-component-' + component.name
       componentsAccum[component.name] = component = Object.assign({}, component, {
         iconId: document.getElementById(iconId) ? iconId : componentIconId,
-        versions: component.versions.reduce(function (versionsAccum, version) {
-          var versionName = version.version === 'master' ? '' : version.version
+        versions: component.versions.reduce((versionsAccum, version) => {
+          const versionName = version.version === 'master' ? '' : version.version
           versionsAccum[versionName] = version = Object.assign({}, version, {
             version: versionName,
             nav: Object.assign({ items: [] }, version.sets[0]),
@@ -81,7 +81,7 @@
           if (versionName && !version.displayVersion) {
             version.displayVersion = versionName
           }
-          version.sets.slice(1).forEach(function (set) {
+          version.sets.slice(1).forEach((set) => {
             version.nav.items = version.nav.items.concat(set.items) // quick fix to merge multiple sets together
           })
           delete version.sets
@@ -98,29 +98,29 @@
       }
       return componentsAccum
     }, {})
-    var componentPool = Object.assign({}, components)
+    const componentPool = Object.assign({}, components)
     data.subcomponents.forEach(function (subcomponent) {
-      var targetComponent = components[subcomponent.parent]
+      const targetComponent = components[subcomponent.parent]
       if (!(targetComponent || {}).unversioned) {
         // console.warn("parent component '" + parent + "' " + (targetComponent ? 'cannot be versioned' : 'not found'))
         return
       }
-      var targetItems = targetComponent.nav.items
+      const targetItems = targetComponent.nav.items
       Object.values(selectComponents(subcomponent.components, componentPool))
-        .sort(function (a, b) {
+        .sort((a, b) => {
           if (!subcomponent.sortAll) return 0
           if (!a.title) return 1
           if (a.title?.toLowerCase() < b.title?.toLowerCase()) {
             return -1
           }
         })
-        .forEach(function (component) {
-          var iconId = 'icon-nav-component-' + component.name
+        .forEach((component) => {
+          const iconId = 'icon-nav-component-' + component.name
           component.iconId = document.getElementById(iconId) ? iconId : targetComponent.iconId
           targetItems.push(component)
         })
     })
-    const groups = data.groups.reduce(function (groupsAccum, group) {
+    const groups = data.groups.reduce((groupsAccum, group) => {
       let groupComponents
       groupsAccum.push({
         iconId: groupIconId,
@@ -194,13 +194,13 @@
     return components
   }
 
-  function selectComponents (patterns, pool, exclude) {
-    return coerceToArray(patterns).reduce(function (accum, pattern) {
+  const selectComponents = (patterns, pool, exclude) => {
+    return coerceToArray(patterns).reduce((accum, pattern) => {
       if (~pattern.indexOf('*')) {
         var rx = new RegExp('^' + pattern.replace(/[*]/g, '.*?') + '$')
         Object.keys(pool)
           .filter((x) => coerceToArray(exclude).indexOf(x) === -1)
-          .forEach(function (candidate) {
+          .forEach((candidate) => {
             if (rx.test(candidate)) {
               accum[candidate] = pool[candidate]
               delete pool[candidate]
@@ -210,7 +210,7 @@
         accum[pattern] = pool[pattern]
         delete pool[pattern]
       } else if (pattern in accum) {
-        var component = accum[pattern] // reinsert previously selected entry
+        const component = accum[pattern] // reinsert previously selected entry
         delete accum[pattern]
         accum[pattern] = component
       } else if (pattern.charAt() === '!' && (pattern = pattern.substr(1)) in accum) {
@@ -220,12 +220,12 @@
     }, {})
   }
 
-  function createNavTitleForGroup (groupData) {
+  const createNavTitleForGroup = (groupData) => {
     return createElement('h3.nav-title', groupData.title)
   }
 
-  function createNavListForGroup (groupData, page) {
-    var componentsData = groupData.components
+  const createNavListForGroup = (groupData, page) => {
+    const componentsData = groupData.components
     if (
       componentsData.length === 1 &&
       componentsData[0].unversioned &&
@@ -234,20 +234,20 @@
     ) {
       return createNavList(componentsData[0].nav, page)
     }
-    var navList = createElement('ul.nav-list')
-    componentsData.forEach(function (componentData) {
+    const navList = createElement('ul.nav-list')
+    componentsData.forEach((componentData) => {
       navList.appendChild(createNavItemForComponent(componentData, page))
     })
     return navList
   }
 
-  function createNavItemForComponent (componentData, page) {
-    var componentName = componentData.name
-    var navItem = createElement('li.nav-item', {
+  const createNavItemForComponent = (componentData, page) => {
+    const componentName = componentData.name
+    const navItem = createElement('li.nav-item', {
       dataset: { component: componentName },
     })
     navItem.appendChild(createNavTitle(navItem, componentData, page))
-    var versionData
+    let versionData
     if (page.component === componentName) {
       versionData = componentData.versions[page.version]
     } else if (isSubcomponent(page.component, componentData)) {
@@ -263,11 +263,11 @@
   }
 
   function createNavTitle (navItem, componentData, page) {
-    var navTitle = createElement('.nav-title')
-    var navLink = createElement('a.link.nav-text', componentData.title)
+    const navTitle = createElement('.nav-title')
+    const navLink = createElement('a.link.nav-text', componentData.title)
     navLink.setAttribute('tabindex', '0')
     if (componentData.name === 'home') {
-      var homeUrl = componentData.nav.url
+      const homeUrl = componentData.nav.url
       if ((navLink.href = relativize(homeUrl)) === relativize(page.url)) {
         navItem.classList.add('is-active')
         navLink.setAttribute('aria-current', 'page')
@@ -276,11 +276,11 @@
       navLink.href = componentData.nav.url
       navLink.target = '_blank'
     } else {
-      navLink.addEventListener('mousedown', function (e) {
+      navLink.addEventListener('mousedown', (e) => {
         toggleNav.call(navItem, componentData, false, page)
         e.preventDefault()
       })
-      navLink.addEventListener('keydown', function (e) {
+      navLink.addEventListener('keydown', (e) => {
         if (isSpaceOrEnterKey(e.keyCode)) {
           toggleNav.call(navItem, componentData, false, page)
           e.preventDefault()
@@ -300,7 +300,7 @@
     return navTitle
   }
 
-  function createNavVersionDropdown (navItem, componentData, page) {
+  const createNavVersionDropdown = (navItem, componentData, page) => {
     const versions = Object.values(componentData.versions)
     const currentVersionData = getCurrentVersionData(versions)
     const navVersionDropdown = createElement('.nav-version-dropdown')
@@ -319,7 +319,7 @@
       navVersionButton.appendChild(createSvgElement('.icon.nav-version-icon', '#' + page.navVersionIconId))
     }
     const navVersionMenu = createElement('div.nav-version-menu')
-    versions.reduce(function (lastVersionData, versionData) {
+    versions.reduce((lastVersionData, versionData) => {
       if (!isArchiveSite()) {
         if (versionData === currentVersionData) {
           navVersionMenu.appendChild(createElement('span.nav-version-label', 'Current version'))
@@ -340,7 +340,7 @@
         versionData.displayVersion
       )
       navVersionOption.setAttribute('tabindex', '-1')
-      navVersionOption.addEventListener('keydown', function (e) {
+      navVersionOption.addEventListener('keydown', (e) => {
         if (isSpaceOrEnterKey(e.keyCode)) {
           setTabIndexForVersions()
         }
@@ -353,11 +353,11 @@
         .addEventListener('click', selectVersion.bind(navVersionMenu, navItem, componentData, page))
       return versionData
     }, undefined)
-    navVersionButton.addEventListener('mousedown', function (e) {
+    navVersionButton.addEventListener('mousedown', (e) => {
       toggleVersionMenu.call(navVersionMenu)
       e.preventDefault()
     })
-    navVersion.addEventListener('keydown', function (e) {
+    navVersion.addEventListener('keydown', (e) => {
       if (isSpaceOrEnterKey(e.keyCode)) {
         toggleVersionMenu.call(navVersionMenu)
         setTabIndexForVersions()
@@ -366,24 +366,24 @@
     })
     navVersionDropdown.appendChild(navVersionButton)
     navVersionDropdown.appendChild(navVersionMenu)
-    navVersion.addEventListener('blur', function (e) {
+    navVersion.addEventListener('blur', (_e) => {
       autoCloseVersionDropdown(navVersionMenu)
     })
-    navVersionMenu.lastChild.addEventListener('blur', function (e) {
+    navVersionMenu.lastChild.addEventListener('blur', (_e) => {
       autoCloseVersionDropdown(navVersionMenu)
     })
     return navVersionDropdown
   }
 
-  function getCurrentVersionData (versions) {
+  const getCurrentVersionData = (versions) => {
     return versions.length > 1
-      ? versions.find(function (version) {
+      ? versions.find((version) => {
         return !version.prerelease
       }) || versions[0]
       : versions[0]
   }
 
-  function addCurrentVersionIndicator (parentElement, className) {
+  const addCurrentVersionIndicator = (parentElement, className) => {
     if (!isArchiveSite()) {
       if (!isToolTipDot(parentElement.firstChild)) {
         const tabIndex = parentElement.classList.contains('nav-version-button') ? 0 : -1
@@ -397,7 +397,7 @@
     return parentElement
   }
 
-  function createCurrentVersionIndicator (tabIndex, className) {
+  const createCurrentVersionIndicator = (tabIndex, className) => {
     const currentVersionIndicatorSpan = document.createElement('span')
     currentVersionIndicatorSpan.setAttribute('role', 'tool-tip')
     currentVersionIndicatorSpan.classList.add(className, 'tooltip-dot')
@@ -416,25 +416,25 @@
     return currentVersionIndicatorSpan
   }
 
-  function removeCurrentVersionIndicator (parentElement) {
+  const removeCurrentVersionIndicator = (parentElement) => {
     if (isToolTipDot(parentElement.firstChild)) {
       parentElement.removeChild(parentElement.firstChild)
     }
   }
 
-  function isToolTipDot (element) {
+  const isToolTipDot = (element) => {
     return (
       element?.classList?.contains('tooltip-dot-nav-version') ||
       element?.classList?.contains('tooltip-dot-nav-version-menu')
     )
   }
 
-  function isSpaceOrEnterKey (keyCode) {
+  const isSpaceOrEnterKey = (keyCode) => {
     return [13, 32].includes(keyCode)
   }
 
-  function autoCloseVersionDropdown (navVersionMenu) {
-    setTimeout(function () {
+  const autoCloseVersionDropdown = (navVersionMenu) => {
+    setTimeout(() => {
       if (!navVersionMenu.contains(document.activeElement)) {
         closeVersionMenu()
         setTabIndexForVersions()
@@ -442,15 +442,15 @@
     }, 100)
   }
 
-  function setTabIndexForVersions () {
-    setTimeout(function () {
+  const setTabIndexForVersions = () => {
+    setTimeout(() => {
       const tabIndex = document.querySelector('.nav-version-menu.is-active') ? 0 : -1
       const navVersionOptions = document.querySelectorAll('.nav-version-option')
-      navVersionOptions.forEach(function (navVersionOption) {
+      navVersionOptions.forEach((navVersionOption) => {
         navVersionOption.setAttribute('tabindex', tabIndex)
       })
       const tooltipDots = document.querySelectorAll('.nav-version-menu .tooltip-dot-nav-version')
-      tooltipDots.forEach(function (tooltipDot) {
+      tooltipDots.forEach((tooltipDot) => {
         tooltipDot.setAttribute('tabindex', tabIndex)
       })
     }, 200)
@@ -775,18 +775,6 @@
   function isInternalBetaSite () {
     return window.location.host.includes('dev-docs-internal')
   }
-
-  // function isLocalSite () {
-  //   return isPreviewSite() || isLocalFileSite()
-  // }
-
-  // function isLocalFileSite () {
-  //   window.location.href.startsWith('file://')
-  // }
-
-  // function isPreviewSite () {
-  //   return window.location.href.startsWith('localhost')
-  // }
 
   buildNav(extractNavData(window), document.querySelector('.nav'), getPage())
 })()
