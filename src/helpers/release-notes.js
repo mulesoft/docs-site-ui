@@ -46,7 +46,9 @@ const getResultList = (pageUIModels, maxNumberOfPages) => {
   for (let i = 0; i < maxNumberOfPages; i++) {
     const page = pageUIModels[i]
     if (page.attributes?.revdate) {
-      resultList.push(getSelectedAttributes(page))
+      if (page.title) {
+        resultList.push(getSelectedAttributes(page))
+      }
     }
   }
   return resultList
@@ -98,8 +100,10 @@ const removeYear = (dateStr) => {
 }
 
 const cleanTitle = (title) => {
-  const splitList = title.split('Release Notes')
-  return splitList[0].trim()
+  if (title) {
+    const splitList = title.split('Release Notes')
+    return splitList[0].trim()
+  }
 }
 
 module.exports = (numOfItems, { data }) => {
