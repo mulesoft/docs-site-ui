@@ -1,4 +1,5 @@
 <nav class="nav fit" aria-label="Docs">
+  {{#if env.COVEO_API_KEY}}
     <atomic-search-interface id="search">
         <atomic-search-layout>
             <atomic-layout-section section="search">
@@ -8,4 +9,5 @@
                 </atomic-search-box>
             </atomic-layout-section>
     </atomic-search-layout>
+  {{/if}}
 </nav>
