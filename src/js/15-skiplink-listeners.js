@@ -40,14 +40,11 @@
   }
 
   const clickToRemoveFocus = (elements) => {
-    for (let i = 0; i < elements.length; i++) {
-      const element = elements[i]
-      if (element) {
-        element.addEventListener('click', (e) => {
-          element.blur()
-          e.preventDefault()
-        })
-      }
+    for (const element of elements) {
+      element.addEventListener('click', (e) => {
+        element.blur()
+        e.preventDefault()
+      })
     }
   }
 
