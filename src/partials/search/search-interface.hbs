@@ -1,36 +1,36 @@
-{{#if env.COVEO_ACCESS_TOKEN}}
-  <atomic-search-interface id="search" fields-to-include="product,version">
-    <atomic-search-layout>
-      <atomic-layout-section section="search">
-        <atomic-search-box></atomic-search-box>
-      </atomic-layout-section>
-      <atomic-layout-section section="facets">
-        <atomic-facet-manager>
-          <atomic-facet field="product" label="Product Component"></atomic-facet>
-          <atomic-facet field="version" label="Product Version"></atomic-facet>
-        </atomic-facet-manager>
-      </atomic-layout-section>
-      <atomic-layout-section section="main">
-        <atomic-layout-section section="status">
-          <atomic-breadbox></atomic-breadbox>
-          <atomic-query-summary></atomic-query-summary>
-          <atomic-refine-toggle></atomic-refine-toggle>
-          <atomic-sort-dropdown>
-            <atomic-sort-expression label="Relevance" expression="relevancy"></atomic-sort-expression>
-            <atomic-sort-expression label="Version (Descending)" expression="version descending"></atomic-sort-expression>
+{{#if env.COVEO_API_KEY}}
+<atomic-search-interface id="search" fields-to-include="product,version">
+  <atomic-search-layout>
+    <atomic-layout-section section="search">
+      <atomic-search-box></atomic-search-box>
+    </atomic-layout-section>
+    <atomic-layout-section section="facets">
+      <atomic-facet-manager>
+        <atomic-facet field="product" label="Product Component"></atomic-facet>
+        <atomic-facet field="version" label="Product Version"></atomic-facet>
+      </atomic-facet-manager>
+    </atomic-layout-section>
+    <atomic-layout-section section="main">
+      <atomic-layout-section section="status">
+        <atomic-breadbox></atomic-breadbox>
+        <atomic-query-summary></atomic-query-summary>
+        <atomic-refine-toggle></atomic-refine-toggle>
+        <atomic-sort-dropdown>
+          <atomic-sort-expression label="Relevance" expression="relevancy"></atomic-sort-expression>
+          <atomic-sort-expression label="Version (Descending)" expression="version descending"></atomic-sort-expression>
           <atomic-did-you-mean></atomic-did-you-mean>
-        </atomic-layout-section>
-        <atomic-layout-section section="results">
-          <atomic-result-list image-size="icon" density="comfortable">            
-            {{> search-result-template}}
-          </atomic-result-list>
-          <atomic-query-error></atomic-query-error>
-          <atomic-no-results></atomic-no-results>
-        </atomic-layout-section>
-        <atomic-layout-section section="pagination">
-          <atomic-load-more-results></atomic-load-more-results>
-        </atomic-layout-section>
       </atomic-layout-section>
-    </atomic-search-layout>
-  </atomic-search-interface>
+      <atomic-layout-section section="results">
+        <atomic-result-list image-size="icon" density="comfortable">
+          {{> search-result-template}}
+        </atomic-result-list>
+        <atomic-query-error></atomic-query-error>
+        <atomic-no-results></atomic-no-results>
+      </atomic-layout-section>
+      <atomic-layout-section section="pagination">
+        <atomic-load-more-results></atomic-load-more-results>
+      </atomic-layout-section>
+    </atomic-layout-section>
+  </atomic-search-layout>
+</atomic-search-interface>
 {{/if}}
