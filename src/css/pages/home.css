@@ -87,6 +87,11 @@ body.home {
         display: inline-block;
         padding: 10px 20px;
 
+        &:active,
+        &:focus {
+          box-shadow: 0 0 0 3px #abe2f5;
+        }
+
         &:hover {
           background-color: var(--core-blue-4);
         }
