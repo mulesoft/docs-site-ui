@@ -1,5 +1,5 @@
 
-.skip-link-container {
+.ms-skip-link-container {
   background-color: #fff;
   border: 1px solid #555;
   border-radius: 3px;
@@ -18,7 +18,7 @@
   }
 }
 
-.skip-link {
+.ms-skip-link {
   background-color: #fff;
   border: 1px solid #555;
   border-radius: 3px;

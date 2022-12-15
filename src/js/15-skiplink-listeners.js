@@ -59,7 +59,7 @@
   }
 
   const getSkipLinks = () => {
-    return document.querySelectorAll('.skip-link')
+    return document.querySelectorAll('.ms-skip-link')
   }
 
   const hasAside = () => {
