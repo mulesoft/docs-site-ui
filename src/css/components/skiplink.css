@@ -32,8 +32,14 @@
   top: 10px;
   z-index: -1;
 
+  &:active,
   &:focus {
     color: var(--secondary-navy);
     outline: 3px solid #888;
+  }
+
+  &:hover {
+    background-color: #c0edff;
+    color: var(--secondary-navy);
   }
 }
