@@ -1,5 +1,5 @@
 
-.skip-link-container {
+.ms-skip-link-container {
   background-color: #fff;
   border: 1px solid #555;
   border-radius: 3px;
@@ -18,7 +18,7 @@
   }
 }
 
-.skip-link {
+.ms-skip-link {
   background-color: #fff;
   border: 1px solid #555;
   border-radius: 3px;
@@ -32,8 +32,14 @@
   top: 10px;
   z-index: -1;
 
+  &:active,
   &:focus {
     color: var(--secondary-navy);
     outline: 3px solid #888;
+  }
+
+  &:hover {
+    background-color: #c0edff;
+    color: var(--secondary-navy);
   }
 }
