@@ -101,15 +101,18 @@
       if (activeFragment) {
         if (this.lastActiveFragment) {
           this.links[this.lastActiveFragment].classList.remove('is-active')
+          this.links[this.lastActiveFragment].removeAttribute('aria-current')
         }
         var activeLink = this.links[activeFragment]
         activeLink.classList.add('is-active')
+        activeLink.ariaCurrent = 'true'
         if (this.menu.scrollHeight > this.menu.offsetHeight) {
           this.menu.scrollTop = Math.max(0, activeLink.offsetTop + activeLink.offsetHeight - this.menu.offsetHeight)
         }
         this.lastActiveFragment = activeFragment
       } else if (this.lastActiveFragment) {
         this.links[this.lastActiveFragment].classList.remove('is-active')
+        this.links[this.lastActiveFragment].removeAttribute('aria-current')
         this.lastActiveFragment = undefined
       }
     }
