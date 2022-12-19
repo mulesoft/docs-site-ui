@@ -35,7 +35,7 @@
   &:active,
   &:focus {
     color: var(--secondary-navy);
-    outline: 3px solid #888;
+    outline: 3px solid #888 !important;
   }
 
   &:hover {
