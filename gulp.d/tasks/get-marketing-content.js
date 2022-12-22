@@ -5,23 +5,19 @@ const fetch = (...args) => import('node-fetch').then(({ default: fetch }) => fet
 const pretty = require('pretty')
 
 module.exports = () => async () => {
-  updateContent('header')
-  // updateContent('footer')
+  const language = 'en'
+  updateContent('header', language)
+  updateContent('footer', language)
 }
 
-async function updateContent (component) {
+async function updateContent (component, language) {
   try {
-    const content = await fetch(`https://www.mulesoft.com/api/${component}`)
+    const content =
+      await fetch(`https://www.mulesoft.com/api/${component}?language=${language}&selector=true&selector_jp`)
     if (await isGoodStatus(content.status)) {
-      try {
-        const body = await content.json()
-        if (await hasValidData(body)) {
-          fs.writeFileSync(`src/partials/${component}/${component}-content.hbs`, pretty(body.data))
-        }
-      } catch (error) {
-        console.warn(
-          `mulesoft endpoint returns invalid data. Keeping old version, no action is required. Error: ${error}`
-        )
+      const body = await content.json()
+      if (await hasValidData(body)) {
+        fs.writeFileSync(`src/partials/${component}/${component}-content.hbs`, pretty(body.data))
       }
     }
   } catch (error) {
