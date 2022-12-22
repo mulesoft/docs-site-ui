@@ -1,0 +1,54 @@
+.notice-banner {
+  background: #ffe3a2;
+  font-size: 12px;
+  height: fit-content;
+  margin-bottom: -20px;
+  z-index: var(--z-backdrop);
+
+  & p {
+    margin: 12px 40px -20px 40px;
+    padding-bottom: 15px;
+    padding-top: 15px;
+
+    @media (--lg) {
+      padding-top: 10px;
+    }
+
+    & a {
+      color: var(--secondary-navy);
+      &:hover {
+        background-color: #e8f8ff;
+        border-radius: 5px;
+        outline: 2px solid #747474;
+        padding: 1px;
+      }
+
+      &:active {
+        background-color: #abd6e8;
+      }
+
+      &:focus {
+        border-radius: 5px;
+        outline: 2px solid #747474;
+      }
+
+      &:visited {
+        color: var(--secondary-navy);
+      }
+    }
+  }
+
+  & .notice-banner-close-button {
+    background: none;
+    border: none;
+    cursor: pointer;
+    float: right;
+    font-size: 20px;
+    padding: 11px 17px;
+  }
+}
+
+.sticky {
+  position: sticky;
+  top: 50px;
+}

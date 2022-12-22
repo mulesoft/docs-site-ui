@@ -1,0 +1,98 @@
+.content {
+  position: relative;
+}
+
+.doc .source-toolbox {
+  color: var(--pre-annotation-font-color);
+  display: flex;
+  font-family: 'Open Sans', sans-serif;
+  font-size: calc(13.5 / var(--rem-base) * 1rem);
+  line-height: 1;
+  position: absolute;
+  right: .8rem;
+  top: .8rem;
+}
+
+.doc .source-toolbox .source-lang {
+  font-size: 12px;
+  letter-spacing: .075em;
+  line-height: 1.0425;
+  text-transform: uppercase;
+}
+
+.doc .source-lang::after {
+  color: #a0a0a0;
+  content: "|";
+  letter-spacing: 0;
+  padding: 0 1ch;
+}
+
+.doc .source-toolbox .code-snippet-button {
+  align-items: center;
+  background: transparent;
+  border: none;
+  color: inherit;
+  display: flex;
+  flex-direction: column;
+  font-size: inherit;
+  height: 1em;
+  line-height: inherit;
+  padding: 0;
+  width: 1em;
+
+  &:hover,
+  &:active,
+  &:focus {
+    cursor: pointer;
+  }
+}
+
+.doc .source-toolbox .code-snippet-icon {
+  flex: none;
+  height: inherit;
+  margin-bottom: 0;
+  margin-top: 0;
+  width: inherit;
+}
+
+.doc .source-toolbox svg.code-snippet-icon {
+  fill: currentColor;
+}
+
+.doc .source-toolbox .copy-toast {
+  background-color: var(--doc-font-color);
+  border-radius: .25em;
+  color: #22683e;
+  cursor: auto;
+  display: inline-flex;
+  flex: none;
+  font-size: 11px;
+  justify-content: center;
+  margin-top: -4.1em;
+  opacity: 0;
+  padding: .5em;
+  position: relative;
+  transition: opacity .5s ease .75s;
+}
+
+.doc .source-toolbox .copy-toast::after {
+  border: .55em solid transparent;
+  border-left-color: var(--doc-font-color);
+  content: "";
+  height: 1em;
+  position: absolute;
+  top: 0;
+  transform: rotate(-90deg) translateX(50%) translateY(50%);
+  transform-origin: left;
+  width: 1em;
+}
+
+.doc .source-toolbox .code-snippet-button.clicked .copy-toast {
+  opacity: 1;
+  transition: none;
+}
+
+#dw-playground {
+  display: flex;
+  margin-left: 5px;
+}

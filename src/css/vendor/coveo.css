@@ -1,6 +1,6 @@
 /* override coveo defaults */
 .CoveoSearchInterface.CoveoSearchInterface {
-  color: var(--steel-2);
+  color: var(--steel-3);
   font-family: var(--sans-serif);
   font-size: 16px;
 }
@@ -10,7 +10,7 @@
   background: var(--tertiary);
   border-bottom: 1px solid var(--aluminum-3);
   box-shadow: 0 3px 15px rgba(0,0,0,.025);
-  height: 90px;
+  height: 110px;
   padding: var(--lg);
   position: sticky;
   top: 0;
@@ -18,18 +18,48 @@
 
   /* close button */
   & .coveo-close {
+    background-color: var(--aluminum-1);
+    border: none;
     cursor: pointer;
-    fill: var(--aluminum-4);
-    height: var(--lg);
+    fill: var(--steel-3);
+    height: var(--xxl);
     margin-left: var(--md);
     padding: var(--xs);
-    width: var(--lg);
+    width: var(--xxl);
 
     &:hover,
     &:focus,
     &:active {
       fill: var(--red-3);
     }
+  }
+}
+
+.CoveoSearchbox {
+  width: 70%;
+
+  @media (min-width: 300px) {
+    width: 74%;
+  }
+
+  @media (min-width: 375px) {
+    width: 80%;
+  }
+
+  @media (min-width: 410px) {
+    width: 82%;
+  }
+
+  @media (min-width: 535px) {
+    width: 87%;
+  }
+
+  @media (min-width: 670px) {
+    width: 90%;
+  }
+
+  @media (min-width: 820px) {
+    width: 92%;
   }
 }
 
@@ -40,16 +70,17 @@
   /* input */
   & .magic-box {
     background: #fefefe;
-    border: 1px solid var(--aluminum-4);
+    border: 1px solid #67768b;
     border-radius: 4px;
     box-shadow: inset 0 0 6px rgba(0,0,0,.025);
-    color: var(--steel-2);
+    color: var(--steel-3);
     transition: box-shadow var(--transition-speed-sm) var(--transition-timing);
+    width: 74%;
 
     /* focus state */
     &.magic-box-hasFocus {
       background: var(--tertiary);
-      border-color: var(--core-blue-3);
+      border-color: var(--secondary-navy);
       box-shadow: 0 0 0 3px rgba(0,162,223,.25);
       outline: 0;
     }
@@ -59,10 +90,11 @@
 
       & > input {
         font-family: var(--sans-serif);
+        font-size: inherit;
         text-indent: 0;
 
         &::placeholder {
-          color: var(--aluminum-5);
+          color: var(--steel-3);
         }
       }
     }
@@ -104,7 +136,7 @@
     }
 
     & .coveo-search-button-loading-svg {
-      color: var(--core-blue-3);
+      color: var(--secondary-navy);
     }
   }
 
@@ -112,7 +144,7 @@
   & .magic-box-clear {
     align-items: center;
     background: none;
-    color: var(--aluminum-4);
+    color: var(--steel-3);
     display: flex;
     justify-content: center;
     opacity: 0;
@@ -122,7 +154,7 @@
 
     &:hover,
     &:focus {
-      color: var(--aluminum-5);
+      color: var(--steel-2);
     }
 
     &::before {
@@ -153,7 +185,7 @@
 
   & .magic-box-suggestion {
     border-top: 0;
-    color: var(--steel-2);
+    color: var(--steel-3);
     padding: var(--sm);
 
     &:hover,
@@ -188,7 +220,7 @@
 
   /* facet things */
   & .facet-heading {
-    color: var(--steel-2);
+    color: var(--steel-3);
     font-family: var(--heading);
     font-size: 14px;
     font-weight: var(--weight-bold);
@@ -250,7 +282,7 @@
     padding: 0;
 
     & .coveo-facet-header-title {
-      color: var(--steel-2);
+      color: var(--steel-3);
       font-size: 12px;
     }
 
@@ -266,8 +298,12 @@
   }
 
   & .coveo-facet-value-label-wrapper {
-    align-items: center;
+    align-items: flex-start;
     display: flex;
+
+    & input[type='checkbox'] {
+      margin-top: 4px;
+    }
   }
 
   & .coveo-facet-values {
@@ -304,7 +340,7 @@
   & .coveo-facet-more,
   & .coveo-facet-less {
     background: none;
-    color: var(--core-blue-3);
+    color: var(--secondary-navy);
     font-size: 12px;
     text-align: left;
 
@@ -346,13 +382,13 @@
 
     /* date */
     & .CoveoFieldValue {
-      color: var(--aluminum-4);
+      color: #67768b;
     }
   }
 
   /* query summary (results a out of b) */
   & .CoveoQuerySummary {
-    color: var(--aluminum-4);
+    color: #67768b;
     font-family: var(--heading);
     font-size: 14px;
     font-weight: var(--weight-bold);
@@ -400,7 +436,7 @@
     }
 
     & .CoveoResultLink {
-      color: var(--steel-2);
+      color: var(--steel-3);
       font-family: var(--heading);
       font-size: 14px;
       font-weight: var(--weight-bold);
@@ -411,7 +447,7 @@
 
       &:hover,
       &:focus {
-        color: var(--core-blue-3);
+        color: var(--secondary-navy);
       }
     }
   }
@@ -430,6 +466,7 @@
 
 /* facet checkboxes */
 .coveo-facet-value.coveo-facet-value {
+  line-height: 160%;
 
   /* use default checkbox */
   & .coveo-facet-value-checkbox {
@@ -446,18 +483,27 @@
   & .coveo-facet-value-caption {
     flex: 1 1 auto;
     order: 2;
+    white-space: break-spaces;
   }
 
   /* facet result count */
   & .coveo-facet-value-count {
-    color: var(--aluminum-4);
+    color: #67768b;
     order: 3;
+
+    &::before {
+      content: "(";
+    }
+
+    &::after {
+      content: ")";
+    }
   }
 }
 
 /* did you mean */
 .CoveoDidYouMean.CoveoDidYouMean {
-  border: 1px solid var(--aluminum-4);
+  border: 1px solid #67768b;
   border-radius: 2px;
   font-size: 13px;
   margin: var(--sm) 0;
@@ -479,14 +525,14 @@
 
   & a {
     align-items: center;
-    color: var(--aluminum-5);
+    color: var(--steel-2);
     display: flex;
     font-size: 13px;
 
     &:hover,
     &:focus,
     &:active {
-      color: var(--core-blue-3);
+      color: var(--secondary-navy);
     }
   }
 
@@ -573,4 +619,28 @@
 /* no idea what this is */
 .coveo-card-layout-padding {
   display: none;
+}
+
+/* tip */
+.facet-callout {
+  border: 1px solid var(--aluminum-3);
+  border-radius: 2px;
+  margin-top: var(--md);
+  padding: var(--sm);
+}
+
+.tip-header {
+  align-items: center;
+  display: flex;
+  font-size: 14px;
+  font-weight: var(--weight-medium);
+}
+
+.tip-svg {
+  margin-left: 5px;
+}
+
+.tip-text {
+  color: var(--steel-3);
+  font-size: 12px;
 }

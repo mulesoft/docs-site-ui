@@ -1,0 +1,51 @@
+= Troubleshooting Data Gateway
+:keywords: data gateway, salesforce, sap, oracle, db2, odata, mysql, sqlserver
+:page-component-name: api-governance
+
+== Entitlements Support
+
+Your Anypoint Platform account must own the necessary entitlements to be able to access the DataGateway Designer in Salesforce. If you're not able to access the designer, make sure that your contract with MuleSoft includes these entitlements. If it doesn't, please contact your MuleSoft Account Team.
+If you own a trial account, keep in mind that this trial license expires after a given period of time. Once this trial period expires, you cannot access the DataGateway Designer either.
+
+== Salesforce Organization Match
+
+If you're using the Data Gateway through the Anypoint Platform, then you must link your Anypoint Platform account to a Salesforce account that is in the same Salesforce organization as the resources in use. This means that if you create Data Gateways to resources that exist in a Salesforce organization "A", these resources are not available to another user in your same Anypoint Platform organization that tries to access these Data Gateways using his Salesforce user in Salesforce organization "B".
+
+== Known Issues
+
+* Gateway creation can fail if:
+
+**  The related Salesforce organization does not have any Available External Data Source licenses within https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/platform_connect_about.html[Salesforce Connect].
+**  The related Anypoint Account does not have free workers (sized at 1 vCore).
+
+* Gateway creation and deployment can take up to 2 minutes, due to the volume of provisioning that occurs in the background of this application. A loading message persists throughout this process.
+
+* Due to known issues in the Salesforce API, any publishing or synchronization issue can be fixed by going to Setup > Develop > External Data sources, selecting the published data source and clicking on Validate and Sync (In Salesforce).
+
+* Since all the objects within an environment are now published through a single OData API, there must not be duplicate object names across the Data Gateways in a given environment.
+
+* In order to use the latest fixes on data mapping, new Data Gateways must be created to replace the old ones that use blob, double, and datetime fields.
+
+* The following error message is shown when trying to create a new Data Gateway "Error: A message body reader for java.lang.class.org.mule.cs.model.Client, and java type class org.mule.cs.model.Client, and MIME media type text/plain; charset=utf-8 was not found"
+
+**  The user belongs to a business group where it has the right permissions, but Data Gateway is looking for permissions within the master organization level, where the user doesn't have it. Therefore, a 401 is returned and the Data Gateway can't be created. The workaround is to assign the user the "DataGateway Administrator" permission on any given environment within the master organization, this will allow the user to create a Data Gateway within the Business Group and environment he already has.
+
+=== Salesforce
+
+* The product does not run after installation unless you complete the xref:installing-anypoint-data-gateway.adoc[post-installation steps].
+
+* Due to known issues in the Salesforce API, any publishing or synchronization issue can be easily fixed by going to *Setup* > *Develop* > *External Data sources*, selecting the published data source and clicking *Validate and Sync* (in Salesforce).
+
+* If you publish more than 100 objects to Salesforce, create a separate environment for additional gateways, since Salesforce only allows 100 objects per endpoint.
+
+* Any published DataGateway (prior to v1.4.0) must be republished through the Salesforce link in the left navigation bar to ensure it uses the new single OData API.
+
+=== Oracle
+
+* If an Oracle Data Gateway fails to retrieve tables, ensure that the schema is all uppercase.
+
+=== DB2
+
+* Due to a limitation in the DB2 database, OData queries with the `$skip` and `$top` operators over tables with blob fields fail. Use $select to filter all of the blob fields.
+
+== See Also

@@ -1,0 +1,19 @@
+{{#if page.component}}
+<meta name="product" content="{{page.component.title}}">
+<meta name="version" content="{{or page.displayVersion page.version}}">
+<meta name="page-url" content="{{page.url}}">
+<meta name="page-component" content="{{page.component.name}}">
+<meta name="page-version" content="{{page.version}}">
+{{#with site.keys.googleSiteVerification}}
+<meta name="google-site-verification" content="{{this}}">
+{{/with}}
+{{/if}}
+{{#if (or antoraVersion site.antoraVersion)}}
+<meta name="generator" content="Antora {{or antoraVersion site.antoraVersion}}">
+{{/if}}
+<link rel="stylesheet" href="{{uiRootPath}}/css/site.css">
+{{#if env.COVEO_ACCESS_TOKEN}}
+<link rel="stylesheet" href="https://static.cloud.coveo.com/searchui/v2.4382/css/CoveoFullSearch.min.css">
+{{/if}}
+{{> marketing-styles}}
+<link rel="icon" href="{{uiRootPath}}/img/favicon.ico" type="image/x-icon">

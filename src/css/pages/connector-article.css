@@ -1,0 +1,135 @@
+.header-connectors {
+  flex: 1 1 auto;
+  padding: var(--lg);
+  padding-bottom: 0;
+
+  @media (--md) {
+    padding-left: var(--xl);
+    padding-right: var(--xl);
+  }
+
+  & .link {
+    color: var(--secondary-navy);
+    text-decoration: none;
+
+    &:hover .icon-back-arrow,
+    &:active .icon-back-arrow,
+    &:focus .icon-back-arrow {
+      transform: rotate(180deg) translateX(3px);
+    }
+  }
+
+  & .icon-back-arrow {
+    margin-right: var(--xs);
+    transform: rotate(180deg);
+    transition: transform var(--transition-speed-sm) var(--transition-timing);
+  }
+}
+
+.connector-avatar {
+  border: 1px solid rgba(0,0,0,.075);
+  border-radius: var(--radius);
+  box-shadow: 0 6px 12px rgba(0,0,0,.05);
+  flex: 0 0 90px;
+  height: 90px;
+  margin-right: var(--lg);
+}
+
+.connector-sidebar {
+  border: 1px solid rgba(0,0,0,.075);
+  border-radius: var(--radius);
+  box-shadow: 0 6px 12px rgba(0,0,0,.05);
+  font-size: 14px;
+  margin-bottom: var(--lg);
+  padding-top: var(--md);
+
+  & .row {
+    padding-left: var(--md);
+    padding-right: var(--md);
+
+    & + .row {
+      margin-top: var(--sm);
+    }
+  }
+
+  & .col:first-child,
+  & .categories-header {
+    color: var(--steel-2);
+    padding-right: var(--sm);
+  }
+
+  & .col:last-child {
+    font-weight: var(--weight-bold);
+  }
+
+  & .select {
+    line-height: 20px;
+  }
+
+  & .connector-sidebar-categories {
+    border-top: 1px solid var(--aluminum-2);
+    margin-top: var(--md);
+    padding-bottom: var(--xs);
+    padding-top: var(--md);
+  }
+
+  & .categories-header {
+    font-weight: var(--weight-normal);
+    margin-bottom: var(--xs);
+  }
+
+  & .link {
+    align-items: center;
+    border-radius: 2px;
+    cursor: pointer;
+    display: flex;
+    font-weight: var(--weight-normal);
+    margin: 0 var(--xs);
+    padding: var(--xs) var(--sm);
+    text-decoration: none;
+
+    &:hover {
+      background: var(--aluminum-2);
+    }
+
+    &:focus,
+    &:active {
+      background: #e2f8ff; /* yet another blue */
+      color: var(--secondary-navy);
+    }
+
+    & .icon-external {
+      margin-left: var(--xs);
+      opacity: .5;
+    }
+  }
+}
+
+/* level tooltip */
+.level-help {
+  border: 1px solid var(--aluminum-3);
+  border-radius: 8px;
+  cursor: pointer;
+  height: 16px;
+  margin-left: var(--xs);
+  width: 16px;
+
+  &:focus {
+    outline: 0;
+  }
+
+  & .icon-help {
+    fill: var(--steel-2);
+    padding: 2px;
+  }
+}
+
+/* connector version popover */
+.popover-connector-version {
+  white-space: nowrap;
+
+  & .col:first-child {
+    padding-right: var(--sm);
+    width: 130px;
+  }
+}

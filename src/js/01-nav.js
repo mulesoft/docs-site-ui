@@ -1,373 +1,712 @@
-;(function () {
+/* eslint-disable no-var */
+;(() => {
   'use strict'
 
-  function buildNav (nav, data, page, path) {
-    var navList = document.createElement('ol')
-    navList.className = 'nav-list'
-    var chevron = document.createElementNS('http://www.w3.org/2000/svg', 'svg')
-    chevron.setAttribute('class', 'svg') // className property is read-only on an SVG
-    chevron.setAttribute('viewBox', '0 0 30 30')
-    chevron.setAttribute('width', '30')
-    chevron.setAttribute('height', '30')
-    var svgPath = document.createElementNS(chevron.namespaceURI, 'path')
-    svgPath.setAttribute('d', 'M15.003 21.284L6.563 9.232l1.928-.516 6.512 9.299 6.506-9.299 1.928.516-8.434 12.052z')
-    chevron.appendChild(svgPath)
-    var pageNavItem
-    data.splice(0, data.length).forEach(function (product) {
-      var productName = product.name
-      var productForPage = productName === page.product
-      var navItem = document.createElement('li')
-      var active
-      if (productForPage) {
-        pageNavItem = navItem
-        !path.active.length && product.url === page.url && (active = true) && path.active.push(navItem)
+  const buildNav = (navData, nav, page) => {
+    if (!page) return
+    if (nav.classList.contains('fit')) {
+      ;(fitNav = fitNav.bind(nav))() // eslint-disable-line no-func-assign
+      window.addEventListener('scroll', fitNav)
+      window.addEventListener('resize', fitNav)
+    }
+    relativize = relativize.bind(null, page.url) // eslint-disable-line no-func-assign
+    const navGroups = createElement('.nav-groups.scrollbar')
+    reshapeNavData(navData).groups.forEach((groupData) => {
+      const navGroup = createElement('.nav-group')
+      if (groupData.title) {
+        navGroup.appendChild(createNavTitleForGroup(groupData))
       }
-      navItem.className = active ? 'nav-li active' : 'nav-li'
-      navItem.dataset.depth = 0
-      navItem.dataset.product = productName
-      var productHeading = document.createElement('div')
-      productHeading.className = 'flex align-center justify-justified'
-      var productLink = document.createElement('a')
-      productLink.className = 'flex grow strong link nav-link nav-heading'
-      var productIcon = document.createElement('img')
-      productIcon.className = 'icon no-pointer'
-      productIcon.src = page.uiRootPath + '/img/icons/' + productName + '.svg'
-      productLink.appendChild(productIcon)
-      productLink.appendChild(document.createTextNode(' ' + product.title))
-      productHeading.appendChild(productLink)
-      if (product.versions.length > 1) {
-        var currentVersion = product.versions[0].version
-        var versionButton = document.createElement('button')
-        versionButton.className = 'flex align-center shrink button versions'
-        versionButton.dataset.product = productName
-        var versionLabel = document.createElement('span')
-        versionLabel.className = 'version-label'
-        versionLabel.appendChild(document.createTextNode(currentVersion))
-        versionButton.appendChild(versionLabel)
-        versionButton.appendChild(document.createTextNode(' '))
-        versionButton.appendChild(chevron.cloneNode(true))
-        var versionMenu = document.createElement('div')
-        versionMenu.className = 'popover version-popover'
-        var currentVersionList = document.createElement('ol')
-        currentVersionList.className = 'ol'
-        var currentVersionHeading = document.createElement('li')
-        currentVersionHeading.className = 'li-heading'
-        currentVersionHeading.appendChild(document.createTextNode('Current version'))
-        currentVersionList.appendChild(currentVersionHeading)
-        var currentVersionItem = document.createElement('li')
-        currentVersionItem.className = 'flex align-center justify-justified li version'
-        currentVersionItem.dataset.product = productName
-        currentVersionItem.dataset.version = currentVersion
-        currentVersionItem.appendChild(document.createTextNode(currentVersion))
-        currentVersionList.appendChild(currentVersionItem)
-        versionMenu.appendChild(currentVersionList)
-        var previousVersionsList = document.createElement('ol')
-        var previousVersionsHeading = document.createElement('li')
-        previousVersionsHeading.className = 'li-heading'
-        previousVersionsHeading.appendChild(document.createTextNode('Previous versions'))
-        previousVersionsList.appendChild(previousVersionsHeading)
-        product.versions.slice(1).forEach(function (version) {
-          var previousVersionItem = document.createElement('li')
-          previousVersionItem.className = 'flex align-center justify-justified li version'
-          previousVersionItem.dataset.product = productName
-          previousVersionItem.dataset.version = version.version
-          previousVersionItem.appendChild(document.createTextNode(version.version))
-          previousVersionsList.appendChild(previousVersionItem)
-        })
-        versionMenu.appendChild(previousVersionsList)
-        versionButton.appendChild(versionMenu)
-        productHeading.appendChild(versionButton)
-        setPinnedVersion(versionButton, { product: productName }, navItem)
-        if (productForPage) {
-          initVersionSelector(versionButton, versionMenu)
-        } else {
-          var buildNavForProductAndInitVersionSelector = function () {
-            versionButton.removeEventListener('click', buildNavForProductAndInitVersionSelector)
-            versionButton.removeEventListener('touchend', buildNavForProductAndInitVersionSelector)
-            buildNavForProduct(nav, navItem, product, page)
-            initVersionSelector(versionButton, versionMenu, true)
+      navGroup.appendChild(createNavListForGroup(groupData, page))
+      navGroups.appendChild(navGroup)
+    })
+    navGroups.addEventListener('mousedown', inhibitSelectionOnSecondClick)
+    getNavGroupsBottom = getNavGroupsBottom.bind(navGroups) // eslint-disable-line no-func-assign
+    closeVersionMenu = closeVersionMenu.bind(nav) // eslint-disable-line no-func-assign
+    nav.addEventListener('click', closeVersionMenu)
+    nav.appendChild(navGroups)
+    scrollToCurrentPageItem(navGroups, page.scope)
+  }
+
+  const extractNavData = (source) => {
+    const components = source.siteNavigationData
+    let homeUrl = components.homeUrl
+    if (!homeUrl) {
+      homeUrl = (homeUrl = document.querySelector('a.home-link')) ? homeUrl.getAttribute('href') : '/'
+    }
+    delete components.homeUrl
+    const subcomponents = components.subcomponents || []
+    delete components.subcomponents
+    const groups = components.groups || [{ root: true, components: ['home', '*'] }]
+    delete components.groups
+    delete source.siteNavigationData
+    return {
+      homeUrl: homeUrl,
+      components: components,
+      subcomponents: subcomponents,
+      groups: groups,
+    }
+  }
+
+  const getPage = () => {
+    const head = document.head
+    const pageComponentMeta = head.querySelector('meta[name=page-component]')
+    if (!pageComponentMeta) return
+    let pageVersion = head.querySelector('meta[name=page-version]').getAttribute('content')
+    if (pageVersion === 'master') pageVersion = ''
+    return {
+      component: pageComponentMeta.getAttribute('content'),
+      version: pageVersion,
+      url: head.querySelector('meta[name=page-url]').getAttribute('content'),
+      navItemToggleIconId: document.getElementById('icon-nav-item-toggle') && 'icon-nav-item-toggle',
+      navVersionIconId: document.getElementById('icon-nav-version') && 'icon-nav-version',
+    }
+  }
+
+  const reshapeNavData = (data) => {
+    const groupIconId = document.getElementById('icon-nav-group') && 'icon-nav-group'
+    const componentIconId = document.getElementById('icon-nav-component') && 'icon-nav-component'
+    let components = appendHomeComponent(data.components, data.homeUrl)
+    components = appendArchiveComponent(components)
+    components = components.reduce(function (componentsAccum, component) {
+      let versions
+      const iconId = 'icon-nav-component-' + component.name
+      componentsAccum[component.name] = component = Object.assign({}, component, {
+        iconId: document.getElementById(iconId) ? iconId : componentIconId,
+        versions: component.versions.reduce((versionsAccum, version) => {
+          const versionName = version.version === 'master' ? '' : version.version
+          versionsAccum[versionName] = version = Object.assign({}, version, {
+            version: versionName,
+            nav: Object.assign({ items: [] }, version.sets[0]),
+          })
+          if (versionName && !version.displayVersion) {
+            version.displayVersion = versionName
           }
-          versionButton.addEventListener('click', buildNavForProductAndInitVersionSelector)
-          versionButton.addEventListener('touchend', buildNavForProductAndInitVersionSelector)
-        }
-      }
-      navItem.appendChild(productHeading)
-      if (productForPage) {
-        productLink.addEventListener('click', toggleNav)
-        productLink.addEventListener('touchend', toggleNav)
-        buildNavForProduct(nav, navItem, product, page, { active: path.active, current: [navItem] })
-      } else {
-        var buildNavForProductAndToggle = function (e) {
-          productLink.removeEventListener('click', buildNavForProductAndToggle)
-          productLink.removeEventListener('touchend', buildNavForProductAndToggle)
-          buildNavForProduct(nav, navItem, product, page)
-          toggleNav(e)
-          productLink.addEventListener('click', toggleNav)
-          productLink.addEventListener('touchend', toggleNav)
-        }
-        productLink.addEventListener('click', buildNavForProductAndToggle)
-        productLink.addEventListener('touchend', buildNavForProductAndToggle)
-      }
-      navList.appendChild(navItem)
-    })
-    nav.appendChild(navList)
-    // NOTE we could mark active when navigation is built if we appended children to parent eagerly
-    if (path.active.length) {
-      path.active.forEach(function (it) {
-        it.classList.add('active')
-        if (it.parentNode.classList.contains('parent')) it.parentNode.style.display = ''
+          version.sets.slice(1).forEach((set) => {
+            version.nav.items = version.nav.items.concat(set.items) // quick fix to merge multiple sets together
+          })
+          delete version.sets
+          return versionsAccum
+        }, (versions = {})),
       })
-    } else if (pageNavItem) {
-      pageNavItem.classList.add('active')
-    } else {
-      var notice = document.createElement('div')
-      notice.className = 'nav-list nav-heading'
-      notice.appendChild(document.createTextNode('Site navigation data not found.'))
-      nav.replaceChild(notice, navList)
-    }
+      if ('' in versions && Object.keys(versions).length === 1) {
+        Object.defineProperty(component, 'nav', {
+          get: function () {
+            return this.versions[''].nav
+          },
+        })
+        component.unversioned = true
+      }
+      return componentsAccum
+    }, {})
+    const componentPool = Object.assign({}, components)
+    data.subcomponents.forEach(function (subcomponent) {
+      const targetComponent = components[subcomponent.parent]
+      if (!(targetComponent || {}).unversioned) {
+        // console.warn("parent component '" + parent + "' " + (targetComponent ? 'cannot be versioned' : 'not found'))
+        return
+      }
+      const targetItems = targetComponent.nav.items
+      Object.values(selectComponents(subcomponent.components, componentPool))
+        .sort((a, b) => {
+          if (!subcomponent.sortAll) return 0
+          if (!a.title) return 1
+          if (a.title?.toLowerCase() < b.title?.toLowerCase()) {
+            return -1
+          }
+        })
+        .forEach((component) => {
+          const iconId = 'icon-nav-component-' + component.name
+          component.iconId = document.getElementById(iconId) ? iconId : targetComponent.iconId
+          targetItems.push(component)
+        })
+    })
+    const groups = data.groups.reduce((groupsAccum, group) => {
+      let groupComponents
+      groupsAccum.push({
+        iconId: groupIconId,
+        components: (groupComponents = Object.values(selectComponents(group.components, componentPool, group.exclude))),
+        title: group.title,
+        spreadSingleItem: group.spreadSingleItem,
+      })
+      let component
+      if (!groupComponents.length) {
+        groupsAccum.pop()
+      } else if (groupComponents.length === 1 && (component = groupComponents[0]).unversioned) {
+        const items = component.nav.items
+        if ((items[0] || {}).url?.includes('/general/')) {
+          component.nav.items = items.slice(1)
+        }
+        component.nav.items.forEach(function (it) {
+          const iconId = it.url
+            ? 'icon-nav-page' + it.url.replace(/(?:\.html|\/)$/, '').replace(/[/#]/g, '-')
+            : 'icon-nav-page-' + component.name + '-' + it.content?.toLowerCase().replace(/ +/g, '-')
+          it.iconId = document.getElementById(iconId)
+            ? iconId
+            : group.spreadSingleItem
+              ? 'icon-nav-component'
+              : it.iconId
+        })
+      }
+      return groupsAccum
+    }, [])
+    return { components: components, groups: groups }
   }
 
-  function buildNavForProduct (nav, navItem, product, page, path) {
-    if (navItem.classList.contains('is-loaded')) return
-    navItem.classList.add('is-loaded')
-    product.versions.forEach(function (version) {
-      var items = ((version.sets || [])[0] || {}).items || [] // only consider items in first menu
-      if (items.length) buildNavTree(nav, navItem, product.name, version.version, items, 1, page, path)
+  function appendHomeComponent (components, homeUrl) {
+    var found = components.some(function (candidate) {
+      return candidate.name === 'home'
+    })
+    if (found) return components
+    return components.concat({
+      name: 'home',
+      title: setTitle('Home'),
+      versions: [
+        {
+          version: '',
+          sets: [{ content: 'Home', url: homeUrl }],
+        },
+      ],
     })
   }
 
-  function buildNavTree (nav, parent, productName, version, items, level, page, path) {
-    var navList = document.createElement('ol')
-    navList.className = 'nav-list parent'
-    if (level === 1) {
-      if (!(productName === page.product && version === page.version)) navList.style.display = 'none'
-      navList.dataset.product = productName
-      navList.dataset.version = version
-    } else if (!parent.classList.contains('active')) {
-      navList.style.display = 'none'
-    }
-    items.forEach(function (item) {
-      var navItem = document.createElement('li')
-      var active
-      if (path && !path.active.length) {
-        if (item.url === page.url && productName === page.product && version === page.version && (active = true)) {
-          path.current.concat(navItem).forEach(function (activeItem) {
-            path.active.push(activeItem)
-          })
-        }
-      }
-      navItem.className = active ? 'nav-li active' : 'nav-li'
-      navItem.dataset.depth = level
-      if (item.items) {
-        var navToggle = document.createElement('button')
-        navToggle.className = 'subnav-toggle'
-        navItem.appendChild(navToggle)
-        navToggle.addEventListener('click', toggleSubnav)
-        navToggle.addEventListener('touchend', toggleSubnav)
-      }
-      if (item.url) {
-        var navLink = document.createElement('a')
-        navLink.className =
-          'flex shrink align-center link nav-link' + (active ? ' active' : '') + (item.items ? ' nav-nested' : '')
-        if (item.urlType === 'external') {
-          navLink.href = item.url
-          navLink.target = '_blank'
-        } else {
-          navLink.href = relativize(page.url, item.url)
-        }
-        navLink.innerHTML = item.content
-        navItem.appendChild(navLink)
-      } else {
-        var navHeading = document.createElement('span')
-        navHeading.className = 'flex grow align-center nav-heading' + (item.items ? ' nav-nested' : '')
-        var navHeadingSpan = document.createElement('span')
-        navHeadingSpan.className = 'span'
-        navHeadingSpan.innerHTML = item.content
-        navHeading.appendChild(navHeadingSpan)
-        navItem.appendChild(navHeading)
-      }
-      if (item.items) {
-        var nestedPath = path && { active: path.active, current: path.current.concat(navItem) }
-        buildNavTree(nav, navItem, productName, version, item.items, level + 1, page, nestedPath)
-      }
-      navList.appendChild(navItem)
+  function appendArchiveComponent (components) {
+    const found = components.some(function (candidate) {
+      return candidate.name === 'archive'
     })
-    return parent.appendChild(navList)
+    if (found) return components
+    if (!isArchiveSite() && !isBetaSite()) {
+      return components.concat({
+        name: 'archive',
+        title: 'Archived Documentation',
+        versions: [
+          {
+            version: '',
+            sets: [
+              {
+                content: 'Archive',
+                url: 'https://archive.docs.mulesoft.com/',
+              },
+            ],
+          },
+        ],
+      })
+    }
+    return components
   }
 
-  function toggleNav (e, selected, nav) {
-    var navItem
-    if (!e) {
-      var navList, navListQuery
-      // on page load (when navigating from the location bar)
-      if (selected) {
-        navListQuery = '.nav-list[data-product="' + selected.product + '"]'
-        var productVersionSelector = nav.querySelector('button[data-product="' + selected.product + '"]')
-        if (productVersionSelector) {
-          setPinnedVersion(productVersionSelector, selected)
-          navListQuery += '[data-version="' + selected.version + '"]'
-        }
-        if ((navList = nav.querySelector(navListQuery))) {
-          scrollToActive(nav, navList)
-          window.addEventListener('load', function scrollToActiveOnLoad () {
-            window.removeEventListener('load', scrollToActiveOnLoad)
-            scrollToActive(nav, navList) // scroll again in case images caused layout to shift
+  const selectComponents = (patterns, pool, exclude) => {
+    return coerceToArray(patterns).reduce((accum, pattern) => {
+      if (~pattern.indexOf('*')) {
+        var rx = new RegExp('^' + pattern.replace(/[*]/g, '.*?') + '$')
+        Object.keys(pool)
+          .filter((x) => coerceToArray(exclude).indexOf(x) === -1)
+          .forEach((candidate) => {
+            if (rx.test(candidate)) {
+              accum[candidate] = pool[candidate]
+              delete pool[candidate]
+            }
           })
+      } else if (pattern in pool) {
+        accum[pattern] = pool[pattern]
+        delete pool[pattern]
+      } else if (pattern in accum) {
+        const component = accum[pattern] // reinsert previously selected entry
+        delete accum[pattern]
+        accum[pattern] = component
+      } else if (pattern.charAt() === '!' && (pattern = pattern.substr(1)) in accum) {
+        delete accum[pattern]
+      }
+      return accum
+    }, {})
+  }
+
+  const createNavTitleForGroup = (groupData) => {
+    return createElement('h3.nav-title', groupData.title)
+  }
+
+  const createNavListForGroup = (groupData, page) => {
+    const componentsData = groupData.components
+    if (
+      componentsData.length === 1 &&
+      componentsData[0].unversioned &&
+      componentsData[0].nav.items.length &&
+      groupData.spreadSingleItem
+    ) {
+      return createNavList(componentsData[0].nav, page)
+    }
+    const navList = createElement('ul.nav-list')
+    componentsData.forEach((componentData) => {
+      navList.appendChild(createNavItemForComponent(componentData, page))
+    })
+    return navList
+  }
+
+  const createNavItemForComponent = (componentData, page) => {
+    const componentName = componentData.name
+    const navItem = createElement('li.nav-item', {
+      dataset: { component: componentName },
+    })
+    navItem.appendChild(createNavTitle(navItem, componentData, page))
+    let versionData
+    if (page.component === componentName) {
+      versionData = componentData.versions[page.version]
+    } else if (isSubcomponent(page.component, componentData)) {
+      versionData = componentData.versions['']
+    } else {
+      return navItem
+    }
+    if (versionData.nav) {
+      page.scope = navItem.appendChild(createNavList(versionData.nav, page, versionData.version))
+    }
+    navItem.classList.add('is-active')
+    return navItem
+  }
+
+  function createNavTitle (navItem, componentData, page) {
+    const navTitle = createElement('.nav-title')
+    const navLink = createElement('a.link.nav-text', componentData.title)
+    navLink.setAttribute('tabindex', '0')
+    if (componentData.name === 'home') {
+      const homeUrl = componentData.nav.url
+      if ((navLink.href = relativize(homeUrl)) === relativize(page.url)) {
+        navItem.classList.add('is-active')
+        navLink.setAttribute('aria-current', 'page')
+      }
+    } else if (componentData.name === 'archive') {
+      navLink.href = componentData.nav.url
+      navLink.target = '_blank'
+    } else {
+      navLink.addEventListener('mousedown', (e) => {
+        toggleNav.call(navItem, componentData, false, page)
+        e.preventDefault()
+      })
+      navLink.addEventListener('keydown', (e) => {
+        if (isSpaceOrEnterKey(e.keyCode)) {
+          toggleNav.call(navItem, componentData, false, page)
+          e.preventDefault()
+        }
+      })
+    }
+    if (componentData.iconId) {
+      navTitle.classList.add('has-icon')
+      const iconElement = createSvgElement('.icon.nav-icon', '#' + componentData.iconId)
+      iconElement.setAttribute('alt', '')
+      navLink.insertBefore(iconElement, navLink.firstChild)
+    }
+    navTitle.appendChild(navLink)
+    if (!componentData.unversioned) {
+      navTitle.appendChild(createNavVersionDropdown(navItem, componentData, page))
+    }
+    return navTitle
+  }
+
+  const createNavVersionDropdown = (navItem, componentData, page) => {
+    const versions = Object.values(componentData.versions)
+    const currentVersionData = getCurrentVersionData(versions)
+    const navVersionDropdown = createElement('.nav-version-dropdown')
+    navVersionDropdown.addEventListener('click', trapEvent)
+    const navVersionButton = createElement('button.button.nav-version-button')
+    navVersionButton.setAttribute('tabindex', '-1')
+    const activeVersion = componentData.name === page.component ? page.version : currentVersionData.version
+    const activeDisplayVersion = componentData.versions[activeVersion].displayVersion
+    const navVersion = createElement('span.nav-version', { dataset: { version: activeVersion } }, activeDisplayVersion)
+    navVersion.setAttribute('tabindex', '0')
+    if (activeVersion === currentVersionData.version) {
+      addCurrentVersionIndicator(navVersionButton, 'tooltip-dot-nav-version-menu')
+    }
+    navVersionButton.appendChild(navVersion)
+    if (page.navVersionIconId) {
+      navVersionButton.appendChild(createSvgElement('.icon.nav-version-icon', '#' + page.navVersionIconId))
+    }
+    const navVersionMenu = createElement('div.nav-version-menu')
+    versions.reduce((lastVersionData, versionData) => {
+      if (!isArchiveSite()) {
+        if (versionData === currentVersionData) {
+          navVersionMenu.appendChild(createElement('span.nav-version-label', 'Current version'))
+        } else if (versionData.prerelease) {
+          if (!lastVersionData) {
+            navVersionMenu.appendChild(createElement('span.nav-version-label', 'Prerelease versions'))
+          }
+        } else if (lastVersionData === currentVersionData) {
+          navVersionMenu.appendChild(createElement('span.nav-version-label', 'Previous versions'))
         }
       }
-      nav.addEventListener('touchstart', ignoreTouchScroll, { capture: true, passive: true })
-      nav.addEventListener('touchmove', ignoreTouchScroll, { capture: true, passive: true })
-      nav.addEventListener('touchend', ignoreTouchScroll, { capture: true, passive: true })
-      nav.querySelector('.nav-list').classList.add('is-loaded')
-    } else if (e.target.classList.contains('nav-link')) {
-      // when toggling a product in the sidebar
-      navListQuery = (navItem = e.target.parentNode.parentNode).dataset.pinnedVersion
-        ? '.nav-list[data-version="' + navItem.dataset.pinnedVersion + '"]'
-        : '.nav-list[data-version]'
-      navItem.querySelector(navListQuery).style.display = navItem.classList.toggle('active') ? '' : 'none'
-      tippy.hideAll()
-      window.analytics && window.analytics.track('Toggled Nav', { url: e.target.innerText.trim() })
-    } else if (selected) {
-      // when changing the selected version
-      navItem = nav.querySelector('.nav-li[data-product="' + selected.product + '"]')
-      var navLists = navItem.querySelectorAll('.nav-list[data-product]')
-      for (var i = 0, l = navLists.length; i < l; i++) navLists[i].style.display = 'none'
-      navItem.querySelector('.nav-list[data-version="' + selected.version + '"]').style.display = ''
-      navItem.classList.add('active')
-      tippy.hideAll()
+      const versionDataset = {
+        version: versionData.version,
+      }
+      const navVersionOption = createElement(
+        'button.nav-version-option',
+        { dataset: versionDataset },
+        versionData.displayVersion
+      )
+      navVersionOption.setAttribute('tabindex', '-1')
+      navVersionOption.addEventListener('keydown', (e) => {
+        if (isSpaceOrEnterKey(e.keyCode)) {
+          setTabIndexForVersions()
+        }
+      })
+      if (versionData === currentVersionData) {
+        addCurrentVersionIndicator(navVersionMenu, 'tooltip-dot-nav-version')
+      }
+      navVersionMenu
+        .appendChild(navVersionOption)
+        .addEventListener('click', selectVersion.bind(navVersionMenu, navItem, componentData, page))
+      return versionData
+    }, undefined)
+    navVersionButton.addEventListener('mousedown', (e) => {
+      toggleVersionMenu.call(navVersionMenu)
+      e.preventDefault()
+    })
+    navVersion.addEventListener('keydown', (e) => {
+      if (isSpaceOrEnterKey(e.keyCode)) {
+        toggleVersionMenu.call(navVersionMenu)
+        setTabIndexForVersions()
+        e.preventDefault()
+      }
+    })
+    navVersionDropdown.appendChild(navVersionButton)
+    navVersionDropdown.appendChild(navVersionMenu)
+    navVersion.addEventListener('blur', (_e) => {
+      autoCloseVersionDropdown(navVersionMenu)
+    })
+    navVersionMenu.lastChild.addEventListener('blur', (_e) => {
+      autoCloseVersionDropdown(navVersionMenu)
+    })
+    return navVersionDropdown
+  }
+
+  const getCurrentVersionData = (versions) => {
+    return versions.length > 1
+      ? versions.find((version) => {
+        return !version.prerelease
+      }) || versions[0]
+      : versions[0]
+  }
+
+  const addCurrentVersionIndicator = (parentElement, className) => {
+    if (!isArchiveSite()) {
+      if (!isToolTipDot(parentElement.firstChild)) {
+        const tabIndex = parentElement.classList.contains('nav-version-button') ? 0 : -1
+        const currentVersionIndicator = createCurrentVersionIndicator(tabIndex, className)
+        const versionElement = parentElement.querySelector('.nav-version-label')
+          ? parentElement.firstChild.nextSibling
+          : parentElement.firstChild
+        parentElement.insertBefore(currentVersionIndicator, versionElement)
+      }
     }
+    return parentElement
   }
 
-  function toggleSubnav (e) {
-    var navListParent = e.target.parentNode
-    var navList = navListParent.lastChild
-    if (navListParent.classList.contains('active')) {
-      navList.style.display = 'none'
-      navListParent.classList.remove('active')
-    } else {
-      navList.style.display = ''
-      navListParent.classList.add('active')
-    }
-  }
-
-  function scrollToActive (nav, thisList) {
-    var focusElement = thisList.querySelector('.nav-link.active') || thisList.previousSibling
-    var navRect = nav.getBoundingClientRect()
-    var midpoint = (navRect.height - navRect.top) / 2
-    var adjustment = focusElement.offsetTop + focusElement.offsetHeight / 2 - midpoint
-    if (adjustment > 0) nav.scrollTop = adjustment
-  }
-
-  function setPinnedVersion (thisButton, pinned, navItem) {
-    var analytics, pinnedVersion
-    if ((pinnedVersion = pinned.version)) {
-      localStorage.setItem('ms-docs-' + pinned.product, pinnedVersion)
-      analytics = window.analytics
-    } else if (!(pinnedVersion = localStorage.getItem('ms-docs-' + pinned.product))) {
-      return
-    }
-    ;(navItem || thisButton.parentNode.parentNode).dataset.pinnedVersion = pinnedVersion
-    thisButton.querySelector('.version-label').textContent = pinnedVersion
-    analytics && analytics.track('Version Pinned', { product: pinned.product, version: pinnedVersion })
-  }
-
-  function initVersionSelector (versionButton, versionMenu, show) {
-    tippy(versionButton, {
-      content: versionMenu,
-      role: 'menu',
+  const createCurrentVersionIndicator = (tabIndex, className) => {
+    const currentVersionIndicatorSpan = document.createElement('span')
+    currentVersionIndicatorSpan.setAttribute('role', 'tool-tip')
+    currentVersionIndicatorSpan.classList.add(className, 'tooltip-dot')
+    currentVersionIndicatorSpan.setAttribute('tabindex', tabIndex)
+    tippy(currentVersionIndicatorSpan, {
+      arrow: tippy.roundArrow,
+      content: 'This is the latest version.',
+      distance: 100,
       duration: [0, 150],
-      flip: false,
-      interactive: true,
-      showOnInit: show,
-      offset: '-40, 5',
-      onHide: function (instance) {
-        instance.popper.classList.remove('shown')
-      },
-      onHidden: function (instance) {
-        unbindVersionEvents(instance.popper)
-        instance.popper.classList.add('hide')
-      },
-      onShow: function (instance) {
-        instance.popper.classList.remove('hide')
-      },
-      onShown: function (instance) {
-        bindVersionEvents(instance.popper)
-        instance.popper.classList.add('shown')
-      },
-      placement: 'bottom',
-      theme: 'popover-versions',
+      maxWidth: 150,
+      placement: 'top',
+      theme: 'current-version-popover',
       touchHold: true, // maps touch as click (for some reason)
-      trigger: 'click',
-      zIndex: 14, // same as z-nav-mobile
+      zIndex: 16, // same as z-nav-mobile
     })
-    versionButton.addEventListener(
-      'touchstart',
-      function (e) {
-        if (versionButton._tippy.state.isVisible) {
-          versionButton._tippy.hide()
-          cancelEvent(e)
-        }
-      },
-      { capture: true, passive: true }
+    return currentVersionIndicatorSpan
+  }
+
+  const removeCurrentVersionIndicator = (parentElement) => {
+    if (isToolTipDot(parentElement.firstChild)) {
+      parentElement.removeChild(parentElement.firstChild)
+    }
+  }
+
+  const isToolTipDot = (element) => {
+    return (
+      element?.classList?.contains('tooltip-dot-nav-version') ||
+      element?.classList?.contains('tooltip-dot-nav-version-menu')
     )
   }
 
-  function switchVersion (e) {
-    var thisTippy = document.querySelector('.tippy-popper')._tippy
-    var selected = { product: e.target.dataset.product, version: e.target.dataset.version }
-    setPinnedVersion(thisTippy.reference, selected)
-    toggleNav(e, selected, getNav())
-    thisTippy.hide()
-    cancelEvent(e)
+  const isSpaceOrEnterKey = (keyCode) => {
+    return [13, 32].includes(keyCode)
   }
 
-  function bindVersionEvents (popover) {
-    var versions = popover.querySelectorAll('.version')
-    for (var i = 0, l = versions.length; i < l; i++) {
-      versions[i].addEventListener('click', switchVersion)
-      versions[i].addEventListener('touchend', cancelEvent)
-    }
+  const autoCloseVersionDropdown = (navVersionMenu) => {
+    setTimeout(() => {
+      if (!navVersionMenu.contains(document.activeElement)) {
+        closeVersionMenu()
+        setTabIndexForVersions()
+      }
+    }, 100)
   }
 
-  function unbindVersionEvents (popover) {
-    var versions = popover.querySelectorAll('.version')
-    for (var i = 0, l = versions.length; i < l; i++) {
-      versions[i].removeEventListener('click', switchVersion)
-      versions[i].removeEventListener('touchend', cancelEvent)
-    }
+  const setTabIndexForVersions = () => {
+    setTimeout(() => {
+      const tabIndex = document.querySelector('.nav-version-menu.is-active') ? 0 : -1
+      const navVersionOptions = document.querySelectorAll('.nav-version-option')
+      navVersionOptions.forEach((navVersionOption) => {
+        navVersionOption.setAttribute('tabindex', tabIndex)
+      })
+      const tooltipDots = document.querySelectorAll('.nav-version-menu .tooltip-dot-nav-version')
+      tooltipDots.forEach((tooltipDot) => {
+        tooltipDot.setAttribute('tabindex', tabIndex)
+      })
+    }, 200)
   }
 
-  function cancelEvent (e) {
-    e.stopPropagation()
+  function createNavList (navEntryData, page, version, lineage) {
+    var navList = createElement('ul.nav-list')
+    if (version) navList.dataset.version = version
+    navEntryData.items.forEach(function (navItemData) {
+      if (navItemData.name) {
+        navList.appendChild(createNavItemForComponent(navItemData, page))
+        return
+      }
+      var navItem = createElement('li.nav-item')
+      if (navItemData.url) {
+        var navLink = createElement('a.link.nav-text', { href: relativize(navItemData.url) }, navItemData.content)
+        if (navItemData.iconId) {
+          navLink.classList.add('has-icon')
+          const iconElement = createSvgElement('.icon.nav-icon', '#' + navItemData.iconId)
+          iconElement.setAttribute('alt', '')
+          navLink.insertBefore(iconElement, navLink.firstChild)
+        }
+        if (navItemData.url === page.url) {
+          ;(lineage || []).forEach(function (el) {
+            el.classList.add('is-active')
+          })
+          navItem.classList.add('is-active')
+          navLink.setAttribute('aria-current', 'page')
+        }
+        navItem.appendChild(navLink)
+      } else {
+        navItem.appendChild(createElement('span.nav-text', navItemData.content))
+        if (navItemData.items) {
+          navItem.lastChild.addEventListener('click', toggleSubNav.bind(navItem))
+        }
+      }
+      if (navItemData.items) {
+        var navItemToggle = createElement('button.nav-item-toggle')
+        navItemToggle.setAttribute('type', 'button')
+        navItemToggle.ariaExpanded = navItem.classList.contains('is-active')
+        if (navItemData.content) {
+          navItemToggle.ariaLabel = `Toggle ${navItemData.content}`
+        }
+        if (page.navItemToggleIconId) {
+          navItemToggle.appendChild(createSvgElement('.icon.nav-item-toggle-icon', '#' + page.navItemToggleIconId))
+        }
+        navItemToggle.addEventListener('click', toggleSubNav.bind(navItem))
+        navItem.insertBefore(navItemToggle, navItem.firstChild)
+        navItem.appendChild(createNavList(navItemData, page, undefined, (lineage || []).concat(navItem)))
+      }
+      navList.appendChild(navItem)
+    })
+    return navList
   }
 
-  function ignoreTouchScroll (e) {
-    if (e.type === 'touchstart') dragging = false
-    else if (e.type === 'touchmove') dragging = true
-    else if (e.type === 'touchend') {
-      if (dragging) e.stopPropagation()
-      dragging = false
-    }
-  }
-
-  function getPage () {
-    var pageProductMeta, head
-    if ((pageProductMeta = (head = document.head).querySelector('meta[name=page-component]'))) {
-      return {
-        product: pageProductMeta.getAttribute('content'),
-        version: head.querySelector('meta[name=page-version]').getAttribute('content'),
-        url: head.querySelector('meta[name=page-url]').getAttribute('content'),
-        uiRootPath: document.getElementById('site-script').dataset.uiRootPath,
+  function ensureNavList (navItem, componentData, selectedVersion, page) {
+    if (componentData.unversioned) {
+      if (!navItem.querySelector('.nav-list')) {
+        navItem.appendChild(createNavList(componentData.nav, page))
+      }
+    } else {
+      var versionData
+      var navVersion = navItem.querySelector('.nav-version')
+      if (selectedVersion) {
+        navVersion.dataset.version = selectedVersion
+        versionData = componentData.versions[selectedVersion]
+        navVersion.textContent = versionData.displayVersion
+      } else {
+        selectedVersion = navVersion.dataset.version
+        versionData = componentData.versions[selectedVersion]
+      }
+      var navList = navItem.querySelector('.nav-list[data-version="' + selectedVersion + '"]')
+      var firstNavList = navItem.querySelector('.nav-list[data-version]')
+      if (navList) {
+        if (navList !== firstNavList) {
+          navItem.insertBefore(navList, firstNavList)
+        }
+      } else {
+        navList = createNavList(versionData.nav, page, selectedVersion)
+        firstNavList ? navItem.insertBefore(navList, firstNavList) : navItem.appendChild(navList)
       }
     }
   }
 
-  function getNav () {
-    return document.querySelector('nav.nav')
+  function createElement (name, attrs, innerHTML) {
+    if (typeof attrs === 'string') {
+      innerHTML = attrs
+      attrs = undefined
+    }
+    if (~name.indexOf('.')) {
+      var nameParts = name.split('.')
+      name = nameParts.shift() || 'div'
+      ;(attrs || (attrs = {})).className = nameParts.join(' ')
+    }
+    var element = document.createElement(name)
+    if (attrs) {
+      var dataset = attrs.dataset
+      if (dataset) {
+        delete attrs.dataset
+        Object.assign(Object.assign(element, attrs).dataset, dataset)
+      } else {
+        Object.assign(element, attrs)
+      }
+    }
+    if (innerHTML) element.innerHTML = innerHTML
+    return element
+  }
+
+  function createSvgElement (attrs, useRef) {
+    var svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg')
+    svg.setAttribute('xmlns', svg.namespaceURI)
+    svg.setAttribute('width', '1em')
+    svg.setAttribute('height', '1em')
+    if (typeof attrs === 'string' && attrs.charAt() === '.') {
+      attrs = {
+        className: attrs.split('.').slice(1).join(' '),
+      }
+    }
+    if (attrs) {
+      var className = attrs.className
+      if (className) {
+        svg.setAttribute('class', className)
+        delete attrs.className
+      }
+      Object.assign(svg, attrs)
+    }
+    if (useRef) {
+      var use = document.createElementNS(svg.namespaceURI, 'use')
+      use.setAttributeNS('http://www.w3.org/1999/xlink', 'xlink:href', useRef)
+      svg.appendChild(use)
+    }
+    return svg
+  }
+
+  function toggleNav (componentData, selectedVersion, page) {
+    if (!selectedVersion && this.classList.contains('is-active')) {
+      return this.classList.remove('is-active')
+    }
+    ensureNavList(this, componentData, selectedVersion, page)
+    this.classList[selectedVersion ? 'add' : 'toggle']('is-active')
+  }
+
+  function toggleSubNav () {
+    this.classList.toggle('is-active')
+    var toggleButton = this.querySelector('.nav-item-toggle')
+    if (toggleButton) {
+      toggleButton.ariaExpanded = this.classList.contains('is-active')
+    }
+  }
+
+  function selectVersion (navItem, componentData, page, e) {
+    toggleNav.call(navItem, componentData, e.target.dataset.version, page)
+    const navVersionButton = document.querySelector(
+      `[data-component="${navItem.getAttribute('data-component')}"] .nav-version-button`
+    )
+    if (e.target.dataset.version === getCurrentVersionData(Object.values(componentData.versions)).version) {
+      addCurrentVersionIndicator(navVersionButton, 'tooltip-dot-nav-version-menu')
+    } else {
+      removeCurrentVersionIndicator(navVersionButton)
+    }
+    hideVersionMenu(this)
+  }
+
+  function toggleVersionMenu () {
+    if (hideVersionMenu(this)) return
+    var maxBottom = getNavGroupsBottom()
+    var height = this.dataset.height
+    if (!height) {
+      var measurement = document.body.appendChild(
+        createElement('div', {
+          style: 'position: absolute; top: 0; left: 0; visibility: hidden',
+        })
+      )
+      var thisClone = Object.assign(this.cloneNode(true), {
+        style: 'max-height: none; position: static; transform: none; transition: none',
+      })
+      this.dataset.height = height = measurement.appendChild(thisClone).getBoundingClientRect().height.toFixed(1) + 'px'
+      measurement.parentNode.removeChild(measurement)
+    }
+    closeVersionMenu()
+    this.style.marginTop = null
+    var bottom = this.getBoundingClientRect().top + parseFloat(height) + 20
+    if (bottom > maxBottom) {
+      this.style.marginTop = maxBottom - bottom + 'px'
+    }
+    this.classList.remove('is-clipped')
+    this.style.maxHeight = height
+    this.classList.add('is-active')
+    setTabIndexForVersions()
+    this.parentElement.querySelector('.nav-version-button').classList.add('selector-active')
+  }
+
+  function getNavGroupsBottom () {
+    return this.getBoundingClientRect().bottom
+  }
+
+  function closeVersionMenu (e) {
+    const visibleMenu = this.querySelector('.nav-version-menu.is-active')
+    if (visibleMenu) {
+      hideVersionMenu(visibleMenu, true)
+    }
+    if (e) trapEvent(e)
+  }
+
+  function hideVersionMenu (menu, force) {
+    if (force || menu.classList.contains('is-active')) {
+      menu.parentElement.querySelector('.nav-version-button').classList.remove('selector-active')
+      menu.classList.add('is-clipped')
+      menu.style.maxHeight = 0
+      menu.classList.remove('is-active')
+      return true
+    }
+  }
+
+  function trapEvent (e) {
+    e.stopPropagation()
+  }
+
+  function fitNav () {
+    if (window.getComputedStyle(this).position === 'fixed' || window.scrollY === 0) {
+      this.style.maxHeight = null
+      return
+    }
+    var offset = this.getBoundingClientRect().top
+    this.style.maxHeight = offset > 0 ? 'calc(100vh - ' + offset + 'px)' : 'none'
+  }
+
+  function scrollToCurrentPageItem (container, scope) {
+    container.scrollTop = 0
+    if (!scope) return
+    var target = (
+      scope.querySelector('[aria-current=page]') || {
+        parentNode: scope.previousElementSibling,
+      }
+    ).parentNode
+    var containerRect = container.getBoundingClientRect()
+    var midpoint = (containerRect.height - containerRect.top) * 0.5
+    var adjustment = target.offsetTop + target.offsetHeight * 0.5 - midpoint
+    if (adjustment > 0) container.scrollTop = adjustment
+  }
+
+  function inhibitSelectionOnSecondClick (e) {
+    if (e.detail > 1) e.preventDefault()
+  }
+
+  function isSubcomponent (name, componentData) {
+    return (
+      componentData.unversioned &&
+      componentData.nav.items.some(function (candidate) {
+        return candidate.name === name
+      })
+    )
   }
 
   function relativize (from, to) {
-    if (!from || to.charAt() === '#') return to
+    if (!(from && to.charAt() === '/')) return to
     var hash = ''
     var hashIdx = to.indexOf('#')
     if (~hashIdx) {
@@ -394,7 +733,9 @@
       }
     }
     var outputParts = []
-    for (var remain = fromParts.length - sharedPathLength; remain > 0; remain--) outputParts.push('..')
+    for (var remain = fromParts.length - sharedPathLength; remain > 0; remain--) {
+      outputParts.push('..')
+    }
     return outputParts.concat(toParts.slice(sharedPathLength)).join('/')
   }
 
@@ -411,10 +752,33 @@
     return arr.slice(start, end)
   }
 
-  var nav, dragging
-  var page = getPage()
-  if (page) {
-    buildNav((nav = getNav()), window.siteNavigationData || [], page, { active: [], current: [] })
-    toggleNav(undefined, page, nav)
+  function coerceToArray (val) {
+    return Array.isArray(val) ? val : [val]
   }
+
+  function setTitle (title) {
+    return isArchiveSite() ? `Archive ${title}` : isJapaneseSite() ? 'ホーム' : title
+  }
+
+  function isArchiveSite () {
+    return window.location.host.includes('archive')
+  }
+
+  function isBetaSite () {
+    return isExternalBetaSite() || isInternalBetaSite()
+  }
+
+  function isExternalBetaSite () {
+    return window.location.host.includes('beta')
+  }
+
+  function isInternalBetaSite () {
+    return window.location.host.includes('dev-docs-internal')
+  }
+
+  function isJapaneseSite () {
+    return window.location.href.startsWith('https://docs.mulesoft.com/jp')
+  }
+
+  buildNav(extractNavData(window), document.querySelector('.nav'), getPage())
 })()

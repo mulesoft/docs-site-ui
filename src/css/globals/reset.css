@@ -23,14 +23,14 @@ select {
   /* focus state */
   &.focus,
   &:focus {
-    border-color: var(--core-blue-3);
+    border-color: var(--secondary-navy);
     box-shadow: 0 0 0 3px rgba(0,162,223,.25);
     outline: 0;
   }
 
   /* placeholder */
   &::placeholder {
-    color: var(--aluminum-5);
+    color: var(--steel-3);
   }
 
   /* checkbox radius */
@@ -47,7 +47,7 @@ textarea {
 button {
   &.focus,
   &:focus {
-    border-color: var(--core-blue-3);
+    border-color: var(--secondary-navy);
     box-shadow: 0 0 0 3px rgba(0,162,223,.25);
     outline: 0;
   }

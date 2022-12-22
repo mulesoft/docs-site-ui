@@ -55,7 +55,7 @@ This section offers a basic tutorial for learning how to preview the UI and bund
 To preview and bundle the UI, you need the following software on your computer:
 
 * {uri-git}[git] (command: `git`)
-* {uri-node}[Node 10] (command: `node`)
+* {uri-node}[Node 12] (command: `node`)
 * {uri-gulp}[Gulp CLI] (command: `gulp`)
 
 ==== git
@@ -66,31 +66,31 @@ First, make sure you have git installed.
 
 If not, {uri-git-dl}[download and install] the git package for your system.
 
-==== Node 10
+==== Node 12
 
-Next, make sure that you have at least Node 10 installed.
+Next, make sure that you have at least Node 12 installed.
 
  $ node -v
 
 If this command fails with an error, you don't have Node installed.
-If the command doesn't report a Node 10 version or better (e.g., v10.15.3), you don't have a suitable version of Node installed.
+If the command doesn't report a Node 12 version or better (e.g., v12.22.10), you don't have a suitable version of Node installed.
 
 While you can install Node from the official packages, we strongly recommend that you use {uri-nvm}[nvm] (Node Version Manager) to install and manage Node.
 Follow the {uri-nvm-install}[nvm installation instructions] to set up nvm on your machine.
 
-Once you've installed nvm, open a new terminal and install Node 10 using the following command:
+Once you've installed nvm, open a new terminal and install Node 12 using the following command:
 
- $ nvm install 10
+ $ nvm install 12
 
 You can switch to this version of Node at any time using the following command:
 
- $ nvm use 10
+ $ nvm use 12
 
-To make Node 10 the default in new terminals, type:
+To make Node 12 the default in new terminals, type:
 
- $ nvm alias default 10
+ $ nvm alias default 12
 
-Now that you have Node 10 installed, you can proceed with installing the Gulp CLI and the project dependencies.
+Now that you have Node 12 installed, you can proceed with installing the Gulp CLI and the project dependencies.
 
 ==== Gulp CLI
 
@@ -136,7 +136,7 @@ To build the UI and preview it in a local web server, run the `preview` command:
 You'll see a URL listed in the output of this command:
 
 ....
-[18:24:29] Server started http://localhost:5252
+[18:24:29] Server started http://localhost:8080
 [18:24:29] Running server
 ....
 

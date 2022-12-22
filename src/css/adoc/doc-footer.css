@@ -1,5 +1,7 @@
 .doc-footer {
   padding-bottom: var(--xl);
+  padding-left: var(--xl);
+  padding-top: 300px;
 
   & .button {
     font-size: 12px;
@@ -20,12 +22,18 @@
   border-radius: 2px;
   display: flex;
   flex-direction: column;
-  padding: var(--md) var(--xl);
+  max-width: max-content;
+  padding: var(--sm) var(--lg);
+  width: 70%;
 
-  & .row {
-    border-bottom: 1px solid var(--aluminum-3);
-    padding-bottom: var(--md);
+  @media (min-width: 540px) {
+    width: max-content;
   }
+
+  /* uncomment this block when GUS feedback is implemented */
+  /* & .row {
+    border-bottom: 1px solid var(--aluminum-3);
+  } */
 
   &.flip [data-thanks="start"],
   & [data-thanks="end"] {
@@ -37,15 +45,14 @@
     margin-bottom: 0;
   }
 
-  & .p {
+  & span {
     font-size: 14px;
     font-weight: var(--weight-bold);
-    margin-top: 0;
-    text-align: center;
+    margin-right: var(--xl);
   }
 
   & .link {
-    color: var(--core-blue-3);
+    color: var(--secondary-navy);
     cursor: pointer;
     font-size: 12px;
     margin-top: var(--md);

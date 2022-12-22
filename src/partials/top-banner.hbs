@@ -1,0 +1,26 @@
+{{#if
+(or preview (or (eq (site-profile) "beta") (eq (site-profile) "archive")))
+}}
+<div class="top-banner flex">
+  <div class="container wrapper">
+    <p>You&#8217;re viewing the
+      {{#if preview}}
+      preview
+      {{else}}
+      {{#if (eq (site-profile) "archive")}}
+      archived
+      {{else}}
+      {{site-profile}}
+      {{/if}}
+      {{/if}}
+      MuleSoft Documentation.
+      {{#if (eq (site-profile) "archive")}}
+      {{#with page.componentVersion.asciidoc.attributes.primary-site-url}}
+      <a href="{{{this}}}">Go to the latest MuleSoft documentation.</a>
+      {{/with}}
+      {{/if}}
+    </p>
+  </div>
+  <button class="top-banner-close-button" title="Close banner">&times;</button>
+</div>
+{{/if}}

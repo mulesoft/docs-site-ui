@@ -1,9 +1,13 @@
+.toc {
+  max-height: 100vh;
+  top: 0;
+}
+
 .toc-sidebar {
   display: none;
   flex: 0 0 auto;
-  max-height: 100vh;
+  height: fit-content;
   max-width: var(--toc-width);
-  overflow-y: auto;
   padding: var(--lg) var(--md) var(--xl);
   position: sticky;
   top: 0;
@@ -14,7 +18,7 @@
 
   & .button-edit {
     font-size: 11px;
-    font-weight: var(--weight-aluminum);
+    font-weight: var(--weight-normal);
     margin-bottom: var(--lg);
     padding-bottom: 4px;
     padding-top: 4px;
@@ -23,26 +27,30 @@
 
 .toc-menu a {
   border-left: 3px solid var(--aluminum-3);
-  color: var(--aluminum-5);
+  color: var(--steel-2);
   display: block;
   font-size: 12px;
   padding: var(--xs) var(--sm);
   text-decoration: none;
 
+  &:hover {
+    border-left-color: var(--steel-2);
+    color: var(--steel-2);
+    font-weight: var(--weight-bold);
+  }
+
   &:focus {
-    outline: 0;
+    border-radius: var(--radius);
+    outline: 2px solid #888;
   }
 
-  &:hover,
-  &:focus,
-  &:active {
-    border-left-color: var(--aluminum-4);
-    color: var(--steel-1);
-  }
-
-  &.active {
-    border-color: var(--core-blue-3);
-    color: var(--steel-1);
+  &:active,
+  &.is-active {
+    background-color: #e8e9ea;
+    border-color: var(--secondary-navy);
+    border-width: 5px;
+    color: var(--secondary-navy);
+    margin-left: -1px;
   }
 
   & code {
@@ -55,7 +63,7 @@
 }
 
 .toc-embedded {
-  max-width: 100%;
+  width: 100%;
 
   @media (--lg) {
     display: none;

@@ -1,0 +1,45 @@
+{{#if (ne (site-profile) "archive")}}
+<section class="connectors-popular">
+  <header class="header-connectors-title">Popular Connectors</header>
+  <div class="flex popular-cards">
+    {{#each (array 'salesforce' 'sap' 'amazon-s3') as |connectorName|}}
+    {{#with (lookup @root.site.components (concat connectorName '-connector')) as |connector|}}
+    {{#with asciidoc}}
+    <a class="card" href="{{relativize connector.url}}">
+      <img src="{{@root.uiRootPath}}/img/logos/{{attributes.page-vendor-name}}.png" alt="{{{attributes.page-vendor-title}}} Logo" class="card-img" height="50">
+      <div>
+        <div class="card-title">{{{attributes.page-vendor-title}}}</div>
+        <div class="card-description">{{{attributes.page-component-desc}}}</div>
+      </div>
+    </a>
+    {{/with}}
+    {{else}}
+    <a class="card" href="#">
+      <img src="{{@root.uiRootPath}}/img/logos/{{connectorName}}.png" alt="{{connectorName}} Logo" class="card-img" height="50">
+      <div>
+        <div class="card-title">{{connectorName}}</div>
+        <div class="card-description">Description of {{connectorName}} connector goes here.</div>
+      </div>
+    </a>
+    {{/with}}
+    {{/each}}
+  </div>
+  <div class="flex flex-wrap">
+    {{#each (array 'netsuite' 'workday' 'microsoft-dynamics-365' 'kafka' 'servicenow' 'mongodb' 'box' 'redis') as |connectorName|}}
+    {{#with (lookup @root.site.components (concat connectorName '-connector'))}}
+    <a class="featured-link" href="{{relativize url}}">
+      <img src="{{@root.uiRootPath}}/img/logos/{{connectorName}}.png" alt="{{{delete-suffix title ' Connector'}}}" class="featured-img">
+      {{{delete-suffix title ' Connector'}}}
+      <svg class="icon icon-md icon-forward-arrow"><use xlink:href="#icon-forward-arrow"/></svg>
+    </a>
+    {{else}}
+    <a class="featured-link" href="#">
+      <img src="{{@root.uiRootPath}}/img/logos/{{connectorName}}.png" alt="{{connectorName}}" class="featured-img">
+      {{connectorName}}
+      <svg class="icon icon-md icon-forward-arrow"><use xlink:href="#icon-forward-arrow"/></svg>
+    </a>
+    {{/with}}
+    {{/each}}
+  </div>
+</section>
+{{/if}}

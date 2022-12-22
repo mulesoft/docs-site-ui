@@ -1,0 +1,10 @@
+<script src="{{siteRootPath}}/site-navigation-data.js"></script>
+<script src="{{uiRootPath}}/js/vendor/icondefs.js"></script>
+<script src="{{uiRootPath}}/js/vendor/tippy.js"></script>
+<script src="{{uiRootPath}}/js/site.js" id="site-script" data-ui-root-path="{{uiRootPath}}"></script>
+<script async src="{{uiRootPath}}/js/vendor/highlight.js"></script>
+{{#if (and page.component env.JIRA_COLLECTOR_ID)}}
+<script async src="{{uiRootPath}}/js/vendor/feedback.js" id="feedback-script" data-collector-id="{{env.JIRA_COLLECTOR_ID}}"></script>
+{{/if}}
+{{> search}}
+{{> marketing-scripts}}

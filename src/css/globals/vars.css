@@ -1,5 +1,7 @@
 :root {
   /* colors */
+  --secondary-navy: #002196;
+  --core-blue-0: #f2fafd;
   --core-blue-1: #abe2f5;
   --core-blue-2: #48c1ed;
   --core-blue-3: #00a2df;
@@ -39,13 +41,17 @@
   --sans-serif: 'Open Sans', sans-serif;
   --monospace: 'Monaco', monospace;
   --weight-normal: 400;
-  --weight-bold: 600;
+  --weight-medium: 600;
+  --weight-bold: 700;
 
   /* dimensions */
-  --header-height: 66px;
+  --header-height: 93px; /* includes 28px of helmet */
+  --banner-height: 50px;
   --footer-height: 361px;
   --nav-item-height: 32px;
-  --nav-width: 275px;
+  --mobile-nav-width: 275px;
+  --nav-width: 300px;
+  --min-nav-width: 300px;
   --toc-width: 250px;
   --radius: 2px;
   --xs: 5px;
@@ -53,19 +59,23 @@
   --md: 15px;
   --lg: 20px;
   --xl: 40px;
+  --xxl: 44px;
   --input-md: 30px;
+  --input-lg: 40px;
   --screen-sm: 576px;
   --screen-md: 768px;
   --screen-lg: 992px;
   --screen-xl: 1350px;
+  --screen-xxl: 1650px;
 
   /* z-index */
-  --z-gdpr: 20;
-  --z-modal-header: 16;
-  --z-modal: 15;
-  --z-nav-mobile: 14;
-  --z-backdrop: 13;
-  --z-header: 12; /* marketing header */
+  --z-gdpr: 18;
+  --z-modal-header: 17;
+  --z-modal: 16;
+  --z-nav-mobile: 15;
+  --z-backdrop: 14;
+  --z-header: 13;
+  --z-banner: 12;
   --z-nav: 11;
   --z-nav-toolbar: 10;
 

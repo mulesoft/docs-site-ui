@@ -1,0 +1,86 @@
+= About Anypoint Data Gateway
+:keywords: data gateway, salesforce, sap, oracle
+:page-component-name: api-governance
+
+== Overview
+
+Anypoint Data Gateway allows you to easily integrate data stored in legacy back-office systems with Salesforce. Data Gateway lets you access your data from within Salesforce itself, using a simple point-and-click visual interface to wield the full functionality of Salesforce on your external data.
+
+Data Gateway supports integration with systems such as SAP, Oracle, MS SQL, MySQL, and others. Connecting to these systems is instantaneous – just fill in the parameters such as host, user, etc., and you’re done. The ability to quickly connect with diverse back-office systems eliminates the need to create separate design environments, or to implement extensive training for Salesforce users.
+
+== Using Data Gateway through your Anypoint Platform Account
+
+If you own an Anypoint Platform account, and your user owns the appropriate entitlements, a Data Gateway link will be present in your https://anypoint.mulesoft.com[Anypoint Platform home page], and in the left navigation bar.
+
+image::assets/images/index-0ac01.png[]
+
+
+To select or change the Salesforce account that is linked to your Data Gateway, click on the Salesforce link in the user menu on your left and then click the `Change` button: +
+
+image::dgw-anypoint-platform2.png[in anypoint platform]
+
+== Installing Data Gateway into Salesforce
+
+Data Gateway is available as a Salesforce package which you install via https://appexchange.salesforce.com/[Salesforce AppExchange]. After you install the package, you can access the Data Gateway Designer, which allows you to quickly and easily create a new gateway to your desired external data source. After you've configured your gateway, you can publish it – make it available to the external entities that you specify – as well as see existing objects in your data source, and create new objects.
+
+image::basic-arch-final.png[basic_arch_final]
+
+See xref:installing-anypoint-data-gateway.adoc[Installing Anypoint Data Gateway] for more details.
+
+[NOTE]
+Anypoint Data Gateway requires that your Salesforce account includes https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/platform_connect_about.htm[Salesforce Connect]. This is the feature that allows Salesforce to access and and modify data that resides outside of its own repositories.
+
+
+== Supported External Data Sources
+
+Currently, Anypoint Data Gateway supports the following external data sources:
+
+* SAP
+* Oracle
+* DB2
+* MS SQL
+* MySQL
+
+Additionally, support is planned for the following:
+
+* Oracle E-Business Suite
+* Siebel
+* PostgreSQL
+
+Advantages of Data Gateway include:
+
+* *Automatic population and configuration of metadata:* Metadata from the external data source is automatically retrieved for you, greatly simplifying the task of creating or configuring objects
+* *Virtual Private Cloud (VPC):* The network is automatically created and configured for you
+* *Point-and-click GUI:* The simple visual interface allows developers to focus on configuring integration instead of developing for integration
+
+== Working with Data Gateway
+
+Working with Anypoint Data Gateway requires that you follow several high-level steps. In order to install and configure Data Gateway, you need to:
+
+* Locate Data Gateway in Salesforce AppExchange
+* Install Data Gateway as a managed package
+* Complete the post-installation steps
+* Sign up or authenticate to Anypoint Data Gateway Designer
+
+For details, see xref:installing-anypoint-data-gateway.adoc[Installing Anypoint Data Gateway].
+
+Once you've logged in to Data Gateway, you need to:
+
+* Configure your Virtual Private Cloud (VPC) parameters
+* Create a connection to your data
+* Publish your gateway
+
+For details, see xref:creating-and-configuring-a-gateway.adoc[Creating and Configuring a Gateway] and xref:managing-gateways.adoc[Managing Gateways].
+
+After completing the above steps, you can use Data Gateway to view objects in your data source from within Salesforce, or you can use Data Gateway Designer to create or modify objects.
+
+To learn how to install, configure and use Anypoint Data Gateway, access the following pages.
+
+* xref:installing-anypoint-data-gateway.adoc[Installing Anypoint Data Gateway].
+* xref:creating-and-configuring-a-gateway.adoc[Creating and Configuring a Gateway].
+* xref:managing-gateways.adoc[Managing Gateways].
+* xref:quick-guide-to-accessing-gateways-and-objects.adoc[Quick Guide to Accessing Gateways and Objects].
+* xref:troubleshooting-data-gateway.adoc[Troubleshooting Data Gateway].
+
+You can also find additional information in the
+xref:release-notes::data-gateway/anypoint-data-gateway-release-notes.adoc[Anypoint Data Gateway Release Notes].

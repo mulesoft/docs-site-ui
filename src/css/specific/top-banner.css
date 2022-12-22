@@ -1,0 +1,40 @@
+.top-banner {
+  align-items: center;
+  background-color: var(--core-blue-0);
+  height: var(--banner-height);
+  position: sticky;
+  top: 0;
+  z-index: var(--z-banner);
+
+  & .top-banner-close-button {
+    background: none;
+    border: none;
+    cursor: pointer;
+    float: right;
+    font-size: 20px;
+    padding: 11px 17px;
+  }
+}
+
+.top-banner p {
+  color: #087299;
+  font-size: 12px;
+  line-height: 1.35;
+  margin: 0 1em;
+}
+
+.top-banner a {
+  color: inherit;
+}
+
+@media (--md) {
+  .top-banner p {
+    font-size: 14px;
+  }
+
+  .top-banner + .flex.container > .nav,
+  .top-banner + .flex.container > .toc {
+    max-height: calc(100vh - var(--header-height) - var(--banner-height));
+    top: var(--banner-height);
+  }
+}

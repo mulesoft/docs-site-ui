@@ -1,0 +1,39 @@
+.card {
+  border: 1px solid rgba(0,0,0,.06);
+  border-radius: 2px;
+  box-shadow: 0 4px 16px rgba(0,0,0,.03);
+  color: var(--steel-3);
+  display: block;
+  flex: 1 1 33%;
+  flex-direction: column;
+  margin-bottom: var(--md);
+  outline: 0;
+  padding: var(--lg);
+  text-decoration: none;
+  transition: box-shadow var(--transition-speed-sm) var(--transition-timing);
+
+  &:hover {
+    border-color: rgba(0,0,0,.1);
+  }
+
+  &:active,
+  &:focus {
+    border-color: var(--secondary-navy);
+    box-shadow: 0 4px 16px rgba(0,162,223,.06), 0 0 0 3px rgba(0,162,223,.38);
+    color: var(--steel-3);
+  }
+
+  & + .card {
+    margin-left: var(--md);
+  }
+}
+
+.card-title {
+  font-weight: var(--weight-bold);
+  margin-bottom: var(--xs);
+  margin-top: var(--sm);
+}
+
+.card-description {
+  font-size: 14px;
+}

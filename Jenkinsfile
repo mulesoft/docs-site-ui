@@ -1,7 +1,7 @@
 #!/bin/env groovy
 
 def gitBranch = 'master'
-def githubCredentialsId = 'mule-docs-agent-github-token'
+def githubCredentialsId = 'GH_TOKEN'
 
 pipeline {
   agent any
@@ -20,7 +20,7 @@ pipeline {
     stage('Install') {
       when { not { environment name: 'SKIP_CI', value: 'true' } }
       steps {
-        nodejs('node10') {
+        nodejs('node12') {
           sh 'npm install --quiet --no-progress --cache=.cache/npm --no-audit'
         }
       }
@@ -28,8 +28,8 @@ pipeline {
     stage('Build') {
       when { not { environment name: 'SKIP_CI', value: 'true' } }
       steps {
-        nodejs('node10') {
-          sh '$(npm bin)/gulp bundle'
+        nodejs('node12') {
+          sh 'npx gulp bundle'
         }
       }
     }
@@ -37,8 +37,8 @@ pipeline {
       when { allOf { environment name: 'GIT_BRANCH', value: gitBranch; not { environment name: 'SKIP_CI', value: 'true' } } }
       steps {
         withCredentials([string(credentialsId: githubCredentialsId, variable: 'GITHUB_TOKEN')]) {
-          nodejs('node10') {
-            sh '$(npm bin)/gulp release:publish'
+          nodejs('node12') {
+            sh 'npx gulp release:publish'
           }
         }
       }

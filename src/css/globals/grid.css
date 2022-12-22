@@ -5,26 +5,42 @@
   @media (--xl) {
     max-width: var(--screen-xl);
   }
+
+  @media (--xxl) {
+    max-width: var(--screen-xxl);
+  }
 }
 
 .flex {
   display: flex;
 }
 
+.flex-wrap {
+  flex-wrap: wrap;
+}
+
 .col {
   flex-direction: column;
 }
 
-.align-top {
-  align-items: flex-start;
+.align-bottom {
+  align-items: flex-end;
 }
 
 .align-center {
   align-items: center;
 }
 
-.align-bottom {
-  align-items: flex-end;
+.align-left {
+  align-items: start;
+}
+
+.align-right {
+  align-items: end;
+}
+
+.align-top {
+  align-items: flex-start;
 }
 
 .justify-center {

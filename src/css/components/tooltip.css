@@ -5,3 +5,45 @@
   font-size: 11px;
   padding: var(--xs);
 }
+
+.tooltip-div {
+  display: contents;
+}
+
+.tooltip {
+  display: inline-block;
+  margin-right: 10px;
+  padding-left: 3px;
+  position: relative;
+
+  @media (--md) {
+    margin-right: 28px;
+  }
+}
+
+.tooltip-dot {
+  background-color: #5e8ef9;
+  border-radius: 50%;
+  float: left;
+  height: 5px;
+  outline-style: none;
+  width: 5px;
+
+  &::after {
+    content: '';
+    padding: 8px;
+    position: absolute;
+    transform: translate(-50%,-50%);
+  }
+
+  &.tooltip-dot-nav-version-menu {
+    margin-bottom: 1px;
+    margin-right: 3px;
+    z-index: var(--z-modal);
+  }
+
+  &.tooltip-dot-nav-version {
+    margin-left: 6px;
+    margin-top: 8px;
+  }
+}

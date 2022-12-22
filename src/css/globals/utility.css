@@ -2,14 +2,49 @@
 vars for reference:
 --screen-md: 768px;
 --screen-lg: 992px;
---screen-xl: 1200px;
+--screen-xl: 1350px;
+--screen-xl: 1650px;
 */
 
+@custom-media --sm (min-width: 100px);
 @custom-media --md (min-width: 768px);
 @custom-media --lg (min-width: 992px);
 @custom-media --xl (min-width: 1350px);
-@custom-media --marketing (max-width: 992px);
+@custom-media --xxl (min-width: 1650px);
 
 .no-pointer {
   pointer-events: none;
+}
+
+.hidden {
+  display: none;
+}
+
+.hidden-important {
+  display: none !important;
+}
+
+.hidden-invisible {
+  display: none;
+  visibility: hidden;
+}
+
+.mega-menu-item-header-width {
+  min-width: 600px;
+}
+
+.menu-label-top-margin {
+  margin-top: 20px;
+}
+
+.no-top-margin {
+  margin-top: 0;
+}
+
+.small-top-margin {
+  margin-top: 20px;
+}
+
+.hompage-column-width {
+  width: 50%;
 }

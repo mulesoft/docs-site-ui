@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html lang={{#if (eq (site-profile) 'jp')}}"jp"{{else}}"en"{{/if}}>
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1.0">
@@ -13,13 +13,28 @@
 {{#if page.keywords}}
 <meta name="keywords" content="{{page.keywords}}">
 {{/if}}
-<meta name="product" content="{{page.component.title}}">
-<meta name="version" content="{{page.version}}">
+{{#if (and (ne (site-profile) 'jp') (ne (site-profile) 'prod'))}}
+<meta name="robots" content="none, noarchive">
+{{/if}}
 {{> head}}
 </head>
 <body class="flex col">
 {{> header}}
+  {{#if page.attributes.connector-type}}
+  <div class="flex container wrapper">
+{{> nav}}
+    <main class="main" data-ceiling="topbar">
+{{> toolbar}}
+{{> connectors-article}}
+    </main>
+    <aside class="toc toc-sidebar scrollbar">
+{{> github}}
+{{> connectors-sidebar}}
+    </aside>
+  </div>
+  {{else}}
 {{> body}}
+  {{/if}}
 {{> footer}}
 </body>
 </html>

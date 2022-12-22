@@ -16,6 +16,49 @@
     }
   }
 
+  /* numbered callouts from codeblocks */
+  & .conum {
+    background: #1a5492;
+    border-radius: 10px;
+    color: white;
+    font-family: var(--sans-serif);
+    font-size: 12px;
+    font-style: normal;
+    font-weight: var(--weight-bold);
+    padding: 0 5px;
+
+    &::after {
+      content: attr(data-value);
+      -webkit-user-select: none; /* Safari */
+      -moz-user-select: none; /* Firefox */
+      -ms-user-select: none; /* IE10+/Edge */
+      user-select: none; /* Standard */
+    }
+
+    & + b {
+      display: none;
+    }
+  }
+
+  /* collouts within the codeblock */
+  & pre .conum {
+    box-shadow: 0 2px 6px var(--aluminum-3);
+  }
+
+  /* references within codeblock */
+  & .colist {
+    /* numbers */
+    & td:first-of-type {
+      padding: 0 10px;
+      vertical-align: top;
+    }
+
+    /* content */
+    & td:last-of-type {
+      padding: 0;
+    }
+  }
+
   /* default spacing */
   & > h1:first-child {
     padding-top: var(--lg);
@@ -56,11 +99,9 @@
   }
 
   & .anchor {
-    display: inline-block;
     float: right;
     height: var(--lg);
     opacity: 0;
-    padding-right: var(--sm);
     transform: scale(.9);
     transition: opacity var(--transition-speed-sm) var(--transition-timing), transform var(--transition-speed-sm) var(--transition-timing);
 
@@ -74,40 +115,37 @@
       opacity: .5;
       outline: 0;
     }
+  }
 
-    &::before {
-      background-image: url(../img/icons/anchor.svg);
-      background-position: center;
-      background-repeat: no-repeat;
-      background-size: var(--lg);
-      content: '';
-      display: block;
-      height: var(--lg);
-      width: var(--lg);
-    }
+  & .anchor-image {
+    display: block;
+    height: var(--lg);
+    margin-bottom: 0;
+    margin-top: 0;
+    width: var(--lg);
   }
 
   & h1 .anchor {
-    margin-top: 15px;
+    margin-top: 11px;
   }
 
   & h2 .anchor {
-    margin-top: 10px;
+    margin-top: 6px;
   }
 
   & h3 .anchor {
-    margin-top: 5px;
+    margin-top: 1px;
   }
 
   & h4 .anchor {
     @media (--md) {
-      margin-top: 4px;
+      margin-top: 2px;
     }
   }
 
   & h5 .anchor {
     @media (--md) {
-      margin-top: 3px;
+      margin-top: 0;
     }
   }
 
@@ -116,43 +154,56 @@
   & ol,
   & dl,
   & figure,
-  & img,
   & blockquote,
   & table {
     margin-bottom: var(--md);
     margin-top: var(--md);
   }
 
-  pre,
-  table,
-  aside {
+  & pre,
+  & table,
+  & aside {
     margin-bottom: var(--lg);
     margin-top: var(--lg);
   }
 
   /* links */
-  & a {
-    color: var(--core-blue-3);
+  & a:not(.button-primary):not(.dw-playground-link):not(.notice-banner-link):not(.view-all):not(#cta *) {
+    &:not(footer *) {
+      color: var(--secondary-navy);
+      &:visited {
+        color: #681da8;
+      }
+    }
 
+    &:active,
     &:focus {
-      outline: 0;
+      border-radius: 5px;
+      outline: 2px solid #888;
+      text-decoration: none;
     }
 
-    &:focus,
     &:hover {
-      color: var(--core-blue-2);
-    }
+      background-color: #c0edff;
+      border-radius: 5px;
+      color: var(--secondary-navy);
 
-    &:active {
-      color: var(--core-blue-4);
+      &:not(.anchor) {
+        margin-left: -3px;
+        margin-right: -3px;
+        padding: 1px 3px;
+      }
     }
+  }
 
-    &[target="_blank"] {
-      background-image: url(../img/icons/external-link.svg);
-      background-position: right center;
-      background-repeat: no-repeat;
-      background-size: 12px;
-      padding-right: 16px;
+  & .external-link-image {
+    margin-left: 4px;
+    width: 12px;
+  }
+
+  & .button-primary {
+    & .external-link-image {
+      filter: brightness(20) saturate(0);
     }
   }
 
@@ -180,7 +231,7 @@
       border: 0;
       border-radius: 0;
       display: block;
-      padding: 0;
+      padding: 15px 0;
       top: 0;
     }
   }
@@ -205,8 +256,32 @@
     }
   }
 
-  & ol {
+  & ol.arabic {
     list-style-type: decimal;
+  }
+
+  & ol.decimal {
+    list-style-type: decimal-leading-zero;
+  }
+
+  & ol.loweralpha {
+    list-style-type: lower-alpha;
+  }
+
+  & ol.upperalpha {
+    list-style-type: upper-alpha;
+  }
+
+  & ol.lowerroman {
+    list-style-type: lower-roman;
+  }
+
+  & ol.upperroman {
+    list-style-type: upper-roman;
+  }
+
+  & ol.lowergreek {
+    list-style-type: lower-greek;
   }
 
   & ul {
@@ -214,7 +289,7 @@
   }
 
   & blockquote {
-    color: var(--aluminum-5);
+    color: var(--steel-2);
     margin-left: 0;
   }
 

@@ -1,0 +1,42 @@
+<div class="connector-sidebar">
+  <div class="flex align-center justify-justified row">
+    <div class="col">Versions</div>
+    <div class="col">{{#if (is-mule3-version page.version)}}{{{page.displayVersion}}}{{else}}{{{page.version}}}.x{{/if}}</div>
+  </div>
+  <div class="flex align-center justify-justified row">
+    <div class="col">Runtime</div>
+    {{#with page.attributes.runtime-version}}
+    <div class="col">Mule {{this}} or later</div>
+    {{else}}
+    <div class="col">{{#if (is-mule3-version page.version)}}Mule 3{{else}}Mule 4{{/if}}</div>
+    {{/with}}
+  </div>
+  <div class="flex align-center justify-justified row">
+    <div class="col">Level</div>
+    <div class="col">
+      <div class="flex align-center">
+        <a target="_blank" rel="noopener noreferrer" href="https://www.mulesoft.com/legal/versioning-back-support-policy#anypoint-connectors">
+          {{{page.attributes.connector-level}}}
+        </a>
+        <div class="flex align-center justify-center level-help js-connector-level-trigger" data-level="{{{page.attributes.connector-level}}}">
+          <svg class="icon icon-help"><use xlink:href="#icon-help"/></svg>
+        </div>
+      </div>
+    </div>
+  </div>
+  <section class="flex col connector-sidebar-categories">
+    <header class="row categories-header">Links</header>
+    {{#with (resolvePageURL page.attributes.release-notes-page)}}
+    <a class="flex align-center link" href="{{relativize this}}">Release notes</a>
+    {{else}}
+    {{/with}}
+    {{#if page.attributes.exchange-asset-id}}
+    <a class="flex align-center link" href="https://www.anypoint.mulesoft.com/exchange/{{page.attributes.exchange-group-id}}/{{page.attributes.exchange-asset-id}}" target="_blank">View in Exchange
+      <svg class="icon icon-md icon-external"><use xlink:href="#icon-external"/></svg>
+    </a>
+    {{/if}}
+  </section>
+</div>
+<div class="js-toc">
+  <nav class="toc-menu"></nav>
+</div>

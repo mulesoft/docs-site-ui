@@ -1,0 +1,16 @@
+= Admonition
+:keywords: admonition, admonitions, warning, section, notes
+:page-component-name: elements
+:page-notice-banner-message: This is a custom notice message about admonitions
+
+https://docs.antora.org/antora/latest/asciidoc/admonitions/[Antora docs reference^]
+
+NOTE: If you go into the basement, see if you can find Kenny's parka.
+
+TIP: After someone sticks a fork in a socket, you'll need to reset the circuit in the dark basement.
+
+WARNING: Never go into the basement.
+
+CAUTION: Don't stick forks in electric sockets.
+
+IMPORTANT: A monster lives in the basement.

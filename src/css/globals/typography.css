@@ -1,14 +1,21 @@
 @font-face {
   font-family: "DIN Pro";
   font-style: normal;
-  font-weight: 400;
+  font-weight: var(--weight-normal);
   src: url(../font/din-pro-regular.woff) format("woff");
+}
+
+@font-face {
+  font-family: "DIN Pro";
+  font-style: normal;
+  font-weight: var(--weight-bold);
+  src: url(../font/din-pro-bold.woff) format("woff");
 }
 
 @font-face {
   font-family: "Open Sans";
   font-style: normal;
-  font-weight: 400;
+  font-weight: var(--weight-normal);
   src:
     local("Open Sans Regular"),
     local("Open Sans-Regular"),
@@ -18,7 +25,7 @@
 @font-face {
   font-family: "Open Sans";
   font-style: normal;
-  font-weight: 600;
+  font-weight: var(--weight-bold);
   src:
     local("Open Sans SemiBold"),
     local("Open Sans-SemiBold"),
@@ -82,18 +89,11 @@ h6 {
 
 /* links */
 .link {
-  color: var(--steel-2);
+  color: var(--steel-3);
 
-  &:hover {
-    color: var(--steel-4);
-  }
-
-  &:focus {
-    outline: 0;
-  }
-
+  &:active,
   &:focus,
-  &:active {
-    color: var(--core-blue-3);
+  &:hover {
+    color: var(--secondary-navy);
   }
 }

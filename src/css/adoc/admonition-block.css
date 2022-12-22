@@ -9,7 +9,7 @@
   & tbody {
     border: 1px solid var(--aluminum-3);
     border-radius: 2px;
-    color: var(--steel-1);
+    color: var(--steel-2);
     display: block;
     font-size: 14px;
     padding: var(--md) var(--lg) var(--sm);
@@ -81,5 +81,22 @@
       color: color-mod(var(--red-3) lightness(40%));
       content: 'WARNING';
     }
+  }
+}
+html:lang(jp) .admonitionblock {
+  &.caution tbody::before {
+    content: '注意';
+  }
+  &.important tbody::before {
+    content: '重要';
+  }
+  &.note tbody::before {
+    content: 'メモ';
+  }
+  &.tip tbody::before {
+    content: 'ヒント';
+  }
+  &.warning tbody::before {
+    content: '警告';
   }
 }
