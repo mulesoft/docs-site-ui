@@ -780,7 +780,7 @@
   }
 
   function isJapaneseSite () {
-    return window.location.href.startsWith('https://docs.mulesoft.com/jp')
+    return document.documentElement.lang === 'jp'
   }
 
   function isLocalBuild () {
