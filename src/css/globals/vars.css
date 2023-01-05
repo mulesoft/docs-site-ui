@@ -69,15 +69,15 @@
   --screen-xxl: 1650px;
 
   /* z-index */
-  --z-gdpr: 18;
-  --z-modal-header: 17;
-  --z-modal: 16;
-  --z-nav-mobile: 15;
-  --z-backdrop: 14;
-  --z-header: 13;
-  --z-banner: 12;
-  --z-nav: 11;
-  --z-nav-toolbar: 10;
+  --z-gdpr: 16;
+  --z-modal-header: 15;
+  --z-modal: 14;
+  --z-nav-mobile: 13;
+  --z-backdrop: 12;
+  --z-header: 11;
+  --z-banner: 10;
+  --z-nav: 9;
+  --z-nav-toolbar: 8;
 
   /* animations/transitions */
   --transition-speed-sm: .15s;
