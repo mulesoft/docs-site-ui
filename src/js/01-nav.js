@@ -4,7 +4,7 @@
 
   const languageMap = {
     en: {
-      title: 'home',
+      title: 'Home',
     },
     jp: {
       title: 'ホーム',
