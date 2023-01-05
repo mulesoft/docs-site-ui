@@ -1,4 +1,4 @@
-;(function () {
+;(() => {
   'use strict'
 
   var analytics = window.analytics
@@ -8,23 +8,38 @@
   var root = document.querySelector('.js-coveo')
   var coveoInit
 
-  Coveo.SearchEndpoint.endpoints.default = new Coveo.SearchEndpoint({
-    restUri: 'https://platform.cloud.coveo.com/rest/search',
-    accessToken: config.accessToken,
-  })
+  if (root) {
+    Coveo.SearchEndpoint.endpoints.default = new Coveo.SearchEndpoint({
+      restUri: 'https://platform.cloud.coveo.com/rest/search',
+      accessToken: config.accessToken,
+    })
 
-  root.addEventListener('buildingQuery', function (e) {
-    e.detail.queryBuilder.pipeline = config.queryPipeline
-  })
+    root.addEventListener('buildingQuery', function (e) {
+      e.detail.queryBuilder.pipeline = config.queryPipeline
+    })
 
-  // modal setup
-  var backdrop = document.querySelector('.modal-backdrop')
-  var nav = document.querySelector('.nav')
+    // modal setup
+    var backdrop = document.querySelector('.modal-backdrop')
+    var nav = document.querySelector('.nav')
 
-  // show/hide coveo search
-  var searchTrigger = nav.querySelector('.search button')
-  var searchUI = document.querySelector('.js-search-ui')
-  var searchClose = document.querySelector('.js-search-close')
+    // show/hide coveo search
+    var searchTrigger = nav.querySelector('.search button')
+    var searchUI = document.querySelector('.js-search-ui')
+    var searchClose = document.querySelector('.js-search-close')
+
+    searchTrigger.addEventListener('click', showCoveo)
+    searchTrigger.addEventListener('click', resizeCoveoOmnibox)
+    backdrop.addEventListener('click', hideCoveo)
+    searchClose.addEventListener('click', hideCoveo)
+    document.addEventListener('keydown', function (e) {
+      if (e.keyCode === 27) hideCoveo(e)
+    })
+
+    window.onresize = function (_e) {
+      resizeCoveoOmnibox()
+    }
+    root.addEventListener('click', trapEvent)
+  }
 
   function focusOnSearchBox () {
     var maxTries = 1000
@@ -81,17 +96,4 @@
       clearInterval(checkExist)
     }, 300)
   }
-
-  searchTrigger.addEventListener('click', showCoveo)
-  searchTrigger.addEventListener('click', resizeCoveoOmnibox)
-  backdrop.addEventListener('click', hideCoveo)
-  searchClose.addEventListener('click', hideCoveo)
-  document.addEventListener('keydown', function (e) {
-    if (e.keyCode === 27) hideCoveo(e)
-  })
-
-  window.onresize = function (e) {
-    resizeCoveoOmnibox()
-  }
-  root.addEventListener('click', trapEvent)
 })()
