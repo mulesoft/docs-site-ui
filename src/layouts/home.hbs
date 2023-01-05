@@ -1,30 +1,33 @@
 <!DOCTYPE html>
-<html>
+<html lang={{#if (eq (site-profile) 'jp' )}}"jp"{{else}}"en"{{/if}}>
+
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1.0">
-<title>{{{detag (or page.title 'Untitled')}}}{{#if site.title}} | {{{site.title}}}{{/if}}</title>
-{{#if page.canonicalUrl}}
-<link rel="canonical" href="{{page.canonicalUrl}}">
-{{/if}}
-{{#if page.description}}
-<meta name="description" content="{{page.description}}">
-{{/if}}
-{{#if page.keywords}}
-<meta name="keywords" content="{{page.keywords}}">
-{{/if}}
-{{> head}}
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <title>{{{detag (or page.title 'Untitled')}}}{{#if site.title}} | {{{site.title}}}{{/if}}</title>
+    {{#if page.canonicalUrl}}
+    <link rel="canonical" href="{{page.canonicalUrl}}">
+    {{/if}}
+    {{#if page.description}}
+    <meta name="description" content="{{page.description}}">
+    {{/if}}
+    {{#if page.keywords}}
+    <meta name="keywords" content="{{page.keywords}}">
+    {{/if}}
+    {{> head}}
 </head>
+
 <body class="flex col home">
-{{> header}}
-{{> top-banner}}
-<div class="flex container wrapper">
-{{> nav}}
-<main class="main" data-ceiling="topbar">
-{{> toolbar}}
-{{> landing-page}}
-</main>
-</div>
-{{> footer}}
+    {{> header}}
+    {{> top-banner}}
+    <div class="flex container wrapper">
+        {{> nav}}
+        <main class="main" data-ceiling="topbar">
+            {{> toolbar}}
+            {{> landing-page}}
+        </main>
+    </div>
+    {{> footer}}
 </body>
+
 </html>
