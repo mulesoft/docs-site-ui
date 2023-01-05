@@ -1,8 +1,8 @@
 /* specificity to override position */
-#sl-ms-com-content-header {
+.br-nav.ms-com-content.ms-com-content-header {
   min-height: 93px;
 
   @media (min-width: 991px) {
-    position: relative;
+    position: relative !important;
   }
 }
