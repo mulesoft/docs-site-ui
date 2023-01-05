@@ -5,19 +5,19 @@ const fetch = (...args) => import('node-fetch').then(({ default: fetch }) => fet
 const pretty = require('pretty')
 
 module.exports = () => async () => {
-  const language = 'en'
-  updateContent('header', language)
-  updateContent('footer', language)
+  updateContent('header', 'en')
+  updateContent('header', 'jp')
+  updateContent('footer', 'en')
+  updateContent('footer', 'jp')
 }
 
-async function updateContent (component, language) {
+async function updateContent (component, lang) {
   try {
-    const content =
-      await fetch(`https://www.mulesoft.com/api/${component}?language=${language}&selector=true&selector_jp`)
+    const content = await fetch(`https://www.mulesoft.com/api/${component}?language=${lang}&selector=true&selector_jp`)
     if (await isGoodStatus(content.status)) {
       const body = await content.json()
       if (await hasValidData(body)) {
-        fs.writeFileSync(`src/partials/${component}/${component}-content.hbs`, pretty(body.data))
+        fs.writeFileSync(`src/partials/${component}/${component}-content-${lang}.hbs`, pretty(body.data))
       }
     }
   } catch (error) {

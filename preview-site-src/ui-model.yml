@@ -353,3 +353,4 @@ page:
   origin:
     url: https://github.com/mulesoft/docs-site-ui
     editUrlPattern: https://github.com/mulesoft/docs-site-ui/edit/master/preview-site-src/%s
+    private: true

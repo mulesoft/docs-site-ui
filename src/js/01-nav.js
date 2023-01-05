@@ -2,6 +2,15 @@
 ;(() => {
   'use strict'
 
+  const languageMap = {
+    en: {
+      title: 'Home',
+    },
+    jp: {
+      title: 'ホーム',
+    },
+  }
+
   const buildNav = (navData, nav, page) => {
     if (!page) return
     if (nav.classList.contains('fit')) {
@@ -174,7 +183,10 @@
       return candidate.name === 'archive'
     })
     if (found) return components
-    if (!isArchiveSite() && !isBetaSite()) {
+    if (!isArchiveSite() &&
+      !isBetaSite() &&
+      !isLocalBuild() &&
+      !isJapaneseSite()) {
       return components.concat({
         name: 'archive',
         title: 'Archived Documentation',
@@ -757,7 +769,7 @@
   }
 
   function setTitle (title) {
-    return isArchiveSite() ? `Archive ${title}` : title
+    return isArchiveSite() ? `Archive ${title}` : languageMap[document.documentElement.lang].title
   }
 
   function isArchiveSite () {
@@ -774,6 +786,14 @@
 
   function isInternalBetaSite () {
     return window.location.host.includes('dev-docs-internal')
+  }
+
+  function isJapaneseSite () {
+    return document.documentElement.lang === 'jp'
+  }
+
+  function isLocalBuild () {
+    return window.location.href.startsWith('file://')
   }
 
   buildNav(extractNavData(window), document.querySelector('.nav'), getPage())

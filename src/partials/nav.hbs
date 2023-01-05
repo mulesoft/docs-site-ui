@@ -1,8 +1,10 @@
 <nav class="nav fit" aria-label="Docs">
-  {{#if env.COVEO_ACCESS_TOKEN}}
+  {{#if (and env.COVEO_API_KEY (ne (site-profile) 'jp'))}}
   <div class="search">
     <button class="button" id="search-button">
-      <svg class="icon" xmlns="http://www.w3.org/2000/svg" alt=""><use xlink:href="#icon-search"/></svg>
+      <svg class="icon" xmlns="http://www.w3.org/2000/svg" alt="">
+        <use xlink:href="#icon-search" />
+      </svg>
       Search docs
     </button>
   </div>
