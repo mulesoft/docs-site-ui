@@ -2,6 +2,15 @@
 ;(() => {
   'use strict'
 
+  const languageMap = {
+    en: {
+      title: 'home',
+    },
+    jp: {
+      title: 'ホーム',
+    },
+  }
+
   const buildNav = (navData, nav, page) => {
     if (!page) return
     if (nav.classList.contains('fit')) {
@@ -760,7 +769,7 @@
   }
 
   function setTitle (title) {
-    return isArchiveSite() ? `Archive ${title}` : isJapaneseSite() ? 'ホーム' : title
+    return isArchiveSite() ? `Archive ${title}` : languageMap[document.documentElement.lang].title
   }
 
   function isArchiveSite () {
