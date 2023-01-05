@@ -1,14 +1,8 @@
 /* specificity to override position */
-.ms-com-content.ms-com-content-header.br-nav.closed.new-nav.with-helmet {
+#sl-ms-com-content-header {
   min-height: 93px;
 
   @media (min-width: 991px) {
     position: relative;
-  }
-}
-
-.top-banner {
-  @media (max-width: 992px) {
-    min-height: 93px;
   }
 }
