@@ -174,7 +174,10 @@
       return candidate.name === 'archive'
     })
     if (found) return components
-    if (!isArchiveSite() && !isBetaSite()) {
+    if (!isArchiveSite() &&
+      !isBetaSite() &&
+      !isLocalBuild() &&
+      !isJapaneseSite()) {
       return components.concat({
         name: 'archive',
         title: 'Archived Documentation',
@@ -778,6 +781,10 @@
 
   function isJapaneseSite () {
     return window.location.href.startsWith('https://docs.mulesoft.com/jp')
+  }
+
+  function isLocalBuild () {
+    return window.location.href.startsWith('file://')
   }
 
   buildNav(extractNavData(window), document.querySelector('.nav'), getPage())
