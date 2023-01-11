@@ -1,4 +1,4 @@
-{{#if (and env.COVEO_API_KEY (ne (site-profile) 'jp'))}}
+{{#if (and env.COVEO_API_KEY (and (ne (site-profile) 'archive') (ne (site-profile) 'jp')))}}
 <div id="search" class="js-search-ui js-coveo CoveoSearchInterface" data-enable-automatic-responsive-mode="false">
   <div class="CoveoAnalytics" data-search-hub="Documentation"></div>
   <div class="modal">
