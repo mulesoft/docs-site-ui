@@ -183,10 +183,7 @@
       return candidate.name === 'archive'
     })
     if (found) return components
-    if (!isArchiveSite() &&
-      !isBetaSite() &&
-      !isLocalBuild() &&
-      !isJapaneseSite()) {
+    if (!(isArchiveSite() || isBetaSite() || isJapaneseSite() || isLocalBuild())) {
       return components.concat({
         name: 'archive',
         title: 'Archived Documentation',
