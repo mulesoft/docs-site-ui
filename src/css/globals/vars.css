@@ -69,9 +69,9 @@
   --screen-xxl: 1650px;
 
   /* z-index */
-  --z-gdpr: 16;
-  --z-modal-header: 15;
-  --z-modal: 14;
+  --z-gdpr: 20;
+  --z-modal-header: 17;
+  --z-modal: 16;
   --z-nav-mobile: 13;
   --z-backdrop: 12;
   --z-header: 11;
