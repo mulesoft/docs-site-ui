@@ -1,12 +1,15 @@
 ;(function () {
   'use strict'
 
-  function bindNavToggle (backdrop, body, nav, navToggle) {
+  function bindNavToggle (backdrop, body, nav, navToggle, navCloseButton) {
     if (backdrop) {
       backdrop.addEventListener('click', toggleNav.bind(nav, backdrop, body))
     }
     if (navToggle) {
       navToggle.addEventListener('click', toggleNav.bind(nav, backdrop, body))
+    }
+    if (navCloseButton) {
+      navCloseButton.addEventListener('click', toggleNav.bind(nav, backdrop, body))
     }
   }
 
@@ -26,6 +29,7 @@
     document.querySelector('.modal-backdrop'),
     document.body,
     document.querySelector('.nav'),
-    document.querySelector('.nav-toggle')
+    document.querySelector('.nav-toggle'),
+    document.querySelector('.nav-close-button')
   )
 })()

@@ -50,11 +50,25 @@
     }
   }
   & .nav-close-button {
-    height: 20px;
+    border: none;
+    border-radius: 0 2px 2px 0;
+    background-color: var(--secondary-navy);
+    height: 50px;
     left: var(--mobile-nav-width);
     position: absolute;
-    top: 46px;
-    z-index: calc(var(--z-nav-mobile) - 1);
+    padding: 0;
+    top: 35px;
+    width: 20px;
+    z-index: var(--z-nav-mobile);
+
+    & img {
+      filter: invert(1);
+      transform: rotate(90deg);
+    }
+
+    @media (--md) {
+      display: none;
+    }
   }
 
   @media (--md) {
