@@ -49,6 +49,13 @@
       }
     }
   }
+  & .nav-close-button {
+    height: 20px;
+    left: var(--mobile-nav-width);
+    position: absolute;
+    top: 46px;
+    z-index: calc(var(--z-nav-mobile) - 1);
+  }
 
   @media (--md) {
     min-width: var(--min-nav-width);
