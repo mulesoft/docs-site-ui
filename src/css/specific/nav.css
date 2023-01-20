@@ -66,6 +66,27 @@
       transform: rotate(90deg);
     }
 
+    &:focus {
+      box-shadow: 0 0 0 3px rgb(0 162 223 / 25%);
+      background-color: var(--tertiary);
+      outline: 1px solid var(--secondary-navy);
+
+      & img {
+        filter: drop-shadow(0 0 0 var(--secondary-navy));
+      }
+    }
+
+    &:active {
+      box-shadow: 0 0 0 3px rgb(0 162 223 / 25%);
+      background-color: var(--eyebrow-gray);
+      outline: 1px solid var(--secondary-navy);
+
+      /* need to restate this to keep the arrow white */
+      & img {
+        filter: invert(1);
+      }
+    }
+
     @media (--md) {
       display: none;
     }
