@@ -50,13 +50,13 @@
     }
   }
   & .nav-close-button {
+    background-color: var(--secondary-navy);
     border: none;
     border-radius: 0 2px 2px 0;
-    background-color: var(--secondary-navy);
     height: 50px;
     left: var(--mobile-nav-width);
-    position: absolute;
     padding: 0;
+    position: absolute;
     top: 35px;
     width: 20px;
     z-index: var(--z-nav-mobile);
@@ -67,8 +67,8 @@
     }
 
     &:focus {
-      box-shadow: 0 0 0 3px rgb(0 162 223 / 25%);
       background-color: var(--tertiary);
+      box-shadow: 0 0 0 3px rgb(0 162 223 / 25%);
       outline: 1px solid var(--secondary-navy);
 
       & img {
@@ -77,8 +77,8 @@
     }
 
     &:active {
-      box-shadow: 0 0 0 3px rgb(0 162 223 / 25%);
       background-color: var(--eyebrow-gray);
+      box-shadow: 0 0 0 3px rgb(0 162 223 / 25%);
       outline: 1px solid var(--secondary-navy);
 
       /* need to restate this to keep the arrow white */
