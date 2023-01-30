@@ -1,3 +1,5 @@
+const maxNumofItems = 10
+
 const getDatedReleaseNotesRawPages = (contentCatalog) => {
   return contentCatalog.getPages(({ asciidoc, out }) => {
     if (!asciidoc || !out) return
@@ -111,6 +113,7 @@ module.exports = (numOfItems, { data }) => {
   if (contentCatalog) {
     const rawPages = getDatedReleaseNotesRawPages(contentCatalog)
     const pageUiModels = turnRawPagesIntoPageUiModels(site, rawPages, contentCatalog)
-    return getMostRecentlyUpdatedPages(pageUiModels, numOfItems)
+    const actualNumOfItems = numOfItems && numOfItems <= maxNumofItems ? numOfItems : maxNumofItems
+    return getMostRecentlyUpdatedPages(pageUiModels, actualNumOfItems)
   }
 }
