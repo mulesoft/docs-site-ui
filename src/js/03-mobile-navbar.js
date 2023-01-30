@@ -6,7 +6,7 @@
       this.backdrop = document.querySelector('.modal-backdrop')
       this.body = document.body
       this.nav = document.querySelector('.nav.fit')
-      this.navToggle = document.querySelector('.nav-toggle')
+      this.toolbarMenuButton = document.querySelector('.nav-toggle')
       this.navCloseButton = document.querySelector('.nav-close-button')
       this.toolbarSearchButton = document.querySelector('.toolbar-search-button')
       this.leftNavSkipLink = this.getLeftNavSkipLink()
@@ -17,8 +17,8 @@
       if (this.backdrop) {
         this.backdrop.addEventListener('click', (e) => this.toggleNav(e))
       }
-      if (this.navToggle) {
-        this.navToggle.addEventListener('click', (e) => {
+      if (this.toolbarMenuButton) {
+        this.toolbarMenuButton.addEventListener('click', (e) => {
           this.toggleNav(e)
           if (triggeredByKeyboard(e)) {
             this.focusOnLeftNavFirstItem()
@@ -28,7 +28,7 @@
       if (this.navCloseButton) {
         this.navCloseButton.addEventListener('click', (e) => {
           this.toggleNav(e)
-          this.navToggle.focus()
+          this.toolbarMenuButton.focus()
         })
       }
       if (this.toolbarSearchButton) {
@@ -40,11 +40,8 @@
       if (this.leftNavSkipLink) {
         // this takes precedence than the normal skip link listener in 15-skiplink-listeners.js
         this.leftNavSkipLink.addEventListener('click', (e) => {
-          console.log('hi')
           if (!isBigScreenSize()) {
-            console.log('hello')
             this.toggleNav(e)
-            this.focusOnLeftNavFirstItem()
           }
         })
       }
@@ -117,7 +114,11 @@
   }
 
   const getFocusableSearchBox = () => {
-    return document.querySelector('#search-button')
+    const atomicSearchbox = document.querySelector('atomic-search-box')
+    const searchboxShadowRoot = atomicSearchbox && atomicSearchbox.shadowRoot
+    if (searchboxShadowRoot) {
+      return searchboxShadowRoot.querySelector('input')
+    }
   }
 
   const isBigScreenSize = () => {
