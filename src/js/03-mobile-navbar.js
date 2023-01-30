@@ -18,12 +18,7 @@
         this.backdrop.addEventListener('click', (e) => this.toggleNav(e))
       }
       if (this.toolbarMenuButton) {
-        this.toolbarMenuButton.addEventListener('click', (e) => {
-          this.toggleNav(e)
-          if (triggeredByKeyboard(e)) {
-            this.focusOnLeftNavFirstItem()
-          }
-        })
+        this.toolbarMenuButton.addEventListener('click', (e) => this.toggleNav(e))
       }
       if (this.navCloseButton) {
         this.navCloseButton.addEventListener('click', (e) => {
@@ -123,10 +118,6 @@
 
   const isBigScreenSize = () => {
     return window.innerWidth >= 768
-  }
-
-  const triggeredByKeyboard = (event) => {
-    return !event.pointerType
   }
 
   const mobileNav = new MobileNav()
