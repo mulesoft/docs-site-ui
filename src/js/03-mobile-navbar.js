@@ -114,7 +114,7 @@
     }
 
     toggleTabIndexOutsideNav () {
-      const links = document.querySelectorAll('a, button, .tooltip')
+      const links = document.querySelectorAll('a, button, select, .tooltip')
       links.forEach((link) => {
         this.setTabindex(link)
       })
