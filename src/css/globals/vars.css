@@ -1,5 +1,6 @@
 :root {
   /* colors */
+  --eyebrow-gray: #6d7883;
   --secondary-navy: #002196;
   --core-blue-0: #f2fafd;
   --core-blue-1: #abe2f5;
@@ -33,6 +34,7 @@
   --navy-3: #178bea;
   --indigo-3: #5e66f9;
   --violet-3: #9a63f9;
+  --violet-4: #681da8;
   --red-3: #d1344e;
   --tertiary: #fff;
 
@@ -70,10 +72,10 @@
 
   /* z-index */
   --z-gdpr: 20;
+  --z-nav-mobile: 18;
   --z-modal-header: 17;
+  --z-backdrop: 16;
   --z-modal: 16;
-  --z-nav-mobile: 13;
-  --z-backdrop: 12;
   --z-header: 11;
   --z-banner: 10;
   --z-nav: 9;

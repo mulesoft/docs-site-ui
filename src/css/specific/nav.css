@@ -12,11 +12,12 @@
   top: 0;
   transform: translateX(-100%);
   transition: transform var(--transition-speed-sm) var(--transition-timing);
+  visibility: hidden;
   width: var(--mobile-nav-width);
   z-index: var(--z-nav-mobile);
   &.is-active {
-    top: 100px;
     transform: none;
+    visibility: visible;
   }
   & * {
     -webkit-tap-highlight-color: transparent;
@@ -49,24 +50,76 @@
       }
     }
   }
+  & .nav-close-button {
+    background-color: var(--secondary-navy);
+    border: none;
+    border-radius: 0 2px 2px 0;
+    height: 50px;
+    left: var(--mobile-nav-width);
+    padding: 0;
+    position: absolute;
+    top: 35px;
+    width: 20px;
+    z-index: var(--z-nav-mobile);
+
+    & img {
+      filter: invert(1);
+      transform: rotate(90deg);
+    }
+
+    &:focus {
+      background-color: var(--tertiary);
+      box-shadow: 0 0 0 3px rgb(0 162 223 / 25%);
+      outline: 1px solid var(--secondary-navy);
+
+      & img {
+        filter: initial;
+      }
+    }
+
+    &:active {
+      background-color: var(--eyebrow-gray);
+      box-shadow: 0 0 0 3px rgb(0 162 223 / 25%);
+      outline: 1px solid var(--secondary-navy);
+
+      /* need to restate this to keep the arrow white */
+      & img {
+        filter: invert(1);
+      }
+    }
+
+    @media (--md) {
+      display: none;
+    }
+  }
 
   @media (--md) {
+    box-shadow: 1px 0 0 var(--aluminum-3);
+    height: 100vh;
+    max-height: calc(100vh - var(--header-height));
     min-width: var(--min-nav-width);
+    position: sticky;
+    transform: none;
+    transition: none;
+    visibility: visible;
     width: var(--nav-width);
+    z-index: var(--z-nav);
   }
 }
 
-a.nav-text {
+.nav-text {
   display: flex;
   text-decoration: none;
+  width: -webkit-fill-available;
+
   &:focus {
     border-radius: var(--radius);
     outline: 2px solid #888;
   }
 }
 
-.nav-title > a.nav-text,
-.nav-group > .nav-list > .nav-item > a.nav-text {
+.nav-title > .nav-text,
+.nav-group > .nav-list > .nav-item > .nav-text {
   &:hover {
     color: var(--steel-3);
     font-weight: var(--weight-bold);
@@ -76,7 +129,7 @@ a.nav-text {
   }
 }
 
-a.nav-text:not([href]),
+.nav-text:not([href]),
 .nav-item-toggle + span.nav-text {
   cursor: pointer;
 }
@@ -328,17 +381,5 @@ svg.nav-icon {
       background: #e2f8ff;
       color: var(--secondary-navy);
     }
-  }
-}
-
-@media (--md) {
-  .nav {
-    box-shadow: 1px 0 0 var(--aluminum-3);
-    height: 100vh;
-    max-height: calc(100vh - var(--header-height));
-    position: sticky;
-    transform: none;
-    transition: none;
-    z-index: var(--z-nav);
   }
 }

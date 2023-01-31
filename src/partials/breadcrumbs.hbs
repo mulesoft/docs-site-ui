@@ -2,7 +2,8 @@
 <ol class="flex grow align-center breadcrumbs" aria-label="breadcrumbs">
   <li class="flex align-center li">
     <a href="{{relativize site.homeUrl}}" class="link home-link">
-      <svg class="svg" width="14" height="15" viewBox="0 0 14 15" fill="none" xmlns="http://www.w3.org/2000/svg" aria-labelledby="breadcrumbs-home-icon">
+      <svg class="svg" width="14" height="15" viewBox="0 0 14 15" fill="none" xmlns="http://www.w3.org/2000/svg"
+        aria-labelledby="breadcrumbs-home-icon">
         <title id="breadcrumbs-home-icon">Homepage</title>
         <path fill-rule="evenodd" clip-rule="evenodd"
           d="M1.36278 0L1.36787 3.94183L7.40742 3.95558L7.40236 0.0376971L8.73519 0.00265382L8.6981 5.27362L0 5.28486L0.0369378 0.0348597L1.36278 0Z"
@@ -21,7 +22,13 @@
   {{/with}}
   {{#each page.breadcrumbs}}
   {{#if (eq ./urlType 'internal')}}
+  {{#if (eq @root.page.url ./url)}}
+  <li class="flex align-center li">
+    <p>{{{./content}}}</p>
+  </li>
+  {{else}}
   <li class="flex align-center li"><a class="link" href="{{{relativize ./url}}}">{{{./content}}}</a></li>
+  {{/if}}
   {{/if}}
   {{/each}}
 </ol>
