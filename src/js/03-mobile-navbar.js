@@ -10,6 +10,7 @@
       this.navCloseButton = document.querySelector('.nav-close-button')
       this.toolbarSearchButton = document.querySelector('.toolbar-search-button')
       this.leftNavSkipLink = this.getLeftNavSkipLink()
+      this.mobileNavFocusTrapper = document.querySelector('.mobile-nav-focus-trapper')
       this.tabindexStoreMap = {}
     }
 
@@ -29,7 +30,7 @@
       if (this.toolbarSearchButton) {
         this.toolbarSearchButton.addEventListener('click', (e) => {
           this.toggleNav(e)
-          this.focusOnLeftNavFirstItem()
+          this.focusOnMobileNavSearchBox()
         })
       }
       if (this.leftNavSkipLink) {
@@ -42,8 +43,19 @@
       }
     }
 
-    focusOnLeftNavFirstItem () {
-      if (this.navIsActive()) {
+    focusOnMobileNavFocusTrapper () {
+      if (this.mobileNavFocusTrapper) {
+        if (this.mobileNavIsActive()) {
+          this.mobileNavFocusTrapper.tabIndex = 0
+          this.mobileNavFocusTrapper.focus()
+        } else {
+          this.mobileNavFocusTrapper.tabIndex = -1
+        }
+      }
+    }
+
+    focusOnMobileNavSearchBox () {
+      if (this.mobileNavIsActive()) {
         const firstItemInLeftNav = this.getFirstItemInLeftNav()
         firstItemInLeftNav.focus()
       }
@@ -67,7 +79,7 @@
       return this.nav.contains(element)
     }
 
-    navIsActive () {
+    mobileNavIsActive () {
       return this.nav.classList.contains('is-active')
     }
 
@@ -75,7 +87,7 @@
       if (!this.inLeftnav(link)) {
         const tabIndex = link.tabIndex
         link.removeAttribute('tabindex')
-        const linkPath = link.outerHTML
+        const linkPath = getXPath(link)
         if (linkPath in this.tabindexStoreMap && this.tabindexStoreMap[linkPath] != null) {
           link.tabIndex = this.tabindexStoreMap[linkPath]
           this.tabindexStoreMap[linkPath] = null
@@ -87,7 +99,7 @@
     }
 
     toggleNav (e) {
-      if (e.target === this.backdrop && !this.navIsActive()) {
+      if (e.target === this.backdrop && !this.mobileNavIsActive()) {
         return
       }
       this.body.classList.toggle('mobile')
@@ -97,6 +109,7 @@
       this.nav.classList.toggle('is-active')
       this.navCloseButton.classList.toggle('hide')
       this.toggleTabIndexOutsideNav()
+      this.focusOnMobileNavFocusTrapper()
       e.stopPropagation()
     }
 
@@ -113,6 +126,31 @@
     const searchboxShadowRoot = atomicSearchbox && atomicSearchbox.shadowRoot
     if (searchboxShadowRoot) {
       return searchboxShadowRoot.querySelector('input')
+    }
+  }
+
+  // source:
+  // https://stackoverflow.com/questions/2631820/
+  // how-do-i-ensure-saved-click-coordinates-can-be-reload-to-the-same-place-even-if/2631931
+  const getXPath = (element) => {
+    if (element.id !== '') {
+      return 'id("' + element.id + '")'
+    }
+
+    if (element === document.body) {
+      return element.tagName
+    }
+
+    let ix = 0
+    const siblings = element.parentNode.childNodes
+    for (let i = 0; i < siblings.length; i++) {
+      const sibling = siblings[i]
+      if (sibling === element) {
+        return getXPath(element.parentNode) + '/' + element.tagName + '[' + (ix + 1) + ']'
+      }
+      if (sibling.nodeType === 1 && sibling.tagName === element.tagName) {
+        ix++
+      }
     }
   }
 
