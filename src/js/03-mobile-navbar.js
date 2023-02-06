@@ -16,7 +16,9 @@
 
     addNavToggleListeners () {
       if (this.backdrop) {
-        this.backdrop.addEventListener('click', (e) => this.toggleNav(e))
+        this.backdrop.addEventListener('click', (e) => {
+          this.toggleNav(e, !this.mobileNavIsActive())
+        })
       }
       if (this.toolbarMenuButton) {
         this.toolbarMenuButton.addEventListener('click', (e) => this.toggleNav(e))
@@ -24,7 +26,6 @@
       if (this.navCloseButton) {
         this.navCloseButton.addEventListener('click', (e) => {
           this.toggleNav(e)
-          this.toolbarMenuButton.focus()
         })
       }
       if (this.toolbarSearchButton) {
@@ -40,20 +41,25 @@
         })
       }
       document.addEventListener('keydown', (e) => {
-        if (e.keyCode === 27 && this.mobileNavIsActive()) {
-          this.toggleNav(e)
-          this.toolbarMenuButton.focus()
+        if (e.keyCode === 27) {
+          if (this.mobileNavIsActive()) {
+            this.toggleNav(e, !this.mobileNavIsActive())
+          } else {
+            this.toggleTabIndexOutsideNav()
+          }
+          this.toggleFocus()
         }
       })
     }
 
-    focusOnMobileNavFocusTrapper () {
+    toggleFocus () {
       if (this.mobileNavFocusTrapper) {
         if (this.mobileNavIsActive()) {
           this.mobileNavFocusTrapper.tabIndex = 0
           this.mobileNavFocusTrapper.focus()
         } else {
           this.mobileNavFocusTrapper.tabIndex = -1
+          this.toolbarMenuButton.focus()
         }
       }
     }
@@ -90,30 +96,58 @@
     setTabindex (link) {
       if (!this.inLeftnav(link)) {
         const tabIndex = link.tabIndex
-        link.removeAttribute('tabindex')
         const linkPath = getXPath(link)
-        if (linkPath in this.tabindexStoreMap && this.tabindexStoreMap[linkPath] != null) {
-          link.tabIndex = this.tabindexStoreMap[linkPath]
-          this.tabindexStoreMap[linkPath] = null
-        } else {
-          this.tabindexStoreMap[linkPath] = tabIndex
+        link.removeAttribute('tabindex')
+        if (this.mobileNavIsActive()) {
+          console.log('hiding tabindex')
+          if (!(linkPath in this.tabindexStoreMap)) {
+            this.tabindexStoreMap[linkPath] = tabIndex
+          }
           link.tabIndex = -1
+        } else {
+          console.log('resetting tabindex')
+          if (linkPath in this.tabindexStoreMap && this.tabindexStoreMap[linkPath] != null) {
+            link.tabIndex = this.tabindexStoreMap[linkPath]
+            this.tabindexStoreMap[linkPath] = null
+          }
         }
       }
     }
 
-    toggleNav (e) {
-      if (e.target === this.backdrop && !this.mobileNavIsActive()) {
-        return
+    toggleNav (e, override) {
+      if (override == null) {
+        this.nav.classList.toggle('is-active')
+      } else {
+        switch (override) {
+          case true:
+            this.nav.classList.add('is-active')
+            break
+          case false:
+            this.nav.classList.remove('is-active')
+            break
+          default:
+            break
+        }
       }
-      this.body.classList.toggle('mobile')
-      this.body.classList.toggle('no-scroll')
-      this.backdrop.classList.toggle('mobile')
-      this.backdrop.classList.toggle('show')
-      this.nav.classList.toggle('is-active')
-      this.navCloseButton.classList.toggle('hide')
+
+      if (this.mobileNavIsActive()) {
+        console.log('unhiding nav')
+        this.body.classList.add('mobile')
+        this.body.classList.add('no-scroll')
+        this.backdrop.classList.add('mobile')
+        this.backdrop.classList.add('show')
+        this.navCloseButton.classList.remove('hide')
+      } else {
+        console.log('hiding nav')
+        this.body.classList.remove('mobile')
+        this.body.classList.remove('no-scroll')
+        this.backdrop.classList.remove('mobile')
+        this.backdrop.classList.remove('show')
+        this.navCloseButton.classList.add('hide')
+      }
+
       this.toggleTabIndexOutsideNav()
-      this.focusOnMobileNavFocusTrapper()
+      this.toggleFocus()
       e.stopPropagation()
     }
 
