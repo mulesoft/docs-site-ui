@@ -607,12 +607,10 @@
 
   function toggleNav (componentData, selectedVersion, page) {
     if (!selectedVersion && this.classList.contains('is-active')) {
-      this.ariaExpanded = false
       return this.classList.remove('is-active')
     }
     ensureNavList(this, componentData, selectedVersion, page)
     this.classList[selectedVersion ? 'add' : 'toggle']('is-active')
-    this.ariaExpanded = selectedVersion
   }
 
   function toggleSubNav () {
