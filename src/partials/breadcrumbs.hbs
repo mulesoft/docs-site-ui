@@ -22,14 +22,24 @@
   {{/with}}
   {{#each page.breadcrumbs}}
   {{#if (eq ./urlType 'internal')}}
-  {{#if (eq @root.page.url ./url)}}
+  {{#if (ne @root.page.url ./url)}}
+  {{#if (ne @root.page.breadcrumbs.0.url @root.page.url)}}
+  {{#if (ne @root.page.breadcrumbs.0.url ./url)}}
+  {{log 'url'}}
+  {{log @root.page.url}}
+  {{log @root.page.breadcrumbs.0.url}}
+  {{log ./url}}
+  <li class="flex align-center li"><a class="link" href="{{{relativize ./url}}}">{{{./content}}}</a></li>
+  {{/if}}
+  {{/if}}
+  {{else}}
   <li class="flex align-center li">
     <p>{{{./content}}}</p>
   </li>
-  {{else}}
-  <li class="flex align-center li"><a class="link" href="{{{relativize ./url}}}">{{{./content}}}</a></li>
   {{/if}}
   {{/if}}
   {{/each}}
 </ol>
 {{/if}}
+
+{{!-- {{#if (ne @root.page.breadcrumbs.0.url @root.page.url)}} --}}
