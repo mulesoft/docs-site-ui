@@ -290,6 +290,9 @@
       navLink.ariaLabel = `Toggle ${componentData.title}`
       navLink.setAttribute('role', 'button')
       navLink.setAttribute('type', 'button')
+      setTimeout(() => {
+        navLink.ariaExpanded = navItem.classList.contains('is-active')
+      }, 100)
       navLink.addEventListener('mousedown', (e) => {
         toggleNav.call(navItem, componentData, false, page)
         navLink.ariaExpanded = navItem.classList.contains('is-active')
@@ -580,7 +583,7 @@
     svg.setAttribute('xmlns', svg.namespaceURI)
     svg.setAttribute('width', '1em')
     svg.setAttribute('height', '1em')
-    svg.setAttribute('alt', ' ')
+    svg.setAttribute('alt', '')
     if (typeof attrs === 'string' && attrs.charAt() === '.') {
       attrs = {
         className: attrs.split('.').slice(1).join(' '),
