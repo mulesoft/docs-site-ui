@@ -1,4 +1,5 @@
 <nav class="nav fit" aria-label="Docs">
+  <span class="mobile-nav-focus-trapper"></span>
   {{#if (and env.COVEO_API_KEY (and (ne (site-profile) 'archive') (ne (site-profile) 'jp')))}}
   <div class="search">
     <button class="button" id="search-button">
@@ -9,4 +10,9 @@
     </button>
   </div>
   {{/if}}
+  <div>
+    <button class="button nav-close-button hide" title="close menu">
+      <img class="" src="{{@root.uiRootPath}}/img/icons/arrow-down.svg" alt="">
+    </button>
+  </div>
 </nav>

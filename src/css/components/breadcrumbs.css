@@ -1,15 +1,22 @@
 .breadcrumbs {
   flex: 1 1 auto;
+  font-size: 12px;
   height: var(--input-md); /* match search input */
+  margin-left: 5px;
   overflow-x: auto;
   overflow-y: hidden;
+  padding-left: 7px;
   white-space: nowrap;
 
+  & p {
+    color: var(--steel-1);
+  }
+
   & .link {
-    font-size: 12px;
+    color: #000;
     height: var(--lg);
     opacity: .75;
-    text-decoration: none;
+    text-decoration: underline;
 
     &:active,
     &:focus {
@@ -23,17 +30,19 @@
       background-color: #c0edff;
       border-radius: 5px;
       color: var(--secondary-navy);
-      margin-left: -3px;
-      margin-right: -3px;
       margin-top: -3px;
       opacity: 1;
-      padding: 1px 3px;
+      padding-top: 1px;
     }
   }
 
   /* home icon in breadcrumbs */
   & .home-link {
     width: var(--lg);
+
+    &:hover {
+      margin-right: 3px;
+    }
 
     &:active .svg,
     &:focus .svg {
@@ -47,7 +56,7 @@
     }
   }
 
-  & .li + .li::before {
+  & .li + .li:not(.last-breadcrumb-item)::before {
     background-image: url(../img/icons/chevron.svg);
     background-position: center;
     background-repeat: no-repeat;
@@ -74,8 +83,57 @@
 
     &::-webkit-scrollbar-thumb {
       background-color: rgba(0,0,0,.5);
-      border: 3px solid white; /* should match background, can't be transparent */
+      border: 3px solid var(--tertiary); /* should match background, can't be transparent */
       border-radius: 10px;
     }
   }
+}
+
+.breadcrumbs-toggle {
+  align-items: center;
+  background-color: var(--tertiary);
+  border: 1px solid var(--aluminum-4);
+  border-radius: 50%;
+  display: flex;
+  height: 1.75em;
+  margin-left: 5px;
+  min-width: 1.75em;
+  padding: 0;
+  transform: translateY(.075em);
+  width: 1.75em;
+
+  &:hover {
+    border-color: var(--steel-2);
+    box-shadow: 0 0 0 3px rgba(88,89,90,.3);
+    color: var(--steel-2);
+  }
+
+  & img {
+    margin: auto;
+    max-width: 60%;
+  }
+
+  &.breadcrumbs-expanded {
+    & img {
+      transform: rotate(180deg);
+    }
+  }
+
+  @media (--md) {
+    display: none;
+  }
+}
+
+.secondary-breadcrumbs-drawer {
+  align-items: center;
+  background: var(--tertiary);
+  border-bottom: 1px solid var(--aluminum-4);
+  display: flex;
+  min-height: 2em;
+  overflow-x: auto;
+  overflow-y: hidden;
+  padding: 10px 20px;
+  position: sticky;
+  top: 51px;
+  z-index: var(--z-nav-toolbar);
 }
