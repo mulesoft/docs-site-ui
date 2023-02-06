@@ -55,13 +55,13 @@
   const makeSticky = (bannerDiv) => {
     const toolbar = document.querySelector('.toolbar')
     const sticky = bannerDiv.offsetTop
-    window.onscroll = () => {
+    window.addEventListener('scroll', () => {
       if (window.pageYOffset + toolbar.offsetHeight + 10 > sticky) {
         bannerDiv.classList.add('sticky')
       } else {
         bannerDiv.classList.remove('sticky')
       }
-    }
+    })
   }
 
   const addEventListeners = (bannerDiv, closeButton, classToRemove) => {

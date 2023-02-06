@@ -64,7 +64,7 @@
       offset: [0, 15],
       theme: `${color}-archive-link-popover`,
       touchHold: true, // maps touch as click (for some reason)
-      zIndex: 16, // same as z-nav-mobile
+      zIndex: 18, // same as z-nav-mobile
     })
   }
 

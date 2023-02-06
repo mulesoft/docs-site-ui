@@ -9,6 +9,10 @@
   @media (--xxl) {
     max-width: var(--screen-xxl);
   }
+
+  &.flex.wrapper {
+    border-top: 1px solid var(--aluminum-3);
+  }
 }
 
 .flex {
