@@ -583,7 +583,7 @@
     svg.setAttribute('xmlns', svg.namespaceURI)
     svg.setAttribute('width', '1em')
     svg.setAttribute('height', '1em')
-    svg.setAttribute('alt', ' ')
+    svg.setAttribute('alt', '')
     if (typeof attrs === 'string' && attrs.charAt() === '.') {
       attrs = {
         className: attrs.split('.').slice(1).join(' '),
