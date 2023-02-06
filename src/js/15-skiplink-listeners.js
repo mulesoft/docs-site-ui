@@ -31,7 +31,7 @@
         if (this.main) {
           addResizeListener(this.main, mainContentSkipLink)
           mainContentSkipLink.addEventListener('keydown', (e) => {
-            const selector = isVisible(this.toolbar) ? '.toolbar a' : '.doc a'
+            const selector = this.getMainSelector()
             focusOn(e, selector)
           })
         } else {
@@ -65,6 +65,13 @@
     getFirstItemInLeftNav () {
       const searchBox = getFocusableSearchBox()
       return searchBox || this.nav.querySelector('a')
+    }
+
+    getMainSelector () {
+      if (isSearchPage()) {
+        return getFocusableSearchBox()
+      }
+      return isVisible(this.toolbar) ? '.toolbar a' : '.doc a'
     }
 
     removeUnusedSkipLinks () {
@@ -103,6 +110,10 @@
 
   const getSkipLinks = () => {
     return document.querySelectorAll('.skip-link')
+  }
+
+  const isSearchPage = () => {
+    return document.title.includes('Search Docs')
   }
 
   const isSpaceOrEnterKey = (keyCode) => {

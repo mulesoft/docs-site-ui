@@ -2,8 +2,10 @@
   flex: 1 1 auto;
   font-size: 12px;
   height: var(--input-md); /* match search input */
+  margin-left: 5px;
   overflow-x: auto;
   overflow-y: hidden;
+  padding-left: 7px;
   white-space: nowrap;
 
   & p {
@@ -28,21 +30,15 @@
       background-color: #c0edff;
       border-radius: 5px;
       color: var(--secondary-navy);
-      margin-left: -3px;
-      margin-right: -3px;
       margin-top: -3px;
       opacity: 1;
-      padding: 1px 3px;
+      padding-top: 1px;
     }
   }
 
   /* home icon in breadcrumbs */
   & .home-link {
     width: var(--lg);
-
-    &:hover {
-      margin-right: 3px;
-    }
 
     &:active .svg,
     &:focus .svg {

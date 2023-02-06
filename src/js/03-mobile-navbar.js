@@ -16,16 +16,13 @@
 
     addNavToggleListeners () {
       if (this.backdrop) {
-        this.backdrop.addEventListener('click', (e) => this.toggleNav(e))
+        this.backdrop.addEventListener('click', (e) => this.hideNav(e))
       }
       if (this.toolbarMenuButton) {
         this.toolbarMenuButton.addEventListener('click', (e) => this.toggleNav(e))
       }
       if (this.navCloseButton) {
-        this.navCloseButton.addEventListener('click', (e) => {
-          this.toggleNav(e)
-          this.toolbarMenuButton.focus()
-        })
+        this.navCloseButton.addEventListener('click', (e) => this.toggleNav(e))
       }
       if (this.toolbarSearchButton) {
         this.toolbarSearchButton.addEventListener('click', (e) => {
@@ -36,34 +33,46 @@
       if (this.leftNavSkipLink) {
         // this takes precedence than the normal skip link listener in 15-skiplink-listeners.js
         this.leftNavSkipLink.addEventListener('click', (e) => {
-          if (!isBigScreenSize()) {
-            this.toggleNav(e)
-          }
+          if (!isBigScreenSize()) this.toggleNav(e)
         })
       }
+      document.addEventListener('keydown', (e) => {
+        if (e.keyCode === 27) {
+          if (this.mobileNavIsActive()) {
+            this.hideNav(e)
+          } else {
+            this.toggleTabIndexOutsideNav()
+          }
+          this.toggleFocus()
+        }
+      })
     }
 
-    focusOnMobileNavFocusTrapper () {
+    hideNav (e) {
+      this.toggleNav(e, false)
+    }
+
+    toggleFocus () {
       if (this.mobileNavFocusTrapper) {
         if (this.mobileNavIsActive()) {
           this.mobileNavFocusTrapper.tabIndex = 0
           this.mobileNavFocusTrapper.focus()
         } else {
           this.mobileNavFocusTrapper.tabIndex = -1
+          this.toolbarMenuButton.focus()
         }
       }
     }
 
     focusOnMobileNavSearchBox () {
       if (this.mobileNavIsActive()) {
-        const firstItemInLeftNav = this.getFirstItemInLeftNav()
-        firstItemInLeftNav.focus()
+        const searchBox = this.getFocusableSearchBox()
+        if (searchBox) {
+          searchBox.focus()
+        } else {
+          this.toggleFocus()
+        }
       }
-    }
-
-    getFirstItemInLeftNav () {
-      const searchBox = getFocusableSearchBox()
-      return searchBox || this.nav.querySelector('a')
     }
 
     getLeftNavSkipLink () {
@@ -86,46 +95,59 @@
     setTabindex (link) {
       if (!this.inLeftnav(link)) {
         const tabIndex = link.tabIndex
-        link.removeAttribute('tabindex')
         const linkPath = getXPath(link)
-        if (linkPath in this.tabindexStoreMap && this.tabindexStoreMap[linkPath] != null) {
-          link.tabIndex = this.tabindexStoreMap[linkPath]
-          this.tabindexStoreMap[linkPath] = null
-        } else {
-          this.tabindexStoreMap[linkPath] = tabIndex
+        link.removeAttribute('tabindex')
+        if (this.mobileNavIsActive()) {
+          if (!(linkPath in this.tabindexStoreMap) || this.tabindexStoreMap[linkPath] == null) {
+            this.tabindexStoreMap[linkPath] = tabIndex
+          }
           link.tabIndex = -1
+        } else {
+          if (linkPath in this.tabindexStoreMap && this.tabindexStoreMap[linkPath] != null) {
+            link.tabIndex = this.tabindexStoreMap[linkPath]
+            this.tabindexStoreMap[linkPath] = null
+          }
         }
       }
     }
 
-    toggleNav (e) {
-      if (e.target === this.backdrop && !this.mobileNavIsActive()) {
-        return
+    toggleNav (e, override) {
+      switch (override) {
+        case true:
+          this.nav.classList.add('is-active')
+          break
+        case false:
+          this.nav.classList.remove('is-active')
+          break
+        default:
+          this.nav.classList.toggle('is-active')
+          break
       }
-      this.body.classList.toggle('mobile')
-      this.body.classList.toggle('no-scroll')
-      this.backdrop.classList.toggle('mobile')
-      this.backdrop.classList.toggle('show')
-      this.nav.classList.toggle('is-active')
-      this.navCloseButton.classList.toggle('hide')
+
+      if (this.mobileNavIsActive()) {
+        this.body.classList.add('mobile')
+        this.body.classList.add('no-scroll')
+        this.backdrop.classList.add('mobile')
+        this.backdrop.classList.add('show')
+        this.navCloseButton.classList.remove('hide')
+      } else {
+        this.body.classList.remove('mobile')
+        this.body.classList.remove('no-scroll')
+        this.backdrop.classList.remove('mobile')
+        this.backdrop.classList.remove('show')
+        this.navCloseButton.classList.add('hide')
+      }
+
       this.toggleTabIndexOutsideNav()
-      this.focusOnMobileNavFocusTrapper()
+      this.toggleFocus()
       e.stopPropagation()
     }
 
     toggleTabIndexOutsideNav () {
-      const links = document.querySelectorAll('a, button, select, .tooltip')
+      const links = document.querySelectorAll('a, button, select, .tooltip, .menu-ham')
       links.forEach((link) => {
         this.setTabindex(link)
       })
-    }
-  }
-
-  const getFocusableSearchBox = () => {
-    const atomicSearchbox = document.querySelector('atomic-search-box')
-    const searchboxShadowRoot = atomicSearchbox && atomicSearchbox.shadowRoot
-    if (searchboxShadowRoot) {
-      return searchboxShadowRoot.querySelector('input')
     }
   }
 
@@ -143,8 +165,7 @@
 
     let ix = 0
     const siblings = element.parentNode.childNodes
-    for (let i = 0; i < siblings.length; i++) {
-      const sibling = siblings[i]
+    for (const sibling of siblings) {
       if (sibling === element) {
         return getXPath(element.parentNode) + '/' + element.tagName + '[' + (ix + 1) + ']'
       }

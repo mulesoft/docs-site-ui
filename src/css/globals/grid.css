@@ -2,16 +2,16 @@
   margin-left: auto;
   margin-right: auto;
 
+  &.flex.wrapper {
+    border-top: 1px solid var(--aluminum-3);
+  }
+
   @media (--xl) {
     max-width: var(--screen-xl);
   }
 
   @media (--xxl) {
     max-width: var(--screen-xxl);
-  }
-
-  &.flex.wrapper {
-    border-top: 1px solid var(--aluminum-3);
   }
 }
 

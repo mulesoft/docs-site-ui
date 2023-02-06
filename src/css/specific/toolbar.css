@@ -2,13 +2,28 @@
   background: var(--tertiary);
   border-bottom: 1px solid var(--aluminum-3);
   margin-top: 10px;
-  overflow-y: hidden;
   padding: var(--sm) var(--lg);
   position: sticky;
   top: 0;
   z-index: var(--z-nav-toolbar);
 
+  &:not(.search-toolbar) {
+    overflow-y: hidden;
+  }
+
   @media (--lg) {
+    padding-left: var(--xl);
+    padding-right: var(--xl);
+  }
+}
+
+.search-toolbar {
+  box-shadow: 0 2px 0 0 rgb(0 0 0 / 10%);
+  display: grid;
+  padding: 10px 25px;
+
+  @media (--lg) {
+    display: flex;
     padding-left: var(--xl);
     padding-right: var(--xl);
   }
