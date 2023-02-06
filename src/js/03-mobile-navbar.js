@@ -16,17 +16,13 @@
 
     addNavToggleListeners () {
       if (this.backdrop) {
-        this.backdrop.addEventListener('click', (e) => {
-          this.toggleNav(e, !this.mobileNavIsActive())
-        })
+        this.backdrop.addEventListener('click', (e) => this.hideNav(e))
       }
       if (this.toolbarMenuButton) {
         this.toolbarMenuButton.addEventListener('click', (e) => this.toggleNav(e))
       }
       if (this.navCloseButton) {
-        this.navCloseButton.addEventListener('click', (e) => {
-          this.toggleNav(e)
-        })
+        this.navCloseButton.addEventListener('click', (e) => this.toggleNav(e))
       }
       if (this.toolbarSearchButton) {
         this.toolbarSearchButton.addEventListener('click', (e) => {
@@ -43,13 +39,17 @@
       document.addEventListener('keydown', (e) => {
         if (e.keyCode === 27) {
           if (this.mobileNavIsActive()) {
-            this.toggleNav(e, !this.mobileNavIsActive())
+            this.hideNav(e)
           } else {
             this.toggleTabIndexOutsideNav()
           }
           this.toggleFocus()
         }
       })
+    }
+
+    hideNav (e) {
+      this.toggleNav(e, false)
     }
 
     toggleFocus () {
@@ -66,14 +66,13 @@
 
     focusOnMobileNavSearchBox () {
       if (this.mobileNavIsActive()) {
-        const firstItemInLeftNav = this.getFirstItemInLeftNav()
-        firstItemInLeftNav.focus()
+        const searchBox = this.getFocusableSearchBox()
+        if (searchBox) {
+          searchBox.focus()
+        } else {
+          this.toggleFocus()
+        }
       }
-    }
-
-    getFirstItemInLeftNav () {
-      const searchBox = getFocusableSearchBox()
-      return searchBox || this.nav.querySelector('a')
     }
 
     getLeftNavSkipLink () {
