@@ -281,7 +281,6 @@
       const homeUrl = componentData.nav.url
       if ((navLink.href = relativize(homeUrl)) === relativize(page.url)) {
         navItem.classList.add('is-active')
-        navLink.ariaExpanded = true
         navLink.setAttribute('aria-current', 'page')
       }
     } else if (componentData.name === 'archive') {
@@ -289,9 +288,11 @@
       navLink.target = '_blank'
     } else {
       navLink.ariaLabel = `Toggle ${componentData.title}`
-      navLink.ariaExpanded = navItem.classList.contains('is-active')
       navLink.setAttribute('role', 'button')
       navLink.setAttribute('type', 'button')
+      setTimeout(() => {
+        navLink.ariaExpanded = navItem.classList.contains('is-active')
+      }, 100)
       navLink.addEventListener('mousedown', (e) => {
         toggleNav.call(navItem, componentData, false, page)
         navLink.ariaExpanded = navItem.classList.contains('is-active')
@@ -606,10 +607,12 @@
 
   function toggleNav (componentData, selectedVersion, page) {
     if (!selectedVersion && this.classList.contains('is-active')) {
+      this.ariaExpanded = false
       return this.classList.remove('is-active')
     }
     ensureNavList(this, componentData, selectedVersion, page)
     this.classList[selectedVersion ? 'add' : 'toggle']('is-active')
+    this.ariaExpanded = selectedVersion
   }
 
   function toggleSubNav () {
