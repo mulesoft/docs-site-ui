@@ -16,9 +16,7 @@ html {
   }
 }
 
-.skip-link-container,
-.top-banner,
-.flex.container.wrapper {
+body {
   background: #fefefe;
   color: var(--steel-3);
   font-family: var(--sans-serif);
