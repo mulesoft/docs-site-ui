@@ -2,4 +2,8 @@
 .br-nav.ms-com-content.ms-com-content-header:not(.active) {
   min-height: 93px;
   position: relative !important;
+
+  & > div.ms-com-helmet > div > a {
+    line-height: initial;
+  }
 }
