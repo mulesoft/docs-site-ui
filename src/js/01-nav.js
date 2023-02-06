@@ -281,6 +281,7 @@
       const homeUrl = componentData.nav.url
       if ((navLink.href = relativize(homeUrl)) === relativize(page.url)) {
         navItem.classList.add('is-active')
+        navLink.ariaExpanded = true
         navLink.setAttribute('aria-current', 'page')
       }
     } else if (componentData.name === 'archive') {
@@ -288,6 +289,7 @@
       navLink.target = '_blank'
     } else {
       navLink.ariaLabel = `Toggle ${componentData.title}`
+      navLink.ariaExpanded = navItem.classList.contains('is-active')
       navLink.setAttribute('role', 'button')
       navLink.setAttribute('type', 'button')
       navLink.addEventListener('mousedown', (e) => {
