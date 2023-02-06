@@ -98,13 +98,11 @@
         const linkPath = getXPath(link)
         link.removeAttribute('tabindex')
         if (this.mobileNavIsActive()) {
-          console.log('hiding tabindex')
-          if (!(linkPath in this.tabindexStoreMap)) {
+          if (!(linkPath in this.tabindexStoreMap) || this.tabindexStoreMap[linkPath] == null) {
             this.tabindexStoreMap[linkPath] = tabIndex
           }
           link.tabIndex = -1
         } else {
-          console.log('resetting tabindex')
           if (linkPath in this.tabindexStoreMap && this.tabindexStoreMap[linkPath] != null) {
             link.tabIndex = this.tabindexStoreMap[linkPath]
             this.tabindexStoreMap[linkPath] = null
@@ -114,30 +112,25 @@
     }
 
     toggleNav (e, override) {
-      if (override == null) {
-        this.nav.classList.toggle('is-active')
-      } else {
-        switch (override) {
-          case true:
-            this.nav.classList.add('is-active')
-            break
-          case false:
-            this.nav.classList.remove('is-active')
-            break
-          default:
-            break
-        }
+      switch (override) {
+        case true:
+          this.nav.classList.add('is-active')
+          break
+        case false:
+          this.nav.classList.remove('is-active')
+          break
+        default:
+          this.nav.classList.toggle('is-active')
+          break
       }
 
       if (this.mobileNavIsActive()) {
-        console.log('unhiding nav')
         this.body.classList.add('mobile')
         this.body.classList.add('no-scroll')
         this.backdrop.classList.add('mobile')
         this.backdrop.classList.add('show')
         this.navCloseButton.classList.remove('hide')
       } else {
-        console.log('hiding nav')
         this.body.classList.remove('mobile')
         this.body.classList.remove('no-scroll')
         this.backdrop.classList.remove('mobile')
@@ -155,14 +148,6 @@
       links.forEach((link) => {
         this.setTabindex(link)
       })
-    }
-  }
-
-  const getFocusableSearchBox = () => {
-    const atomicSearchbox = document.querySelector('atomic-search-box')
-    const searchboxShadowRoot = atomicSearchbox && atomicSearchbox.shadowRoot
-    if (searchboxShadowRoot) {
-      return searchboxShadowRoot.querySelector('input')
     }
   }
 
