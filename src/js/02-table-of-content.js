@@ -5,27 +5,56 @@
     return toArray((from || document).querySelectorAll(selector))
   }
 
+  const isSpaceKey = (e) => {
+    return e.charCode === 32
+  }
+
+  const scrollTo = (urlHashValue) => {
+    window.location.hash = urlHashValue
+    window.scrollBy(0, -100)
+  }
+
   const toArray = (collection) => {
     return [].slice.call(collection)
   }
 
   class Viewport {
-    constructor (doc, main, sidebar) {
-      this.doc = doc
-      this.main = main
-      this.sidebar = sidebar
+    constructor () {
+      this.doc = document.querySelector('.doc')
+      this.main = document.querySelector('.main')
+      this.sidebar = document.querySelector('.toc-sidebar')
       this.headings = find('.sect1 > h2[id]', this.doc)
-      this.startOfContent = doc?.querySelector('h1.page + *')
+      this.startOfContent = this.doc?.querySelector('h1.page + *')
 
+      this.isSelectDropdownExpanded = false
       this.lastActiveFragment = undefined
       this.menu = undefined
       this.links = {}
     }
 
+    addChangeListener () {
+      this.options.addEventListener('change', (e) => {
+        const thisOptions = e.currentTarget.options
+        scrollTo(thisOptions[thisOptions.selectedIndex].value)
+      })
+
+      this.options.addEventListener('click', (_e) => {
+        this.updateExpandState()
+      })
+
+      this.options.addEventListener('blur', (_e) => {
+        if (this.isSelectDropdownExpanded) this.updateExpandState()
+      })
+
+      this.options.addEventListener('keypress', (e) => {
+        if (isSpaceKey(e)) this.updateExpandState()
+      })
+    }
+
     addSelectWrap () {
       if (this.startOfContent) {
         // generate list
-        var options = this.headings.reduce((accum, heading) => {
+        this.options = this.headings.reduce((accum, heading) => {
           var option = toArray(heading.childNodes).reduce((target, child) => {
             if (child.nodeName !== 'A') {
               target.appendChild(child.cloneNode(true))
@@ -37,26 +66,38 @@
           return accum
         }, document.createElement('select'))
 
-        var selectWrap = document.createElement('div')
-        selectWrap.classList.add('select-wrapper')
-        selectWrap.appendChild(options)
-
-        // create jump to label
-        var jumpTo = document.createElement('option')
-        jumpTo.innerHTML = 'Jump to…'
-        jumpTo.setAttribute('disabled', true)
-        options.insertBefore(jumpTo, options.firstChild)
-        options.className = 'toc toc-embedded select'
-
-        // jump on change
-        options.addEventListener('change', (e) => {
-          var thisOptions = e.currentTarget.options
-          window.location.hash = thisOptions[thisOptions.selectedIndex].value
-        })
+        this.createSelectWrapper()
+        this.createDropdownArrow()
+        this.createJumpToLabel()
+        this.addChangeListener()
 
         // add to page
-        this.doc.insertBefore(selectWrap, this.startOfContent)
+        this.doc.insertBefore(this.selectWrap, this.startOfContent)
       }
+    }
+
+    createDropdownArrow () {
+      const uiRootPath = document.getElementById('site-script').dataset.uiRootPath
+      this.dropdownArrow = document.createElement('img')
+      this.dropdownArrow.classList.add('select-dropdown-arrow')
+      this.dropdownArrow.src = `${uiRootPath}/img/icons/dropdown-arrow.svg`
+      this.dropdownArrow.alt = ''
+      this.dropdownArrow.ariaLabel = 'Expand page contents'
+      this.selectWrap.appendChild(this.dropdownArrow)
+    }
+
+    createJumpToLabel () {
+      const jumpTo = document.createElement('option')
+      jumpTo.innerHTML = 'Jump to…'
+      jumpTo.setAttribute('disabled', true)
+      this.options.insertBefore(jumpTo, this.options.firstChild)
+      this.options.className = 'toc toc-embedded select'
+    }
+
+    createSelectWrapper () {
+      this.selectWrap = document.createElement('div')
+      this.selectWrap.classList.add('select-wrapper')
+      this.selectWrap.appendChild(this.options)
     }
 
     createToc () {
@@ -136,18 +177,16 @@
     }
 
     removeTOCBlock () {
-      if (this.sidebar) {
-        this.sidebar.removeChild(this.sidebar.querySelector('.js-toc'))
-      }
+      if (this.sidebar) this.sidebar.removeChild(this.sidebar.querySelector('.js-toc'))
+    }
+
+    updateExpandState () {
+      this.isSelectDropdownExpanded = !this.isSelectDropdownExpanded
+      this.dropdownArrow.ariaLabel = this.isSelectDropdownExpanded ? 'Collapse page content' : 'Expand page content'
     }
   }
 
-  const viewport = new Viewport(
-    document.querySelector('.doc'),
-    document.querySelector('.main'),
-    document.querySelector('.toc-sidebar')
-  )
-
+  const viewport = new Viewport()
   if (!viewport.doc || !viewport.sidebar) {
     viewport.markMainAsNoSidebar()
   } else {
