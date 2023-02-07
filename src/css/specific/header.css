@@ -1,8 +1,9 @@
 /* specificity to override position */
-.br-nav.ms-com-content.ms-com-content-header {
+.br-nav.ms-com-content.ms-com-content-header:not(.active) {
   min-height: 93px;
+  position: relative !important;
 
-  @media (min-width: 991px) {
-    position: relative !important;
+  & > div.ms-com-helmet > div > a {
+    line-height: initial;
   }
 }

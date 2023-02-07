@@ -12,7 +12,7 @@
   }
 
   const buildNav = (navData, nav, page) => {
-    if (!page) return
+    if (!page || !nav) return
     if (nav.classList.contains('fit')) {
       ;(fitNav = fitNav.bind(nav))() // eslint-disable-line no-func-assign
       window.addEventListener('scroll', fitNav)
@@ -183,10 +183,7 @@
       return candidate.name === 'archive'
     })
     if (found) return components
-    if (!isArchiveSite() &&
-      !isBetaSite() &&
-      !isLocalBuild() &&
-      !isJapaneseSite()) {
+    if (!(isArchiveSite() || isBetaSite() || isJapaneseSite() || isLocalBuild())) {
       return components.concat({
         name: 'archive',
         title: 'Archived Documentation',
@@ -276,7 +273,9 @@
 
   function createNavTitle (navItem, componentData, page) {
     const navTitle = createElement('.nav-title')
-    const navLink = createElement('a.link.nav-text', componentData.title)
+    const navLink = ['home', 'archive'].includes(componentData.name)
+      ? createElement('a.link.nav-text', componentData.title)
+      : createElement('span.link.nav-text', componentData.title)
     navLink.setAttribute('tabindex', '0')
     if (componentData.name === 'home') {
       const homeUrl = componentData.nav.url
@@ -288,13 +287,21 @@
       navLink.href = componentData.nav.url
       navLink.target = '_blank'
     } else {
+      navLink.ariaLabel = `Toggle ${componentData.title}`
+      navLink.setAttribute('role', 'button')
+      navLink.setAttribute('type', 'button')
+      setTimeout(() => {
+        navLink.ariaExpanded = navItem.classList.contains('is-active')
+      }, 100)
       navLink.addEventListener('mousedown', (e) => {
         toggleNav.call(navItem, componentData, false, page)
+        navLink.ariaExpanded = navItem.classList.contains('is-active')
         e.preventDefault()
       })
       navLink.addEventListener('keydown', (e) => {
         if (isSpaceOrEnterKey(e.keyCode)) {
           toggleNav.call(navItem, componentData, false, page)
+          navLink.ariaExpanded = navItem.classList.contains('is-active')
           e.preventDefault()
         }
       })
@@ -423,7 +430,7 @@
       placement: 'top',
       theme: 'current-version-popover',
       touchHold: true, // maps touch as click (for some reason)
-      zIndex: 16, // same as z-nav-mobile
+      zIndex: 18, // same as z-nav-mobile
     })
     return currentVersionIndicatorSpan
   }
@@ -576,6 +583,7 @@
     svg.setAttribute('xmlns', svg.namespaceURI)
     svg.setAttribute('width', '1em')
     svg.setAttribute('height', '1em')
+    svg.setAttribute('alt', '')
     if (typeof attrs === 'string' && attrs.charAt() === '.') {
       attrs = {
         className: attrs.split('.').slice(1).join(' '),

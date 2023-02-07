@@ -278,7 +278,7 @@ body.home {
   }
 }
 
-@media screen and (min-width: 992px) {
+@media screen and (--lg) {
   body.home article.doc {
     & header::after,
     & footer::before,
@@ -356,7 +356,7 @@ body.home {
   }
 }
 
-@media screen and (min-width: 1350px) {
+@media screen and (--xl) {
   body.home article.doc {
     & header::after {
       transform: translateX(373px);
@@ -364,7 +364,7 @@ body.home {
   }
 }
 
-@media screen and (min-width: 1650px) {
+@media screen and (--xxl) {
   body.home article.doc {
     & header::after {
       transform: translateX(523px);

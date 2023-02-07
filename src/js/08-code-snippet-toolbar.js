@@ -101,7 +101,7 @@
     var path = sourceUrl
       ? '?projectMethod=GHRepo&repo=mulesoft%2Fdocs-dataweave&path=' + encodeURIComponent(sourceUrl)
       : ''
-    return 'https://developer.mulesoft.com/learn/dataweave/playground' + path
+    return 'https://dataweave.mulesoft.com/learn/playground' + path
   }
 
   function relatesToDataweave (language) {

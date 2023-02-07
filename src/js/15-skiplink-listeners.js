@@ -1,56 +1,102 @@
 ;(() => {
   'use strict'
 
-  const addEventListenersToSkipLinks = () => {
-    let skipLinks = getSkipLinks()
-    const [leftNavSkipLink, mainContentSkipLink, pageNavSkipLink] = skipLinks
-
-    if (hasNav()) {
-      leftNavSkipLink.addEventListener('keydown', (e) => {
-        focusOn(e, '#search-button')
-      })
-    } else {
-      removeElement(leftNavSkipLink)
+  class SkipLinks {
+    constructor () {
+      this.skipLinks = getSkipLinks()
+      this.nav = document.querySelector('nav.nav')
+      this.main = document.querySelector('main')
+      this.aside = document.querySelector('aside')
+      this.toolbar = document.querySelector('.toolbar')
     }
 
-    if (hasMain()) {
-      mainContentSkipLink.addEventListener('keydown', (e) => {
-        const selectors = toolbarIsVisible() ? '.toolbar a:not(.home-link)' : '.doc a'
-        focusOn(e, selectors)
-      })
-    } else {
-      removeElement(mainContentSkipLink)
+    addEventListenersToSkipLinks () {
+      if (this.skipLinks.length >= 3) {
+        const [leftNavSkipLink, mainContentSkipLink, pageNavSkipLink] = this.skipLinks
+
+        if (this.nav) {
+          // No addResizeListener for this one.
+          // Instead, see 03-mobile-navbar for different behavior in small screen sizes
+          leftNavSkipLink.addEventListener('keydown', (e) => {
+            if (isVisible(this.nav)) {
+              const firstItemInLeftNav = this.getFirstItemInLeftNav()
+              focusOn(e, firstItemInLeftNav)
+            }
+            e.stopPropagation()
+          })
+        } else {
+          leftNavSkipLink.remove()
+        }
+
+        if (this.main) {
+          addResizeListener(this.main, mainContentSkipLink)
+          mainContentSkipLink.addEventListener('keydown', (e) => {
+            const selector = this.getMainSelector()
+            focusOn(e, selector)
+          })
+        } else {
+          mainContentSkipLink.remove()
+        }
+
+        if (this.aside) {
+          addResizeListener(this.aside, pageNavSkipLink)
+          pageNavSkipLink.addEventListener('keydown', (e) => {
+            if (isVisible(this.aside)) {
+              focusOn(e, '.js-toc a')
+            }
+          })
+        } else {
+          pageNavSkipLink.remove()
+        }
+
+        this.removeUnusedSkipLinks()
+      }
     }
 
-    if (hasAside()) {
-      pageNavSkipLink.addEventListener('keydown', (e) => {
-        focusOn(e, '.js-toc a')
-      })
-    } else {
-      removeElement(pageNavSkipLink)
+    clickSkipLinksToRemoveFocus () {
+      for (const skipLink of this.skipLinks) {
+        skipLink.addEventListener('click', (e) => {
+          skipLink.blur()
+          e.preventDefault()
+        })
+      }
     }
 
-    skipLinks = getSkipLinks()
-    if (skipLinks.length > 0) {
-      clickToRemoveFocus(skipLinks)
-    } else {
-      removeElement(skipLinks)
+    getFirstItemInLeftNav () {
+      const searchBox = getFocusableSearchBox()
+      return searchBox || this.nav.querySelector('a')
+    }
+
+    getMainSelector () {
+      if (isSearchPage()) {
+        return getFocusableSearchBox()
+      }
+      return isVisible(this.toolbar) ? '.toolbar a' : '.doc a'
+    }
+
+    removeUnusedSkipLinks () {
+      const remainingSkipLinks = getSkipLinks()
+      if (remainingSkipLinks.length > 0) {
+        this.clickSkipLinksToRemoveFocus()
+      } else {
+        remainingSkipLinks.remove()
+      }
     }
   }
 
-  const clickToRemoveFocus = (elements) => {
-    for (const element of elements) {
-      element.addEventListener('click', (e) => {
-        element.blur()
-        e.preventDefault()
-      })
-    }
+  const addResizeListener = (checkElement, skipLink) => {
+    toggleVisibility(checkElement, skipLink)
+    window.addEventListener('resize', (e) => {
+      toggleVisibility(checkElement, skipLink)
+      e.preventDefault()
+    })
   }
 
   const focusOn = (e, selectors) => {
     if (isSpaceOrEnterKey(e.keyCode)) {
       if (typeof selectors === 'string') {
-        document.querySelector(selectors).focus()
+        const element = document.querySelector(selectors)
+        element && element.focus()
       } else {
         selectors.focus()
       }
@@ -58,37 +104,40 @@
     }
   }
 
+  const getFocusableSearchBox = () => {
+    return document.querySelector('#search-button')
+  }
+
   const getSkipLinks = () => {
-    return document.querySelectorAll('.ms-skip-link')
+    return document.querySelectorAll('.skip-link')
   }
 
-  const hasAside = () => {
-    return document.querySelector('.js-toc')
-  }
-
-  const hasMain = () => {
-    return document.querySelector('main')
-  }
-
-  const hasNav = () => {
-    return document.querySelector('nav.nav')
+  const isSearchPage = () => {
+    return document.title.includes('Search Docs')
   }
 
   const isSpaceOrEnterKey = (keyCode) => {
     return [13, 32].includes(keyCode)
   }
 
-  const removeElement = (element) => {
-    element.remove()
+  const isVisible = (element) => {
+    return (
+      element &&
+      window.getComputedStyle(element).display !== 'none' &&
+      window.getComputedStyle(element).visibility !== 'hidden'
+    )
   }
 
-  const toolbarIsVisible = () => {
-    const toolbar = document.querySelector('.toolbar')
-    if (toolbar) {
-      return window.getComputedStyle(toolbar).display !== 'none'
+  const toggleVisibility = (checkElement, skipLink) => {
+    if (isVisible(checkElement)) {
+      skipLink.classList.remove('hide')
+      skipLink.tabIndex = 0
+    } else {
+      skipLink.classList.add('hide')
+      skipLink.tabIndex = -1
     }
-    return false
   }
 
-  addEventListenersToSkipLinks()
+  const skipLinks = new SkipLinks()
+  skipLinks.addEventListenersToSkipLinks()
 })()

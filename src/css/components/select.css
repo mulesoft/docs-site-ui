@@ -3,14 +3,6 @@
   display: inline-flex;
   height: var(--input-md);
   position: relative;
-
-  &::before {
-    content: '▾';
-    opacity: .75;
-    pointer-events: none;
-    position: absolute;
-    right: 8px;
-  }
 }
 
 .select {
@@ -34,4 +26,12 @@
   &::-ms-expand {
     display: none;
   }
+}
+
+.select-dropdown-arrow {
+  opacity: .75;
+  pointer-events: none;
+  position: absolute;
+  right: 8px;
+  width: 10px;
 }

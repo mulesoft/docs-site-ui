@@ -1,0 +1,12 @@
+<nav class="flex align-center toolbar">
+  {{#if (ne page.title 'Search Docs')}}
+  <button aria-label="Docs Menu" class="button nav-toggle">Menu</button>
+  {{/if}}
+  {{> breadcrumbs}}
+  <button class="breadcrumbs-toggle">
+    <img class="" src="{{@root.uiRootPath}}/img/icons/arrow-down.svg" alt="">
+  </button>
+</nav>
+<div class="secondary-breadcrumbs-drawer hide">
+{{> breadcrumbs}}
+</div>
