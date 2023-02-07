@@ -7,8 +7,15 @@
 
   const fixInitialScrollPosition = () => {
     window.addEventListener('load', () => {
-      if (window.location.hash.length) window.scrollBy(0, -50)
+      if (window.location.hash.length) {
+        const scrollValue = isBigScreenSize ? -50 : -100
+        window.scrollBy(0, scrollValue)
+      }
     })
+  }
+
+  const isBigScreenSize = () => {
+    return window.innerWidth >= 768
   }
 
   const isSpaceKey = (e) => {
