@@ -5,27 +5,39 @@
     return toArray((from || document).querySelectorAll(selector))
   }
 
+  const scrollDown = (urlHashValue) => {
+    window.location.hash = urlHashValue
+    window.scrollBy(0, -100)
+  }
+
   const toArray = (collection) => {
     return [].slice.call(collection)
   }
 
   class Viewport {
-    constructor (doc, main, sidebar) {
-      this.doc = doc
-      this.main = main
-      this.sidebar = sidebar
+    constructor () {
+      this.doc = document.querySelector('.doc')
+      this.main = document.querySelector('.main')
+      this.sidebar = document.querySelector('.toc-sidebar')
       this.headings = find('.sect1 > h2[id]', this.doc)
-      this.startOfContent = doc?.querySelector('h1.page + *')
+      this.startOfContent = this.doc?.querySelector('h1.page + *')
 
       this.lastActiveFragment = undefined
       this.menu = undefined
       this.links = {}
     }
 
+    addChangeListener () {
+      this.options.addEventListener('change', (e) => {
+        const thisOptions = e.currentTarget.options
+        scrollDown(thisOptions[thisOptions.selectedIndex].value)
+      })
+    }
+
     addSelectWrap () {
       if (this.startOfContent) {
         // generate list
-        var options = this.headings.reduce((accum, heading) => {
+        this.options = this.headings.reduce((accum, heading) => {
           var option = toArray(heading.childNodes).reduce((target, child) => {
             if (child.nodeName !== 'A') {
               target.appendChild(child.cloneNode(true))
@@ -37,26 +49,37 @@
           return accum
         }, document.createElement('select'))
 
-        var selectWrap = document.createElement('div')
-        selectWrap.classList.add('select-wrapper')
-        selectWrap.appendChild(options)
-
-        // create jump to label
-        var jumpTo = document.createElement('option')
-        jumpTo.innerHTML = 'Jump to…'
-        jumpTo.setAttribute('disabled', true)
-        options.insertBefore(jumpTo, options.firstChild)
-        options.className = 'toc toc-embedded select'
-
-        // jump on change
-        options.addEventListener('change', (e) => {
-          var thisOptions = e.currentTarget.options
-          window.location.hash = thisOptions[thisOptions.selectedIndex].value
-        })
+        this.createSelectWrapper()
+        this.createDropdownArrow()
+        this.createJumpToLabel()
+        this.addChangeListener()
 
         // add to page
-        this.doc.insertBefore(selectWrap, this.startOfContent)
+        this.doc.insertBefore(this.selectWrap, this.startOfContent)
       }
+    }
+
+    createDropdownArrow () {
+      const uiRootPath = document.getElementById('site-script').dataset.uiRootPath
+      const dropdownArrow = document.createElement('img')
+      dropdownArrow.classList.add('select-dropdown-arrow')
+      dropdownArrow.src = `${uiRootPath}/img/icons/dropdown-arrow.svg`
+      dropdownArrow.alt = ''
+      this.selectWrap.appendChild(dropdownArrow)
+    }
+
+    createJumpToLabel () {
+      const jumpTo = document.createElement('option')
+      jumpTo.innerHTML = 'Jump to…'
+      jumpTo.setAttribute('disabled', true)
+      this.options.insertBefore(jumpTo, this.options.firstChild)
+      this.options.className = 'toc toc-embedded select'
+    }
+
+    createSelectWrapper () {
+      this.selectWrap = document.createElement('div')
+      this.selectWrap.classList.add('select-wrapper')
+      this.selectWrap.appendChild(this.options)
     }
 
     createToc () {
@@ -136,18 +159,11 @@
     }
 
     removeTOCBlock () {
-      if (this.sidebar) {
-        this.sidebar.removeChild(this.sidebar.querySelector('.js-toc'))
-      }
+      this.sidebar?.removeChild(this.sidebar.querySelector('.js-toc'))
     }
   }
 
-  const viewport = new Viewport(
-    document.querySelector('.doc'),
-    document.querySelector('.main'),
-    document.querySelector('.toc-sidebar')
-  )
-
+  const viewport = new Viewport()
   if (!viewport.doc || !viewport.sidebar) {
     viewport.markMainAsNoSidebar()
   } else {
