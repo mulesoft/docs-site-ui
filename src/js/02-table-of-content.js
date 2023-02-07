@@ -182,9 +182,7 @@
 
     updateExpandState () {
       this.isSelectDropdownExpanded = !this.isSelectDropdownExpanded
-      this.dropdownArrow.ariaLabel = this.isSelectDropdownExpanded
-        ? 'Collapse page content'
-        : 'Expand page content'
+      this.dropdownArrow.ariaLabel = this.isSelectDropdownExpanded ? 'Collapse page content' : 'Expand page content'
     }
   }
 
