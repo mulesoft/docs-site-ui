@@ -5,7 +5,11 @@
     return toArray((from || document).querySelectorAll(selector))
   }
 
-  const scrollDown = (urlHashValue) => {
+  const isSpaceKey = (e) => {
+    return e.charCode === 32
+  }
+
+  const scrollTo = (urlHashValue) => {
     window.location.hash = urlHashValue
     window.scrollBy(0, -100)
   }
@@ -22,6 +26,7 @@
       this.headings = find('.sect1 > h2[id]', this.doc)
       this.startOfContent = this.doc?.querySelector('h1.page + *')
 
+      this.isSelectDropdownExpanded = false
       this.lastActiveFragment = undefined
       this.menu = undefined
       this.links = {}
@@ -30,7 +35,19 @@
     addChangeListener () {
       this.options.addEventListener('change', (e) => {
         const thisOptions = e.currentTarget.options
-        scrollDown(thisOptions[thisOptions.selectedIndex].value)
+        scrollTo(thisOptions[thisOptions.selectedIndex].value)
+      })
+
+      this.options.addEventListener('click', (_e) => {
+        this.updateExpandState()
+      })
+
+      this.options.addEventListener('blur', (_e) => {
+        if (this.isSelectDropdownExpanded) this.updateExpandState()
+      })
+
+      this.options.addEventListener('keypress', (e) => {
+        if (isSpaceKey(e)) this.updateExpandState()
       })
     }
 
@@ -61,11 +78,12 @@
 
     createDropdownArrow () {
       const uiRootPath = document.getElementById('site-script').dataset.uiRootPath
-      const dropdownArrow = document.createElement('img')
-      dropdownArrow.classList.add('select-dropdown-arrow')
-      dropdownArrow.src = `${uiRootPath}/img/icons/dropdown-arrow.svg`
-      dropdownArrow.alt = ''
-      this.selectWrap.appendChild(dropdownArrow)
+      this.dropdownArrow = document.createElement('img')
+      this.dropdownArrow.classList.add('select-dropdown-arrow')
+      this.dropdownArrow.src = `${uiRootPath}/img/icons/dropdown-arrow.svg`
+      this.dropdownArrow.alt = ''
+      this.dropdownArrow.ariaLabel = 'Expand page contents'
+      this.selectWrap.appendChild(this.dropdownArrow)
     }
 
     createJumpToLabel () {
@@ -160,6 +178,13 @@
 
     removeTOCBlock () {
       if (this.sidebar) this.sidebar.removeChild(this.sidebar.querySelector('.js-toc'))
+    }
+
+    updateExpandState () {
+      this.isSelectDropdownExpanded = !this.isSelectDropdownExpanded
+      this.dropdownArrow.ariaLabel = this.isSelectDropdownExpanded
+        ? 'Collapse page content'
+        : 'Expand page content'
     }
   }
 
