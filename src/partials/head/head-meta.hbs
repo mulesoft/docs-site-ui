@@ -1,5 +1,12 @@
 {{#if page.component}}
-<meta name="product" content="{{page.component.title}}">
+<meta name="product" content=
+{{#if (eq page.component.name 'connectors')}}
+"Connectors"
+{{else}}
+"{{page.component.title}}"
+{{/if}}
+>
+<meta name="latest-version" content="{{page.component.latest.version}}">
 <meta name="version" content="{{or page.displayVersion page.version}}">
 <meta name="page-url" content="{{page.url}}">
 <meta name="page-component" content="{{page.component.name}}">
