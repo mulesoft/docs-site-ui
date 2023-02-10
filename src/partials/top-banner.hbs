@@ -6,12 +6,10 @@
     <p>You&#8217;re viewing the
       {{#if preview}}
       preview
-      {{else}}
-      {{#if (eq (site-profile) "archive")}}
+      {{else if (eq (site-profile) "archive")}}
       archived
       {{else}}
       {{site-profile}}
-      {{/if}}
       {{/if}}
       MuleSoft Documentation.
       {{#if (eq (site-profile) "archive")}}

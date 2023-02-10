@@ -1,4 +1,5 @@
 const maxNumofItems = 10
+const components = ['composer', 'release-notes']
 
 const getDatedReleaseNotesRawPages = (contentCatalog) => {
   return contentCatalog.getPages(({ asciidoc, out }) => {
@@ -13,7 +14,7 @@ const getReleaseNotesWithRevdate = (asciidoc) => {
 }
 
 const isReleaseNotes = (attributes) => {
-  return attributes['page-component-name'] === 'release-notes'
+  return components.includes(attributes['page-component-name'])
 }
 
 const hasRevDate = (attributes) => {
