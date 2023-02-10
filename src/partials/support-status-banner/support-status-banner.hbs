@@ -9,8 +9,8 @@
 {{#case 'noLongerUpdated'}} {{> banner-for-no-longer-updated}} {{/case}}
 {{#case 'extendedSupport'}} {{> banner-for-extended-support}} {{/case}}
 {{#case 'eolSupport'}} {{> banner-for-eol-support}} {{/case}}
-{{#case 'scheduled'}} {{> banner-for-eol-scheduled}} {{/case}}
-{{#case 'complete'}} {{> banner-for-eol}} {{/case}}
+{{#case 'eolScheduled'}} {{> banner-for-eol-scheduled}} {{/case}}
+{{#case 'eolReached'}} {{> banner-for-eol}} {{/case}}
 {{/switch}}
 {{else if (or
 page.componentVersion.asciidoc.attributes.endOfLife (or
