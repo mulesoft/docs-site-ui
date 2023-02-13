@@ -237,8 +237,8 @@ class GitHub {
   }
 
   async updateUIBundleVer (content) {
-    const contentStr = Buffer.from(content, 'base64').toString('utf8')
-    contentStr.replace(/\/prod-.+?\//, `/${this.tagName}/`)
+    let contentStr = Buffer.from(content, 'base64').toString('utf8')
+    contentStr = contentStr.replace(/\/prod-.+?\//, `/${this.tagName}/`)
     return Buffer.from(contentStr).toString('base64')
   }
 
