@@ -207,7 +207,6 @@ class GitHub {
   }
 
   async updateContent ({ repo, ref, filePath }) {
-    console.log(repo, ref, filePath)
     // Get the current contents of the file
     const {
       data: { content, sha },
