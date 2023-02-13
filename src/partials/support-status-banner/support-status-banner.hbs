@@ -1,0 +1,33 @@
+{{#if page.attributes.notice-banner-message}}
+<div class="notice-banner">
+  <button class="notice-banner-close-button" title="Close notice banner">&times;</button>
+  <p>{{page.attributes.notice-banner-message}}</p>
+</div>
+{{else if page.componentVersion.asciidoc.attributes.supportStatus}}
+{{#switch page.componentVersion.asciidoc.attributes.supportStatus}}
+{{#case 'old'}} {{> banner-for-old}} {{/case}}
+{{#case 'noLongerUpdated'}} {{> banner-for-no-longer-updated}} {{/case}}
+{{#case 'extendedSupport'}} {{> banner-for-extended-support}} {{/case}}
+{{#case 'eolSupport'}} {{> banner-for-eol-support}} {{/case}}
+{{#case 'eolScheduled'}} {{> banner-for-eol-scheduled}} {{/case}}
+{{#case 'eolReached'}} {{> banner-for-eol}} {{/case}}
+{{/switch}}
+{{else if (or
+page.componentVersion.asciidoc.attributes.endOfLife (or
+page.componentVersion.asciidoc.attributes.endOfLifeScheduled (or
+page.componentVersion.asciidoc.attributes.extendedSupport (or
+page.componentVersion.asciidoc.attributes.noLongerUpdated page.componentVersion.asciidoc.attributes.olderVersion
+))))
+}}
+{{#if page.componentVersion.asciidoc.attributes.endOfLife}}
+{{> banner-for-eol}}
+{{else if page.componentVersion.asciidoc.attributes.endOfLifeScheduled}}
+{{> banner-for-eol-scheduled}}
+{{else if page.componentVersion.asciidoc.attributes.extendedSupport}}
+{{> banner-for-extended-support}}
+{{else if page.componentVersion.asciidoc.attributes.olderVersion}}
+{{> banner-for-old}}
+{{else}}
+{{> banner-for-no-longer-updated}}
+{{/if}}
+{{/if}}
