@@ -47,7 +47,7 @@ class GitHub {
   }
 
   async createNewBranch ({ repo, ref, newBranchName }) {
-    if (!await this.branchAlreadyExists({ repo, branchName: newBranchName })) {
+    if (!(await this.branchAlreadyExists({ repo, branchName: newBranchName }))) {
       const { data: baseRefData } = await this.octokit.rest.git.getRef({
         owner: this.owner,
         repo,
@@ -66,27 +66,33 @@ class GitHub {
   async createNextRelease () {
     await this.versionBundle()
 
-    let commit = await this.octokit.git.getRef({
-      owner: this.owner,
-      repo: this.repo,
-      ref: this.ref,
-    }).then((result) => result.data.object.sha)
+    let commit = await this.octokit.git
+      .getRef({
+        owner: this.owner,
+        repo: this.repo,
+        ref: this.ref,
+      })
+      .then((result) => result.data.object.sha)
 
     const readmeContent = await fs
       .readFile('README.adoc', 'utf-8')
       .then((contents) => contents.replace(/^(?:\/\/)?(:current-release: ).+$/m, `$1${this.tagName}`))
-    const readmeBlob = await this.octokit.git.createBlob({
-      owner: this.owner,
-      repo: this.repo,
-      content: readmeContent,
-      encoding: 'utf-8',
-    }).then((result) => result.data.sha)
+    const readmeBlob = await this.octokit.git
+      .createBlob({
+        owner: this.owner,
+        repo: this.repo,
+        content: readmeContent,
+        encoding: 'utf-8',
+      })
+      .then((result) => result.data.sha)
 
-    let tree = await this.octokit.git.getCommit({
-      owner: this.owner,
-      repo: this.repo,
-      commit_sha: commit,
-    }).then((result) => result.data.tree.sha)
+    let tree = await this.octokit.git
+      .getCommit({
+        owner: this.owner,
+        repo: this.repo,
+        commit_sha: commit,
+      })
+      .then((result) => result.data.tree.sha)
 
     tree = await this.octokit.git
       .createTree({
@@ -172,9 +178,7 @@ class GitHub {
         per_page: 100,
         page,
       })
-      latestRelease = releases.find((release) =>
-        release.name.startsWith('prod-')
-      )
+      latestRelease = releases.find((release) => release.name.startsWith('prod-'))
       page++
     } while (!latestRelease && page <= 10) // Limit to 1000 releases
     return latestRelease
@@ -205,7 +209,9 @@ class GitHub {
   async updateContent ({ repo, ref, filePath }) {
     console.log(repo, ref, filePath)
     // Get the current contents of the file
-    const { data: { content, sha } } = await this.octokit.repos.getContent({
+    const {
+      data: { content, sha },
+    } = await this.octokit.repos.getContent({
       owner: this.owner,
       repo,
       ref,
