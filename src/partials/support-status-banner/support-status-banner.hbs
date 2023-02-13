@@ -1,3 +1,13 @@
+{{#if page.attributes.support-status}}
+    {{#switch page.attributes.support-status}}
+      {{#case 'old'}} {{> banner-for-old}} {{/case}}
+      {{#case 'noLongerUpdated'}} {{> banner-for-no-longer-updated}} {{/case}}
+      {{#case 'extendedSupport'}} {{> banner-for-extended-support}} {{/case}}
+      {{#case 'eolSupport'}} {{> banner-for-eol-support}} {{/case}}
+      {{#case 'eolScheduled'}} {{> banner-for-eol-scheduled}} {{/case}}
+      {{#case 'eolReached'}} {{> banner-for-eol}} {{/case}}
+    {{/switch}}
+{{/if}}
 {{#if page.attributes.notice-banner-message}}
 <div class="notice-banner">
   <button class="notice-banner-close-button" title="Close notice banner">&times;</button>
