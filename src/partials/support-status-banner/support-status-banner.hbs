@@ -3,8 +3,8 @@
   <button class="notice-banner-close-button" title="Close notice banner">&times;</button>
   <p>{{page.attributes.notice-banner-message}}</p>
 </div>
-{{else if page.componentVersion.asciidoc.attributes.supportStatus}}
-{{#switch page.componentVersion.asciidoc.attributes.supportStatus}}
+{{else if (or page.componentVersion.asciidoc.attributes.supportStatus page.attributes.support-status)}} 
+{{#switch (or page.componentVersion.asciidoc.attributes.supportStatus page.attributes.support-status)}}
 {{#case 'old'}} {{> banner-for-old}} {{/case}}
 {{#case 'noLongerUpdated'}} {{> banner-for-no-longer-updated}} {{/case}}
 {{#case 'extendedSupport'}} {{> banner-for-extended-support}} {{/case}}
