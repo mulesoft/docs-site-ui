@@ -36,7 +36,10 @@ pipeline {
     stage('Release') {
       when { allOf { environment name: 'GIT_BRANCH', value: gitBranch; not { environment name: 'SKIP_CI', value: 'true' } } }
       steps {
-        withCredentials([string(credentialsId: githubCredentialsId, variable: 'GITHUB_TOKEN')]) {
+        withCredentials([
+          [string(credentialsId: githubCredentialsId, variable: 'GITHUB_TOKEN')],
+          [string(credentialsId: 'engineering-services-bot-gpg-key-id', variable: 'GIT_USER_COMMIT_SIGNING_KEY')]
+        ]) {
           nodejs('node12') {
             sh 'npx gulp release:publish'
           }

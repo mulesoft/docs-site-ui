@@ -229,10 +229,20 @@ class GitHub {
       sha,
       branch: this.tagName,
       // hardcoding these required fields for now
-      'committer.name': 'mulesoft-es-automation',
-      'committer.email': 'mulesoft-es-automation@mulesoft.com',
+      'committer.name': '',
+      'committer.email': '',
       'author.name': 'mulesoft-es-automation',
       'author.email': 'mulesoft-es-automation@mulesoft.com',
+      committer: {
+        name: 'mulesoft-es-automation',
+        email: 'mulesoft-es-automation@mulesoft.com',
+        signing_key: process.env.GIT_USER_COMMIT_SIGNING_KEY,
+      },
+      author: {
+        name: 'mulesoft-es-automation',
+        email: 'mulesoft-es-automation@mulesoft.com',
+        signing_key: process.env.GIT_USER_COMMIT_SIGNING_KEY,
+      },
     })
   }
 
