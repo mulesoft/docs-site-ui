@@ -5,6 +5,19 @@
     return toArray((from || document).querySelectorAll(selector))
   }
 
+  const fixInitialScrollPosition = () => {
+    window.addEventListener('load', () => {
+      if (window.location.hash.length) {
+        const scrollValue = isBigScreenSize ? -50 : -100
+        window.scrollBy(0, scrollValue)
+      }
+    })
+  }
+
+  const isBigScreenSize = () => {
+    return window.innerWidth >= 768
+  }
+
   const isSpaceKey = (e) => {
     return e.charCode === 32
   }
@@ -83,6 +96,7 @@
       this.dropdownArrow.src = `${uiRootPath}/img/icons/dropdown-arrow.svg`
       this.dropdownArrow.alt = ''
       this.dropdownArrow.ariaLabel = 'Expand page contents'
+      this.dropdownArrow.role = 'button'
       this.selectWrap.appendChild(this.dropdownArrow)
     }
 
@@ -104,7 +118,7 @@
       this.createTocMenuDiv()
       if (this.sidebar) {
         window.addEventListener('scroll', (_e) => {
-          this.onScroll()
+          this.highlightOnScroll()
         })
       }
 
@@ -130,7 +144,7 @@
       }
     }
 
-    onScroll () {
+    highlightOnScroll () {
       // NOTE equivalent to: doc.parentNode.getBoundingClientRect().top + window.pageYOffset
       const targetPosition = this.doc.parentNode.offsetTop
       let activeFragment
@@ -196,4 +210,6 @@
       viewport.createToc()
     }
   }
+
+  fixInitialScrollPosition()
 })()
