@@ -282,12 +282,12 @@ module.exports = (dest, bundleName, owner, repo, token, updateBranch) => async (
   const gitHub = new GitHub({ dest, bundleName, owner, repo, token, updateBranch })
   await gitHub.setUp()
   await gitHub.createNextRelease()
-  if (gitHub.variant === 'prod') {
-    await gitHub.createPR({
-      repo: 'docs-site-playbook',
-      ref: 'master',
-      filePath: 'antora-playbook.yml',
-    })
-    // TODO: add more createPR for other branches, like archive, jp, maybe even (need refactoring) beta and internal
-  }
+  // if (gitHub.variant === 'prod') {
+  await gitHub.createPR({
+    repo: 'docs-site-playbook',
+    ref: 'master',
+    filePath: 'antora-playbook.yml',
+  })
+  // TODO: add more createPR for other branches, like archive, jp, maybe even (need refactoring) beta and internal
+  // }
 }
