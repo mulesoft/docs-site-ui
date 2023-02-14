@@ -34,7 +34,7 @@ pipeline {
       }
     }
     stage('Release') {
-      when { allOf { environment name: 'GIT_BRANCH', value: gitBranch; not { environment name: 'SKIP_CI', value: 'true' } } }
+      // when { allOf { environment name: 'GIT_BRANCH', value: gitBranch; not { environment name: 'SKIP_CI', value: 'true' } } }
       steps {
         withCredentials([
           [string(credentialsId: githubCredentialsId, variable: 'GITHUB_TOKEN')],
