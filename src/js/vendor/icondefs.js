@@ -1,7 +1,9 @@
 ;(function () {
   /* eslint-disable max-len */
   // prettier-ignore
-  const muleySVG = { d: 'M19.9035 16.7957L22.0559 24.8282C19.8893 25.7545 17.5053 26.2702 15 26.2702C12.4947 26.2702 10.1107 25.7545 7.94414 24.8282L10.0965 16.7957C7.16563 15.0998 5.19232 11.9329 5.19232 8.30324C5.19232 6.65115 5.6026 5.09557 6.32406 3.72984L12.9574 13.2033H17.0426L23.676 3.72984C24.3974 5.09557 24.8077 6.65115 24.8077 8.30324C24.8077 11.9329 22.8344 15.0998 19.9035 16.7957Z', fill: '#00A2DF' }
+
+  // muley's path data tends to be reused a lot, so I set it as a const to make it easier to reuse
+  const muleyPathData = { d: 'M19.9035 16.7957L22.0559 24.8282C19.8893 25.7545 17.5053 26.2702 15 26.2702C12.4947 26.2702 10.1107 25.7545 7.94414 24.8282L10.0965 16.7957C7.16563 15.0998 5.19232 11.9329 5.19232 8.30324C5.19232 6.65115 5.6026 5.09557 6.32406 3.72984L12.9574 13.2033H17.0426L23.676 3.72984C24.3974 5.09557 24.8077 6.65115 24.8077 8.30324C24.8077 11.9329 22.8344 15.0998 19.9035 16.7957Z', fill: '#00A2DF' }
 
   var defs = [
     {
@@ -43,7 +45,7 @@
     {
       id: 'icon-nav-component',
       viewBox: '0 0 30 30',
-      path: muleySVG,
+      path: muleyPathData,
     },
     {
       id: 'icon-nav-component-accelerators-home',
@@ -335,7 +337,7 @@
     {
       id: 'icon-nav-component-consumer-goods',
       viewBox: '0 0 30 30',
-      path: muleySVG,
+      path: muleyPathData,
     },
     {
       id: 'icon-nav-component-data-gateway',
@@ -433,7 +435,7 @@
     {
       id: 'icon-nav-component-financial-services',
       viewBox: '0 0 30 30',
-      path: muleySVG,
+      path: muleyPathData,
     },
     {
       id: 'icon-nav-component-gateway',
@@ -487,7 +489,7 @@
     {
       id: 'icon-nav-component-healthcare',
       viewBox: '0 0 30 30',
-      path: muleySVG,
+      path: muleyPathData,
     },
     {
       id: 'icon-nav-component-healthcare-toolkit',
@@ -556,12 +558,12 @@
     {
       id: 'icon-nav-component-life-sciences',
       viewBox: '0 0 30 30',
-      path: muleySVG,
+      path: muleyPathData,
     },
     {
       id: 'icon-nav-component-manufacturing',
       viewBox: '0 0 30 30',
-      path: muleySVG,
+      path: muleyPathData,
     },
     {
       id: 'icon-nav-component-monitoring',
@@ -608,22 +610,22 @@
     {
       id: 'icon-nav-component-mule-runtime',
       viewBox: '0 0 30 30',
-      paths: [muleySVG],
+      paths: [muleyPathData],
     },
     {
       id: 'icon-nav-component-mule-sdk',
       viewBox: '0 0 30 30',
-      paths: [muleySVG],
+      paths: [muleyPathData],
     },
     {
       id: 'icon-nav-component-mule4-runtime',
       viewBox: '0 0 30 30',
-      paths: [muleySVG],
+      paths: [muleyPathData],
     },
     {
       id: 'icon-nav-component-munit',
       viewBox: '0 0 30 30',
-      paths: [muleySVG],
+      paths: [muleyPathData],
     },
     {
       id: 'icon-nav-component-object-store',
@@ -685,7 +687,7 @@
     {
       id: 'icon-nav-component-retail',
       viewBox: '0 0 30 30',
-      path: muleySVG,
+      path: muleyPathData,
     },
     {
       id: 'icon-nav-component-rpa-bot',
@@ -997,7 +999,7 @@
     {
       id: 'icon-nav-page-general-contribute',
       viewBox: '0 0 30 30',
-      path: muleySVG,
+      path: muleyPathData,
     },
     {
       id: 'icon-nav-page-general-glossary',
