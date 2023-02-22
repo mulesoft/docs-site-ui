@@ -323,6 +323,7 @@
     const versions = Object.values(componentData.versions)
     const currentVersionData = getCurrentVersionData(versions)
     const navVersionDropdown = createElement('.nav-version-dropdown')
+    navVersionDropdown.setAttribute('role', 'combobox')
     navVersionDropdown.addEventListener('click', trapEvent)
     const navVersionButton = createElement('button.button.nav-version-button')
     navVersionButton.setAttribute('tabindex', '-1')
