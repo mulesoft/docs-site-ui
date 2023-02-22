@@ -1,12 +1,12 @@
 {{#if page.component}}
 <meta name="product" content="{{page.component.title}}">
 {{#if page.latest.url}} 
+<meta name="version" content="{{or page.displayVersion page.version}}">
 {{#if (eq page.component.latest.version page.version)}}
 <meta name="is-latest-version" content="true">
-<meta name="version" content="{{or page.displayVersion page.version}} [latest]">
+<meta name="version-with-latest" content="{{or page.displayVersion page.version}} [latest]">
 {{else}}
 <meta name="latest-version" content="{{page.component.latest.version}}">
-<meta name="version" content="{{or page.displayVersion page.version}}">
 {{/if}}
 {{/if}}
 <meta name="page-url" content="{{page.url}}">
