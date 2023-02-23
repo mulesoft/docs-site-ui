@@ -323,14 +323,23 @@
     const versions = Object.values(componentData.versions)
     const currentVersionData = getCurrentVersionData(versions)
     const navVersionDropdown = createElement('.nav-version-dropdown')
-    navVersionDropdown.setAttribute('role', 'combobox')
     navVersionDropdown.addEventListener('click', trapEvent)
     const navVersionButton = createElement('button.button.nav-version-button')
     navVersionButton.setAttribute('tabindex', '-1')
     const activeVersion = componentData.name === page.component ? page.version : currentVersionData.version
     const activeDisplayVersion = componentData.versions[activeVersion].displayVersion
-    const navVersion = createElement('span.nav-version', { dataset: { version: activeVersion } }, activeDisplayVersion)
+    const navVersionLabel = createElement('label', activeDisplayVersion)
+    navVersionLabel.id = `combo-${componentData.name}-label`
+    navVersionButton.appendChild(navVersionLabel)
+    const navVersion = createElement('div.nav-version', { dataset: { version: activeVersion } })
     navVersion.setAttribute('tabindex', '0')
+    navVersion.setAttribute('role', 'combobox')
+    navVersion.ariaExpanded = false
+    navVersion.ariaHasPopup = 'listbox'
+    navVersion.id = `combo-${componentData.name}`
+    navVersion.setAttribute('aria-labelledby', `combo-${componentData.name}-label`)
+    navVersion.setAttribute('aria-controls', `listbox-${componentData.name}`)
+    // navVersion.id = `combo-${componentData.name}-label`
     if (activeVersion === currentVersionData.version) {
       addCurrentVersionIndicator(navVersionButton, 'tooltip-dot-nav-version-menu')
     }
@@ -339,6 +348,9 @@
       navVersionButton.appendChild(createSvgElement('.icon.nav-version-icon', '#' + page.navVersionIconId))
     }
     const navVersionMenu = createElement('div.nav-version-menu')
+    navVersionMenu.setAttribute('role', 'listbox')
+    navVersionMenu.id = `listbox-${componentData.name}`
+    navVersionMenu.setAttribute('aria-labelledby', `combo-${componentData.name}-label`)
     versions.reduce((lastVersionData, versionData) => {
       if (!isArchiveSite()) {
         if (versionData === currentVersionData) {
@@ -534,10 +546,11 @@
     } else {
       var versionData
       var navVersion = navItem.querySelector('.nav-version')
+      const navVersionLabel = navVersion.parentElement.querySelector('label')
       if (selectedVersion) {
         navVersion.dataset.version = selectedVersion
         versionData = componentData.versions[selectedVersion]
-        navVersion.textContent = versionData.displayVersion
+        navVersionLabel.textContent = versionData.displayVersion
       } else {
         selectedVersion = navVersion.dataset.version
         versionData = componentData.versions[selectedVersion]
