@@ -662,6 +662,7 @@
     this.classList.add('is-active')
     setTabIndexForVersions()
     this.parentElement.querySelector('.nav-version-button').classList.add('selector-active')
+    this.parentElement.ariaExpanded = true
   }
 
   function getNavGroupsBottom () {
@@ -682,6 +683,7 @@
       menu.classList.add('is-clipped')
       menu.style.maxHeight = 0
       menu.classList.remove('is-active')
+      menu.parentElement.ariaExpanded = false
       return true
     }
   }
