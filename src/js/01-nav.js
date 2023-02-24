@@ -207,7 +207,7 @@
       menu.classList.add('is-clipped')
       menu.style.maxHeight = 0
       menu.classList.remove('is-active')
-      menu.parentElement.ariaExpanded = false
+      menu.parentElement.querySelector('.nav-version').ariaExpanded = false
       return true
     }
   }
@@ -832,7 +832,7 @@
       navVersionMenu.classList.add('is-active')
       setTabIndexForVersions()
       navVersionMenu.parentElement.querySelector('.nav-version-button').classList.add('selector-active')
-      navVersionMenu.parentElement.ariaExpanded = true
+      navVersionMenu.parentElement.querySelector('.nav-version').ariaExpanded = true
     }
   }
 
