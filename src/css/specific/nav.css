@@ -96,7 +96,6 @@
   @media (--md) {
     box-shadow: 1px 0 0 var(--aluminum-3);
     height: 100vh;
-    max-height: calc(100vh - var(--header-height));
     min-width: var(--min-nav-width);
     position: sticky;
     transform: none;

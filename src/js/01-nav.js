@@ -438,9 +438,7 @@
         this.navGroup = createElement('.nav-group')
         this.addNavGroupTitle()
 
-        this.navGroupHasSingleComponent()
-          ? this.addNavList()
-          : this.addNavGroupList()
+        this.navGroupHasSingleComponent() ? this.addNavList() : this.addNavGroupList()
 
         this.navGroups.appendChild(this.navGroup)
       })
@@ -476,18 +474,12 @@
         navItemToggle.ariaLabel = `Toggle ${navItemData.content}`
       }
       if (page.navItemToggleIconId) {
-        navItemToggle.appendChild(
-          createSvgElement('.icon.nav-item-toggle-icon', '#' + page.navItemToggleIconId)
-        )
+        navItemToggle.appendChild(createSvgElement('.icon.nav-item-toggle-icon', '#' + page.navItemToggleIconId))
       }
     }
 
     createNavLink (navItemData) {
-      const navLink = createElement(
-        'a.link.nav-text',
-        { href: relativize(navItemData.url) },
-        navItemData.content
-      )
+      const navLink = createElement('a.link.nav-text', { href: relativize(navItemData.url) }, navItemData.content)
 
       if (navItemData.iconId) {
         navLink.classList.add('has-icon')
@@ -716,10 +708,12 @@
 
     navGroupHasSingleComponent () {
       const componentsData = this.groupData.components
-      return componentsData.length === 1 &&
+      return (
+        componentsData.length === 1 &&
         componentsData[0].unversioned &&
         componentsData[0].nav.items.length &&
         this.groupData.spreadSingleItem
+      )
     }
 
     processComponents () {
