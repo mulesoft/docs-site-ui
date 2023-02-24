@@ -31,4 +31,9 @@
   .top-banner p {
     font-size: 14px;
   }
+
+  .top-banner:not(.hide) + .flex.container > .nav,
+  .top-banner:not(.hide) + .flex.container > .toc {
+    top: var(--banner-height);
+  }
 }
