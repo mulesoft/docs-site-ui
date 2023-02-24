@@ -270,13 +270,14 @@ svg.nav-icon {
 
 .nav-version {
   border-radius: 10px;
-  margin: -3px -14px;
-  padding: 3px 14px;
+  height: 100%;
+  position: fixed;
+  width: 100%;
 
   &:focus {
     border: 1px solid var(--secondary-navy);
     box-shadow: 0 0 0 3px rgba(0,162,223,.25);
-    margin-right: -17px;
+    margin-left: -7px;
   }
 }
 
