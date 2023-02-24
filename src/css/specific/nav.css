@@ -271,13 +271,13 @@ svg.nav-icon {
 .nav-version {
   border-radius: 10px;
   height: 100%;
+  margin-left: -6px;
   position: fixed;
   width: 100%;
 
   &:focus {
     border: 1px solid var(--secondary-navy);
     box-shadow: 0 0 0 3px rgba(0,162,223,.25);
-    margin-left: -7px;
   }
 }
 
