@@ -171,6 +171,15 @@
     return [13, 32].includes(keyCode)
   }
 
+  const setAriaActiveDescendant = (componentName, version, set) => {
+    const combobox = document.querySelector(`#combo-${componentName}`)
+    if (combobox) {
+      set
+        ? combobox.setAttribute('aria-activedescendant', `#${componentName}-${version}`)
+        : combobox.removeAttribute('aria-activedescendant')
+    }
+  }
+
   const setTabIndexForVersions = () => {
     setTimeout(() => {
       const tabIndex = document.querySelector('.nav-version-menu.is-active') ? 0 : -1
@@ -628,10 +637,18 @@
           versionData.displayVersion
         )
         navVersionOption.setAttribute('tabindex', '-1')
+        navVersionOption.id = `${componentData.name}-${versionData.displayVersion}`
         navVersionOption.addEventListener('keydown', (e) => {
           if (isSpaceOrEnterKey(e.keyCode)) {
             setTabIndexForVersions()
           }
+        })
+        navVersionOption.addEventListener('focus', (e) => {
+          setAriaActiveDescendant(componentData.name, versionData.displayVersion, true)
+          e.stopPropagation()
+        })
+        navVersionOption.addEventListener('blur', (_e) => {
+          setAriaActiveDescendant(componentData.name, versionData.displayVersion, false)
         })
         if (versionData === currentVersionData) {
           addCurrentVersionIndicator(navVersionMenu, 'tooltip-dot-nav-version')
