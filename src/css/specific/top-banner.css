@@ -31,10 +31,4 @@
   .top-banner p {
     font-size: 14px;
   }
-
-  .top-banner + .flex.container > .nav,
-  .top-banner + .flex.container > .toc {
-    max-height: calc(100vh - var(--header-height) - var(--banner-height));
-    top: var(--banner-height);
-  }
 }

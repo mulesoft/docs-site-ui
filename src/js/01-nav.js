@@ -476,6 +476,7 @@
       if (page.navItemToggleIconId) {
         navItemToggle.appendChild(createSvgElement('.icon.nav-item-toggle-icon', '#' + page.navItemToggleIconId))
       }
+      return navItemToggle
     }
 
     createNavLink (navItemData) {
