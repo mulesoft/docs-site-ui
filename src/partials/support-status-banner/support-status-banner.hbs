@@ -8,9 +8,17 @@
 {{#case 'old'}} {{> banner-for-old}} {{/case}}
 {{#case 'noLongerUpdated'}} {{> banner-for-no-longer-updated}} {{/case}}
 {{#case 'extendedSupport'}} {{> banner-for-extended-support}} {{/case}}
+{{#case 'extendedSupportFeature'}} {{> banner-for-extended-support-feature}} {{/case}}
+{{#case 'extendedSupportVersion'}} {{> banner-for-extended-support-version}} {{/case}}
 {{#case 'eolSupport'}} {{> banner-for-eol-support}} {{/case}}
+{{#case 'eolSupportFeature'}} {{> banner-for-eol-support-feature}} {{/case}}
+{{#case 'eolSupportVersion'}} {{> banner-for-eol-support-version}} {{/case}}
 {{#case 'eolScheduled'}} {{> banner-for-eol-scheduled}} {{/case}}
-{{#case 'eolReached'}} {{> banner-for-eol}} {{/case}}
+{{#case 'eolScheduledFeature'}} {{> banner-for-eol-scheduled-feature}} {{/case}}
+{{#case 'eolScheduledVersion'}} {{> banner-for-eol-scheduled-version}} {{/case}}
+{{#case 'eol'}} {{> banner-for-eol}} {{/case}}
+{{#case 'eolFeature'}} {{> banner-for-eol-feature}} {{/case}}
+{{#case 'eolVersion'}} {{> banner-for-eol-version}} {{/case}}
 {{/switch}}
 {{else if (or
 page.componentVersion.asciidoc.attributes.endOfLife (or
