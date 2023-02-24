@@ -51,7 +51,7 @@
     "js-yaml": "4.1.0",
     "merge-stream": "2.0.0",
     "node-html-parser": "6.1.4",
-    "node-fetch": "3.3.0",
+    "node-fetch": "2.6.7",
     "postcss": "8.4.19",
     "postcss-calc": "8.2.4",
     "postcss-custom-media": "7.0.8",
