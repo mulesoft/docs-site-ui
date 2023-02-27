@@ -17,7 +17,7 @@ module.exports = () => async () => {
 async function updateContent (component, contentType) {
   try {
     const urlParams = await getUrlParams(contentType)
-    const content = await fetch(`https://www.mulesoft.com/api/${component}?${urlParams}`)
+    const content = await fetch(`https://www.mulesoft.com/api/${component}?${urlParams}&docs-site`)
     if (await isGoodStatus(content.status)) {
       const body = await content.json()
       if (await hasValidData(body)) {
