@@ -1,0 +1,41 @@
+<atomic-result-template>
+  <template>
+    <style>
+      atomic-field-condition {
+        align-items: center;
+        display: inline-flex;
+        white-space: nowrap;
+      }
+      atomic-result-badge::part(result-badge-element) {
+        background-color: #6d7883;
+        color: #fff;
+      }
+      atomic-result-link > a:not(:visited) {
+        color: #002196 !important;
+      }
+      atomic-result-section-excerpt {
+        margin-top: 0.875rem !important;
+      }
+    </style>
+    <atomic-result-section-title>
+      <atomic-result-link target="_blank"></atomic-result-link>
+    </atomic-result-section-title>
+    <atomic-result-section-excerpt>
+      <atomic-result-text field="excerpt"></atomic-result-text>
+    </atomic-result-section-excerpt>
+    <atomic-result-section-bottom-metadata>
+      <atomic-result-fields-list>
+        <atomic-field-condition class="field" if-defined="product">
+          <atomic-result-text field="product"></atomic-result-text>
+        </atomic-field-condition>
+        <atomic-field-condition class="field" if-defined="version">
+          <atomic-result-text field="version"></atomic-result-text>
+          </atomic-result-text>
+        </atomic-field-condition>
+        <atomic-field-condition class="field" if-defined="mulesoftislatestversion">
+          <atomic-result-badge label="latest version"></atomic-result-badge>
+        </atomic-field-condition>
+      </atomic-result-fields-list>
+    </atomic-result-section-bottom-metadata>
+  </template>
+</atomic-result-template>

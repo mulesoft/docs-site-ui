@@ -31,7 +31,7 @@ async function updateContent (component, contentType) {
 
 async function getUrlParams (contentType) {
   if (languages.includes(contentType)) {
-    return `language=${contentType}&selector=true&selector_jp`
+    return `language=${contentType}&selector=true&selector_jp&docs-site`
   }
 }
 
