@@ -5,7 +5,7 @@
 </div>
 {{else if (or page.componentVersion.asciidoc.attributes.supportStatus page.attributes.support-status)}} 
 {{#switch (or page.componentVersion.asciidoc.attributes.supportStatus page.attributes.support-status)}}
-{{#case 'old'}} {{> banner-for-old}} {{/case}}
+{{#case 'oldVersion'}} {{> banner-for-old}} {{/case}}
 {{#case 'noLongerUpdated'}} {{> banner-for-no-longer-updated}} {{/case}}
 {{#case 'extendedSupport'}} {{> banner-for-extended-support}} {{/case}}
 {{#case 'extendedSupportFeature'}} {{> banner-for-extended-support-feature}} {{/case}}
