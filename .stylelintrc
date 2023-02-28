@@ -10,5 +10,6 @@
     "number-leading-zero": "never",
     "order/properties-alphabetical-order": true,
     "rule-empty-line-before": null,
+    "selector-type-no-unknown": [true, { "ignoreTypes": ["/^atomic-/"] }]
   }
 }

@@ -113,7 +113,7 @@
 
   &:focus {
     border-radius: var(--radius);
-    outline: 2px solid #888;
+    outline: 2px solid #888 !important;
   }
 }
 

@@ -1,14 +1,20 @@
 <nav class="nav fit" aria-label="Docs">
   <span class="mobile-nav-focus-trapper"></span>
   {{#if (and env.COVEO_API_KEY (and (ne (site-profile) 'archive') (ne (site-profile) 'jp')))}}
-  <div class="search">
-    <button class="button" id="search-button">
-      <svg class="icon" xmlns="http://www.w3.org/2000/svg" alt="">
-        <use xlink:href="#icon-search" />
-      </svg>
-      Search docs
-    </button>
-  </div>
+    <atomic-search-interface id="search">
+      <atomic-search-layout>
+          <atomic-layout-section section="search">
+              <atomic-search-box redirection-url="
+                {{#if preview}}
+                  http://localhost:8080/general/search.html
+                {{else}}
+                  {{site.url}}/general/search
+                {{/if}}
+              ">
+              </atomic-search-box>
+          </atomic-layout-section>
+      </atomic-search-layout>
+    </atomic-search-interface>
   {{/if}}
   <div>
     <button class="button nav-close-button hide" title="close menu">

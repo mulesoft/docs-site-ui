@@ -40,6 +40,10 @@
   & .home-link {
     width: var(--lg);
 
+    &:hover {
+      margin-right: 3px;
+    }
+
     &:active .svg,
     &:focus .svg {
       filter: grayscale(0);

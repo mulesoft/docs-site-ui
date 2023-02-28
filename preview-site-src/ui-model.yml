@@ -16,14 +16,29 @@ site:
           url: *index_url
           # NOTE: the url of each item maps 1-to-1 with an icon in src/js/vendor/icondefs.js
           items:
+          - content: Search
+            url: /general/search.html
           - content: Build and Deploy an API
-            url: /api-led-overview.html
+            url: /general/api-led-overview.html
+            items:
+              - content: Step 1. Prerequisites
+                url: /general/api-led-prerequisites.html
+              - content: Step 2. Design an API Specification
+                url: /general/api-led-design.html
+              - content: Step 3. Develop the API
+                url: /general/api-led-develop.html
+              - content: Step 4. Add Validation and Error Handling
+                url: /general/api-led-test.html
+              - content: Step 5. Deploy the API to CloudHub
+                url: /general/api-led-deploy.html
+              - content: Step 6. Operate the API
+                url: /general/api-led-operate.html
           - content: Browser Support
-            url: /browser-support.html
+            url: /general/browser-support.html
           - content: Glossary
-            url: /glossary.html
+            url: /general/glossary.html
           - content: Contribute
-            url: /contribute.html
+            url: /general/contribute.html
           - content: External Link Test
             url: https://www.ecosia.org/
             urlType: external
