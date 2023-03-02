@@ -16,26 +16,8 @@
 {{#case 'eolScheduled'}} {{> banner-for-eol-scheduled}} {{/case}}
 {{#case 'eolScheduledFeature'}} {{> banner-for-eol-scheduled-feature}} {{/case}}
 {{#case 'eolScheduledVersion'}} {{> banner-for-eol-scheduled-version}} {{/case}}
-{{#case 'eol'}} {{> banner-for-eol}} {{/case}}
-{{#case 'eolFeature'}} {{> banner-for-eol-feature}} {{/case}}
-{{#case 'eolVersion'}} {{> banner-for-eol-version}} {{/case}}
+{{#case 'eolReached'}} {{> banner-for-eol-reached}} {{/case}}
+{{#case 'eolReachedFeature'}} {{> banner-for-eol-reached-feature}} {{/case}}
+{{#case 'eolReachedVersion'}} {{> banner-for-eol-reached-version}} {{/case}}
 {{/switch}}
-{{else if (or
-page.componentVersion.asciidoc.attributes.endOfLife (or
-page.componentVersion.asciidoc.attributes.endOfLifeScheduled (or
-page.componentVersion.asciidoc.attributes.extendedSupport (or
-page.componentVersion.asciidoc.attributes.noLongerUpdated page.componentVersion.asciidoc.attributes.olderVersion
-))))
-}}
-{{#if page.componentVersion.asciidoc.attributes.endOfLife}}
-{{> banner-for-eol}}
-{{else if page.componentVersion.asciidoc.attributes.endOfLifeScheduled}}
-{{> banner-for-eol-scheduled}}
-{{else if page.componentVersion.asciidoc.attributes.extendedSupport}}
-{{> banner-for-extended-support}}
-{{else if page.componentVersion.asciidoc.attributes.olderVersion}}
-{{> banner-for-old}}
-{{else}}
-{{> banner-for-no-longer-updated}}
-{{/if}}
 {{/if}}
