@@ -2,9 +2,20 @@
 <meta name="product" content="{{page.component.title}}">
 {{#if page.latest.url}} 
 <meta name="version" content="{{or page.displayVersion page.version}}">
-<meta name="version-with-latest" content="{{or page.displayVersion page.version}} [latest]">
+{{#with (get-semver page.version)}}
+{{#if this.major}}
+<meta name="version-major" content="{{this.major}}">
+{{/if}}
+{{#if this.minor}}
+<meta name="version-minor" content="{{this.minor}}">
+{{/if}}
+{{#if this.patch}}
+<meta name="version-patch" content="{{this.patch}}">
+{{/if}}
+{{/with}}
 {{#if (eq page.component.latest.version page.version)}}
 <meta name="is-latest-version" content="true">
+<meta name="version-with-latest" content="{{or page.displayVersion page.version}} [latest]">
 {{else}}
 <meta name="latest-version" content="{{page.component.latest.version}}">
 <meta name="version-with-latest" content="{{or page.displayVersion page.version}}">
