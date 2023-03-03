@@ -4,8 +4,10 @@
 <atomic-search-interface id="search" fields-to-include='["mulesoftislatestversion", "mulesoftproductversion", "mulesoftversionmajor", "mulesoftversionminor", "mulesoftversionpatch", "mulesoftversionwithlatest", "product", "version"]'>
   <atomic-search-layout>
     <atomic-layout-section section="facets">
+      {{!-- possibly testing category facet later --}}
+      {{!-- <atomic-category-facet facet-id="product" field="mulesoftproductversion" delimiting-character="|" label="Filter by Product" with-search="true"></atomic-category-facet> --}}
       <atomic-facet facet-id="product" field="product" label="Product"></atomic-facet>
-      <atomic-facet depends-on-product sort-criteria="score" field="mulesoftversionwithlatest" label="Version" number-of-values="20"></atomic-facet>
+      <atomic-facet depends-on-product sort-criteria="score" field="mulesoftversionwithlatest" label="Version" number-of-values="20" with-search="false"></atomic-facet>
     </atomic-layout-section>
     <atomic-layout-section section="main">
       <atomic-layout-section section="status">
