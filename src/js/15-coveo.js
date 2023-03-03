@@ -96,6 +96,7 @@
       this.searchboxShadowRoot = searchboxShadowRoot
       this.searchboxInput = searchboxInput
       this.searchboxDiv = searchboxShadowRoot.querySelector('div')
+      this.searchboxSubmitButton = searchboxShadowRoot.querySelector('button[part="submit-button"]')
 
       this.clientOS = getOS()
     }
@@ -214,10 +215,11 @@ use ${osMap[this.clientOS].secondaryKeyLabelLong} + ${shortcutKeyMap.keyLabel}`
     }
 
     updateSubmitButton () {
-      const searchboxSubmitButton = this.searchboxShadowRoot.querySelector('button[part="submit-button"]')
-      if (searchboxSubmitButton) {
+      if (this.searchboxSubmitButton) {
         // this.toggleSubmitButtonDisabled()
-        searchboxSubmitButton.setAttribute('aria-label', 'Search Docs')
+        this.searchboxSubmitButton.setAttribute('aria-label', 'Search Docs')
+        const parentElement = this.searchboxSubmitButton.parentElement
+        parentElement.insertBefore(this.searchboxSubmitButton, parentElement.firstChild)
       }
     }
   }
