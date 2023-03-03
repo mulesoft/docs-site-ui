@@ -71,6 +71,11 @@ atomic-facet {
   &::part(value-checkbox-label) {
     padding: .1rem .2rem .2rem 2rem;
   }
+
+  &::part(value-link) {
+    padding-bottom: .2rem;
+    padding-top: .2rem;
+  }
 }
 
 atomic-pager::part(next-button),

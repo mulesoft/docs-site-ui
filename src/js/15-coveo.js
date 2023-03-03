@@ -62,10 +62,12 @@
       this.facetDiv = facetDiv
     }
 
-    updateTitle () {
+    updateFacetTexts () {
       if (this.facetDiv) {
         const facetTitle = this.facetDiv.querySelector('div.truncate')
         facetTitle.innerHTML = `Filter by ${facetTitle.innerHTML}`
+        const facetInput = this.facetDiv.querySelector('input')
+        if (facetInput) facetInput.placeholder = 'Search Products'
       }
     }
   }
@@ -240,7 +242,7 @@ use ${osMap[this.clientOS].secondaryKeyLabelLong} + ${shortcutKeyMap.keyLabel}`
         if (facetDiv) {
           const facet = new Facet(atomicFacet, facetShadowRoot, facetDiv)
           try {
-            facet.updateTitle()
+            facet.updateFacetTexts()
             clearInterval(updateFacet)
           } catch (error) {
             console.error(error)
