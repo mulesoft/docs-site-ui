@@ -101,11 +101,8 @@
     }
 
     updateAriaLabelForInput () {
-      this.searchboxInput.setAttribute(
-        'aria-label',
-        `${this.searchboxInput.getAttribute('aria-label')} For shortcut to search, \
+      this.searchboxInput.ariaLabel = `${this.searchboxInput.ariaLabel} For shortcut to search, \
 use ${osMap[this.clientOS].secondaryKeyLabelLong} + ${shortcutKeyMap.keyLabel}`
-      )
     }
 
     addAnalyticsListener () {
@@ -205,6 +202,7 @@ use ${osMap[this.clientOS].secondaryKeyLabelLong} + ${shortcutKeyMap.keyLabel}`
     updateInput () {
       if (this.searchboxInput) {
         this.searchboxInput.placeholder = 'Search Docs'
+        this.searchboxInput.ariaLabel = this.searchboxInput.ariaLabel.replace('Search field', 'Search Doc field')
         if (this.searchboxDiv) {
           if (!isMobileBrowser()) {
             this.addKeyboardShortcutToSearchbox()
