@@ -52,7 +52,6 @@
 
   const createCurrentVersionIndicator = (tabIndex, className) => {
     const currentVersionIndicatorSpan = document.createElement('span')
-    currentVersionIndicatorSpan.setAttribute('role', 'tool-tip')
     currentVersionIndicatorSpan.classList.add(className, 'tooltip-dot')
     currentVersionIndicatorSpan.setAttribute('tabindex', tabIndex)
     tippy(currentVersionIndicatorSpan, {
