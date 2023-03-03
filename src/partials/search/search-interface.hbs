@@ -1,7 +1,7 @@
 {{#if env.COVEO_API_KEY}}
 <div class="search-div">
 <atomic-aria-live></atomic-aria-live>
-<atomic-search-interface id="search" fields-to-include='["mulesoftislatestversion", "mulesoftversionwithlatest", "product", "version"]'>
+<atomic-search-interface id="search" fields-to-include='["mulesoftproductversion", "mulesoftversionmajor", "mulesoftversionminor", "mulesoftversionpatch", "mulesoftislatestversion", "mulesoftversionwithlatest", "product", "version"]'>
   <atomic-search-layout>
     <atomic-layout-section section="facets">
       <atomic-facet facet-id="product" field="product" label="Product"></atomic-facet>
@@ -14,7 +14,7 @@
         <atomic-refine-toggle></atomic-refine-toggle>
         <atomic-sort-dropdown>
           <atomic-sort-expression label="Relevance" expression="relevancy"></atomic-sort-expression>
-          <atomic-sort-expression label="Version (Descending)" expression="version descending"></atomic-sort-expression>
+          <atomic-sort-expression label="Version (Descending)" expression="mulesoftversionmajor descending, mulesoftversionminor descending, mulesoftversionpatch descending"></atomic-sort-expression>
         </atomic-sort-dropdown>
         <atomic-did-you-mean></atomic-did-you-mean>
       </atomic-layout-section>
