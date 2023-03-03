@@ -8,6 +8,7 @@
   height: 100%; /* resolves to height of viewport for fixed element */
   height: -webkit-fill-available;
   left: 0;
+  max-height: calc(100vh - var(--header-height));
   position: fixed;
   top: 0;
   transform: translateX(-100%);
