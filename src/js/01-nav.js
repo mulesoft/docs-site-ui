@@ -127,6 +127,10 @@
       : versions[0]
   }
 
+  const isBigScreenSize = () => {
+    return window.innerWidth >= 768
+  }
+
   const selectComponents = (patterns, pool, exclude) => {
     return coerceToArray(patterns).reduce((accum, pattern) => {
       if (~pattern.indexOf('*')) {
@@ -170,6 +174,11 @@
     return [13, 32].includes(keyCode)
   }
 
+  const hasTopBanner = () => {
+    const topBanner = document.querySelector('.top-banner')
+    return topBanner && !topBanner.classList.contains('hide')
+  }
+
   const setAriaActiveDescendant = (componentName, version, set) => {
     const combobox = document.querySelector(`#combo-${componentName}`)
     if (combobox) {
@@ -207,6 +216,14 @@
       hideVersionMenu(visibleMenu, true)
     }
     if (e) trapEvent(e)
+  }
+
+  const getBannerHeight = () => {
+    const topBanner = document.querySelector('.top-banner')
+    if (topBanner) {
+      return topBanner.offsetHeight
+    }
+    return 0
   }
 
   function hideVersionMenu (menu, force) {
@@ -337,6 +354,28 @@
       }
     }
 
+    adjustNavHeight (e) {
+      if (this.nav) {
+        const header = document.querySelector('.ms-com-content')
+        if (header) {
+          if (isBigScreenSize()) {
+            const bannerHeight = getBannerHeight()
+            if (window.pageYOffset + bannerHeight > header.offsetHeight) {
+              this.nav.style.height = '100vh'
+            } else {
+              this.nav.style.height = hasTopBanner()
+                ? 'calc(100vh - var(--header-height) - var(--banner-height))'
+                : 'calc(100vh - var(--header-height))'
+            }
+          } else {
+            this.nav.style.height = '100vh'
+          }
+        }
+      }
+
+      if (e) e.preventDefault()
+    }
+
     appendArchiveComponent () {
       if (!(isArchiveSite() || isBetaSite() || isJapaneseSite() || isLocalBuild())) {
         if (!this.alreadyHasComponent('archive')) {
@@ -384,6 +423,9 @@
       this.reshapeNavData()
       this.createNavGroups()
       this.nav.addEventListener('click', (e) => closeActiveVersionMenu(e))
+      window.addEventListener('scroll', (e) => this.adjustNavHeight(e))
+      window.addEventListener('resize', (e) => this.adjustNavHeight(e))
+      this.adjustNavHeight()
       this.scrollToCurrentPageItem()
     }
 

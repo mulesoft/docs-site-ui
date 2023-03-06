@@ -1,6 +1,7 @@
 <nav class="nav fit" aria-label="Docs">
   <span class="mobile-nav-focus-trapper"></span>
   {{#if (and env.COVEO_API_KEY (and (ne (site-profile) 'archive') (ne (site-profile) 'jp')))}}
+  <div class="search">
     <atomic-search-interface id="search">
       <atomic-search-layout>
           <atomic-layout-section section="search">
@@ -15,6 +16,7 @@
           </atomic-layout-section>
       </atomic-search-layout>
     </atomic-search-interface>
+  </div>
   {{/if}}
   <div>
     <button class="button nav-close-button hide" title="close menu">

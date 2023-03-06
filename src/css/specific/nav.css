@@ -5,10 +5,8 @@
   display: flex;
   flex-direction: column;
   font-size: 14px;
-  height: 100%; /* resolves to height of viewport for fixed element */
-  height: -webkit-fill-available;
   left: 0;
-  max-height: calc(100vh - var(--header-height));
+  max-height: 100vh;
   position: fixed;
   top: 0;
   transform: translateX(-100%);
@@ -25,31 +23,10 @@
   }
   & .search {
     background: white;
-    box-shadow: 0 1px 0 var(--aluminum-3);
-    display: flex;
-    padding: var(--md);
+    display: block;
     position: sticky;
     top: 0;
     z-index: inherit;
-    & button {
-      align-items: center;
-      border-color: var(--steel-3);
-      color: var(--steel-3);
-      display: flex;
-      font-weight: var(--weight-bold);
-      line-height: 1;
-      padding: 6px 12px 6px 6px;
-      width: 100%;
-      & svg.icon {
-        height: 1.5em;
-        margin-right: 8px;
-        width: 1.5em;
-      }
-
-      &:hover {
-        border-width: 2px;
-      }
-    }
   }
   & .nav-close-button {
     background-color: var(--secondary-navy);
@@ -96,7 +73,6 @@
 
   @media (--md) {
     box-shadow: 1px 0 0 var(--aluminum-3);
-    height: 100vh;
     min-width: var(--min-nav-width);
     position: sticky;
     transform: none;

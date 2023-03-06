@@ -17,7 +17,7 @@
   {{#with page.componentVersion}}
   {{#if (and (and ./title (and (ne ./title 'Home') (ne ./title 'ホーム') (not (or ./root (eq
   @root.page.breadcrumbs.0.content ./title))))) (ne @root.page.url ./url))}}
-  <li class="flex align-center li"><a class="link" href="{{{relativize ./url}}}">{{{./title}}}</a></li>
+  <li class="flex align-center li"><p>{{{./title}}}</p></li>
   {{/if}}
   {{/with}}
   {{#each page.breadcrumbs}}
