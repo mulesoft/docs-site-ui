@@ -1,9 +1,10 @@
 {{#if env.GOOGLE_ANALYTICS_KEY}}
+{{!-- despite the Google analytics key label, the following script block is for segment rather than google analytics --}}
 <script nonce="**CSP_NONCE**">
-!function(){var analytics=window.analytics=window.analytics||[];if(!analytics.initialize)if(analytics.invoked)window.console&&console.error&&console.error("Segment snippet included twice.");else{analytics.invoked=!0;analytics.methods=["trackSubmit","trackClick","trackLink","trackForm","pageview","identify","reset","group","track","ready","alias","debug","page","once","off","on"];analytics.factory=function(t){return function(){var e=Array.prototype.slice.call(arguments);e.unshift(t);analytics.push(e);return analytics}};for(var t=0;t<analytics.methods.length;t++){var e=analytics.methods[t];analytics[e]=analytics.factory(e)}analytics.load=function(t,e){var n=document.createElement("script");n.type="text/javascript";n.async=!0;n.src="https://cdn.segment.com/analytics.js/v1/"+t+"/analytics.min.js";var a=document.getElementsByTagName("script")[0];a.parentNode.insertBefore(n,a);analytics._loadOptions=e};analytics.SNIPPET_VERSION="4.1.0";
+!function(){var analytics=window.analytics=window.analytics||[];if(!analytics.initialize)if(analytics.invoked)window.console&&console.error&&console.error("Segment snippet included twice.");else{analytics.invoked=!0;analytics.methods=["trackSubmit","trackClick","trackLink","trackForm","pageview","identify","reset","group","track","ready","alias","debug","page","once","off","on","addSourceMiddleware","addIntegrationMiddleware","setAnonymousId","addDestinationMiddleware"];analytics.factory=function(e){return function(){var t=Array.prototype.slice.call(arguments);t.unshift(e);analytics.push(t);return analytics}};for(var e=0;e<analytics.methods.length;e++){var key=analytics.methods[e];analytics[key]=analytics.factory(key)}analytics.load=function(key,e){var t=document.createElement("script");t.type="text/javascript";t.async=!0;t.src="https://cdn.segment.com/analytics.js/v1/" + key + "/analytics.min.js";var n=document.getElementsByTagName("script")[0];n.parentNode.insertBefore(t,n);analytics._loadOptions=e};analytics._writeKey="YOUR_WRITE_KEY";analytics.SNIPPET_VERSION="4.15.2";
 analytics.load("{{env.GOOGLE_ANALYTICS_KEY}}");
 analytics.page();
-}}()
+}}();
 </script>
 <!-- Google Tag Manager -->
 <script id="data-google-tag-manager" nonce="**CSP_NONCE**" data-nonce="**CSP_NONCE**">(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src='https://www.googletagmanager.com/gtm.js?id='+i+dl;var n=d.querySelector('[nonce]');n&&j.setAttribute('nonce',n.nonce||n.getAttribute('nonce'));f.parentNode.insertBefore(j,f);})(window,document,'script','dataLayer','GTM-NH8DNZL');</script>
@@ -15,7 +16,7 @@ analytics.page();
 <script src="https://www.mulesoft.com/onClicks/app.js" defer=""></script>
 
 <!-- Start VWO Async SmartCode -->
-<script nonce="**CSP_NONCE**" type='text/javascript'>
+<script nonce="**CSP_NONCE**">
 window._vwo_code = window._vwo_code || (function(){
 var account_id=582086,
 settings_tolerance=2000,
@@ -32,7 +33,7 @@ window.settings_timer=setTimeout(function () {_vwo_code.finish() },settings_tole
 
 {{!-- Coveo --}}
 <script type="module" src="https://static.cloud.coveo.com/atomic/v2.19/atomic.esm.js"></script>
-<script nonce="**CSP_NONCE**" type='text/javascript'>
+<script nonce="**CSP_NONCE**">
   (async () => {
     await customElements.whenDefined("atomic-search-interface");
     const searchInterface = document.querySelector("#search");
