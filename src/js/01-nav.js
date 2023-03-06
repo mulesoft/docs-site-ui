@@ -318,7 +318,6 @@
     }
 
     addNavList () {
-      console.log(this.groupData)
       this.navGroup.appendChild(this.createNavList(this.groupData.components[0].nav))
     }
 

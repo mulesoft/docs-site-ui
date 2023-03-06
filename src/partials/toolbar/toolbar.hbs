@@ -2,7 +2,7 @@
   {{#if (ne page.title 'Search Docs')}}
   <button aria-label="Docs Menu" class="button nav-toggle">Menu</button>
   {{/if}}
-  {{> breadcrumbs}}
+  {{> breadcrumbs mode='primary'}}
   <button class="breadcrumbs-toggle">
     <img class="" src="{{@root.uiRootPath}}/img/icons/arrow-down.svg" alt="">
   </button>
@@ -15,5 +15,5 @@
   {{/if}}
 </nav>
 <div class="secondary-breadcrumbs-drawer hide">
-{{> breadcrumbs}}
+{{> breadcrumbs mode='secondary'}}
 </div>
