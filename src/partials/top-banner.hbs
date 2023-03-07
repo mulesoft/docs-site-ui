@@ -1,5 +1,5 @@
 {{#if
-(or preview (or (eq (site-profile) "beta") (eq (site-profile) "archive")))
+(or preview (or (or (eq (site-profile) "beta") (eq (site-profile) "review")) (eq (site-profile) "archive")))
 }}
 <div class="top-banner flex">
   <div class="container wrapper">

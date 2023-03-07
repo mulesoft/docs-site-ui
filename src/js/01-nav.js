@@ -280,7 +280,7 @@
   }
 
   const isBetaSite = () => {
-    return isExternalBetaSite() || isInternalBetaSite()
+    return isExternalBetaSite() || isInternalBetaSite() || isReviewSite()
   }
 
   const isExternalBetaSite = () => {
@@ -297,6 +297,10 @@
 
   const isLocalBuild = () => {
     return window.location.href.startsWith('file://')
+  }
+
+  const isReviewSite = () => {
+    return window.location.host.includes('review')
   }
 
   const getNavData = () => {

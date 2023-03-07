@@ -3,3 +3,5 @@
 /public/
 .DS_Store
 .orig
+.idea
+package-lock.json
