@@ -75,6 +75,14 @@
       }
     }
 
+    getFocusableSearchBox () {
+      const atomicSearchbox = document.querySelector('atomic-search-box')
+      const searchboxShadowRoot = atomicSearchbox && atomicSearchbox.shadowRoot
+      if (searchboxShadowRoot) {
+        return searchboxShadowRoot.querySelector('input')
+      }
+    }
+
     getLeftNavSkipLink () {
       let output
       const skipLinks = document.querySelectorAll('.skip-link')
