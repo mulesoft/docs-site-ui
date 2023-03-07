@@ -10,9 +10,9 @@
     <div class="header-wrapper">
       <div class="header-inside"> <a href="https://www.mulesoft.com" class="logo" aria-label="Link to MuleSoft homepage" onclick="getGATracker().send('event', 'NAV', 'NavClick', 'MuleSoft logo');"></a>
         <div>
-          <nav role="navigation" aria-labelledby="block-mainnavigation" id="block-mainnavigation" class="block-mainnavigation">
-            <ul class="menu menu--simple-mega-menu">
-              <li class="menu-item"> <span target="_self" class="main-menu-product" data-simple-mega-menu="166">Products</span>
+          <nav role="navigation" aria-label="Main" id="block-mainnavigation" class="block-mainnavigation">
+            <ul class="menu menu--simple-mega-menu" role="menu">
+              <li class="menu-item" role="menuitem" aria-label="Products"> <span target="_self" class="main-menu-product" data-simple-mega-menu="166">Products</span>
                 <div class="mega-menu-wrapper">
                   <div class="mega-menu-background"></div>
                   <div class="simple-mega-menu mega-menu-item simple-mega-menu-type-megamenu view-mode-after">
@@ -66,7 +66,7 @@
                   </div>
                 </div>
               </li>
-              <li class="menu-item"> <span target="_self" class="main-menu-solutions" data-simple-mega-menu="171">Solutions</span>
+              <li class="menu-item" role="menuitem" aria-label="Solutions"> <span target="_self" class="main-menu-solutions" data-simple-mega-menu="171">Solutions</span>
                 <div class="mega-menu-wrapper">
                   <div class="mega-menu-background"></div>
                   <div class="simple-mega-menu mega-menu-item simple-mega-menu-type-megamenu view-mode-after">
@@ -117,7 +117,7 @@
                   </div>
                 </div>
               </li>
-              <li class="menu-item"> <span target="_self" class="main-menu-services" data-simple-mega-menu="176">Services</span>
+              <li class="menu-item" role="menuitem" aria-label="Services"> <span target="_self" class="main-menu-services" data-simple-mega-menu="176">Services</span>
                 <div class="mega-menu-wrapper">
                   <div class="mega-menu-background"></div>
                   <div class="simple-mega-menu mega-menu-item simple-mega-menu-type-megamenu view-mode-after">
@@ -162,7 +162,7 @@
                   </div>
                 </div>
               </li>
-              <li class="menu-item"> <span target="_self" class="main-menu-resources" data-simple-mega-menu="181">Resources</span>
+              <li class="menu-item" role="menuitem" aria-label="Resources"> <span target="_self" class="main-menu-resources" data-simple-mega-menu="181">Resources</span>
                 <div class="mega-menu-wrapper">
                   <div class="mega-menu-background"></div>
                   <div class="simple-mega-menu mega-menu-item simple-mega-menu-type-megamenu view-mode-after">
@@ -214,9 +214,9 @@
               </li>
             </ul>
           </nav>
-          <nav role="navigation" aria-labelledby="block-mainnavigationright" id="block-mainnavigationright" class="block-mainnavigationright">
-            <ul class="menu menu--simple-mega-menu">
-              <li class="menu-item"> <span target="_self" class="main-menu-developers" data-simple-mega-menu="31">Developers</span>
+          <nav role="navigation" aria-label="Main Navigation Right" id="block-mainnavigationright" class="block-mainnavigationright">
+            <ul class="menu menu--simple-mega-menu" role="menu">
+              <li class="menu-item" role="menuitem" aria-label="Developers"> <span target="_self" class="main-menu-developers" data-simple-mega-menu="31">Developers</span>
                 <div class="mega-menu-wrapper">
                   <div class="mega-menu-background"></div>
                   <div class="simple-mega-menu mega-menu-item simple-mega-menu-type-megamenu view-mode-after">
@@ -232,7 +232,7 @@
                   </div>
                 </div>
               </li>
-              <li class="menu-item"> <span target="_self" class="main-menu-partners" data-simple-mega-menu="26">Partners</span>
+              <li class="menu-item" role="menuitem" aria-label="Partners"> <span target="_self" class="main-menu-partners" data-simple-mega-menu="26">Partners</span>
                 <div class="mega-menu-wrapper">
                   <div class="mega-menu-background"></div>
                   <div class="simple-mega-menu mega-menu-item simple-mega-menu-type-megamenu view-mode-after">
@@ -253,9 +253,9 @@
         </div>
         <section class="right-side">
           <div class="contact"> <a href="https://www.mulesoft.com/contact" class="contact-link">Contact Us</a> <span>1-800-664-9073</span></div>
-          <form id="header-nav-search-form" role="searchbox" class="search-form" aria-label="searchbox form" method="get" action="https://www.mulesoft.com/search-results"> <span class="search-mag-icon"></span> <span class="input-wrapper input-desktop"> <input class="search-input" type="text" placeholder="Search" tabindex="-1" name="as_q" aria-label="Search box"><input type="hidden" name="form_build_id" value="form-4LAPLw9q2sU_cLVwy9tV4YtTlAM_rgk5EnaV6cFYuMI"><input type="hidden" name="form_token" value="XINnKYrXV14rxE_FrQ9oZGSQ7mDG5yoFlNyV1-mivZI"><input type="hidden" name="form_id" value="search_block_form"><input type="hidden" name="cx" value="009167469708926298605:hwtkd-ufwfq"><input type="hidden" name="cof" value="FORID:10"><input type="hidden" name="ie" value="UTF-8"><span class="search-close-icon" tabindex="-1" aria-label="close searchbox"></span> </span></form>
-          <ul class="menu menu--simple-mega-menu">
-            <li class="menu-item flyout-right lang-selector main-menu-language" role="menu" aria-label="Language"> <span class="globe-icon"></span>
+          <form id="header-nav-search-form" role="search" class="search-form" method="get" action="https://www.mulesoft.com/search-results"> <span class="search-mag-icon" role="button" aria-label="open searchbox"></span> <span class="input-wrapper input-desktop"> <input class="search-input" type="text" placeholder="Search" tabindex="-1" name="as_q" aria-label="Search box" role="searchbox"><input type="hidden" name="form_build_id" value="form-4LAPLw9q2sU_cLVwy9tV4YtTlAM_rgk5EnaV6cFYuMI"><input type="hidden" name="form_token" value="XINnKYrXV14rxE_FrQ9oZGSQ7mDG5yoFlNyV1-mivZI"><input type="hidden" name="form_id" value="search_block_form"><input type="hidden" name="cx" value="009167469708926298605:hwtkd-ufwfq"><input type="hidden" name="cof" value="FORID:10"><input type="hidden" name="ie" value="UTF-8"><span class="search-close-icon" tabindex="-1" role="button" aria-label="close searchbox"></span> </span></form>
+          <ul class="menu menu--simple-mega-menu" role="menu">
+            <li class="menu-item flyout-right lang-selector main-menu-language" role="menuitem" aria-label="Language" aria-expanded="false" aria-haspopup="true"> <span class="globe-icon"></span>
               <div class="mega-menu-wrapper">
                 <div class="mega-menu-background"></div>
                 <div class="simple-mega-menu mega-menu-item simple-mega-menu-type-megamenu view-mode-after">
@@ -263,7 +263,7 @@
                     <div class="field-items">
                       <div class="field-item">
                         <article class="mega-menu-item-header">
-                          <nav class="menu language-selector notranslate"><a href="/" class="english" role="menuitem" data-shortlan="en">English <span class="sub">(Full site)</span></a> <a href="/jp" class="japanese" role="menuitem" data-shortlan="ja">&#26085;&#26412;&#35486;</a> </nav>
+                          <nav class="menu language-selector notranslate" role="menu"><a href="/" class="english" role="menuitem" data-shortlan="en">English <span class="sub">(Full site)</span></a> <a href="/jp" class="japanese" role="menuitem" data-shortlan="ja">&#26085;&#26412;&#35486;</a> </nav>
                         </article>
                       </div>
                     </div>
@@ -271,7 +271,7 @@
                 </div>
               </div>
             </li>
-            <li class="menu-item flyout-right main-menu-login" role="menu"> <span class="login-icon">Login</span>
+            <li class="menu-item flyout-right main-menu-login" role="menuitem" aria-expanded="false" aria-haspopup="true"> <span class="login-icon">Login</span>
               <div class="mega-menu-wrapper">
                 <div class="mega-menu-background"></div>
                 <div class="simple-mega-menu mega-menu-item simple-mega-menu-type-megamenu view-mode-after">
@@ -279,7 +279,7 @@
                     <div class="field-items">
                       <div class="field-item">
                         <article class="mega-menu-item-header">
-                          <nav class="menu"><a href="https://anypoint.mulesoft.com/login/#/signin?apintent=generic" role="menuitem">Anypoint Platform <span class="external-link" aria-label="external link"></span></a> <a href="https://composer.mulesoft.com/login/sign-in" role="menuitem">Composer <span class="external-link" aria-label="external link"></span></a> <a class="nav-training-login" href="https://training.mulesoft.com/login" role="menuitem">Training <span class="external-link" aria-label="external link"></span></a> <a href="https://help.mulesoft.com/s/login/" role="menuitem">Help Center <span class="external-link" aria-label="external link"></span></a> </nav>
+                          <nav class="menu" role="menu"><a href="https://anypoint.mulesoft.com/login/#/signin?apintent=generic" role="menuitem">Anypoint Platform <span class="external-link" aria-label="external link"></span></a> <a href="https://composer.mulesoft.com/login/sign-in" role="menuitem">Composer <span class="external-link" aria-label="external link"></span></a> <a class="nav-training-login" href="https://training.mulesoft.com/login" role="menuitem">Training <span class="external-link" aria-label="external link"></span></a> <a href="https://help.mulesoft.com/s/login/" role="menuitem">Help Center <span class="external-link" aria-label="external link"></span></a> </nav>
                         </article>
                       </div>
                     </div>
@@ -287,7 +287,7 @@
                 </div>
               </div>
             </li>
-            <li class="no-children free-trial-btn"> <a href="https://anypoint.mulesoft.com/login/#/signup?apintent=generic" class="button blue-button" onclick="getGATracker().send('event', 'NAV', 'NavClick', 'Free trial CTA');">Free trial</a></li>
+            <li class="no-children free-trial-btn" role="menuitem"> <a href="https://anypoint.mulesoft.com/login/#/signup?apintent=generic" class="button blue-button" onclick="getGATracker().send('event', 'NAV', 'NavClick', 'Free trial CTA');">Free trial</a></li>
           </ul>
         </section>
       </div>
@@ -300,12 +300,12 @@
       </section>
     </section>
     <section class="mobile-header-bottom">
-      <form id="header-nav-search-form-mobile" class="search-form" method="get" action="https://www.mulesoft.com/search-results"> <span class="search-mag-icon"></span> <span class="input-wrapper"> <input type="text" placeholder="Search" name="as_q"><input type="hidden" name="form_build_id" value="form-4LAPLw9q2sU_cLVwy9tV4YtTlAM_rgk5EnaV6cFYuMI"><input type="hidden" name="form_token" value="XINnKYrXV14rxE_FrQ9oZGSQ7mDG5yoFlNyV1-mivZI"><input type="hidden" name="form_id" value="search_block_form"><input type="hidden" name="cx" value="009167469708926298605:hwtkd-ufwfq"><input type="hidden" name="cof" value="FORID:10"><input type="hidden" name="ie" value="UTF-8"><span class="search-close-icon search-clear-button"></span> </span></form>
+      <form id="header-nav-search-form-mobile" class="search-form" role="search" method="get" action="https://www.mulesoft.com/search-results"> <span class="search-mag-icon"></span> <span class="input-wrapper"> <input type="text" placeholder="Search" name="as_q" role="searchbox"><input type="hidden" name="form_build_id" value="form-4LAPLw9q2sU_cLVwy9tV4YtTlAM_rgk5EnaV6cFYuMI"><input type="hidden" name="form_token" value="XINnKYrXV14rxE_FrQ9oZGSQ7mDG5yoFlNyV1-mivZI"><input type="hidden" name="form_id" value="search_block_form"><input type="hidden" name="cx" value="009167469708926298605:hwtkd-ufwfq"><input type="hidden" name="cof" value="FORID:10"><input type="hidden" name="ie" value="UTF-8"><span class="search-close-icon search-clear-button"></span> </span></form>
       <nav class="mobile-nav">
         <div>
-          <nav role="navigation" aria-labelledby="block-mainnavigation" id="block-mainnavigation" class="block-mainnavigation">
-            <ul class="menu menu--simple-mega-menu">
-              <li class="menu-item"> <span target="_self" class="main-menu-product" data-simple-mega-menu="166">Products</span>
+          <nav role="navigation" aria-label="Main" id="block-mainnavigation" class="block-mainnavigation">
+            <ul class="menu menu--simple-mega-menu" role="menu">
+              <li class="menu-item" role="menuitem" aria-label="Products"> <span target="_self" class="main-menu-product" data-simple-mega-menu="166">Products</span>
                 <div class="mega-menu-wrapper">
                   <div class="mega-menu-background"></div>
                   <div class="simple-mega-menu mega-menu-item simple-mega-menu-type-megamenu view-mode-after">
@@ -359,7 +359,7 @@
                   </div>
                 </div>
               </li>
-              <li class="menu-item"> <span target="_self" class="main-menu-solutions" data-simple-mega-menu="171">Solutions</span>
+              <li class="menu-item" role="menuitem" aria-label="Solutions"> <span target="_self" class="main-menu-solutions" data-simple-mega-menu="171">Solutions</span>
                 <div class="mega-menu-wrapper">
                   <div class="mega-menu-background"></div>
                   <div class="simple-mega-menu mega-menu-item simple-mega-menu-type-megamenu view-mode-after">
@@ -410,7 +410,7 @@
                   </div>
                 </div>
               </li>
-              <li class="menu-item"> <span target="_self" class="main-menu-services" data-simple-mega-menu="176">Services</span>
+              <li class="menu-item" role="menuitem" aria-label="Services"> <span target="_self" class="main-menu-services" data-simple-mega-menu="176">Services</span>
                 <div class="mega-menu-wrapper">
                   <div class="mega-menu-background"></div>
                   <div class="simple-mega-menu mega-menu-item simple-mega-menu-type-megamenu view-mode-after">
@@ -455,7 +455,7 @@
                   </div>
                 </div>
               </li>
-              <li class="menu-item"> <span target="_self" class="main-menu-resources" data-simple-mega-menu="181">Resources</span>
+              <li class="menu-item" role="menuitem" aria-label="Resources"> <span target="_self" class="main-menu-resources" data-simple-mega-menu="181">Resources</span>
                 <div class="mega-menu-wrapper">
                   <div class="mega-menu-background"></div>
                   <div class="simple-mega-menu mega-menu-item simple-mega-menu-type-megamenu view-mode-after">
@@ -507,9 +507,9 @@
               </li>
             </ul>
           </nav>
-          <nav role="navigation" aria-labelledby="block-mainnavigationright" id="block-mainnavigationright" class="block-mainnavigationright">
-            <ul class="menu menu--simple-mega-menu">
-              <li class="menu-item"> <span target="_self" class="main-menu-developers" data-simple-mega-menu="31">Developers</span>
+          <nav role="navigation" aria-label="Main Navigation Right" id="block-mainnavigationright" class="block-mainnavigationright">
+            <ul class="menu menu--simple-mega-menu" role="menu">
+              <li class="menu-item" role="menuitem" aria-label="Developers"> <span target="_self" class="main-menu-developers" data-simple-mega-menu="31">Developers</span>
                 <div class="mega-menu-wrapper">
                   <div class="mega-menu-background"></div>
                   <div class="simple-mega-menu mega-menu-item simple-mega-menu-type-megamenu view-mode-after">
@@ -525,7 +525,7 @@
                   </div>
                 </div>
               </li>
-              <li class="menu-item"> <span target="_self" class="main-menu-partners" data-simple-mega-menu="26">Partners</span>
+              <li class="menu-item" role="menuitem" aria-label="Partners"> <span target="_self" class="main-menu-partners" data-simple-mega-menu="26">Partners</span>
                 <div class="mega-menu-wrapper">
                   <div class="mega-menu-background"></div>
                   <div class="simple-mega-menu mega-menu-item simple-mega-menu-type-megamenu view-mode-after">
@@ -545,8 +545,8 @@
           </nav>
         </div>
         <nav class="mobile-lang-selector notranslate">
-          <ul class="menu">
-            <li class="menu-item main-menu-language"> <span class="mobile-login">Language</span>
+          <ul class="menu" role="menu">
+            <li class="menu-item main-menu-language" role="menuitem" aria-expanded="false" aria-haspopup="true"> <span class="mobile-login">Language</span>
               <div class="mega-menu-wrapper">
                 <div class="mega-menu-background"></div>
                 <div class="simple-mega-menu mega-menu-item simple-mega-menu-type-megamenu view-mode-after">
@@ -554,7 +554,7 @@
                     <div class="field-items">
                       <div class="field-item">
                         <article class="mega-menu-item-header">
-                          <nav class="menu language-selector-mobile"><a href="/" class="english" onclick="getGATracker().send('event', 'NAV', 'NavClick', 'Lang selector - English');" data-shortlan="en">English <span class="sub">(Full site)</span></a> <a href="/jp" class="japanese" onclick="getGATracker().send('event', 'NAV', 'NavClick', 'Lang selector - JP');" data-shortlan="ja">&#26085;&#26412;&#35486;</a> </nav>
+                          <nav class="menu language-selector-mobile" role="menu"><a href="/" class="english" onclick="getGATracker().send('event', 'NAV', 'NavClick', 'Lang selector - English');" data-shortlan="en" role="menuitem">English <span class="sub">(Full site)</span></a> <a href="/jp" class="japanese" onclick="getGATracker().send('event', 'NAV', 'NavClick', 'Lang selector - JP');" data-shortlan="ja" role="menuitem">&#26085;&#26412;&#35486;</a> </nav>
                         </article>
                       </div>
                     </div>
@@ -562,7 +562,7 @@
                 </div>
               </div>
             </li>
-            <li class="menu-item"> <span class="mobile-contact">Contact</span>
+            <li class="menu-item" role="menu" aria-expanded="false" aria-haspopup="true"> <span class="mobile-contact">Contact</span>
               <div class="mega-menu-wrapper">
                 <div class="mega-menu-background"></div>
                 <div class="simple-mega-menu mega-menu-item simple-mega-menu-type-megamenu view-mode-after">
@@ -584,8 +584,8 @@
           </ul>
         </nav>
         <nav>
-          <ul class="menu main-menu-login">
-            <li class="menu-item"> <span class="mobile-login">Login</span>
+          <ul class="menu main-menu-login" role="mennu">
+            <li class="menu-item" role="menuitem" aria-expanded="false" aria-haspopup="true"> <span class="mobile-login">Login</span>
               <div class="mega-menu-wrapper">
                 <div class="mega-menu-background"></div>
                 <div class="simple-mega-menu mega-menu-item simple-mega-menu-type-megamenu view-mode-after">
@@ -593,7 +593,7 @@
                     <div class="field-items">
                       <div class="field-item">
                         <article class="mega-menu-item-header">
-                          <nav class="menu"><a href="https://anypoint.mulesoft.com/login/#/signin?apintent=generic" onclick="getGATracker().send('event', 'NAV', 'NavClick', 'Login - Anypoint Platform ');">Anypoint Platform <span class="external-link" aria-label="external link"></span></a> <a href="https://composer.mulesoft.com/login/sign-in" onclick="getGATracker().send('event', 'NAV', 'NavClick', 'Login - Composer ');">Composer <span class="external-link" aria-label="external link"></span></a> <a href="https://training.mulesoft.com/login" onclick="getGATracker().send('event', 'NAV', 'NavClick', 'Login - Training ');">Training <span class="external-link" aria-label="external link"></span></a> <a href="https://help.mulesoft.com/s/login/" onclick="getGATracker().send('event', 'NAV', 'NavClick', 'Login - Help center ');">Help Center <span class="external-link" aria-label="external link"></span></a> </nav>
+                          <nav class="menu" role="menu"><a href="https://anypoint.mulesoft.com/login/#/signin?apintent=generic" onclick="getGATracker().send('event', 'NAV', 'NavClick', 'Login - Anypoint Platform ');" role="menuitem">Anypoint Platform <span class="external-link" aria-label="external link"></span></a> <a href="https://composer.mulesoft.com/login/sign-in" onclick="getGATracker().send('event', 'NAV', 'NavClick', 'Login - Composer ');" role="menuitem">Composer <span class="external-link" aria-label="external link"></span></a> <a href="https://training.mulesoft.com/login" onclick="getGATracker().send('event', 'NAV', 'NavClick', 'Login - Training ');" role="menuitem">Training <span class="external-link" aria-label="external link"></span></a> <a href="https://help.mulesoft.com/s/login/" onclick="getGATracker().send('event', 'NAV', 'NavClick', 'Login - Help center ');" role="menuitem">Help Center <span class="external-link" aria-label="external link"></span></a> </nav>
                         </article>
                       </div>
                     </div>
