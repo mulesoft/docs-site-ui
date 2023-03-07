@@ -154,24 +154,6 @@ use ${osMap[this.clientOS].secondaryKeyLabelLong} + ${shortcutKeyMap.keyLabel}`
     }
 
     // addSearchboxInputEventListeners () {
-    //   this.searchboxInput.addEventListener('input', (e) => {
-    //     this.toggleSubmitButtonDisabled(e)
-    //   })
-    //   this.searchboxInput.addEventListener('blur', (e) => {
-    //     this.toggleSubmitButtonDisabled(e)
-    //   })
-    //   this.atomicSearchbox.addEventListener('focus', (e) => {
-    //     setTimeout(() => {
-    //       const suggestions = this.searchboxShadowRoot.querySelectorAll('button[part~="suggestion"]')
-    //       suggestions.forEach((suggestionButton) => {
-    //         suggestionButton.addEventListener('click', (e) => {
-    //           this.toggleSubmitButtonDisabled(e, false)
-    //         })
-    //       })
-    //     }, 500)
-    //     e.preventDefault()
-    //   })
-
     // const focusableElements = this.searchboxDiv.querySelectorAll('a, button, input')
     // focusableElements.forEach((focusableElement) => {
     //   focusableElement.addEventListener('blur', (e) => {
@@ -216,10 +198,7 @@ use ${osMap[this.clientOS].secondaryKeyLabelLong} + ${shortcutKeyMap.keyLabel}`
 
     updateSubmitButton () {
       if (this.searchboxSubmitButton) {
-        // this.toggleSubmitButtonDisabled()
         this.searchboxSubmitButton.setAttribute('aria-label', 'Search Docs')
-        const parentElement = this.searchboxSubmitButton.parentElement
-        parentElement.insertBefore(this.searchboxSubmitButton, parentElement.firstChild)
       }
     }
   }
