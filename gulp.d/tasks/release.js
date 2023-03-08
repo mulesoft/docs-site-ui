@@ -27,7 +27,7 @@ class GitHub {
     this.releaseMessage = `Release ${this.tagName}`
 
     this.lastPRLink = await this.getLastPRLink()
-    this.latestRelease = await this.getFirstReleaseThatStartsWith('latest')
+    this.latestRelease = await this.getLastReleaseThatStartsWith('latest')
   }
 
   async branchAlreadyExists ({ repo, branchName }) {
@@ -186,7 +186,7 @@ class GitHub {
     return Number(release.name.slice(this.variant.length + 1))
   }
 
-  async getFirstReleaseThatStartsWith (prefix) {
+  async getLastReleaseThatStartsWith (prefix) {
     let release
     let page = 1
     do {
@@ -203,7 +203,7 @@ class GitHub {
   }
 
   async getLastProdRelease () {
-    return await this.getFirstReleaseThatStartsWith('prod-')
+    return await this.getLastReleaseThatStartsWith('prod-')
   }
 
   async getLastPRLink () {
