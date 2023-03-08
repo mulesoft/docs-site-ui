@@ -23,10 +23,10 @@
     track (msg, e) {
       try {
         analytics &&
-        analytics.track(msg, {
-          title: document.title,
-          url: window.location.href,
-        })
+          analytics.track(msg, {
+            title: document.title,
+            url: window.location.href,
+          })
         this.flipCard()
       } catch (error) {
         console.warn(error)
