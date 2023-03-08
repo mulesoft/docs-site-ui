@@ -5,8 +5,10 @@
     constructor () {
       this.analytics = window.analytics
       this.feedbackCard = document.querySelector('section.feedback-section')
-      this.feedbackYesButton = this.feedbackCard.querySelector('button.feedback-yes')
-      this.feedbackNoButton = this.feedbackCard.querySelector('button.feedback-no')
+      if (this.feedbackCard) {
+        this.feedbackYesButton = this.feedbackCard.querySelector('button.feedback-yes')
+        this.feedbackNoButton = this.feedbackCard.querySelector('button.feedback-no')
+      }
     }
 
     addListeners () {
