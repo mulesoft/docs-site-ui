@@ -21,16 +21,13 @@ class GitHub {
   async setUp () {
     this.branchName = await this.setBranchName()
     this.variant = this.branchName === 'master' ? 'prod' : this.branchName
-    this.prefix = `${this.variant}-`
     this.ref = `heads/${this.branchName}`
 
-    this.currentReleaseNumber = await this.getCurrentReleaseNumber()
-    this.nextReleaseNumber = this.currentReleaseNumber + 1
-
-    this.tagName = `${this.variant}-${this.nextReleaseNumber}`
+    this.tagName = `${this.variant}-${await this.getCurrentReleaseNumber() + 1}`
     this.releaseMessage = `Release ${this.tagName}`
 
-    this.latestPRLink = await this.getLatestPRLink()
+    this.lastPRLink = await this.getLastPRLink()
+    this.latestRelease = await this.getFirstReleaseThatStartsWith('latest')
   }
 
   async branchAlreadyExists ({ repo, branchName }) {
@@ -129,18 +126,17 @@ class GitHub {
       })
     }
 
-    const uploadUrl = await this.octokit.repos
+    this.release = await this.octokit.repos
       .createRelease({
         owner: this.owner,
         repo: this.repo,
         tag_name: this.tagName,
         target_commitish: commit,
         name: this.tagName,
-      })
-      .then((result) => result.data.upload_url)
+      }).then((result) => result.data)
 
     await this.octokit.repos.uploadReleaseAsset({
-      url: uploadUrl,
+      url: this.release.upload_url,
       data: fs.createReadStream(this.bundleFile),
       name: this.bundleFileBasename,
       headers: {
@@ -159,17 +155,39 @@ class GitHub {
       title: this.tagName,
       head: this.tagName,
       base: ref,
-      body: `ref: ${this.latestPRLink}`,
+      body: `ref: ${this.lastPRLink}`,
     })
   }
 
-  async getCurrentReleaseNumber () {
-    const release = await this.getLatestProdRelease()
-    return Number(release.name.slice(this.prefix.length))
+  async deleteUIBundleZipFileIfExist () {
+    const uiBundleAsset = await this.getAsset(this.latestRelease, 'ui-bundle.zip')
+
+    if (uiBundleAsset) {
+      await this.octokit.rest.repos.deleteReleaseAsset({
+        owner: this.owner,
+        repo: this.repo,
+        asset_id: uiBundleAsset.id,
+      })
+    }
   }
 
-  async getLatestProdRelease () {
-    let latestRelease
+  async getAsset (release, fileName) {
+    const { data: assets } = await this.octokit.rest.repos.listReleaseAssets({
+      owner: this.owner,
+      repo: this.repo,
+      release_id: release.id,
+    })
+
+    return assets.find((asset) => asset.name === fileName)
+  }
+
+  async getCurrentReleaseNumber () {
+    const release = await this.getLastProdRelease()
+    return Number(release.name.slice(this.variant.length + 1))
+  }
+
+  async getFirstReleaseThatStartsWith (prefix) {
+    let release
     let page = 1
     do {
       const { data: releases } = await this.octokit.rest.repos.listReleases({
@@ -178,13 +196,17 @@ class GitHub {
         per_page: 100,
         page,
       })
-      latestRelease = releases.find((release) => release.name.startsWith('prod-'))
+      release = releases.find((release) => release.name.startsWith(prefix))
       page++
-    } while (!latestRelease && page <= 10) // Limit to 1000 releases
-    return latestRelease
+    } while (!release && page <= 10) // Limit to 1000 releases
+    return release
   }
 
-  async getLatestPRLink () {
+  async getLastProdRelease () {
+    return await this.getFirstReleaseThatStartsWith('prod-')
+  }
+
+  async getLastPRLink () {
     const { data: pulls } = await this.octokit.rest.pulls.list({
       owner: this.owner,
       repo: this.repo,
@@ -236,6 +258,19 @@ class GitHub {
     })
   }
 
+  async updateLatestRelease () {
+    await this.deleteUIBundleZipFileIfExist()
+    await this.octokit.repos.uploadReleaseAsset({
+      url: this.latestRelease.upload_url,
+      data: fs.createReadStream(this.bundleFile),
+      name: this.bundleFileBasename,
+      headers: {
+        'content-length': (await fs.stat(this.bundleFile)).size,
+        'content-type': 'application/zip',
+      },
+    })
+  }
+
   async updateUIBundleVer (content) {
     let contentStr = Buffer.from(content, 'base64').toString('utf8')
     contentStr = contentStr.replace(/\/prod-.+?\//, `/${this.tagName}/`)
@@ -272,6 +307,9 @@ module.exports = (dest, bundleName, owner, repo, token, updateBranch) => async (
   const gitHub = new GitHub({ dest, bundleName, owner, repo, token, updateBranch })
   await gitHub.setUp()
   await gitHub.createNextRelease()
+  if (gitHub.variant === 'prod') {
+    await gitHub.updateLatestRelease()
+  }
   // if (gitHub.variant === 'prod') {
   //   await gitHub.createPR({
   //     repo: 'docs-site-playbook',
