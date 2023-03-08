@@ -20,13 +20,11 @@ class GitHub {
 
   async setUp () {
     this.branchName = await this.setBranchName()
-    this.variant = this.branchName === 'master' ? 'prod' : this.branchName
     this.ref = `heads/${this.branchName}`
 
+    this.variant = this.branchName === 'master' ? 'prod' : this.branchName
     this.tagName = `${this.variant}-${await this.getCurrentReleaseNumber() + 1}`
-    this.releaseMessage = `Release ${this.tagName}`
 
-    this.lastPRLink = await this.getLastPRLink()
     this.latestRelease = await this.getLastReleaseThatStartsWith('latest')
   }
 
@@ -111,7 +109,7 @@ class GitHub {
       .createCommit({
         owner: this.owner,
         repo: this.repo,
-        message: this.releaseMessage,
+        message: `Release ${this.tagName}`,
         tree,
         parents: [commit],
       })
@@ -155,7 +153,7 @@ class GitHub {
       title: this.tagName,
       head: this.tagName,
       base: ref,
-      body: `ref: ${this.lastPRLink}`,
+      body: `ref: ${await this.getLastPRLink()}`,
     })
   }
 
