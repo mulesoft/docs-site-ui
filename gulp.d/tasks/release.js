@@ -23,7 +23,7 @@ class GitHub {
     this.ref = `heads/${this.branchName}`
 
     this.variant = this.branchName === 'master' ? 'prod' : this.branchName
-    this.tagName = `${this.variant}-${await this.getCurrentReleaseNumber() + 1}`
+    this.tagName = `${this.variant}-${(await this.getCurrentReleaseNumber()) + 1}`
 
     this.latestRelease = await this.getLastReleaseThatStartsWith('latest')
   }
@@ -131,7 +131,8 @@ class GitHub {
         tag_name: this.tagName,
         target_commitish: commit,
         name: this.tagName,
-      }).then((result) => result.data)
+      })
+      .then((result) => result.data)
 
     await this.octokit.repos.uploadReleaseAsset({
       url: this.release.upload_url,

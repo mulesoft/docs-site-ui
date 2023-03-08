@@ -27,7 +27,7 @@
   --atomic-border-radius-xl: 1rem;
 
   /* Font */
-  --atomic-font-family: 'Open Sans', sans-serif;
+  --atomic-font-family: var(--sans-serif);
   --atomic-font-normal: var(--weight-normal);
   --atomic-font-bold: var(--weight-bold);
 
@@ -168,7 +168,7 @@ atomic-sort-dropdown {
 
 .search-page-back-button {
   margin-bottom: 10px;
-  width: 195px;
+  width: 200px;
 
   & img {
     margin-bottom: -2px !important;
