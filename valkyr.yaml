@@ -1,0 +1,13 @@
+product: dev-docs
+component: site-ui
+strategy: docker
+dockerArgs:
+  secret:
+    GH_TOKEN: $GH_TOKEN
+    GPG_PRIVATE_KEY: $GPG_PRIVATE_KEY
+  requires:
+    credentials:
+      - id: GPG_PRIVATE_KEY
+        value: "GPG_PRIVATE_KEY"
+      - id: GH_TOKEN
+        value: "GH_TOKEN"
