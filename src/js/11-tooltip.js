@@ -41,7 +41,7 @@
   const setIconAttributes = (icon, color) => {
     icon.classList.add('tooltip')
     icon.setAttribute('alt', 'Archived Documentation information')
-    icon.setAttribute('role', 'tool-tip')
+    icon.setAttribute('role', 'button')
     icon.setAttribute('tabindex', '0')
     setSrcSVGPath(icon, color)
     applyTippy(icon, color)
