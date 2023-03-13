@@ -7,15 +7,17 @@ const { Octokit } = require('@octokit/rest')
 const path = require('path')
 const vfs = require('vinyl-fs')
 const zip = require('gulp-vinyl-zip')
+const { createSignature } = require('github-api-signature')
 
 class GitHub {
-  constructor ({ dest, bundleName, owner, repo, token, signingKey, updateBranch }) {
+  constructor ({ dest, bundleName, owner, repo, token, secretKey, passphrase, updateBranch }) {
     this.dest = dest
     this.bundleFileBasename = `${bundleName}-bundle.zip`
     this.owner = owner
     this.repo = repo
     this.octokit = new Octokit({ auth: `token ${token}` })
-    this.signingKey = signingKey
+    this.secretKey = secretKey
+    this.passphrase = passphrase
     this.updateBranch = updateBranch
   }
 
@@ -247,7 +249,6 @@ class GitHub {
       ref: `heads/${ref}`,
     })
 
-    // Get the tree SHA for the latest commit
     const { data: { sha: latestTreeSha } } = await this.octokit.git.getCommit({
       owner: this.owner,
       repo,
@@ -274,19 +275,12 @@ class GitHub {
       ],
     })
 
-    const t = await this.octokit.git.createCommit({
-      owner: this.owner,
-      repo,
+    const commitPayload = {
       message: this.tagName,
       tree: newTreeSha,
       parents: [latestCommitSha],
       author: {
-        name: 'gcheung',
-        email: 'gcheung@mulesoft.com',
-        date: new Date().toISOString(),
-      },
-      committer: {
-        name: 'gcheung',
+        name: 'cheungaryk',
         email: 'gcheung@mulesoft.com',
         date: new Date().toISOString(),
       },
@@ -295,16 +289,13 @@ class GitHub {
       //   email: 'mulesoft-es-automation@mulesoft.com',
       //   date: new Date().toISOString(),
       // },
-      // committer: {
-      //   name: 'mulesoft-es-automation',
-      //   email: 'mulesoft-es-automation@mulesoft.com',
-      //   date: new Date().toISOString(),
-      // },
-      signature: this.signingKey,
-    })
+    }
 
-    console.log(t)
-    console.log(this.signingKey)
+    const signature = await createSignature(commitPayload, this.secretKey, this.passphrase)
+
+    const t = await this.octokit.git.createCommit(
+      Object.assign({}, { owner: this.owner, repo, signature }, commitPayload)
+    )
 
     await this.octokit.git.updateRef({
       owner: this.owner,
@@ -312,22 +303,6 @@ class GitHub {
       ref: `heads/${this.tagName}`,
       sha: t.data.sha,
     })
-
-    // // Update the file in the repository
-    // await this.octokit.repos.createOrUpdateFileContents({
-    //   owner: this.owner,
-    //   repo,
-    //   path: filePath,
-    //   message: this.tagName,
-    //   content: newContent,
-    //   sha,
-    //   branch: this.tagName,
-    //   // hardcoding these required fields for now
-    //   'committer.name': 'mulesoft-es-automation',
-    //   'committer.email': 'mulesoft-es-automation@mulesoft.com',
-    //   'author.name': 'mulesoft-es-automation',
-    //   'author.email': 'mulesoft-es-automation@mulesoft.com',
-    // })
   }
 
   async updateLatestRelease () {
@@ -344,9 +319,8 @@ class GitHub {
   }
 
   async updateUIBundleVer (content) {
-    let contentStr = Buffer.from(content, 'base64').toString('utf8')
-    contentStr = contentStr.replace(/\/prod-.+?\//, `/${this.tagName}/`)
-    return Buffer.from(contentStr).toString('base64')
+    const contentStr = Buffer.from(content, 'base64').toString('utf8')
+    return contentStr.replace(/\/prod-.+?\//, `/${this.tagName}/`)
   }
 
   async versionBundle () {
@@ -375,8 +349,8 @@ class GitHub {
   }
 }
 
-module.exports = (dest, bundleName, owner, repo, token, signingKey, updateBranch) => async () => {
-  const gitHub = new GitHub({ dest, bundleName, owner, repo, token, signingKey, updateBranch })
+module.exports = (dest, bundleName, owner, repo, token, secretKey, passphrase, updateBranch) => async () => {
+  const gitHub = new GitHub({ dest, bundleName, owner, repo, token, secretKey, passphrase, updateBranch })
   await gitHub.setUp()
   // await gitHub.createNextRelease()
   // await gitHub.createPR({
