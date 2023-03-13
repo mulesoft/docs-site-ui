@@ -243,25 +243,35 @@ class GitHub {
 
     const newContent = await this.updateUIBundleVer(content)
 
-    const { data: { object: { sha: latestCommitSha } } } = await this.octokit.git.getRef({
+    const {
+      data: {
+        object: { sha: latestCommitSha },
+      },
+    } = await this.octokit.git.getRef({
       owner: this.owner,
       repo,
       ref: `heads/${ref}`,
     })
 
-    const { data: { sha: latestTreeSha } } = await this.octokit.git.getCommit({
+    const {
+      data: { sha: latestTreeSha },
+    } = await this.octokit.git.getCommit({
       owner: this.owner,
       repo,
       commit_sha: latestCommitSha,
     })
 
-    const { data: { sha: newBlobSha } } = await this.octokit.git.createBlob({
+    const {
+      data: { sha: newBlobSha },
+    } = await this.octokit.git.createBlob({
       owner: this.owner,
       repo,
       content: newContent,
     })
 
-    const { data: { sha: newTreeSha } } = await this.octokit.git.createTree({
+    const {
+      data: { sha: newTreeSha },
+    } = await this.octokit.git.createTree({
       owner: this.owner,
       repo,
       base_tree: latestTreeSha,
