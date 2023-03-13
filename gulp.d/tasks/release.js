@@ -9,12 +9,13 @@ const vfs = require('vinyl-fs')
 const zip = require('gulp-vinyl-zip')
 
 class GitHub {
-  constructor ({ dest, bundleName, owner, repo, token, updateBranch }) {
+  constructor ({ dest, bundleName, owner, repo, token, signingKey, updateBranch }) {
     this.dest = dest
     this.bundleFileBasename = `${bundleName}-bundle.zip`
     this.owner = owner
     this.repo = repo
     this.octokit = new Octokit({ auth: `token ${token}` })
+    this.signingKey = signingKey
     this.updateBranch = updateBranch
   }
 
@@ -230,7 +231,7 @@ class GitHub {
   async updateContent ({ repo, ref, filePath }) {
     // Get the current contents of the file
     const {
-      data: { content, sha },
+      data: { content },
     } = await this.octokit.repos.getContent({
       owner: this.owner,
       repo,
@@ -240,21 +241,93 @@ class GitHub {
 
     const newContent = await this.updateUIBundleVer(content)
 
-    // Update the file in the repository
-    await this.octokit.repos.createOrUpdateFileContents({
+    const { data: { object: { sha: latestCommitSha } } } = await this.octokit.git.getRef({
       owner: this.owner,
       repo,
-      path: filePath,
-      message: this.tagName,
-      content: newContent,
-      sha,
-      branch: this.tagName,
-      // hardcoding these required fields for now
-      'committer.name': 'mulesoft-es-automation',
-      'committer.email': 'mulesoft-es-automation@mulesoft.com',
-      'author.name': 'mulesoft-es-automation',
-      'author.email': 'mulesoft-es-automation@mulesoft.com',
+      ref: `heads/${ref}`,
     })
+
+    // Get the tree SHA for the latest commit
+    const { data: { sha: latestTreeSha } } = await this.octokit.git.getCommit({
+      owner: this.owner,
+      repo,
+      commit_sha: latestCommitSha,
+    })
+
+    const { data: { sha: newBlobSha } } = await this.octokit.git.createBlob({
+      owner: this.owner,
+      repo,
+      content: newContent,
+    })
+
+    const { data: { sha: newTreeSha } } = await this.octokit.git.createTree({
+      owner: this.owner,
+      repo,
+      base_tree: latestTreeSha,
+      tree: [
+        {
+          path: filePath,
+          mode: '100644',
+          type: 'blob',
+          sha: newBlobSha,
+        },
+      ],
+    })
+
+    const t = await this.octokit.git.createCommit({
+      owner: this.owner,
+      repo,
+      message: this.tagName,
+      tree: newTreeSha,
+      parents: [latestCommitSha],
+      author: {
+        name: 'gcheung',
+        email: 'gcheung@mulesoft.com',
+        date: new Date().toISOString(),
+      },
+      committer: {
+        name: 'gcheung',
+        email: 'gcheung@mulesoft.com',
+        date: new Date().toISOString(),
+      },
+      // author: {
+      //   name: 'mulesoft-es-automation',
+      //   email: 'mulesoft-es-automation@mulesoft.com',
+      //   date: new Date().toISOString(),
+      // },
+      // committer: {
+      //   name: 'mulesoft-es-automation',
+      //   email: 'mulesoft-es-automation@mulesoft.com',
+      //   date: new Date().toISOString(),
+      // },
+      signature: this.signingKey,
+    })
+
+    console.log(t)
+    console.log(this.signingKey)
+
+    await this.octokit.git.updateRef({
+      owner: this.owner,
+      repo,
+      ref: `heads/${this.tagName}`,
+      sha: t.data.sha,
+    })
+
+    // // Update the file in the repository
+    // await this.octokit.repos.createOrUpdateFileContents({
+    //   owner: this.owner,
+    //   repo,
+    //   path: filePath,
+    //   message: this.tagName,
+    //   content: newContent,
+    //   sha,
+    //   branch: this.tagName,
+    //   // hardcoding these required fields for now
+    //   'committer.name': 'mulesoft-es-automation',
+    //   'committer.email': 'mulesoft-es-automation@mulesoft.com',
+    //   'author.name': 'mulesoft-es-automation',
+    //   'author.email': 'mulesoft-es-automation@mulesoft.com',
+    // })
   }
 
   async updateLatestRelease () {
@@ -302,17 +375,22 @@ class GitHub {
   }
 }
 
-module.exports = (dest, bundleName, owner, repo, token, updateBranch) => async () => {
-  const gitHub = new GitHub({ dest, bundleName, owner, repo, token, updateBranch })
+module.exports = (dest, bundleName, owner, repo, token, signingKey, updateBranch) => async () => {
+  const gitHub = new GitHub({ dest, bundleName, owner, repo, token, signingKey, updateBranch })
   await gitHub.setUp()
-  await gitHub.createNextRelease()
+  // await gitHub.createNextRelease()
+  // await gitHub.createPR({
+  //   repo: 'docs-site-playbook',
+  //   ref: 'master',
+  //   filePath: 'antora-playbook.yml',
+  // })
   if (gitHub.variant === 'prod') {
-    await gitHub.updateLatestRelease()
-    await gitHub.createPR({
-      repo: 'docs-site-playbook',
-      ref: 'master',
-      filePath: 'antora-playbook.yml',
-    })
+    // await gitHub.updateLatestRelease()
+    // await gitHub.createPR({
+    //   repo: 'docs-site-playbook',
+    //   ref: 'master',
+    //   filePath: 'antora-playbook.yml',
+    // })
     // TODO: add more createPR for other branches, like archive and jp
   }
 }
