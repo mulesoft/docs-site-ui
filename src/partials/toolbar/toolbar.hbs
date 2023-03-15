@@ -6,12 +6,10 @@
   <button class="breadcrumbs-toggle">
     <img class="" src="{{@root.uiRootPath}}/img/icons/arrow-down.svg" alt="">
   </button>
-  {{#if (ne page.title 'Search Docs')}}
-    {{#if (and env.COVEO_API_KEY (and (ne (site-profile) 'archive') (ne (site-profile) 'jp')))}}
+  {{#if (and env.COVEO_API_KEY (ne page.title 'Search Docs') (not (is-one-of (site-profile) 'archive' 'jp')))}}
     <button aria-label="Search Docs" class="button toolbar-search-button">
       <img class="toolbar-search-button-icon" src="{{@root.uiRootPath}}/img/icons/search.svg" alt="Search Docs">
     </button>
-    {{/if}}
   {{/if}}
 </nav>
 <div class="secondary-breadcrumbs-drawer hide">

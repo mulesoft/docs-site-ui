@@ -1,5 +1,5 @@
 {{#if
-(or preview (or (or (eq (site-profile) "beta") (or page.componentVersion.asciidoc.attributes.announcementMessage (eq (site-profile) "review"))) (eq (site-profile) "archive")))
+(or preview (is-one-of (site-profile) 'archive' 'beta' 'review' ) page.componentVersion.asciidoc.attributes.announcementMessage)
 }}
 <div class="top-banner flex">
   <div class="container wrapper">
