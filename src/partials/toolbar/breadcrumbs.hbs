@@ -21,15 +21,13 @@
   {{/with}}
   {{#each page.breadcrumbs}}
   {{#if (and (eq ./urlType 'internal') (ne ./url @root.page.breadcrumbs.0.url))}}
+  <li class="flex align-center li">
     {{#if (or (ne ./url @root.page.url) (eq ./url @root.page.breadcrumbs.1.url))}}
-    <li class="flex align-center li"><a class="link" href="{{{relativize ./url}}}">{{{./content}}}</a></li>
+    <a class="link" href="{{{relativize ./url}}}">{{{./content}}}</a>
     {{else}}
-    <li class="flex align-center li">
-      {{log .}}
-      {{log @root.page.breadcrumbs}}
-      <p>{{{./content}}}</p>
-    </li>
+    <p>{{{./content}}}</p>
     {{/if}}
+  </li>
   {{/if}}
   {{/each}}
 </ol>
