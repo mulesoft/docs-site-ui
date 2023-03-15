@@ -1,9 +1,13 @@
 {{#if
-(or preview (or (or (eq (site-profile) "beta") (eq (site-profile) "review")) (eq (site-profile) "archive")))
+(or preview (or (or (eq (site-profile) "beta") (or page.componentVersion.asciidoc.attributes.announcementMessage (eq (site-profile) "review"))) (eq (site-profile) "archive")))
 }}
 <div class="top-banner flex">
   <div class="container wrapper">
-    <p>You&#8217;re viewing the
+    {{#if page.componentVersion.asciidoc.attributes.announcementMessage}}
+    <p class="announcement">{{page.componentVersion.asciidoc.attributes.announcementMessage}}</p>
+    {{else}}
+    <p>
+      You&#8217;re viewing the
       {{#if preview}}
       preview
       {{else if (eq (site-profile) "archive")}}
@@ -18,6 +22,7 @@
       {{/with}}
       {{/if}}
     </p>
+    {{/if}}
   </div>
   <button aria-label="Close banner" class="top-banner-close-button" title="Close banner">&times;</button>
 </div>
