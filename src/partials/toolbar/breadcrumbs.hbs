@@ -16,15 +16,17 @@
   </li>
   {{#with page.componentVersion}}
   {{#if (and ./title (not ./root) (not (is-one-of ./title 'Home' 'ホーム')))}}
-  <li class="flex align-center li"><a class="link" href="{{{relativize ./url}}}">title {{{./title}}}</a></li>
+  <li class="flex align-center li"><a class="link" href="{{{relativize ./url}}}">{{{./title}}}</a></li>
   {{/if}}
   {{/with}}
   {{#each page.breadcrumbs}}
-  {{#if (eq ./urlType 'internal')}}
-    {{#if (and (not (is-one-of ./url @root.page.breadcrumbs.0.url @root.page.url)))}}
-    <li class="flex align-center li"><a class="link" href="{{{relativize ./url}}}">content {{{./content}}}</a></li>
-    {{else if (not (eq ./url @root.page.breadcrumbs.0.url))}}
+  {{#if (and (eq ./urlType 'internal') (ne ./url @root.page.breadcrumbs.0.url))}}
+    {{#if (or (ne ./url @root.page.url) (eq ./url @root.page.breadcrumbs.1.url))}}
+    <li class="flex align-center li"><a class="link" href="{{{relativize ./url}}}">{{{./content}}}</a></li>
+    {{else}}
     <li class="flex align-center li">
+      {{log .}}
+      {{log @root.page.breadcrumbs}}
       <p>{{{./content}}}</p>
     </li>
     {{/if}}
