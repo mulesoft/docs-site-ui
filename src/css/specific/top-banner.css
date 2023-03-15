@@ -1,6 +1,7 @@
 .top-banner {
   align-items: center;
   background-color: var(--core-blue-0);
+  border-bottom: 2px solid #57a3fd;
   height: var(--banner-height);
   position: sticky;
   top: 0;
@@ -20,7 +21,8 @@
   color: #087299;
   font-size: 12px;
   line-height: 1.35;
-  margin: 0 1em;
+  margin-right: -45px;
+  text-align: center;
 }
 
 .top-banner a {
@@ -37,4 +39,13 @@
     max-height: calc(100vh - var(--banner-height));
     top: var(--banner-height);
   }
+}
+
+.announcement {
+  background-color: #ffe3a2;
+  border-bottom: 2px solid #8c4b02;
+}
+
+.announcement p {
+  color: #000;
 }

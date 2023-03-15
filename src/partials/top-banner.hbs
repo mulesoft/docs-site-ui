@@ -1,10 +1,10 @@
 {{#if
 (or preview (is-one-of (site-profile) 'archive' 'beta' 'review' ) page.componentVersion.asciidoc.attributes.announcementMessage)
 }}
-<div class="top-banner flex">
+<div class="top-banner flex {{#if page.componentVersion.asciidoc.attributes.announcementMessage}}announcement{{/if}}">
   <div class="container wrapper">
     {{#if page.componentVersion.asciidoc.attributes.announcementMessage}}
-    <p class="announcement">{{page.componentVersion.asciidoc.attributes.announcementMessage}}</p>
+    <p class="message">{{page.componentVersion.asciidoc.attributes.announcementMessage}}</p>
     {{else}}
     <p>
       You&#8217;re viewing the
