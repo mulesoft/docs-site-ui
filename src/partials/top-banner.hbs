@@ -1,12 +1,17 @@
 {{#if
-(or preview (is-one-of (site-profile) 'archive' 'beta' 'review' ) page.componentVersion.asciidoc.attributes.announcementMessage)
+(or preview (is-one-of (site-profile) 'archive' 'beta' 'review')
+page.componentVersion.asciidoc.attributes.announcementMessage)
 }}
 <div class="top-banner flex {{#if page.componentVersion.asciidoc.attributes.announcementMessage}}announcement{{/if}}">
   <div class="container wrapper">
     {{#if page.componentVersion.asciidoc.attributes.announcementMessage}}
-    <p class="message">{{page.componentVersion.asciidoc.attributes.announcementMessage}}</p>
+    <p>
+      <img src="{{@root.uiRootPath}}/img/icons/important.svg" alt="">
+      {{page.componentVersion.asciidoc.attributes.announcementMessage}}
+    </p>
     {{else}}
     <p>
+      <img src="{{@root.uiRootPath}}/img/icons/tip.svg" alt="">
       You&#8217;re viewing the
       {{#if preview}}
       preview
@@ -16,11 +21,7 @@
       {{site-profile}}
       {{/if}}
       MuleSoft Documentation.
-      {{#if (eq (site-profile) "archive")}}
-      {{#with page.componentVersion.asciidoc.attributes.primary-site-url}}
-      <a href="{{{this}}}">Go to the latest MuleSoft documentation.</a>
-      {{/with}}
-      {{/if}}
+      <a href="{{#if page.componentVersion.asciidoc.attributes.primary-site-url}}{{page.componentVersion.asciidoc.attributes.primary-site-url}}{{else}}https://docs.mulesoft.com{{/if}}">Go to the latest MuleSoft documentation.</a>
     </p>
     {{/if}}
   </div>

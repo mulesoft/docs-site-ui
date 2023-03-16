@@ -15,18 +15,24 @@
     font-size: 20px;
     padding: 11px 17px;
   }
-}
 
-.top-banner p {
-  color: #087299;
-  font-size: 12px;
-  line-height: 1.35;
-  margin-right: -45px;
-  text-align: center;
-}
+  & a {
+    color: inherit;
+  }
 
-.top-banner a {
-  color: inherit;
+  & img {
+    filter: grayscale(100%) brightness(0);
+    height: 17px;
+    vertical-align: middle;
+  }
+
+  & p {
+    color: #000;
+    font-size: 12px;
+    line-height: 1.35;
+    margin: 0 0 0 45px;
+    text-align: center;
+  }
 }
 
 @media (--md) {
@@ -44,8 +50,4 @@
 .announcement {
   background-color: #ffe3a2;
   border-bottom: 2px solid #8c4b02;
-}
-
-.announcement p {
-  color: #000;
 }
