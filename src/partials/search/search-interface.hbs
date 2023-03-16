@@ -1,43 +1,46 @@
 {{#if env.COVEO_API_KEY}}
 <div class="search-div">
-  <atomic-aria-live></atomic-aria-live>
-  <atomic-search-interface id="search"
-    fields-to-include='["mulesoftislatestversion", "mulesoftproductversion", "mulesoftversionmajor", "mulesoftversionminor", "mulesoftversionpatch", "mulesoftversionwithlatest", "product", "version"]'
-    search-hub="Documentation">
-    <atomic-search-layout>
-      <atomic-layout-section section="facets">
-        <atomic-facet facet-id="product" field="product" heading-level="1" label="Product"></atomic-facet>
-        <atomic-facet depends-on-product facet-id="version" field="mulesoftversionwithlatest" heading-level="1"
-          label="Version" number-of-values="20" sort-criteria="score" with-search="false">
-        </atomic-facet>
+<atomic-aria-live></atomic-aria-live>
+<atomic-search-interface 
+  id="search" 
+  fields-to-include='["mulesoftislatestversion", "mulesoftproductversion", "mulesoftversionmajor", "mulesoftversionminor", "mulesoftversionpatch", "mulesoftversionwithlatest", "product", "version"]'
+  search-hub="Documentation"
+>
+  <atomic-search-layout>
+    <atomic-layout-section section="facets">
+      <atomic-facet facet-id="product" field="product" heading-level="1" label="Product"></atomic-facet>
+      <atomic-facet depends-on-product facet-id="version" 
+        field="mulesoftversionwithlatest" heading-level="1" 
+        label="Version" number-of-values="20" 
+        sort-criteria="score" with-search="false">
+      </atomic-facet>
+    </atomic-layout-section>
+    <atomic-layout-section section="main">
+      <atomic-layout-section section="status">
+        <atomic-breadbox></atomic-breadbox>
+        <atomic-query-summary></atomic-query-summary>
+        <atomic-refine-toggle></atomic-refine-toggle>
+        <atomic-sort-dropdown>
+          <atomic-sort-expression label="Relevance" expression="relevancy"></atomic-sort-expression>
+          <atomic-sort-expression label="Version (Descending)" expression="mulesoftversionmajor descending, mulesoftversionminor descending, mulesoftversionpatch descending"></atomic-sort-expression>
+        </atomic-sort-dropdown>
+        <atomic-did-you-mean></atomic-did-you-mean>
       </atomic-layout-section>
-      <atomic-layout-section section="main">
-        <atomic-layout-section section="status">
-          <atomic-breadbox></atomic-breadbox>
-          <atomic-query-summary></atomic-query-summary>
-          <atomic-refine-toggle></atomic-refine-toggle>
-          <atomic-sort-dropdown>
-            <atomic-sort-expression label="Relevance" expression="relevancy"></atomic-sort-expression>
-            <atomic-sort-expression label="Version (Descending)"
-              expression="mulesoftversionmajor descending, mulesoftversionminor descending, mulesoftversionpatch descending"></atomic-sort-expression>
-          </atomic-sort-dropdown>
-          <atomic-did-you-mean></atomic-did-you-mean>
-        </atomic-layout-section>
-        <atomic-layout-section section="results">
-          {{!-- comment out due to issue reported in W-12600975 --}}
-          {{!-- <atomic-smart-snippet collapsed-height="70" maximum-height="70"></atomic-smart-snippet> --}}
-          <atomic-result-list image-size="icon" density="normal">
-            {{> search-result-template}}
-          </atomic-result-list>
-          <atomic-query-error></atomic-query-error>
-          <atomic-no-results></atomic-no-results>
-        </atomic-layout-section>
-        <atomic-layout-section section="pagination">
-          <atomic-pager number-of-pages="5"></atomic-pager>
-          <atomic-results-per-page></atomic-results-per-page>
-        </atomic-layout-section>
+      <atomic-layout-section section="results">
+        {{!-- comment out due to issue reported in W-12600975 --}}
+        {{!-- <atomic-smart-snippet collapsed-height="70" maximum-height="70"></atomic-smart-snippet> --}}
+        <atomic-result-list image-size="icon" density="normal">
+          {{> search-result-template}}
+        </atomic-result-list>
+        <atomic-query-error></atomic-query-error>
+        <atomic-no-results></atomic-no-results>
       </atomic-layout-section>
-    </atomic-search-layout>
-  </atomic-search-interface>
+      <atomic-layout-section section="pagination">
+        <atomic-pager number-of-pages="5"></atomic-pager>
+        <atomic-results-per-page></atomic-results-per-page>
+      </atomic-layout-section>
+    </atomic-layout-section>
+  </atomic-search-layout>
+</atomic-search-interface>
 </div>
 {{/if}}
