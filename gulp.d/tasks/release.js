@@ -156,7 +156,7 @@ class GitHub {
     await this.octokit.pulls.create({
       owner: this.owner,
       repo: repo,
-      title: newBranchName,
+      title: `${this.tagName} for ${ref}`,
       head: newBranchName,
       base: ref,
       body: `ref: ${await this.getLastPRLink()}`,
