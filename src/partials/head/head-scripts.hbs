@@ -44,7 +44,7 @@ window.settings_timer=setTimeout(function () {_vwo_code.finish() },settings_tole
       accessToken: "{{env.COVEO_API_KEY}}",
       organizationId: "mulesoftprodqzggq6re",
     });
-    if (window.location.href === 'https://docs.mulesoft.com/general/search') searchInterface.executeFirstSearch();
+    if (window.location.href.includes('/search')) searchInterface.executeFirstSearch();
   })();
 </script>
 

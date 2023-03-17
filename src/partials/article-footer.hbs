@@ -1,8 +1,7 @@
 {{#if page.component}}
 <footer class="flex col align-left doc-footer">
-  {{#if (or env.GOOGLE_ANALYTICS_KEY)}}
+  {{#if env.GOOGLE_ANALYTICS_KEY}}
   <section class="feedback-section">
-    {{#if env.GOOGLE_ANALYTICS_KEY}}
     <div class="row">
       <span data-thanks="start">Was this article helpful?</span>
       <button class="button feedback-yes" data-thanks="start" type="button">
@@ -18,7 +17,6 @@
         Thanks for your feedback!
       </span>
     </div>
-    {{/if}}
   </section>
   {{/if}}
   {{> github}}

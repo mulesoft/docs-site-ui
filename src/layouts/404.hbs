@@ -4,7 +4,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width,initial-scale=1.0">
-    {{#if (and (ne (site-profile) 'jp') (ne (site-profile) 'prod'))}}
+    {{#if (not (is-one-of (site-profile) 'jp' 'prod'))}}
     <meta name="robots" content="none, noarchive">
     {{/if}}
     {{#if (ne (site-profile) 'jp')}}

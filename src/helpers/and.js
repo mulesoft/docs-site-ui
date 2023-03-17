@@ -1,3 +1,5 @@
 'use strict'
 
-module.exports = (a, b) => a && b
+module.exports = function () {
+  return Object.values(arguments).every((v) => v)
+}
