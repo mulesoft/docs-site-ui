@@ -4,10 +4,11 @@ const File = require('vinyl')
 const fs = require('fs-extra')
 const { obj: map } = require('through2')
 const { Octokit } = require('@octokit/rest')
+const pad = require('pad')
 const path = require('path')
 const vfs = require('vinyl-fs')
 const zip = require('gulp-vinyl-zip')
-const { createSignature } = require('github-api-signature')
+const { createMessage, decryptKey, readPrivateKey, sign } = require('openpgp')
 
 class GitHub {
   constructor ({ dest, bundleName, owner, repo, token, secretKey, passphrase, updateBranch }) {
@@ -149,16 +150,46 @@ class GitHub {
   }
 
   async createPR ({ repo, ref, filePath }) {
-    await this.createNewBranch({ repo, ref, newBranchName: this.tagName })
-    await this.updateContent({ repo, ref, filePath })
+    const newBranchName = `${this.tagName}-for-${ref}`
+    await this.createNewBranch({ repo, ref, newBranchName })
+    await this.updateContent({ repo, ref, newBranchName, filePath })
     await this.octokit.pulls.create({
       owner: this.owner,
       repo: repo,
-      title: this.tagName,
-      head: this.tagName,
+      title: newBranchName,
+      head: newBranchName,
       base: ref,
       body: `ref: ${await this.getLastPRLink()}`,
     })
+  }
+
+  async createSignature (commit, passphrase) {
+    const decodedKey = await readPrivateKey({
+      armoredKey: this.secretKey,
+    })
+
+    const decryptedKey = passphrase
+      ? await decryptKey({
+        privateKey: decodedKey,
+        passphrase,
+      })
+      : decodedKey
+
+    if (!decryptedKey.isDecrypted()) {
+      throw new Error('Failed to decrypt private key using given passphrase')
+    }
+
+    const commitString = typeof commit === 'string' ? commit : await commitToString(commit)
+
+    const signature = await sign({
+      message: await createMessage({
+        text: commitString,
+      }),
+      signingKeys: decryptedKey,
+      detached: true,
+    })
+
+    return await normalizeString(signature)
   }
 
   async deleteUIBundleZipFileIfExist () {
@@ -230,7 +261,7 @@ class GitHub {
     return branchName
   }
 
-  async updateContent ({ repo, ref, filePath }) {
+  async updateContent ({ repo, ref, newBranchName, filePath }) {
     // Get the current contents of the file
     const {
       data: { content },
@@ -290,28 +321,22 @@ class GitHub {
       tree: newTreeSha,
       parents: [latestCommitSha],
       author: {
-        name: 'cheungaryk',
-        email: 'gcheung@mulesoft.com',
+        name: 'ms_cx_engineering (mule docs agent)',
+        email: 'ms_cx_engineering@mulesoft.com',
         date: new Date().toISOString(),
       },
-      // author: {
-      //   name: 'mulesoft-es-automation',
-      //   email: 'mulesoft-es-automation@mulesoft.com',
-      //   date: new Date().toISOString(),
-      // },
     }
 
-    const signature = await createSignature(commitPayload, this.secretKey, this.passphrase)
-
-    const t = await this.octokit.git.createCommit(
+    const signature = await this.createSignature(commitPayload)
+    const commit = await this.octokit.git.createCommit(
       Object.assign({}, { owner: this.owner, repo, signature }, commitPayload)
     )
 
     await this.octokit.git.updateRef({
       owner: this.owner,
       repo,
-      ref: `heads/${this.tagName}`,
-      sha: t.data.sha,
+      ref: `heads/${newBranchName}`,
+      sha: commit.data.sha,
     })
   }
 
@@ -359,22 +384,53 @@ class GitHub {
   }
 }
 
+async function commitToString ({ message, tree, parents, author, committer = author }) {
+  // the blank line between committer and message is intentional, if removed, the signature will be invalid
+  return `
+tree ${tree}
+${parents.map((parent) => `parent ${parent}`).join('\n')}
+author ${await userToString(author)}
+committer ${await userToString(committer)}
+
+${message}`.trim()
+}
+
+async function normalizeOffset (offset, offsetIsZero = true) {
+  if (offsetIsZero) return '+0000'
+
+  return (
+    (offset <= 0 ? '+' : '-') +
+    pad(2, `${parseInt(String(Math.abs(offset / 60)), 10)}`, '0') +
+    pad(2, `${Math.abs(offset % 60)}`, '0')
+  )
+}
+
+async function normalizeString (str) {
+  return str.replace(/\r\n/g, '\n').trim()
+}
+
+async function userToString (user) {
+  const date = new Date(user.date)
+  const timestamp = Math.floor(date.getTime() / 1000)
+  const timezone = await normalizeOffset(date.getTimezoneOffset())
+
+  return `${user.name} <${user.email}> ${timestamp} ${timezone}`
+}
+
 module.exports = (dest, bundleName, owner, repo, token, secretKey, passphrase, updateBranch) => async () => {
   const gitHub = new GitHub({ dest, bundleName, owner, repo, token, secretKey, passphrase, updateBranch })
   await gitHub.setUp()
-  // await gitHub.createNextRelease()
-  // await gitHub.createPR({
-  //   repo: 'docs-site-playbook',
-  //   ref: 'master',
-  //   filePath: 'antora-playbook.yml',
-  // })
+  await gitHub.createNextRelease()
   if (gitHub.variant === 'prod') {
-    // await gitHub.updateLatestRelease()
-    // await gitHub.createPR({
-    //   repo: 'docs-site-playbook',
-    //   ref: 'master',
-    //   filePath: 'antora-playbook.yml',
-    // })
-    // TODO: add more createPR for other branches, like archive and jp
+    await gitHub.updateLatestRelease()
+
+    const baseBranches = ['archive', 'jp', 'master']
+    for (const ref of baseBranches) {
+      await gitHub.createPR({
+        filePath: 'antora-playbook.yml',
+        repo: 'docs-site-playbook',
+        ref,
+      })
+    }
   }
 }
