@@ -135,6 +135,8 @@ class GitHub {
         tag_name: this.tagName,
         target_commitish: commit,
         name: this.tagName,
+        prerelease: this.variant !== 'prod',
+        body: this.variant !== 'prod' ? '' : `ref: ${await this.getLastPRLink()}`,
       })
       .then((result) => result.data)
 
