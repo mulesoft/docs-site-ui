@@ -11,5 +11,6 @@ RUN chown -R app:app . \
 USER app
 
 # need this token in the gulp commands to create releases and PRs
+ARG SECRET_KEY
 ARG GH_TOKEN
 RUN npx gulp release
