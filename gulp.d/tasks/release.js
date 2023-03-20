@@ -217,7 +217,7 @@ class GitHub {
   }
 
   async getCurrentReleaseNumber () {
-    const release = await this.getLastProdRelease()
+    const release = await this.getLastReleaseThatStartsWith(`${this.variant}-`)
     return Number(release.name.slice(this.variant.length + 1))
   }
 
@@ -235,10 +235,6 @@ class GitHub {
       page++
     } while (!release && page <= 10) // Limit to 1000 releases
     return release
-  }
-
-  async getLastProdRelease () {
-    return await this.getLastReleaseThatStartsWith('prod-')
   }
 
   async getLastPRLink () {
