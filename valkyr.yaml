@@ -3,15 +3,12 @@ component: site-ui
 strategy: docker
 dockerBuildEnableBuildKit: true
 dockerArgs:
-  build-arg:
-    GH_TOKEN: $GH_TOKEN
-    SECRET_KEY: $SECRET_KEY
   secret:
     GH_TOKEN: GH_TOKEN
     SECRET_KEY: SECRET_KEY
-  requires:
-    credentials:
-      - id: SECRET_KEY
-        value: SECRET_KEY
-      - id: GH_TOKEN
-        value: GH_TOKEN
+requires:
+  credentials:
+    - id: SECRET_KEY
+      value: SECRET_KEY
+    - id: GH_TOKEN
+      value: GH_TOKEN
