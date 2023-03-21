@@ -8,7 +8,7 @@ dockerArgs:
     SECRET_KEY: SECRET_KEY
 requires:
   credentials:
-    - id: SECRET_KEY
+    - id: ms-cx-engineering-gpg-private-key
       value: SECRET_KEY
     - id: GH_TOKEN
       value: GH_TOKEN

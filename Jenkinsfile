@@ -9,12 +9,7 @@ pipeline {
   stages {
     stage('Trigger Valkyr Build') {
       steps {
-        withCredentials([
-          string(credentialsId: githubCredentialsId, variable: 'GH_TOKEN'),
-          string(credentialsId: gpgSecretKeyCredentialsId , variable: 'SECRET_KEY')
-        ]) {
-          valkyrBuild()
-        }
+        valkyrBuild()
       }
     }
   }
