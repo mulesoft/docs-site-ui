@@ -4,10 +4,10 @@ strategy: docker
 dockerArgs:
   secret:
     GH_TOKEN: $GH_TOKEN
-    GPG_PRIVATE_KEY: $GPG_PRIVATE_KEY
+    SECRET_KEY: $SECRET_KEY
   requires:
     credentials:
-      - id: GPG_PRIVATE_KEY
-        value: "GPG_PRIVATE_KEY"
+      - id: SECRET_KEY
+        value: SECRET_KEY
       - id: GH_TOKEN
-        value: "GH_TOKEN"
+        value: GH_TOKEN

@@ -11,7 +11,8 @@ pipeline {
       steps {
         withCredentials([
           string(credentialsId: githubCredentialsId, variable: 'GH_TOKEN'),
-          string(credentialsId: gpgSecretKeyCredentialsId , variable: 'SECRET_KEY')]) {
+          string(credentialsId: gpgSecretKeyCredentialsId , variable: 'SECRET_KEY')
+        ]) {
           valkyrBuild()
         }
       }
