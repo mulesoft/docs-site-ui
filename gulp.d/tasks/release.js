@@ -235,7 +235,8 @@ class GitHub {
 
   async getCurrentReleaseNumber () {
     const release = await this.getLastReleaseThatStartsWith(`${this.variant}-`)
-    return Number(release.name.slice(this.variant.length + 1))
+    if (release) return Number(release.name.slice(this.variant.length + 1))
+    return 1
   }
 
   async getLastReleaseThatStartsWith (prefix) {
