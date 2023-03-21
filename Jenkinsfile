@@ -5,11 +5,11 @@ def githubCredentialsId = 'GH_TOKEN'
 def gpgSecretKeyCredentialsId = 'ms-cx-engineering-gpg-private-key'
 
 pipeline {
-  agent any
+  agent docker
   stages {
-    stage('Trigger Valkyr Build') {
+    stage('Release') {
       steps {
-        valkyrBuild()
+        sh "docker build --build-arg GH_TOKEN=${GH_TOKEN} --build-arg SECRET_KEY=${SECRET_KEY} -f Dockerfile ."
       }
     }
   }
