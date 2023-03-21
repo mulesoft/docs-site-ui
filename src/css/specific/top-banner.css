@@ -28,7 +28,7 @@
 
   & p {
     color: #000;
-    font-size: 12px;
+    font-size: 10px;
     line-height: 1.35;
     margin: 0 0 0 45px;
     text-align: center;
@@ -50,4 +50,12 @@
 .announcement {
   background-color: #ffe3a2;
   border-bottom: 2px solid #8c4b02;
+}
+
+.top-banner:not(.hide) + .flex.container > main > .toolbar {
+  top: var(--banner-height);
+}
+
+.top-banner:not(.hide) + .flex.container > main > .notice-banner {
+  top: calc(var(--banner-height) + var(--banner-height));
 }
