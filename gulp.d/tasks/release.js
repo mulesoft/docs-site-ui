@@ -443,8 +443,8 @@ async function userToString (user) {
 module.exports = (dest, bundleName, owner, repo, token, secretKey, passphrase, updateBranch) => async () => {
   const gitHub = new GitHub({ dest, bundleName, owner, repo, token, secretKey, passphrase, updateBranch })
   await gitHub.setUp()
-  await gitHub.createNextRelease()
-  if (gitHub.variant !== 'prod') {
+  if (gitHub.variant === 'prod') {
+    await gitHub.createNextRelease()
     await gitHub.updateLatestRelease()
 
     if (gitHub.secretKey) {
@@ -458,6 +458,6 @@ module.exports = (dest, bundleName, owner, repo, token, secretKey, passphrase, u
       }
     }
   } else {
-    console.log('Git branch is not prod, skipping PR submissions to docs-site-playbook.')
+    console.log('Git branch is not prod, skipping.')
   }
 }

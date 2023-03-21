@@ -6,7 +6,22 @@ def gpgSecretKeyCredentialsId = 'ms-cx-engineering-gpg-private-key'
 pipeline {
   agent any
   stages {
+    stage('Test') {
+      when {
+        not {
+          branch 'master'
+        }
+      }
+      steps {
+        nodejs('node12') {
+          sh 'npm install --quiet --no-progress --cache=.cache/npm --no-audit && gulp bundle'
+        }
+      }
+    }
     stage('Release') {
+      when {
+        branch 'master'
+      }
       steps {
         withCredentials([
           string(credentialsId: githubCredentialsId, variable: 'GH_TOKEN'),
