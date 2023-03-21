@@ -3,8 +3,8 @@ component: site-ui
 strategy: docker
 dockerArgs:
   secret:
-    GH_TOKEN: $GH_TOKEN
-    SECRET_KEY: $SECRET_KEY
+    GH_TOKEN: GH_TOKEN
+    SECRET_KEY: SECRET_KEY
   requires:
     credentials:
       - id: SECRET_KEY
