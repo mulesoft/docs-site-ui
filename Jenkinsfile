@@ -9,7 +9,11 @@ pipeline {
   stages {
     stage('Release') {
       steps {
-        sh "docker build --build-arg GH_TOKEN=${GH_TOKEN} --build-arg SECRET_KEY=${SECRET_KEY} -f Dockerfile ."
+        withCredentials([
+          string(credentialsId: githubCredentialsId, variable: 'GH_TOKEN'),
+          string(credentialsId: gpgSecretKeyCredentialsId , variable: 'SECRET_KEY')]) {
+            sh "docker build --build-arg GH_TOKEN=${GH_TOKEN} --build-arg SECRET_KEY=${SECRET_KEY} -f Dockerfile ."
+          }
       }
     }
   }

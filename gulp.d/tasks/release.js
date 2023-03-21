@@ -155,19 +155,19 @@ class GitHub {
     const newBranchName = `${this.tagName}-for-${ref}`
     await this.createNewBranch({ repo, ref, newBranchName })
     await this.updateContent({ repo, ref, newBranchName, filePath })
-    await this.octokit.pulls.create({
-      owner: this.owner,
-      repo: repo,
-      title: `${this.tagName} for ${ref}`,
-      head: newBranchName,
-      base: ref,
-      body: `ref: ${await this.getLastPRLink()}`,
-    })
+    // await this.octokit.pulls.create({
+    //   owner: this.owner,
+    //   repo: repo,
+    //   title: `${this.tagName} for ${ref}`,
+    //   head: newBranchName,
+    //   base: ref,
+    //   body: `ref: ${await this.getLastPRLink()}`,
+    // })
   }
 
   async createSignature (commit, passphrase) {
     const decodedKey = await readPrivateKey({
-      armoredKey: this.secretKey,
+      armoredKey: await base64decode(this.secretKey),
     })
 
     const decryptedKey = passphrase
@@ -380,6 +380,11 @@ class GitHub {
         .on('finish', () => resolve(this.bundleFile))
     )
   }
+}
+
+async function base64decode (str) {
+  const decoder = new TextDecoder('utf-8')
+  return decoder.decode(Buffer.from(str, 'base64'))
 }
 
 async function commitToString ({ message, tree, parents, author, committer = author }) {
