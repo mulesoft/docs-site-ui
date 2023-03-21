@@ -5,7 +5,7 @@ def githubCredentialsId = 'GH_TOKEN'
 def gpgSecretKeyCredentialsId = 'ms-cx-engineering-gpg-private-key'
 
 pipeline {
-  agent 'docker'
+  agent any
   stages {
     stage('Release') {
       steps {
