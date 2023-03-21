@@ -18,7 +18,7 @@ class GitHub {
     this.repo = repo
     this.octokit = new Octokit({ auth: `token ${token}` })
     this.secretKey = secretKey
-    this.passphrase = passphrase
+    this.passphrase = passphrase // optional, for local testing only
     this.updateBranch = updateBranch
   }
 
@@ -30,6 +30,14 @@ class GitHub {
     this.tagName = `${this.variant}-${(await this.getCurrentReleaseNumber()) + 1}`
 
     this.latestRelease = await this.getLastReleaseThatStartsWith('latest')
+
+    console.log(`
+    Set up completed with the following variables:
+      branch name: ${this.branchName}
+      ref: ${this.ref}
+      variant: ${this.variant}
+      tag name: ${this.tagName}
+    `)
   }
 
   async branchAlreadyExists ({ repo, branchName }) {
@@ -47,6 +55,7 @@ class GitHub {
 
   async createNewBranch ({ repo, ref, newBranchName }) {
     if (!(await this.branchAlreadyExists({ repo, branchName: newBranchName }))) {
+      console.log(`Creating new branch ${newBranchName}...`)
       const { data: baseRefData } = await this.octokit.rest.git.getRef({
         owner: this.owner,
         repo,
@@ -59,10 +68,14 @@ class GitHub {
         ref: `refs/heads/${newBranchName}`,
         sha: baseRefData.object.sha,
       })
+      console.log(`Successfully created branch ${newBranchName}.`)
+    } else {
+      console.log(`Branch ${newBranchName} already exists. Skipping its creation.`)
     }
   }
 
   async createNextRelease () {
+    console.log(`Creating the next release ${this.tagName}...`)
     await this.versionBundle()
 
     let commit = await this.octokit.git
@@ -149,20 +162,24 @@ class GitHub {
         'content-type': 'application/zip',
       },
     })
+
+    console.log(`Successfully created release ${this.tagName}.`)
   }
 
   async createPR ({ repo, ref, filePath }) {
+    console.log(`submitting PR to the ${ref} branch...`)
     const newBranchName = `${this.tagName}-for-${ref}`
     await this.createNewBranch({ repo, ref, newBranchName })
     await this.updateContent({ repo, ref, newBranchName, filePath })
-    // await this.octokit.pulls.create({
-    //   owner: this.owner,
-    //   repo: repo,
-    //   title: `${this.tagName} for ${ref}`,
-    //   head: newBranchName,
-    //   base: ref,
-    //   body: `ref: ${await this.getLastPRLink()}`,
-    // })
+    await this.octokit.pulls.create({
+      owner: this.owner,
+      repo: repo,
+      title: `${this.tagName} for ${ref}`,
+      head: newBranchName,
+      base: ref,
+      body: `ref: ${await this.getLastPRLink()}`,
+    })
+    console.log(`Successfully submitted PR to the ${ref} branch.`)
   }
 
   async createSignature (commit, passphrase) {
@@ -339,6 +356,7 @@ class GitHub {
   }
 
   async updateLatestRelease () {
+    console.log(`Replacing ${this.bundleFile} in the "latest" release...`)
     await this.deleteUIBundleZipFileIfExist()
     await this.octokit.repos.uploadReleaseAsset({
       url: this.latestRelease.upload_url,
@@ -349,6 +367,7 @@ class GitHub {
         'content-type': 'application/zip',
       },
     })
+    console.log(`Successfully replaced ${this.bundleFile} in the "latest" release.`)
   }
 
   async updateUIBundleVer (content) {
@@ -424,16 +443,20 @@ module.exports = (dest, bundleName, owner, repo, token, secretKey, passphrase, u
   const gitHub = new GitHub({ dest, bundleName, owner, repo, token, secretKey, passphrase, updateBranch })
   await gitHub.setUp()
   await gitHub.createNextRelease()
-  if (gitHub.variant === 'prod') {
+  if (gitHub.variant !== 'prod') {
     await gitHub.updateLatestRelease()
 
-    const baseBranches = ['archive', 'jp', 'master']
-    for (const ref of baseBranches) {
-      await gitHub.createPR({
-        filePath: 'antora-playbook.yml',
-        repo: 'docs-site-playbook',
-        ref,
-      })
+    if (gitHub.secretKey) {
+      const baseBranches = ['archive', 'jp', 'master']
+      for (const ref of baseBranches) {
+        await gitHub.createPR({
+          filePath: 'antora-playbook.yml',
+          repo: 'docs-site-playbook',
+          ref,
+        })
+      }
     }
+  } else {
+    console.log('Git branch is not prod, skipping PR submissions to docs-site-playbook.')
   }
 }
