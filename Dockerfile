@@ -16,4 +16,5 @@ RUN chown -R app:app . \
 USER app
 ARG GH_TOKEN
 ARG SECRET_KEY
+ARG GIT_BRANCH
 RUN npx gulp release
