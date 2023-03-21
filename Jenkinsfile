@@ -14,7 +14,8 @@ pipeline {
       }
       steps {
         nodejs('node12') {
-          sh 'npm install --quiet --no-progress --cache=.cache/npm --no-audit && gulp bundle'
+          sh 'npm install --quiet --no-progress --cache=.cache/npm --no-audit'
+          sh 'gulp bundle'
         }
       }
     }
