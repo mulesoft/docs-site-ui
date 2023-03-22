@@ -19,7 +19,7 @@ pipeline {
     }
     stage('Release') {
       when {
-        and {
+        allOf {
           branch 'master'
           changeset "src/**"
         }
