@@ -55,5 +55,5 @@
 
 .sticky {
   position: sticky;
-  top: 50px;
+  top: var(--banner-height);
 }
