@@ -8,9 +8,7 @@ pipeline {
   stages {
     stage('Test') {
       when {
-        not {
-          branch 'master'
-        }
+        changeset "src/**"
       }
       steps {
         nodejs('node12') {
@@ -21,7 +19,10 @@ pipeline {
     }
     stage('Release') {
       when {
-        branch 'master'
+        and {
+          branch 'master'
+          changeset "src/**"
+        }
       }
       steps {
         withCredentials([
