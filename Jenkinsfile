@@ -1,5 +1,6 @@
 #!/bin/env groovy
 
+def defaultBranch = 'master'
 def githubCredentialsId = 'GH_TOKEN'
 def gpgSecretKeyCredentialsId = 'ms-cx-engineering-gpg-private-key'
 
@@ -8,7 +9,9 @@ pipeline {
   stages {
     stage('Test') {
       when {
-        changeset "src/**"
+        not {
+          branch defaultBranch
+        }
       }
       steps {
         nodejs('node12') {
@@ -20,7 +23,7 @@ pipeline {
     stage('Release') {
       when {
         allOf {
-          branch 'master'
+          branch defaultBranch
           changeset "src/**"
         }
       }
