@@ -1,5 +1,8 @@
 antoraVersion: '3.0.3'
 preview: true
+asciidoc:
+  extensions:
+    - '@asciidoctor/tabs'
 site:
   url: &index_url /
   homeUrl: *index_url
