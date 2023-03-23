@@ -150,10 +150,11 @@ atomic-search-box {
   }
 }
 
-atomic-smart-snippet {
-  &::part(smart-snippet) {
-    background-color: #e5e5e5;
-  }
+atomic-smart-snippet::part(smart-snippet),
+atomic-smart-snippet-suggestions::part(container),
+atomic-smart-snippet-suggestions::part(question-button-collapsed),
+atomic-smart-snippet-suggestions::part(question-button-expanded) {
+  background-color: #e5e5e5;
 }
 
 atomic-sort-dropdown {
