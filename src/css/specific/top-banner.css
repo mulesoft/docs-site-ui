@@ -23,7 +23,7 @@
   & img {
     filter: grayscale(100%) brightness(0);
     height: 22px;
-    margin: auto 10px auto 10px;
+    margin: auto 10px;
   }
 
   & p {
