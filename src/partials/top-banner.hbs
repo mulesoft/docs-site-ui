@@ -3,10 +3,10 @@
 page.componentVersion.asciidoc.attributes.announcementMessage)
 }}
 <div class="top-banner flex {{#if page.componentVersion.asciidoc.attributes.announcementMessage}}announcement{{/if}}">
-  <div class="container wrapper">
+  <div class="container wrapper flex">
     {{#if page.componentVersion.asciidoc.attributes.announcementMessage}}
+     <img src="{{@root.uiRootPath}}/img/icons/important.svg" alt="">
     <p>
-      <img src="{{@root.uiRootPath}}/img/icons/important.svg" alt="">
       {{page.componentVersion.asciidoc.attributes.announcementMessage}}
     </p>
     {{else}}
