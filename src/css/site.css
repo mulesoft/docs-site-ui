@@ -50,4 +50,5 @@
 @import "vendor/coveo.css";
 
 /* other */
+@import "@asciidoctor/tabs";
 @import "highlight.css";
