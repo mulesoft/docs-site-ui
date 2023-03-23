@@ -1,17 +1,40 @@
 ;(() => {
   'use strict'
 
+  const adjustForBanners = (scrollValue) => {
+    if (hasTopBanner()) scrollValue -= document.querySelector('.top-banner').offsetHeight
+    if (hasNoticeBanner()) scrollValue -= document.querySelector('.notice-banner').offsetHeight
+    return scrollValue
+  }
+
   const find = (selector, from) => {
     return toArray((from || document).querySelectorAll(selector))
   }
 
   const fixInitialScrollPosition = () => {
     window.addEventListener('load', () => {
-      if (window.location.hash.length) {
-        const scrollValue = isBigScreenSize ? -50 : -100
+      if (urlHasAnchor()) {
+        let scrollValue = isBigScreenSize ? -50 : -100
+        scrollValue = adjustForBanners(scrollValue)
         window.scrollBy(0, scrollValue)
       }
     })
+  }
+
+  const hasNoticeBanner = () => {
+    const noticeBanner = document.querySelector('.notice-banner')
+    if (noticeBanner) {
+      return !noticeBanner.classList.contains('hide')
+    }
+    return false
+  }
+
+  const hasTopBanner = () => {
+    const topBanner = document.querySelector('.top-banner')
+    if (topBanner) {
+      return !topBanner.classList.contains('hide')
+    }
+    return false
   }
 
   const isBigScreenSize = () => {
@@ -24,11 +47,15 @@
 
   const scrollTo = (urlHashValue) => {
     window.location.hash = urlHashValue
-    window.scrollBy(0, -100)
+    window.scrollBy(0, adjustForBanners(-100))
   }
 
   const toArray = (collection) => {
     return [].slice.call(collection)
+  }
+
+  const urlHasAnchor = () => {
+    return window.location.hash.length
   }
 
   class Viewport {
@@ -68,7 +95,7 @@
       if (this.startOfContent) {
         // generate list
         this.options = this.headings.reduce((accum, heading) => {
-          var option = toArray(heading.childNodes).reduce((target, child) => {
+          const option = toArray(heading.childNodes).reduce((target, child) => {
             if (child.nodeName !== 'A') {
               target.appendChild(child.cloneNode(true))
             }
@@ -84,7 +111,6 @@
         this.createJumpToLabel()
         this.addChangeListener()
 
-        // add to page
         this.doc.insertBefore(this.selectWrap, this.startOfContent)
       }
     }
@@ -160,7 +186,7 @@
           this.links[this.lastActiveFragment].classList.remove('is-active')
           this.links[this.lastActiveFragment].removeAttribute('aria-current')
         }
-        var activeLink = this.links[activeFragment]
+        const activeLink = this.links[activeFragment]
         activeLink.classList.add('is-active')
         activeLink.ariaCurrent = 'true'
         if (this.menu.scrollHeight > this.menu.offsetHeight) {

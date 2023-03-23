@@ -3,15 +3,21 @@
   <button aria-label="Docs Menu" class="button nav-toggle">Menu</button>
   {{/if}}
   {{> breadcrumbs mode='primary'}}
-  <button class="breadcrumbs-toggle">
-    <img class="" src="{{@root.uiRootPath}}/img/icons/arrow-down.svg" alt="">
-  </button>
-  {{#if (and env.COVEO_API_KEY (ne page.title 'Search Docs') (not (is-one-of (site-profile) 'archive' 'jp')))}}
+  <div class="mobile-toolbar-breadcrumbs-drawer-controls">
+    {{#if (and page.breadcrumbs (ne page.layout 'home'))}}
+    <button class="breadcrumbs-toggle">
+      <img class="" src="{{@root.uiRootPath}}/img/icons/arrow-down.svg" alt="">
+    </button>
+    {{/if}}
+    {{#if (and env.COVEO_API_KEY (ne page.title 'Search Docs') (not (is-one-of (site-profile) 'archive' 'jp')))}}
     <button aria-label="Search Docs" class="button toolbar-search-button">
       <img class="toolbar-search-button-icon" src="{{@root.uiRootPath}}/img/icons/search.svg" alt="Search Docs">
     </button>
-  {{/if}}
+    {{/if}}
+  </div>
 </nav>
+{{#if (and page.breadcrumbs (ne page.layout 'home'))}}
 <div class="secondary-breadcrumbs-drawer hide">
-{{> breadcrumbs mode='secondary'}}
+  {{> breadcrumbs mode='secondary'}}
 </div>
+{{/if}}
