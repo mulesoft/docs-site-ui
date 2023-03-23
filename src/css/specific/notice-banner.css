@@ -3,6 +3,7 @@
   font-size: 12px;
   height: fit-content;
   margin-bottom: -20px;
+  margin-top: -12px;
   z-index: var(--z-backdrop);
 
   & p {
