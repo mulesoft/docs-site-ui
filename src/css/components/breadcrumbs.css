@@ -3,6 +3,7 @@
   font-size: 12px;
   height: var(--input-md); /* match search input */
   margin-left: 5px;
+  max-width: 65%;
   overflow-x: auto;
   overflow-y: hidden;
   padding-left: 7px;
@@ -86,6 +87,11 @@
       border: 3px solid var(--tertiary); /* should match background, can't be transparent */
       border-radius: 10px;
     }
+  }
+
+  @media (--md) {
+    max-width: 100%;
+    max-width: -webkit-fill-available;
   }
 }
 
