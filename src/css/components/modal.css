@@ -37,6 +37,7 @@
   background: rgba(0,0,0,.15);
   cursor: pointer;
   height: 100%;
+  height: -moz-available;
   height: -webkit-fill-available; /* resolves to height of viewport for fixed element */
   left: 0;
   opacity: 0;
