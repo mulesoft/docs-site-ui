@@ -90,6 +90,7 @@
 .nav-text {
   display: flex;
   text-decoration: none;
+  width: -moz-available;
   width: -webkit-fill-available;
 
   &:focus {
@@ -178,6 +179,7 @@ svg.nav-icon {
       border-left: 3px solid var(--secondary-navy);
       color: var(--secondary-navy);
       padding: 3px;
+      width: -moz-available;
       width: -webkit-fill-available;
     }
     &.is-active {
