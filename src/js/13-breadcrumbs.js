@@ -154,12 +154,15 @@
         switch (override) {
           case true:
             this.toggleButton.classList.add(expandedBreadcrumbsClassName)
+            this.toggleButton.ariaExpanded = false
             break
           case false:
             this.toggleButton.classList.remove(expandedBreadcrumbsClassName)
+            this.toggleButton.ariaExpanded = true
             break
           default:
             this.toggleButton.classList.toggle(expandedBreadcrumbsClassName)
+            this.toggleButton.ariaExpanded = this.toggleButton.ariaExpanded !== 'true'
             break
         }
       }
