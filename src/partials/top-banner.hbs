@@ -5,12 +5,12 @@ page.componentVersion.asciidoc.attributes.announcementMessage)
 <div class="top-banner flex {{#if page.componentVersion.asciidoc.attributes.announcementMessage}}announcement{{/if}}">
   <div class="container wrapper flex justify-center">
     {{#if page.componentVersion.asciidoc.attributes.announcementMessage}}
-     <img src="{{@root.uiRootPath}}/img/icons/important.svg" alt="">
+     <img loading="lazy" src="{{@root.uiRootPath}}/img/icons/important.svg" alt="">
     <p>
       {{page.componentVersion.asciidoc.attributes.announcementMessage}}
     </p>
     {{else}}
-      <img src="{{@root.uiRootPath}}/img/icons/tip.svg" alt="">
+      <img loading="lazy" src="{{@root.uiRootPath}}/img/icons/tip.svg" alt="">
     <p>
       You&#8217;re viewing the
       {{#if preview}}
