@@ -3,7 +3,6 @@
   font-size: 12px;
   height: var(--input-md); /* match search input */
   margin-left: 5px;
-  max-width: 65%;
   overflow-x: auto;
   overflow-y: hidden;
   padding-left: 7px;
