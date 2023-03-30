@@ -37,6 +37,7 @@
   --violet-4: #681da8;
   --red-3: #d1344e;
   --tertiary: #fff;
+  --black: #000;
 
   /* typography */
   --heading: var(--sans-serif);

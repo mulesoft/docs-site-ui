@@ -142,7 +142,7 @@
   overflow-y: hidden;
   padding: 10px 20px;
   position: sticky;
-  top: 51px;
+  top: 100px;
   z-index: var(--z-nav-toolbar);
 }
 

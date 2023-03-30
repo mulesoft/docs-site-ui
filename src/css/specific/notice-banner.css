@@ -8,8 +8,8 @@
 
   & p {
     margin: 12px 40px -20px 40px;
-    padding-bottom: 15px;
-    padding-top: 15px;
+    padding-bottom: 17px;
+    padding-top: 17px;
 
     @media (--lg) {
       padding-top: 10px;
@@ -47,6 +47,7 @@
   & .notice-banner-close-button {
     background: none;
     border: none;
+    color: var(--black);
     cursor: pointer;
     float: right;
     font-size: 20px;
