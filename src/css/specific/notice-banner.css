@@ -2,13 +2,11 @@
   background: #ffe3a2;
   font-size: 12px;
   height: fit-content;
-  margin-bottom: -20px;
-  margin-top: -12px;
   position: sticky;
   z-index: var(--z-backdrop);
 
   & p {
-    margin: 0% 40px 0% 40px;
+    margin: 0 40px 0 40px;
     padding-bottom: 15px;
     padding-top: 15px;
 
