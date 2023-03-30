@@ -1,5 +1,6 @@
-{{#if (and page.breadcrumbs (ne page.layout 'home'))}}
+{{#if page.breadcrumbs}}
 <ol class="flex grow align-center breadcrumbs" aria-label="breadcrumbs">
+  {{#if (ne page.layout 'home')}}
   <li class="flex align-center li">
     <a href="{{relativize site.homeUrl}}" class="link home-link">
       <svg class="svg" width="14" height="15" viewBox="0 0 14 15" fill="none" xmlns="http://www.w3.org/2000/svg"
@@ -21,12 +22,15 @@
   {{/with}}
   {{#each page.breadcrumbs}}
   {{#if (eq ./urlType 'internal')}}
-    {{#if (eq ./url @root.page.url)}}
-    <li class="flex align-center li"><p>{{{./content}}}</p></li>
-    {{else if (ne ./url @root.page.breadcrumbs.0.url)}}
-    <li class="flex align-center li"><a class="link" href="{{{relativize ./url}}}">{{{./content}}}</a></li>
-    {{/if}}
+  {{#if (eq ./url @root.page.url)}}
+  <li class="flex align-center li">
+    <p>{{{./content}}}</p>
+  </li>
+  {{else if (ne ./url @root.page.breadcrumbs.0.url)}}
+  <li class="flex align-center li"><a class="link" href="{{{relativize ./url}}}">{{{./content}}}</a></li>
+  {{/if}}
   {{/if}}
   {{/each}}
+{{/if}}
 </ol>
 {{/if}}
