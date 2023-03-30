@@ -56,13 +56,13 @@
 }
 
 .top-banner:not(.hide) + .flex.container > main > .notice-banner {
-  top: calc(var(--banner-height)*3);
-  
+  top: calc(var(--banner-height) * 3);
+
   @media (--md) {
-    top: calc(var(--banner-height)*2);
+    top: calc(var(--banner-height) * 2);
   }
 }
+
 .top-banner:not(.hide) + .flex.container > main > .secondary-breadcrumbs-drawer {
-  top: calc(var(--banner-height)*2);
-  
+  top: calc(var(--banner-height) * 2);
 }
