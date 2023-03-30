@@ -72,6 +72,10 @@
       if (isSpaceOrEnterKey(e.keyCode)) {
         if (bannerDiv) {
           hideBanner(bannerDiv, classToRemove)
+          const menuButton = document.querySelector('.nav-toggle')
+          if (menuButton) {
+            menuButton.focus()
+          }
           e.preventDefault()
         }
       }
