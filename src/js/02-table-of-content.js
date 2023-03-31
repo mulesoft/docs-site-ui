@@ -14,7 +14,8 @@
   const fixInitialScrollPosition = () => {
     window.addEventListener('load', () => {
       if (urlHasAnchor()) {
-        const scrollValue = isBigScreenSize ? -50 : -100
+        let scrollValue = isBigScreenSize ? -50 : -100
+        scrollValue = adjustForBanners(scrollValue)
         window.scrollBy(0, scrollValue)
       }
     })
