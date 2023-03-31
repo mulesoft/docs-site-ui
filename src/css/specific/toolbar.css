@@ -1,13 +1,13 @@
 .toolbar {
   background: var(--tertiary);
   border-bottom: 1px solid var(--aluminum-3);
-  height: var(--toolbar-height);
   padding: var(--sm) var(--lg);
   position: sticky;
   top: 0;
   z-index: var(--z-nav-toolbar);
 
   &:not(.search-toolbar) {
+    height: var(--toolbar-height);
     overflow-y: hidden;
   }
 
@@ -20,7 +20,7 @@
 .search-toolbar {
   box-shadow: 0 6px 10px 0 rgb(0 0 0 / 10%);
   display: grid;
-  height: var(--search-toolbar-height);
+  min-height: var(--search-toolbar-height);
 
   @media (min-width: 1024px) {
     column-gap: var(--atomic-layout-spacing-x);
