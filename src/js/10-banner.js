@@ -87,7 +87,7 @@
     let nextIndex = currentIndex + 1 >= focusableElements.length ? 0 : currentIndex + 1
     while (focusableElements[nextIndex]) {
       const currElement = focusableElements[nextIndex]
-      if (isVisible(currElement)) return currElement
+      if (isVisible(currElement) && !insideBanners(currElement)) return currElement
       nextIndex++
     }
   }
@@ -95,6 +95,15 @@
   const hideBanner = (bannerDiv, classToRemove) => {
     bannerDiv.classList.add('hide')
     if (classToRemove) bannerDiv.classList.remove(classToRemove)
+  }
+
+  const insideBanners = (element) => {
+    const banners = document.querySelectorAll('.banner')
+    for (let i = 0; i < banners.length; i++) {
+      const banner = banners[i]
+      if (banner.contains(element)) return true
+    }
+    return false
   }
 
   const isSpaceOrEnterKey = (keyCode) => {
