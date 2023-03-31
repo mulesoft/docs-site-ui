@@ -20,6 +20,7 @@
 .search-toolbar {
   box-shadow: 0 6px 10px 0 rgb(0 0 0 / 10%);
   display: grid;
+  height: var(--search-toolbar-height);
 
   @media (min-width: 1024px) {
     column-gap: var(--atomic-layout-spacing-x);

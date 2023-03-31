@@ -55,6 +55,7 @@
   --mobile-banner-height: 65px;
   --footer-height: 361px;
   --nav-item-height: 32px;
+  --search-toolbar-height: 60px;
   --toolbar-height: var(--banner-height);
   --mobile-nav-width: 275px;
   --nav-width: 325px;
