@@ -3,6 +3,7 @@
   font-size: 12px;
   height: fit-content;
   position: sticky;
+  top: calc(var(--banner-height) * 2);
   z-index: var(--z-backdrop);
 
   & p {
@@ -52,9 +53,8 @@
     font-size: 20px;
     padding: 11px 17px;
   }
-}
 
-.sticky {
-  position: sticky;
-  top: var(--banner-height);
+  @media (--md) {
+    top: var(--banner-height);
+  }
 }
