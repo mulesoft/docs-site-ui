@@ -91,7 +91,7 @@
     let tries = 0
     const autoScrollDown = setInterval(() => {
       if (anchor.getBoundingClientRect().top <= minHeight) {
-        window.scrollBy(0, -adjustForBanners(minHeight))
+        window.scrollBy(0, -adjustForBanners(minHeight) / 1.5)
         clearInterval(autoScrollDown)
       }
       if (++tries === 10) {
