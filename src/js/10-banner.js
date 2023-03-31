@@ -40,7 +40,6 @@
   const enhanceNoticeBanner = () => {
     const noticeBannerDiv = document.querySelector('.notice-banner')
     if (noticeBannerDiv) {
-      makeSticky(noticeBannerDiv)
       makeBannerCloseButtonFunctional(noticeBannerDiv, '.notice-banner-close-button')
     }
   }
@@ -50,18 +49,6 @@
     if (closeButton) {
       addEventListeners(bannerDiv, closeButton, classToRemove)
     }
-  }
-
-  const makeSticky = (bannerDiv) => {
-    const toolbar = document.querySelector('.toolbar')
-    const sticky = bannerDiv.offsetTop
-    window.addEventListener('scroll', () => {
-      if (window.pageYOffset + toolbar.offsetHeight + 10 > sticky) {
-        bannerDiv.classList.add('sticky')
-      } else {
-        bannerDiv.classList.remove('sticky')
-      }
-    })
   }
 
   const addEventListeners = (bannerDiv, closeButton, classToRemove) => {
