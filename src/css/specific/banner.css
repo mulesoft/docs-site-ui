@@ -100,30 +100,30 @@
 }
 
 .top-banner:not(.hide) + {
-  &.flex.container > main > .toolbar {
+  &.container > main > .toolbar {
     top: var(--mobile-banner-height);
   }
 
-  &.flex.container > main > .secondary-breadcrumbs-drawer {
+  &.container > main > .secondary-breadcrumbs-drawer {
     top: calc(var(--mobile-banner-height) + var(--toolbar-height));
   }
 
-  &.flex.container > main > .notice-banner {
+  &.container > main > .notice-banner {
     top: calc(var(--mobile-banner-height) + var(--toolbar-height) + var(--breadcrumbs-drawer-height));
   }
 
   @media (--md) {
-    &.flex.container > .nav,
-    &.flex.container > .toc {
+    &.container > .nav,
+    &.container > .toc {
       max-height: calc(100vh - var(--banner-height));
       top: var(--banner-height);
     }
 
-    &.flex.container > main > .toolbar {
+    &.container > main > .toolbar {
       top: var(--banner-height);
     }
 
-    &.flex.container > main > .notice-banner {
+    &.container > main > .notice-banner {
       top: calc(var(--banner-height) + var(--toolbar-height));
     }
   }
