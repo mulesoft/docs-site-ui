@@ -1,35 +1,32 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width,initial-scale=1.0">
-    <title>{{{detag (or page.title 'Untitled')}}}{{#if site.title}} | {{{site.title}}}{{/if}}</title>
-    {{#if page.canonicalUrl}}
-    <link rel="canonical" href="{{page.canonicalUrl}}">
-    {{/if}}
-    {{#if page.description}}
-    <meta name="description" content="{{page.description}}">
-    {{/if}}
-    {{#if page.keywords}}
-    <meta name="keywords" content="{{page.keywords}}">
-    {{/if}}
-    {{#if (not (is-one-of (site-profile) 'jp' 'prod'))}}
-    <meta name="robots" content="none, noarchive">
-    {{/if}}
-    {{> head}}
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>{{{detag (or page.title 'Untitled')}}}{{#if site.title}} | {{{site.title}}}{{/if}}</title>
+{{#if page.canonicalUrl}}
+<link rel="canonical" href="{{page.canonicalUrl}}">
+{{/if}}
+{{#if page.description}}
+<meta name="description" content="{{page.description}}">
+{{/if}}
+{{#if page.keywords}}
+<meta name="keywords" content="{{page.keywords}}">
+{{/if}}
+{{#if (not (is-one-of (site-profile) 'jp' 'prod'))}}
+<meta name="robots" content="none, noarchive">
+{{/if}}
+{{> head}}
 </head>
-
 <body class="flex col">
-    {{> header}}
-    {{> top-banner}}
-    <div class="container wrapper">
-        <main data-ceiling="topbar">
-            {{> search-toolbar}}
-            {{> search-interface}}
-        </main>
-    </div>
-    {{> footer}}
+{{> header}}
+{{> top-banner}}
+<div class="container wrapper">
+<main data-ceiling="topbar">
+{{> search-toolbar}}
+{{> search-interface}}
+</main>
+</div>
+{{> footer}}
 </body>
-
 </html>
