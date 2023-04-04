@@ -7,6 +7,7 @@
   font-size: 14px;
   height: 100vh;
   left: 0;
+  max-height: var(--app-height);
   max-height: -moz-available;
   max-height: -webkit-fill-available;
   max-height: stretch;
