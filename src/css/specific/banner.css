@@ -113,8 +113,8 @@
   }
 
   @media (--md) {
-    &.wrapper > .nav,
-    &.wrapper > .toc {
+    &.container > .nav,
+    &.container > .toc {
       max-height: calc(100vh - var(--banner-height));
       top: var(--banner-height);
     }
