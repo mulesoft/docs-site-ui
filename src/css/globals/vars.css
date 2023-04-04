@@ -28,6 +28,7 @@
   --aluminum-3: #e8e9ea;
   --aluminum-4: #cacbcc;
   --aluminum-5: #989a9b;
+  --yellow-2: #ffe3a2;
   --yellow-3: #f2be24;
   --viridian-3: #00b49d;
   --teal-3: #00b5d1;
@@ -37,6 +38,7 @@
   --violet-4: #681da8;
   --red-3: #d1344e;
   --tertiary: #fff;
+  --black: #000;
 
   /* typography */
   --heading: var(--sans-serif);
@@ -49,8 +51,12 @@
   /* dimensions */
   --header-height: 93px; /* includes 28px of helmet */
   --banner-height: 50px;
+  --breadcrumbs-drawer-height: var(--banner-height);
+  --mobile-banner-height: 65px;
   --footer-height: 361px;
   --nav-item-height: 32px;
+  --search-toolbar-height: 60px;
+  --toolbar-height: var(--banner-height);
   --mobile-nav-width: 275px;
   --nav-width: 325px;
   --min-nav-width: 300px;
@@ -74,7 +80,7 @@
   --z-gdpr: 20;
   --z-nav-mobile: 18;
   --z-modal-header: 17;
-  --z-backdrop: 16;
+  --z-backdrop: 15;
   --z-modal: 110;
   --z-header: 11;
   --z-banner: 10;

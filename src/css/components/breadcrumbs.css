@@ -103,7 +103,7 @@
   border-radius: 50%;
   display: flex;
   height: 1.75em;
-  margin-left: 5px;
+  margin: auto 0 auto 5px;
   min-width: 1.75em;
   padding: 0;
   transform: translateY(.075em);
@@ -136,12 +136,13 @@
   background: var(--tertiary);
   border-bottom: 1px solid var(--aluminum-4);
   display: flex;
+  height: var(--breadcrumbs-drawer-height);
   min-height: 2em;
   overflow-x: auto;
   overflow-y: hidden;
   padding: 10px 20px;
   position: sticky;
-  top: 51px;
+  top: 50px;
   z-index: var(--z-nav-toolbar);
 }
 

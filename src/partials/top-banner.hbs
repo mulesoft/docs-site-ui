@@ -2,7 +2,7 @@
 (or preview (is-one-of (site-profile) 'archive' 'beta' 'review')
 page.componentVersion.asciidoc.attributes.announcementMessage)
 }}
-<div class="top-banner flex {{#if page.componentVersion.asciidoc.attributes.announcementMessage}}announcement{{/if}}">
+<div class="top-banner banner flex {{#if page.componentVersion.asciidoc.attributes.announcementMessage}}announcement{{/if}}">
   <div class="container wrapper flex justify-center">
     {{#if page.componentVersion.asciidoc.attributes.announcementMessage}}
      <img loading="lazy" src="{{@root.uiRootPath}}/img/icons/important.svg" alt="">
@@ -25,6 +25,6 @@ page.componentVersion.asciidoc.attributes.announcementMessage)
     </p>
     {{/if}}
   </div>
-  <button aria-label="Close banner" class="top-banner-close-button" title="Close banner">&times;</button>
+  <button aria-label="Close banner" class="close-button" title="Close banner">&times;</button>
 </div>
 {{/if}}
