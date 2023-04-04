@@ -1,4 +1,6 @@
-;(function () { /*! Asciidoctor Tabs | Copyright (c) 2018-present Dan Allen | MIT License */
+;(() => {
+  // original copied from:
+  // https://github.com/asciidoctor/asciidoctor-tabs/blob/5d8c67f24774772bd980958c8388c566c1a3ed69/data/js/tabs.js
   'use strict'
 
   var config = (document.currentScript || {}).dataset || {}
@@ -24,9 +26,12 @@
         if (!panel) return // invalid state
         tab.tabIndex = 0
         console.log(tab)
-        syncIds && (((syncId = tab.textContent.trim()) in syncIds) ? (syncId = undefined) : true) &&
+        syncIds &&
+          ((syncId = tab.textContent.trim()) in syncIds ? (syncId = undefined) : true) &&
           (syncIds[(tab.dataset.syncId = syncId)] = tab)
-        idx || (initial = { tab: tab, panel: panel }) && syncIds ? toggleHidden(panel, true) : toggleSelected(tab, true)
+        idx || ((initial = { tab: tab, panel: panel }) && syncIds)
+          ? toggleHidden(panel, true)
+          : toggleSelected(tab, true)
         tab.setAttribute('aria-controls', panel.id)
         panel.setAttribute('role', 'tabpanel')
         forEach.call(panel.querySelectorAll('table.tableblock'), function (table) {
@@ -44,7 +49,8 @@
           break
         }
         if (syncGroupId === undefined) tabs.dataset.syncGroupId = syncGroupId = Object.keys(syncIds).sort().join('|')
-        var preferredSyncId = 'syncStorageKey' in config &&
+        var preferredSyncId =
+          'syncStorageKey' in config &&
           window[(config.syncStorageScope || 'local') + 'Storage'].getItem(config.syncStorageKey + '-' + syncGroupId)
         var tab = preferredSyncId && syncIds[preferredSyncId]
         tab && Object.assign(initial, { tab: tab, panel: document.getElementById(tab.getAttribute('aria-controls')) })
