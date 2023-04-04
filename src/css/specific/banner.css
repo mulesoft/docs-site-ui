@@ -100,15 +100,15 @@
 }
 
 .top-banner:not(.hide) + {
-  &.container > main > .toolbar {
+  &.wrapper > main > .toolbar {
     top: var(--mobile-banner-height);
   }
 
-  &.container > main > .secondary-breadcrumbs-drawer {
+  &.wrapper > main > .secondary-breadcrumbs-drawer {
     top: calc(var(--mobile-banner-height) + var(--toolbar-height));
   }
 
-  &.container > main > .notice-banner {
+  &.wrapper > main > .notice-banner {
     top: calc(var(--mobile-banner-height) + var(--toolbar-height) + var(--breadcrumbs-drawer-height));
   }
 
@@ -119,11 +119,11 @@
       top: var(--banner-height);
     }
 
-    &.container > main > .toolbar {
+    &.wrapper > main > .toolbar {
       top: var(--banner-height);
     }
 
-    &.container > main > .notice-banner {
+    &.wrapper > main > .notice-banner {
       top: calc(var(--banner-height) + var(--toolbar-height));
     }
   }
