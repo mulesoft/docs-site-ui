@@ -217,7 +217,7 @@
     }
 
     removeTOCBlock () {
-      if (this.sidebar) this.sidebar.removeChild(this.sidebar.querySelector('.js-toc'))
+      if (this.sidebar) this.sidebar.removeChild(this.sidebar.querySelector('.aside-toc'))
     }
 
     updateExpandState () {
