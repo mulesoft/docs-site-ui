@@ -7,6 +7,7 @@
       this.nav = document.querySelector('nav.nav')
       this.main = document.querySelector('main')
       this.aside = document.querySelector('aside')
+      this.asideToc = this.aside?.querySelector('aside-toc')
       this.toolbar = document.querySelector('.toolbar')
     }
 
@@ -38,11 +39,11 @@
           mainContentSkipLink.remove()
         }
 
-        if (this.aside) {
+        if (this.aside && this.asideToc) {
           addResizeListener(this.aside, pageNavSkipLink)
           pageNavSkipLink.addEventListener('keydown', (e) => {
             if (isVisible(this.aside)) {
-              focusOn(e, '.js-toc a')
+              focusOn(e, '.aside-toc a')
             }
           })
         } else {
