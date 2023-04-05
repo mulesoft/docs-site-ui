@@ -95,7 +95,7 @@
 
   &:focus {
     border-radius: var(--radius);
-    outline: 2px solid #888 !important;
+    outline: 2px solid var(--gray);
   }
 }
 
@@ -238,7 +238,7 @@ svg.nav-icon {
 
   &:focus-visible {
     border-radius: var(--radius);
-    outline: 2px solid #888;
+    outline: 2px solid var(--gray);
   }
 
   &:hover {
@@ -307,7 +307,6 @@ svg.nav-icon {
   box-shadow: 0 0 0 1px var(--aluminum-3), 0 2px 9px rgba(0,0,0,.1);
   font-size: .75rem;
   max-height: 0;
-  max-width: 150px;
   opacity: 0;
   overflow: hidden;
   padding: var(--xs);
@@ -318,6 +317,7 @@ svg.nav-icon {
   transform: scale(.95) translate3d(2px,-5px,0);
   transform-origin: top right;
   transition: opacity var(--transition-speed-sm) var(--transition-timing), transform var(--transition-speed-sm) var(--transition-timing);
+  width: 140px;
   z-index: var(--z-nav);
 
   &.is-active {
@@ -345,6 +345,13 @@ svg.nav-icon {
     margin-top: var(--xs);
   }
 
+  & .nav-version-option.selected {
+    &::after {
+      content: ' ✔️';
+      font-size: xx-small;
+    }
+  }
+
   & .nav-version-option {
     background: none;
     border: 0;
@@ -355,14 +362,14 @@ svg.nav-icon {
     text-align: left;
     width: 90%;
 
-    &:hover,
-    &:focus {
+    &:hover {
       background: var(--aluminum-2);
+      font-weight: var(--weight-bold);
     }
 
-    &:active {
-      background: #e2f8ff;
-      color: var(--secondary-navy);
+    &:active,
+    &:focus {
+      outline: 2px solid var(--gray);
     }
   }
 }
