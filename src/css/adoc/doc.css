@@ -179,7 +179,7 @@
     &:active,
     &:focus {
       border-radius: 5px;
-      outline: 2px solid #888;
+      outline: 2px solid var(--gray);
       text-decoration: none;
     }
 
