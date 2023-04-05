@@ -24,7 +24,10 @@ pipeline {
       when {
         allOf {
           branch defaultBranch
-          changeset "src/**"
+          anyOf {
+              changeset "src/**"
+              changeset "package*.json"
+          }
         }
       }
       steps {
