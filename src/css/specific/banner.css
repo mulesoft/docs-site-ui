@@ -115,8 +115,8 @@
   @media (--md) {
     &.container > .nav,
     &.container > .toc {
-      max-height: calc(var(--app-height) - var(--banner-height));
       max-height: calc(100vh - var(--banner-height));
+      max-height: calc(var(--app-height) - var(--banner-height));
       top: var(--banner-height);
     }
 
