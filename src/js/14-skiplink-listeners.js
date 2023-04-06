@@ -7,7 +7,7 @@
       this.nav = document.querySelector('nav.nav')
       this.main = document.querySelector('main')
       this.aside = document.querySelector('aside')
-      this.asideToc = this.aside?.querySelector('aside-toc')
+      this.asideToc = this.aside?.querySelector('.aside-toc')
       this.toolbar = document.querySelector('.toolbar')
     }
 
@@ -128,6 +128,7 @@
   const isVisible = (element) => {
     return (
       element &&
+      element.querySelector('a') &&
       window.getComputedStyle(element).display !== 'none' &&
       window.getComputedStyle(element).visibility !== 'hidden'
     )
