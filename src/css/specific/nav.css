@@ -318,7 +318,7 @@ svg.nav-icon {
   transform: scale(.95) translate3d(2px,-5px,0);
   transform-origin: top right;
   transition: opacity var(--transition-speed-sm) var(--transition-timing), transform var(--transition-speed-sm) var(--transition-timing);
-  width: 140px;
+  width: 150px;
   z-index: var(--z-nav);
 
   &.is-active {
