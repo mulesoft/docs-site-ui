@@ -128,6 +128,7 @@
   const isVisible = (element) => {
     return (
       element &&
+      element.querySelector('a') &&
       window.getComputedStyle(element).display !== 'none' &&
       window.getComputedStyle(element).visibility !== 'hidden'
     )
