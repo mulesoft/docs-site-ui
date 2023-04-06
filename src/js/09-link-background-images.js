@@ -21,7 +21,7 @@
   }
 
   const isFooterLink = (e) => {
-    return e.offsetParent.tagName === 'FOOTER'
+    return e && e.offsetParent && e.offsetParent.tagName === 'FOOTER'
   }
 
   const createLinkImage = (element) => {
