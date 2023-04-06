@@ -59,13 +59,18 @@
     closeButton.addEventListener('keydown', (e) => {
       if (isSpaceOrEnterKey(e.keyCode)) {
         if (bannerDiv) {
-          if (bannerDiv.classList.contains('top-banner')) {
-            const menuButton = document.querySelector('.nav-toggle')
-            if (menuButton && window.getComputedStyle(menuButton).display !== 'none') {
-              menuButton.focus()
+          if (isTopBanner(bannerDiv)) {
+            const searchboxInput = getFocusableSearchBox()
+            if (searchboxInput && isBigScreenSize()) {
+              searchboxInput.focus()
             } else {
-              const nextFocusableElement = getNextFocusableElement()
-              if (nextFocusableElement) nextFocusableElement.focus()
+              const menuButton = document.querySelector('.nav-toggle')
+              if (menuButton && window.getComputedStyle(menuButton).display !== 'none') {
+                menuButton.focus()
+              } else {
+                const nextFocusableElement = getNextFocusableElement()
+                if (nextFocusableElement) nextFocusableElement.focus()
+              }
             }
           } else {
             const nextFocusableElement = getNextFocusableElement()
@@ -76,6 +81,14 @@
         }
       }
     })
+  }
+
+  const getFocusableSearchBox = () => {
+    const atomicSearchbox = document.querySelector('atomic-search-box')
+    const searchboxShadowRoot = atomicSearchbox && atomicSearchbox.shadowRoot
+    if (searchboxShadowRoot) {
+      return searchboxShadowRoot.querySelector('input')
+    }
   }
 
   const getNextFocusableElement = () => {
@@ -106,8 +119,16 @@
     return false
   }
 
+  const isBigScreenSize = () => {
+    return window.innerWidth >= 768
+  }
+
   const isSpaceOrEnterKey = (keyCode) => {
     return [13, 32].includes(keyCode)
+  }
+
+  const isTopBanner = (element) => {
+    return element.classList.contains('top-banner')
   }
 
   const isVisible = (element) => {
