@@ -35,20 +35,3 @@ https://docs.asciidoctor.org/asciidoc/latest/tables/build-a-basic-table/[Antora 
 !===
 
 |===
-
-[tabs]
-====
-Tab A:: Contents of tab A.
-
-Tab B::
-+
-Contents of tab B.
-
-Tab C::
-+
---
-Contents of tab C.
-
-Contains more than one block.
---
-====
