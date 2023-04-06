@@ -308,6 +308,7 @@ svg.nav-icon {
   box-shadow: 0 0 0 1px var(--aluminum-3), 0 2px 9px rgba(0,0,0,.1);
   font-size: .75rem;
   max-height: 0;
+  max-width: 160px;
   opacity: 0;
   overflow: hidden;
   padding: var(--xs);
@@ -318,7 +319,6 @@ svg.nav-icon {
   transform: scale(.95) translate3d(2px,-5px,0);
   transform-origin: top right;
   transition: opacity var(--transition-speed-sm) var(--transition-timing), transform var(--transition-speed-sm) var(--transition-timing);
-  max-width: 160px;
   z-index: var(--z-nav);
 
   &.is-active {
