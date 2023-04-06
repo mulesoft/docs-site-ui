@@ -22,7 +22,7 @@
     position: relative;
 
     &:focus {
-      border-radius: 0px;
+      border-radius: 0;
       outline: 2px solid var(--gray);
     }
 
@@ -51,7 +51,7 @@
   color: var(--steel-3);
 
   &:focus {
-    border-radius: 0px;
+    border-radius: 0;
     outline: 2px solid var(--gray);
   }
 }
