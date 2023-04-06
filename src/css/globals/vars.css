@@ -39,6 +39,7 @@
   --red-3: #d1344e;
   --tertiary: #fff;
   --black: #000;
+  --gray: #888;
 
   /* typography */
   --heading: var(--sans-serif);

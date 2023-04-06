@@ -50,5 +50,4 @@
 @import "vendor/tabs.css";
 
 /* other */
-@import "@asciidoctor/tabs";
 @import "highlight.css";

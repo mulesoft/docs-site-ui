@@ -95,7 +95,7 @@
 
   &:focus {
     border-radius: var(--radius);
-    outline: 2px solid #888 !important;
+    outline: 2px solid var(--gray) !important;
   }
 }
 
@@ -238,7 +238,7 @@ svg.nav-icon {
 
   &:focus-visible {
     border-radius: var(--radius);
-    outline: 2px solid #888;
+    outline: 2px solid var(--gray);
   }
 
   &:hover {
