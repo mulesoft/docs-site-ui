@@ -7,10 +7,11 @@
   font-size: 14px;
   height: 100vh;
   left: 0;
+  max-height: 100%;
   max-height: -moz-available;
   max-height: -webkit-fill-available;
   max-height: stretch;
-  max-height: 100%;
+  max-height: var(--app-height);
   position: fixed;
   top: 0;
   transform: translateX(-100%);
