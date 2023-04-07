@@ -334,6 +334,11 @@
     return { components, groups, homeUrl, subcomponents }
   }
 
+  const moveFocusOnFirstElement = (navItem) => {
+    const firstLink = navItem.querySelector('a')
+    if (firstLink) firstLink.focus()
+  }
+
   const relativize = (to) => {
     if (!(page.url && to.charAt() === '/')) return to
     var hash = ''
@@ -879,6 +884,7 @@
         removeCurrentVersionIndicator(navVersionButton)
       }
       hideVersionMenu(navVersionMenu)
+      moveFocusOnFirstElement(navItem)
     }
 
     toggleNav (navItem, componentData, selectedVersion) {
