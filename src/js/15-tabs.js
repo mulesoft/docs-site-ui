@@ -6,6 +6,10 @@
   var config = (document.currentScript || {}).dataset || {}
   var forEach = Array.prototype.forEach
 
+  const isSpaceOrEnterKey = (keyCode) => {
+    return [13, 32].includes(keyCode)
+  }
+
   init(document.querySelectorAll('.tabs'))
 
   function init (tabsBlocks) {
@@ -40,6 +44,12 @@
         })
         var onClick = syncId === undefined ? activateTab : activateTabSync
         tab.addEventListener('click', onClick.bind({ tabs: tabs, tab: tab, panel: panel }))
+        tab.addEventListener('keydown', (e) => {
+          if (isSpaceOrEnterKey(e.keyCode)) {
+            e.preventDefault()
+            onClick.call({ tabs: tabs, tab: tab, panel: panel })
+          }
+        })
       })
       if (syncIds && initial) {
         var syncGroupId
