@@ -94,5 +94,5 @@
   --transition-timing: cubic-bezier(.46,.03,.52,.96);
 
   /* https://medium.com/quick-code/100vh-problem-with-ios-safari-92ab23c852a8 */
-  --app-height: 100%;
+  --app-height: 100vh;
 }
