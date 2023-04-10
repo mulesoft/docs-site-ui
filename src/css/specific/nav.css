@@ -8,10 +8,10 @@
   height: 100vh;
   left: 0;
   max-height: 100%;
-  max-height: -moz-available;
-  max-height: -webkit-fill-available;
   max-height: stretch;
   max-height: var(--app-height);
+  max-height: -moz-available;
+  max-height: -webkit-fill-available;
   position: fixed;
   top: 0;
   transform: translateX(-100%);
@@ -96,7 +96,7 @@
 
   &:focus {
     border-radius: var(--radius);
-    outline: 2px solid var(--gray) !important;
+    outline: 2px solid var(--gray);
   }
 }
 
@@ -308,7 +308,7 @@ svg.nav-icon {
   box-shadow: 0 0 0 1px var(--aluminum-3), 0 2px 9px rgba(0,0,0,.1);
   font-size: .75rem;
   max-height: 0;
-  max-width: 150px;
+  max-width: 160px;
   opacity: 0;
   overflow: hidden;
   padding: var(--xs);
@@ -346,6 +346,13 @@ svg.nav-icon {
     margin-top: var(--xs);
   }
 
+  & .nav-version-option.selected {
+    &::after {
+      content: ' ✔️';
+      font-size: xx-small;
+    }
+  }
+
   & .nav-version-option {
     background: none;
     border: 0;
@@ -356,14 +363,14 @@ svg.nav-icon {
     text-align: left;
     width: 90%;
 
-    &:hover,
-    &:focus {
+    &:hover {
       background: var(--aluminum-2);
+      font-weight: var(--weight-bold);
     }
 
-    &:active {
-      background: #e2f8ff;
-      color: var(--secondary-navy);
+    &:active,
+    &:focus {
+      outline: 2px solid var(--gray);
     }
   }
 }
