@@ -64,7 +64,7 @@
 
     updateFacetTexts () {
       if (this.facetDiv) {
-        const facetTitle = this.facetDiv.querySelector('div.truncate')
+        const facetTitle = this.facetDiv.querySelector('h1')
         facetTitle.innerHTML = `Filter by ${facetTitle.innerHTML}`
         const facetInput = this.facetDiv.querySelector('input')
         if (facetInput) facetInput.placeholder = 'Search Products'
