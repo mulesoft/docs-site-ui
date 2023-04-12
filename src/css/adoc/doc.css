@@ -295,7 +295,8 @@
 
   /* images */
   & .image img {
-    margin: 0;
+    margin-bottom: 8px;
+    margin-top: 24px;
   }
 
   & kbd {
