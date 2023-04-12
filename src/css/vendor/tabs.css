@@ -29,7 +29,7 @@
 
     &:hover {
       font-weight: var(--weight-bold);
-      padding: .25em .92em;
+      letter-spacing: -.03em;
     }
 
     & + li {
