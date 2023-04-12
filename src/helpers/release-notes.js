@@ -104,8 +104,11 @@ const removeYear = (dateStr) => {
 
 const cleanTitle = (title) => {
   if (title) {
-    const splitList = title.split('Release Notes')
-    return splitList[0].trim()
+    return title
+      .replace(/(Release Notes.*$)/, '')
+      .trim()
+      .replace(/(([0-9])+.([0-9a-z])+(.[0-9a-z])?$)/, '')
+      .trim()
   }
 }
 
