@@ -42,9 +42,9 @@
   --gray: #888;
 
   /* typography */
-  --heading: var(--sans-serif);
-  --sans-serif: 'AvantGardeBold', arial, sans-serif;
-  --monospace: 'SF', arial, sans-serif;
+  --heading: 'EAvantGardeBold', arial, sans-serif;
+  --sans-serif: 'SFRegular', arial, sans-serif;
+  --monospace: sfmono-regular, menlo, monaco, consolas, 'Liberation Mono', 'Courier New', monospace;
   --weight-normal: 400;
   --weight-medium: 600;
   --weight-bold: 700;
