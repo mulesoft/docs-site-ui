@@ -63,7 +63,7 @@ const getSelectedAttributes = (page) => {
     latestVersionAnchor: latestVersion?.anchor,
     latestVersionName: latestVersion?.innerText,
     revdateWithoutYear: removeYear(page.attributes?.revdate),
-    title: cleanTitle(page.title),
+    title: cleanTitle(page.title, latestVersion?.innerText),
     url: page.url,
   }
 }
@@ -102,14 +102,14 @@ const removeYear = (dateStr) => {
   }
 }
 
-const cleanTitle = (title) => {
+const cleanTitle = (title, version) => {
   if (title) {
-    return title
-      .replace(/(Release Notes.*$)/, '')
-      .trim()
-      .replace(/(([0-9])+.([0-9a-z])+(.[0-9a-z])?$)/, '')
-      .trim()
+    title = title.replace(/(Release Notes.*$)/, '').trim()
+    if (version) {
+      title = title.replace(/(([0-9])+.([0-9a-z])+(.[0-9a-z])?$)/, '').trim()
+    }
   }
+  return title
 }
 
 module.exports = (numOfItems, { data }) => {
