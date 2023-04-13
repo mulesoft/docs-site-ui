@@ -38,7 +38,7 @@
     color: var(--steel-2);
     font-family: var(--sans-serif-bold);
     font-weight: var(--weight-bold);
-    letter-spacing: -.02em;
+    letter-spacing: -.01em;
   }
 
   &:focus {

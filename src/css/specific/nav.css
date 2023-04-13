@@ -106,7 +106,7 @@
     color: var(--steel-3);
     font-family: var(--sans-serif-bold);
     font-weight: var(--weight-bold);
-    letter-spacing: -.02em;
+    letter-spacing: -.01em;
   }
   &:hover svg {
     filter: grayscale(0);
@@ -326,7 +326,7 @@ svg.nav-icon {
   &.is-active {
     font-family: var(--sans-serif-bold);
     font-weight: var(--weight-bold);
-    letter-spacing: -.02em;
+    letter-spacing: -.01em;
     opacity: 1;
     pointer-events: auto;
     transform: scale(1) translate3d(0,0,0);
@@ -371,7 +371,7 @@ svg.nav-icon {
       background: var(--aluminum-2);
       font-family: var(--sans-serif-bold);
       font-weight: var(--weight-bold);
-      letter-spacing: -.02em;
+      letter-spacing: -.01em;
     }
 
     &:active,
