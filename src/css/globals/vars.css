@@ -43,8 +43,8 @@
 
   /* typography */
   --heading: var(--sans-serif);
-  --sans-serif: system-ui, -apple-system, blinkmacsystemfont, 'Segoe UI', roboto, 'Helvetica Neue', arial, 'Noto Sans', 'Liberation Sans', sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
-  --monospace: sfmono-regular, menlo, monaco, consolas, 'Liberation Mono', 'Courier New', monospace;
+  --sans-serif: 'AvantGardeBold', Arial, sans-serif;
+  --monospace: 'SF', Arial, sans-serif;
   --weight-normal: 400;
   --weight-medium: 600;
   --weight-bold: 700;
