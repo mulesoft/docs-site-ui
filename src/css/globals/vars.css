@@ -77,7 +77,7 @@
   --screen-lg: 992px;
   --screen-xl: 1350px;
   --screen-xxl: 1650px;
-  --bold-text-letter-spacing: -0.005em;
+  --bold-text-letter-spacing: -.005em;
 
   /* z-index */
   --z-gdpr: 20;

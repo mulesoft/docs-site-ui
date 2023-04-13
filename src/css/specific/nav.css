@@ -344,7 +344,7 @@ svg.nav-icon {
   & button,
   & span:not(.tooltip-dot-nav-version-menu):not(.tooltip-dot-nav-version) {
     display: list-item;
-    padding: var(--xs) var(--sm);
+    padding: var(--xs) var(--input-md) var(--xs) var(--sm);
   }
 
   & .nav-version-label {
@@ -358,7 +358,9 @@ svg.nav-icon {
   & .nav-version-option.selected {
     &::after {
       content: ' ✔️';
+      float: right;
       font-size: xx-small;
+      margin-right: calc(0px - var(--lg));
     }
   }
 
