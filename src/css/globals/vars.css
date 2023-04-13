@@ -44,6 +44,7 @@
   /* typography */
   --heading: 'EAvantGardeBold', arial, sans-serif;
   --sans-serif: 'SFRegular', arial, sans-serif;
+  --sans-serif-bold: 'SFBold', arial, sans-serif;
   --monospace: sfmono-regular, menlo, monaco, consolas, 'Liberation Mono', 'Courier New', monospace;
   --weight-normal: 400;
   --weight-medium: 600;

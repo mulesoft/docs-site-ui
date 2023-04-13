@@ -28,8 +28,9 @@
     }
 
     &:hover {
+      font-family: var(--sans-serif-bold);
       font-weight: var(--weight-bold);
-      letter-spacing: -.03em;
+      letter-spacing: -.02em;
     }
 
     & + li {
