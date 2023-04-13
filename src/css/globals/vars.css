@@ -43,8 +43,8 @@
 
   /* typography */
   --heading: var(--sans-serif);
-  --sans-serif: 'AvantGardeBold', Arial, sans-serif;
-  --monospace: 'SF', Arial, sans-serif;
+  --sans-serif: 'AvantGardeBold', arial, sans-serif;
+  --monospace: 'SF', arial, sans-serif;
   --weight-normal: 400;
   --weight-medium: 600;
   --weight-bold: 700;
