@@ -90,6 +90,7 @@
 
 .nav-text {
   display: flex;
+  padding-right: var(--xs);
   text-decoration: none;
   width: -moz-available;
   width: -webkit-fill-available;
@@ -97,6 +98,10 @@
   &:focus {
     border-radius: var(--radius);
     outline: 2px solid var(--gray) !important;
+  }
+
+  &:hover {
+    padding-right: inherit;
   }
 }
 
@@ -106,7 +111,7 @@
     color: var(--steel-3);
     font-family: var(--sans-serif-bold);
     font-weight: var(--weight-bold);
-    letter-spacing: -.01em;
+    letter-spacing: var(--bold-text-letter-spacing);
   }
   &:hover svg {
     filter: grayscale(0);
@@ -326,7 +331,7 @@ svg.nav-icon {
   &.is-active {
     font-family: var(--sans-serif-bold);
     font-weight: var(--weight-bold);
-    letter-spacing: -.01em;
+    letter-spacing: var(--bold-text-letter-spacing);
     opacity: 1;
     pointer-events: auto;
     transform: scale(1) translate3d(0,0,0);
@@ -371,7 +376,7 @@ svg.nav-icon {
       background: var(--aluminum-2);
       font-family: var(--sans-serif-bold);
       font-weight: var(--weight-bold);
-      letter-spacing: -.01em;
+      letter-spacing: var(--bold-text-letter-spacing);
     }
 
     &:active,
