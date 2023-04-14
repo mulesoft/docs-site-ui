@@ -371,3 +371,9 @@ body.home {
     }
   }
 }
+
+#landing-page {
+  & a {
+    font-family: var(--sans-serif-bold);
+  }
+}
