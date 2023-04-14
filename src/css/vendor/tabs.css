@@ -30,7 +30,7 @@
     &:hover {
       font-family: var(--sans-serif-bold);
       font-weight: var(--weight-bold);
-      letter-spacing: -.01em;
+      letter-spacing: var(--bold-text-letter-spacing);
     }
 
     & + li {

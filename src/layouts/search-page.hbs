@@ -23,7 +23,11 @@
 <body class="flex col">
     {{> header}}
     {{> top-banner}}
-    <div class="wrapper">
+    {{!-- 
+        The search-interface class doesn't do much.
+        It's added to let Coveo exclude indexing its content
+     --}}
+    <div class="search-interface wrapper">
         <main data-ceiling="topbar">
             {{> search-toolbar}}
             {{> search-interface}}
