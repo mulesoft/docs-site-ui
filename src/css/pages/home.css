@@ -241,7 +241,7 @@ body.home {
   }
 }
 
-@media screen and (min-width: 350px) {
+@media screen and (min-width: 540px) {
   body.home article.doc {
     & header {
       & h1 {
