@@ -15,6 +15,7 @@
   padding: var(--xs);
 
   &:hover {
+    background-color: var(--light-blue);
     border-color: var(--steel-2);
     color: var(--steel-2);
   }

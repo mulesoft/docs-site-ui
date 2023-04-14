@@ -30,7 +30,10 @@
     const searchPageBackButton = document.querySelector('.search-page-back-button')
     if (searchPageBackButton) {
       const href = getHref()
-      searchPageBackButton.setAttribute('href', href)
+      searchPageBackButton.addEventListener('click', (e) => {
+        window.location.href = href
+        e.preventDefault()
+      })
     }
   }
 

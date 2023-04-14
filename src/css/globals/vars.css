@@ -2,6 +2,8 @@
   /* colors */
   --eyebrow-gray: #6d7883;
   --secondary-navy: #002196;
+  --dark-navy: #00044c;
+  --light-blue: #e8f8ff;
   --core-blue-0: #f2fafd;
   --core-blue-1: #abe2f5;
   --core-blue-2: #48c1ed;
@@ -43,7 +45,7 @@
 
   /* typography */
   --heading: 'EAvantGardeBold', arial, sans-serif;
-  --sans-serif: 'SFRegular', arial, sans-serif;
+  --sans-serif: 'ESF', arial, sans-serif;
   --sans-serif-bold: 'SFBold', arial, sans-serif;
   --monospace: sfmono-regular, menlo, monaco, consolas, 'Liberation Mono', 'Courier New', monospace;
   --weight-normal: 400;
