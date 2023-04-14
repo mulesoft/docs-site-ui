@@ -49,5 +49,17 @@ window.settings_timer=setTimeout(function () {_vwo_code.finish() },settings_tole
 </script>
 
 {{#if (eq (site-profile) 'review' )}}
-<script async src="https://54.80.84.2:5000/embed.js"></script>
+<script type="application/json" class="js-hypothesis-config">
+  {
+    "openSidebar": true,
+    "openLoginForm": true
+  }
+</script>
+
+<script type="application/json" class="js-hypothesis-config">
+  {
+    "sidebarAppUrl": "https://admin-h.dev-docs.devx.mulesoft.com/app.html"
+  }
+</script>
+<script async defer src="https://admin-h.dev-docs.devx.mulesoft.com/embed.js"></script>
 {{/if}}
