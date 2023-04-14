@@ -30,6 +30,9 @@
     const searchPageBackButton = document.querySelector('.search-page-back-button')
     if (searchPageBackButton) {
       const href = getHref()
+      const helperText = `Navigate to ${href}`
+      searchPageBackButton.ariaLabel = helperText
+      searchPageBackButton.title = helperText
       searchPageBackButton.addEventListener('click', (e) => {
         window.location.href = href
         e.preventDefault()
