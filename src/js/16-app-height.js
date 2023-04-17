@@ -1,10 +1,10 @@
 ;(() => {
   'use strict'
 
-  // https://medium.com/quick-code/100vh-problem-with-ios-safari-92ab23c852a8
+  // https://css-tricks.com/the-trick-to-viewport-units-on-mobile/
   const appHeight = () => {
-    const doc = document.documentElement
-    doc.style.setProperty('--app-height', `${window.innerHeight}px`)
+    const vh = window.innerHeight * 0.01
+    document.documentElement.style.setProperty('--vh', `${vh}px`)
   }
 
   window.addEventListener('resize', appHeight)
