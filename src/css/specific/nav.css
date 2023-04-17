@@ -8,10 +8,10 @@
   height: 100vh;
   left: 0;
   max-height: 100%;
-  max-height: -moz-available;
-  max-height: -webkit-fill-available;
   max-height: stretch;
   max-height: var(--app-height);
+  max-height: -moz-available;
+  max-height: -webkit-fill-available;
   position: fixed;
   top: 0;
   transform: translateX(-100%);
@@ -90,13 +90,18 @@
 
 .nav-text {
   display: flex;
+  padding-right: var(--xs);
   text-decoration: none;
   width: -moz-available;
   width: -webkit-fill-available;
 
   &:focus {
     border-radius: var(--radius);
-    outline: 2px solid #888 !important;
+    outline: 2px solid var(--gray) !important;
+  }
+
+  &:hover {
+    padding-right: inherit;
   }
 }
 
@@ -104,7 +109,9 @@
 .nav-group > .nav-list > .nav-item > .nav-text {
   &:hover {
     color: var(--steel-3);
+    font-family: var(--sans-serif-bold);
     font-weight: var(--weight-bold);
+    letter-spacing: var(--bold-text-letter-spacing);
   }
   &:hover svg {
     filter: grayscale(0);
@@ -239,7 +246,7 @@ svg.nav-icon {
 
   &:focus-visible {
     border-radius: var(--radius);
-    outline: 2px solid #888;
+    outline: 2px solid var(--gray);
   }
 
   &:hover {
@@ -308,7 +315,7 @@ svg.nav-icon {
   box-shadow: 0 0 0 1px var(--aluminum-3), 0 2px 9px rgba(0,0,0,.1);
   font-size: .75rem;
   max-height: 0;
-  max-width: 150px;
+  max-width: 160px;
   opacity: 0;
   overflow: hidden;
   padding: var(--xs);
@@ -322,7 +329,9 @@ svg.nav-icon {
   z-index: var(--z-nav);
 
   &.is-active {
+    font-family: var(--sans-serif-bold);
     font-weight: var(--weight-bold);
+    letter-spacing: var(--bold-text-letter-spacing);
     opacity: 1;
     pointer-events: auto;
     transform: scale(1) translate3d(0,0,0);
@@ -335,7 +344,7 @@ svg.nav-icon {
   & button,
   & span:not(.tooltip-dot-nav-version-menu):not(.tooltip-dot-nav-version) {
     display: list-item;
-    padding: var(--xs) var(--sm);
+    padding: var(--xs) var(--input-md) var(--xs) var(--sm);
   }
 
   & .nav-version-label {
@@ -344,6 +353,15 @@ svg.nav-icon {
 
   & .nav-version-option + .nav-version-label {
     margin-top: var(--xs);
+  }
+
+  & .nav-version-option.selected {
+    &::after {
+      content: ' ✔️';
+      float: right;
+      font-size: xx-small;
+      margin-right: calc(0px - var(--lg));
+    }
   }
 
   & .nav-version-option {
@@ -356,14 +374,16 @@ svg.nav-icon {
     text-align: left;
     width: 90%;
 
-    &:hover,
-    &:focus {
+    &:hover {
       background: var(--aluminum-2);
+      font-family: var(--sans-serif-bold);
+      font-weight: var(--weight-bold);
+      letter-spacing: var(--bold-text-letter-spacing);
     }
 
-    &:active {
-      background: #e2f8ff;
-      color: var(--secondary-navy);
+    &:active,
+    &:focus {
+      outline: 2px solid var(--gray);
     }
   }
 }

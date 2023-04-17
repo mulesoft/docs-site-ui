@@ -39,10 +39,12 @@
   --red-3: #d1344e;
   --tertiary: #fff;
   --black: #000;
+  --gray: #888;
 
   /* typography */
-  --heading: var(--sans-serif);
-  --sans-serif: system-ui, -apple-system, blinkmacsystemfont, 'Segoe UI', roboto, 'Helvetica Neue', arial, 'Noto Sans', 'Liberation Sans', sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
+  --heading: 'EAvantGardeBold', arial, sans-serif;
+  --sans-serif: 'SFRegular', arial, sans-serif;
+  --sans-serif-bold: 'SFBold', arial, sans-serif;
   --monospace: sfmono-regular, menlo, monaco, consolas, 'Liberation Mono', 'Courier New', monospace;
   --weight-normal: 400;
   --weight-medium: 600;
@@ -75,6 +77,7 @@
   --screen-lg: 992px;
   --screen-xl: 1350px;
   --screen-xxl: 1650px;
+  --bold-text-letter-spacing: -.005em;
 
   /* z-index */
   --z-gdpr: 20;
@@ -93,5 +96,5 @@
   --transition-timing: cubic-bezier(.46,.03,.52,.96);
 
   /* https://medium.com/quick-code/100vh-problem-with-ios-safari-92ab23c852a8 */
-  --app-height: 100%;
+  --app-height: 100vh;
 }

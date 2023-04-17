@@ -47,7 +47,7 @@
 
 /* vendor */
 @import "vendor/coveo.css";
+@import "vendor/tabs.css";
 
 /* other */
-@import "@asciidoctor/tabs";
 @import "highlight.css";
