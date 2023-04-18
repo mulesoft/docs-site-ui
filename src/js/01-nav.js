@@ -186,6 +186,11 @@
     return [13, 32].includes(keyCode)
   }
 
+  const hasTopBanner = () => {
+    const topBanner = document.querySelector('.top-banner')
+    return topBanner && !topBanner.classList.contains('hide')
+  }
+
   const setAriaActiveDescendant = (componentName, version, set) => {
     const combobox = document.querySelector(`#combo-${componentName}`)
     if (combobox) {
@@ -391,6 +396,9 @@
               heightValue = isVisible(footer)
                 ? `calc(${appHeight} - ${getWindowsHeightMinus(footer)}px`
                 : `calc(${appHeight}`
+              if (hasTopBanner()) {
+                heightValue += ` - ${bannerHeight}px`
+              }
             } else {
               heightValue = isVisible(header) ? `calc(${appHeight} - var(--header-height)` : `calc(${appHeight}`
             }
