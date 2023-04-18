@@ -29,7 +29,6 @@
         var panel = tabs.querySelector('.tabpanel[aria-labelledby~="' + id + '"]')
         if (!panel) return // invalid state
         tab.tabIndex = 0
-        console.log(tab)
         syncIds &&
           ((syncId = tab.textContent.trim()) in syncIds ? (syncId = undefined) : true) &&
           (syncIds[(tab.dataset.syncId = syncId)] = tab)

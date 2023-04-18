@@ -388,21 +388,23 @@
         const header = document.querySelector('.ms-com-content-header')
         const footer = document.querySelector('.ms-com-content-footer')
         if (header && footer) {
+          const appHeight = 'var(--vh, 1vh) * 100'
+          let heightValue
           if (isBigScreenSize()) {
             const bannerHeight = getBannerHeight()
             if (window.pageYOffset + bannerHeight > header.offsetHeight) {
-              let heightValue = isVisible(footer) ? `calc(100vh - ${getWindowsHeightMinus(footer)}px` : 'calc(100vh'
+              heightValue = isVisible(footer)
+                ? `calc(${appHeight} - ${getWindowsHeightMinus(footer)}px`
+                : `calc(${appHeight}`
               if (hasTopBanner()) {
-                heightValue += ' - var(--banner-height)'
+                heightValue += ` - ${bannerHeight}px`
               }
-              this.nav.style.height = `${heightValue})`
             } else {
-              this.nav.style.height = hasTopBanner()
-                ? 'calc(100vh - var(--header-height) - var(--banner-height))'
-                : 'calc(100vh - var(--header-height))'
+              heightValue = isVisible(header) ? `calc(${appHeight} - var(--header-height)` : `calc(${appHeight}`
             }
+            this.nav.style.height = `${heightValue})`
           } else {
-            this.nav.style.height = '100vh'
+            this.nav.style.height = `calc(${appHeight})`
           }
         }
       }
