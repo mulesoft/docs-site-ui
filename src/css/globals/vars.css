@@ -28,6 +28,7 @@
   --aluminum-3: #e8e9ea;
   --aluminum-4: #cacbcc;
   --aluminum-5: #989a9b;
+  --yellow-2: #ffe3a2;
   --yellow-3: #f2be24;
   --viridian-3: #00b49d;
   --teal-3: #00b5d1;
@@ -37,11 +38,14 @@
   --violet-4: #681da8;
   --red-3: #d1344e;
   --tertiary: #fff;
+  --black: #000;
+  --gray: #888;
 
   /* typography */
-  --heading: 'DIN Pro', 'Open Sans', sans-serif;
-  --sans-serif: 'Open Sans', sans-serif;
-  --monospace: 'Monaco', monospace;
+  --heading: 'EAvantGardeBold', arial, sans-serif;
+  --sans-serif: 'SFRegular', arial, sans-serif;
+  --sans-serif-bold: 'SFBold', arial, sans-serif;
+  --monospace: sfmono-regular, menlo, monaco, consolas, 'Liberation Mono', 'Courier New', monospace;
   --weight-normal: 400;
   --weight-medium: 600;
   --weight-bold: 700;
@@ -49,10 +53,14 @@
   /* dimensions */
   --header-height: 93px; /* includes 28px of helmet */
   --banner-height: 50px;
+  --breadcrumbs-drawer-height: var(--banner-height);
+  --mobile-banner-height: 65px;
   --footer-height: 361px;
   --nav-item-height: 32px;
+  --search-toolbar-height: 60px;
+  --toolbar-height: var(--banner-height);
   --mobile-nav-width: 275px;
-  --nav-width: 300px;
+  --nav-width: 325px;
   --min-nav-width: 300px;
   --toc-width: 250px;
   --radius: 2px;
@@ -69,12 +77,13 @@
   --screen-lg: 992px;
   --screen-xl: 1350px;
   --screen-xxl: 1650px;
+  --bold-text-letter-spacing: -.005em;
 
   /* z-index */
   --z-gdpr: 20;
   --z-nav-mobile: 18;
   --z-modal-header: 17;
-  --z-backdrop: 16;
+  --z-backdrop: 15;
   --z-modal: 110;
   --z-header: 11;
   --z-banner: 10;
@@ -85,4 +94,7 @@
   --transition-speed-sm: .15s;
   --transition-speed-md: .3s;
   --transition-timing: cubic-bezier(.46,.03,.52,.96);
+
+  /* https://medium.com/quick-code/100vh-problem-with-ios-safari-92ab23c852a8 */
+  --app-height: 100vh;
 }

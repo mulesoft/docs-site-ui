@@ -64,7 +64,7 @@
 
     updateFacetTexts () {
       if (this.facetDiv) {
-        const facetTitle = this.facetDiv.querySelector('div.truncate')
+        const facetTitle = this.facetDiv.querySelector('h1')
         facetTitle.innerHTML = `Filter by ${facetTitle.innerHTML}`
         const facetInput = this.facetDiv.querySelector('input')
         if (facetInput) facetInput.placeholder = 'Search Products'
@@ -102,7 +102,9 @@
     }
 
     updateAriaLabelForInput () {
-      this.searchboxInput.ariaLabel = `${this.searchboxInput.ariaLabel} For shortcut to search, \
+      // .getAttribute('aria-label') is used here instead of .ariaLabel
+      // because for some reason, it returned an error in firefox
+      this.searchboxInput.ariaLabel = `${this.searchboxInput.getAttribute('aria-label')} For shortcut to search, \
 use ${osMap[this.clientOS].secondaryKeyLabelLong} + ${shortcutKeyMap.keyLabel}`
     }
 
@@ -185,7 +187,11 @@ use ${osMap[this.clientOS].secondaryKeyLabelLong} + ${shortcutKeyMap.keyLabel}`
     updateInput () {
       if (this.searchboxInput) {
         this.searchboxInput.placeholder = 'Search Docs'
-        this.searchboxInput.ariaLabel = this.searchboxInput.ariaLabel.replace('Search field', 'Search Doc field')
+        // .getAttribute('aria-label') is used here instead of .ariaLabel
+        // because for some reason, it returned an error in firefox
+        this.searchboxInput.ariaLabel = this.searchboxInput
+          .getAttribute('aria-label')
+          .replace('Search field', 'Search Doc field')
         if (this.searchboxDiv) {
           if (!isMobileBrowser()) {
             this.addKeyboardShortcutToSearchbox()

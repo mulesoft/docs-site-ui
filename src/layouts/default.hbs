@@ -1,40 +1,44 @@
 <!DOCTYPE html>
-<html lang={{#if (eq (site-profile) 'jp')}}"jp"{{else}}"en"{{/if}}>
+<html lang={{#if (eq (site-profile) 'jp' )}}"jp"{{else}}"en"{{/if}}>
+
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1.0">
-<title>{{{detag (or page.title 'Untitled')}}}{{#if site.title}} | {{{site.title}}}{{/if}}</title>
-{{#if page.canonicalUrl}}
-<link rel="canonical" href="{{page.canonicalUrl}}">
-{{/if}}
-{{#if page.description}}
-<meta name="description" content="{{page.description}}">
-{{/if}}
-{{#if page.keywords}}
-<meta name="keywords" content="{{page.keywords}}">
-{{/if}}
-{{#if (and (ne (site-profile) 'jp') (ne (site-profile) 'prod'))}}
-<meta name="robots" content="none, noarchive">
-{{/if}}
-{{> head}}
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1.0">
+  <title>{{{detag (or page.title 'Untitled')}}}{{#if site.title}} | {{{site.title}}}{{/if}}</title>
+  {{#if page.canonicalUrl}}
+  <link rel="canonical" href="{{page.canonicalUrl}}">
+  {{/if}}
+  {{#if page.description}}
+  <meta name="description" content="{{page.description}}">
+  {{/if}}
+  {{#if page.keywords}}
+  <meta name="keywords" content="{{page.keywords}}">
+  {{/if}}
+  {{#if (not (is-one-of (site-profile) 'jp' 'prod'))}}
+  <meta name="robots" content="none, noarchive">
+  {{/if}}
+  {{> head}}
 </head>
+
 <body class="flex col">
-{{> header}}
+  {{> header}}
   {{#if page.attributes.connector-type}}
   <div class="flex container wrapper">
-{{> nav}}
+    {{> nav}}
     <main class="main" data-ceiling="topbar">
-{{> toolbar}}
-{{> connectors-article}}
+      {{> toolbar}}
+      {{> notice-banner}}
+      {{> connectors-article}}
     </main>
     <aside class="toc toc-sidebar scrollbar">
-{{> github}}
-{{> connectors-sidebar}}
+      {{> github}}
+      {{> connectors-sidebar}}
     </aside>
   </div>
   {{else}}
-{{> body}}
+  {{> body}}
   {{/if}}
-{{> footer}}
+  {{> footer}}
 </body>
+
 </html>

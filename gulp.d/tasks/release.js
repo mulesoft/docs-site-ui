@@ -4,33 +4,40 @@ const File = require('vinyl')
 const fs = require('fs-extra')
 const { obj: map } = require('through2')
 const { Octokit } = require('@octokit/rest')
+const pad = require('pad')
 const path = require('path')
 const vfs = require('vinyl-fs')
 const zip = require('gulp-vinyl-zip')
+const { createMessage, decryptKey, readPrivateKey, sign } = require('openpgp')
 
 class GitHub {
-  constructor ({ dest, bundleName, owner, repo, token, updateBranch }) {
+  constructor ({ dest, bundleName, owner, repo, token, secretKey, passphrase, updateBranch }) {
     this.dest = dest
     this.bundleFileBasename = `${bundleName}-bundle.zip`
     this.owner = owner
     this.repo = repo
     this.octokit = new Octokit({ auth: `token ${token}` })
+    this.secretKey = secretKey
+    this.passphrase = passphrase // optional, for local testing only
     this.updateBranch = updateBranch
   }
 
   async setUp () {
     this.branchName = await this.setBranchName()
-    this.variant = this.branchName === 'master' ? 'prod' : this.branchName
-    this.prefix = `${this.variant}-`
     this.ref = `heads/${this.branchName}`
 
-    this.currentReleaseNumber = await this.getCurrentReleaseNumber()
-    this.nextReleaseNumber = this.currentReleaseNumber + 1
+    this.variant = this.branchName === 'master' ? 'prod' : this.branchName
+    this.tagName = `${this.variant}-${(await this.getCurrentReleaseNumber()) + 1}`
 
-    this.tagName = `${this.variant}-${this.nextReleaseNumber}`
-    this.releaseMessage = `Release ${this.tagName}`
+    this.latestRelease = await this.getLastReleaseThatStartsWith('latest')
 
-    this.latestPRLink = await this.getLatestPRLink()
+    console.log(`
+    Set up completed with the following variables:
+      branch name: ${this.branchName}
+      ref: ${this.ref}
+      variant: ${this.variant}
+      tag name: ${this.tagName}
+    `)
   }
 
   async branchAlreadyExists ({ repo, branchName }) {
@@ -48,6 +55,7 @@ class GitHub {
 
   async createNewBranch ({ repo, ref, newBranchName }) {
     if (!(await this.branchAlreadyExists({ repo, branchName: newBranchName }))) {
+      console.log(`Creating new branch ${newBranchName}...`)
       const { data: baseRefData } = await this.octokit.rest.git.getRef({
         owner: this.owner,
         repo,
@@ -60,10 +68,14 @@ class GitHub {
         ref: `refs/heads/${newBranchName}`,
         sha: baseRefData.object.sha,
       })
+      console.log(`Successfully created branch ${newBranchName}.`)
+    } else {
+      console.log(`Branch ${newBranchName} already exists. Skipping its creation.`)
     }
   }
 
   async createNextRelease () {
+    console.log(`Creating the next release ${this.tagName}...`)
     await this.versionBundle()
 
     let commit = await this.octokit.git
@@ -114,7 +126,7 @@ class GitHub {
       .createCommit({
         owner: this.owner,
         repo: this.repo,
-        message: this.releaseMessage,
+        message: `Release ${this.tagName}`,
         tree,
         parents: [commit],
       })
@@ -129,18 +141,20 @@ class GitHub {
       })
     }
 
-    const uploadUrl = await this.octokit.repos
+    this.release = await this.octokit.repos
       .createRelease({
         owner: this.owner,
         repo: this.repo,
         tag_name: this.tagName,
         target_commitish: commit,
         name: this.tagName,
+        prerelease: this.variant !== 'prod',
+        body: this.variant !== 'prod' ? '' : `ref: ${await this.getLastPRLink()}`,
       })
-      .then((result) => result.data.upload_url)
+      .then((result) => result.data)
 
     await this.octokit.repos.uploadReleaseAsset({
-      url: uploadUrl,
+      url: this.release.upload_url,
       data: fs.createReadStream(this.bundleFile),
       name: this.bundleFileBasename,
       headers: {
@@ -148,28 +162,85 @@ class GitHub {
         'content-type': 'application/zip',
       },
     })
+
+    console.log(`Successfully created release ${this.tagName}.`)
   }
 
   async createPR ({ repo, ref, filePath }) {
-    await this.createNewBranch({ repo, ref, newBranchName: this.tagName })
-    await this.updateContent({ repo, ref, filePath })
+    console.log(`submitting PR to the ${ref} branch...`)
+    const newBranchName = `${this.tagName}-for-${ref}`
+    await this.createNewBranch({ repo, ref, newBranchName })
+    await this.updateContent({ repo, ref, newBranchName, filePath })
     await this.octokit.pulls.create({
       owner: this.owner,
       repo: repo,
-      title: this.tagName,
-      head: this.tagName,
+      title: `${this.tagName} for ${ref}`,
+      head: newBranchName,
       base: ref,
-      body: `ref: ${this.latestPRLink}`,
+      body: `ref: ${await this.getLastPRLink()}`,
     })
+    console.log(`Successfully submitted PR to the ${ref} branch.`)
+  }
+
+  async createSignature (commit, passphrase) {
+    const decodedKey = await readPrivateKey({
+      armoredKey: await base64decode(this.secretKey),
+    })
+
+    const decryptedKey = passphrase
+      ? await decryptKey({
+        privateKey: decodedKey,
+        passphrase,
+      })
+      : decodedKey
+
+    if (!decryptedKey.isDecrypted()) {
+      throw new Error('Failed to decrypt private key using given passphrase')
+    }
+
+    const commitString = typeof commit === 'string' ? commit : await commitToString(commit)
+
+    const signature = await sign({
+      message: await createMessage({
+        text: commitString,
+      }),
+      signingKeys: decryptedKey,
+      detached: true,
+    })
+
+    return await normalizeString(signature)
+  }
+
+  async deleteUIBundleZipFileIfExist () {
+    const uiBundleAsset = await this.getAsset(this.latestRelease, 'ui-bundle.zip')
+
+    if (uiBundleAsset) {
+      await this.octokit.rest.repos.deleteReleaseAsset({
+        owner: this.owner,
+        repo: this.repo,
+        asset_id: uiBundleAsset.id,
+      })
+    }
+  }
+
+  async getAsset (release, fileName) {
+    const { data: assets } = await this.octokit.rest.repos.listReleaseAssets({
+      owner: this.owner,
+      repo: this.repo,
+      release_id: release.id,
+    })
+
+    return assets.find((asset) => asset.name === fileName)
   }
 
   async getCurrentReleaseNumber () {
-    const release = await this.getLatestProdRelease()
-    return Number(release.name.slice(this.prefix.length))
+    const release = await this.getLastReleaseThatStartsWith(`${this.variant}-`)
+    if (release) return Number(release.name.slice(this.variant.length + 1))
+    return 1
   }
 
-  async getLatestProdRelease () {
-    let latestRelease
+  async getLastReleaseThatStartsWith (prefix) {
+    let release
     let page = 1
     do {
       const { data: releases } = await this.octokit.rest.repos.listReleases({
@@ -178,13 +249,13 @@ class GitHub {
         per_page: 100,
         page,
       })
-      latestRelease = releases.find((release) => release.name.startsWith('prod-'))
+      release = releases.find((release) => release.name.startsWith(prefix))
       page++
-    } while (!latestRelease && page <= 10) // Limit to 1000 releases
-    return latestRelease
+    } while (!release && page <= 10) // Limit to 1000 releases
+    return release
   }
 
-  async getLatestPRLink () {
+  async getLastPRLink () {
     const { data: pulls } = await this.octokit.rest.pulls.list({
       owner: this.owner,
       repo: this.repo,
@@ -206,10 +277,10 @@ class GitHub {
     return branchName
   }
 
-  async updateContent ({ repo, ref, filePath }) {
+  async updateContent ({ repo, ref, newBranchName, filePath }) {
     // Get the current contents of the file
     const {
-      data: { content, sha },
+      data: { content },
     } = await this.octokit.repos.getContent({
       owner: this.owner,
       repo,
@@ -219,27 +290,90 @@ class GitHub {
 
     const newContent = await this.updateUIBundleVer(content)
 
-    // Update the file in the repository
-    await this.octokit.repos.createOrUpdateFileContents({
+    const {
+      data: {
+        object: { sha: latestCommitSha },
+      },
+    } = await this.octokit.git.getRef({
       owner: this.owner,
       repo,
-      path: filePath,
-      message: this.tagName,
+      ref: `heads/${ref}`,
+    })
+
+    const {
+      data: { sha: latestTreeSha },
+    } = await this.octokit.git.getCommit({
+      owner: this.owner,
+      repo,
+      commit_sha: latestCommitSha,
+    })
+
+    const {
+      data: { sha: newBlobSha },
+    } = await this.octokit.git.createBlob({
+      owner: this.owner,
+      repo,
       content: newContent,
-      sha,
-      branch: this.tagName,
-      // hardcoding these required fields for now
-      'committer.name': 'mulesoft-es-automation',
-      'committer.email': 'mulesoft-es-automation@mulesoft.com',
-      'author.name': 'mulesoft-es-automation',
-      'author.email': 'mulesoft-es-automation@mulesoft.com',
+    })
+
+    const {
+      data: { sha: newTreeSha },
+    } = await this.octokit.git.createTree({
+      owner: this.owner,
+      repo,
+      base_tree: latestTreeSha,
+      tree: [
+        {
+          path: filePath,
+          mode: '100644',
+          type: 'blob',
+          sha: newBlobSha,
+        },
+      ],
+    })
+
+    const commitPayload = {
+      message: this.tagName,
+      tree: newTreeSha,
+      parents: [latestCommitSha],
+      author: {
+        name: 'ms_cx_engineering (mule docs agent)',
+        email: 'ms_cx_engineering@mulesoft.com',
+        date: new Date().toISOString(),
+      },
+    }
+
+    const signature = await this.createSignature(commitPayload)
+    const commit = await this.octokit.git.createCommit(
+      Object.assign({}, { owner: this.owner, repo, signature }, commitPayload)
+    )
+
+    await this.octokit.git.updateRef({
+      owner: this.owner,
+      repo,
+      ref: `heads/${newBranchName}`,
+      sha: commit.data.sha,
     })
   }
 
+  async updateLatestRelease () {
+    console.log(`Replacing ${this.bundleFile} in the "latest" release...`)
+    await this.deleteUIBundleZipFileIfExist()
+    await this.octokit.repos.uploadReleaseAsset({
+      url: this.latestRelease.upload_url,
+      data: fs.createReadStream(this.bundleFile),
+      name: this.bundleFileBasename,
+      headers: {
+        'content-length': (await fs.stat(this.bundleFile)).size,
+        'content-type': 'application/zip',
+      },
+    })
+    console.log(`Successfully replaced ${this.bundleFile} in the "latest" release.`)
+  }
+
   async updateUIBundleVer (content) {
-    let contentStr = Buffer.from(content, 'base64').toString('utf8')
-    contentStr = contentStr.replace(/\/prod-.+?\//, `/${this.tagName}/`)
-    return Buffer.from(contentStr).toString('base64')
+    const contentStr = Buffer.from(content, 'base64').toString('utf8')
+    return contentStr.replace(/\/prod-.+?\//, `/${this.tagName}/`)
   }
 
   async versionBundle () {
@@ -268,16 +402,62 @@ class GitHub {
   }
 }
 
-module.exports = (dest, bundleName, owner, repo, token, updateBranch) => async () => {
-  const gitHub = new GitHub({ dest, bundleName, owner, repo, token, updateBranch })
+async function base64decode (str) {
+  const decoder = new TextDecoder('utf-8')
+  return decoder.decode(Buffer.from(str, 'base64'))
+}
+
+async function commitToString ({ message, tree, parents, author, committer = author }) {
+  // the blank line between committer and message is intentional, if removed, the signature will be invalid
+  return `
+tree ${tree}
+${parents.map((parent) => `parent ${parent}`).join('\n')}
+author ${await userToString(author)}
+committer ${await userToString(committer)}
+
+${message}`.trim()
+}
+
+async function normalizeOffset (offset, offsetIsZero = true) {
+  if (offsetIsZero) return '+0000'
+
+  return (
+    (offset <= 0 ? '+' : '-') +
+    pad(2, `${parseInt(String(Math.abs(offset / 60)), 10)}`, '0') +
+    pad(2, `${Math.abs(offset % 60)}`, '0')
+  )
+}
+
+async function normalizeString (str) {
+  return str.replace(/\r\n/g, '\n').trim()
+}
+
+async function userToString (user) {
+  const date = new Date(user.date)
+  const timestamp = Math.floor(date.getTime() / 1000)
+  const timezone = await normalizeOffset(date.getTimezoneOffset())
+
+  return `${user.name} <${user.email}> ${timestamp} ${timezone}`
+}
+
+module.exports = (dest, bundleName, owner, repo, token, secretKey, passphrase, updateBranch) => async () => {
+  const gitHub = new GitHub({ dest, bundleName, owner, repo, token, secretKey, passphrase, updateBranch })
   await gitHub.setUp()
-  await gitHub.createNextRelease()
-  // if (gitHub.variant === 'prod') {
-  //   await gitHub.createPR({
-  //     repo: 'docs-site-playbook',
-  //     ref: 'master',
-  //     filePath: 'antora-playbook.yml',
-  //   })
-  //   // TODO: add more createPR for other branches, like archive, jp, maybe even (need refactoring) beta and internal
-  // }
+  if (gitHub.variant === 'prod') {
+    await gitHub.createNextRelease()
+    await gitHub.updateLatestRelease()
+
+    if (gitHub.secretKey) {
+      const baseBranches = ['archive', 'jp', 'master']
+      for (const ref of baseBranches) {
+        await gitHub.createPR({
+          filePath: 'antora-playbook.yml',
+          repo: 'docs-site-playbook',
+          ref,
+        })
+      }
+    }
+  } else {
+    console.log('Git branch is not prod, skipping.')
+  }
 }

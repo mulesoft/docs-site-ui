@@ -127,8 +127,20 @@
       : versions[0]
   }
 
+  const getWindowsHeightMinus = (element) => {
+    const rect = element.getBoundingClientRect()
+    const viewHeight = Math.max(document.documentElement.clientHeight, window.innerHeight)
+    return viewHeight - rect.y
+  }
+
   const isBigScreenSize = () => {
     return window.innerWidth >= 768
+  }
+
+  const isVisible = (element) => {
+    const rect = element.getBoundingClientRect()
+    const viewHeight = Math.max(document.documentElement.clientHeight, window.innerHeight)
+    return !(rect.bottom < 0 || rect.top - viewHeight >= 0)
   }
 
   const selectComponents = (patterns, pool, exclude) => {
@@ -204,7 +216,7 @@
 
   function toggleSubNav () {
     this.classList.toggle('is-active')
-    var toggleButton = this.querySelector('.nav-item-toggle')
+    const toggleButton = this.querySelector('.nav-item-toggle')
     if (toggleButton) {
       toggleButton.ariaExpanded = this.classList.contains('is-active')
     }
@@ -255,13 +267,14 @@
   }
 
   const trimArray = (arr) => {
-    var start = 0
-    var length = arr.length
+    let start = 0
+    const length = arr.length
+    let end = length
     for (; start < length; start++) {
       if (arr[start]) break
     }
     if (start === length) return []
-    for (var end = length; end > 0; end--) {
+    for (; end > 0; end--) {
       if (arr[end - 1]) break
     }
     return arr.slice(start, end)
@@ -269,6 +282,13 @@
 
   const coerceToArray = (val) => {
     return Array.isArray(val) ? val : [val]
+  }
+
+  const clearSelected = (parentElement) => {
+    const childrenElements = parentElement.querySelectorAll('button.selected')
+    childrenElements.forEach((child) => {
+      child.classList.remove('selected')
+    })
   }
 
   const setTitle = (title) => {
@@ -280,7 +300,7 @@
   }
 
   const isBetaSite = () => {
-    return isExternalBetaSite() || isInternalBetaSite()
+    return isExternalBetaSite() || isInternalBetaSite() || isReviewSite()
   }
 
   const isExternalBetaSite = () => {
@@ -299,6 +319,10 @@
     return window.location.href.startsWith('file://')
   }
 
+  const isReviewSite = () => {
+    return window.location.host.includes('review')
+  }
+
   const getNavData = () => {
     const components = window.siteNavigationData
     delete window.siteNavigationData
@@ -308,6 +332,11 @@
     const subcomponents = components.subcomponents || []
 
     return { components, groups, homeUrl, subcomponents }
+  }
+
+  const moveFocusOnFirstElement = (navItem) => {
+    const firstLink = navItem.querySelector('a')
+    if (firstLink) firstLink.focus()
   }
 
   const relativize = (to) => {
@@ -356,12 +385,17 @@
 
     adjustNavHeight (e) {
       if (this.nav) {
-        const header = document.querySelector('.ms-com-content')
-        if (header) {
+        const header = document.querySelector('.ms-com-content-header')
+        const footer = document.querySelector('.ms-com-content-footer')
+        if (header && footer) {
           if (isBigScreenSize()) {
             const bannerHeight = getBannerHeight()
             if (window.pageYOffset + bannerHeight > header.offsetHeight) {
-              this.nav.style.height = '100vh'
+              let heightValue = isVisible(footer) ? `calc(100vh - ${getWindowsHeightMinus(footer)}px` : 'calc(100vh'
+              if (hasTopBanner()) {
+                heightValue += ' - var(--banner-height)'
+              }
+              this.nav.style.height = `${heightValue})`
             } else {
               this.nav.style.height = hasTopBanner()
                 ? 'calc(100vh - var(--header-height) - var(--banner-height))'
@@ -686,6 +720,9 @@
         if (versionData === currentVersionData) {
           addCurrentVersionIndicator(navVersionMenu, 'tooltip-dot-nav-version')
         }
+        if (versionData.version === activeVersion) {
+          navVersionOption.classList.add('selected')
+        }
         navVersionMenu
           .appendChild(navVersionOption)
           .addEventListener('click', (e) => this.selectVersion(navVersionMenu, navItem, componentData, e))
@@ -823,19 +860,21 @@
     scrollToCurrentPageItem () {
       this.navGroups.scrollTop = 0
       if (!page.scope) return
-      var target = (
+      const target = (
         page.scope.querySelector('[aria-current=page]') || {
           parentNode: page.scope.previousElementSibling,
         }
       ).parentNode
-      var containerRect = this.navGroups.getBoundingClientRect()
-      var midpoint = (containerRect.height - containerRect.top) * 0.5
-      var adjustment = target.offsetTop + target.offsetHeight * 0.5 - midpoint
+      const containerRect = this.navGroups.getBoundingClientRect()
+      const midpoint = (containerRect.height - containerRect.top) * 0.5
+      const adjustment = target.offsetTop + target.offsetHeight * 0.5 - midpoint
       if (adjustment > 0) this.navGroups.scrollTop = adjustment
     }
 
     selectVersion (navVersionMenu, navItem, componentData, e) {
       this.toggleNav(navItem, componentData, e.target.dataset.version)
+      clearSelected(navItem)
+      e.target.classList.add('selected')
       const navVersionButton = document.querySelector(
         `[data-component="${navItem.getAttribute('data-component')}"] .nav-version-button`
       )
@@ -845,6 +884,7 @@
         removeCurrentVersionIndicator(navVersionButton)
       }
       hideVersionMenu(navVersionMenu)
+      moveFocusOnFirstElement(navItem)
     }
 
     toggleNav (navItem, componentData, selectedVersion) {
@@ -858,15 +898,15 @@
 
     toggleVersionMenu (navVersionMenu) {
       if (hideVersionMenu(navVersionMenu)) return
-      var maxBottom = this.getNavGroupsBottom()
-      var height = navVersionMenu.dataset.height
+      const maxBottom = this.getNavGroupsBottom()
+      let height = navVersionMenu.dataset.height
       if (!height) {
-        var measurement = document.body.appendChild(
+        const measurement = document.body.appendChild(
           createElement('div', {
             style: 'position: absolute; top: 0; left: 0; visibility: hidden',
           })
         )
-        var thisClone = Object.assign(navVersionMenu.cloneNode(true), {
+        const thisClone = Object.assign(navVersionMenu.cloneNode(true), {
           style: 'max-height: none; position: static; transform: none; transition: none',
         })
         navVersionMenu.dataset.height = height =
@@ -875,7 +915,7 @@
       }
       closeActiveVersionMenu()
       navVersionMenu.style.marginTop = null
-      var bottom = navVersionMenu.getBoundingClientRect().top + parseFloat(height) + 20
+      const bottom = navVersionMenu.getBoundingClientRect().top + parseFloat(height) + 20
       if (bottom > maxBottom) {
         navVersionMenu.style.marginTop = maxBottom - bottom + 'px'
       }

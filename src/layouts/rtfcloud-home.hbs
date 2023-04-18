@@ -14,7 +14,7 @@
   {{#if page.keywords}}
   <meta name="keywords" content="{{page.keywords}}">
   {{/if}}
-  {{#if (and (ne (site-profile) 'jp') (ne (site-profile) 'prod'))}}
+  {{#if (not (is-one-of (site-profile) 'jp' 'prod'))}}
   <meta name="robots" content="none, noarchive">
   {{/if}}
   {{> head}}
@@ -26,6 +26,7 @@
     {{> nav}}
     <main class="main" data-ceiling="topbar">
       {{> toolbar}}
+      {{> notice-banner}}
       {{> rtfcloud-home}}
     </main>
   </div>

@@ -1,0 +1,131 @@
+.banner {
+  position: sticky;
+  z-index: var(--z-banner);
+
+  & a {
+    color: var(--secondary-navy);
+    &:hover {
+      background-color: #e8f8ff;
+      border-radius: 5px;
+      margin: 0 -1px;
+      outline: 2px solid #747474;
+      padding: 1px;
+
+      &[target=_blank] {
+        margin-right: -1px;
+      }
+    }
+
+    &:active {
+      background-color: #abd6e8;
+    }
+
+    &:focus {
+      border-radius: 5px;
+      outline: 2px solid #747474;
+    }
+
+    &:visited {
+      color: var(--secondary-navy);
+    }
+  }
+
+  & img {
+    filter: grayscale(100%) brightness(0);
+    height: 22px;
+    margin: auto 10px;
+  }
+
+  & .close-button {
+    background: none;
+    border: none;
+    color: var(--black);
+    cursor: pointer;
+    float: right;
+    font-size: 20px;
+    padding: 11px 17px;
+  }
+
+  @media (--md) {
+    top: var(--banner-height);
+  }
+}
+
+.notice-banner {
+  background: var(--yellow-2);
+  font-size: 12px;
+  height: fit-content;
+  top: calc(var(--banner-height) + var(--toolbar-height));
+
+  & p {
+    margin: 0 auto 0 40px;
+    padding-bottom: 15px;
+    padding-top: 15px;
+  }
+
+  @media (--md) {
+    top: var(--banner-height);
+  }
+}
+
+.top-banner {
+  align-items: center;
+  background-color: var(--core-blue-0);
+  border-bottom: 2px solid #57a3fd;
+  height: var(--mobile-banner-height);
+  top: 0;
+
+  & p {
+    color: #000;
+    font-size: 12px;
+    line-height: 1.35;
+
+    @media (--md) {
+      font-size: 14px;
+    }
+  }
+
+  & .container.flex.wrapper {
+    border-top: none;
+  }
+
+  @media (--md) {
+    height: var(--banner-height);
+  }
+}
+
+.announcement {
+  background-color: var(--yellow-2);
+  border-bottom: 1px solid #8c4b02;
+}
+
+.top-banner:not(.hide) + {
+  &.wrapper > main > .toolbar {
+    top: var(--mobile-banner-height);
+  }
+
+  &.wrapper > main > .secondary-breadcrumbs-drawer {
+    top: calc(var(--mobile-banner-height) + var(--toolbar-height));
+  }
+
+  &.wrapper > main > .notice-banner {
+    top: calc(var(--mobile-banner-height) + var(--toolbar-height) + var(--breadcrumbs-drawer-height));
+  }
+
+  @media (--md) {
+    &.wrapper > .nav,
+    &.wrapper > .toc {
+      max-height: calc(100vh - var(--banner-height));
+      max-height: calc(var(--app-height) - var(--banner-height));
+      top: var(--banner-height);
+    }
+
+    &.wrapper > main > .toolbar {
+      top: var(--banner-height);
+    }
+
+    &.wrapper > main > .notice-banner {
+      top: calc(var(--banner-height) + var(--toolbar-height));
+    }
+  }
+}

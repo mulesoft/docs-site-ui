@@ -21,7 +21,7 @@
   }
 
   const isFooterLink = (e) => {
-    return e.offsetParent.tagName === 'FOOTER'
+    return e && e.offsetParent && e.offsetParent.tagName === 'FOOTER'
   }
 
   const createLinkImage = (element) => {
@@ -64,12 +64,34 @@
     return anchorImg
   }
 
+  const adjustForBanners = (scrollValue) => {
+    if (hasTopBanner()) scrollValue += document.querySelector('.top-banner').offsetHeight
+    if (hasNoticeBanner()) scrollValue += document.querySelector('.notice-banner').offsetHeight
+    return scrollValue
+  }
+
+  const hasNoticeBanner = () => {
+    const noticeBanner = document.querySelector('.notice-banner')
+    if (noticeBanner) {
+      return !noticeBanner.classList.contains('hide')
+    }
+    return false
+  }
+
+  const hasTopBanner = () => {
+    const topBanner = document.querySelector('.top-banner')
+    if (topBanner) {
+      return !topBanner.classList.contains('hide')
+    }
+    return false
+  }
+
   const adjustScrollPosition = (anchor) => {
     const minHeight = getMinHeight()
     let tries = 0
     const autoScrollDown = setInterval(() => {
       if (anchor.getBoundingClientRect().top <= minHeight) {
-        window.scrollBy(0, -minHeight / 1.1)
+        window.scrollBy(0, -adjustForBanners(minHeight) / 1.5)
         clearInterval(autoScrollDown)
       }
       if (++tries === 10) {

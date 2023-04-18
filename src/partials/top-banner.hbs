@@ -1,9 +1,18 @@
 {{#if
-(or preview (or (eq (site-profile) "beta") (eq (site-profile) "archive")))
+(or preview (is-one-of (site-profile) 'archive' 'beta' 'review')
+page.componentVersion.asciidoc.attributes.announcementMessage)
 }}
-<div class="top-banner flex">
-  <div class="container wrapper">
-    <p>You&#8217;re viewing the
+<div class="top-banner banner flex {{#if page.componentVersion.asciidoc.attributes.announcementMessage}}announcement{{/if}}">
+  <div class="container wrapper flex justify-center">
+    {{#if page.componentVersion.asciidoc.attributes.announcementMessage}}
+     <img loading="lazy" src="{{@root.uiRootPath}}/img/icons/important.svg" alt="">
+    <p>
+      {{page.componentVersion.asciidoc.attributes.announcementMessage}}
+    </p>
+    {{else}}
+      <img loading="lazy" src="{{@root.uiRootPath}}/img/icons/tip.svg" alt="">
+    <p>
+      You&#8217;re viewing the
       {{#if preview}}
       preview
       {{else if (eq (site-profile) "archive")}}
@@ -12,13 +21,10 @@
       {{site-profile}}
       {{/if}}
       MuleSoft Documentation.
-      {{#if (eq (site-profile) "archive")}}
-      {{#with page.componentVersion.asciidoc.attributes.primary-site-url}}
-      <a href="{{{this}}}">Go to the latest MuleSoft documentation.</a>
-      {{/with}}
-      {{/if}}
+      <a href="{{#if page.componentVersion.asciidoc.attributes.primary-site-url}}{{page.componentVersion.asciidoc.attributes.primary-site-url}}{{else}}https://docs.mulesoft.com{{/if}}">Go to the latest MuleSoft documentation.</a>
     </p>
+    {{/if}}
   </div>
-  <button aria-label="Close banner" class="top-banner-close-button" title="Close banner">&times;</button>
+  <button aria-label="Close banner" class="close-button" title="Close banner">&times;</button>
 </div>
 {{/if}}

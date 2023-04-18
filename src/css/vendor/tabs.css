@@ -1,0 +1,110 @@
+.tabs {
+  margin-bottom: 1.25em;
+}
+
+.tablist {
+  & > ul {
+    display: flex;
+    flex-wrap: wrap;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  & > ul li {
+    align-items: center;
+    background-color: #fff;
+    border-bottom: 0;
+    cursor: pointer;
+    display: flex;
+    line-height: 1.5;
+    padding: .25em 1em;
+    position: relative;
+
+    &:active,
+    &:focus-visible {
+      border-radius: 0;
+      outline: 2px solid var(--gray);
+    }
+
+    &:hover {
+      font-family: var(--sans-serif-bold);
+      font-weight: var(--weight-bold);
+      letter-spacing: var(--bold-text-letter-spacing);
+    }
+
+    & + li {
+      margin-left: .25em;
+    }
+  }
+
+  &.ulist {
+    margin: 0;
+
+    & > ul li {
+      background-color: #6c6c6c;
+      color: var(--tertiary);
+    }
+  }
+}
+
+.tabs.is-loading .tablist li:not(:first-child),
+.tabs:not(.is-loading) .tablist li:not(.is-selected) {
+  background-color: #f5f5f5;
+  color: var(--steel-3);
+}
+
+.tabs.is-loading .tablist li:first-child::after,
+.tabs:not(.is-loading) .tablist li.is-selected::after {
+  background-color: inherit;
+  bottom: -1.5px;
+  content: "";
+  display: block;
+  height: 3px; /* Chrome doesn't always paint the line accurately, so add a little extra */
+  left: 0;
+  position: absolute;
+  right: 0;
+}
+
+.tablist > ul p {
+  line-height: inherit;
+  margin: 0;
+}
+
+.tabpanel {
+  background-color: #fff;
+  padding: 1.25em;
+}
+
+.tablist > ul li,
+.tabpanel {
+  border: 1px solid #dcdcdc;
+}
+
+.tabs.is-loading .tabpanel + .tabpanel,
+.tabs:not(.is-loading) .tabpanel.is-hidden {
+  display: none;
+}
+
+.tabpanel > :first-child {
+  margin-top: 0;
+}
+
+/* #content is a signature of the Asciidoctor standalone HTML output */
+#content .tabpanel > :last-child,
+#content .tabpanel > :last-child > :last-child,
+#content .tabpanel > :last-child > :last-child > li:last-child > :last-child {
+  margin-bottom: 0;
+}
+
+.tablecontainer {
+  overflow-x: auto;
+}
+
+#content .tablecontainer {
+  margin-bottom: 1.25em;
+}
+
+#content .tablecontainer > table.tableblock {
+  margin-bottom: 0;
+}

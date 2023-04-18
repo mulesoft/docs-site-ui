@@ -1,4 +1,4 @@
-{{#if page.latest.url}}
+{{#if (and page.latest.url (ne page.componentVersion.asciidoc.attributes.latestVersionSwitch false))}}
 You can switch to the
 <a class="notice-banner-link" href="{{site.url}}{{page.latest.url}}">latest version</a>,
 or use the version selector in the left navigation.

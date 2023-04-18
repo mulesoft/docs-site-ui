@@ -1,27 +1,22 @@
 {{#if page.component}}
 <footer class="flex col align-left doc-footer">
-  {{#if (or env.GOOGLE_ANALYTICS_KEY env.JIRA_COLLECTOR_ID)}}
-  <section class="section-helpful js-thanks-section">
-    {{#if env.GOOGLE_ANALYTICS_KEY}}
+  {{#if env.GOOGLE_ANALYTICS_KEY}}
+  <section class="feedback-section">
     <div class="row">
       <span data-thanks="start">Was this article helpful?</span>
-      <button class="button js-thanks-yes" data-thanks="start" type="button">
-        <img src="{{@root.uiRootPath}}/img/icons/thumbs-up.png" alt="" height="12">
+      <button class="button feedback-yes" data-thanks="start" type="button">
+        <img loading="lazy" src="{{@root.uiRootPath}}/img/icons/thumbs-up.png" alt="" height="12">
         Yes, thanks!
       </button>
-      <button class="button js-thanks-no js-jira" data-thanks="start" type="button">
-        <img src="{{@root.uiRootPath}}/img/icons/thumbs-down.png" alt="" height="12">
+      <button class="button feedback-no" data-thanks="start" type="button">
+        <img loading="lazy" src="{{@root.uiRootPath}}/img/icons/thumbs-down.png" alt="" height="12">
         No, not really.
       </button>
       <span data-thanks="end">
-        <img src="{{@root.uiRootPath}}/img/icons/blue-heart.png" alt="" height="14">
+        <img loading="lazy" src="{{@root.uiRootPath}}/img/icons/blue-heart.png" alt="" height="14">
         Thanks for your feedback!
       </span>
     </div>
-    {{/if}}
-    {{#if env.JIRA_COLLECTOR_ID}}
-    <a class="link js-jira">Leave feedback…</a>
-    {{/if}}
   </section>
   {{/if}}
   {{> github}}

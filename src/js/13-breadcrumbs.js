@@ -115,6 +115,7 @@
 
     toggleDrawer (override) {
       this.toggleToggleButtonClass(override)
+      this.toggleButton.ariaExpanded = this.breadcrumbsAreExpanded()
       this.toggleDrawerVisibility()
       this.updateMainBreadcrumbsContent()
       this.scrollRight()

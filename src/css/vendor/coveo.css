@@ -27,7 +27,7 @@
   --atomic-border-radius-xl: 1rem;
 
   /* Font */
-  --atomic-font-family: 'Open Sans', sans-serif;
+  --atomic-font-family: var(--sans-serif);
   --atomic-font-normal: var(--weight-normal);
   --atomic-font-bold: var(--weight-bold);
 
@@ -150,10 +150,11 @@ atomic-search-box {
   }
 }
 
-atomic-smart-snippet {
-  &::part(smart-snippet) {
-    background-color: #e5e5e5;
-  }
+atomic-smart-snippet::part(smart-snippet),
+atomic-smart-snippet-suggestions::part(container),
+atomic-smart-snippet-suggestions::part(question-button-collapsed),
+atomic-smart-snippet-suggestions::part(question-button-expanded) {
+  background-color: #e5e5e5;
 }
 
 atomic-sort-dropdown {
@@ -168,7 +169,7 @@ atomic-sort-dropdown {
 
 .search-page-back-button {
   margin-bottom: 10px;
-  width: 195px;
+  width: 200px;
 
   & img {
     margin-bottom: -2px !important;

@@ -185,6 +185,11 @@ module.exports =
 function loadSampleUiModel (src) {
   return fs.readFile(ospath.join(src, 'ui-model.yml'), 'utf8').then((contents) => {
     const uiModel = yaml.load(contents)
+    const extensions = ((uiModel.asciidoc || {}).extensions || []).map((request) => {
+      const extension = require(request)
+      extension.register.call(asciidoctor.Extensions)
+      return extension
+    })
     uiModel.env = process.env
     Object.entries(uiModel.site.components).forEach(([name, component]) => {
       component.name = name
@@ -202,6 +207,7 @@ function loadSampleUiModel (src) {
         if (!('asciidoc' in version)) {
           version.asciidoc = { attributes: {} }
         }
+        version.asciidoc.extensions = extensions
       })
       Object.defineProperties(component, {
         asciidoc: {
