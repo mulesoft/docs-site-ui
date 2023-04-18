@@ -90,7 +90,7 @@
 
 .nav-text {
   display: flex;
-  padding-right: var(--xs);
+  padding-right: 3%;
   text-decoration: none;
   width: -moz-available;
   width: -webkit-fill-available;
@@ -98,6 +98,7 @@
   &:focus {
     border-radius: var(--radius);
     outline: 2px solid var(--gray) !important;
+    padding-right: 2%;
   }
 
   &:hover {
