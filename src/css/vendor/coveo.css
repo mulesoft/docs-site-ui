@@ -172,12 +172,23 @@ atomic-sort-dropdown {
 }
 
 .search-page-back-button {
+  border: 2px solid var(--secondary-navy);
+  color: var(--secondary-navy);
+  height: auto;
   margin-bottom: 10px;
-  width: 200px;
+  min-height: 38px;
+  padding: 0 10px;
+  width: fit-content;
+
+  &:hover {
+    background-color: var(--light-blue);
+    border-color: var(--dark-navy);
+    color: var(--dark-navy);
+  }
 
   & img {
-    margin-bottom: -2px !important;
-    width: 14px;
+    margin: auto;
+    width: 10px;
   }
 
   @media (min-width: 1024px) {

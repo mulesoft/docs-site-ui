@@ -26,7 +26,7 @@
       closeButton.title = 'Close notice banner'
       closeButton.classList.add('notice-banner-close-button')
       closeButton.classList.add('button')
-      closeButton.innerHTML = '&times;'
+      closeButton.innerHTML = '<img loading="lazy" src="{{@root.uiRootPath}}/img/icons/close.svg" alt="">'
       noticeBannerDiv.insertBefore(closeButton, noticeBannerDiv.firstChild)
     }
   }
