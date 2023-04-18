@@ -137,9 +137,9 @@ atomic-search-box {
 
   &::part(submit-button) {
     border-radius: 2px;
+    display: inline-flex;
     height: 40px;
-    padding-top: 5px;
-    width: 40px;
+    width: fit-content;
 
     &:active,
     &:focus {
@@ -147,6 +147,10 @@ atomic-search-box {
       border: 1px solid var(--secondary-navy);
       box-shadow: 0 0 0 3px rgba(0,162,223,.25);
     }
+  }
+
+  &::part(submit-icon) {
+    margin: auto 12px;
   }
 }
 
