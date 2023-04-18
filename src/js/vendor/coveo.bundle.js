@@ -164,16 +164,17 @@ use ${osMap[this.clientOS].secondaryKeyLabelLong} + ${shortcutKeyMap.keyLabel}`
     }
 
     addSearchboxInputEventListeners () {
-      const focusableElements = this.searchboxDiv.querySelectorAll('a, button, input')
-      focusableElements.forEach((focusableElement) => {
-        focusableElement.addEventListener('blur', (e) => {
-          if (!this.searchboxDiv.contains(e.relatedTarget)) {
-            const submitText = this.searchboxSubmitButton.querySelector('p')
-            if (submitText) submitText.style.display = 'none'
-            e.preventDefault()
-          }
-        })
-      })
+      //// save this block in case we need to add the kbd element back
+      // const focusableElements = this.searchboxDiv.querySelectorAll('a, button, input')
+      // focusableElements.forEach((focusableElement) => {
+      //   focusableElement.addEventListener('blur', (e) => {
+      //     if (!this.searchboxDiv.contains(e.relatedTarget) && isBigScreenSize()) {
+      //       const kbd = this.searchboxDiv.querySelector('kbd')
+      //       if (kbd) kbd.style.display = 'inline-block'
+      //     }
+      //     e.preventDefault()
+      //   })
+      // })
       this.searchboxInput.addEventListener('input', (e) => {
         const submitText = this.searchboxSubmitButton.querySelector('p')
         if (submitText) submitText.style.display = this.searchboxInput.value ? 'inherit' : 'none'
