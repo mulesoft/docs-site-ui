@@ -137,9 +137,9 @@ atomic-search-box {
 
   &::part(submit-button) {
     border-radius: 2px;
+    display: inline-flex;
     height: 40px;
-    padding-top: 5px;
-    width: 40px;
+    width: fit-content;
 
     &:active,
     &:focus {
@@ -147,6 +147,10 @@ atomic-search-box {
       border: 1px solid var(--secondary-navy);
       box-shadow: 0 0 0 3px rgba(0,162,223,.25);
     }
+  }
+
+  &::part(submit-icon) {
+    margin: auto 12px;
   }
 }
 
@@ -168,12 +172,23 @@ atomic-sort-dropdown {
 }
 
 .search-page-back-button {
+  border: 2px solid var(--secondary-navy);
+  color: var(--secondary-navy);
+  height: auto;
   margin-bottom: 10px;
-  width: 200px;
+  min-height: 38px;
+  padding: 0 10px;
+  width: fit-content;
+
+  &:hover {
+    background-color: var(--light-blue);
+    border-color: var(--dark-navy);
+    color: var(--dark-navy);
+  }
 
   & img {
-    margin-bottom: -2px !important;
-    width: 14px;
+    margin: auto;
+    width: 10px;
   }
 
   @media (min-width: 1024px) {

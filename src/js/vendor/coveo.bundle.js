@@ -30,7 +30,13 @@
     const searchPageBackButton = document.querySelector('.search-page-back-button')
     if (searchPageBackButton) {
       const href = getHref()
-      searchPageBackButton.setAttribute('href', href)
+      const helperText = `Navigate to ${href}`
+      searchPageBackButton.ariaLabel = helperText
+      searchPageBackButton.title = helperText
+      searchPageBackButton.addEventListener('click', (e) => {
+        window.location.href = href
+        e.preventDefault()
+      })
     }
   }
 
@@ -135,6 +141,14 @@ use ${osMap[this.clientOS].secondaryKeyLabelLong} + ${shortcutKeyMap.keyLabel}`
       }
     }
 
+    addSubmitButtonText () {
+      const submitText = document.createElement('p')
+      submitText.style.display = this.searchboxInput.value ? 'inherit' : 'none'
+      submitText.style.margin = 'auto 10px auto 0'
+      submitText.innerHTML = 'Docs'
+      this.searchboxSubmitButton.appendChild(submitText)
+    }
+
     appendKeyboardShortcut () {
       if (this.searchboxInput) {
         this.searchboxInput.placeholder = `${this.searchboxInput.placeholder} (${
@@ -155,18 +169,24 @@ use ${osMap[this.clientOS].secondaryKeyLabelLong} + ${shortcutKeyMap.keyLabel}`
       }
     }
 
-    // addSearchboxInputEventListeners () {
-    // const focusableElements = this.searchboxDiv.querySelectorAll('a, button, input')
-    // focusableElements.forEach((focusableElement) => {
-    //   focusableElement.addEventListener('blur', (e) => {
-    //     if (!this.searchboxDiv.contains(e.relatedTarget) && isBigScreenSize()) {
-    //       const kbd = this.searchboxDiv.querySelector('kbd')
-    //       if (kbd) kbd.style.display = 'inline-block'
-    //     }
-    //     e.preventDefault()
-    //   })
-    // })
-    // }
+    addSearchboxInputEventListeners () {
+      //// save this block in case we need to add the kbd element back
+      // const focusableElements = this.searchboxDiv.querySelectorAll('a, button, input')
+      // focusableElements.forEach((focusableElement) => {
+      //   focusableElement.addEventListener('blur', (e) => {
+      //     if (!this.searchboxDiv.contains(e.relatedTarget) && isBigScreenSize()) {
+      //       const kbd = this.searchboxDiv.querySelector('kbd')
+      //       if (kbd) kbd.style.display = 'inline-block'
+      //     }
+      //     e.preventDefault()
+      //   })
+      // })
+      this.searchboxInput.addEventListener('input', (e) => {
+        const submitText = this.searchboxSubmitButton.querySelector('p')
+        if (submitText) submitText.style.display = this.searchboxInput.value ? 'inherit' : 'none'
+        e.preventDefault()
+      })
+    }
 
     makeMoreAssistive () {
       this.updateInput()
@@ -198,13 +218,14 @@ use ${osMap[this.clientOS].secondaryKeyLabelLong} + ${shortcutKeyMap.keyLabel}`
             this.updateAriaLabelForInput()
           }
         }
-        // this.addSearchboxInputEventListeners()
+        this.addSearchboxInputEventListeners()
       }
     }
 
     updateSubmitButton () {
       if (this.searchboxSubmitButton) {
         this.searchboxSubmitButton.setAttribute('aria-label', 'Search Docs')
+        this.addSubmitButtonText()
       }
     }
   }
