@@ -90,20 +90,10 @@
 
 .nav-text {
   display: flex;
-  padding-right: 3%;
+  margin-right: 5%;
   text-decoration: none;
   width: -moz-available;
   width: -webkit-fill-available;
-
-  &:focus {
-    border-radius: var(--radius);
-    outline: 2px solid var(--gray) !important;
-    padding-right: 2%;
-  }
-
-  &:hover {
-    padding-right: inherit;
-  }
 }
 
 .nav-title > .nav-text,
@@ -122,6 +112,15 @@
 .nav-text:not([href]),
 .nav-item-toggle + span.nav-text {
   cursor: pointer;
+
+  &:focus {
+    border-radius: var(--radius);
+    outline: 2px solid var(--gray) !important;
+  }
+  
+  &:hover {
+    margin-right: 4%;
+  }
 }
 
 .nav-groups {
