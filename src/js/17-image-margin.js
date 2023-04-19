@@ -12,7 +12,7 @@
     return image.height > 20
   }
 
-  const pageImages = document.querySelectorAll('.doc span > img')
+  const pageImages = document.querySelectorAll('.doc img')
   pageImages.forEach((image) => {
     if (isBig(image)) addMargins(image)
   })
