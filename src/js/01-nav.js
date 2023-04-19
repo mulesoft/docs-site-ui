@@ -396,11 +396,11 @@
               heightValue = isVisible(footer)
                 ? `calc(${appHeight} - ${getWindowsHeightMinus(footer)}px`
                 : `calc(${appHeight}`
-              if (hasTopBanner()) {
-                heightValue += ` - ${bannerHeight}px`
-              }
             } else {
               heightValue = isVisible(header) ? `calc(${appHeight} - var(--header-height)` : `calc(${appHeight}`
+            }
+            if (hasTopBanner()) {
+              heightValue += ` - ${bannerHeight}px`
             }
             this.nav.style.height = `${heightValue})`
           } else {
