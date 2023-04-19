@@ -177,7 +177,10 @@ class GitHub {
       title: `${this.tagName} for ${ref}`,
       head: newBranchName,
       base: ref,
-      body: `ref: ${await this.getLastPRLink()}`,
+      body: `ref: ${await this.getLastPRLink()}
+
+Before you merge this PR, please verify your changes in https://beta.docs.mulesoft.com/beta-ui-staging/general/ (deployed every 2 hours).
+      `,
     })
     console.log(`Successfully submitted PR to the ${ref} branch.`)
   }
