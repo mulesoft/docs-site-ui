@@ -179,7 +179,8 @@ class GitHub {
       base: ref,
       body: `ref: ${await this.getLastPRLink()}
 
-Before you merge this PR, please verify your changes in https://beta.docs.mulesoft.com/beta-ui-staging/general/ (deployed every 2 hours).
+Before you merge this PR, please verify your changes in the following site:
+https://beta.docs.mulesoft.com/beta-ui-staging/general/ (deployed every 2 hours).
       `,
     })
     console.log(`Successfully submitted PR to the ${ref} branch.`)
