@@ -1,6 +1,8 @@
 ;(() => {
   'use strict'
 
+  // add extra spaces to the top and bottom of big images on the page
+
   const addMargins = (image) => {
     image.style.marginTop = '24px'
     image.style.marginBottom = '8px'
