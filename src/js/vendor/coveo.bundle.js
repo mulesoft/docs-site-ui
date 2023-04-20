@@ -181,14 +181,8 @@ use ${osMap[this.clientOS].secondaryKeyLabelLong} + ${shortcutKeyMap.keyLabel}`
       //     e.preventDefault()
       //   })
       // })
-      this.searchboxInput.addEventListener('input', (e) => {
-        const submitText = this.searchboxSubmitButton.querySelector('p')
-        if (submitText) {
-          submitText.style.display = this.searchboxInput.value ? 'inherit' : 'none'
-          submitText.style.margin = this.searchboxInput.value ? 'auto 10px auto -5px' : 'auto 10px auto 0'
-        }
-        e.preventDefault()
-      })
+      this.searchboxInput.addEventListener('input', (e) => this.toggleSubmitText(e))
+      this.searchboxInput.addEventListener('blur', (e) => this.toggleSubmitText(e))
     }
 
     makeMoreAssistive () {
@@ -203,6 +197,15 @@ use ${osMap[this.clientOS].secondaryKeyLabelLong} + ${shortcutKeyMap.keyLabel}`
         } else {
           this.atomicSearchbox.setAttribute('disable-search', this.searchboxInput.value.length === 0)
         }
+      }
+      if (e) e.preventDefault()
+    }
+
+    toggleSubmitText (e) {
+      const submitText = this.searchboxSubmitButton.querySelector('p')
+      if (submitText) {
+        submitText.style.display = this.searchboxInput.value ? 'inherit' : 'none'
+        submitText.style.margin = this.searchboxInput.value ? 'auto 10px auto -5px' : 'auto 10px auto 0'
       }
       if (e) e.preventDefault()
     }
