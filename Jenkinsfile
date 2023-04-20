@@ -10,6 +10,13 @@ pipeline {
   options {
       buildDiscarder logRotator(artifactDaysToKeepStr: '7', artifactNumToKeepStr: '', daysToKeepStr: '7', numToKeepStr: '')
   }
+  parameters {
+    booleanParam(
+      name: "MANUAL_RELEASE",
+      description: "Check this box to create a manual release (default: false)",
+      defaultValue: false
+    )
+  }
   stages {
     stage('Test') {
       when {
@@ -29,9 +36,12 @@ pipeline {
         allOf {
           branch defaultBranch
           anyOf {
-            changeset "src/**"
-            changeset "package*.json"
-            manual true
+            anyOf {
+              environment name: MANUAL_RELEASE, value: true
+              changeset "src/**"
+              changeset "package*.json"
+            }
+            
           }
         }
       }
