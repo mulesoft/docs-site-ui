@@ -47,7 +47,7 @@
 
   & span {
     font-size: 14px;
-    font-weight: var(--weight-bold);
+    font-family: var(--sans-serif-bold);
     margin-right: var(--xl);
   }
 

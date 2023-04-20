@@ -2,8 +2,8 @@
 .button-primary {
   border-radius: var(--radius);
   cursor: pointer;
+  font-family: var(--sans-serif-bold);
   font-size: 14px;
-  font-weight: var(--weight-bold);
   transition: box-shadow var(--transition-speed-sm) var(--transition-timing);
 }
 
@@ -60,7 +60,6 @@
 .doc .button-primary code {
   background: none;
   border: 0;
-  font-weight: var(--weight-normal);
   padding: 0;
   top: 0; /* reset */
 }
