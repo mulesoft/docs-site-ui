@@ -36,12 +36,9 @@ pipeline {
         allOf {
           branch defaultBranch
           anyOf {
-            anyOf {
-              environment name: MANUAL_RELEASE, value: true
-              changeset "src/**"
-              changeset "package*.json"
-            }
-            
+            expression { return params.MANUAL_RELEASE }
+            changeset "src/**"
+            changeset "package*.json"            
           }
         }
       }
