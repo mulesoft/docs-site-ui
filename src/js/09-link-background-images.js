@@ -1,36 +1,73 @@
 ;(() => {
   'use strict'
 
-  const processExternalLinks = (selector) => {
-    document.querySelectorAll(`${selector} [target="_blank"]`).forEach((externalLink) => {
-      addLinkImage(externalLink)
-    })
+  const uiRootPath = document.getElementById('site-script').dataset.uiRootPath
+  const toolbar = document.querySelector('.toolbar')
+  const noticeBanner = document.querySelector('.notice-banner')
+  const topBanner = document.querySelector('.top-banner')
+
+  const adjustForBanners = (scrollValue) => {
+    const [topBanner, noticeBanner] = document.querySelectorAll('.top-banner, .notice-banner')
+    if (topBanner) scrollValue += topBanner.offsetHeight
+    if (noticeBanner) scrollValue += noticeBanner.offsetHeight
+    return scrollValue
   }
 
-  const addLinkImage = (link) => {
-    if (!isDataWeavePlaygroundLink(link) && !isFooterLink(link)) {
-      const externalLinkImg = createLinkImage('external-link')
-      externalLinkImg.alt = 'Leaving the Site'
-      externalLinkImg.setAttribute('title', 'Leaving the Site')
+  const appendExternalLinkImage = (link) => {
+    const isDataWeavePlaygroundLink = link && link.classList.contains('dw-playground-link')
+    const isFooterLink = link && link.offsetParent && link.offsetParent.tagName === 'FOOTER'
+    if (!isDataWeavePlaygroundLink && !isFooterLink) {
+      const externalLinkImg = createLinkImage('external-link', 'Leaving the Site')
       link.appendChild(externalLinkImg)
     }
   }
 
-  const isDataWeavePlaygroundLink = (e) => {
-    return e.classList.contains('dw-playground-link')
+  const adjustScrollPosition = (anchor) => {
+    const minHeight = getMinHeight()
+    let tries = 0
+    const autoScrollDown = setInterval(() => {
+      const isAtMinHeight = anchor.getBoundingClientRect().top <= minHeight
+      if (isAtMinHeight) {
+        const scrollAmount = -adjustForBanners(minHeight) / 1.5
+        window.scrollBy(0, scrollAmount)
+        clearInterval(autoScrollDown)
+      }
+      tries++
+      if (tries === 10) {
+        clearInterval(autoScrollDown)
+      }
+    }, 50)
   }
 
-  const isFooterLink = (e) => {
-    return e && e.offsetParent && e.offsetParent.tagName === 'FOOTER'
-  }
-
-  const createLinkImage = (element) => {
-    const uiRootPath = document.getElementById('site-script').dataset.uiRootPath
+  const createLinkImage = (iconName, titleText) => {
     const img = document.createElement('img')
     img.setAttribute('role', 'link')
-    img.classList.add(`${element}-image`)
-    img.src = `${uiRootPath}/img/icons/${element}.svg`
+    img.classList.add(`${iconName}-image`)
+    img.src = `${uiRootPath}/img/icons/${iconName}.svg`
+    if (titleText) {
+      img.alt = titleText
+      img.setAttribute('title', titleText)
+    }
     return img
+  }
+
+  const getMinHeight = () => {
+    let bannerHeights = hasNoticeBanner() ? noticeBanner.offsetHeight : 0
+    bannerHeights += hasTopBanner() ? topBanner.offsetHeight : 0
+    return toolbar.scrollHeight + bannerHeights
+  }
+
+  const hasAndNotHidden = (selector) => {
+    const element = document.querySelector(selector)
+    return element && !element.classList.contains('hide')
+  }
+
+  const hasNoticeBanner = () => {
+    return hasAndNotHidden('.notice-banner')
+  }
+
+  const hasTopBanner = () => {
+    return hasAndNotHidden('.top-banner')
   }
 
   const processAnchorLinks = () => {
@@ -38,13 +75,13 @@
       anchor.addEventListener('click', () => {
         adjustScrollPosition(anchor)
       })
-
+  
       const headerText = anchor.parentElement.textContent
       if (headerText) {
         anchor.setAttribute('aria-label', `Jump to ${headerText}`)
-        const anchorImg = createAnchorImg(headerText)
+        const anchorImg = createLinkImage('anchor', headerText)
         anchor.appendChild(anchorImg)
-
+  
         const sidebarLinks = [...document.querySelectorAll('.toc-menu a')].filter((a) => a.textContent === headerText)
         if (sidebarLinks.length > 0) {
           sidebarLinks[0].addEventListener('click', () => {
@@ -55,67 +92,26 @@
     })
   }
 
-  const createAnchorImg = (headerText) => {
-    const anchorImg = createLinkImage('anchor')
-    if (headerText) {
-      anchorImg.alt = `Jump to ${headerText}`
-      anchorImg.setAttribute('title', `Jump to ${headerText}`)
-    }
-    return anchorImg
-  }
-
-  const adjustForBanners = (scrollValue) => {
-    if (hasTopBanner()) scrollValue += document.querySelector('.top-banner').offsetHeight
-    if (hasNoticeBanner()) scrollValue += document.querySelector('.notice-banner').offsetHeight
-    return scrollValue
-  }
-
-  const hasNoticeBanner = () => {
-    const noticeBanner = document.querySelector('.notice-banner')
-    if (noticeBanner) {
-      return !noticeBanner.classList.contains('hide')
-    }
-    return false
-  }
-
-  const hasTopBanner = () => {
-    const topBanner = document.querySelector('.top-banner')
-    if (topBanner) {
-      return !topBanner.classList.contains('hide')
-    }
-    return false
-  }
-
-  const adjustScrollPosition = (anchor) => {
-    const minHeight = getMinHeight()
-    let tries = 0
-    const autoScrollDown = setInterval(() => {
-      if (anchor.getBoundingClientRect().top <= minHeight) {
-        window.scrollBy(0, -adjustForBanners(minHeight) / 1.5)
-        clearInterval(autoScrollDown)
-      }
-      if (++tries === 10) {
-        clearInterval(autoScrollDown)
-      }
-    }, 50)
-  }
-
-  const getMinHeight = () => {
-    const toolbar = document.querySelector('.toolbar')
-    const noticeBanner = document.querySelector('.notice-banner')
-    return noticeBanner ? toolbar.scrollHeight + noticeBanner.scrollHeight : toolbar.scrollHeight
+  const processExternalLinks = (selector) => {
+    const externalLinks = document.querySelectorAll(`${selector} [target="_blank"]`)
+    externalLinks.forEach((externalLink) => {
+      appendExternalLinkImage(externalLink)
+    })
   }
 
   const processSamePageLinks = () => {
-    const samePageLinks = [...document.querySelectorAll('.doc a')].filter((a) => a.href.includes('#'))
+    const destLinks = new Map([...document.querySelectorAll('.doc [id]')].map((el) => [el.id, el]))
+    const samePageLinks = [...document.querySelectorAll('.doc a[href^="#"]')]
+
     samePageLinks.forEach((samePageLink) => {
       const href = samePageLink.href.split('#')[1]
-      try {
-        const destLinkElement = document.querySelector(`#${href}`)
+      const destLinkElement = destLinks.get(href)
+
+      if (destLinkElement) {
         samePageLink.addEventListener('click', () => {
           adjustScrollPosition(destLinkElement)
         })
-      } catch {}
+      }
     })
   }
 
