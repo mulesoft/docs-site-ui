@@ -611,22 +611,22 @@
     {
       id: 'icon-nav-component-mule-runtime',
       viewBox: '0 0 30 30',
-      paths: [muleyPath],
+      path: muleyPath,
     },
     {
       id: 'icon-nav-component-mule-sdk',
       viewBox: '0 0 30 30',
-      paths: [muleyPath],
+      path: muleyPath,
     },
     {
       id: 'icon-nav-component-mule4-runtime',
       viewBox: '0 0 30 30',
-      paths: [muleyPath],
+      path: muleyPath,
     },
     {
       id: 'icon-nav-component-munit',
       viewBox: '0 0 30 30',
-      paths: [muleyPath],
+      path: muleyPath,
     },
     {
       id: 'icon-nav-component-object-store',
