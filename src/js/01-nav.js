@@ -127,8 +127,9 @@
       : versions[0]
   }
 
-  const getWindowsHeightMinus = (element) => {
+  const getHeightOnScreen = (element) => {
     const rect = element.getBoundingClientRect()
+    if (rect.y <= 0) return rect.height + rect.y
     const viewHeight = Math.max(document.documentElement.clientHeight, window.innerHeight)
     return viewHeight - rect.y
   }
@@ -388,24 +389,15 @@
         const header = document.querySelector('.ms-com-content-header')
         const footer = document.querySelector('.ms-com-content-footer')
         if (header && footer) {
-          const appHeight = 'var(--vh, 1vh) * 100'
-          let heightValue
+          let heightValue = 'calc(var(--vh, 1vh) * 100'
           if (isBigScreenSize()) {
             const bannerHeight = getBannerHeight()
-            if (window.pageYOffset + bannerHeight > header.offsetHeight) {
-              heightValue = isVisible(footer)
-                ? `calc(${appHeight} - ${getWindowsHeightMinus(footer)}px`
-                : `calc(${appHeight}`
-            } else {
-              heightValue = isVisible(header) ? `calc(${appHeight} - var(--header-height)` : `calc(${appHeight}`
-            }
-            if (hasTopBanner()) {
-              heightValue += ` - ${bannerHeight}px`
-            }
-            this.nav.style.height = `${heightValue})`
-          } else {
-            this.nav.style.height = `calc(${appHeight})`
+            if (isVisible(header)) heightValue += ` - ${getHeightOnScreen(header)}px`
+            if (isVisible(footer)) heightValue += ` - ${getHeightOnScreen(footer)}px`
+            if (hasTopBanner()) heightValue += ` - ${bannerHeight}px`
           }
+          heightValue += ')'
+          this.nav.style.height = heightValue
         }
       }
 

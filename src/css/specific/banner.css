@@ -119,7 +119,7 @@
     &.wrapper > .nav,
     &.wrapper > .toc {
       max-height: calc(100vh - var(--banner-height));
-      max-height: calc(var(--app-height) - var(--banner-height));
+      max-height: calc(var(--vh,1vh) * 100 - var(--banner-height));
       top: var(--banner-height);
     }
 
@@ -128,7 +128,7 @@
     }
 
     &.wrapper > main > .notice-banner {
-      top: calc(var(--banner-height) + var(--toolbar-height));
+      top: calc(var(--vh,1vh) * 100 + var(--toolbar-height));
     }
   }
 }
