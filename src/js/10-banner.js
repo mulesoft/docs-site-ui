@@ -53,7 +53,7 @@
   }
 
   const addEventListeners = (bannerDiv, closeButton, classToRemove) => {
-    closeButton.addEventListener('click', (_e) => {
+    closeButton.addEventListener('click', () => {
       if (bannerDiv) hideBanner(bannerDiv, classToRemove)
     })
     closeButton.addEventListener('keydown', (e) => {
