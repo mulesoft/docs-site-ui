@@ -708,7 +708,7 @@
           setAriaActiveDescendant(componentData.name, versionData.displayVersion, true)
           e.stopPropagation()
         })
-        navVersionOption.addEventListener('blur', (_e) => {
+        navVersionOption.addEventListener('blur', () => {
           setAriaActiveDescendant(componentData.name, versionData.displayVersion, false)
         })
         if (versionData === currentVersionData) {
@@ -735,10 +735,10 @@
       })
       navVersionDropdown.appendChild(navVersionButton)
       navVersionDropdown.appendChild(navVersionMenu)
-      navVersion.addEventListener('blur', (_e) => {
+      navVersion.addEventListener('blur', () => {
         autoCloseVersionDropdown(navVersionMenu)
       })
-      navVersionMenu.lastChild.addEventListener('blur', (_e) => {
+      navVersionMenu.lastChild.addEventListener('blur', () => {
         autoCloseVersionDropdown(navVersionMenu)
       })
       return navVersionDropdown

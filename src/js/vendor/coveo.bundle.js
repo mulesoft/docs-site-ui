@@ -2,6 +2,7 @@
   'use strict'
 
   const analytics = window.analytics
+  const uiRootPath = document.getElementById('site-script').dataset.uiRootPath
 
   const shortcutKeyMap = {
     keyLabel: 'K',
@@ -115,7 +116,7 @@ use ${osMap[this.clientOS].secondaryKeyLabelLong} + ${shortcutKeyMap.keyLabel}`
     }
 
     addAnalyticsListener () {
-      this.atomicSearchbox.addEventListener('focus', (_e) => {
+      this.atomicSearchbox.addEventListener('focus', () => {
         analytics && analytics.track('Clicked Search')
       })
     }
@@ -144,7 +145,7 @@ use ${osMap[this.clientOS].secondaryKeyLabelLong} + ${shortcutKeyMap.keyLabel}`
     addSubmitButtonText () {
       const submitText = document.createElement('p')
       submitText.style.display = this.searchboxInput.value ? 'inherit' : 'none'
-      submitText.style.margin = 'auto 10px auto 0'
+      submitText.style.margin = this.searchboxInput.value ? 'auto 10px auto -5px' : 'auto 10px auto 0'
       submitText.innerHTML = 'Docs'
       this.searchboxSubmitButton.appendChild(submitText)
     }
@@ -169,6 +170,15 @@ use ${osMap[this.clientOS].secondaryKeyLabelLong} + ${shortcutKeyMap.keyLabel}`
       }
     }
 
+    addLeftSearchIcon () {
+      const img = document.createElement('img')
+      img.alt = ''
+      img.src = `${uiRootPath}/img/icons/search-light.svg`
+      img.style.height = '50%'
+      img.style.margin = 'auto 10px'
+      this.searchboxDiv.insertBefore(img, this.searchboxDiv.firstChild)
+    }
+
     addSearchboxInputEventListeners () {
       //// save this block in case we need to add the kbd element back
       // const focusableElements = this.searchboxDiv.querySelectorAll('a, button, input')
@@ -181,11 +191,8 @@ use ${osMap[this.clientOS].secondaryKeyLabelLong} + ${shortcutKeyMap.keyLabel}`
       //     e.preventDefault()
       //   })
       // })
-      this.searchboxInput.addEventListener('input', (e) => {
-        const submitText = this.searchboxSubmitButton.querySelector('p')
-        if (submitText) submitText.style.display = this.searchboxInput.value ? 'inherit' : 'none'
-        e.preventDefault()
-      })
+      this.searchboxInput.addEventListener('input', (e) => this.toggleSubmitText(e))
+      this.searchboxInput.addEventListener('blur', (e) => this.toggleSubmitText(e))
     }
 
     makeMoreAssistive () {
@@ -199,6 +206,27 @@ use ${osMap[this.clientOS].secondaryKeyLabelLong} + ${shortcutKeyMap.keyLabel}`
           this.atomicSearchbox.setAttribute('disable-search', force)
         } else {
           this.atomicSearchbox.setAttribute('disable-search', this.searchboxInput.value.length === 0)
+        }
+      }
+      if (e) e.preventDefault()
+    }
+
+    toggleSubmitText (e) {
+      const submitText = this.searchboxSubmitButton.querySelector('p')
+      if (submitText) {
+        submitText.style.display = this.searchboxInput.value ? 'inherit' : 'none'
+        submitText.style.margin = this.searchboxInput.value ? 'auto 10px auto -5px' : 'auto 10px auto 0'
+      }
+      if (this.searchboxInput.value) {
+        const clearButton = this.searchboxDiv.querySelector('button[part="clear-button"]')
+        if (clearButton) {
+          if (clearButton.getAttribute('listener') !== 'true') {
+            clearButton.addEventListener('click', () => {
+              submitText.style.display = 'none'
+              submitText.style.margin = 'auto 10px auto 0'
+            })
+            clearButton.setAttribute('listener', 'true')
+          }
         }
       }
       if (e) e.preventDefault()
@@ -218,6 +246,7 @@ use ${osMap[this.clientOS].secondaryKeyLabelLong} + ${shortcutKeyMap.keyLabel}`
             this.updateAriaLabelForInput()
           }
         }
+        this.addLeftSearchIcon()
         this.addSearchboxInputEventListeners()
       }
     }

@@ -78,11 +78,11 @@
         scrollTo(thisOptions[thisOptions.selectedIndex].value)
       })
 
-      this.options.addEventListener('click', (_e) => {
+      this.options.addEventListener('click', () => {
         this.updateExpandState()
       })
 
-      this.options.addEventListener('blur', (_e) => {
+      this.options.addEventListener('blur', () => {
         if (this.isSelectDropdownExpanded) this.updateExpandState()
       })
 
@@ -143,7 +143,7 @@
     createToc () {
       this.createTocMenuDiv()
       if (this.sidebar) {
-        window.addEventListener('scroll', (_e) => {
+        window.addEventListener('scroll', () => {
           this.highlightOnScroll()
         })
       }
