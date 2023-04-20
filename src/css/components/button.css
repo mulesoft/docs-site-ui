@@ -2,7 +2,6 @@
 .button-primary {
   border-radius: var(--radius);
   cursor: pointer;
-  font-family: var(--sans-serif-bold);
   font-size: 14px;
   transition: box-shadow var(--transition-speed-sm) var(--transition-timing);
 }
@@ -37,6 +36,7 @@
   border-radius: var(--radius);
   color: var(--tertiary);
   display: inline-block;
+  font-family: var(--sans-serif-bold);
   height: 40px;
   line-height: 40px;
   padding: 0 13px;
