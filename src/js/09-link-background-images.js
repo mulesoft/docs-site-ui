@@ -75,13 +75,13 @@
       anchor.addEventListener('click', () => {
         adjustScrollPosition(anchor)
       })
-  
+
       const headerText = anchor.parentElement.textContent
       if (headerText) {
         anchor.setAttribute('aria-label', `Jump to ${headerText}`)
         const anchorImg = createLinkImage('anchor', headerText)
         anchor.appendChild(anchorImg)
-  
+
         const sidebarLinks = [...document.querySelectorAll('.toc-menu a')].filter((a) => a.textContent === headerText)
         if (sidebarLinks.length > 0) {
           sidebarLinks[0].addEventListener('click', () => {

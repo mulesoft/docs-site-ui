@@ -191,7 +191,7 @@ atomic-sort-dropdown {
     margin: auto;
     width: 10px;
   }
-  
+
   @media (min-width: 1024px) {
     font-size: 14px;
     grid-area: search-page-back-button;
