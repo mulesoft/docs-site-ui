@@ -13,15 +13,6 @@
     return scrollValue
   }
 
-  const appendExternalLinkImage = (link) => {
-    const isDataWeavePlaygroundLink = link && link.classList.contains('dw-playground-link')
-    const isFooterLink = link && link.offsetParent && link.offsetParent.tagName === 'FOOTER'
-    if (!isDataWeavePlaygroundLink && !isFooterLink) {
-      const externalLinkImg = createLinkImage('external-link', 'Leaving the Site')
-      link.appendChild(externalLinkImg)
-    }
-  }
-
   const adjustScrollPosition = (anchor) => {
     const minHeight = getMinHeight()
     let tries = 0
@@ -92,13 +83,6 @@
     })
   }
 
-  const processExternalLinks = (selector) => {
-    const externalLinks = document.querySelectorAll(`${selector} [target="_blank"]`)
-    externalLinks.forEach((externalLink) => {
-      appendExternalLinkImage(externalLink)
-    })
-  }
-
   const processSamePageLinks = () => {
     const destLinks = new Map([...document.querySelectorAll('.doc [id]')].map((el) => [el.id, el]))
     const samePageLinks = [...document.querySelectorAll('.doc a[href^="#"]')]
@@ -115,8 +99,6 @@
     })
   }
 
-  processExternalLinks('.nav')
-  processExternalLinks('.doc')
   processAnchorLinks()
   processSamePageLinks()
 })()
