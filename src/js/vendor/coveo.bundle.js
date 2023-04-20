@@ -116,7 +116,7 @@ use ${osMap[this.clientOS].secondaryKeyLabelLong} + ${shortcutKeyMap.keyLabel}`
     }
 
     addAnalyticsListener () {
-      this.atomicSearchbox.addEventListener('focus', (_e) => {
+      this.atomicSearchbox.addEventListener('focus', () => {
         analytics && analytics.track('Clicked Search')
       })
     }
@@ -216,6 +216,18 @@ use ${osMap[this.clientOS].secondaryKeyLabelLong} + ${shortcutKeyMap.keyLabel}`
       if (submitText) {
         submitText.style.display = this.searchboxInput.value ? 'inherit' : 'none'
         submitText.style.margin = this.searchboxInput.value ? 'auto 10px auto -5px' : 'auto 10px auto 0'
+      }
+      if (this.searchboxInput.value) {
+        const clearButton = this.searchboxDiv.querySelector('button[part="clear-button"]')
+        if (clearButton) {
+          if (clearButton.getAttribute('listener') !== 'true') {
+            clearButton.addEventListener('click', () => {
+              submitText.style.display = 'none'
+              submitText.style.margin = 'auto 10px auto 0'
+            })
+            clearButton.setAttribute('listener', 'true')
+          }
+        }
       }
       if (e) e.preventDefault()
     }
