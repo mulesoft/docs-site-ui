@@ -101,7 +101,6 @@
   &:hover {
     color: var(--steel-3);
     font-family: var(--sans-serif-bold);
-    font-weight: var(--weight-bold);
     letter-spacing: var(--bold-text-letter-spacing);
   }
   &:hover svg {
@@ -209,7 +208,6 @@ svg.nav-icon {
     & > .nav-item {
       margin-top: var(--sm);
       & > .nav-text {
-        font-weight: initial;
         &:hover {
           color: var(--steel-3);
           text-decoration: underline;
@@ -232,7 +230,7 @@ svg.nav-icon {
   box-shadow: none !important;
   color: inherit;
   cursor: pointer;
-  font-weight: var(--weight-bold);
+  font-family: var(--sans-serif-bold);
   line-height: inherit;
   margin-left: -1.5em;
   opacity: .8;
@@ -280,7 +278,6 @@ svg.nav-icon {
   border-radius: 1em;
   display: flex;
   font-size: .75rem;
-  font-weight: var(--weight-normal);
   height: 1.75em;
   padding: 0 2px 0 6px;
   transform: translateY(.075em);
@@ -305,7 +302,7 @@ svg.nav-icon {
   &.selector-active {
     border: 1px solid var(--secondary-navy);
     box-shadow: 0 0 0 3px rgba(0,162,223,.25);
-    font-weight: var(--weight-bold);
+    font-family: var(--sans-serif-bold);
   }
 }
 
@@ -330,7 +327,6 @@ svg.nav-icon {
 
   &.is-active {
     font-family: var(--sans-serif-bold);
-    font-weight: var(--weight-bold);
     letter-spacing: var(--bold-text-letter-spacing);
     opacity: 1;
     pointer-events: auto;
@@ -348,7 +344,7 @@ svg.nav-icon {
   }
 
   & .nav-version-label {
-    font-weight: var(--weight-bold);
+    font-family: var(--sans-serif-bold);
   }
 
   & .nav-version-option + .nav-version-label {
@@ -377,7 +373,6 @@ svg.nav-icon {
     &:hover {
       background: var(--aluminum-2);
       font-family: var(--sans-serif-bold);
-      font-weight: var(--weight-bold);
       letter-spacing: var(--bold-text-letter-spacing);
     }
 

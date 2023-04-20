@@ -52,7 +52,6 @@
     color: var(--steel-3);
     display: flex;
     font-size: 15px;
-    font-weight: var(--weight-bold);
     height: 50px;
     padding-left: var(--lg);
     padding-right: var(--md);
