@@ -3,6 +3,7 @@
 def defaultBranch = 'master'
 def githubCredentialsId = 'GH_TOKEN'
 def gpgSecretKeyCredentialsId = 'ms-cx-engineering-gpg-private-key'
+def failureSlackChannel = '#doc-build-failures'
 
 pipeline {
   agent any
@@ -25,8 +26,10 @@ pipeline {
         allOf {
           branch defaultBranch
           anyOf {
+            anyOf {
               changeset "src/**"
               changeset "package*.json"
+            }
           }
         }
       }
@@ -38,5 +41,13 @@ pipeline {
           }
       }
     }
+  }
+  post {
+      failure {
+          deleteDir()
+          script {
+              slackSend color: 'danger', channel: failureSlackChannel, message: 'UI bundle release failed. Please manually start a build in Jenkins.'
+          }
+      }
   }
 }
