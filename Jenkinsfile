@@ -7,6 +7,9 @@ def failureSlackChannel = '#doc-build-failures'
 
 pipeline {
   agent any
+  options {
+      buildDiscarder logRotator(artifactDaysToKeepStr: '7', artifactNumToKeepStr: '', daysToKeepStr: '7', numToKeepStr: '')
+  }
   stages {
     stage('Test') {
       when {
@@ -26,10 +29,9 @@ pipeline {
         allOf {
           branch defaultBranch
           anyOf {
-            anyOf {
-              changeset "src/**"
-              changeset "package*.json"
-            }
+            changeset "src/**"
+            changeset "package*.json"
+            manual true
           }
         }
       }
