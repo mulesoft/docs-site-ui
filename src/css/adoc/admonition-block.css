@@ -21,7 +21,6 @@
       display: block;
       font-family: var(--heading);
       font-size: 13px;
-      font-weight: var(--weight-bold);
       opacity: .6;
       padding-left: 20px;
     }

@@ -21,10 +21,9 @@
     background: #1a5492;
     border-radius: 10px;
     color: white;
-    font-family: var(--sans-serif);
+    font-family: var(--sans-serif-bold);
     font-size: 12px;
     font-style: normal;
-    font-weight: var(--weight-bold);
     padding: 0 5px;
 
     &::after {
@@ -92,7 +91,6 @@
       border: 0;
       font-family: inherit;
       font-size: inherit;
-      font-weight: inherit;
       padding: 0;
       top: 0;
     }
@@ -295,8 +293,7 @@
 
   /* images */
   & .image img {
-    margin-bottom: 8px;
-    margin-top: 24px;
+    margin: 0;
   }
 
   & kbd {

@@ -18,7 +18,7 @@
         if (this.nav) {
           // No addResizeListener for this one.
           // Instead, see 03-mobile-navbar for different behavior in small screen sizes
-          leftNavSkipLink.addEventListener('keydown', (e) => {
+          leftNavSkipLink.addEventListener('click', (e) => {
             if (isVisible(this.nav)) {
               const firstItemInLeftNav = this.getFirstItemInLeftNav()
               focusOn(e, firstItemInLeftNav)
@@ -31,7 +31,7 @@
 
         if (this.main) {
           addResizeListener(this.main, mainContentSkipLink)
-          mainContentSkipLink.addEventListener('keydown', (e) => {
+          mainContentSkipLink.addEventListener('click', (e) => {
             const selector = this.getMainSelector()
             focusOn(e, selector)
           })
@@ -41,7 +41,7 @@
 
         if (this.aside && this.asideToc) {
           addResizeListener(this.aside, pageNavSkipLink)
-          pageNavSkipLink.addEventListener('keydown', (e) => {
+          pageNavSkipLink.addEventListener('click', (e) => {
             if (isVisible(this.aside)) {
               focusOn(e, '.aside-toc a')
             }
@@ -51,15 +51,6 @@
         }
 
         this.removeUnusedSkipLinks()
-      }
-    }
-
-    clickSkipLinksToRemoveFocus () {
-      for (const skipLink of this.skipLinks) {
-        skipLink.addEventListener('click', (e) => {
-          skipLink.blur()
-          e.preventDefault()
-        })
       }
     }
 
@@ -77,11 +68,7 @@
 
     removeUnusedSkipLinks () {
       const remainingSkipLinks = getSkipLinks()
-      if (remainingSkipLinks.length > 0) {
-        this.clickSkipLinksToRemoveFocus()
-      } else {
-        remainingSkipLinks.remove()
-      }
+      if (remainingSkipLinks.length === 0) remainingSkipLinks.remove()
     }
   }
 
@@ -94,15 +81,13 @@
   }
 
   const focusOn = (e, selectors) => {
-    if (isSpaceOrEnterKey(e.keyCode)) {
-      if (typeof selectors === 'string') {
-        const element = document.querySelector(selectors)
-        element && element.focus()
-      } else {
-        selectors.focus()
-      }
-      e.preventDefault()
+    if (typeof selectors === 'string') {
+      const element = document.querySelector(selectors)
+      element && element.focus()
+    } else {
+      selectors.focus()
     }
+    e.preventDefault()
   }
 
   const getFocusableSearchBox = () => {
@@ -119,10 +104,6 @@
 
   const isSearchPage = () => {
     return document.title.includes('Search Docs')
-  }
-
-  const isSpaceOrEnterKey = (keyCode) => {
-    return [13, 32].includes(keyCode)
   }
 
   const isVisible = (element) => {
