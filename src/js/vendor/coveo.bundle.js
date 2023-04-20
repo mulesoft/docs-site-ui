@@ -144,7 +144,7 @@ use ${osMap[this.clientOS].secondaryKeyLabelLong} + ${shortcutKeyMap.keyLabel}`
     addSubmitButtonText () {
       const submitText = document.createElement('p')
       submitText.style.display = this.searchboxInput.value ? 'inherit' : 'none'
-      submitText.style.margin = 'auto 10px auto 0'
+      submitText.style.margin = this.searchboxInput.value ? 'auto 10px auto -5px' : 'auto 10px auto 0'
       submitText.innerHTML = 'Docs'
       this.searchboxSubmitButton.appendChild(submitText)
     }
@@ -183,7 +183,10 @@ use ${osMap[this.clientOS].secondaryKeyLabelLong} + ${shortcutKeyMap.keyLabel}`
       // })
       this.searchboxInput.addEventListener('input', (e) => {
         const submitText = this.searchboxSubmitButton.querySelector('p')
-        if (submitText) submitText.style.display = this.searchboxInput.value ? 'inherit' : 'none'
+        if (submitText) {
+          submitText.style.display = this.searchboxInput.value ? 'inherit' : 'none'
+          submitText.style.margin = this.searchboxInput.value ? 'auto 10px auto -5px' : 'auto 10px auto 0'
+        }
         e.preventDefault()
       })
     }
