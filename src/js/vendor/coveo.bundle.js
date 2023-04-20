@@ -2,6 +2,7 @@
   'use strict'
 
   const analytics = window.analytics
+  const uiRootPath = document.getElementById('site-script').dataset.uiRootPath
 
   const shortcutKeyMap = {
     keyLabel: 'K',
@@ -169,6 +170,15 @@ use ${osMap[this.clientOS].secondaryKeyLabelLong} + ${shortcutKeyMap.keyLabel}`
       }
     }
 
+    addLeftSearchIcon () {
+      const img = document.createElement('img')
+      img.alt = ''
+      img.src = `${uiRootPath}/img/icons/search-light.svg`
+      img.style.height = '50%'
+      img.style.margin = 'auto 10px'
+      this.searchboxDiv.insertBefore(img, this.searchboxDiv.firstChild)
+    }
+
     addSearchboxInputEventListeners () {
       //// save this block in case we need to add the kbd element back
       // const focusableElements = this.searchboxDiv.querySelectorAll('a, button, input')
@@ -224,6 +234,7 @@ use ${osMap[this.clientOS].secondaryKeyLabelLong} + ${shortcutKeyMap.keyLabel}`
             this.updateAriaLabelForInput()
           }
         }
+        this.addLeftSearchIcon()
         this.addSearchboxInputEventListeners()
       }
     }
