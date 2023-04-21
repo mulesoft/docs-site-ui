@@ -31,6 +31,7 @@
   }
 }
 
+/* this is used by the toolbar on certain homepages - we want to keep it unmodified in small screen size to retain the layout */
 .toolbar-home {
   @media (--md) {
     display: none;
