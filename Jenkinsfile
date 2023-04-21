@@ -49,10 +49,10 @@ pipeline {
               sh "docker build --build-arg GH_TOKEN=${GH_TOKEN} --build-arg SECRET_KEY=${SECRET_KEY} --build-arg GIT_BRANCH=${env.GIT_BRANCH} -f Dockerfile ."
         }
       }
-    }
-    post {
-      failure {
-        slackSend color: 'danger', channel: failureSlackChannel, message: '<${env.BUILD_URL}|${currentBuild.displayName}> UI bundle release failed. Please manually start a build in Jenkins.'
+      post {
+        failure {
+          slackSend color: 'danger', channel: failureSlackChannel, message: '<${env.BUILD_URL}|${currentBuild.displayName}> UI bundle release failed. Please manually start a build in Jenkins.'
+        }
       }
     }
   }
