@@ -50,9 +50,7 @@
 
   const scrollRight = (elements) => {
     setTimeout(() => {
-      for (const element of elements) {
-        element.scrollTo(element.scrollWidth, 0)
-      }
+      elements.forEach((element) => element.scrollTo(element.scrollWidth, 0))
     }, 100)
   }
 
@@ -112,7 +110,7 @@
       operation = isExpanded(breadcrumbsToggleButton) ? expandFalse : expandTrue
     }
     if (isList(object)) {
-      for (const element of object) element.classList[operation]('hide')
+      object.forEach((element) => element.classList[operation]('hide'))
     } else {
       object.classList[operation]('hide')
     }
