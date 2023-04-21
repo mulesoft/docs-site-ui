@@ -103,7 +103,7 @@
 
   const toggleLastBreadcrumbsItem = (lastBreadcrumbItem) => {
     const operation = isExpanded(breadcrumbsToggleButton) ? expandTrue : expandFalse
-    lastBreadcrumbItem?.classList[operation]('last-breadcrumb-item')
+    lastBreadcrumbItem.classList[operation]('last-breadcrumb-item')
   }
 
   const toggleTheOtherBreadcrumbsItems = (elements) => toggleVisibility(elements, false)
@@ -116,13 +116,15 @@
       operation = isExpanded(breadcrumbsToggleButton) ? expandFalse : expandTrue
     }
     if (isList(object)) {
-      for (const element of object) element?.classList[operation]('hide')
+      for (const element of object) element.classList[operation]('hide')
     } else {
-      object?.classList[operation]('hide')
+      object.classList[operation]('hide')
     }
   }
 
-  const unsetOriginalExpandState = () => { originalExpandState = undefined }
+  const unsetOriginalExpandState = () => {
+    originalExpandState = undefined
+  }
 
   if (isHomePage()) {
     const toolbar = document.querySelector('.toolbar')
