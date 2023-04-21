@@ -26,7 +26,9 @@
       }
     }
 
-    const handleScroll = () => { if (!isBigScreenSize()) setDefaultDrawerState() }
+    const handleScroll = () => {
+      if (!isBigScreenSize()) setDefaultDrawerState()
+    }
 
     breadcrumbsToggleButton.addEventListener('click', handleClick)
     window.addEventListener('resize', handleResize)

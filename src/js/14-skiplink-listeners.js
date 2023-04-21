@@ -34,7 +34,9 @@
 
       if (aside && asideToc) {
         addResizeListener(aside, pageNavSkipLink)
-        pageNavSkipLink.addEventListener('click', (e) => { if (isVisible(aside)) focusOn('.aside-toc a', e) })
+        pageNavSkipLink.addEventListener('click', (e) => {
+          if (isVisible(aside)) focusOn('.aside-toc a', e)
+        })
       } else {
         pageNavSkipLink.remove()
       }
@@ -45,27 +47,21 @@
   }
 
   const addResizeListener = (checkElement, skipLink) => {
-    const toggleVisibility = (checkElement, skipLink) => {
-      if (isVisible(checkElement)) {
-        skipLink.classList.remove('hide')
-        skipLink.tabIndex = 0
-      } else {
-        skipLink.classList.add('hide')
-        skipLink.tabIndex = -1
-      }
+    const toggleVisibility = () => {
+      skipLink.classList.toggle('hide', !isVisible(checkElement))
+      skipLink.tabIndex = isVisible(checkElement) ? 0 : -1
     }
 
     window.addEventListener('resize', (e) => {
-      toggleVisibility(checkElement, skipLink)
+      toggleVisibility()
       e.preventDefault()
     })
-    toggleVisibility(checkElement, skipLink)
+    toggleVisibility()
   }
 
   const focusOn = (selectors, e) => {
-    typeof selectors === 'string'
-      ? document.querySelector(selectors)?.focus()
-      : selectors?.focus()
+    const target = typeof selectors === 'string' ? document.querySelector(selectors) : selectors
+    if (target) target.focus()
     if (e) e.preventDefault()
   }
 
@@ -77,23 +73,22 @@
     return searchboxShadowRoot?.querySelector('input')
   }
 
-  const getMainSelector = () => {
-    if (isSearchPage()) return getFocusableSearchBox()
-    return isVisible(toolbar) ? '.toolbar a' : '.doc a'
-  }
+  const getMainSelector = () =>
+    isSearchPage()
+      ? getFocusableSearchBox()
+      : isVisible(toolbar)?.querySelector('a') || isVisible('.doc')?.querySelector('a')
 
   const isSearchPage = () => document.title.includes('Search Docs')
 
   const isVisible = (element) => {
-    return (
-      element &&
-      (element.querySelector('a') || isSearchPage()) &&
-      window.getComputedStyle(element).display !== 'none' &&
-      window.getComputedStyle(element).visibility !== 'hidden'
-    )
+    return element?.querySelector('a') || isSearchPage()
+      ? window.getComputedStyle(element).display !== 'none' && window.getComputedStyle(element).visibility !== 'hidden'
+      : false
   }
 
-  const removeIfEmpty = (remainingSkipLinks) => { if (!remainingSkipLinks.length) remainingSkipLinks.remove() }
+  const removeIfEmpty = (remainingSkipLinks) => {
+    if (!remainingSkipLinks.length) remainingSkipLinks.remove()
+  }
 
   addListeners(skipLinks)
 })()
