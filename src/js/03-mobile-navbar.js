@@ -12,18 +12,18 @@
   const tabindexStoreMap = {}
 
   const addListeners = (backdrop, toolbarMenuButton, navCloseButton, toolbarSearchButton, skipLinks) => {
+    const getLeftNav = (skipLinks) => {
+      for (const skipLink of skipLinks) {
+        if (skipLink.innerHTML.includes('left navigation')) return skipLink
+      }
+    }
+  
     const handleEscapeKeydown = (e) => {
       if (e.key === 'Escape') {
         mobileNavIsActive()
           ? hideNav(e)
           : toggleTabIndexOutsideNav()
         toggleFocus()
-      }
-    }
-
-    const getLeftNav = (skipLinks) => {
-      for (const skipLink of skipLinks) {
-        if (skipLink.innerHTML.includes('left navigation')) return skipLink
       }
     }
 
@@ -38,10 +38,11 @@
     if (toolbarMenuButton) toolbarMenuButton.addEventListener('click', toggleNav)
     if (navCloseButton) navCloseButton.addEventListener('click', toggleNav)
     if (toolbarSearchButton) toolbarSearchButton.addEventListener('click', handleToolbarSearchButtonClick)
+    document.addEventListener('keydown', handleEscapeKeydown)
+
     // this takes precedence than the normal skip link listener in 15-skiplink-listeners.js
     const leftNavSkipLink = getLeftNav(skipLinks)
     if (leftNavSkipLink) leftNavSkipLink.addEventListener('click', handleMobileLeftNavSkipLinkClick)
-    document.addEventListener('keydown', handleEscapeKeydown)
   }
 
   const focusOnMobileNavSearchBox = () => {
