@@ -73,10 +73,10 @@
     return searchboxShadowRoot?.querySelector('input')
   }
 
-  const getMainSelector = () =>
-    isSearchPage()
-      ? getFocusableSearchBox()
-      : isVisible(toolbar)?.querySelector('a') || isVisible('.doc')?.querySelector('a')
+  const getMainSelector = () => {
+    if (isSearchPage()) return getFocusableSearchBox()
+    return isVisible(toolbar) ? '.toolbar a' : '.doc a'
+  }
 
   const isSearchPage = () => document.title.includes('Search Docs')
 
