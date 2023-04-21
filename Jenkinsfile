@@ -3,7 +3,7 @@
 def defaultBranch = 'master'
 def githubCredentialsId = 'GH_TOKEN'
 def gpgSecretKeyCredentialsId = 'ms-cx-engineering-gpg-private-key'
-def failureSlackChannel = '#doc-build-failures'
+def failureSlackChannel = '#dux-engineering-github-prs'
 
 pipeline {
   agent any
@@ -46,17 +46,13 @@ pipeline {
         withCredentials([
           string(credentialsId: githubCredentialsId, variable: 'GH_TOKEN'),
           string(credentialsId: gpgSecretKeyCredentialsId , variable: 'SECRET_KEY')]) {
-            sh "docker build --build-arg GH_TOKEN=${GH_TOKEN} --build-arg SECRET_KEY=${SECRET_KEY} --build-arg GIT_BRANCH=${env.GIT_BRANCH} -f Dockerfile ."
+            try {
+              sh "docker build --build-arg GH_TOKEN=${GH_TOKEN} --build-arg SECRET_KEY=${SECRET_KEY} --build-arg GIT_BRANCH=${env.GIT_BRANCH} -f Dockerfile ."
+            } catch (Exception e) {
+              slackSend color: 'danger', channel: failureSlackChannel, message: 'UI bundle release failed. Please manually start a build in Jenkins.'
+            }
           }
       }
     }
-  }
-  post {
-      failure {
-          deleteDir()
-          script {
-              slackSend color: 'danger', channel: failureSlackChannel, message: 'UI bundle release failed. Please manually start a build in Jenkins.'
-          }
-      }
   }
 }
