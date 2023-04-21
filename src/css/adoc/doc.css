@@ -309,3 +309,8 @@
     white-space: nowrap;
   }
 }
+
+.page-images {
+  margin-bottom: 8px !important;
+  margin-top: 24px !important;
+}
