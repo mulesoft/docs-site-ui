@@ -6,7 +6,6 @@ h4,
 h5,
 h6 {
   font-family: var(--heading);
-  font-weight: var(--weight-bold);
   line-height: 1.2;
   margin: 0;
 }
@@ -38,17 +37,15 @@ h6 {
 /* utility */
 .small {
   font-size: 13px;
-  font-weight: var(--weight-normal); /* reset if within header tags */
 }
 
 .strong {
-  font-weight: var(--weight-bold);
+  font-family: var(--sans-serif-bold);
 }
 
 .monospace {
   font-family: var(--monospace);
   font-size: 14px;
-  font-weight: var(--weight-normal);
   white-space: pre;
   word-wrap: normal;
 }

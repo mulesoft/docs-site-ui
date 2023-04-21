@@ -59,7 +59,7 @@
   }
 
   & .col:last-child {
-    font-weight: var(--weight-bold);
+    font-family: var(--sans-serif-bold);
   }
 
   & .select {
@@ -74,7 +74,6 @@
   }
 
   & .categories-header {
-    font-weight: var(--weight-normal);
     margin-bottom: var(--xs);
   }
 
@@ -83,7 +82,6 @@
     border-radius: 2px;
     cursor: pointer;
     display: flex;
-    font-weight: var(--weight-normal);
     margin: 0 var(--xs);
     padding: var(--xs) var(--sm);
     text-decoration: none;

@@ -3,9 +3,20 @@
 def defaultBranch = 'master'
 def githubCredentialsId = 'GH_TOKEN'
 def gpgSecretKeyCredentialsId = 'ms-cx-engineering-gpg-private-key'
+def failureSlackChannel = '#doc-build-failures'
 
 pipeline {
   agent any
+  options {
+      buildDiscarder logRotator(artifactDaysToKeepStr: '7', artifactNumToKeepStr: '', daysToKeepStr: '7', numToKeepStr: '')
+  }
+  parameters {
+    booleanParam(
+      name: "MANUAL_RELEASE",
+      description: "Check this box to create a manual release (default: false)",
+      defaultValue: false
+    )
+  }
   stages {
     stage('Test') {
       when {
@@ -25,8 +36,9 @@ pipeline {
         allOf {
           branch defaultBranch
           anyOf {
-              changeset "src/**"
-              changeset "package*.json"
+            expression { return params.MANUAL_RELEASE }
+            changeset "src/**"
+            changeset "package*.json"            
           }
         }
       }
@@ -38,5 +50,13 @@ pipeline {
           }
       }
     }
+  }
+  post {
+      failure {
+          deleteDir()
+          script {
+              slackSend color: 'danger', channel: failureSlackChannel, message: 'UI bundle release failed. Please manually start a build in Jenkins.'
+          }
+      }
   }
 }

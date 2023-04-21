@@ -3,7 +3,6 @@
   border-radius: var(--radius);
   cursor: pointer;
   font-size: 14px;
-  font-weight: var(--weight-bold);
   transition: box-shadow var(--transition-speed-sm) var(--transition-timing);
 }
 
@@ -37,6 +36,7 @@
   border-radius: var(--radius);
   color: var(--tertiary);
   display: inline-block;
+  font-family: var(--sans-serif-bold);
   height: 40px;
   line-height: 40px;
   padding: 0 13px;
@@ -60,7 +60,6 @@
 .doc .button-primary code {
   background: none;
   border: 0;
-  font-weight: var(--weight-normal);
   padding: 0;
   top: 0; /* reset */
 }

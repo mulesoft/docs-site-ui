@@ -25,7 +25,7 @@
   font-size: 14px;
 
   & .header {
-    font-weight: var(--weight-bold);
+    font-family: var(--sans-serif-bold);
   }
 
   & .header,
@@ -38,7 +38,6 @@
     border-radius: 2px;
     cursor: pointer;
     display: flex;
-    font-weight: var(--weight-normal);
     text-decoration: none;
 
     &:hover {
