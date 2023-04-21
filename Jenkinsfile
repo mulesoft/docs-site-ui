@@ -51,8 +51,9 @@ pipeline {
       }
     }
     post {
-    failure {
-      slackSend color: 'danger', channel: failureSlackChannel, message: '<${env.BUILD_URL}|${currentBuild.displayName}> UI bundle release failed. Please manually start a build in Jenkins.'
+      failure {
+        slackSend color: 'danger', channel: failureSlackChannel, message: '<${env.BUILD_URL}|${currentBuild.displayName}> UI bundle release failed. Please manually start a build in Jenkins.'
+      }
     }
   }
 }
