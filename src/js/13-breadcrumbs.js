@@ -26,9 +26,7 @@
       }
     }
 
-    const handleScroll = () => {
-      if (!isBigScreenSize()) setDefaultDrawerState()
-    }
+    const handleScroll = () => { if (!isBigScreenSize()) setDefaultDrawerState() }
 
     breadcrumbsToggleButton.addEventListener('click', handleClick)
     window.addEventListener('resize', handleResize)
@@ -37,7 +35,7 @@
 
   const applyOriginalExpandState = () => toggleDrawer(originalExpandState)
   const hideDrawer = () => toggleDrawer(false)
-  const hideToggleButton = () => toggleBreadcrumbsToggleButton(false)
+  const hideToggleButton = () => toggleDisplay(breadcrumbsToggleButton, false)
   const hide = (toolbar) => toolbar?.classList.add('toolbar-home')
   const isBigScreenSize = () => window.innerWidth >= 768
   const isExpanded = (element) => element?.classList.contains('expanded')
@@ -74,17 +72,15 @@
   }
 
   const showDrawer = () => toggleDrawer(true)
-  const showToggleButton = () => toggleBreadcrumbsToggleButton(true)
+  const showToggleButton = () => toggleDisplay(breadcrumbsToggleButton, true)
 
   const toggleBreadcrumbsItems = () => {
     toggleLastBreadcrumbsItem(document.querySelector('.toolbar ol li:last-child'))
     toggleTheOtherBreadcrumbsItems(document.querySelectorAll('.toolbar ol li:not(:last-child)'))
   }
 
-  const toggleBreadcrumbsToggleButton = (override) => {
-    if (breadcrumbsToggleButton) {
-      breadcrumbsToggleButton.style.display = override ? 'flex' : 'none'
-    }
+  const toggleDisplay = (breadcrumbsToggleButton, override) => {
+    breadcrumbsToggleButton.style.display = override ? 'flex' : 'none'
   }
 
   const toggleDrawer = (override) => {
