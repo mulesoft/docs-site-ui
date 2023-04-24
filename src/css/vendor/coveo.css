@@ -181,6 +181,12 @@ atomic-sort-dropdown {
   padding: 0 10px;
   width: fit-content;
 
+  &:active,
+  &:focus {
+    /* override the color */
+    color: var(--black);
+  }
+
   &:hover {
     background-color: var(--light-blue);
     border-color: var(--dark-navy);
