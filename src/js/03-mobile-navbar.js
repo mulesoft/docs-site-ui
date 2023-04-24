@@ -17,17 +17,17 @@
         if (skipLink.innerHTML.includes('left navigation')) return skipLink
       }
     }
-  
+
     const handleEscapeKeydown = (e) => {
       if (e.key === 'Escape') {
-        mobileNavIsActive()
-          ? hideNav(e)
-          : toggleTabIndexOutsideNav()
+        mobileNavIsActive() ? hideNav(e) : toggleTabIndexOutsideNav()
         toggleFocus()
       }
     }
 
-    const handleMobileLeftNavSkipLinkClick = (e) => { if (!isBigScreenSize()) toggleNav(e) }
+    const handleMobileLeftNavSkipLinkClick = (e) => {
+      if (!isBigScreenSize()) toggleNav(e)
+    }
 
     const handleToolbarSearchButtonClick = (e) => {
       toggleNav(e)
@@ -54,9 +54,7 @@
 
     if (mobileNavIsActive()) {
       const searchBox = getFocusableSearchBox()
-      searchBox
-        ? searchBox.focus()
-        : toggleFocus()
+      searchBox ? searchBox.focus() : toggleFocus()
     }
   }
 
@@ -101,7 +99,7 @@
   const toggleFocus = () => {
     const isActive = mobileNavIsActive()
     mobileNavFocusTrapper.tabIndex = isActive ? 0 : -1
-    isActive ? mobileNavFocusTrapper?.focus() : toolbarMenuButton.focus()
+    isActive ? mobileNavFocusTrapper.focus() : toolbarMenuButton.focus()
   }
 
   const toggleNav = (e, override) => {
