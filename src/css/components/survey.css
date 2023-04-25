@@ -50,17 +50,12 @@ a.survey-button {
   text-decoration: none;
   top: 1%;
 
-  &:active {
-    border-color: var(--core-blue-3);
-    color: var(--core-blue-3);
-  }
-
+  &:active,
   &:focus {
     border-color: var(--core-blue-3);
   }
 
   &:hover {
-    border-color: var(--aluminum-5);
-    color: var(--steel-1);
+    background-color: var(--atomic-primary-light);
   }
 }
