@@ -10,7 +10,7 @@
     filter: brightness(0) invert(1);
     float: right;
     padding: 10px;
-  
+
     & img {
       height: 20px;
       width: 20px;
@@ -46,15 +46,14 @@
     position: relative;
     text-decoration: none;
     top: 4%;
-  
+
     &:active,
     &:focus {
       border-color: var(--core-blue-3);
     }
-  
+
     &:hover {
       background-color: var(--atomic-primary-light);
     }
   }
-  
 }
