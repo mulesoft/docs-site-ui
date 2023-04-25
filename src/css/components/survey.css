@@ -24,7 +24,6 @@ div.survey-title {
   font-size: 17px;
   position: inherit;
   text-align: center;
-  top: 2%;
   width: 100%;
 }
 
@@ -33,7 +32,6 @@ div.survey-text {
   line-height: 20px;
   margin: auto 10%;
   text-align: center;
-  top: 5%;
 }
 
 a.survey-button {
