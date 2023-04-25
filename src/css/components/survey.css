@@ -2,53 +2,59 @@
   background: linear-gradient(180deg,#2c3792 0%,#000849 91.19%);
   color: #fff;
   height: 250px;
-}
 
-#hide-survey {
-  height: 286px;
-  top: -24px;
-  width: 316px;
-
-  @media (--lg) {
-    visibility: hidden;
-  }
-}
-
-div.survey-icon {
-  padding-top: 20px;
-  text-align: center;
-}
-
-div.survey-title {
-  font-family: var(--sans-serif-bold);
-  font-size: 17px;
-  position: inherit;
-  text-align: center;
-  width: 100%;
-}
-
-div.survey-text {
-  font-size: 13px;
-  line-height: 20px;
-  margin: auto 10%;
-  text-align: center;
-}
-
-a.survey-button {
-  background: #449fd9;
-  color: #fff;
-  margin: auto 20px;
-  padding: 10px 30px;
-  position: relative;
-  text-decoration: none;
-  top: 4%;
-
-  &:active,
-  &:focus {
-    border-color: var(--core-blue-3);
+  & .survey-toggle {
+    background-color: inherit;
+    border: none;
+    cursor: pointer;
+    filter: brightness(0) invert(1);
+    float: right;
+    padding: 10px;
+  
+    & img {
+      height: 20px;
+      width: 20px;
+    }
   }
 
-  &:hover {
-    background-color: var(--atomic-primary-light);
+  & div.survey-icon {
+    margin: auto 45px;
+    padding-top: 20px;
+    text-align: center;
   }
+
+  & div.survey-title {
+    font-family: var(--sans-serif-bold);
+    font-size: 17px;
+    position: inherit;
+    text-align: center;
+    width: 100%;
+  }
+
+  & div.survey-text {
+    font-size: 13px;
+    line-height: 20px;
+    margin: auto 10%;
+    text-align: center;
+  }
+
+  & a.survey-button {
+    background: #449fd9;
+    color: #fff;
+    margin: auto 20px;
+    padding: 10px 30px;
+    position: relative;
+    text-decoration: none;
+    top: 4%;
+  
+    &:active,
+    &:focus {
+      border-color: var(--core-blue-3);
+    }
+  
+    &:hover {
+      background-color: var(--atomic-primary-light);
+    }
+  }
+  
 }
