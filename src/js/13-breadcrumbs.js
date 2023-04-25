@@ -41,7 +41,7 @@
   const hide = (toolbar) => toolbar?.classList.add('toolbar-home')
   const isBigScreenSize = () => window.innerWidth >= 768
   const isExpanded = (element) => element?.classList.contains('expanded')
-  const isHomePage = () => ['/', '/general/'].includes(window.location.pathname)
+  const isHomePage = (pathname) => /(?:.*\/general\/|^\/$)/.test(pathname)
   const isList = (object) => object.length !== undefined
   const isScrolledDownPast = (header) => header?.offsetHeight < window.pageYOffset
   const originalExpandStateIsSet = () => originalExpandState != null
@@ -122,7 +122,7 @@
     originalExpandState = undefined
   }
 
-  if (isHomePage()) {
+  if (isHomePage(window.location.pathname)) {
     const toolbar = document.querySelector('.toolbar')
     hide(toolbar)
   } else {
