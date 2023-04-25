@@ -37,18 +37,13 @@ div.survey-text {
 }
 
 a.survey-button {
-  align-items: center;
   background: #449fd9;
   color: #fff;
-  display: inline-grid;
-  flex-direction: row;
-  height: 40px;
   margin: auto 20px;
-  padding: 0 30px;
+  padding: 10px 30px;
   position: relative;
-  text-align: center;
   text-decoration: none;
-  top: 1%;
+  top: 4%;
 
   &:active,
   &:focus {
