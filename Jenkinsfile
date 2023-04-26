@@ -18,42 +18,50 @@ pipeline {
     )
   }
   stages {
-    stage('Test') {
-      when {
-        not {
-          branch defaultBranch
-        }
-      }
-      steps {
-        nodejs('node12') {
-          sh 'npm ci'
-          sh 'npx gulp bundle'
-        }
-      }
+    stage('My Stage') {
+    when {
+      expression { return isPullRequest() }
     }
-    stage('Release') {
-      when {
-        allOf {
-          branch defaultBranch
-          anyOf {
-            expression { return params.MANUAL_RELEASE }
-            changeset "src/**"
-            changeset "package*.json"            
-          }
-        }
-      }
-      steps {
-        withCredentials([
-          string(credentialsId: githubCredentialsId, variable: 'GH_TOKEN'),
-          string(credentialsId: gpgSecretKeyCredentialsId , variable: 'SECRET_KEY')]) {
-              sh "docker build --build-arg GH_TOKEN=${GH_TOKEN} --build-arg SECRET_KEY=${SECRET_KEY} --build-arg GIT_BRANCH=${env.GIT_BRANCH} -f Dockerfile ."
-        }
-      }
-      post {
-        failure {
-          slackSend color: 'danger', channel: failureSlackChannel, message: "<${env.BUILD_URL}|${currentBuild.displayName}> UI bundle release failed. Please manually start a build in Jenkins."
-        }
-      }
+    steps {
+      sh 'echo "hello world!"'
     }
+  }
+    // stage('Test') {
+    //   when {
+    //     not {
+    //       branch defaultBranch
+    //     }
+    //   }
+    //   steps {
+    //     nodejs('node12') {
+    //       sh 'npm ci'
+    //       sh 'npx gulp bundle'
+    //     }
+    //   }
+    // }
+    // stage('Release') {
+    //   when {
+    //     allOf {
+    //       branch defaultBranch
+    //       anyOf {
+    //         expression { return params.MANUAL_RELEASE }
+    //         changeset "src/**"
+    //         changeset "package*.json"            
+    //       }
+    //     }
+    //   }
+    //   steps {
+    //     withCredentials([
+    //       string(credentialsId: githubCredentialsId, variable: 'GH_TOKEN'),
+    //       string(credentialsId: gpgSecretKeyCredentialsId , variable: 'SECRET_KEY')]) {
+    //           sh "docker build --build-arg GH_TOKEN=${GH_TOKEN} --build-arg SECRET_KEY=${SECRET_KEY} --build-arg GIT_BRANCH=${env.GIT_BRANCH} -f Dockerfile ."
+    //     }
+    //   }
+    //   post {
+    //     failure {
+    //       slackSend color: 'danger', channel: failureSlackChannel, message: "<${env.BUILD_URL}|${currentBuild.displayName}> UI bundle release failed. Please manually start a build in Jenkins."
+    //     }
+    //   }
+    // }
   }
 }
