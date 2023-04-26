@@ -37,7 +37,7 @@
 
   & div.survey-text {
     margin: auto 10%;
-    
+
     & p {
       font-size: 13px;
       line-height: 20px;
@@ -47,14 +47,14 @@
   }
 
   & a.survey-button {
-    background: #02A0DF;
+    background: #02a0df;
     color: #fff;
     display: block;
     font-family: var(--sans-serif-bold);
     margin: auto 20px;
     padding: 10px 20px;
-    text-decoration: none;
     text-align: center;
+    text-decoration: none;
 
     &:active,
     &:focus {
