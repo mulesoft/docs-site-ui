@@ -19,9 +19,6 @@ pipeline {
   }
   stages {
     stage('My Stage') {
-    when {
-      expression { return isPullRequest() }
-    }
     steps {
       sh "echo ${env.CHANGE_TARGET}"
       sho "echo ${env.CHANGE_ID}"
