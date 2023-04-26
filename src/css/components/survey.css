@@ -1,7 +1,12 @@
 .survey {
   background: linear-gradient(180deg,#2c3792 0%,#000849 91.19%);
   color: #fff;
-  height: 250px;
+  height: 280px;
+
+  /* no space after &. This is for .survey.short to make the survey section shorter */
+  &.short {
+    height: 150px;
+  }
 
   & .survey-toggle {
     background-color: inherit;
@@ -18,34 +23,38 @@
   }
 
   & div.survey-icon {
-    margin: auto 45px;
-    padding-top: 20px;
     text-align: center;
   }
 
   & div.survey-title {
     font-family: var(--sans-serif-bold);
     font-size: 17px;
+    padding: 10px 0;
     position: inherit;
     text-align: center;
     width: 100%;
   }
 
   & div.survey-text {
-    font-size: 13px;
-    line-height: 20px;
     margin: auto 10%;
-    text-align: center;
+    
+    & p {
+      font-size: 13px;
+      line-height: 20px;
+      margin: 0 0 1em 0;
+      text-align: center;
+    }
   }
 
   & a.survey-button {
-    background: #449fd9;
+    background: #02A0DF;
     color: #fff;
+    display: block;
+    font-family: var(--sans-serif-bold);
     margin: auto 20px;
-    padding: 10px 30px;
-    position: relative;
+    padding: 10px 20px;
     text-decoration: none;
-    top: 4%;
+    text-align: center;
 
     &:active,
     &:focus {
