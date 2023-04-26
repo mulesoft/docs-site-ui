@@ -21,7 +21,7 @@ pipeline {
     stage('My Stage') {
     steps {
       sh "echo ${env.CHANGE_TARGET}"
-      sho "echo ${env.CHANGE_ID}"
+      sh "echo ${env.CHANGE_ID}"
     }
   }
     // stage('Test') {
