@@ -23,7 +23,8 @@ pipeline {
       expression { return isPullRequest() }
     }
     steps {
-      sh 'echo "hello world!"'
+      sh "echo ${env.CHANGE_TARGET}"
+      sho "echo ${env.CHANGE_ID}"
     }
   }
     // stage('Test') {
