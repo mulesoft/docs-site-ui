@@ -22,6 +22,7 @@ pipeline {
     steps {
       sh "echo ${env.CHANGE_TARGET}"
       sh "echo ${env.CHANGE_ID}"
+      sh "echo ${env.GIT_BRANCH}"
     }
   }
     // stage('Test') {
