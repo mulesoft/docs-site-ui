@@ -1,7 +1,7 @@
 ;(() => {
   'use strict'
 
-  const surveySection = document.querySelector('section.survey')
+  const surveySection = document.querySelector('aside > section.survey')
   if (!surveySection) return
 
   const surveyToggleButton = surveySection.querySelector('button.survey-toggle')
