@@ -13,6 +13,8 @@
   const hide = (element) => element.classList.add('hide')
   const show = (element) => element.classList.remove('hide')
 
+  // For some reason, mobile survey doesn't show up right after the page loads until I add this timeout.
+  // Keep this timeout here for now until we have a better solution
   setTimeout(() => {
     const mobileSurveyDiv = document.querySelector('div.mobile-survey-div')
     if (!mobileSurveyDiv) return
@@ -35,6 +37,8 @@
       mobileSurveyButton.addEventListener('click', (e) => {
         const mobileSurveyIsExpanded = mobileSurveyButton.ariaExpanded !== 'false'
         const operation = mobileSurveyIsExpanded ? 'add' : 'remove'
+
+        // TODO: add mobile behavior
         if (mobileSurveySection) mobileSurveySection.classList[operation]('hide')
         if (mobileSurveyButton) mobileSurveyButton.setAttribute('aria-expanded', !mobileSurveyIsExpanded)
 
