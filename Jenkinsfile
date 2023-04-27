@@ -18,33 +18,25 @@ pipeline {
     )
   }
   stages {
-    stage('My Stage') {
+    stage('Test') {
       when {
-        expression { return env.GIT_BRANCH.startsWith("PR-") }
+        not {
+          branch defaultBranch
+        }
       }
       steps {
-        sh "echo hello"
+        nodejs('node12') {
+          sh 'npm ci'
+          sh 'npx gulp bundle'
+        }
       }
     }
-    // stage('Test') {
-    //   when {
-    //     not {
-    //       branch defaultBranch
-    //     }
-    //   }
-    //   steps {
-    //     nodejs('node12') {
-    //       sh 'npm ci'
-    //       sh 'npx gulp bundle'
-    //     }
-    //   }
-    // }
     stage('Release') {
       when {
         allOf {
           anyOf {
             branch defaultBranch
-            // expression { return env.GIT_BRANCH.startsWith("PR-") }
+            expression { return env.GIT_BRANCH.startsWith("PR-") }
           }
           anyOf {
             expression { return params.MANUAL_RELEASE }
