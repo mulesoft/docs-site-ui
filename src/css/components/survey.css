@@ -2,6 +2,7 @@
   background: linear-gradient(180deg,#2c3792 0%,#000849 91.19%);
   color: #fff;
   height: 280px;
+  margin-bottom: 20px;
 
   /* no space after &. This is for .survey.short to make the survey section shorter */
   &.short {
