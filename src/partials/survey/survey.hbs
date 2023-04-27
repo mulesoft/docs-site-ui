@@ -1,0 +1,23 @@
+{{#unless (eq (site-profile) 'archive')}}
+{{#if (eq page.componentVersion.asciidoc.attributes.customer-feedback-survey true)}}
+<section class="survey {{#if class}}{{class}}{{/if}}">
+  <div class="survey-toggle-div flex justify-end">
+    <button aria-expanded=true aria-label="Click to toggle the customer feedback survey section"
+      title="Click to toggle the customer feedback survey section" class="survey-toggle">
+      <img loading="lazy" src="{{@root.uiRootPath}}/img/icons/arrow-down.svg" alt="" height="12">
+    </button>
+  </div>
+  <div class="survey-icon">
+    {{> survey-icon }}
+  </div>
+  <div class="survey-title">Submit your feedback!</div>
+  <div class="survey-text">
+    <p>Take our <strong>5 minute survey</strong> and you'll be entered to <strong>win 1 of 10 $25 gift cards</strong>!
+    </p>
+  </div>
+  <div class="survey-button-div">
+    <a class="survey-button" href="https://s2.userzoom.com/m/MSBDNTQxOFMxMzI4?testParam={{page.canonicalUrl}}">Take the survey!</a>
+  </div>
+</section>
+{{/if}}
+{{/unless}}
