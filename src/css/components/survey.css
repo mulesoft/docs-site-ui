@@ -3,6 +3,7 @@
   color: #fff;
   height: 280px;
   margin-bottom: 20px;
+  min-width: 220px;
 
   /* no space after &. This is for .survey.short to make the survey section shorter */
   &.short {
