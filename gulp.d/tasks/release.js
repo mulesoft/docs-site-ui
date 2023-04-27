@@ -82,13 +82,9 @@ https://beta.docs.mulesoft.com/beta-ui-staging/general/ (deployed every 2 hours)
 const createRelease = async ({ octokit, owner, repo }, tagName, bundleFile, bundlePath, branchName, updateBranch) => {
   console.log(`Creating release ${tagName}...`)
 
-  const ref = isPR(branchName)
-    ? await getRef({ octokit, owner, repo }, tagName)
-    : headsify(branchName)
+  const ref = isPR(branchName) ? await getRef({ octokit, owner, repo }, tagName) : headsify(branchName)
 
-  let commit = await octokit.git
-    .getRef({ owner, repo, ref })
-    .then((result) => result.data.object.sha)
+  let commit = await octokit.git.getRef({ owner, repo, ref }).then((result) => result.data.object.sha)
 
   const readmeContent = await fs
     .readFile('README.adoc', 'utf-8')
@@ -98,9 +94,7 @@ const createRelease = async ({ octokit, owner, repo }, tagName, bundleFile, bund
     .createBlob({ owner, repo, content: readmeContent, encoding: 'utf-8' })
     .then((result) => result.data.sha)
 
-  let tree = await octokit.git
-    .getCommit({ owner, repo, commit_sha: commit })
-    .then((result) => result.data.tree.sha)
+  let tree = await octokit.git.getCommit({ owner, repo, commit_sha: commit }).then((result) => result.data.tree.sha)
 
   tree = await octokit.git
     .createTree({
@@ -138,9 +132,10 @@ const createRelease = async ({ octokit, owner, repo }, tagName, bundleFile, bund
       target_commitish: commit,
       name: tagName,
       prerelease: branchName !== defaultBranch,
-      body: branchName !== defaultBranch
-        ? `#${getPullNumber(tagName)}`
-        : `${await getLastClosedPRLink({ octokit, owner, repo })}`,
+      body:
+        branchName !== defaultBranch
+          ? `#${getPullNumber(tagName)}`
+          : `${await getLastClosedPRLink({ octokit, owner, repo })}`,
     })
     .then((result) => result.data)
 
@@ -195,7 +190,11 @@ const getCurrentReleaseNumber = async ({ octokit, owner, repo }, variant) => {
 }
 
 const getHeadRef = async ({ octokit, owner, repo }, pullNumber) => {
-  const { data: { head: { ref: headBranch } } } = await octokit.rest.pulls.get({ owner, repo, pull_number: pullNumber })
+  const {
+    data: {
+      head: { ref: headBranch },
+    },
+  } = await octokit.rest.pulls.get({ owner, repo, pull_number: pullNumber })
   return headsify(headBranch)
 }
 
@@ -246,18 +245,22 @@ const normalizeOffset = async (offset, offsetIsZero = true) => {
 
 const normalizeString = async (str) => str.replace(/\r\n/g, '\n').trim()
 
-const releaseExists = async (githubConfig, tag) => await getLastReleaseThatStartsWith(githubConfig, tag) !== undefined
+const releaseExists = async (githubConfig, tag) => (await getLastReleaseThatStartsWith(githubConfig, tag)) !== undefined
 
 const setBranchName = async (gitBranch) => {
   let branchName = gitBranch || 'master'
-  branchName = branchName.startsWith('origin/')
-    ? branchName.substring(7)
-    : branchName
+  branchName = branchName.startsWith('origin/') ? branchName.substring(7) : branchName
   return branchName.toLowerCase()
 }
 
 const updateContent = async (
-  { octokit, owner, repo }, ref, newBranchName, tagName, filePath, secretKey, passphrase
+  { octokit, owner, repo },
+  ref,
+  newBranchName,
+  tagName,
+  filePath,
+  secretKey,
+  passphrase
 ) => {
   // Get the current contents of the file
   const {
@@ -325,9 +328,7 @@ const updateContent = async (
   }
 
   const signature = await createSignature(commitPayload, secretKey, passphrase)
-  const commit = await octokit.git.createCommit(
-    Object.assign({}, { owner, repo, signature }, commitPayload)
-  )
+  const commit = await octokit.git.createCommit(Object.assign({}, { owner, repo, signature }, commitPayload))
 
   await octokit.git.updateRef({
     owner,
@@ -372,20 +373,23 @@ const userToString = async (user) => {
 }
 
 const versionBundle = async (bundleFile, tagName) => {
-  vfs.src(bundleFile)
+  vfs
+    .src(bundleFile)
     .pipe(zip.src())
-    .pipe(map(
-      (file, _enc, next) => next(null, file),
-      function (done) {
-        this.push(
-          new File({
-            path: 'ui.yml',
-            contents: Buffer.from(`version: ${tagName}\n`),
-          })
-        )
-        done()
-      }
-    ))
+    .pipe(
+      map(
+        (file, _enc, next) => next(null, file),
+        function (done) {
+          this.push(
+            new File({
+              path: 'ui.yml',
+              contents: Buffer.from(`version: ${tagName}\n`),
+            })
+          )
+          done()
+        }
+      )
+    )
     .pipe(zip.dest(bundleFile))
 }
 
@@ -399,9 +403,8 @@ module.exports = (dest, bundleName, owner, repo, token, secretKey, passphrase, u
 
   const branchName = await setBranchName(process.env.GIT_BRANCH)
   const variant = branchName === defaultBranch ? 'prod' : branchName
-  const tagName = variant === 'prod'
-    ? `${variant}-${(await getCurrentReleaseNumber(githubConfig, variant)) + 1}`
-    : branchName
+  const tagName =
+    variant === 'prod' ? `${variant}-${(await getCurrentReleaseNumber(githubConfig, variant)) + 1}` : branchName
 
   if (variant === 'prod') {
     await createRelease(githubConfig, tagName, bundleName, bundlePath, branchName, updateBranch)
@@ -410,14 +413,19 @@ module.exports = (dest, bundleName, owner, repo, token, secretKey, passphrase, u
     if (secretKey) {
       for (const ref of baseBranches) {
         await createPR(
-          { octokit, owner, repo: 'docs-site-playbook' }, tagName, ref, 'antora-playbook.yml', secretKey, passphrase
+          { octokit, owner, repo: 'docs-site-playbook' },
+          tagName,
+          ref,
+          'antora-playbook.yml',
+          secretKey,
+          passphrase
         )
       }
     } else {
       console.log('Secret key is not found, skipping PRs creation in the playbook repo.')
     }
   } else if (isPR(branchName)) {
-    await releaseExists(githubConfig, tagName)
+    ;(await releaseExists(githubConfig, tagName))
       ? await updateRelease(githubConfig, tagName, bundleName, bundlePath)
       : await createRelease(githubConfig, tagName, bundleName, bundlePath, branchName, updateBranch)
   } else {
