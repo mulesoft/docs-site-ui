@@ -1,9 +1,9 @@
 .survey {
-  background: linear-gradient(180deg,#2c3792 0%,#000849 91.19%);
+  background: var(--survey-gradient);
   color: #fff;
-  height: 280px;
   margin-bottom: 20px;
-  min-width: 220px;
+  max-height: 280px;
+  width: 220px;
 
   /* no space after &. This is for .survey.short to make the survey section shorter */
   &.short {
@@ -31,13 +31,16 @@
 
   & div.survey-icon {
     text-align: center;
+
+    & > img {
+      filter: invert(1);
+    }
   }
 
   & div.survey-title {
     font-family: var(--sans-serif-bold);
     font-size: 17px;
     padding: 10px 0;
-    position: inherit;
     text-align: center;
     width: 100%;
   }
@@ -53,23 +56,77 @@
     }
   }
 
-  & a.survey-button {
-    background: #02a0df;
-    color: #fff;
-    display: block;
-    font-family: var(--sans-serif-bold);
-    margin: auto 20px;
-    padding: 10px 20px;
-    text-align: center;
-    text-decoration: none;
+  & .survey-button-div {
+    padding-bottom: 15px;
 
-    &:active,
-    &:focus {
-      border-color: var(--core-blue-3);
+    & a.survey-button {
+      background: #02a0df;
+      color: #fff;
+      display: block;
+      font-family: var(--sans-serif-bold);
+      margin: auto 20px;
+      padding: 10px 20px;
+      text-align: center;
+      text-decoration: none;
+
+      &:active,
+      &:focus {
+        border-color: var(--core-blue-3);
+      }
+
+      &:hover {
+        background-color: var(--atomic-primary-light);
+      }
+    }
+  }
+}
+
+.mobile-survey-div {
+  z-index: var(--z-survey);
+
+  & > .survey {
+    bottom: 50px;
+    position: fixed;
+    right: 10px;
+
+    & > .survey-toggle-div {
+      display: none;
     }
 
-    &:hover {
-      background-color: var(--atomic-primary-light);
+    & > .survey-icon {
+      padding-top: 10px;
     }
+  }
+
+  & > .mobile-survey-button {
+    background: var(--survey-gradient);
+    border: none;
+    border-radius: 20px;
+    bottom: 15px;
+    cursor: pointer;
+    height: 40px;
+    padding: 5px;
+    position: fixed;
+    right: 15px;
+    width: 40px;
+
+    & > img {
+      filter: invert(1);
+      margin: auto;
+      max-height: 25px;
+      max-width: 25px;
+    }
+  }
+
+  & > .mobile-survey-help-text {
+    background: #444;
+    border-radius: 5px;
+    bottom: 15px;
+    color: var(--tertiary);
+    cursor: pointer;
+    font-size: 10px;
+    padding: 3px 10px;
+    position: fixed;
+    right: 60px;
   }
 }

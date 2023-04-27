@@ -42,6 +42,7 @@
   --tertiary: #fff;
   --black: #000;
   --gray: #888;
+  --survey-gradient: linear-gradient(180deg,#2c3792 0%,#000849 91.19%);
 
   /* typography */
   --heading: 'EAvantGardeBold', arial, sans-serif;
@@ -83,6 +84,7 @@
 
   /* z-index */
   --z-gdpr: 20;
+  --z-survey: 18;
   --z-nav-mobile: 18;
   --z-modal-header: 17;
   --z-backdrop: 15;
