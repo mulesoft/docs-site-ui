@@ -28,6 +28,13 @@
     const mobileSurveyIconImage = mobileSurveyButton.querySelector('img.survey-icon-image')
     const mobileSurveyIconCloseImage = mobileSurveyButton.querySelector('img.survey-icon-close-image')
 
+    const toggleAll = (yes) => {
+      toggleClass(mobileSurveySection, hideClass, yes)
+      toggleClass(mobileSurveyIconImage, hideClass, !yes)
+      toggleClass(mobileSurveyIconCloseImage, hideClass, yes)
+      toggleAttribute(mobileSurveyButton, 'aria-expanded', !yes)
+    }
+
     window.addEventListener('resize', () => toggleClass(mobileSurveyDiv, hideClass, isVisible(aside)))
     toggleClass(mobileSurveyDiv, hideClass, isVisible(aside))
 
@@ -38,13 +45,10 @@
         // TODO: add mobile behavior
         if (isMobileScreen()) {
           toggleClass(backdrop, 'show', !mobileSurveyIsExpanded)
+          backdrop.addEventListener('click', () => toggleAll(!mobileSurveyIsExpanded))
         }
 
-        toggleClass(mobileSurveySection, hideClass, mobileSurveyIsExpanded)
-        toggleClass(mobileSurveyIconImage, hideClass, !mobileSurveyIsExpanded)
-        toggleClass(mobileSurveyIconCloseImage, hideClass, mobileSurveyIsExpanded)
-
-        toggleAttribute(mobileSurveyButton, 'aria-expanded', !mobileSurveyIsExpanded)
+        toggleAll(mobileSurveyIsExpanded)
         e.preventDefault()
       })
     }
