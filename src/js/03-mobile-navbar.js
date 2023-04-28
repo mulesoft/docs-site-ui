@@ -94,9 +94,9 @@
   }
 
   const toggleFocus = () => {
-    const isActive = isActive(nav)
-    mobileNavFocusTrapper.tabIndex = isActive ? 0 : -1
-    isActive ? mobileNavFocusTrapper.focus() : toolbarMenuButton.focus()
+    const active = isActive(nav)
+    mobileNavFocusTrapper.tabIndex = active ? 0 : -1
+    active ? mobileNavFocusTrapper.focus() : toolbarMenuButton.focus()
   }
 
   const toggleNav = (e, override) => {
