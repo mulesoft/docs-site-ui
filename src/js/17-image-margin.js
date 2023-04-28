@@ -3,7 +3,7 @@
 
   const isHomePage = (pathname) => /(?:.*\/general\/|^\/$)/.test(pathname)
 
-  if (!isHomePage()) {
+  if (!isHomePage(window.location.pathname)) {
     const addTopAndBottomMargins = (element) => element.classList.add('page-images')
     const isBig = (image) => image.height > 40
 
