@@ -1,4 +1,4 @@
-{{#if (eq page.componentVersion.asciidoc.attributes.customer-feedback-survey true)}}
+{{#if (or (eq page.componentVersion.asciidoc.attributes.customer-feedback-survey true) (eq asciidoc.attributes.customer-feedback-survey true))}}
 <div class="mobile-survey-div">
     <p class="mobile-survey-help-text hide">Give Feedback</p>
     {{> survey class="mobile-survey hide" }}

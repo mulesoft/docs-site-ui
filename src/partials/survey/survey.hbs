@@ -1,5 +1,5 @@
 {{#unless (eq (site-profile) 'archive')}}
-{{#if (eq page.componentVersion.asciidoc.attributes.customer-feedback-survey true)}}
+{{#if (or (eq page.componentVersion.asciidoc.attributes.customer-feedback-survey true) (eq asciidoc.attributes.customer-feedback-survey true))}}
 <section class="survey {{#if class}}{{class}}{{/if}}">
   <div class="survey-toggle-div flex justify-end">
     <button aria-expanded=true aria-label="Click to toggle the customer feedback survey section"

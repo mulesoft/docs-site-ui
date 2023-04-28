@@ -3,6 +3,8 @@ preview: true
 asciidoc:
   extensions:
     - '@asciidoctor/tabs'
+  attributes:
+    customer-feedback-survey: true
 site:
   url: &index_url /
   homeUrl: *index_url
