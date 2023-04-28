@@ -86,9 +86,10 @@
   z-index: var(--z-survey);
 
   & > .survey {
-    bottom: 50px;
+    bottom: 50%;
     position: fixed;
-    right: 10px;
+    right: 50%;
+    transform: translate(50%, 50%);
 
     & > .survey-toggle-div {
       display: none;
@@ -96,6 +97,12 @@
 
     & > .survey-icon {
       padding-top: 10px;
+    }
+
+    @media (--md) {
+      bottom: 50px;
+      right: 10px;
+      transform: initial-value;
     }
   }
 
