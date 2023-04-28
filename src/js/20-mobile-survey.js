@@ -6,7 +6,8 @@
 
   const isExpanded = (element) => element.ariaExpanded !== 'false'
 
-  const isVisible = (element) => element &&
+  const isVisible = (element) =>
+    element &&
     window.getComputedStyle(element).display !== 'none' &&
     window.getComputedStyle(element).visibility !== 'hidden'
 
