@@ -7,13 +7,15 @@
   const surveyToggleButton = surveySection.querySelector('button.survey-toggle')
   const surveyTextDiv = surveySection.querySelector('div.survey-text')
 
+  const toggleAttribute = (element, attrName, bool) => element && element.setAttribute(attrName, bool)
+  const toggleClass = (element, className, bool) => element && element.classList.toggle(className, bool)
+
   if (surveyToggleButton) {
     surveyToggleButton.addEventListener('click', (e) => {
       const surveyIsExpanded = surveyToggleButton.ariaExpanded !== 'false'
-      const operation = surveyIsExpanded ? 'add' : 'remove'
-      surveySection.classList[operation]('short')
-      if (surveyTextDiv) surveyTextDiv.classList[operation]('hide')
-      surveyToggleButton.setAttribute('aria-expanded', !surveyIsExpanded)
+      toggleClass(surveySection, 'short', surveyIsExpanded)
+      toggleClass(surveyTextDiv, 'hide', surveyIsExpanded)
+      toggleAttribute(surveyToggleButton, 'aria-expanded', !surveyIsExpanded)
       e.preventDefault()
     })
   }
