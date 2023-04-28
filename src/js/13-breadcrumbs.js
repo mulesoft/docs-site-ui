@@ -7,7 +7,6 @@
   const breadcrumbsToggleButton = document.querySelector('button.breadcrumbs-toggle')
   const secondaryBreadcrumbsDrawer = document.querySelector('.secondary-breadcrumbs-drawer')
 
-  const [expandTrue, expandFalse] = ['add', 'remove']
   let originalExpandState
 
   const addListeners = () => {
@@ -34,10 +33,16 @@
   }
 
   const applyOriginalExpandState = () => toggleDrawer(originalExpandState)
+
+  const hide = (object, yes) => {
+    const elements = isList(object) ? object : [object]
+    elements.forEach((element) => element.classList.toggle('hide', !yes))
+  }
+
   const hideDrawer = () => toggleDrawer(false)
   const hideToggleButton = () => toggleDisplay(breadcrumbsToggleButton, false)
-  const hide = (toolbar) => toolbar?.classList.add('toolbar-home')
-  const isBigScreenSize = () => window.innerWidth >= 768
+  const hideToolbar = (toolbar) => toolbar?.classList.add('toolbar-home')
+  const isBigScreenSize = () => window.matchMedia(' (min-width: 768px)').matches
   const isExpanded = (element) => element?.classList.contains('expanded')
   const isHomePage = (pathname) => /(?:.*\/general\/|^\/$)/.test(pathname)
   const isList = (object) => object.length !== undefined
@@ -49,9 +54,7 @@
   }
 
   const scrollRight = (elements) => {
-    setTimeout(() => {
-      elements.forEach((element) => element.scrollTo(element.scrollWidth, 0))
-    }, 100)
+    setTimeout(() => { elements.forEach((element) => element.scrollTo(element.scrollWidth, 0)) }, 100)
   }
 
   const setDefaultDrawerState = () => {
@@ -72,56 +75,32 @@
   const showDrawer = () => toggleDrawer(true)
   const showToggleButton = () => toggleDisplay(breadcrumbsToggleButton, true)
 
-  const toggleBreadcrumbsItems = () => {
-    toggleLastBreadcrumbsItem(document.querySelector('.toolbar ol li:last-child'))
-    toggleTheOtherBreadcrumbsItems(document.querySelectorAll('.toolbar ol li:not(:last-child)'))
+  const toggleBreadcrumbsItems = (yes) => {
+    const lastBreadcrumbItem = document.querySelector('.toolbar ol li:last-child')
+    const otherBreadcrumbItems = document.querySelectorAll('.toolbar ol li:not(:last-child)')
+    lastBreadcrumbItem.classList.toggle('last-breadcrumb-item', yes)
+    hide(otherBreadcrumbItems, !yes)
   }
 
   const toggleDisplay = (breadcrumbsToggleButton, override) => {
     breadcrumbsToggleButton.style.display = override ? 'flex' : 'none'
   }
 
-  const toggleDrawer = (override) => {
-    toggleExpand(breadcrumbsToggleButton, override)
-    breadcrumbsToggleButton.ariaExpanded = isExpanded(breadcrumbsToggleButton)
-    toggleVisibility(secondaryBreadcrumbsDrawer)
-    toggleBreadcrumbsItems()
+  const toggleDrawer = (yes) => {
+    breadcrumbsToggleButton.classList.toggle('expanded', yes)
+    const expanded = isExpanded(breadcrumbsToggleButton)
+    breadcrumbsToggleButton.ariaExpanded = expanded
+    hide(secondaryBreadcrumbsDrawer, expanded)
+    toggleBreadcrumbsItems(expanded)
     scrollRight(breadcrumbs)
-  }
-
-  const toggleExpand = (element, override) => {
-    let operation = 'toggle'
-    if (override !== undefined) operation = override ? expandTrue : expandFalse
-    element.classList[operation]('expanded')
-  }
-
-  const toggleLastBreadcrumbsItem = (lastBreadcrumbItem) => {
-    const operation = isExpanded(breadcrumbsToggleButton) ? expandTrue : expandFalse
-    lastBreadcrumbItem.classList[operation]('last-breadcrumb-item')
-  }
-
-  const toggleTheOtherBreadcrumbsItems = (elements) => toggleVisibility(elements, false)
-
-  const toggleVisibility = (object, override) => {
-    let operation
-    if (override !== undefined) {
-      operation = override ? expandTrue : expandFalse
-    } else {
-      operation = isExpanded(breadcrumbsToggleButton) ? expandFalse : expandTrue
-    }
-    if (isList(object)) {
-      object.forEach((element) => element.classList[operation]('hide'))
-    } else {
-      object.classList[operation]('hide')
-    }
   }
 
   const unsetOriginalExpandState = () => { originalExpandState = undefined }
 
-  if (isHomePage()) {
-    hide(document.querySelector('.toolbar'))
+  if (isHomePage(window.location.pathname)) {
+    hideToolbar(document.querySelector('.toolbar'))
   } else {
-    addListeners()
     scrollRight(breadcrumbs)
+    addListeners()
   }
 })()
