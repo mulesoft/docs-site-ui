@@ -2,17 +2,19 @@
   'use strict'
 
   const aside = document.querySelector('aside')
+  const backdrop = document.querySelector('.modal-backdrop')
   const hideClass = 'hide'
 
   const isExpanded = (element) => element.ariaExpanded !== 'false'
+  const isMobileScreen = () => !window.matchMedia(' (min-width: 768px)').matches
 
   const isVisible = (element) =>
     element &&
     window.getComputedStyle(element).display !== 'none' &&
     window.getComputedStyle(element).visibility !== 'hidden'
 
-  const toggleAriaExpanded = (element, bool) => element && element.setAttribute('aria-expanded', bool)
-  const toggleVisibility = (element, bool) => element && element.classList.toggle(hideClass, bool)
+  const toggleAttribute = (element, attrName, bool) => element && element.setAttribute(attrName, bool)
+  const toggleClass = (element, className, bool) => element && element.classList.toggle(className, bool)
 
   // For some reason, mobile survey doesn't show up right after the page loads until I add this timeout.
   // Keep this timeout here for now until we have a better solution
@@ -26,19 +28,23 @@
     const mobileSurveyIconImage = mobileSurveyButton.querySelector('img.survey-icon-image')
     const mobileSurveyIconCloseImage = mobileSurveyButton.querySelector('img.survey-icon-close-image')
 
-    window.addEventListener('resize', () => toggleVisibility(mobileSurveyDiv, isVisible(aside)))
-    toggleVisibility(mobileSurveyDiv, isVisible(aside))
+    window.addEventListener('resize', () => toggleClass(mobileSurveyDiv, hideClass, isVisible(aside)))
+    toggleClass(mobileSurveyDiv, hideClass, isVisible(aside))
 
     if (mobileSurveyButton) {
       mobileSurveyButton.addEventListener('click', (e) => {
         const mobileSurveyIsExpanded = isExpanded(mobileSurveyButton)
 
         // TODO: add mobile behavior
-        toggleVisibility(mobileSurveySection, mobileSurveyIsExpanded)
-        toggleVisibility(mobileSurveyIconImage, !mobileSurveyIsExpanded)
-        toggleVisibility(mobileSurveyIconCloseImage, mobileSurveyIsExpanded)
+        if (isMobileScreen()) {
+          toggleClass(backdrop, 'show', !mobileSurveyIsExpanded)
+        }
 
-        toggleAriaExpanded(mobileSurveyButton, !mobileSurveyIsExpanded)
+        toggleClass(mobileSurveySection, hideClass, mobileSurveyIsExpanded)
+        toggleClass(mobileSurveyIconImage, hideClass, !mobileSurveyIsExpanded)
+        toggleClass(mobileSurveyIconCloseImage, hideClass, mobileSurveyIsExpanded)
+
+        toggleAttribute(mobileSurveyButton, 'aria-expanded', !mobileSurveyIsExpanded)
         e.preventDefault()
       })
     }
