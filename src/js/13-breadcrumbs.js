@@ -26,9 +26,7 @@
       }
     }
 
-    const handleScroll = () => {
-      if (!isBigScreenSize()) setDefaultDrawerState()
-    }
+    const handleScroll = () => { if (!isBigScreenSize()) setDefaultDrawerState() }
 
     breadcrumbsToggleButton.addEventListener('click', handleClick)
     window.addEventListener('resize', handleResize)
@@ -41,7 +39,7 @@
   const hide = (toolbar) => toolbar?.classList.add('toolbar-home')
   const isBigScreenSize = () => window.innerWidth >= 768
   const isExpanded = (element) => element?.classList.contains('expanded')
-  const isHomePage = () => ['/', '/general/'].includes(window.location.pathname)
+  const isHomePage = (pathname) => /(?:.*\/general\/|^\/$)/.test(pathname)
   const isList = (object) => object.length !== undefined
   const isScrolledDownPast = (header) => header?.offsetHeight < window.pageYOffset
   const originalExpandStateIsSet = () => originalExpandState != null
@@ -118,13 +116,10 @@
     }
   }
 
-  const unsetOriginalExpandState = () => {
-    originalExpandState = undefined
-  }
+  const unsetOriginalExpandState = () => { originalExpandState = undefined }
 
   if (isHomePage()) {
-    const toolbar = document.querySelector('.toolbar')
-    hide(toolbar)
+    hide(document.querySelector('.toolbar'))
   } else {
     addListeners()
     scrollRight(breadcrumbs)
