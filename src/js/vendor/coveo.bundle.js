@@ -54,9 +54,7 @@
     return clientOS
   }
 
-  const isBigScreenSize = () => {
-    return window.innerWidth >= 768
-  }
+  const isBigScreenSize = () => window.matchMedia(' (min-width: 768px)').matches
 
   const isMobileBrowser = () => {
     return /Android|iPhone|iPad/i.test(navigator.userAgent)

@@ -57,7 +57,7 @@
 
   const hideNav = (e) => toggleNav(e, false)
   const inLeftnav = (element) => nav.contains(element)
-  const isBigScreenSize = () => window.innerWidth >= 768
+  const isBigScreenSize = () => window.matchMedia(' (min-width: 768px)').matches
 
   // source:
   // https://stackoverflow.com/questions/2631820/
