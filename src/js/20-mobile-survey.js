@@ -44,7 +44,6 @@
       mobileSurveyButton.addEventListener('click', (e) => {
         const mobileSurveyIsExpanded = isExpanded(mobileSurveyButton)
 
-        // TODO: add mobile behavior
         if (isMobileScreen()) {
           toggleClass(backdrop, 'show', !mobileSurveyIsExpanded)
           backdrop.addEventListener('click', () => toggleAll(!mobileSurveyIsExpanded))
