@@ -134,9 +134,7 @@
     return viewHeight - rect.y
   }
 
-  const isBigScreenSize = () => {
-    return window.innerWidth >= 768
-  }
+  const isBigScreenSize = () => window.matchMedia(' (min-width: 768px)').matches
 
   const isVisible = (element) => {
     const rect = element.getBoundingClientRect()

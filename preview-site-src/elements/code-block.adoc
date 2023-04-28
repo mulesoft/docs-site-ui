@@ -7,6 +7,10 @@ https://docs.antora.org/antora/latest/asciidoc/source/[Antora docs reference^]
 
 The following are code blocks of different languages (they are highlighted differently).
 
+== Inline
+
+This is am inline code: `test 12345 !@&$*(#$(#)]`
+
 == No highlights
 
 [source]
