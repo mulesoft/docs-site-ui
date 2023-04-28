@@ -4,6 +4,7 @@
   margin-bottom: 20px;
   max-height: 280px;
   width: 220px;
+  z-index: var(--z-survey);
 
   /* no space after &. This is for .survey.short to make the survey section shorter */
   &.short {
