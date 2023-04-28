@@ -33,8 +33,8 @@
       toggleClass(mobileSurveySection, hideClass, yes)
       toggleClass(mobileSurveyIconImage, hideClass, !yes)
       toggleClass(mobileSurveyIconCloseImage, hideClass, yes)
-      toggleClass(backdrop, 'show', !yes)
       toggleAttribute(mobileSurveyButton, 'aria-expanded', !yes)
+      if (isMobileScreen()) toggleClass(backdrop, 'show', !yes)
     }
 
     window.addEventListener('resize', () => toggleClass(mobileSurveyDiv, hideClass, isVisible(aside)))
@@ -45,6 +45,7 @@
         const mobileSurveyIsExpanded = isExpanded(mobileSurveyButton)
 
         if (isMobileScreen()) {
+          console.log('ool')
           toggleClass(backdrop, 'show', !mobileSurveyIsExpanded)
           backdrop.addEventListener('click', () => toggleAll(!mobileSurveyIsExpanded))
           mobileSurveyToggleButton.addEventListener('click', () => toggleAll(!mobileSurveyIsExpanded))
