@@ -56,7 +56,9 @@
 
   const processAnchorLinks = () => {
     document.querySelectorAll('.anchor').forEach((anchor) => {
-      anchor.addEventListener('click', () => { adjustScrollPosition(anchor) })
+      anchor.addEventListener('click', () => {
+        adjustScrollPosition(anchor)
+      })
 
       const headerText = anchor.parentElement.textContent
       if (headerText) {
@@ -65,7 +67,11 @@
         anchor.setAttribute('aria-label', `Jump to ${headerText}`)
 
         const sidebarLinks = [...document.querySelectorAll('.toc-menu a')].filter((a) => a.textContent === headerText)
-        if (sidebarLinks.length > 0) sidebarLinks[0].addEventListener('click', () => { adjustScrollPosition(anchor) })
+        if (sidebarLinks.length > 0) {
+          sidebarLinks[0].addEventListener('click', () => {
+            adjustScrollPosition(anchor)
+          })
+        }
       }
     })
   }
@@ -78,7 +84,11 @@
       const anchorLink = getAnchorLink(samePageLink)
       const destLinkElement = destLinks.get(anchorLink)
 
-      if (destLinkElement) samePageLink.addEventListener('click', () => { adjustScrollPosition(destLinkElement) })
+      if (destLinkElement) {
+        samePageLink.addEventListener('click', () => {
+          adjustScrollPosition(destLinkElement)
+        })
+      }
     })
   }
 
