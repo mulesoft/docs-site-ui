@@ -22,6 +22,7 @@
     const mobileSurveyDiv = document.querySelector('div.mobile-survey-div')
     if (!mobileSurveyDiv) return
 
+    const mobileSurveyToggleButton = mobileSurveyDiv.querySelector('button.survey-toggle')
     const mobileSurveyButton = mobileSurveyDiv.querySelector('button.mobile-survey-button')
     const mobileSurveySection = mobileSurveyDiv.querySelector('section.mobile-survey')
 
@@ -32,6 +33,7 @@
       toggleClass(mobileSurveySection, hideClass, yes)
       toggleClass(mobileSurveyIconImage, hideClass, !yes)
       toggleClass(mobileSurveyIconCloseImage, hideClass, yes)
+      toggleClass(backdrop, 'show', !yes)
       toggleAttribute(mobileSurveyButton, 'aria-expanded', !yes)
     }
 
@@ -46,8 +48,8 @@
         if (isMobileScreen()) {
           toggleClass(backdrop, 'show', !mobileSurveyIsExpanded)
           backdrop.addEventListener('click', () => toggleAll(!mobileSurveyIsExpanded))
+          mobileSurveyToggleButton.addEventListener('click', () => toggleAll(!mobileSurveyIsExpanded))
         }
-
         toggleAll(mobileSurveyIsExpanded)
         e.preventDefault()
       })

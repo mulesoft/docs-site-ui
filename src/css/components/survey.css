@@ -31,19 +31,12 @@
   }
 
   & div.survey-icon {
+    padding-bottom: 5px;
     text-align: center;
 
     & > img {
       filter: invert(1);
     }
-  }
-
-  & div.survey-title {
-    font-family: var(--sans-serif-bold);
-    font-size: 17px;
-    padding: 10px 0;
-    text-align: center;
-    width: 100%;
   }
 
   & div.survey-text {
@@ -92,7 +85,9 @@
     transform: translate(50%,50%);
 
     & > .survey-toggle-div {
-      display: none;
+      @media (--md) {
+        display: none;
+      }
     }
 
     & > .survey-icon {
@@ -102,7 +97,7 @@
     @media (--md) {
       bottom: 50px;
       right: 10px;
-      transform: initial-value;
+      transform: initial;
     }
   }
 
