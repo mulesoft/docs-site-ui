@@ -25,7 +25,9 @@
       }
     }
 
-    const handleScroll = () => { if (!isBigScreenSize()) setDefaultDrawerState() }
+    const handleScroll = () => {
+      if (!isBigScreenSize()) setDefaultDrawerState()
+    }
 
     breadcrumbsToggleButton.addEventListener('click', handleClick)
     window.addEventListener('resize', handleResize)
@@ -54,7 +56,9 @@
   }
 
   const scrollRight = (elements) => {
-    setTimeout(() => { elements.forEach((element) => element.scrollTo(element.scrollWidth, 0)) }, 100)
+    setTimeout(() => {
+      elements.forEach((element) => element.scrollTo(element.scrollWidth, 0))
+    }, 100)
   }
 
   const setDefaultDrawerState = () => {
@@ -95,7 +99,9 @@
     scrollRight(breadcrumbs)
   }
 
-  const unsetOriginalExpandState = () => { originalExpandState = undefined }
+  const unsetOriginalExpandState = () => {
+    originalExpandState = undefined
+  }
 
   if (isHomePage(window.location.pathname)) {
     hideToolbar(document.querySelector('.toolbar'))
