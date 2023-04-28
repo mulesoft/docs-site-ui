@@ -1,6 +1,5 @@
 {{#if (or (eq page.componentVersion.asciidoc.attributes.customer-feedback-survey true) (eq asciidoc.attributes.customer-feedback-survey true))}}
 <div class="mobile-survey-div">
-    <p class="mobile-survey-help-text hide">Give Feedback</p>
     {{> survey class="mobile-survey hide" }}
     <button aria-expanded=false class="mobile-survey-button"
         aria-label="Click to toggle the customer feedback survey section"
@@ -8,5 +7,6 @@
         {{> survey-icon }}
         <img class="survey-icon-close-image hide" loading="lazy" src="{{@root.uiRootPath}}/img/icons/close.svg" alt="">
     </button>
+    <p class="mobile-survey-help-text">Give Feedback</p>
 </div>
 {{/if}}

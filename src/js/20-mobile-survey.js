@@ -11,9 +11,6 @@
     window.getComputedStyle(element).display !== 'none' &&
     window.getComputedStyle(element).visibility !== 'hidden'
 
-  const hide = (element) => element && element.classList.add(hideClass)
-  const show = (element) => element && element.classList.remove(hideClass)
-
   const toggleAriaExpanded = (element, bool) => element && element.setAttribute('aria-expanded', bool)
   const toggleVisibility = (element, bool) => element && element.classList.toggle(hideClass, bool)
 
@@ -24,7 +21,6 @@
     if (!mobileSurveyDiv) return
 
     const mobileSurveyButton = mobileSurveyDiv.querySelector('button.mobile-survey-button')
-    const mobileSurveyHelpText = mobileSurveyDiv.querySelector('p.mobile-survey-help-text')
     const mobileSurveySection = mobileSurveyDiv.querySelector('section.mobile-survey')
 
     const mobileSurveyIconImage = mobileSurveyButton.querySelector('img.survey-icon-image')
@@ -34,9 +30,6 @@
     toggleVisibility(mobileSurveyDiv, isVisible(aside))
 
     if (mobileSurveyButton) {
-      mobileSurveyButton.addEventListener('mouseenter', () => show(mobileSurveyHelpText))
-      mobileSurveyButton.addEventListener('mouseleave', () => hide(mobileSurveyHelpText))
-
       mobileSurveyButton.addEventListener('click', (e) => {
         const mobileSurveyIsExpanded = isExpanded(mobileSurveyButton)
 
