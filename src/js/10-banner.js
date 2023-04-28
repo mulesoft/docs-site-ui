@@ -119,9 +119,7 @@
     return false
   }
 
-  const isBigScreenSize = () => {
-    return window.innerWidth >= 768
-  }
+  const isBigScreenSize = () => window.matchMedia(' (min-width: 768px)').matches
 
   const isSpaceOrEnterKey = (keyCode) => {
     return [13, 32].includes(keyCode)
