@@ -1,5 +1,4 @@
-{{#if (or (eq page.componentVersion.asciidoc.attributes.customer-feedback-survey true) (eq
-asciidoc.attributes.customer-feedback-survey true))}}
+{{#if (or page.componentVersion.asciidoc.attributes.customer-feedback-survey asciidoc.attributes.customer-feedback-survey)}}
 <div class="mobile-survey-div">
     {{> survey class="mobile-survey hide" iconName="close" }}
     <button aria-expanded=false class="mobile-survey-button"

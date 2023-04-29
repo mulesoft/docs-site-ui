@@ -1,5 +1,5 @@
 {{#unless (eq (site-profile) 'archive')}}
-{{#if (or (eq page.componentVersion.asciidoc.attributes.customer-feedback-survey true) (eq asciidoc.attributes.customer-feedback-survey true))}}
+{{#if (or page.componentVersion.asciidoc.attributes.customer-feedback-survey asciidoc.attributes.customer-feedback-survey)}}
 <section class="survey {{#if class}}{{class}}{{/if}}">
   <div class="survey-toggle-div flex justify-end">
     <button aria-expanded=true aria-label="Click to toggle the customer feedback survey section"
@@ -15,7 +15,7 @@
     </p>
   </div>
   <div class="survey-button-div">
-    <a class="survey-button" href="https://s2.userzoom.com/m/MSBDNTQxOFMxMzI4?testParam={{page.canonicalUrl}}">Take the survey!</a>
+    <a class="survey-button" href="{{or page.componentVersion.asciidoc.attributes.customer-feedback-survey asciidoc.attributes.customer-feedback-survey}}?testParam={{page.canonicalUrl}}">Take the survey!</a>
   </div>
 </section>
 {{/if}}

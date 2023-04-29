@@ -4,7 +4,7 @@ asciidoc:
   extensions:
     - '@asciidoctor/tabs'
   attributes:
-    customer-feedback-survey: true
+    customer-feedback-survey: https://s2.userzoom.com/m/MSBDNTQxOFMxMzI4
 site:
   url: &index_url /
   homeUrl: *index_url
