@@ -65,7 +65,7 @@
 
       &:active,
       &:focus {
-        border-color: var(--core-blue-3);
+        outline: -webkit-focus-ring-color auto 1px;
       }
 
       &:hover {
@@ -101,11 +101,18 @@
     }
   }
 
+  & > .survey-button {
+    &:focus {
+      outline: -webkit-focus-ring-color auto 1px;
+    }
+  }
+
   & > .mobile-survey-button {
     background: var(--survey-gradient);
     border: none;
     border-radius: 20px;
     bottom: 15px;
+    box-shadow: 0 10px 30px rgba(0,0,0,.1);
     cursor: pointer;
     height: 40px;
     padding: 5px;
@@ -120,9 +127,14 @@
       max-width: 25px;
     }
 
+    &:focus {
+      box-shadow: 0 0 0 3px rgba(0,162,223,.25);;
+    }
+
     &:hover + .mobile-survey-help-text {
       display: inherit;
     }
+
   }
 
   & > .mobile-survey-help-text {
