@@ -90,12 +90,14 @@
         if (isMobileScreen()) {
           toggleClass(backdrop, 'show', !mobileSurveyIsExpanded)
           backdrop.addEventListener('click', () => {
-            toggleAll(!mobileSurveyIsExpanded)
+            toggleAll(true)
             toggleTabIndexOutsideOf(mobileSurveyDiv, false)
+            if (mobileSurveyButton) mobileSurveyButton.focus()
           })
           mobileSurveyToggleButton.addEventListener('click', () => {
-            toggleAll(!mobileSurveyIsExpanded)
+            toggleAll(true)
             toggleTabIndexOutsideOf(mobileSurveyDiv, false)
+            if (mobileSurveyButton) mobileSurveyButton.focus()
           })
           toggleTabIndexOutsideOf(mobileSurveyDiv, !mobileSurveyIsExpanded)
         }
