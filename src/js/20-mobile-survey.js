@@ -27,6 +27,7 @@
     const mobileSurveyButton = mobileSurveyDiv.querySelector('button.mobile-survey-button')
     const mobileSurveySection = mobileSurveyDiv.querySelector('section.mobile-survey')
     const mobileSurveyHelpText = mobileSurveyDiv.querySelector('p.mobile-survey-help-text')
+    const takeTheSurveyButton = mobileSurveyDiv.querySelector('.survey-button')
 
     const mobileSurveyIconImage = mobileSurveyButton.querySelector('img.survey-icon-image')
     const mobileSurveyIconCloseImage = mobileSurveyButton.querySelector('img.survey-icon-close-image')
@@ -53,6 +54,7 @@
         }
         toggleAll(mobileSurveyIsExpanded)
         toggleHelpText(mobileSurveyHelpText, mobileSurveyIsExpanded)
+        if (!mobileSurveyIsExpanded) takeTheSurveyButton.focus()
         e.preventDefault()
       })
     }
