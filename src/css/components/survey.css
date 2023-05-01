@@ -134,7 +134,6 @@
     &:hover + .mobile-survey-help-text {
       display: inherit;
     }
-
   }
 
   & > .mobile-survey-help-text {
