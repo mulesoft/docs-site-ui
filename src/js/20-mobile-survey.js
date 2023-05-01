@@ -15,6 +15,9 @@
 
   const toggleAttribute = (element, attrName, bool) => element && element.setAttribute(attrName, bool)
   const toggleClass = (element, className, bool) => element && element.classList.toggle(className, bool)
+  const toggleHelpText = (helpText) => {
+    helpText.innerHTML = helpText.innerHTML !== 'Take Survey' ? 'Take Survey' : 'Hide'
+  }
 
   // For some reason, mobile survey doesn't show up right after the page loads until I add this timeout.
   // Keep this timeout here for now until we have a better solution
@@ -25,6 +28,7 @@
     const mobileSurveyToggleButton = mobileSurveyDiv.querySelector('button.survey-toggle')
     const mobileSurveyButton = mobileSurveyDiv.querySelector('button.mobile-survey-button')
     const mobileSurveySection = mobileSurveyDiv.querySelector('section.mobile-survey')
+    const mobileSurveyHelpText = mobileSurveyDiv.querySelector('p.mobile-survey-help-text')
 
     const mobileSurveyIconImage = mobileSurveyButton.querySelector('img.survey-icon-image')
     const mobileSurveyIconCloseImage = mobileSurveyButton.querySelector('img.survey-icon-close-image')
@@ -45,12 +49,12 @@
         const mobileSurveyIsExpanded = isExpanded(mobileSurveyButton)
 
         if (isMobileScreen()) {
-          console.log('ool')
           toggleClass(backdrop, 'show', !mobileSurveyIsExpanded)
           backdrop.addEventListener('click', () => toggleAll(!mobileSurveyIsExpanded))
           mobileSurveyToggleButton.addEventListener('click', () => toggleAll(!mobileSurveyIsExpanded))
         }
         toggleAll(mobileSurveyIsExpanded)
+        toggleHelpText(mobileSurveyHelpText)
         e.preventDefault()
       })
     }
