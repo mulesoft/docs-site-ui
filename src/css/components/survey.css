@@ -128,7 +128,7 @@
     }
 
     &:focus {
-      box-shadow: 0 0 0 3px rgba(0,162,223,.25);;
+      box-shadow: 0 0 0 6px rgba(0,162,223,.25);
     }
 
     &:hover + .mobile-survey-help-text {
