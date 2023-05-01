@@ -15,9 +15,7 @@
 
   const toggleAttribute = (element, attrName, bool) => element && element.setAttribute(attrName, bool)
   const toggleClass = (element, className, bool) => element && element.classList.toggle(className, bool)
-  const toggleHelpText = (helpText) => {
-    helpText.innerHTML = helpText.innerHTML !== 'Take Survey' ? 'Take Survey' : 'Hide'
-  }
+  const toggleHelpText = (helpText, bool) => (helpText.innerHTML = bool ? 'Take Survey' : 'Hide')
 
   // For some reason, mobile survey doesn't show up right after the page loads until I add this timeout.
   // Keep this timeout here for now until we have a better solution
@@ -54,7 +52,7 @@
           mobileSurveyToggleButton.addEventListener('click', () => toggleAll(!mobileSurveyIsExpanded))
         }
         toggleAll(mobileSurveyIsExpanded)
-        toggleHelpText(mobileSurveyHelpText)
+        toggleHelpText(mobileSurveyHelpText, mobileSurveyIsExpanded)
         e.preventDefault()
       })
     }
