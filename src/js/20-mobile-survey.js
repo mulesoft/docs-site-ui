@@ -5,6 +5,7 @@
   const backdrop = document.querySelector('.modal-backdrop')
   const hideClass = 'hide'
   const tabindexStoreMap = {}
+  let surveyPopover
 
   const contains = (parentElement, element) => parentElement.contains(element)
 
@@ -76,6 +77,7 @@
       toggleClass(mobileSurveySection, hideClass, yes)
       toggleClass(mobileSurveyIconImage, hideClass, !yes)
       toggleClass(mobileSurveyIconCloseImage, hideClass, yes)
+      toggleClass(surveyPopover, hideClass, true)
       toggleAttribute(mobileSurveyButton, 'aria-expanded', !yes)
       if (isMobileScreen()) toggleClass(backdrop, 'show', !yes)
     }
@@ -108,7 +110,7 @@
       })
     }
 
-    const surveyPopover = tippy(mobileSurveyButton, {
+    surveyPopover = tippy(mobileSurveyButton, {
       allowHTML: true,
       arrow: tippy.roundArrow,
       content: '<p>Take our <strong>5 minute survey</strong> and ' +
