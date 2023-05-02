@@ -41,7 +41,7 @@
     }
   }
 
-  const getHref = () => document.referrer.length > 0 ? document.referrer : document.location.origin
+  const getHref = () => (document.referrer.length > 0 ? document.referrer : document.location.origin)
   const getOS = () => {
     let clientOS = 'others'
     const userAgent = navigator.userAgent.toLowerCase()
