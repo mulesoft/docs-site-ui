@@ -36,7 +36,7 @@
       placement: 'bottom-end',
       theme: 'connector-popover',
       touchHold: true, // maps touch as click (for some reason)
-      zIndex: 18, // same as z-nav-mobile
+      zIndex: 'var(--z-nav-mobile)',
     })
   }
 
