@@ -1,4 +1,6 @@
-#!/bin/env groovy
+#!/usr/bin/env groovy
+
+emoji = ':sadpanda:'
 
 def defaultBranch = 'master'
 def githubCredentialsId = 'GH_TOKEN'
@@ -37,8 +39,8 @@ pipeline {
               if (env.GIT_BRANCH.startsWith("PR-")) {
                 slackSend color: 'danger', 
                 channel: failureSlackChannel, 
-                message: "<${env.BUILD_URL}|${currentBuild.displayName}> UI bundle test failed for ${env.GIT_BRANCH}, so the ${env.GIT_BRANCH} is not updated. \
-                Please run `npx gulp bundle` to see the errors, fix them, and then push the fix to retrigger this build."
+                message: "${emoji} <${env.BUILD_URL}|${currentBuild.displayName}> UI bundle test failed for ${env.GIT_BRANCH}, so the ${env.GIT_BRANCH} is not updated. \
+                Please run `npx gulp bundle` to see the errors, fix them, and then push the fix to retrigger this build. ${getErrorMsg()}"
               }
             }
           }
@@ -70,9 +72,16 @@ pipeline {
         failure {
           slackSend color: 'danger', 
           channel: failureSlackChannel, 
-          message: "<${env.BUILD_URL}|${currentBuild.displayName}> UI bundle release failed for ${env.GIT_BRANCH}. Please manually start a release on Jenkins if needed."
+          message: "${emoji} <${env.BUILD_URL}|${currentBuild.displayName}> UI bundle release failed for ${env.GIT_BRANCH}. \
+          Please manually start a release on Jenkins if needed. ${getErrorMsg()}"
         }
       }
     }
   }
+}
+
+def getErrorMsg() {
+    def logLines = currentBuild.rawBuild.getLog(15)
+    def lastLine = logLines.findAll {!it.startsWith('[Pipeline]')}.last()
+    return "```${lastLine}```"
 }
