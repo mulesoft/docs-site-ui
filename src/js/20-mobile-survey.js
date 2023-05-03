@@ -113,7 +113,8 @@
     surveyPopover = tippy(mobileSurveyButton, {
       allowHTML: true,
       arrow: tippy.roundArrow,
-      content: '<p>Take our <strong>5 minute survey</strong> and ' +
+      content:
+        '<p>Take our <strong>5 minute survey</strong> and ' +
         'you’ll have a chance to <strong>win 1 of 10 $25 gift cards</strong>!</p>' +
         '<button aria-label="Close survey popover and never show it again"' +
         'class="survey-popover-close-button" title="Close survey popover and never show it again">' +
