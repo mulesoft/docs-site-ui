@@ -3,46 +3,6 @@
   padding: 10px;
 }
 
-.tippy-box[data-theme~="survey-popover"] {
-  background: var(--survey-gradient);
-  border: none;
-  border-radius: 5px;
-  box-shadow: 0 10px 30px rgba(0,0,0,.1);
-  color: #fff;
-  padding: 0;
-  z-index: var(--z-survey);
-
-  & > .tippy-content {
-    display: flex;
-    padding: 15px 10px 15px 15px;
-
-    & > button {
-      background: unset;
-      border: none;
-      cursor: pointer;
-      padding: 0 10px;
-
-      &:focus {
-        border: white;
-      }
-
-      & > img {
-        filter: invert(1);
-      }
-    }
-
-    & > p {
-      font-size: 14px;
-      margin: 0;
-    }
-  }
-
-  & > .tippy-svg-arrow > svg {
-    fill: #0b0e3e;
-    top: 15px !important;
-  }
-}
-
 .tippy-box[data-theme~="connector-popover"] {
   background: var(--tertiary);
   border: 1px solid var(--aluminum-3);

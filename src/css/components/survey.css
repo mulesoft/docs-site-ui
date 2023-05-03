@@ -148,9 +148,51 @@
     position: fixed;
     right: 60px;
   }
-
-  & > div {
+  
+  .survey-popover {
+    background: var(--survey-gradient);
+    border: none;
+    border-radius: 5px;
+    bottom: 70px;
     box-shadow: 0 10px 30px rgba(0,0,0,.1);
-    margin: 0 2% 0 8% !important;
+    color: #fff;
+    margin-left: 15px;
+    padding: 0;
+    position: fixed;
+    right: 15px;
+    z-index: var(--z-survey);
+  
+    & > .survey-popover-content {
+      display: flex;
+      padding: 15px 10px 15px 15px;
+  
+      & > button {
+        background: unset;
+        border: none;
+        cursor: pointer;
+        padding: 0 10px;
+  
+        &:focus {
+          border: white;
+        }
+  
+        & > img {
+          filter: invert(1);
+        }
+      }
+  
+      & > p {
+        font-size: 14px;
+        margin: 0;
+      }
+    }
+  
+    & > svg {
+      bottom: 64px;
+      fill: #0b0e3e;
+      position: inherit;
+      right: 27px;
+      transform: rotate(180deg);
+    }
   }
 }
