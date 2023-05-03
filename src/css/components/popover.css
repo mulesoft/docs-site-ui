@@ -11,7 +11,7 @@
   color: #fff;
   padding: 0;
   z-index: var(--z-survey);
-  
+
   & > .tippy-content {
     display: flex;
     padding: 15px 10px 15px 15px;
@@ -21,11 +21,11 @@
       border: none;
       cursor: pointer;
       padding: 0 10px;
-      
-      &:focus{
+
+      &:focus {
         border: white;
       }
-      
+
       & > img {
         filter: invert(1);
       }
