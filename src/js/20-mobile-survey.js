@@ -110,7 +110,7 @@
       })
     }
 
-    if (isMobileScreen()) {
+    if (isMobileScreen() && !localStorage.getItem('hide_mobile_survey_popover')) {
       surveyPopover = tippy(mobileSurveyButton, {
         allowHTML: true,
         arrow: tippy.roundArrow,
@@ -135,6 +135,7 @@
       if (surveyPopoverCloseButton) {
         surveyPopoverCloseButton.addEventListener('click', (e) => {
           toggleClass(surveyPopover, hideClass, true)
+          localStorage.setItem('hide_mobile_survey_popover', true)
           e.preventDefault()
         })
       }
