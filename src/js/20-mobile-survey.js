@@ -121,6 +121,7 @@
           'class="survey-popover-close-button" title="Close survey popover and never show it again">' +
           '<img loading="lazy" src="../_/img/icons/close.svg" alt=""></button>',
         hideOnClick: false,
+        inertia: true,
         interactive: true,
         offset: [0, 15],
         onHide: () => false, // this means the tippy will always show
