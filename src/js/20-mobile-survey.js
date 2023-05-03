@@ -102,6 +102,7 @@
             mobileSurveyButton.focus()
           })
           toggleTabIndexOutsideOf(mobileSurveyDiv, !mobileSurveyIsExpanded)
+          localStorage.setItem('hide_mobile_survey_popover', true)
         }
         toggleAll(mobileSurveyIsExpanded)
         toggleHelpText(mobileSurveyHelpText, mobileSurveyIsExpanded)
