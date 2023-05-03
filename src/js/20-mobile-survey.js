@@ -110,32 +110,34 @@
       })
     }
 
-    surveyPopover = tippy(mobileSurveyButton, {
-      allowHTML: true,
-      arrow: tippy.roundArrow,
-      content:
-        '<p>Take our <strong>5 minute survey</strong> and ' +
-        'you’ll have a chance to <strong>win 1 of 10 $25 gift cards</strong>!</p>' +
-        '<button aria-label="Close survey popover and never show it again"' +
-        'class="survey-popover-close-button" title="Close survey popover and never show it again">' +
-        '<img loading="lazy" src="../_/img/icons/close.svg" alt=""></button>',
-      hideOnClick: false,
-      interactive: true,
-      offset: [0, 15],
-      onHide: () => false, // this means the tippy will always show
-      placement: 'top-end',
-      showOnCreate: true,
-      theme: 'survey-popover',
-      touchHold: true,
-      zIndex: 'var(--z-survey)',
-    }).popper
+    if (isMobileScreen()) {
+      surveyPopover = tippy(mobileSurveyButton, {
+        allowHTML: true,
+        arrow: tippy.roundArrow,
+        content:
+          '<p>Take our <strong>5 minute survey</strong> and ' +
+          'you’ll have a chance to <strong>win 1 of 10 $25 gift cards</strong>!</p>' +
+          '<button aria-label="Close survey popover and never show it again"' +
+          'class="survey-popover-close-button" title="Close survey popover and never show it again">' +
+          '<img loading="lazy" src="../_/img/icons/close.svg" alt=""></button>',
+        hideOnClick: false,
+        interactive: true,
+        offset: [0, 15],
+        onHide: () => false, // this means the tippy will always show
+        placement: 'top-end',
+        showOnCreate: true,
+        theme: 'survey-popover',
+        touchHold: true,
+        zIndex: 'var(--z-survey)',
+      }).popper
 
-    const surveyPopoverCloseButton = document.querySelector('.survey-popover-close-button')
-    if (surveyPopoverCloseButton) {
-      surveyPopoverCloseButton.addEventListener('click', (e) => {
-        toggleClass(surveyPopover, hideClass, true)
-        e.preventDefault()
-      })
+      const surveyPopoverCloseButton = document.querySelector('.survey-popover-close-button')
+      if (surveyPopoverCloseButton) {
+        surveyPopoverCloseButton.addEventListener('click', (e) => {
+          toggleClass(surveyPopover, hideClass, true)
+          e.preventDefault()
+        })
+      }
     }
   }, 50)
 })()
