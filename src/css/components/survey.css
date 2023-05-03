@@ -148,7 +148,7 @@
     position: fixed;
     right: 60px;
   }
-  
+
   .survey-popover {
     background: var(--survey-gradient);
     border: none;
@@ -161,32 +161,32 @@
     position: fixed;
     right: 15px;
     z-index: var(--z-survey);
-  
+
     & > .survey-popover-content {
       display: flex;
       padding: 15px 10px 15px 15px;
-  
+
       & > button {
         background: unset;
         border: none;
         cursor: pointer;
         padding: 0 10px;
-  
+
         &:focus {
           border: white;
         }
-  
+
         & > img {
           filter: invert(1);
         }
       }
-  
+
       & > p {
         font-size: 14px;
         margin: 0;
       }
     }
-  
+
     & > svg {
       bottom: 64px;
       fill: #0b0e3e;
