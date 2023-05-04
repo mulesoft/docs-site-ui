@@ -84,9 +84,9 @@
 
   /* z-index */
   --z-gdpr: 20;
-  --z-survey: 19;
-  --z-backdrop: 18;
   --z-nav-mobile: 18;
+  --z-survey: 17;
+  --z-backdrop: 17;
   --z-modal-header: 17;
   --z-modal: 110;
   --z-header: 11;
