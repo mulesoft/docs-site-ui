@@ -10,408 +10,24 @@ const vfs = require('vinyl-fs')
 const zip = require('gulp-vinyl-zip')
 const { createMessage, decryptKey, readPrivateKey, sign } = require('openpgp')
 
-class GitHub {
-  constructor ({ dest, bundleName, owner, repo, token, secretKey, passphrase, updateBranch }) {
-    this.dest = dest
-    this.bundleFileBasename = `${bundleName}-bundle.zip`
-    this.owner = owner
-    this.repo = repo
-    this.octokit = new Octokit({ auth: `token ${token}` })
-    this.secretKey = secretKey
-    this.passphrase = passphrase // optional, for local testing only
-    this.updateBranch = updateBranch
-  }
+const baseBranches = ['archive', 'jp', 'master']
+const defaultBranch = 'master'
 
-  async setUp () {
-    this.branchName = await this.setBranchName()
-    this.ref = `heads/${this.branchName}`
-
-    this.variant = this.branchName === 'master' ? 'prod' : this.branchName
-    this.tagName = `${this.variant}-${(await this.getCurrentReleaseNumber()) + 1}`
-
-    this.latestRelease = await this.getLastReleaseThatStartsWith('latest')
-
-    console.log(`
-    Set up completed with the following variables:
-      branch name: ${this.branchName}
-      ref: ${this.ref}
-      variant: ${this.variant}
-      tag name: ${this.tagName}
-    `)
-  }
-
-  async branchAlreadyExists ({ repo, branchName }) {
-    try {
-      await this.octokit.rest.git.getRef({
-        owner: this.owner,
-        repo,
-        ref: `heads/${branchName}`,
-      })
-      return true
-    } catch (e) {
-      return false
-    }
-  }
-
-  async createNewBranch ({ repo, ref, newBranchName }) {
-    if (!(await this.branchAlreadyExists({ repo, branchName: newBranchName }))) {
-      console.log(`Creating new branch ${newBranchName}...`)
-      const { data: baseRefData } = await this.octokit.rest.git.getRef({
-        owner: this.owner,
-        repo,
-        ref: `heads/${ref}`,
-      })
-
-      await this.octokit.rest.git.createRef({
-        owner: this.owner,
-        repo,
-        ref: `refs/heads/${newBranchName}`,
-        sha: baseRefData.object.sha,
-      })
-      console.log(`Successfully created branch ${newBranchName}.`)
-    } else {
-      console.log(`Branch ${newBranchName} already exists. Skipping its creation.`)
-    }
-  }
-
-  async createNextRelease () {
-    console.log(`Creating the next release ${this.tagName}...`)
-    await this.versionBundle()
-
-    let commit = await this.octokit.git
-      .getRef({
-        owner: this.owner,
-        repo: this.repo,
-        ref: this.ref,
-      })
-      .then((result) => result.data.object.sha)
-
-    const readmeContent = await fs
-      .readFile('README.adoc', 'utf-8')
-      .then((contents) => contents.replace(/^(?:\/\/)?(:current-release: ).+$/m, `$1${this.tagName}`))
-    const readmeBlob = await this.octokit.git
-      .createBlob({
-        owner: this.owner,
-        repo: this.repo,
-        content: readmeContent,
-        encoding: 'utf-8',
-      })
-      .then((result) => result.data.sha)
-
-    let tree = await this.octokit.git
-      .getCommit({
-        owner: this.owner,
-        repo: this.repo,
-        commit_sha: commit,
-      })
-      .then((result) => result.data.tree.sha)
-
-    tree = await this.octokit.git
-      .createTree({
-        owner: this.owner,
-        repo: this.repo,
-        tree: [
-          {
-            path: 'README.adoc',
-            mode: '100644',
-            type: 'blob',
-            sha: readmeBlob,
-          },
-        ],
-        base_tree: tree,
-      })
-      .then((result) => result.data.sha)
-
-    commit = await this.octokit.git
-      .createCommit({
-        owner: this.owner,
-        repo: this.repo,
-        message: `Release ${this.tagName}`,
-        tree,
-        parents: [commit],
-      })
-      .then((result) => result.data.sha)
-
-    if (this.updateBranch) {
-      await this.octokit.git.updateRef({
-        owner: this.owner,
-        repo: this.repo,
-        ref: this.ref,
-        sha: commit,
-      })
-    }
-
-    this.release = await this.octokit.repos
-      .createRelease({
-        owner: this.owner,
-        repo: this.repo,
-        tag_name: this.tagName,
-        target_commitish: commit,
-        name: this.tagName,
-        prerelease: this.variant !== 'prod',
-        body: this.variant !== 'prod' ? '' : `ref: ${await this.getLastPRLink()}`,
-      })
-      .then((result) => result.data)
-
-    await this.octokit.repos.uploadReleaseAsset({
-      url: this.release.upload_url,
-      data: fs.createReadStream(this.bundleFile),
-      name: this.bundleFileBasename,
-      headers: {
-        'content-length': (await fs.stat(this.bundleFile)).size,
-        'content-type': 'application/zip',
-      },
-    })
-
-    console.log(`Successfully created release ${this.tagName}.`)
-  }
-
-  async createPR ({ repo, ref, filePath }) {
-    console.log(`submitting PR to the ${ref} branch...`)
-    const newBranchName = `${this.tagName}-for-${ref}`
-    await this.createNewBranch({ repo, ref, newBranchName })
-    await this.updateContent({ repo, ref, newBranchName, filePath })
-    await this.octokit.pulls.create({
-      owner: this.owner,
-      repo: repo,
-      title: `${this.tagName} for ${ref}`,
-      head: newBranchName,
-      base: ref,
-      body: `ref: ${await this.getLastPRLink()}
-
-Before you merge this PR, please verify your changes in the following site:
-https://beta.docs.mulesoft.com/beta-ui-staging/general/ (deployed every 2 hours).
-      `,
-    })
-    console.log(`Successfully submitted PR to the ${ref} branch.`)
-  }
-
-  async createSignature (commit, passphrase) {
-    const decodedKey = await readPrivateKey({
-      armoredKey: await base64decode(this.secretKey),
-    })
-
-    const decryptedKey = passphrase
-      ? await decryptKey({
-        privateKey: decodedKey,
-        passphrase,
-      })
-      : decodedKey
-
-    if (!decryptedKey.isDecrypted()) {
-      throw new Error('Failed to decrypt private key using given passphrase')
-    }
-
-    const commitString = typeof commit === 'string' ? commit : await commitToString(commit)
-
-    const signature = await sign({
-      message: await createMessage({
-        text: commitString,
-      }),
-      signingKeys: decryptedKey,
-      detached: true,
-    })
-
-    return await normalizeString(signature)
-  }
-
-  async deleteUIBundleZipFileIfExist () {
-    const uiBundleAsset = await this.getAsset(this.latestRelease, 'ui-bundle.zip')
-
-    if (uiBundleAsset) {
-      await this.octokit.rest.repos.deleteReleaseAsset({
-        owner: this.owner,
-        repo: this.repo,
-        asset_id: uiBundleAsset.id,
-      })
-    }
-  }
-
-  async getAsset (release, fileName) {
-    const { data: assets } = await this.octokit.rest.repos.listReleaseAssets({
-      owner: this.owner,
-      repo: this.repo,
-      release_id: release.id,
-    })
-
-    return assets.find((asset) => asset.name === fileName)
-  }
-
-  async getCurrentReleaseNumber () {
-    const release = await this.getLastReleaseThatStartsWith(`${this.variant}-`)
-    if (release) return Number(release.name.slice(this.variant.length + 1))
-    return 1
-  }
-
-  async getLastReleaseThatStartsWith (prefix) {
-    let release
-    let page = 1
-    do {
-      const { data: releases } = await this.octokit.rest.repos.listReleases({
-        owner: this.owner,
-        repo: this.repo,
-        per_page: 100,
-        page,
-      })
-      release = releases.find((release) => release.name.startsWith(prefix))
-      page++
-    } while (!release && page <= 10) // Limit to 1000 releases
-    return release
-  }
-
-  async getLastPRLink () {
-    const { data: pulls } = await this.octokit.rest.pulls.list({
-      owner: this.owner,
-      repo: this.repo,
-      state: 'closed',
-      per_page: 1,
-    })
-
-    if (pulls) {
-      return pulls[0].html_url
-    }
-  }
-
-  async setBranchName () {
-    let branchName = process.env.GIT_BRANCH || 'master'
-    if (branchName.startsWith('origin/')) {
-      branchName = this.branchName.substring(7)
-    }
-
-    return branchName
-  }
-
-  async updateContent ({ repo, ref, newBranchName, filePath }) {
-    // Get the current contents of the file
-    const {
-      data: { content },
-    } = await this.octokit.repos.getContent({
-      owner: this.owner,
-      repo,
-      ref,
-      path: filePath,
-    })
-
-    const newContent = await this.updateUIBundleVer(content)
-
-    const {
-      data: {
-        object: { sha: latestCommitSha },
-      },
-    } = await this.octokit.git.getRef({
-      owner: this.owner,
-      repo,
-      ref: `heads/${ref}`,
-    })
-
-    const {
-      data: { sha: latestTreeSha },
-    } = await this.octokit.git.getCommit({
-      owner: this.owner,
-      repo,
-      commit_sha: latestCommitSha,
-    })
-
-    const {
-      data: { sha: newBlobSha },
-    } = await this.octokit.git.createBlob({
-      owner: this.owner,
-      repo,
-      content: newContent,
-    })
-
-    const {
-      data: { sha: newTreeSha },
-    } = await this.octokit.git.createTree({
-      owner: this.owner,
-      repo,
-      base_tree: latestTreeSha,
-      tree: [
-        {
-          path: filePath,
-          mode: '100644',
-          type: 'blob',
-          sha: newBlobSha,
-        },
-      ],
-    })
-
-    const commitPayload = {
-      message: this.tagName,
-      tree: newTreeSha,
-      parents: [latestCommitSha],
-      author: {
-        name: 'ms_cx_engineering (mule docs agent)',
-        email: 'ms_cx_engineering@mulesoft.com',
-        date: new Date().toISOString(),
-      },
-    }
-
-    const signature = await this.createSignature(commitPayload)
-    const commit = await this.octokit.git.createCommit(
-      Object.assign({}, { owner: this.owner, repo, signature }, commitPayload)
-    )
-
-    await this.octokit.git.updateRef({
-      owner: this.owner,
-      repo,
-      ref: `heads/${newBranchName}`,
-      sha: commit.data.sha,
-    })
-  }
-
-  async updateLatestRelease () {
-    console.log(`Replacing ${this.bundleFile} in the "latest" release...`)
-    await this.deleteUIBundleZipFileIfExist()
-    await this.octokit.repos.uploadReleaseAsset({
-      url: this.latestRelease.upload_url,
-      data: fs.createReadStream(this.bundleFile),
-      name: this.bundleFileBasename,
-      headers: {
-        'content-length': (await fs.stat(this.bundleFile)).size,
-        'content-type': 'application/zip',
-      },
-    })
-    console.log(`Successfully replaced ${this.bundleFile} in the "latest" release.`)
-  }
-
-  async updateUIBundleVer (content) {
-    const contentStr = Buffer.from(content, 'base64').toString('utf8')
-    return contentStr.replace(/\/prod-.+?\//, `/${this.tagName}/`)
-  }
-
-  async versionBundle () {
-    this.bundleFile = path.join(this.dest, this.bundleFileBasename)
-    return new Promise((resolve, reject) =>
-      vfs
-        .src(this.bundleFile)
-        .pipe(zip.src().on('error', reject))
-        .pipe(
-          map(
-            (file, _enc, next) => next(null, file),
-            function (done) {
-              this.push(
-                new File({
-                  path: 'ui.yml',
-                  contents: Buffer.from(`version: ${this.tagName}\n`),
-                })
-              )
-              done()
-            }
-          )
-        )
-        .pipe(zip.dest(this.bundleFile))
-        .on('finish', () => resolve(this.bundleFile))
-    )
-  }
-}
-
-async function base64decode (str) {
+const base64decode = async (str) => {
   const decoder = new TextDecoder('utf-8')
   return decoder.decode(Buffer.from(str, 'base64'))
 }
 
-async function commitToString ({ message, tree, parents, author, committer = author }) {
+const branchAlreadyExists = async ({ octokit, owner, repo }, ref) => {
+  try {
+    await octokit.rest.git.getRef({ owner, repo, ref })
+    return true
+  } catch (e) {
+    return false
+  }
+}
+
+const commitToString = async ({ message, tree, parents, author, committer = author }) => {
   // the blank line between committer and message is intentional, if removed, the signature will be invalid
   return `
 tree ${tree}
@@ -422,7 +38,202 @@ committer ${await userToString(committer)}
 ${message}`.trim()
 }
 
-async function normalizeOffset (offset, offsetIsZero = true) {
+const createNewBranch = async ({ octokit, owner, repo }, ref, newBranchName) => {
+  if (!(await branchAlreadyExists({ octokit, owner, repo }, headsify(newBranchName)))) {
+    console.log(`Creating new branch ${newBranchName}...`)
+    const { data: baseRefData } = await octokit.rest.git.getRef({
+      owner,
+      repo,
+      ref: headsify(ref),
+    })
+
+    await octokit.rest.git.createRef({
+      owner,
+      repo,
+      ref: `refs/${headsify(newBranchName)}`,
+      sha: baseRefData.object.sha,
+    })
+    console.log(`Successfully created branch ${newBranchName}.`)
+  } else {
+    console.log(`Branch ${newBranchName} already exists. Skipping its creation.`)
+  }
+}
+
+const createPR = async ({ octokit, owner, repo }, tagName, ref, filePath, secretKey, passphrase) => {
+  console.log(`submitting PR to the ${repo} repo, ${ref} branch...`)
+  const newBranchName = `${tagName}-for-${ref}`
+  await createNewBranch({ octokit, owner, repo }, ref, newBranchName)
+  await updateContent({ octokit, owner, repo }, ref, newBranchName, tagName, filePath, secretKey, passphrase)
+  await octokit.pulls.create({
+    owner,
+    repo,
+    title: `${tagName} for ${ref}`,
+    head: newBranchName,
+    base: ref,
+    body: `ref: ${await getLastClosedPRLink({ octokit, owner, repo: 'docs-site-ui' })}
+
+Before you merge this PR, please verify your changes in the following site:
+https://beta.docs.mulesoft.com/beta-ui-staging/general/ (deployed every 2 hours).
+    `,
+  })
+  console.log(`Successfully submitted PR to the ${ref} branch.`)
+}
+
+const createRelease = async ({ octokit, owner, repo }, tagName, bundleFile, bundlePath, branchName, updateBranch) => {
+  console.log(`Creating release ${tagName}...`)
+
+  const ref = isPR(branchName) ? await getRef({ octokit, owner, repo }, tagName) : headsify(branchName)
+
+  let commit = await octokit.git.getRef({ owner, repo, ref }).then((result) => result.data.object.sha)
+
+  const readmeContent = await fs
+    .readFile('README.adoc', 'utf-8')
+    .then((contents) => contents.replace(/^(?:\/\/)?(:current-release: ).+$/m, `$1${tagName}`))
+
+  const readmeBlob = await octokit.git
+    .createBlob({ owner, repo, content: readmeContent, encoding: 'utf-8' })
+    .then((result) => result.data.sha)
+
+  let tree = await octokit.git.getCommit({ owner, repo, commit_sha: commit }).then((result) => result.data.tree.sha)
+
+  tree = await octokit.git
+    .createTree({
+      owner,
+      repo,
+      tree: [
+        {
+          path: 'README.adoc',
+          mode: '100644',
+          type: 'blob',
+          sha: readmeBlob,
+        },
+      ],
+      base_tree: tree,
+    })
+    .then((result) => result.data.sha)
+
+  commit = await octokit.git
+    .createCommit({
+      owner,
+      repo,
+      message: `Release ${tagName}`,
+      tree,
+      parents: [commit],
+    })
+    .then((result) => result.data.sha)
+
+  if (updateBranch) await octokit.git.updateRef({ owner, repo, ref, sha: commit })
+
+  const release = await octokit.repos
+    .createRelease({
+      owner,
+      repo,
+      tag_name: tagName,
+      target_commitish: commit,
+      name: tagName,
+      prerelease: branchName !== defaultBranch,
+      body:
+        branchName !== defaultBranch
+          ? `#${getPullNumber(tagName)}`
+          : `${await getLastClosedPRLink({ octokit, owner, repo })}`,
+    })
+    .then((result) => result.data)
+
+  await uploadFile(octokit, release.upload_url, bundleFile, bundlePath)
+
+  console.log(`Successfully created release ${tagName}.`)
+}
+
+const createSignature = async (commit, secretKey, passphrase) => {
+  const decodedKey = await readPrivateKey({
+    armoredKey: await base64decode(secretKey),
+  })
+
+  const decryptedKey = passphrase
+    ? await decryptKey({
+      privateKey: decodedKey,
+      passphrase,
+    })
+    : decodedKey
+
+  if (!decryptedKey.isDecrypted()) {
+    throw new Error('Failed to decrypt private key using given passphrase')
+  }
+
+  const commitString = typeof commit === 'string' ? commit : await commitToString(commit)
+
+  const signature = await sign({
+    message: await createMessage({
+      text: commitString,
+    }),
+    signingKeys: decryptedKey,
+    detached: true,
+  })
+
+  return await normalizeString(signature)
+}
+
+const deleteFileIfExist = async ({ octokit, owner, repo }, release, fileName) => {
+  const uiBundleAsset = await getAsset({ octokit, owner, repo }, release, fileName)
+  if (uiBundleAsset) await octokit.rest.repos.deleteReleaseAsset({ owner, repo, asset_id: uiBundleAsset.id })
+}
+
+const getAsset = async ({ octokit, owner, repo }, release, fileName) => {
+  const { data: assets } = await octokit.rest.repos.listReleaseAssets({ owner, repo, release_id: release.id })
+  return assets.find((asset) => asset.name === fileName)
+}
+
+const getCurrentReleaseNumber = async ({ octokit, owner, repo }, variant) => {
+  const release = await getLastReleaseThatStartsWith({ octokit, owner, repo }, `${variant}-`)
+  if (release) return Number(release.name.slice(variant.length + 1))
+  return 1
+}
+
+const getHeadRef = async ({ octokit, owner, repo }, pullNumber) => {
+  const {
+    data: {
+      head: { ref: headBranch },
+    },
+  } = await octokit.rest.pulls.get({ owner, repo, pull_number: pullNumber })
+  return headsify(headBranch)
+}
+
+const getLastReleaseThatStartsWith = async ({ octokit, owner, repo }, prefix) => {
+  let release
+  let page = 1
+  do {
+    const { data: releases } = await octokit.rest.repos.listReleases({
+      owner,
+      repo,
+      per_page: 100,
+      page,
+    })
+    release = releases.find((release) => release.name.startsWith(prefix))
+    page++
+  } while (!release && page <= 2) // Limit to 200 releases
+  return release
+}
+
+const getLastClosedPRLink = async ({ octokit, owner, repo }) => {
+  const { data: pulls } = await octokit.rest.pulls.list({ owner, repo, state: 'closed', per_page: 1 })
+  if (pulls) return pulls[0].html_url
+}
+
+const getPullNumber = (prTagName) => prTagName.replace(/pr-/, '').trim()
+
+const getRef = async (githubConfig, tagName) => {
+  if (isPR(tagName)) {
+    const pullNumber = getPullNumber(tagName)
+    return await getHeadRef(githubConfig, pullNumber)
+  } else {
+    return headsify(tagName)
+  }
+}
+
+const headsify = (branchName) => `heads/${branchName}`
+const isPR = (branchName) => branchName.toLowerCase().startsWith('pr-')
+
+const normalizeOffset = async (offset, offsetIsZero = true) => {
   if (offsetIsZero) return '+0000'
 
   return (
@@ -432,11 +243,128 @@ async function normalizeOffset (offset, offsetIsZero = true) {
   )
 }
 
-async function normalizeString (str) {
-  return str.replace(/\r\n/g, '\n').trim()
+const normalizeString = async (str) => str.replace(/\r\n/g, '\n').trim()
+
+const releaseExists = async (githubConfig, tag) => (await getLastReleaseThatStartsWith(githubConfig, tag)) !== undefined
+
+const setBranchName = async (gitBranch) => {
+  let branchName = gitBranch || 'master'
+  branchName = branchName.startsWith('origin/') ? branchName.substring(7) : branchName
+  return branchName.toLowerCase()
 }
 
-async function userToString (user) {
+const updateContent = async (
+  { octokit, owner, repo },
+  ref,
+  newBranchName,
+  tagName,
+  filePath,
+  secretKey,
+  passphrase
+) => {
+  // Get the current contents of the file
+  const {
+    data: { content },
+  } = await octokit.repos.getContent({
+    owner,
+    repo,
+    ref,
+    path: filePath,
+  })
+
+  const newContent = await updateUIBundleVer(content)
+
+  const {
+    data: {
+      object: { sha: latestCommitSha },
+    },
+  } = await octokit.git.getRef({
+    owner,
+    repo,
+    ref: headsify(ref),
+  })
+
+  const {
+    data: { sha: latestTreeSha },
+  } = await octokit.git.getCommit({
+    owner,
+    repo,
+    commit_sha: latestCommitSha,
+  })
+
+  const {
+    data: { sha: newBlobSha },
+  } = await octokit.git.createBlob({
+    owner,
+    repo,
+    content: newContent,
+  })
+
+  const {
+    data: { sha: newTreeSha },
+  } = await octokit.git.createTree({
+    owner,
+    repo,
+    base_tree: latestTreeSha,
+    tree: [
+      {
+        path: filePath,
+        mode: '100644',
+        type: 'blob',
+        sha: newBlobSha,
+      },
+    ],
+  })
+
+  const commitPayload = {
+    message: tagName,
+    tree: newTreeSha,
+    parents: [latestCommitSha],
+    author: {
+      name: 'ms_cx_engineering (mule docs agent)',
+      email: 'ms_cx_engineering@mulesoft.com',
+      date: new Date().toISOString(),
+    },
+  }
+
+  const signature = await createSignature(commitPayload, secretKey, passphrase)
+  const commit = await octokit.git.createCommit(Object.assign({}, { owner, repo, signature }, commitPayload))
+
+  await octokit.git.updateRef({
+    owner,
+    repo,
+    ref: headsify(newBranchName),
+    sha: commit.data.sha,
+  })
+}
+
+const updateRelease = async ({ octokit, owner, repo }, tag, bundleFile, bundlePath) => {
+  console.log(`Replacing ${bundleFile} in release ${tag}...`)
+
+  const { data: release } = await octokit.rest.repos.getReleaseByTag({ owner, repo, tag })
+  await deleteFileIfExist({ octokit, owner, repo }, release, bundleFile)
+  await uploadFile(octokit, release.upload_url, bundleFile, bundlePath)
+  console.log(`Successfully replaced ${bundleFile} in release ${tag}.`)
+}
+
+const updateUIBundleVer = async (content, tagName) => {
+  const contentStr = Buffer.from(content, 'base64').toString('utf8')
+  return contentStr.replace(/\/prod-.+?\//, `/${tagName}/`)
+}
+
+const uploadFile = async (octokit, url, fileName, filePath) => {
+  await octokit.repos.uploadReleaseAsset({
+    url,
+    data: fs.createReadStream(filePath),
+    name: fileName,
+    headers: {
+      'content-length': (await fs.stat(filePath)).size,
+      'content-type': 'application/zip',
+    },
+  })
+}
+
+const userToString = async (user) => {
   const date = new Date(user.date)
   const timestamp = Math.floor(date.getTime() / 1000)
   const timezone = await normalizeOffset(date.getTimezoneOffset())
@@ -444,24 +372,63 @@ async function userToString (user) {
   return `${user.name} <${user.email}> ${timestamp} ${timezone}`
 }
 
-module.exports = (dest, bundleName, owner, repo, token, secretKey, passphrase, updateBranch) => async () => {
-  const gitHub = new GitHub({ dest, bundleName, owner, repo, token, secretKey, passphrase, updateBranch })
-  await gitHub.setUp()
-  if (gitHub.variant === 'prod') {
-    await gitHub.createNextRelease()
-    await gitHub.updateLatestRelease()
+const versionBundle = async (bundleFile, tagName) => {
+  vfs
+    .src(bundleFile)
+    .pipe(zip.src())
+    .pipe(
+      map(
+        (file, _enc, next) => next(null, file),
+        function (done) {
+          this.push(
+            new File({
+              path: 'ui.yml',
+              contents: Buffer.from(`version: ${tagName}\n`),
+            })
+          )
+          done()
+        }
+      )
+    )
+    .pipe(zip.dest(bundleFile))
+}
 
-    if (gitHub.secretKey) {
-      const baseBranches = ['archive', 'jp', 'master']
+module.exports = (dest, bundleName, owner, repo, token, secretKey, passphrase, updateBranch) => async () => {
+  const octokit = new Octokit({ auth: `token ${token}` })
+  const githubConfig = { octokit, owner, repo }
+
+  bundleName = `${bundleName}-bundle.zip`
+  const bundlePath = path.join(dest, bundleName)
+  await versionBundle(bundlePath)
+
+  const branchName = await setBranchName(process.env.GIT_BRANCH)
+  const variant = branchName === defaultBranch ? 'prod' : branchName
+  const tagName =
+    variant === 'prod' ? `${variant}-${(await getCurrentReleaseNumber(githubConfig, variant)) + 1}` : branchName
+
+  if (variant === 'prod') {
+    await createRelease(githubConfig, tagName, bundleName, bundlePath, branchName, updateBranch)
+    await updateRelease(githubConfig, 'latest', bundleName, bundlePath)
+    // TODO: if PR release exists, delete it?
+    if (secretKey) {
       for (const ref of baseBranches) {
-        await gitHub.createPR({
-          filePath: 'antora-playbook.yml',
-          repo: 'docs-site-playbook',
+        await createPR(
+          { octokit, owner, repo: 'docs-site-playbook' },
+          tagName,
           ref,
-        })
+          'antora-playbook.yml',
+          secretKey,
+          passphrase
+        )
       }
+    } else {
+      console.log('Secret key is not found, skipping PRs creation in the playbook repo.')
     }
+  } else if (isPR(branchName)) {
+    ;(await releaseExists(githubConfig, tagName))
+      ? await updateRelease(githubConfig, tagName, bundleName, bundlePath)
+      : await createRelease(githubConfig, tagName, bundleName, bundlePath, branchName, updateBranch)
   } else {
-    console.log('Git branch is not prod, skipping.')
+    console.log('Git branch is not prod and not PR, skipping.')
   }
 }

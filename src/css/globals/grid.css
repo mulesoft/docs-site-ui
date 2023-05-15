@@ -53,6 +53,10 @@
   justify-content: center;
 }
 
+.justify-end {
+  justify-content: flex-end;
+}
+
 .justify-justified {
   justify-content: space-between;
 }
