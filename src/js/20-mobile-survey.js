@@ -48,8 +48,16 @@
     }
   }
 
-  const toggleAttribute = (element, attrName, bool) => element && element.setAttribute(attrName, bool)
-  const toggleClass = (element, className, bool) => element && element.classList.toggle(className, bool)
+  const toggleAttribute = (element, attrName, bool, e) => {
+    element && element.setAttribute(attrName, bool)
+    if (e) e.preventDefault()
+  }
+
+  const toggleClass = (element, className, bool, e) => {
+    element && element.classList.toggle(className, bool)
+    if (e) e.preventDefault()
+  }
+
   const toggleHelpText = (helpText, bool) => (helpText.innerHTML = bool ? 'Take Survey' : 'Hide')
 
   const toggleTabIndexOutsideOf = (element, bool) => {
@@ -86,6 +94,11 @@
     toggleClass(mobileSurveyDiv, hideClass, isVisible(aside))
 
     if (mobileSurveyButton) {
+      mobileSurveyButton.addEventListener('focus', (e) => toggleClass(mobileSurveyHelpText, 'sr-only', false, e))
+      mobileSurveyButton.addEventListener('mouseover', (e) => toggleClass(mobileSurveyHelpText, 'sr-only', false, e))
+      mobileSurveyButton.addEventListener('blur', (e) => toggleClass(mobileSurveyHelpText, 'sr-only', true, e))
+      mobileSurveyButton.addEventListener('mouseout', (e) => toggleClass(mobileSurveyHelpText, 'sr-only', true, e))
+
       mobileSurveyButton.addEventListener('click', (e) => {
         const mobileSurveyIsExpanded = isExpanded(mobileSurveyButton)
 

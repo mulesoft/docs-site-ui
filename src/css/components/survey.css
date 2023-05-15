@@ -130,11 +130,6 @@
     &:focus {
       box-shadow: 0 0 0 3px rgba(0,162,223,.25);
     }
-
-    &:focus + .mobile-survey-help-text,
-    &:hover + .mobile-survey-help-text {
-      display: inherit;
-    }
   }
 
   & > .mobile-survey-help-text {
@@ -143,7 +138,6 @@
     bottom: 15px;
     color: var(--tertiary);
     cursor: pointer;
-    display: none;
     font-size: 10px;
     padding: 3px 10px;
     position: fixed;
