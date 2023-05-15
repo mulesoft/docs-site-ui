@@ -111,7 +111,7 @@
       })
     }
 
-    if (isMobileScreen() && !localStorage.getItem('hide_mobile_survey_popover')) {
+    if (!localStorage.getItem('hide_mobile_survey_popover')) {
       toggleClass(mobileSurveyPopover, hideClass, false)
       const surveyPopoverCloseButton = document.querySelector('.survey-popover-close-button')
       if (surveyPopoverCloseButton) {
