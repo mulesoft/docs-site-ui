@@ -175,8 +175,8 @@
 
         & > img {
           filter: invert(1);
-          margin: 11px 3px;
           height: 15px;
+          margin: 11px 3px;
           width: 15px;
         }
       }

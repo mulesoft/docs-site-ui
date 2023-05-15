@@ -86,14 +86,17 @@ body {
   }
 }
 
-/* https://webaim.org/techniques/css/invisiblecontent/#techniques */
+/*
+Add this class to any element to make the element invisible to all except for a screen reader.
+See: https://webaim.org/techniques/css/invisiblecontent/#techniques
+*/
 .sr-only {
-  position:absolute !important;
-  left:-10000px !important;
-  top:auto !important;
-  width:1px !important;
-  height:1px !important;
-  overflow:hidden !important;
+  height: 1px !important;
+  left: -10000px !important;
+  overflow: hidden !important;
+  position: absolute !important;
+  top: auto !important;
+  width: 1px !important;
 }
 
 .wrapper {
