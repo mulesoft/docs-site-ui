@@ -272,7 +272,7 @@ const updateContent = async (
     path: filePath,
   })
 
-  const newContent = await updateUIBundleVer(content)
+  const newContent = await updateUIBundleVer(content, tagName)
 
   const {
     data: {
@@ -409,7 +409,6 @@ module.exports = (dest, bundleName, owner, repo, token, secretKey, passphrase, u
   if (variant === 'prod') {
     await createRelease(githubConfig, tagName, bundleName, bundlePath, branchName, updateBranch)
     await updateRelease(githubConfig, 'latest', bundleName, bundlePath)
-    // TODO: if PR release exists, delete it?
     if (secretKey) {
       for (const ref of baseBranches) {
         await createPR(
