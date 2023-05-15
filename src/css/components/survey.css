@@ -1,5 +1,6 @@
 .survey {
   background: var(--survey-gradient);
+  box-shadow: 0 10px 30px rgba(0,0,0,.1);
   color: #fff;
   margin-bottom: 20px;
   max-height: 280px;
