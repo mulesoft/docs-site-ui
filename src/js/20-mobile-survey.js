@@ -82,7 +82,7 @@
     const mobileSurveyIconCloseImage = mobileSurveyButton.querySelector('img.survey-icon-close-image')
 
     const toggleAll = (yes) => {
-      toggleClass(mobileSurveySection, hideClass, yes)
+      toggleClass(mobileSurveySection, 'sr-only', yes)
       toggleClass(mobileSurveyIconImage, hideClass, !yes)
       toggleClass(mobileSurveyIconCloseImage, hideClass, yes)
       toggleClass(mobileSurveyPopover, hideClass, true)
@@ -94,10 +94,10 @@
     toggleClass(mobileSurveyDiv, hideClass, isVisible(aside))
 
     if (mobileSurveyButton) {
-      mobileSurveyButton.addEventListener('focus', (e) => toggleClass(mobileSurveyHelpText, 'sr-only', false, e))
-      mobileSurveyButton.addEventListener('mouseover', (e) => toggleClass(mobileSurveyHelpText, 'sr-only', false, e))
-      mobileSurveyButton.addEventListener('blur', (e) => toggleClass(mobileSurveyHelpText, 'sr-only', true, e))
-      mobileSurveyButton.addEventListener('mouseout', (e) => toggleClass(mobileSurveyHelpText, 'sr-only', true, e))
+      mobileSurveyButton.addEventListener('focus', (e) => toggleClass(mobileSurveyHelpText, 'hide', false, e))
+      mobileSurveyButton.addEventListener('mouseover', (e) => toggleClass(mobileSurveyHelpText, 'hide', false, e))
+      mobileSurveyButton.addEventListener('blur', (e) => toggleClass(mobileSurveyHelpText, 'hide', true, e))
+      mobileSurveyButton.addEventListener('mouseout', (e) => toggleClass(mobileSurveyHelpText, 'hide', true, e))
 
       mobileSurveyButton.addEventListener('click', (e) => {
         const mobileSurveyIsExpanded = isExpanded(mobileSurveyButton)
