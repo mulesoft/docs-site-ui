@@ -184,7 +184,7 @@ use ${osMap[this.clientOS].secondaryKeyLabelLong} + ${shortcutKeyMap.keyLabel}`
       // })
       this.searchboxInput.addEventListener('input', (e) => this.toggleSubmitText(e))
       this.searchboxInput.addEventListener('blur', (e) => this.toggleSubmitText(e))
-      setTimeout(() => this.toggleSubmitText(), 100)
+      setTimeout(() => this.toggleSubmitText(), 500)
     }
 
     makeMoreAssistive () {
