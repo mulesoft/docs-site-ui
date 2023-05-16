@@ -12,15 +12,12 @@
   const tabindexStoreMap = {}
 
   const addListeners = (backdrop, toolbarMenuButton, navCloseButton, toolbarSearchButton, skipLinks) => {
-    const getLeftNav = (skipLinks) => {
-      for (const skipLink of skipLinks) {
-        if (skipLink.innerHTML.includes('left navigation')) return skipLink
-      }
-    }
+    const getElementByInnerHTML = (skipLinks, skipLinkLabel) =>
+      Array.from(skipLinks).find((skipLink) => skipLink.innerHTML.includes(skipLinkLabel)) || null
 
     const handleEscapeKeydown = (e) => {
       if (e.key === 'Escape') {
-        mobileNavIsActive() ? hideNav(e) : toggleTabIndexOutsideNav()
+        isActive(nav) ? hideNav(e) : toggleTabIndexOutsideNav()
         toggleFocus()
       }
     }
@@ -41,7 +38,7 @@
     document.addEventListener('keydown', handleEscapeKeydown)
 
     // this takes precedence than the normal skip link listener in 15-skiplink-listeners.js
-    const leftNavSkipLink = getLeftNav(skipLinks)
+    const leftNavSkipLink = getElementByInnerHTML(skipLinks, 'left navigation')
     if (leftNavSkipLink) leftNavSkipLink.addEventListener('click', handleMobileLeftNavSkipLinkClick)
   }
 
@@ -52,7 +49,7 @@
       return searchboxShadowRoot?.querySelector('input')
     }
 
-    if (mobileNavIsActive()) {
+    if (isActive(nav)) {
       const searchBox = getFocusableSearchBox()
       searchBox ? searchBox.focus() : toggleFocus()
     }
@@ -77,14 +74,14 @@
     }
   }
 
-  const mobileNavIsActive = () => nav.classList.contains('is-active')
+  const isActive = (element) => element.classList.contains('is-active')
 
   const setTabindex = (link) => {
     if (!inLeftnav(link)) {
       const tabIndex = link.tabIndex
       const linkPath = getXPath(link)
       link.removeAttribute('tabindex')
-      if (mobileNavIsActive()) {
+      if (isActive(nav)) {
         if (!(linkPath in tabindexStoreMap) || tabindexStoreMap[linkPath] == null) {
           tabindexStoreMap[linkPath] = tabIndex
         }
@@ -97,9 +94,9 @@
   }
 
   const toggleFocus = () => {
-    const isActive = mobileNavIsActive()
-    mobileNavFocusTrapper.tabIndex = isActive ? 0 : -1
-    isActive ? mobileNavFocusTrapper.focus() : toolbarMenuButton.focus()
+    const active = isActive(nav)
+    mobileNavFocusTrapper.tabIndex = active ? 0 : -1
+    active ? mobileNavFocusTrapper.focus() : toolbarMenuButton.focus()
   }
 
   const toggleNav = (e, override) => {
@@ -107,10 +104,10 @@
     if (override !== undefined) navOperation = override ? 'add' : 'remove'
     nav.classList[navOperation]('is-active')
 
-    const miscOperation = mobileNavIsActive() ? 'add' : 'remove'
+    const miscOperation = isActive(nav) ? 'add' : 'remove'
     body.classList[miscOperation]('mobile', 'no-scroll')
     backdrop.classList[miscOperation]('mobile', 'show')
-    navCloseButton.classList[mobileNavIsActive() ? 'remove' : 'add']('hide')
+    navCloseButton.classList[isActive(nav) ? 'remove' : 'add']('hide')
 
     toggleTabIndexOutsideNav()
     toggleFocus()

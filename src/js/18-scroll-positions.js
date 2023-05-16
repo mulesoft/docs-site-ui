@@ -32,15 +32,17 @@
 
   const createLinkImage = (iconName, titleText) => {
     const img = document.createElement('img')
-    img.setAttribute('role', 'link')
-    img.classList.add(`${iconName}-image`)
-    img.src = `${uiRootPath}/img/icons/${iconName}.svg`
     if (titleText) {
       img.alt = titleText
       img.setAttribute('title', titleText)
     }
+    img.setAttribute('role', 'link')
+    img.classList.add(`${iconName}-image`)
+    img.src = `${uiRootPath}/img/icons/${iconName}.svg`
     return img
   }
+
+  const getAnchorLink = (link) => link.href.split('#')[1]
 
   const getMinHeight = () => {
     let bannerHeights = hasNoticeBanner() ? noticeBanner.offsetHeight : 0
@@ -48,18 +50,9 @@
     return toolbar.scrollHeight + bannerHeights
   }
 
-  const hasAndNotHidden = (selector) => {
-    const element = document.querySelector(selector)
-    return element && !element.classList.contains('hide')
-  }
-
-  const hasNoticeBanner = () => {
-    return hasAndNotHidden('.notice-banner')
-  }
-
-  const hasTopBanner = () => {
-    return hasAndNotHidden('.top-banner')
-  }
+  const hasNoticeBanner = () => isVisible(document.querySelector('.notice-banner'))
+  const hasTopBanner = () => isVisible(document.querySelector('.top-banner'))
+  const isVisible = (element) => element && !element.classList.contains('hide')
 
   const processAnchorLinks = () => {
     document.querySelectorAll('.anchor').forEach((anchor) => {
@@ -69,9 +62,9 @@
 
       const headerText = anchor.parentElement.textContent
       if (headerText) {
-        anchor.setAttribute('aria-label', `Jump to ${headerText}`)
         const anchorImg = createLinkImage('anchor', headerText)
         anchor.appendChild(anchorImg)
+        anchor.setAttribute('aria-label', `Jump to ${headerText}`)
 
         const sidebarLinks = [...document.querySelectorAll('.toc-menu a')].filter((a) => a.textContent === headerText)
         if (sidebarLinks.length > 0) {
@@ -88,8 +81,8 @@
     const samePageLinks = [...document.querySelectorAll('.doc a[href^="#"]')]
 
     samePageLinks.forEach((samePageLink) => {
-      const href = samePageLink.href.split('#')[1]
-      const destLinkElement = destLinks.get(href)
+      const anchorLink = getAnchorLink(samePageLink)
+      const destLinkElement = destLinks.get(anchorLink)
 
       if (destLinkElement) {
         samePageLink.addEventListener('click', () => {
