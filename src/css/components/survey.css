@@ -1,5 +1,6 @@
 .survey {
   background: var(--survey-gradient);
+  box-shadow: 0 10px 30px rgba(0,0,0,.1);
   color: #fff;
   margin-bottom: 20px;
   max-height: 280px;
@@ -17,7 +18,7 @@
     cursor: pointer;
     filter: brightness(0) invert(1);
     float: right;
-    padding: 5% 10px 3% 10px;
+    padding: 15px 10px 10px 10px;
     transform: rotate(180deg);
 
     & img {
@@ -43,7 +44,7 @@
     margin: auto 10%;
 
     & p {
-      font-size: 13px;
+      font-size: 14px;
       line-height: 20px;
       margin: 0 0 1em 0;
       text-align: center;
@@ -91,7 +92,7 @@
     }
 
     & > .survey-icon {
-      padding-top: 10px;
+      padding-top: 15px;
     }
 
     @media (--md) {
@@ -114,6 +115,7 @@
     bottom: 15px;
     box-shadow: 0 10px 30px rgba(0,0,0,.1);
     cursor: pointer;
+    display: flex;
     height: 40px;
     padding: 5px;
     position: fixed;
@@ -122,17 +124,13 @@
 
     & > img {
       filter: invert(1);
+      height: 18px;
       margin: auto;
-      max-height: 25px;
-      max-width: 25px;
+      width: 18px;
     }
 
     &:focus {
-      box-shadow: 0 0 0 6px rgba(0,162,223,.25);
-    }
-
-    &:hover + .mobile-survey-help-text {
-      display: inherit;
+      box-shadow: 0 0 0 3px rgba(0,162,223,.25);
     }
   }
 
@@ -142,7 +140,6 @@
     bottom: 15px;
     color: var(--tertiary);
     cursor: pointer;
-    display: none;
     font-size: 10px;
     padding: 3px 10px;
     position: fixed;
@@ -178,12 +175,15 @@
 
         & > img {
           filter: invert(1);
+          height: 15px;
+          margin: 11px 3px;
+          width: 15px;
         }
       }
 
       & > p {
         font-size: 14px;
-        margin: 0;
+        margin: auto;
       }
     }
 
