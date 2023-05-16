@@ -42,8 +42,11 @@
     color: var(--black);
     cursor: pointer;
     float: right;
-    font-size: 20px;
-    padding: 11px 17px;
+    padding: 10px;
+
+    & img {
+      width: 15px;
+    }
   }
 
   @media (--md) {
@@ -116,7 +119,7 @@
     &.wrapper > .nav,
     &.wrapper > .toc {
       max-height: calc(100vh - var(--banner-height));
-      max-height: calc(var(--app-height) - var(--banner-height));
+      max-height: calc(var(--vh,1vh) * 100 - var(--banner-height));
       top: var(--banner-height);
     }
 

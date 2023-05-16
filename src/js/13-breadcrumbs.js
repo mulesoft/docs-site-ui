@@ -1,177 +1,112 @@
 ;(() => {
   'use strict'
 
-  const toggleClassname = 'breadcrumbs-toggle'
-  const expandedBreadcrumbsClassName = 'breadcrumbs-expanded'
+  const breadcrumbs = document.querySelectorAll('ol.breadcrumbs')
+  if (!breadcrumbs.length) return
 
-  const isHomePage = () => {
-    return document.querySelector('#latest-releases') // this is a hacky way to check the homepage
-  }
+  const breadcrumbsToggleButton = document.querySelector('button.breadcrumbs-toggle')
+  const secondaryBreadcrumbsDrawer = document.querySelector('.secondary-breadcrumbs-drawer')
 
-  const hideToolBarAtLargeScreenSize = () => {
-    const toolbar = document.querySelector('.toolbar')
-    toolbar.classList.add('toolbar-home')
-  }
+  let originalExpandState
 
-  const isBigScreenSize = () => {
-    return window.innerWidth >= 768
-  }
-
-  const isScrolledDownPastHeader = () => {
-    const marketingHeader = document.querySelector('.ms-com-content')
-    return marketingHeader.offsetHeight < window.pageYOffset
-  }
-
-  if (isHomePage()) {
-    hideToolBarAtLargeScreenSize()
-  }
-
-  class Breadcrumbs {
-    constructor () {
-      this.originalExpandState = undefined
-      this.drawer = document.querySelector('.secondary-breadcrumbs-drawer')
-      this.toggleButton = document.querySelector(`button.${toggleClassname}`)
+  const addListeners = () => {
+    const handleClick = (e) => {
+      toggleDrawer()
+      e.stopPropagation()
     }
 
-    addListeners () {
-      if (this.toggleButton) {
-        this.toggleButton.addEventListener('click', (e) => {
-          this.toggleDrawer()
-          e.stopPropagation()
-        })
-
-        window.addEventListener('resize', () => {
-          if (isBigScreenSize()) {
-            this.saveOriginalExpandState()
-            this.hideDrawer()
-            this.hideToggleButton()
-          } else {
-            this.setDefaultDrawerState()
-          }
-        })
-
-        window.addEventListener('scroll', () => {
-          if (!isBigScreenSize()) this.setDefaultDrawerState()
-        })
-      }
-    }
-
-    applyOriginalExpandState () {
-      this.toggleDrawer(this.originalExpandState)
-      this.unsetOriginalExpandState()
-    }
-
-    breadcrumbsAreExpanded () {
-      return this.toggleButton && this.toggleButton.classList.contains(expandedBreadcrumbsClassName)
-    }
-
-    hideDrawer () {
-      this.toggleDrawer(false)
-    }
-
-    hideToggleButton () {
-      this.toggleToggleButton(false)
-    }
-
-    originalExpandStateIsSet () {
-      return !(this.originalExpandState === null || this.originalExpandState === undefined)
-    }
-
-    scrollRight () {
-      setTimeout(() => {
-        const breadcrumbs = document.querySelectorAll('ol.breadcrumbs')
-        breadcrumbs.forEach((breadcrumb) => {
-          breadcrumb.scrollTo(breadcrumb.scrollWidth, 0)
-        })
-      }, 100)
-    }
-
-    saveOriginalExpandState () {
-      if (!this.originalExpandStateIsSet()) {
-        this.originalExpandState = this.breadcrumbsAreExpanded()
-      }
-    }
-
-    setDefaultDrawerState () {
-      if (isScrolledDownPastHeader()) {
-        this.saveOriginalExpandState()
-        this.showDrawer()
-        this.hideToggleButton()
+    const handleResize = () => {
+      if (isBigScreenSize()) {
+        saveOriginalExpandState()
+        hideDrawer()
+        hideToggleButton()
       } else {
-        this.showToggleButton()
-        if (this.originalExpandStateIsSet()) {
-          this.applyOriginalExpandState()
-        }
+        setDefaultDrawerState()
       }
     }
 
-    showDrawer () {
-      this.toggleDrawer(true)
+    const handleScroll = () => {
+      if (!isBigScreenSize()) setDefaultDrawerState()
     }
 
-    showToggleButton () {
-      this.toggleToggleButton(true)
-    }
+    breadcrumbsToggleButton.addEventListener('click', handleClick)
+    window.addEventListener('resize', handleResize)
+    window.addEventListener('scroll', handleScroll)
+  }
 
-    toggleDrawer (override) {
-      this.toggleToggleButtonClass(override)
-      this.toggleButton.ariaExpanded = this.breadcrumbsAreExpanded()
-      this.toggleDrawerVisibility()
-      this.updateMainBreadcrumbsContent()
-      this.scrollRight()
-    }
+  const applyOriginalExpandState = () => toggleDrawer(originalExpandState)
 
-    toggleDrawerVisibility () {
-      if (this.drawer) {
-        this.breadcrumbsAreExpanded() ? this.drawer.classList.remove('hide') : this.drawer.classList.add('hide')
+  const hide = (object, yes) => {
+    const elements = isList(object) ? object : [object]
+    elements.forEach((element) => element.classList.toggle('hide', !yes))
+  }
+
+  const hideDrawer = () => toggleDrawer(false)
+  const hideToggleButton = () => toggleDisplay(breadcrumbsToggleButton, false)
+  const hideToolbar = (toolbar) => toolbar?.classList.add('toolbar-home')
+  const isBigScreenSize = () => window.matchMedia(' (min-width: 768px)').matches
+  const isExpanded = (element) => element?.classList.contains('expanded')
+  const isHomePage = (pathname) => /(?:.*\/general\/|^\/$)/.test(pathname)
+  const isList = (object) => object.length !== undefined
+  const isScrolledDownPast = (header) => header?.offsetHeight < window.pageYOffset
+  const originalExpandStateIsSet = () => originalExpandState != null
+
+  const saveOriginalExpandState = () => {
+    if (!originalExpandStateIsSet()) originalExpandState = isExpanded(breadcrumbsToggleButton)
+  }
+
+  const scrollRight = (elements) => {
+    setTimeout(() => {
+      elements.forEach((element) => element.scrollTo(element.scrollWidth, 0))
+    }, 100)
+  }
+
+  const setDefaultDrawerState = () => {
+    const marketingHeader = document.querySelector('.ms-com-content')
+    if (isScrolledDownPast(marketingHeader)) {
+      saveOriginalExpandState()
+      showDrawer()
+      hideToggleButton()
+    } else {
+      showToggleButton()
+      if (originalExpandStateIsSet()) {
+        applyOriginalExpandState()
+        unsetOriginalExpandState()
       }
-    }
-
-    toggleLastBreadcrumbItem () {
-      const lastBreadcrumbItem = document.querySelector('.toolbar ol li:last-child')
-      if (lastBreadcrumbItem) {
-        this.breadcrumbsAreExpanded()
-          ? lastBreadcrumbItem.classList.add('last-breadcrumb-item')
-          : lastBreadcrumbItem.classList.remove('last-breadcrumb-item')
-      }
-    }
-
-    updateMainBreadcrumbsContent () {
-      const nodes = document.querySelectorAll('.toolbar ol li:not(:last-child)')
-      nodes.forEach((node) => {
-        this.breadcrumbsAreExpanded() ? node.classList.add('hide') : node.classList.remove('hide')
-      })
-      this.toggleLastBreadcrumbItem()
-    }
-
-    toggleToggleButton (override) {
-      if (this.toggleButton) {
-        this.toggleButton.style.display = override ? 'flex' : 'none'
-      }
-    }
-
-    toggleToggleButtonClass (override) {
-      if (this.toggleButton) {
-        switch (override) {
-          case true:
-            this.toggleButton.classList.add(expandedBreadcrumbsClassName)
-            break
-          case false:
-            this.toggleButton.classList.remove(expandedBreadcrumbsClassName)
-            break
-          default:
-            this.toggleButton.classList.toggle(expandedBreadcrumbsClassName)
-            break
-        }
-      }
-    }
-
-    unsetOriginalExpandState () {
-      this.originalExpandState = undefined
     }
   }
 
-  const breadcrumbs = new Breadcrumbs()
-  breadcrumbs.addListeners()
-  breadcrumbs.scrollRight()
+  const showDrawer = () => toggleDrawer(true)
+  const showToggleButton = () => toggleDisplay(breadcrumbsToggleButton, true)
+
+  const toggleBreadcrumbsItems = (yes) => {
+    const lastBreadcrumbItem = document.querySelector('.toolbar ol li:last-child')
+    const otherBreadcrumbItems = document.querySelectorAll('.toolbar ol li:not(:last-child)')
+    lastBreadcrumbItem.classList.toggle('last-breadcrumb-item', yes)
+    hide(otherBreadcrumbItems, !yes)
+  }
+
+  const toggleDisplay = (breadcrumbsToggleButton, override) => {
+    breadcrumbsToggleButton.style.display = override ? 'flex' : 'none'
+  }
+
+  const toggleDrawer = (yes) => {
+    breadcrumbsToggleButton.classList.toggle('expanded', yes)
+    const expanded = isExpanded(breadcrumbsToggleButton)
+    breadcrumbsToggleButton.ariaExpanded = expanded
+    hide(secondaryBreadcrumbsDrawer, expanded)
+    toggleBreadcrumbsItems(expanded)
+    scrollRight(breadcrumbs)
+  }
+
+  const unsetOriginalExpandState = () => {
+    originalExpandState = undefined
+  }
+
+  if (isHomePage(window.location.pathname)) {
+    hideToolbar(document.querySelector('.toolbar'))
+  } else {
+    scrollRight(breadcrumbs)
+    addListeners()
+  }
 })()

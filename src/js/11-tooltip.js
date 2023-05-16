@@ -1,28 +1,31 @@
 ;(() => {
   'use strict'
 
-  const addToolTipsToAllArchiveLinks = () => {
-    document
-      .querySelectorAll("a[href='https://archive.docs.mulesoft.com/']")
-      .forEach((archiveLink) => addToolTip(archiveLink))
-  }
+  const archiveLinks = document.querySelectorAll('a[href="https://archive.docs.mulesoft.com/"]')
+  if (!archiveLinks.length) return
 
   const addToolTip = (archiveLink) => {
-    if (!onOldLandingPage(archiveLink)) {
-      const tooltipDiv = createTooltipDiv()
-      archiveLink.parentElement.appendChild(tooltipDiv)
+    const tooltipDiv = createTooltipDiv()
+    archiveLink.parentElement.appendChild(tooltipDiv)
 
-      const tooltipIcon = createTooltipIcon(archiveLink)
-      tooltipDiv.appendChild(tooltipIcon)
-    }
+    const tooltipIcon = createTooltipIcon(archiveLink)
+    tooltipDiv.appendChild(tooltipIcon)
   }
 
-  const onOldLandingPage = (archiveLink) => {
-    return !document.querySelector('#cta') && !inLeftNav(archiveLink)
-  }
-
-  const inLeftNav = (element) => {
-    return element.classList.contains('nav-text')
+  const applyTippy = (icon, color) => {
+    tippy(icon, {
+      arrow: tippy.roundArrow,
+      content:
+        'When a product version is no longer supported, ' +
+        'including products with end-of-life status, ' +
+        'its documentation moves to an archive site.',
+      duration: [0, 150],
+      maxWidth: 240,
+      offset: [0, 15],
+      theme: `${color}-archive-link-popover`,
+      touchHold: true, // maps touch as click (for some reason)
+      zIndex: 'var(--z-nav-mobile)',
+    })
   }
 
   const createTooltipDiv = () => {
@@ -38,6 +41,8 @@
     return tooltipIcon
   }
 
+  const inLeftNav = (element) => element.classList.contains('nav-text')
+
   const setIconAttributes = (icon, color) => {
     icon.classList.add('tooltip')
     icon.setAttribute('alt', 'Archived Documentation information')
@@ -52,21 +57,5 @@
     icon.src = `${uiRootPath}/img/icons/tooltip-${color}.svg`
   }
 
-  const applyTippy = (icon, color) => {
-    tippy(icon, {
-      arrow: tippy.roundArrow,
-      content:
-        'When a product version is no longer supported, ' +
-        'including products with end-of-life status, ' +
-        'its documentation moves to an archive site.',
-      duration: [0, 150],
-      maxWidth: 240,
-      offset: [0, 15],
-      theme: `${color}-archive-link-popover`,
-      touchHold: true, // maps touch as click (for some reason)
-      zIndex: 18, // same as z-nav-mobile
-    })
-  }
-
-  addToolTipsToAllArchiveLinks()
+  archiveLinks.forEach((archiveLink) => addToolTip(archiveLink))
 })()

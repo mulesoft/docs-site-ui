@@ -1,4 +1,4 @@
-FROM artifacts.msap.io/mulesoft/core-paas-base-image-node-16:v4.7.26 as BUILD
+FROM artifacts.msap.io/mulesoft/core-paas-base-image-node-18:v4.7.29
 
 ENV FIPS_ENABLED=false
 

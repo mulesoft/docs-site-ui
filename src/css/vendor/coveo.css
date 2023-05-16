@@ -100,6 +100,7 @@ atomic-results-per-page::part(label) {
 nav atomic-search-box {
   &::part(input) {
     font-size: var(--atomic-text-base);
+    padding-left: .5em;
   }
 }
 
@@ -172,12 +173,29 @@ atomic-sort-dropdown {
 }
 
 .search-page-back-button {
+  border: 2px solid var(--secondary-navy);
+  color: var(--black);
+  height: auto;
   margin-bottom: 10px;
-  width: 200px;
+  min-height: 38px;
+  padding: 0 10px;
+  width: fit-content;
+
+  &:active,
+  &:focus {
+    /* override the color */
+    color: var(--black);
+  }
+
+  &:hover {
+    background-color: var(--light-blue);
+    border-color: var(--dark-navy);
+    color: var(--black);
+  }
 
   & img {
-    margin-bottom: -2px !important;
-    width: 14px;
+    margin: auto;
+    width: 10px;
   }
 
   @media (min-width: 1024px) {

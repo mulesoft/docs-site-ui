@@ -26,7 +26,7 @@
       closeButton.title = 'Close notice banner'
       closeButton.classList.add('notice-banner-close-button')
       closeButton.classList.add('button')
-      closeButton.innerHTML = '&times;'
+      closeButton.innerHTML = '<img loading="lazy" src="{{@root.uiRootPath}}/img/icons/close.svg" alt="">'
       noticeBannerDiv.insertBefore(closeButton, noticeBannerDiv.firstChild)
     }
   }
@@ -53,7 +53,7 @@
   }
 
   const addEventListeners = (bannerDiv, closeButton, classToRemove) => {
-    closeButton.addEventListener('click', (_e) => {
+    closeButton.addEventListener('click', () => {
       if (bannerDiv) hideBanner(bannerDiv, classToRemove)
     })
     closeButton.addEventListener('keydown', (e) => {
@@ -119,9 +119,7 @@
     return false
   }
 
-  const isBigScreenSize = () => {
-    return window.innerWidth >= 768
-  }
+  const isBigScreenSize = () => window.matchMedia(' (min-width: 768px)').matches
 
   const isSpaceOrEnterKey = (keyCode) => {
     return [13, 32].includes(keyCode)

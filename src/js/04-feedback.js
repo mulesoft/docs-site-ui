@@ -1,48 +1,32 @@
 ;(() => {
   'use strict'
 
-  class Feedback {
-    constructor () {
-      this.analytics = window.analytics
-      this.feedbackCard = document.querySelector('section.feedback-section')
-      if (this.feedbackCard) {
-        this.feedbackYesButton = this.feedbackCard.querySelector('button.feedback-yes')
-        this.feedbackNoButton = this.feedbackCard.querySelector('button.feedback-no')
-      }
-    }
+  const feedbackCard = document.querySelector('section.feedback-section')
+  if (!feedbackCard || !window.analytics) return
 
-    addListeners () {
-      if (this.feedbackYesButton) this.feedbackYesButton.addEventListener('click', (e) => this.trackHelpful(e))
-      if (this.feedbackNoButton) this.feedbackNoButton.addEventListener('click', (e) => this.trackNotHelpful(e))
-    }
+  const buttonLabels = ['Yes', 'No']
 
-    flipCard () {
-      this.feedbackCard.classList.add('flip')
-    }
-
-    track (msg, e) {
-      try {
-        analytics &&
-          analytics.track(msg, {
-            title: document.title,
-            url: window.location.href,
-          })
-        this.flipCard()
-      } catch (error) {
-        console.warn(error)
-      }
-      if (e) e.preventDefault()
-    }
-
-    trackHelpful (e) {
-      this.track('Clicked Helpful Yes', e)
-    }
-
-    trackNotHelpful (e) {
-      this.track('Clicked Helpful No', e)
-    }
+  const addListeners = (feedbackCard, buttonLabels) => {
+    buttonLabels.forEach((msg) => {
+      const feedbackButton = feedbackCard.querySelector(`button.feedback-${msg.toLowerCase()}`)
+      if (feedbackButton) feedbackButton.addEventListener('click', (e) => track(`Clicked Helpful ${msg}`, e))
+    })
   }
 
-  const feedback = new Feedback()
-  feedback.addListeners()
+  const flip = (element) => element.classList.add('flip')
+
+  const track = (msg, e) => {
+    try {
+      window.analytics.track(msg, {
+        title: document.title,
+        url: window.location.href,
+      })
+      flip(feedbackCard)
+    } catch (error) {
+      console.warn(error)
+    }
+    if (e) e.preventDefault()
+  }
+
+  addListeners(feedbackCard, buttonLabels)
 })()

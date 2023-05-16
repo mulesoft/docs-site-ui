@@ -120,7 +120,7 @@
     max-width: 60%;
   }
 
-  &.breadcrumbs-expanded {
+  &.expanded {
     & img {
       transform: rotate(180deg);
     }

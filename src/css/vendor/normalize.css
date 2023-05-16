@@ -87,7 +87,7 @@ abbr[title] {
 
 b,
 strong {
-  font-weight: bolder;
+  font-family: var(--sans-serif-bold);
 }
 
 /**

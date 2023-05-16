@@ -2,6 +2,8 @@
   /* colors */
   --eyebrow-gray: #6d7883;
   --secondary-navy: #002196;
+  --dark-navy: #00044c;
+  --light-blue: #e8f8ff;
   --core-blue-0: #f2fafd;
   --core-blue-1: #abe2f5;
   --core-blue-2: #48c1ed;
@@ -40,11 +42,12 @@
   --tertiary: #fff;
   --black: #000;
   --gray: #888;
+  --survey-gradient: linear-gradient(180deg,#2c3792 0%,#000849 91.19%);
 
   /* typography */
   --heading: 'EAvantGardeBold', arial, sans-serif;
-  --sans-serif: 'SFRegular', arial, sans-serif;
-  --sans-serif-bold: 'SFBold', arial, sans-serif;
+  --sans-serif: 'ESF', arial, sans-serif;
+  --sans-serif-bold: 'ESFBold', arial, sans-serif;
   --monospace: sfmono-regular, menlo, monaco, consolas, 'Liberation Mono', 'Courier New', monospace;
   --weight-normal: 400;
   --weight-medium: 600;
@@ -81,10 +84,11 @@
 
   /* z-index */
   --z-gdpr: 20;
-  --z-nav-mobile: 18;
+  --z-nav-mobile: 19;
+  --z-survey: 18;
+  --z-backdrop: 17;
   --z-modal-header: 17;
-  --z-backdrop: 15;
-  --z-modal: 110;
+  --z-modal: 11;
   --z-header: 11;
   --z-banner: 10;
   --z-nav: 9;
@@ -94,7 +98,4 @@
   --transition-speed-sm: .15s;
   --transition-speed-md: .3s;
   --transition-timing: cubic-bezier(.46,.03,.52,.96);
-
-  /* https://medium.com/quick-code/100vh-problem-with-ios-safari-92ab23c852a8 */
-  --app-height: 100vh;
 }
