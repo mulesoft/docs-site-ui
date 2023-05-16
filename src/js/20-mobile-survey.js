@@ -82,7 +82,7 @@
     const mobileSurveyIconCloseImage = mobileSurveyButton.querySelector('img.survey-icon-close-image')
 
     const toggleAll = (yes) => {
-      toggleClass(mobileSurveySection, 'sr-only', yes)
+      toggleClass(mobileSurveySection, hideClass, yes)
       toggleClass(mobileSurveyIconImage, hideClass, !yes)
       toggleClass(mobileSurveyIconCloseImage, hideClass, yes)
       toggleClass(mobileSurveyPopover, hideClass, true)

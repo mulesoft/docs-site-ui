@@ -1,9 +1,8 @@
 {{#unless (eq (site-profile) 'archive')}}
 {{#if (or page.componentVersion.asciidoc.attributes.customer-feedback-survey asciidoc.attributes.customer-feedback-survey)}}
 <div class="mobile-survey-div">
-    {{> survey class="mobile-survey sr-only" iconName="close" }}
+    {{> survey class="mobile-survey hide" iconName="close" }}
     <button aria-expanded=false class="mobile-survey-button"
-        aria-label="Click to toggle the customer feedback survey section"
         title="Click to toggle the customer feedback survey section">
         {{> survey-icon }}
         <img class="survey-icon-close-image hide" loading="lazy" src="{{@root.uiRootPath}}/img/icons/close.svg" alt="">
