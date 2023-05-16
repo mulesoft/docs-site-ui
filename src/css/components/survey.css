@@ -161,7 +161,7 @@
 
     & > .survey-popover-content {
       display: flex;
-      padding: 15px 10px 15px 15px;
+      padding: 5px 5px 5px 15px;
 
       & > button {
         background: unset;
@@ -183,7 +183,7 @@
 
       & > p {
         font-size: 14px;
-        margin: auto;
+        margin: 10px 0;
 
         & > a {
           color: var(--tertiary);
