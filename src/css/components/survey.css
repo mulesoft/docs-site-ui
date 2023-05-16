@@ -170,7 +170,7 @@
         padding: 0 10px;
 
         &:focus {
-          border: white;
+          outline: 2px solid var(--gray);
         }
 
         & > img {
@@ -184,6 +184,22 @@
       & > p {
         font-size: 14px;
         margin: auto;
+
+        & > a {
+          color: var(--tertiary);
+
+          &:focus {
+            border-radius: 5px;
+            outline: 2px solid var(--gray);
+            text-decoration: none;
+          }
+
+          &:hover {
+            background-color: #c0edff;
+            border-radius: 5px;
+            color: var(--secondary-navy);
+          }
+        }
       }
     }
 
