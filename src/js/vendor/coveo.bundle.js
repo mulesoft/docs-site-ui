@@ -167,6 +167,7 @@ use ${osMap[this.clientOS].secondaryKeyLabelLong} + ${shortcutKeyMap.keyLabel}`
       img.src = `${uiRootPath}/img/icons/search-light.svg`
       img.style.height = '50%'
       img.style.margin = '10px 5px 10px 10px'
+      img.style.position = 'absolute'
       this.searchboxDiv.insertBefore(img, this.searchboxDiv.firstChild)
     }
 

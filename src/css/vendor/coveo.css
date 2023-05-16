@@ -100,7 +100,7 @@ atomic-results-per-page::part(label) {
 nav atomic-search-box {
   &::part(input) {
     font-size: var(--atomic-text-base);
-    padding-left: .5em;
+    padding-left: 2.5em;
   }
 }
 
@@ -112,6 +112,10 @@ atomic-search-box {
 
     &:focus-within {
       --tw-ring-color: none;
+    }
+
+    & div {
+      padding-left: 40px;
     }
   }
 
