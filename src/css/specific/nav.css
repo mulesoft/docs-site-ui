@@ -181,7 +181,7 @@ svg.nav-icon {
     & > .nav-list ~ .nav-list {
       display: none;
     }
-    & [aria-current=page] {
+    &[aria-current=page] {
       background: var(--aluminum-3);
       border-left: 3px solid var(--secondary-navy);
       color: var(--secondary-navy);
@@ -189,17 +189,20 @@ svg.nav-icon {
       width: -moz-available;
       width: -webkit-fill-available;
     }
+    &[data-component="archive"] {
+      width: min-content;
+    }
     &.is-active {
       & > .nav-item-toggle::before {
         content: "-";
       }
     }
     & .external-link-image {
+      margin-left: 10px;
       margin-right: -5px;
       width: 12px;
 
       @media (--md) {
-        margin-left: 4px;
         margin-right: 0;
       }
     }
