@@ -78,7 +78,7 @@
 
   @media (--md) {
     box-shadow: 1px 0 0 var(--aluminum-3);
-    min-width: var(--min-nav-width);
+    min-width: var(--nav-width);
     position: sticky;
     transform: none;
     transition: none;
@@ -316,6 +316,7 @@ svg.nav-icon {
   font-size: .75rem;
   max-height: 0;
   max-width: 160px;
+  min-width: 80px;
   opacity: 0;
   overflow: hidden;
   padding: var(--xs);
