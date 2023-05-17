@@ -109,6 +109,8 @@ atomic-search-box {
     border-color: #909aa3;
     border-radius: 2px;
     height: 40px;
+    margin-left: -4px;
+    width: 235px;
 
     &:focus-within {
       --tw-ring-color: none;
