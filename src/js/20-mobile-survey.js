@@ -138,11 +138,11 @@
         surveyPopoverCloseButton.addEventListener('click', (e) => hideForever(mobileSurveyPopover, e))
       }
       if (takeTheSurveyButton) {
-        takeTheSurveyButton.addEventListener('click', (e) => hideForever(mobileSurveyPopover, e))
+        takeTheSurveyButton.addEventListener('click', () => hideForever(mobileSurveyPopover))
       }
       const surveyPopoverContentLink = document.querySelector('.survey-popover-content a')
       if (surveyPopoverContentLink) {
-        surveyPopoverContentLink.addEventListener('click', (e) => hideForever(mobileSurveyPopover, e))
+        surveyPopoverContentLink.addEventListener('click', () => hideForever(mobileSurveyPopover))
       }
     }
   }, 50)
