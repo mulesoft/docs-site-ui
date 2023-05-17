@@ -23,6 +23,11 @@
     }
   }
 
+  const hideForever = (mobileSurveyPopover, e) => {
+    toggleClass(mobileSurveyPopover, hideClass, true, e)
+    localStorage.setItem('hide_mobile_survey_popover', true)
+  }
+
   const isExpanded = (element) => element.ariaExpanded !== 'false'
   const isMobileScreen = () => !window.matchMedia(' (min-width: 768px)').matches
 
@@ -30,6 +35,8 @@
     element &&
     window.getComputedStyle(element).display !== 'none' &&
     window.getComputedStyle(element).visibility !== 'hidden'
+
+  const mobileSurveyIsHidden = () => localStorage.getItem('hide_mobile_survey_popover')
 
   const setTabindex = (parentElement, link, yes) => {
     if (!contains(parentElement, link)) {
@@ -115,8 +122,8 @@
             mobileSurveyButton.focus()
           })
           toggleTabIndexOutsideOf(mobileSurveyDiv, !mobileSurveyIsExpanded)
-          localStorage.setItem('hide_mobile_survey_popover', true)
         }
+        hideForever(mobileSurveyPopover)
         toggleAll(mobileSurveyIsExpanded)
         toggleHelpText(mobileSurveyHelpText, mobileSurveyIsExpanded)
         if (!mobileSurveyIsExpanded) takeTheSurveyButton.focus()
@@ -124,15 +131,18 @@
       })
     }
 
-    if (!localStorage.getItem('hide_mobile_survey_popover')) {
+    if (!mobileSurveyIsHidden()) {
       toggleClass(mobileSurveyPopover, hideClass, false)
       const surveyPopoverCloseButton = document.querySelector('.survey-popover-close-button')
       if (surveyPopoverCloseButton) {
-        surveyPopoverCloseButton.addEventListener('click', (e) => {
-          toggleClass(mobileSurveyPopover, hideClass, true)
-          localStorage.setItem('hide_mobile_survey_popover', true)
-          e.preventDefault()
-        })
+        surveyPopoverCloseButton.addEventListener('click', (e) => hideForever(mobileSurveyPopover, e))
+      }
+      if (takeTheSurveyButton) {
+        takeTheSurveyButton.addEventListener('click', (e) => hideForever(mobileSurveyPopover, e))
+      }
+      const surveyPopoverContentLink = document.querySelector('.survey-popover-content a')
+      if (surveyPopoverContentLink) {
+        surveyPopoverContentLink.addEventListener('click', (e) => hideForever(mobileSurveyPopover, e))
       }
     }
   }, 50)
