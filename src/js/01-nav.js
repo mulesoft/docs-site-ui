@@ -686,6 +686,8 @@
           } else if (lastVersionData === currentVersionData) {
             navVersionMenu.appendChild(createElement('span.nav-version-label', 'Previous versions'))
           }
+        } else if (versionData === currentVersionData) {
+          navVersionMenu.appendChild(createElement('span.nav-version-label', 'Archived versions'))
         }
         const versionDataset = {
           version: versionData.version,
