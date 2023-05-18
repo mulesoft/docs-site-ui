@@ -19,7 +19,7 @@
     const autoScrollDown = setInterval(() => {
       const isAtMinHeight = anchor.getBoundingClientRect().top <= minHeight
       if (isAtMinHeight) {
-        const scrollAmount = -adjustForBanners(minHeight) / 1.5
+        const scrollAmount = -adjustForBanners(minHeight) / 2
         window.scrollBy(0, scrollAmount)
         clearInterval(autoScrollDown)
       }
