@@ -35,12 +35,12 @@
     border-bottom: 1px solid var(--aluminum-3);
   } */
 
-  &.flip[data-thanks="start"],
+  &.flip [data-thanks="start"],
   &[data-thanks="end"] {
     display: none;
   }
 
-  &.flip[data-thanks="end"] {
+  &.flip [data-thanks="end"] {
     display: block;
     margin-bottom: 0;
   }
