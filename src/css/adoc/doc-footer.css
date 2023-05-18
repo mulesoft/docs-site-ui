@@ -36,7 +36,7 @@
   } */
 
   &.flip [data-thanks="start"],
-  &[data-thanks="end"] {
+  & [data-thanks="end"] {
     display: none;
   }
 
