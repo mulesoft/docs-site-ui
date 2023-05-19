@@ -11,7 +11,7 @@ def failureSlackChannel = '#dux-engineering-github-prs'
 // catchKeywords must be kept in order of priority, meaning that lines with "fatal" in them is the first
 // to be captured, followed by ERROR, and then by the subsequent keywords.
 excludedKeywords = ['[Pipeline]', 'No such container', 'No such image', 'make: ***']
-catchKeywords = ['fatal', 'ERROR', 'non-zero', 'Error']
+catchKeywords = ['fatal', 'ERROR', 'non-zero', 'Error', 'unauthorized']
 
 pipeline {
   agent any
