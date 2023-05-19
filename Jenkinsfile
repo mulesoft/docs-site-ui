@@ -7,6 +7,12 @@ def githubCredentialsId = 'GH_TOKEN'
 def gpgSecretKeyCredentialsId = 'ms-cx-engineering-gpg-private-key'
 def failureSlackChannel = '#dux-engineering-github-prs'
 
+// the following keywords are used to capture the correct error lines from a failed build's log
+// catchKeywords must be kept in order of priority, meaning that lines with "fatal" in them is the first
+// to be captured, followed by ERROR, and then by the subsequent keywords.
+excludedKeywords = ['[Pipeline]', 'No such container', 'No such image', 'make: ***']
+catchKeywords = ['fatal', 'ERROR', 'non-zero', 'Error']
+
 pipeline {
   agent any
   options {
@@ -80,8 +86,24 @@ pipeline {
   }
 }
 
+def getErrorLine(lines, catchKeywords, excludedKeywords) {
+    def linesWithoutExcludedKeywords = lines.findAll { line ->
+        !excludedKeywords.any { keyword -> line.contains(keyword) }
+    }
+
+    def errorLine
+    for (keyword in catchKeywords) {
+        def filteredLines = linesWithoutExcludedKeywords.findAll {it.contains(keyword)}
+        if (filteredLines.size() > 0) {
+            errorLine = filteredLines.last()
+            break
+        }
+    }
+
+    return errorLine ?: 'Unknown error, check the build logs'
+}
+
 def getErrorMsg() {
-    def logLines = currentBuild.rawBuild.getLog(15)
-    def lastLine = logLines.findAll {!it.startsWith('[Pipeline]')}.last()
-    return "```${lastLine}```"
+    def logLines = currentBuild.rawBuild.getLog(Integer.MAX_VALUE)
+    return " ```${getErrorLine(logLines, catchKeywords, excludedKeywords)}```"
 }
