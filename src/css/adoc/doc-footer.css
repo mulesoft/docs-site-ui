@@ -20,8 +20,7 @@
   align-items: center;
   border: 1px solid var(--aluminum-3);
   border-radius: 2px;
-  display: flex;
-  flex-direction: column;
+  flex-direction: row;
   max-width: max-content;
   padding: var(--sm) var(--lg);
   width: 70%;
