@@ -13,16 +13,16 @@
   padding-right: 15px;
 }
 
-.tippy-box[data-theme~="current-version-popover"] > .tippy-svg-arrow > svg {
-  fill: #032d61;
-}
-
 .tippy-box[data-theme~="current-version-popover"] {
   background: var(--secondary-navy);
   border: none;
   color: var(--tertiary);
   font-size: 11px;
   padding: 10px;
+
+  & > .tippy-svg-arrow > svg {
+    fill: #032d61;
+  }
 }
 
 .tippy-box[data-theme~="gray-archive-link-popover"] {

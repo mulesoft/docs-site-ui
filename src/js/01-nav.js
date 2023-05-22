@@ -63,7 +63,7 @@
       placement: 'top',
       theme: 'current-version-popover',
       touchHold: true, // maps touch as click (for some reason)
-      zIndex: 18, // same as z-nav-mobile
+      zIndex: 'var(--z-nav-mobile)',
     })
     return currentVersionIndicatorSpan
   }
@@ -134,9 +134,7 @@
     return viewHeight - rect.y
   }
 
-  const isBigScreenSize = () => {
-    return window.innerWidth >= 768
-  }
+  const isBigScreenSize = () => window.matchMedia(' (min-width: 768px)').matches
 
   const isVisible = (element) => {
     const rect = element.getBoundingClientRect()
@@ -688,6 +686,8 @@
           } else if (lastVersionData === currentVersionData) {
             navVersionMenu.appendChild(createElement('span.nav-version-label', 'Previous versions'))
           }
+        } else if (versionData === currentVersionData) {
+          navVersionMenu.appendChild(createElement('span.nav-version-label', 'Archived versions'))
         }
         const versionDataset = {
           version: versionData.version,

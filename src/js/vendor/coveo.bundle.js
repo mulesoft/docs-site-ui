@@ -41,10 +41,7 @@
     }
   }
 
-  const getHref = () => {
-    return document.referrer.length > 0 ? document.referrer : document.location.origin
-  }
-
+  const getHref = () => (document.referrer.length > 0 ? document.referrer : document.location.origin)
   const getOS = () => {
     let clientOS = 'others'
     const userAgent = navigator.userAgent.toLowerCase()
@@ -54,13 +51,9 @@
     return clientOS
   }
 
-  const isBigScreenSize = () => {
-    return window.innerWidth >= 768
-  }
-
-  const isMobileBrowser = () => {
-    return /Android|iPhone|iPad/i.test(navigator.userAgent)
-  }
+  const isBigScreenSize = () => window.matchMedia(' (min-width: 768px)').matches
+  const isMobileBrowser = () => /Android|iPhone|iPad/i.test(navigator.userAgent)
+  const isSearchPage = (pathname) => pathname.includes('/general/search')
 
   class Facet {
     constructor (atomicFacet, facetShadowRoot, facetDiv) {
@@ -116,9 +109,7 @@ use ${osMap[this.clientOS].secondaryKeyLabelLong} + ${shortcutKeyMap.keyLabel}`
     }
 
     addAnalyticsListener () {
-      this.atomicSearchbox.addEventListener('focus', () => {
-        analytics && analytics.track('Clicked Search')
-      })
+      this.atomicSearchbox.addEventListener('click', () => analytics && analytics.track('Clicked Search'))
     }
 
     addKbdElementToSearchbox () {
@@ -175,7 +166,8 @@ use ${osMap[this.clientOS].secondaryKeyLabelLong} + ${shortcutKeyMap.keyLabel}`
       img.alt = ''
       img.src = `${uiRootPath}/img/icons/search-light.svg`
       img.style.height = '50%'
-      img.style.margin = 'auto 10px'
+      img.style.margin = '10px 5px 10px 10px'
+      img.style.position = 'absolute'
       this.searchboxDiv.insertBefore(img, this.searchboxDiv.firstChild)
     }
 
@@ -193,6 +185,7 @@ use ${osMap[this.clientOS].secondaryKeyLabelLong} + ${shortcutKeyMap.keyLabel}`
       // })
       this.searchboxInput.addEventListener('input', (e) => this.toggleSubmitText(e))
       this.searchboxInput.addEventListener('blur', (e) => this.toggleSubmitText(e))
+      setTimeout(() => this.toggleSubmitText(), 500)
     }
 
     makeMoreAssistive () {
@@ -334,7 +327,7 @@ use ${osMap[this.clientOS].secondaryKeyLabelLong} + ${shortcutKeyMap.keyLabel}`
           const searchbox = new Searchbox(atomicSearchbox, searchboxShadowRoot, searchboxInput)
           try {
             searchbox.makeMoreAssistive()
-            searchbox.addAnalyticsListener()
+            if (!isSearchPage(window.location.pathname)) searchbox.addAnalyticsListener()
             clearInterval(updateSearchbox)
           } catch (error) {
             console.error(error)

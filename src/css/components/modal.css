@@ -34,7 +34,7 @@
 
 .modal-backdrop {
   animation: fade-in var(--transition-speed-sm) var(--transition-timing) forwards;
-  background: rgba(0,0,0,.15);
+  background: rgba(0,0,0,.5);
   cursor: pointer;
   height: 100%;
   height: -moz-available;

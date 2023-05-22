@@ -42,6 +42,7 @@
   --tertiary: #fff;
   --black: #000;
   --gray: #888;
+  --survey-gradient: linear-gradient(180deg,#2c3792 0%,#000849 91.19%);
 
   /* typography */
   --heading: 'EAvantGardeBold', arial, sans-serif;
@@ -62,8 +63,7 @@
   --search-toolbar-height: 60px;
   --toolbar-height: var(--banner-height);
   --mobile-nav-width: 275px;
-  --nav-width: 325px;
-  --min-nav-width: 300px;
+  --nav-width: 275px;
   --toc-width: 250px;
   --radius: 2px;
   --xs: 5px;
@@ -83,10 +83,11 @@
 
   /* z-index */
   --z-gdpr: 20;
-  --z-nav-mobile: 18;
+  --z-nav-mobile: 19;
+  --z-survey: 18;
+  --z-backdrop: 17;
   --z-modal-header: 17;
-  --z-backdrop: 15;
-  --z-modal: 110;
+  --z-modal: 11;
   --z-header: 11;
   --z-banner: 10;
   --z-nav: 9;
