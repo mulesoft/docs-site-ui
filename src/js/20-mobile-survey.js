@@ -25,7 +25,7 @@
 
   const hideForever = (mobileSurveyPopover, e) => {
     toggleClass(mobileSurveyPopover, hideClass, true, e)
-    localStorage.setItem('hide_mobile_survey_popover', true)
+    localStorage.setItem('docs_mulesoft_hide_mobile_survey_popover', true)
   }
 
   const isExpanded = (element) => element.ariaExpanded !== 'false'
@@ -36,7 +36,7 @@
     window.getComputedStyle(element).display !== 'none' &&
     window.getComputedStyle(element).visibility !== 'hidden'
 
-  const mobileSurveyIsHidden = () => localStorage.getItem('hide_mobile_survey_popover')
+  const mobileSurveyIsHidden = () => localStorage.getItem('docs_mulesoft_hide_mobile_survey_popover')
 
   const setTabindex = (parentElement, link, yes) => {
     if (!contains(parentElement, link)) {
@@ -56,12 +56,12 @@
   }
 
   const toggleAttribute = (element, attrName, bool, e) => {
-    element && element.setAttribute(attrName, bool)
+    element?.setAttribute(attrName, bool)
     if (e) e.preventDefault()
   }
 
   const toggleClass = (element, className, bool, e) => {
-    element && element.classList.toggle(className, bool)
+    element?.classList?.toggle(className, bool)
     if (e) e.preventDefault()
   }
 
@@ -72,11 +72,22 @@
     links.forEach((link) => setTabindex(element, link, bool))
   }
 
+  const pilotSurveyIsHidden = () => localStorage.getItem('docs_mulesoft_hide_pilot_survey')
+
+  const hideSurvey = (percent) => pilotSurveyIsHidden() || Math.random() < percent / 100
+
   // For some reason, mobile survey doesn't show up right after the page loads until I add this timeout.
   // Keep this timeout here for now until we have a better solution
   setTimeout(() => {
     const mobileSurveyDiv = document.querySelector('div.mobile-survey-div')
     if (!mobileSurveyDiv) return
+
+    if (hideSurvey(1)) {
+      toggleClass(document.querySelector('aside > section.survey'), 'hide', true)
+      toggleClass(mobileSurveyDiv, 'hide', true)
+      localStorage.setItem('docs_mulesoft_hide_pilot_survey', true)
+      return
+    }
 
     const mobileSurveyToggleButton = mobileSurveyDiv.querySelector('button.survey-toggle')
     const mobileSurveyButton = mobileSurveyDiv.querySelector('button.mobile-survey-button')
