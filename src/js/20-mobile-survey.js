@@ -56,13 +56,13 @@
   }
 
   const toggleAttribute = (element, attrName, bool, e) => {
-    element?.setAttribute(attrName, bool)
     if (e) e.preventDefault()
+    return element?.setAttribute(attrName, bool)
   }
 
   const toggleClass = (element, className, bool, e) => {
-    element?.classList?.toggle(className, bool)
     if (e) e.preventDefault()
+    return element?.classList?.toggle(className, bool)
   }
 
   const toggleHelpText = (helpText, bool) => (helpText.innerHTML = bool ? 'Take Survey' : 'Hide')
