@@ -8,8 +8,8 @@
   const surveyTextDiv = surveySection.querySelector('div.survey-text')
   const takeTheSurveyButton = surveySection.querySelector('a.survey-button')
 
-  const toggleAttribute = (element, attrName, bool) => element && element.setAttribute(attrName, bool)
-  const toggleClass = (element, className, bool) => element && element.classList.toggle(className, bool)
+  const toggleAttribute = (element, attrName, bool) => element?.setAttribute(attrName, bool)
+  const toggleClass = (element, className, bool) => element?.classList?.toggle(className, bool)
 
   if (surveyToggleButton) {
     surveyToggleButton.addEventListener('click', (e) => {
