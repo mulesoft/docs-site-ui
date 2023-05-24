@@ -93,7 +93,7 @@
     const mobileSurveyButton = mobileSurveyDiv.querySelector('button.mobile-survey-button')
     const mobileSurveySection = mobileSurveyDiv.querySelector('section.mobile-survey')
     const mobileSurveyHelpText = mobileSurveyDiv.querySelector('p.mobile-survey-help-text')
-    const takeTheSurveyButton = mobileSurveyDiv.querySelector('.survey-button')
+    const takeTheSurveyLink = mobileSurveyDiv.querySelector('.survey-link')
     const mobileSurveyPopover = mobileSurveyDiv.querySelector('.survey-popover')
 
     const mobileSurveyIconImage = mobileSurveyButton.querySelector('img.survey-icon-image')
@@ -137,7 +137,7 @@
         hideForever(mobileSurveyPopover)
         toggleAll(mobileSurveyIsExpanded)
         toggleHelpText(mobileSurveyHelpText, mobileSurveyIsExpanded)
-        if (!mobileSurveyIsExpanded) takeTheSurveyButton.focus()
+        if (!mobileSurveyIsExpanded) takeTheSurveyLink.focus()
         e.preventDefault()
       })
     }
@@ -148,8 +148,8 @@
       if (surveyPopoverCloseButton) {
         surveyPopoverCloseButton.addEventListener('click', (e) => hideForever(mobileSurveyPopover, e))
       }
-      if (takeTheSurveyButton) {
-        takeTheSurveyButton.addEventListener('click', () => hideForever(mobileSurveyPopover))
+      if (takeTheSurveyLink) {
+        takeTheSurveyLink.addEventListener('click', () => hideForever(mobileSurveyPopover))
       }
       const surveyPopoverContentLink = document.querySelector('.survey-popover-content a')
       if (surveyPopoverContentLink) {

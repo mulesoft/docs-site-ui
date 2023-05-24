@@ -6,7 +6,7 @@
 
   const surveyToggleButton = surveySection.querySelector('button.survey-toggle')
   const surveyTextDiv = surveySection.querySelector('div.survey-text')
-  const takeTheSurveyButton = surveySection.querySelector('a.survey-button')
+  const takeTheSurveyLink = surveySection.querySelector('a.survey-link')
 
   const toggleAttribute = (element, attrName, bool, e) => {
     if (e) e.preventDefault()
@@ -28,8 +28,8 @@
     })
   }
 
-  if (takeTheSurveyButton) {
+  if (takeTheSurveyLink) {
     const currentPageUrl = window.location.href
-    takeTheSurveyButton.href = `${takeTheSurveyButton.href}?source=${encodeURIComponent(currentPageUrl)}`
+    takeTheSurveyLink.href = `${takeTheSurveyLink.href}?source=${encodeURIComponent(currentPageUrl)}`
   }
 })()

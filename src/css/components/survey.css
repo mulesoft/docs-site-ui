@@ -51,10 +51,10 @@
     }
   }
 
-  & .survey-button-div {
+  & .survey-link-div {
     padding-bottom: 15px;
 
-    & a.survey-button {
+    & a.survey-link {
       background: #02a0df;
       color: #fff;
       display: block;
@@ -102,7 +102,7 @@
     }
   }
 
-  & > .survey-button {
+  & > .survey-link {
     &:focus {
       outline: -webkit-focus-ring-color auto 1px;
     }
