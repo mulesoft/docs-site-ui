@@ -1,7 +1,7 @@
 ;(async () => {
   'use strict'
 
-  const pilotSurveyAppearPercent = 1
+  const surveyAppearPercent = 1
 
   const aside = document.querySelector('aside')
   const backdrop = document.querySelector('.modal-backdrop')
@@ -74,7 +74,7 @@
     links.forEach((link) => setTabindex(element, link, bool))
   }
 
-  const hideSurvey = (percent) => Math.random() > percent / 100
+  const showSurvey = (percent) => Math.random() < percent / 100
 
   // For some reason, mobile survey doesn't show up right after the page loads until I add this timeout.
   // Keep this timeout here for now until we have a better solution
@@ -82,7 +82,7 @@
     const mobileSurveyDiv = document.querySelector('div.mobile-survey-div')
     if (!mobileSurveyDiv) return
 
-    if (hideSurvey(pilotSurveyAppearPercent)) {
+    if (!showSurvey(surveyAppearPercent)) {
       toggleClass(document.querySelector('aside > section.survey'), hideClass, true)
       toggleClass(mobileSurveyDiv, hideClass, true)
       return
