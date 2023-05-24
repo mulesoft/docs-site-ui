@@ -24,7 +24,7 @@
           }
           return target
         }, document.createElement('option'))
-        option.value = '#' + heading.id
+        option.value = `#${heading.id}`
         accum.appendChild(option)
         return accum
       }, document.createElement('select'))
@@ -34,8 +34,6 @@
       addChangeListener(options)
 
       const selectWrap = createSelectWrapper(options)
-      selectWrap.appendChild(createDropdownArrow())
-
       doc.insertBefore(selectWrap, startOfContent)
     }
   }
@@ -49,8 +47,12 @@
   const addChangeListener = (options) => {
     console.log(options)
     options.addEventListener('click', () => updateExpandState())
-    options.addEventListener('blur', () => { if (isSelectDropdownExpanded) updateExpandState() })
-    options.addEventListener('keypress', (e) => { if (isSpaceKey(e)) updateExpandState() })
+    options.addEventListener('blur', () => {
+      if (isSelectDropdownExpanded) updateExpandState()
+    })
+    options.addEventListener('keypress', (e) => {
+      if (isSpaceKey(e)) updateExpandState()
+    })
     options.addEventListener('change', (e) => {
       const thisOptions = e.currentTarget.options
       scrollTo(thisOptions[thisOptions.selectedIndex].value)
@@ -60,10 +62,10 @@
   const createDropdownArrow = () => {
     const uiRootPath = document.getElementById('site-script').dataset.uiRootPath
     dropdownArrow = document.createElement('img')
-    dropdownArrow.classList.add('select-dropdown-arrow')
-    dropdownArrow.src = `${uiRootPath}/img/icons/dropdown-arrow.svg`
     dropdownArrow.alt = ''
     dropdownArrow.ariaLabel = 'Expand page contents'
+    dropdownArrow.classList.add('select-dropdown-arrow')
+    dropdownArrow.src = `${uiRootPath}/img/icons/dropdown-arrow.svg`
     dropdownArrow.role = 'button'
     return dropdownArrow
   }
@@ -79,6 +81,7 @@
     const selectWrap = document.createElement('div')
     selectWrap.classList.add('select-wrapper')
     selectWrap.appendChild(options)
+    selectWrap.appendChild(createDropdownArrow())
     return selectWrap
   }
 
@@ -89,20 +92,14 @@
 
   const createToc = (sidebar) => {
     createTocMenuDiv(sidebar)
-    if (sidebar) {
-      window.addEventListener('scroll', () => {
-        highlightOnScroll(doc, menu, headings)
-      })
-    }
-
+    if (sidebar) window.addEventListener('scroll', () => highlightOnScroll(doc, menu, headings))
     addSelectWrap(startOfContent)
   }
 
   const createTocMenuDiv = (sidebar) => {
-    const listOfHeadings = parseHeadingsIntoList(links)
     menu = sidebar?.querySelector('.toc-menu') || document.createElement('div')
     menu.className = 'toc-menu'
-    menu.appendChild(listOfHeadings)
+    menu.appendChild(parseHeadingsIntoList(links))
   }
 
   const existsAndNotHidden = (element) => element && !element.classList.contains('hide')
@@ -123,11 +120,7 @@
     const targetPosition = doc.parentNode.offsetTop
     let activeFragment
     headings.some((heading) => {
-      if (heading.getBoundingClientRect().top < targetPosition) {
-        activeFragment = '#' + heading.id
-      } else {
-        return true
-      }
+      if (heading.getBoundingClientRect().top < targetPosition) activeFragment = `#${heading.id}`
     })
     if (activeFragment) {
       if (lastActiveFragment) {
@@ -136,7 +129,7 @@
       }
       const activeLink = links[activeFragment]
       activeLink.classList.add('is-active')
-      activeLink.ariaCurrent = 'true'
+      activeLink.ariaCurrent = true
       if (menu.scrollHeight > menu.offsetHeight) {
         menu.scrollTop = Math.max(0, activeLink.offsetTop + activeLink.offsetHeight - menu.offsetHeight)
       }
@@ -150,7 +143,9 @@
 
   const isBigScreenSize = () => window.matchMedia(' (min-width: 768px)').matches
   const isSpaceKey = (e) => e.charCode === 32
-  const markAsNoSidebar = (element) => element && element.classList.add('no-sidebar')
+  const markAsNoSidebar = (element) => {
+    if (element) element.classList.add('no-sidebar')
+  }
   const notEmpty = (headings) => headings.length > 0
 
   const parseHeadingsIntoList = (links) => {
@@ -161,7 +156,7 @@
         }
         return target
       }, document.createElement('a'))
-      links[(link.href = '#' + heading.id)] = link
+      links[(link.href = `#${heading.id}`)] = link
       const listItem = document.createElement('li')
       listItem.appendChild(link)
       accum.appendChild(listItem)
@@ -169,7 +164,9 @@
     }, document.createElement('ol'))
   }
 
-  const removeTOCBlock = (sidebar) => { if (sidebar) sidebar.removeChild(sidebar.querySelector('.aside-toc')) }
+  const removeTOCBlock = (sidebar) => {
+    if (sidebar) sidebar.removeChild(sidebar.querySelector('.aside-toc'))
+  }
 
   const scrollTo = (urlHashValue) => {
     window.location.hash = urlHashValue
