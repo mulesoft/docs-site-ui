@@ -124,9 +124,17 @@
 
     & > img {
       filter: invert(1);
-      height: 18px;
       margin: auto;
-      width: 18px;
+    }
+
+    & .survey-icon-close-image {
+      height: 20px;
+      width: 20px;
+    }
+
+    & .survey-icon-image {
+      height: 28px;
+      width: 28px;
     }
 
     &:focus {
