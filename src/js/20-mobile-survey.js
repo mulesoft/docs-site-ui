@@ -1,6 +1,8 @@
 ;(async () => {
   'use strict'
 
+  const pilotSurveyAppearPercent = 1
+
   const aside = document.querySelector('aside')
   const backdrop = document.querySelector('.modal-backdrop')
   const hideClass = 'hide'
@@ -72,9 +74,7 @@
     links.forEach((link) => setTabindex(element, link, bool))
   }
 
-  const pilotSurveyIsHidden = () => localStorage.getItem('docs_mulesoft_hide_pilot_survey')
-
-  const hideSurvey = (percent) => pilotSurveyIsHidden() || Math.random() < percent / 100
+  const hideSurvey = (percent) => Math.random() > percent / 100
 
   // For some reason, mobile survey doesn't show up right after the page loads until I add this timeout.
   // Keep this timeout here for now until we have a better solution
@@ -82,10 +82,9 @@
     const mobileSurveyDiv = document.querySelector('div.mobile-survey-div')
     if (!mobileSurveyDiv) return
 
-    if (hideSurvey(1)) {
-      toggleClass(document.querySelector('aside > section.survey'), 'hide', true)
-      toggleClass(mobileSurveyDiv, 'hide', true)
-      localStorage.setItem('docs_mulesoft_hide_pilot_survey', true)
+    if (hideSurvey(pilotSurveyAppearPercent)) {
+      toggleClass(document.querySelector('aside > section.survey'), hideClass, true)
+      toggleClass(mobileSurveyDiv, hideClass, true)
       return
     }
 
