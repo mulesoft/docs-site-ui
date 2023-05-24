@@ -92,7 +92,8 @@
     }
 
     @media (--md) {
-      bottom: 50px;
+      bottom: 60px;
+      padding-top: 15px;
       right: 10px;
       transform: initial;
     }
@@ -141,13 +142,13 @@
   & > .mobile-survey-help-text {
     background: #444;
     border-radius: 5px;
-    bottom: 15px;
+    bottom: 20px;
     color: var(--tertiary);
     cursor: pointer;
     font-size: 10px;
     padding: 3px 10px;
     position: fixed;
-    right: 60px;
+    right: 70px;
   }
 
   .survey-popover {
