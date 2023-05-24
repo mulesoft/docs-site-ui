@@ -91,10 +91,6 @@
       }
     }
 
-    & > .survey-icon {
-      padding-top: 15px;
-    }
-
     @media (--md) {
       bottom: 50px;
       right: 10px;
