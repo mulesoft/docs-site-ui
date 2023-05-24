@@ -1,7 +1,7 @@
 ;(async () => {
   'use strict'
 
-  const surveyAppearPercent = 1
+  const surveyAppearPercent = 100
 
   const aside = document.querySelector('aside')
   const backdrop = document.querySelector('.modal-backdrop')
@@ -104,6 +104,7 @@
       toggleClass(mobileSurveyIconCloseImage, hideClass, yes)
       toggleClass(mobileSurveyPopover, hideClass, true)
       toggleAttribute(mobileSurveyButton, 'aria-expanded', !yes)
+      toggleHelpText(mobileSurveyHelpText, yes)
       if (isMobileScreen()) toggleClass(backdrop, 'show', !yes)
     }
 
@@ -127,6 +128,7 @@
             mobileSurveyButton.focus()
           })
           mobileSurveyToggleButton.addEventListener('click', () => {
+            console.log('hi')
             toggleAll(true)
             toggleTabIndexOutsideOf(mobileSurveyDiv, false)
             mobileSurveyButton.focus()
@@ -135,7 +137,6 @@
         }
         hideForever(mobileSurveyPopover)
         toggleAll(mobileSurveyIsExpanded)
-        toggleHelpText(mobileSurveyHelpText, mobileSurveyIsExpanded)
         if (!mobileSurveyIsExpanded) takeTheSurveyLink.focus()
         e.preventDefault()
       })
