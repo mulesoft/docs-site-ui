@@ -150,7 +150,7 @@
     background: var(--survey-gradient);
     border: none;
     border-radius: 5px;
-    bottom: 70px;
+    bottom: 80px;
     box-shadow: 0 10px 30px rgba(0,0,0,.1);
     color: #fff;
     margin-left: 15px;
@@ -204,10 +204,10 @@
     }
 
     & > svg {
-      bottom: 64px;
+      bottom: 75px;
       fill: #0b0e3e;
       position: inherit;
-      right: 27px;
+      right: 32px;
       transform: rotate(180deg);
     }
   }
