@@ -5,13 +5,17 @@
     <div class="feedback-question">
       <p>Was this article helpful?</p>
     </div>
-    <div class="feedback-buttons flex">
+    <div class="feedback-options flex">
       <button class="button feedback-yes" data-thanks="start" type="button">
         <img loading="lazy" src="{{@root.uiRootPath}}/img/icons/thumbs-up.png" alt="" height="12">
       </button>
       <button class="button feedback-no" data-thanks="start" type="button">
         <img loading="lazy" src="{{@root.uiRootPath}}/img/icons/thumbs-down.png" alt="" height="12">
       </button>
+      <div class="feedback-ack flex">
+        <img loading="lazy" src="{{@root.uiRootPath}}/img/icons/feedback-ack.svg" alt="" height="20">
+      <p>You voted for: Yes</p>
+      </div>
       {{!-- <button class="button" data-thanks="start" type="button">
         Give feedback
       </button> --}}
