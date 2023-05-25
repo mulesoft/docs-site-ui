@@ -166,7 +166,8 @@ use ${osMap[this.clientOS].secondaryKeyLabelLong} + ${shortcutKeyMap.keyLabel}`
       img.alt = ''
       img.src = `${uiRootPath}/img/icons/search-light.svg`
       img.style.height = '50%'
-      img.style.margin = 'auto 10px'
+      img.style.margin = '10px 5px 10px 10px'
+      img.style.position = 'absolute'
       this.searchboxDiv.insertBefore(img, this.searchboxDiv.firstChild)
     }
 
@@ -184,6 +185,7 @@ use ${osMap[this.clientOS].secondaryKeyLabelLong} + ${shortcutKeyMap.keyLabel}`
       // })
       this.searchboxInput.addEventListener('input', (e) => this.toggleSubmitText(e))
       this.searchboxInput.addEventListener('blur', (e) => this.toggleSubmitText(e))
+      setTimeout(() => this.toggleSubmitText(), 500)
     }
 
     makeMoreAssistive () {

@@ -78,7 +78,7 @@
 
   @media (--md) {
     box-shadow: 1px 0 0 var(--aluminum-3);
-    min-width: var(--min-nav-width);
+    min-width: var(--nav-width);
     position: sticky;
     transform: none;
     transition: none;
@@ -189,17 +189,20 @@ svg.nav-icon {
       width: -moz-available;
       width: -webkit-fill-available;
     }
+    &[data-component="archive"] {
+      width: min-content;
+    }
     &.is-active {
       & > .nav-item-toggle::before {
         content: "-";
       }
     }
     & .external-link-image {
+      margin-left: 10px;
       margin-right: -5px;
       width: 12px;
 
       @media (--md) {
-        margin-left: 4px;
         margin-right: 0;
       }
     }
@@ -313,6 +316,7 @@ svg.nav-icon {
   font-size: .75rem;
   max-height: 0;
   max-width: 160px;
+  min-width: 80px;
   opacity: 0;
   overflow: hidden;
   padding: var(--xs);

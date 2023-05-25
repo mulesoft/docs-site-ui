@@ -23,6 +23,11 @@
     }
   }
 
+  const hideForever = (mobileSurveyPopover, e) => {
+    toggleClass(mobileSurveyPopover, hideClass, true, e)
+    localStorage.setItem('hide_mobile_survey_popover', true)
+  }
+
   const isExpanded = (element) => element.ariaExpanded !== 'false'
   const isMobileScreen = () => !window.matchMedia(' (min-width: 768px)').matches
 
@@ -30,6 +35,8 @@
     element &&
     window.getComputedStyle(element).display !== 'none' &&
     window.getComputedStyle(element).visibility !== 'hidden'
+
+  const mobileSurveyIsHidden = () => localStorage.getItem('hide_mobile_survey_popover')
 
   const setTabindex = (parentElement, link, yes) => {
     if (!contains(parentElement, link)) {
@@ -48,8 +55,16 @@
     }
   }
 
-  const toggleAttribute = (element, attrName, bool) => element && element.setAttribute(attrName, bool)
-  const toggleClass = (element, className, bool) => element && element.classList.toggle(className, bool)
+  const toggleAttribute = (element, attrName, bool, e) => {
+    element && element.setAttribute(attrName, bool)
+    if (e) e.preventDefault()
+  }
+
+  const toggleClass = (element, className, bool, e) => {
+    element && element.classList.toggle(className, bool)
+    if (e) e.preventDefault()
+  }
+
   const toggleHelpText = (helpText, bool) => (helpText.innerHTML = bool ? 'Take Survey' : 'Hide')
 
   const toggleTabIndexOutsideOf = (element, bool) => {
@@ -86,6 +101,11 @@
     toggleClass(mobileSurveyDiv, hideClass, isVisible(aside))
 
     if (mobileSurveyButton) {
+      mobileSurveyButton.addEventListener('focus', (e) => toggleClass(mobileSurveyHelpText, 'hide', false, e))
+      mobileSurveyButton.addEventListener('mouseover', (e) => toggleClass(mobileSurveyHelpText, 'hide', false, e))
+      mobileSurveyButton.addEventListener('blur', (e) => toggleClass(mobileSurveyHelpText, 'hide', true, e))
+      mobileSurveyButton.addEventListener('mouseout', (e) => toggleClass(mobileSurveyHelpText, 'hide', true, e))
+
       mobileSurveyButton.addEventListener('click', (e) => {
         const mobileSurveyIsExpanded = isExpanded(mobileSurveyButton)
 
@@ -102,8 +122,8 @@
             mobileSurveyButton.focus()
           })
           toggleTabIndexOutsideOf(mobileSurveyDiv, !mobileSurveyIsExpanded)
-          localStorage.setItem('hide_mobile_survey_popover', true)
         }
+        hideForever(mobileSurveyPopover)
         toggleAll(mobileSurveyIsExpanded)
         toggleHelpText(mobileSurveyHelpText, mobileSurveyIsExpanded)
         if (!mobileSurveyIsExpanded) takeTheSurveyButton.focus()
@@ -111,15 +131,18 @@
       })
     }
 
-    if (isMobileScreen() && !localStorage.getItem('hide_mobile_survey_popover')) {
+    if (!mobileSurveyIsHidden()) {
       toggleClass(mobileSurveyPopover, hideClass, false)
       const surveyPopoverCloseButton = document.querySelector('.survey-popover-close-button')
       if (surveyPopoverCloseButton) {
-        surveyPopoverCloseButton.addEventListener('click', (e) => {
-          toggleClass(mobileSurveyPopover, hideClass, true)
-          localStorage.setItem('hide_mobile_survey_popover', true)
-          e.preventDefault()
-        })
+        surveyPopoverCloseButton.addEventListener('click', (e) => hideForever(mobileSurveyPopover, e))
+      }
+      if (takeTheSurveyButton) {
+        takeTheSurveyButton.addEventListener('click', () => hideForever(mobileSurveyPopover))
+      }
+      const surveyPopoverContentLink = document.querySelector('.survey-popover-content a')
+      if (surveyPopoverContentLink) {
+        surveyPopoverContentLink.addEventListener('click', () => hideForever(mobileSurveyPopover))
       }
     }
   }, 50)
