@@ -28,11 +28,19 @@
     </div>
     <div class="feedback-detailed-form hide">
       <form>
-        <label for="fname">Share your feedback (required)</label><br>
-        <input placeholder="Let us know what you liked, or how we can improve..." type="text" id="fname" name="fname"><br>
-        <label for="lname">Please provide further details (optional)</label><br>
-        <textarea placeholder="This is optional, but very helpful..." type="text" id="lname" name="lname" rows="4"></textarea>
-        <span>Provide your name and email if you’d like us to contact you:</span>
+        <label class="required" for="summary">Share your feedback</label><br>
+        <input placeholder="Let us know what you liked, or how we can improve..." type="text" id="summary" name="summary" required>
+        <label class="optional" for="detail">Please provide further details</label><br>
+        <textarea placeholder="This is optional, but very helpful..." type="text" id="detail" name="detail" rows="4"></textarea>
+        <span>Provide your name and email if you’d like us to contact you:</span><br>
+        <div class="contact-info">
+          <label class="optional" for="name">Name</label><br>
+          <input placeholder="Your name" type="text" id="name" name="name">
+        </div>
+        <div class="contact-info float-right">
+          <label class="optional" for="email">Email</label><br>
+          <input placeholder="email@example.com" type="text" id="email" name="email">
+        </div>
       </form>
     </div>
   </section>

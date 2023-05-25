@@ -2,10 +2,13 @@
   'use strict'
 
   const feedbackCard = document.querySelector('section.feedback-section')
-  if (!feedbackCard
-  // TODO: add this back before PR is merged
-  // || !window.analytics
-  ) return
+  if (
+    !feedbackCard
+    // TODO: add this back before PR is merged
+    // || !window.analytics
+  ) {
+    return
+  }
 
   const feedbackOptionButtons = feedbackCard.querySelectorAll('div.feedback-options button')
   const feedbackAckMsgDiv = feedbackCard.querySelector('div.feedback-ack')

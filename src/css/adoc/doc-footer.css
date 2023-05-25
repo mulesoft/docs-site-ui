@@ -35,14 +35,29 @@
   & .feedback-detailed-form {
     padding: var(--sm) 13px;
     width: 100%;
+
+    & .contact-info {
+      display: inline-block;
+      width: 49%;
+    }
+
+    & .optional::after {
+      content: " (optional)";
+      font-size: smaller;
+    }
+
+    & .required::after {
+      content: " (required)";
+      font-size: smaller;
+    }
   }
 
   & .feedback-first-row {
     flex-direction: column;
     flex-wrap: wrap;
     height: 75px;
-    padding: var(--sm) 13px;
     justify-content: space-evenly;
+    padding: var(--sm) 13px;
     width: 100%;
   }
 
@@ -52,14 +67,15 @@
 
   & input,
   & textarea {
-    background: #ffffff;
     border: 1px solid #c9c9c9;
     border-radius: 4px;
+    margin-bottom: 8px;
+    min-height: 32px;
     width: 100%;
 
     &::placeholder {
-      font-size: 12px;
       color: #747474;
+      font-size: 12px;
     }
   }
 
