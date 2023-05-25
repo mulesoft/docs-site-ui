@@ -1,29 +1,39 @@
 {{#if page.component}}
 <footer class="flex col doc-footer">
   {{#if env.GOOGLE_ANALYTICS_KEY}}
-  <section class="feedback-section flex justify-justified">
-    <div class="feedback-question">
-      <p>Was this article helpful?</p>
-    </div>
-    <div class="feedback-options flex">
-      <button class="button feedback-yes" data-thanks="start" type="button">
-        <img loading="lazy" src="{{@root.uiRootPath}}/img/icons/thumbs-up.png" alt="" height="12">
-      </button>
-      <button class="button feedback-no" data-thanks="start" type="button">
-        <img loading="lazy" src="{{@root.uiRootPath}}/img/icons/thumbs-down.png" alt="" height="12">
-      </button>
-      <div class="feedback-ack flex hide">
-        <img loading="lazy" src="{{@root.uiRootPath}}/img/icons/feedback-ack.svg" alt="" height="20">
-        <p>You voted for:</p>
+  <section class="feedback-section">
+    <div class="feedback-first-row flex align-center">
+      <div>
+        <p>Was this article helpful?</p>
       </div>
-      {{!-- <button class="button" data-thanks="start" type="button">
-        Give feedback
-      </button> --}}
-      {{!-- <span data-thanks="end">
-        <img loading="lazy" src="{{@root.uiRootPath}}/img/icons/blue-heart.png" alt="" height="14">
-        Thanks for your feedback!
-      </span> --}}
+      <div class="feedback-options flex">
+        <button class="button feedback-yes" data-thanks="start" type="button">
+          <img loading="lazy" src="{{@root.uiRootPath}}/img/icons/thumbs-up.png" alt="" height="12">
+        </button>
+        <button class="button feedback-no" data-thanks="start" type="button">
+          <img loading="lazy" src="{{@root.uiRootPath}}/img/icons/thumbs-down.png" alt="" height="12">
+        </button>
+        <div class="feedback-ack flex hide">
+          <img loading="lazy" src="{{@root.uiRootPath}}/img/icons/feedback-ack.svg" alt="" height="20">
+          <p>You voted for:</p>
+        </div>
+        <button class="button" data-thanks="start" type="button">
+          Give feedback
+        </button>
+        {{!-- <span data-thanks="end">
+          <img loading="lazy" src="{{@root.uiRootPath}}/img/icons/blue-heart.png" alt="" height="14">
+          Thanks for your feedback!
+        </span> --}}
+      </div>
     </div>
+    {{!-- <div>
+      <form>
+        <label for="fname">First name:</label><br>
+        <input type="text" id="fname" name="fname"><br>
+        <label for="lname">Last name:</label><br>
+        <input type="text" id="lname" name="lname">
+      </form>
+    </div> --}}
   </section>
   {{/if}}
   {{> github}}

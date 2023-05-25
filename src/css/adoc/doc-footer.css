@@ -16,19 +16,25 @@
 }
 
 .feedback-section {
-  align-items: center;
   align-self: center;
   border: 1px solid var(--aluminum-3);
   border-radius: 2px;
-  flex-direction: column;
   height: 97px;
   min-width: 250px;
-  padding: var(--md) 13px;
+  /* padding: var(--md) 13px; */
   width: 60%;
 
   & .feedback-ack {
     align-items: center;
     column-gap: 9px;
+  }
+
+  & .feedback-first-row {
+    flex-direction: column;
+    flex-wrap: wrap;
+    height: 97px;
+    justify-content: space-evenly;
+    width: 100%;
   }
 
   & .feedback-options {
@@ -42,10 +48,15 @@
   }
 
   @media (--md) {
-    flex-direction: row;
     height: 52px;
-    padding: var(--sm) 13px;
     width: 100%;
+    
+    & .feedback-first-row {
+      flex-direction: row;
+      justify-content: space-between;
+      height: 52px;
+      padding: var(--sm) 13px;
+    }
   }
 
   /* uncomment this block when GUS feedback is implemented */
