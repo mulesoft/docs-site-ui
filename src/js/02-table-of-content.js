@@ -45,7 +45,6 @@
   }
 
   const addChangeListener = (options) => {
-    console.log(options)
     options.addEventListener('click', () => updateExpandState())
     options.addEventListener('blur', () => {
       if (isSelectDropdownExpanded) updateExpandState()
