@@ -17,26 +17,33 @@
 
 .feedback-section {
   align-items: center;
+  align-self: center;
   border: 1px solid var(--aluminum-3);
   border-radius: 2px;
-  flex-direction: row;
-  height: 52px;
-  padding: var(--sm) 13px;
-  width: 100%;
-
+  flex-direction: column;
+  height: 97px;
+  min-width: 250px;
+  padding: var(--md) 13px;
+  width: 60%;
+  
   & .feedback-buttons {
     column-gap: 9px;
   }
-
+  
   & .feedback-question {
     & p {
       font-family: var(--sans-serif-bold);
       font-size: 14px;
+      margin: auto;
     }
   }
-
-  /* @media (min-width: 540px) {
-  } */
+  
+  @media (--md) {
+    flex-direction: row;
+    height: 52px;
+    padding: var(--sm) 13px;
+    width: 100%;
+  }
 
   /* uncomment this block when GUS feedback is implemented */
   /* & .row {
