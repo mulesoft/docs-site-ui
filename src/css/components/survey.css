@@ -51,10 +51,10 @@
     }
   }
 
-  & .survey-button-div {
+  & .survey-link-div {
     padding-bottom: 15px;
 
-    & a.survey-button {
+    & a.survey-link {
       background: #02a0df;
       color: #fff;
       display: block;
@@ -91,18 +91,15 @@
       }
     }
 
-    & > .survey-icon {
-      padding-top: 15px;
-    }
-
     @media (--md) {
-      bottom: 50px;
+      bottom: 60px;
+      padding-top: 15px;
       right: 10px;
       transform: initial;
     }
   }
 
-  & > .survey-button {
+  & > .survey-link {
     &:focus {
       outline: -webkit-focus-ring-color auto 1px;
     }
@@ -111,22 +108,30 @@
   & > .mobile-survey-button {
     background: var(--survey-gradient);
     border: none;
-    border-radius: 20px;
+    border-radius: 30px;
     bottom: 15px;
-    box-shadow: 0 10px 30px rgba(0,0,0,.1);
+    box-shadow: 0 10px 30px rgba(0,0,0,.4);
     cursor: pointer;
     display: flex;
-    height: 40px;
+    height: 50px;
     padding: 5px;
     position: fixed;
     right: 15px;
-    width: 40px;
+    width: 50px;
 
     & > img {
       filter: invert(1);
-      height: 18px;
       margin: auto;
-      width: 18px;
+    }
+
+    & .survey-icon-close-image {
+      height: 20px;
+      width: 20px;
+    }
+
+    & .survey-icon-image {
+      height: 28px;
+      width: 28px;
     }
 
     &:focus {
@@ -137,21 +142,21 @@
   & > .mobile-survey-help-text {
     background: #444;
     border-radius: 5px;
-    bottom: 15px;
+    bottom: 20px;
     color: var(--tertiary);
     cursor: pointer;
     font-size: 10px;
     padding: 3px 10px;
     position: fixed;
-    right: 60px;
+    right: 70px;
   }
 
   .survey-popover {
     background: var(--survey-gradient);
     border: none;
     border-radius: 5px;
-    bottom: 70px;
-    box-shadow: 0 10px 30px rgba(0,0,0,.1);
+    bottom: 80px;
+    box-shadow: 0 10px 30px rgba(0,0,0,.4);
     color: #fff;
     margin-left: 15px;
     padding: 0;
@@ -204,10 +209,10 @@
     }
 
     & > svg {
-      bottom: 64px;
+      bottom: 74px;
       fill: #0b0e3e;
       position: inherit;
-      right: 27px;
+      right: 32px;
       transform: rotate(180deg);
     }
   }
