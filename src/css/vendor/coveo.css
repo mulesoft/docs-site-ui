@@ -104,13 +104,18 @@ nav atomic-search-box {
   }
 }
 
+.search atomic-search-box {
+  &::part(wrapper) {
+    width: 235px;
+  }
+}
+
 atomic-search-box {
   &::part(wrapper) {
     border-color: #909aa3;
     border-radius: 2px;
     height: 40px;
     margin-left: -4px;
-    width: 235px;
 
     &:focus-within {
       --tw-ring-color: none;
