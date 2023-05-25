@@ -70,6 +70,9 @@
         if (sidebarLinks.length > 0) {
           sidebarLinks[0].addEventListener('click', () => {
             adjustScrollPosition(anchor)
+            setTimeout(() => {
+              anchor.focus()
+            }, 100)
           })
         }
       }
