@@ -128,7 +128,6 @@
             mobileSurveyButton.focus()
           })
           mobileSurveyToggleButton.addEventListener('click', () => {
-            console.log('hi')
             toggleAll(true)
             toggleTabIndexOutsideOf(mobileSurveyDiv, false)
             mobileSurveyButton.focus()
