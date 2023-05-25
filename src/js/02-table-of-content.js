@@ -1,15 +1,108 @@
 ;(() => {
   'use strict'
 
+  const doc = document.querySelector('.doc')
+  const sidebar = document.querySelector('.toc-sidebar')
+  const main = document.querySelector('.main')
+  const startOfContent = doc?.querySelector('h1.page + *')
+  const noticeBanner = document.querySelector('.notice-banner')
+  const topBanner = document.querySelector('.top-banner')
+
+  let dropdownArrow
+  let isSelectDropdownExpanded = false
+  let lastActiveFragment
+  let menu
+  const links = {}
+
+  const addSelectWrap = (startOfContent) => {
+    if (startOfContent) {
+      // generate list
+      const options = headings.reduce((accum, heading) => {
+        const option = toArray(heading.childNodes).reduce((target, child) => {
+          if (child.nodeName !== 'A') {
+            target.appendChild(child.cloneNode(true))
+          }
+          return target
+        }, document.createElement('option'))
+        option.value = `#${heading.id}`
+        accum.appendChild(option)
+        return accum
+      }, document.createElement('select'))
+
+      options.className = 'toc toc-embedded select'
+      options.insertBefore(createJumpToLabel(), options.firstChild)
+      addChangeListener(options)
+
+      const selectWrap = createSelectWrapper(options)
+      doc.insertBefore(selectWrap, startOfContent)
+    }
+  }
+
   const adjustForBanners = (scrollValue) => {
-    if (hasTopBanner()) scrollValue -= document.querySelector('.top-banner').offsetHeight
-    if (hasNoticeBanner()) scrollValue -= document.querySelector('.notice-banner').offsetHeight
+    if (existsAndNotHidden(noticeBanner)) scrollValue -= noticeBanner.offsetHeight
+    if (existsAndNotHidden(topBanner)) scrollValue -= topBanner.offsetHeight
     return scrollValue
   }
 
-  const find = (selector, from) => {
-    return toArray((from || document).querySelectorAll(selector))
+  const addChangeListener = (options) => {
+    options.addEventListener('click', () => updateExpandState())
+    options.addEventListener('blur', () => {
+      if (isSelectDropdownExpanded) updateExpandState()
+    })
+    options.addEventListener('keypress', (e) => {
+      if (isSpaceKey(e)) updateExpandState()
+    })
+    options.addEventListener('change', (e) => {
+      const thisOptions = e.currentTarget.options
+      scrollTo(thisOptions[thisOptions.selectedIndex].value)
+    })
   }
+
+  const createDropdownArrow = () => {
+    const uiRootPath = document.getElementById('site-script').dataset.uiRootPath
+    dropdownArrow = document.createElement('img')
+    dropdownArrow.alt = ''
+    dropdownArrow.ariaLabel = 'Expand page contents'
+    dropdownArrow.classList.add('select-dropdown-arrow')
+    dropdownArrow.src = `${uiRootPath}/img/icons/dropdown-arrow.svg`
+    dropdownArrow.role = 'button'
+    return dropdownArrow
+  }
+
+  const createJumpToLabel = () => {
+    const jumpTo = document.createElement('option')
+    jumpTo.innerHTML = 'Jump to…'
+    jumpTo.setAttribute('disabled', true)
+    return jumpTo
+  }
+
+  const createSelectWrapper = (options) => {
+    const selectWrap = document.createElement('div')
+    selectWrap.classList.add('select-wrapper')
+    selectWrap.appendChild(options)
+    selectWrap.appendChild(createDropdownArrow())
+    return selectWrap
+  }
+
+  const updateExpandState = () => {
+    isSelectDropdownExpanded = !isSelectDropdownExpanded
+    dropdownArrow.ariaLabel = isSelectDropdownExpanded ? 'Collapse page content' : 'Expand page content'
+  }
+
+  const createToc = (sidebar) => {
+    createTocMenuDiv(sidebar)
+    if (sidebar) window.addEventListener('scroll', () => highlightOnScroll(doc, menu, headings))
+    addSelectWrap(startOfContent)
+  }
+
+  const createTocMenuDiv = (sidebar) => {
+    menu = sidebar?.querySelector('.toc-menu') || document.createElement('div')
+    menu.className = 'toc-menu'
+    menu.appendChild(parseHeadingsIntoList(links))
+  }
+
+  const existsAndNotHidden = (element) => element && !element.classList.contains('hide')
+  const find = (selector, from) => toArray((from || document).querySelectorAll(selector))
 
   const fixInitialScrollPosition = () => {
     window.addEventListener('load', () => {
@@ -21,28 +114,57 @@
     })
   }
 
-  const hasNoticeBanner = () => {
-    const noticeBanner = document.querySelector('.notice-banner')
-    if (noticeBanner) {
-      return !noticeBanner.classList.contains('hide')
+  const highlightOnScroll = (doc, menu, headings) => {
+    // NOTE equivalent to: doc.parentNode.getBoundingClientRect().top + window.pageYOffset
+    const targetPosition = doc.parentNode.offsetTop
+    let activeFragment
+    headings.some((heading) => {
+      if (heading.getBoundingClientRect().top < targetPosition) activeFragment = `#${heading.id}`
+    })
+    if (activeFragment) {
+      if (lastActiveFragment) {
+        links[lastActiveFragment].classList.remove('is-active')
+        links[lastActiveFragment].removeAttribute('aria-current')
+      }
+      const activeLink = links[activeFragment]
+      activeLink.classList.add('is-active')
+      activeLink.ariaCurrent = true
+      if (menu.scrollHeight > menu.offsetHeight) {
+        menu.scrollTop = Math.max(0, activeLink.offsetTop + activeLink.offsetHeight - menu.offsetHeight)
+      }
+      lastActiveFragment = activeFragment
+    } else if (lastActiveFragment) {
+      links[lastActiveFragment].classList.remove('is-active')
+      links[lastActiveFragment].removeAttribute('aria-current')
+      lastActiveFragment = undefined
     }
-    return false
   }
 
-  const hasTopBanner = () => {
-    const topBanner = document.querySelector('.top-banner')
-    if (topBanner) {
-      return !topBanner.classList.contains('hide')
-    }
-    return false
+  const isBigScreenSize = () => window.matchMedia(' (min-width: 768px)').matches
+  const isSpaceKey = (e) => e.charCode === 32
+  const markAsNoSidebar = (element) => {
+    if (element) element.classList.add('no-sidebar')
+  }
+  const notEmpty = (headings) => headings.length > 0
+
+  const parseHeadingsIntoList = (links) => {
+    return headings.reduce((accum, heading) => {
+      const link = toArray(heading.childNodes).reduce((target, child) => {
+        if (child.nodeName !== 'A') {
+          target.appendChild(child.cloneNode(true))
+        }
+        return target
+      }, document.createElement('a'))
+      links[(link.href = `#${heading.id}`)] = link
+      const listItem = document.createElement('li')
+      listItem.appendChild(link)
+      accum.appendChild(listItem)
+      return accum
+    }, document.createElement('ol'))
   }
 
-  const isBigScreenSize = () => {
-    return window.innerWidth >= 768
-  }
-
-  const isSpaceKey = (e) => {
-    return e.charCode === 32
+  const removeTOCBlock = (sidebar) => {
+    if (sidebar) sidebar.removeChild(sidebar.querySelector('.aside-toc'))
   }
 
   const scrollTo = (urlHashValue) => {
@@ -50,190 +172,18 @@
     window.scrollBy(0, adjustForBanners(-100))
   }
 
-  const toArray = (collection) => {
-    return [].slice.call(collection)
-  }
+  const toArray = (collection) => [].slice.call(collection)
+  const urlHasAnchor = () => window.location.hash.length
 
-  const urlHasAnchor = () => {
-    return window.location.hash.length
-  }
+  const headings = find('.sect1 > h2[id]', doc)
 
-  class Viewport {
-    constructor () {
-      this.doc = document.querySelector('.doc')
-      this.main = document.querySelector('.main')
-      this.sidebar = document.querySelector('.toc-sidebar')
-      this.headings = find('.sect1 > h2[id]', this.doc)
-      this.startOfContent = this.doc?.querySelector('h1.page + *')
-
-      this.isSelectDropdownExpanded = false
-      this.lastActiveFragment = undefined
-      this.menu = undefined
-      this.links = {}
-    }
-
-    addChangeListener () {
-      this.options.addEventListener('change', (e) => {
-        const thisOptions = e.currentTarget.options
-        scrollTo(thisOptions[thisOptions.selectedIndex].value)
-      })
-
-      this.options.addEventListener('click', () => {
-        this.updateExpandState()
-      })
-
-      this.options.addEventListener('blur', () => {
-        if (this.isSelectDropdownExpanded) this.updateExpandState()
-      })
-
-      this.options.addEventListener('keypress', (e) => {
-        if (isSpaceKey(e)) this.updateExpandState()
-      })
-    }
-
-    addSelectWrap () {
-      if (this.startOfContent) {
-        // generate list
-        this.options = this.headings.reduce((accum, heading) => {
-          const option = toArray(heading.childNodes).reduce((target, child) => {
-            if (child.nodeName !== 'A') {
-              target.appendChild(child.cloneNode(true))
-            }
-            return target
-          }, document.createElement('option'))
-          option.value = '#' + heading.id
-          accum.appendChild(option)
-          return accum
-        }, document.createElement('select'))
-
-        this.createSelectWrapper()
-        this.createDropdownArrow()
-        this.createJumpToLabel()
-        this.addChangeListener()
-
-        this.doc.insertBefore(this.selectWrap, this.startOfContent)
-      }
-    }
-
-    createDropdownArrow () {
-      const uiRootPath = document.getElementById('site-script').dataset.uiRootPath
-      this.dropdownArrow = document.createElement('img')
-      this.dropdownArrow.classList.add('select-dropdown-arrow')
-      this.dropdownArrow.src = `${uiRootPath}/img/icons/dropdown-arrow.svg`
-      this.dropdownArrow.alt = ''
-      this.dropdownArrow.ariaLabel = 'Expand page contents'
-      this.dropdownArrow.role = 'button'
-      this.selectWrap.appendChild(this.dropdownArrow)
-    }
-
-    createJumpToLabel () {
-      const jumpTo = document.createElement('option')
-      jumpTo.innerHTML = 'Jump to…'
-      jumpTo.setAttribute('disabled', true)
-      this.options.insertBefore(jumpTo, this.options.firstChild)
-      this.options.className = 'toc toc-embedded select'
-    }
-
-    createSelectWrapper () {
-      this.selectWrap = document.createElement('div')
-      this.selectWrap.classList.add('select-wrapper')
-      this.selectWrap.appendChild(this.options)
-    }
-
-    createToc () {
-      this.createTocMenuDiv()
-      if (this.sidebar) {
-        window.addEventListener('scroll', () => {
-          this.highlightOnScroll()
-        })
-      }
-
-      this.addSelectWrap()
-    }
-
-    createTocMenuDiv () {
-      const listOfHeadings = this.parseHeadingsIntoList()
-      if (!(this.menu = this.sidebar && this.sidebar.querySelector('.toc-menu'))) {
-        this.menu = document.createElement('div')
-        this.menu.className = 'toc-menu'
-      }
-      this.menu.appendChild(listOfHeadings)
-    }
-
-    hasHeadings () {
-      return this.headings.length > 0
-    }
-
-    markMainAsNoSidebar () {
-      if (this.main) {
-        this.main.classList.add('no-sidebar')
-      }
-    }
-
-    highlightOnScroll () {
-      // NOTE equivalent to: doc.parentNode.getBoundingClientRect().top + window.pageYOffset
-      const targetPosition = this.doc.parentNode.offsetTop
-      let activeFragment
-      this.headings.some((heading) => {
-        if (heading.getBoundingClientRect().top < targetPosition) {
-          activeFragment = '#' + heading.id
-        } else {
-          return true
-        }
-      })
-      if (activeFragment) {
-        if (this.lastActiveFragment) {
-          this.links[this.lastActiveFragment].classList.remove('is-active')
-          this.links[this.lastActiveFragment].removeAttribute('aria-current')
-        }
-        const activeLink = this.links[activeFragment]
-        activeLink.classList.add('is-active')
-        activeLink.ariaCurrent = 'true'
-        if (this.menu.scrollHeight > this.menu.offsetHeight) {
-          this.menu.scrollTop = Math.max(0, activeLink.offsetTop + activeLink.offsetHeight - this.menu.offsetHeight)
-        }
-        this.lastActiveFragment = activeFragment
-      } else if (this.lastActiveFragment) {
-        this.links[this.lastActiveFragment].classList.remove('is-active')
-        this.links[this.lastActiveFragment].removeAttribute('aria-current')
-        this.lastActiveFragment = undefined
-      }
-    }
-
-    parseHeadingsIntoList () {
-      return this.headings.reduce((accum, heading) => {
-        var link = toArray(heading.childNodes).reduce((target, child) => {
-          if (child.nodeName !== 'A') {
-            target.appendChild(child.cloneNode(true))
-          }
-          return target
-        }, document.createElement('a'))
-        this.links[(link.href = '#' + heading.id)] = link
-        var listItem = document.createElement('li')
-        listItem.appendChild(link)
-        accum.appendChild(listItem)
-        return accum
-      }, document.createElement('ol'))
-    }
-
-    removeTOCBlock () {
-      if (this.sidebar) this.sidebar.removeChild(this.sidebar.querySelector('.aside-toc'))
-    }
-
-    updateExpandState () {
-      this.isSelectDropdownExpanded = !this.isSelectDropdownExpanded
-      this.dropdownArrow.ariaLabel = this.isSelectDropdownExpanded ? 'Collapse page content' : 'Expand page content'
-    }
-  }
-
-  const viewport = new Viewport()
-  if (!viewport.doc || !viewport.sidebar) {
-    viewport.markMainAsNoSidebar()
+  if (!doc || !sidebar) {
+    markAsNoSidebar(main)
   } else {
-    if (!viewport.hasHeadings()) {
-      viewport.removeTOCBlock()
+    if (!notEmpty(headings)) {
+      removeTOCBlock(sidebar)
     } else {
-      viewport.createToc()
+      createToc(sidebar)
     }
   }
 
