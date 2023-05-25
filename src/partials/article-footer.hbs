@@ -1,9 +1,11 @@
 {{#if page.component}}
 <footer class="flex col doc-footer">
   {{#if env.GOOGLE_ANALYTICS_KEY}}
-  <section class="feedback-section flex">
-    <div data-thanks="start">Was this article helpful?</div>
-    <div class="feedback-buttons flex justify-end">
+  <section class="feedback-section flex justify-justified">
+    <div class="feedback-question">
+      <p>Was this article helpful?</p>
+    </div>
+    <div class="feedback-buttons flex">
       <button class="button feedback-yes" data-thanks="start" type="button">
         <img loading="lazy" src="{{@root.uiRootPath}}/img/icons/thumbs-up.png" alt="" height="12">
       </button>

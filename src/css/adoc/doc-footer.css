@@ -1,10 +1,9 @@
 .doc-footer {
-  padding-bottom: var(--xl);
-  padding-left: var(--xl);
-  padding-top: 300px;
+  padding: 300px var(--xl) var(--xl);
 
   & .button {
     font-size: 12px;
+    min-width: var(--nav-item-height);
   }
 
   & .button-edit {
@@ -21,13 +20,23 @@
   border: 1px solid var(--aluminum-3);
   border-radius: 2px;
   flex-direction: row;
-  max-width: max-content;
-  padding: var(--sm) var(--lg);
-  width: 70%;
+  height: 52px;
+  padding: var(--sm) 13px;
+  width: 100%;
 
-  @media (min-width: 540px) {
-    width: max-content;
+  & .feedback-buttons {
+    column-gap: 9px;
   }
+
+  & .feedback-question {
+    & p {
+      font-family: var(--sans-serif-bold);
+      font-size: 14px;
+    }
+  }
+
+  /* @media (min-width: 540px) {
+  } */
 
   /* uncomment this block when GUS feedback is implemented */
   /* & .row {
