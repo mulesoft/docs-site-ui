@@ -9,6 +9,8 @@
 
   const feedbackOptionButtons = feedbackCard.querySelectorAll('div.feedback-options button')
   const feedbackAckMsgDiv = feedbackCard.querySelector('div.feedback-ack')
+  const giveFeedbackButton = feedbackCard.querySelector('button.give-feedback')
+  const feedbackDetailedForm = feedbackCard.querySelector('div.feedback-detailed-form')
   const decision = ['Yes', 'No']
 
   const addListeners = (feedbackCard, decision) => {
@@ -16,6 +18,15 @@
       const feedbackButton = feedbackCard.querySelector(`button.feedback-${decision.toLowerCase()}`)
       if (feedbackButton) feedbackButton.addEventListener('click', (e) => track(decision, e))
     })
+
+    if (giveFeedbackButton) {
+      giveFeedbackButton.addEventListener('click', (e) => {
+        hide(giveFeedbackButton)
+        show(feedbackDetailedForm)
+        feedbackDetailedForm.querySelector('input').focus()
+        e.preventDefault()
+      })
+    }
   }
 
   const hide = (element) => element.classList.add('hide')
@@ -31,6 +42,8 @@
       feedbackOptionButtons.forEach((button) => hide(button))
       show(feedbackAckMsgDiv)
       updateFeedbackAckMsg(feedbackAckMsgDiv, decision)
+      show(feedbackDetailedForm)
+      feedbackDetailedForm.querySelector('input').focus()
     } catch (error) {
       console.warn(error)
     }
