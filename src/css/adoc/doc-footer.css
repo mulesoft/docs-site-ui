@@ -25,11 +25,11 @@
   min-width: 250px;
   padding: var(--md) 13px;
   width: 60%;
-  
+
   & .feedback-buttons {
     column-gap: 9px;
   }
-  
+
   & .feedback-question {
     & p {
       font-family: var(--sans-serif-bold);
@@ -37,7 +37,7 @@
       margin: auto;
     }
   }
-  
+
   @media (--md) {
     flex-direction: row;
     height: 52px;
