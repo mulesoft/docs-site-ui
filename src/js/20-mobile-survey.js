@@ -1,7 +1,7 @@
 ;(async () => {
   'use strict'
 
-  const surveyAppearPercent = 100
+  const surveyAppearPercent = 1
 
   const aside = document.querySelector('aside')
   const backdrop = document.querySelector('.modal-backdrop')
