@@ -11,6 +11,9 @@
 @import "pages/connector.css";
 @import "pages/connector-article.css";
 @import "pages/connector-home.css";
+@import "pages/maintenance.css";
+@import "pages/home.css";
+
 
 /* components */
 @import "components/breadcrumbs.css";
@@ -44,7 +47,6 @@
 @import "adoc/table.css";
 
 /* more pages */
-@import "pages/home.css";
 
 /* vendor */
 @import "vendor/coveo.css";

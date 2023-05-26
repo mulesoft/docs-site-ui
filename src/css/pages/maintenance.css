@@ -1,0 +1,36 @@
+.slds-illustration .slds-illustration__stroke-primary {
+    stroke: var(--slds-g-color-palette-cloud-blue-80,#90d0fe)
+}
+
+.slds-illustration .slds-illustration__stroke-secondary {
+    stroke: var(--slds-g-color-palette-cloud-blue-90,#cfe9fe)
+}
+
+.slds-illustration .slds-illustration__fill-primary {
+    fill: var(--slds-g-color-palette-cloud-blue-80,#90d0fe)
+}
+
+.slds-illustration .slds-illustration__fill-secondary {
+    fill: var(--slds-g-color-palette-cloud-blue-90,#cfe9fe)
+}
+
+.slds-illustration__svg {
+    height: 250px;
+    margin: auto;
+    display: block;
+    margin-top: 65px;
+}
+
+.slds-text-longform {
+    text-align: center;
+    margin: 40px;
+    margin-bottom: 40px;
+    font-size: 30px;
+    font-family: 'EAvantGardeBold';
+}
+
+.word-text {
+    text-align: center;
+    font-size: 17px;
+    margin-bottom: 155px;
+}
