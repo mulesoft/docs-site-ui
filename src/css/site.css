@@ -14,7 +14,6 @@
 @import "pages/maintenance.css";
 @import "pages/home.css";
 
-
 /* components */
 @import "components/breadcrumbs.css";
 @import "components/button.css";
@@ -45,8 +44,6 @@
 @import "adoc/admonition-block.css";
 @import "adoc/description-list.css";
 @import "adoc/table.css";
-
-/* more pages */
 
 /* vendor */
 @import "vendor/coveo.css";
