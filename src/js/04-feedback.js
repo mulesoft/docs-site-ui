@@ -41,9 +41,7 @@
     if (feedbackFormCancelButton) {
       feedbackFormCancelButton.addEventListener('click', (e) => {
         hide(feedbackForm)
-        voted
-          ? show(feedbackSecondRow)
-          : show(giveFeedbackButton)
+        voted ? show(feedbackSecondRow) : show(giveFeedbackButton)
         e.preventDefault()
       })
     }
