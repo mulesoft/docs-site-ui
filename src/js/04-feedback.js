@@ -12,6 +12,7 @@
   const feedbackForm = feedbackCard.querySelector('div.feedback-form')
   const feedbackFormCancelButton = feedbackForm?.querySelector('#feedback-form-cancel-button')
   const decision = ['Yes', 'No']
+  let voted
 
   const addListeners = (feedbackCard, decision) => {
     decision.forEach((decision) => {
@@ -40,7 +41,9 @@
     if (feedbackFormCancelButton) {
       feedbackFormCancelButton.addEventListener('click', (e) => {
         hide(feedbackForm)
-        show(feedbackSecondRow)
+        voted
+          ? show(feedbackSecondRow)
+          : show(giveFeedbackButton)
         e.preventDefault()
       })
     }
@@ -50,6 +53,7 @@
   const show = (element) => element.classList.remove('hide')
 
   const track = (decision, e) => {
+    voted = true
     try {
       if (window.analytics) {
         window.analytics.track(`Clicked Helpful ${decision}`, {
