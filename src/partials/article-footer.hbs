@@ -2,7 +2,7 @@
 <footer class="flex col doc-footer">
   {{#if env.GOOGLE_ANALYTICS_KEY}}
   <section class="feedback-section flex align-center col">
-    <div class="feedback-first-row flex align-center">
+    <div class="feedback-row feedback-first-row flex align-center">
       <div>
         <p>Was this article helpful?</p>
       </div>
@@ -21,6 +21,11 @@
           Give feedback
         </button>
       </div>
+    </div>
+    <div class="feedback-row feedback-second-row flex hide">
+      <button class="button give-feedback">
+        Give feedback
+      </button>
     </div>
     <div class="feedback-form hide">
       <form>
