@@ -61,11 +61,23 @@
     width: 100%;
   }
 
+  & .feedback-form-button-row {
+    column-gap: 10px;
+    padding-top: 5px;
+    
+    & .feedback-form-button {
+      font-family: var(--sans-serif);
+      height: 30px;
+      line-height: unset;
+      width: 100px;
+    }
+  }
+
   & .feedback-options {
     column-gap: 9px;
   }
 
-  & input,
+  & input:not([type="submit"]),
   & textarea {
     border: 1px solid #c9c9c9;
     border-radius: 4px;
