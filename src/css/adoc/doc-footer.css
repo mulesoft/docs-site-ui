@@ -64,7 +64,7 @@
   & .feedback-form-button-row {
     column-gap: 10px;
     padding-top: 5px;
-    
+
     & .feedback-form-button {
       font-family: var(--sans-serif);
       height: 30px;
