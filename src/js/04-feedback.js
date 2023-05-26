@@ -13,7 +13,6 @@
   const feedbackOptionButtons = feedbackCard.querySelectorAll('div.feedback-options button')
   const feedbackAckMsgDiv = feedbackCard.querySelector('div.feedback-ack')
   const giveFeedbackButton = feedbackCard.querySelector('button.give-feedback')
-  const secondaryFeedbackButtonRow = feedbackCard.querySelector('div.feedback-button-row')
   const feedbackForm = feedbackCard.querySelector('div.feedback-form')
   const feedbackFormCancelButton = feedbackForm.querySelector('#feedback-form-cancel-button')
   const decision = ['Yes', 'No']
@@ -28,7 +27,6 @@
       giveFeedbackButton.addEventListener('click', (e) => {
         hide(giveFeedbackButton)
         show(feedbackForm)
-        show(secondaryFeedbackButtonRow)
         feedbackForm.querySelector('input').focus()
         e.preventDefault()
       })
