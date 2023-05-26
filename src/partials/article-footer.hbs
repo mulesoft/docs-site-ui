@@ -7,31 +7,34 @@
         <p>Was this article helpful?</p>
       </div>
       <div class="feedback-options flex">
-        <button class="button feedback-yes" data-thanks="start" type="button">
+        <button class="button feedback-yes">
           <img loading="lazy" src="{{@root.uiRootPath}}/img/icons/thumbs-up.png" alt="" height="12">
         </button>
-        <button class="button feedback-no" data-thanks="start" type="button">
+        <button class="button feedback-no">
           <img loading="lazy" src="{{@root.uiRootPath}}/img/icons/thumbs-down.png" alt="" height="12">
         </button>
         <div class="feedback-ack flex hide">
           <img loading="lazy" src="{{@root.uiRootPath}}/img/icons/feedback-ack.svg" alt="" height="20">
           <p>You voted for:</p>
         </div>
-        <button class="button give-feedback" data-thanks="start" type="button">
+        <button class="button give-feedback">
           Give feedback
         </button>
-        {{!-- <span data-thanks="end">
-          <img loading="lazy" src="{{@root.uiRootPath}}/img/icons/blue-heart.png" alt="" height="14">
-          Thanks for your feedback!
-        </span> --}}
       </div>
     </div>
-    <div class="feedback-detailed-form hide">
+    <div class="feedback-button-row flex justified-end hide">
+      <button class="button give-feedback">
+        Give feedback
+      </button>
+    </div>
+    <div class="feedback-form hide">
       <form>
         <label class="required" for="summary">Share your feedback</label><br>
-        <input maxlength="60" placeholder="Let us know what you liked, or how we can improve..." type="text" id="summary" name="summary" required>
+        <input maxlength="60" placeholder="Let us know what you liked, or how we can improve..." type="text"
+          id="summary" name="summary" required>
         <label class="optional" for="detail">Please provide further details</label><br>
-        <textarea maxlength="300" placeholder="This is optional, but very helpful..." type="text" id="detail" name="detail" rows="4"></textarea>
+        <textarea maxlength="300" placeholder="This is optional, but very helpful..." type="text" id="detail"
+          name="detail" rows="4"></textarea>
         <span>Provide your name and email if you’d like us to contact you:</span><br>
         <div class="contact-info">
           <label class="optional" for="name">Name</label><br>
@@ -42,7 +45,7 @@
           <input maxlength="50" placeholder="email@example.com" type="email" id="email" name="email">
         </div>
         <div class="feedback-form-button-row flex align-center justify-end">
-          <button class="button feedback-form-button">Cancel</button>
+          <button class="button feedback-form-button" id="feedback-form-cancel-button">Cancel</button>
           <input class="button-primary feedback-form-button" type="submit" value="Submit">
         </div>
       </form>
