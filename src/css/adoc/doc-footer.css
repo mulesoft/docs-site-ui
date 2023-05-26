@@ -125,7 +125,7 @@
   @media (--md) {
     width: 100%;
 
-    &:has(> .feedback-form.hide) {
+    &:has(> .feedback-form.hide):has(> .feedback-second-row.hide) {
       min-height: 52px;
 
       & .feedback-first-row {
