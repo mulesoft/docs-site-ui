@@ -9,6 +9,7 @@
 
   & .button-edit {
     margin-top: var(--md);
+    max-width: fit-content;
 
     @media (--lg) {
       display: none;
