@@ -1,9 +1,7 @@
 ;(async () => {
   'use strict'
 
-  const surveyAppearPercent = document.location.host === 'docs.mulesoft.com'
-    ? 5
-    : 100
+  const surveyAppearPercent = document.location.host === 'docs.mulesoft.com' ? 5 : 100
 
   const aside = document.querySelector('aside')
   const backdrop = document.querySelector('.modal-backdrop')
