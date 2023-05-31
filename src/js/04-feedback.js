@@ -26,7 +26,6 @@
       giveFeedbackButton.addEventListener('click', (e) => {
         hide(giveFeedbackButton)
         show(feedbackForm)
-        removeValidationViz(feedbackFormSummaryInput)
         feedbackForm.querySelector('input').focus()
         e.preventDefault()
       })
@@ -36,7 +35,6 @@
       secondGiveFeedbackButton.addEventListener('click', (e) => {
         hide(feedbackSecondRow)
         show(feedbackForm)
-        removeValidationViz(feedbackFormSummaryInput)
         feedbackForm.querySelector('input').focus()
         e.preventDefault()
       })
@@ -45,8 +43,8 @@
     if (feedbackFormCancelButton) {
       feedbackFormCancelButton.addEventListener('click', (e) => {
         hide(feedbackForm)
-        voted ? show(feedbackSecondRow) : show(giveFeedbackButton)
         removeValidationViz(feedbackFormSummaryInput)
+        voted ? show(feedbackSecondRow) : show(giveFeedbackButton)
         e.preventDefault()
       })
     }
@@ -55,12 +53,12 @@
       feedbackFormSummaryInput.addEventListener('invalid', (e) => {
         e.preventDefault()
         show(feedbackFormSummaryValidationText)
-        addRedBorder(feedbackFormSummaryInput)
+        addValidationViz(feedbackFormSummaryInput)
       })
     }
   }
 
-  const addRedBorder = (element) => element.classList.add('invalid')
+  const addValidationViz = (element) => element.classList.add('invalid')
   const hide = (element) => element.classList.add('hide')
 
   const removeValidationViz = (element) => {
