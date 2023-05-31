@@ -27,9 +27,4 @@
       e.preventDefault()
     })
   }
-
-  if (takeTheSurveyLink) {
-    const currentPageUrl = window.location.href
-    takeTheSurveyLink.href = `${takeTheSurveyLink.href}?source=${encodeURIComponent(currentPageUrl)}`
-  }
 })()
