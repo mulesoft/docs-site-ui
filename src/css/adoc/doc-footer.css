@@ -104,7 +104,7 @@
     &.invalid {
       border: 1px solid red;
     }
-  
+
     &::placeholder {
       color: #747474;
       font-size: 12px;
