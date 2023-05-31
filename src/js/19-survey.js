@@ -6,7 +6,6 @@
 
   const surveyToggleButton = surveySection.querySelector('button.survey-toggle')
   const surveyTextDiv = surveySection.querySelector('div.survey-text')
-  const takeTheSurveyLink = surveySection.querySelector('a.survey-link')
 
   const toggleAttribute = (element, attrName, bool, e) => {
     if (e) e.preventDefault()
