@@ -85,6 +85,10 @@
     padding-top: 0;
   }
 
+  & .post-feedback {
+    padding: 25px;
+  }
+
   & .summary-validation-text {
     color: red;
     font-family: var(--sans-serif);
@@ -124,7 +128,7 @@
     margin: auto;
   }
 
-  &:has(> .feedback-form.hide):has(> .feedback-second-row.hide) {
+  &:has(> .feedback-form.hide):has(> .feedback-second-row.hide):has(> .post-feedback.hide) {
     height: min-content;
 
     & .feedback-first-row {
@@ -137,7 +141,7 @@
   @media (--md) {
     width: 100%;
 
-    &:has(> .feedback-form.hide):has(> .feedback-second-row.hide) {
+    &:has(> .feedback-form.hide):has(> .feedback-second-row.hide):has(> .post-feedback.hide) {
       min-height: 52px;
 
       & .feedback-first-row {

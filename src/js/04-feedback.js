@@ -5,14 +5,20 @@
   if (!feedbackCard) return
 
   const feedbackOptionButtons = feedbackCard.querySelectorAll('div.feedback-options button')
+
   const feedbackAckMsgDiv = feedbackCard.querySelector('div.feedback-ack')
   const giveFeedbackButton = feedbackCard.querySelector('button.give-feedback')
+
   const feedbackSecondRow = feedbackCard.querySelector('div.feedback-second-row')
   const secondGiveFeedbackButton = feedbackSecondRow?.querySelector('button.give-feedback')
+
   const feedbackForm = feedbackCard.querySelector('div.feedback-form')
   const feedbackFormCancelButton = feedbackForm?.querySelector('#feedback-form-cancel-button')
   const feedbackFormSummaryInput = feedbackForm?.querySelector('input#summary')
   const feedbackFormSummaryValidationText = feedbackForm?.querySelector('p.summary-validation-text')
+
+  const postFeedbackThankYouButton = feedbackCard.querySelector('span.post-feedback')
+
   const decision = ['Yes', 'No']
   let voted
 
@@ -24,28 +30,28 @@
 
     if (giveFeedbackButton) {
       giveFeedbackButton.addEventListener('click', (e) => {
+        e.preventDefault()
         hide(giveFeedbackButton)
         show(feedbackForm)
         feedbackForm.querySelector('input').focus()
-        e.preventDefault()
       })
     }
 
     if (secondGiveFeedbackButton) {
       secondGiveFeedbackButton.addEventListener('click', (e) => {
+        e.preventDefault()
         hide(feedbackSecondRow)
         show(feedbackForm)
         feedbackForm.querySelector('input').focus()
-        e.preventDefault()
       })
     }
 
     if (feedbackFormCancelButton) {
       feedbackFormCancelButton.addEventListener('click', (e) => {
+        e.preventDefault()
         hide(feedbackForm)
         removeValidationViz(feedbackFormSummaryInput)
         voted ? show(feedbackSecondRow) : show(giveFeedbackButton)
-        e.preventDefault()
       })
     }
 
@@ -54,6 +60,16 @@
         e.preventDefault()
         show(feedbackFormSummaryValidationText)
         addValidationViz(feedbackFormSummaryInput)
+      })
+    }
+
+    if (feedbackForm) {
+      feedbackForm.addEventListener('submit', (e) => {
+        e.preventDefault()
+        removeValidationViz(feedbackFormSummaryInput)
+        // TODO: add GUS API integration
+        hide(feedbackForm)
+        show(postFeedbackThankYouButton)
       })
     }
   }
