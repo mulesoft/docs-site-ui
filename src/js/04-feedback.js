@@ -11,6 +11,8 @@
   const secondGiveFeedbackButton = feedbackSecondRow?.querySelector('button.give-feedback')
   const feedbackForm = feedbackCard.querySelector('div.feedback-form')
   const feedbackFormCancelButton = feedbackForm?.querySelector('#feedback-form-cancel-button')
+  const feedbackFormSummaryInput = feedbackForm?.querySelector('input#summary')
+  const feedbackFormSummaryValidationText = feedbackForm?.querySelector('p.summary-validation-text')
   const decision = ['Yes', 'No']
   let voted
 
@@ -24,6 +26,7 @@
       giveFeedbackButton.addEventListener('click', (e) => {
         hide(giveFeedbackButton)
         show(feedbackForm)
+        removeValidationViz(feedbackFormSummaryInput)
         feedbackForm.querySelector('input').focus()
         e.preventDefault()
       })
@@ -33,6 +36,7 @@
       secondGiveFeedbackButton.addEventListener('click', (e) => {
         hide(feedbackSecondRow)
         show(feedbackForm)
+        removeValidationViz(feedbackFormSummaryInput)
         feedbackForm.querySelector('input').focus()
         e.preventDefault()
       })
@@ -42,12 +46,28 @@
       feedbackFormCancelButton.addEventListener('click', (e) => {
         hide(feedbackForm)
         voted ? show(feedbackSecondRow) : show(giveFeedbackButton)
+        removeValidationViz(feedbackFormSummaryInput)
         e.preventDefault()
+      })
+    }
+
+    if (feedbackFormSummaryInput) {
+      feedbackFormSummaryInput.addEventListener('invalid', (e) => {
+        e.preventDefault()
+        show(feedbackFormSummaryValidationText)
+        addRedBorder(feedbackFormSummaryInput)
       })
     }
   }
 
+  const addRedBorder = (element) => element.classList.add('invalid')
   const hide = (element) => element.classList.add('hide')
+
+  const removeValidationViz = (element) => {
+    element.classList.remove('invalid')
+    feedbackFormSummaryValidationText.classList.add('hide')
+  }
+
   const show = (element) => element.classList.remove('hide')
 
   const track = (decision, e) => {
