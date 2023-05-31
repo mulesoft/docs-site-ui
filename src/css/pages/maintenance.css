@@ -37,9 +37,9 @@
     font-size: 25px;
     line-height: 35px;
     margin-bottom: 24px;
+    overflow-wrap: normal;
     width: 90%;
     word-break: keep-all;
-    overflow-wrap: normal;
 
     & p {
       margin: 40px;
@@ -56,13 +56,13 @@
   & .slds-text-description {
     font-size: 17px;
     margin-bottom: 50px;
+    overflow-wrap: normal;
     width: 80%;
     word-break: keep-all;
-    overflow-wrap: normal;
 
     @media (--md) {
-      width: 600px;
       margin-bottom: 150px;
+      width: 600px;
     }
   }
 }
