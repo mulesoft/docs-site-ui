@@ -169,10 +169,12 @@
                 </g>
             </g>
         </svg>
-        <div class="slds-text-longform">
-            <p class="slds-text">docs.mulesoft.com is temporarily down for maintenance</p>
+        <div class="slds-text-title">
+            <p>docs.mulesoft.com is temporarily down for maintenance</p>
         </div>
+        {{#if page.componentVersion.asciidoc.attributes.maintenanceMessageDescription}}
         <div class="slds-text-description">
-            <p>{{page.componentVersion.asciidoc.attributes.announcementMessageDescription}}</p>
+            <p>{{page.componentVersion.asciidoc.attributes.maintenanceMessageDescription}}</p>
         </div>
+        {{!-- {{/if}} --}}
     </div>
