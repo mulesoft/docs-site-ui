@@ -89,7 +89,7 @@
     padding: 25px;
   }
 
-  & .summary-validation-text {
+  & .validation-text {
     color: red;
     font-family: var(--sans-serif);
     font-size: 10px;

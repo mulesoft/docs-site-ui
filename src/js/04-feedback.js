@@ -7,19 +7,19 @@
   const feedbackOptionButtons = feedbackCard.querySelectorAll('div.feedback-options button')
 
   const feedbackAckMsgDiv = feedbackCard.querySelector('div.feedback-ack')
-  const giveFeedbackButton = feedbackCard.querySelector('button.give-feedback')
-
   const feedbackSecondRow = feedbackCard.querySelector('div.feedback-second-row')
-  const secondGiveFeedbackButton = feedbackSecondRow?.querySelector('button.give-feedback')
 
-  const feedbackForm = feedbackCard.querySelector('div.feedback-form')
-  const feedbackFormCancelButton = feedbackForm?.querySelector('#feedback-form-cancel-button')
-  const feedbackFormSummaryInput = feedbackForm?.querySelector('input#summary')
-  const feedbackFormSummaryValidationText = feedbackForm?.querySelector('p.summary-validation-text')
+  const giveFeedbackButtons = feedbackCard.querySelectorAll('button.give-feedback')
+
+  const feedbackFormDiv = feedbackCard.querySelector('div.feedback-form')
+  const feedbackForm = feedbackFormDiv?.querySelector('form')
+  const feedbackFormCancelButton = feedbackForm?.querySelector('button#feedback-form-cancel-button')
+  const feedbackFormSubmitButton = feedbackForm?.querySelector('input.feedback-form-button')
 
   const postFeedbackThankYouButton = feedbackCard.querySelector('span.post-feedback')
 
   const decision = ['Yes', 'No']
+  const inputNamesWithValidation = ['summary', 'email']
   let voted
 
   const addListeners = (feedbackCard, decision) => {
@@ -28,61 +28,84 @@
       if (feedbackButton) feedbackButton.addEventListener('click', (e) => track(decision, e))
     })
 
-    if (giveFeedbackButton) {
-      giveFeedbackButton.addEventListener('click', (e) => {
+    giveFeedbackButtons.forEach((button) => {
+      button.addEventListener('click', (e) => {
         e.preventDefault()
-        hide(giveFeedbackButton)
-        show(feedbackForm)
+        hide(button)
+        show(feedbackFormDiv)
         feedbackForm.querySelector('input').focus()
       })
-    }
+    })
 
-    if (secondGiveFeedbackButton) {
-      secondGiveFeedbackButton.addEventListener('click', (e) => {
-        e.preventDefault()
-        hide(feedbackSecondRow)
-        show(feedbackForm)
-        feedbackForm.querySelector('input').focus()
-      })
-    }
+    addValidationListeners(inputNamesWithValidation)
 
     if (feedbackFormCancelButton) {
       feedbackFormCancelButton.addEventListener('click', (e) => {
         e.preventDefault()
-        hide(feedbackForm)
-        removeValidationViz(feedbackFormSummaryInput)
-        voted ? show(feedbackSecondRow) : show(giveFeedbackButton)
-      })
-    }
-
-    if (feedbackFormSummaryInput) {
-      feedbackFormSummaryInput.addEventListener('invalid', (e) => {
-        e.preventDefault()
-        show(feedbackFormSummaryValidationText)
-        addValidationViz(feedbackFormSummaryInput)
+        hide(feedbackFormDiv)
+        removeAllValidationVizIfValid(inputNamesWithValidation)
+        voted ? show(feedbackSecondRow) : show(giveFeedbackButtons[0])
       })
     }
 
     if (feedbackForm) {
       feedbackForm.addEventListener('submit', (e) => {
+        console.log(e)
         e.preventDefault()
-        removeValidationViz(feedbackFormSummaryInput)
-        // TODO: add GUS API integration
+        removeAllValidationVizIfValid(inputNamesWithValidation)
+        createGUSWorkItem(feedbackForm)
         hide(feedbackForm)
         show(postFeedbackThankYouButton)
+      })
+
+      feedbackFormSubmitButton.addEventListener('click', () => {
+        removeAllValidationVizIfValid(inputNamesWithValidation)
       })
     }
   }
 
-  const addValidationViz = (element) => element.classList.add('invalid')
-  const hide = (element) => element.classList.add('hide')
-
-  const removeValidationViz = (element) => {
-    element.classList.remove('invalid')
-    feedbackFormSummaryValidationText.classList.add('hide')
+  const addValidationListeners = (inputNames) => {
+    inputNames.forEach((inputName) => {
+      const input = document.querySelector(`input#${inputName}`)
+      const validationText = document.querySelector(`p#${inputName}-validation-text`)
+      if (input) {
+        input.addEventListener('invalid', (e) => {
+          e.preventDefault()
+          show(validationText)
+          addValidationViz(input)
+        })
+      }
+    })
   }
 
-  const show = (element) => element.classList.remove('hide')
+  const addValidationViz = (element) => element.classList.add('invalid')
+
+  const createGUSWorkItem = (form) => {
+    const data = new FormData(form) // eslint-disable-line
+    console.log(data)
+    // TODO: send the form to GUS
+  }
+
+  const hide = (element) => {
+    if (element) element.classList.add('hide')
+  }
+
+  const removeAllValidationVizIfValid = (inputNames) => {
+    inputNames.forEach((inputName) => {
+      const input = document.querySelector(`input#${inputName}`)
+      const validationText = document.querySelector(`p#${inputName}-validation-text`)
+      if (input.checkValidity()) removeValidationViz(input, validationText)
+    })
+  }
+
+  const removeValidationViz = (input, validationText) => {
+    if (input) input.classList.remove('invalid')
+    if (validationText) validationText.classList.add('hide')
+  }
+
+  const show = (element) => {
+    if (element) element.classList.remove('hide')
+  }
 
   const track = (decision, e) => {
     voted = true
@@ -96,7 +119,7 @@
       feedbackOptionButtons.forEach((button) => hide(button))
       show(feedbackAckMsgDiv)
       updateFeedbackAckMsg(feedbackAckMsgDiv, decision)
-      show(feedbackForm)
+      show(feedbackFormDiv)
       feedbackForm.querySelector('input').focus()
     } catch (error) {
       console.warn(error)

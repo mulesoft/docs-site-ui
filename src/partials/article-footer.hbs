@@ -32,18 +32,21 @@
         <label class="required" for="summary">Share your feedback</label><br>
         <input maxlength="60" placeholder="Let us know what you liked, or how we can improve..." type="text"
           id="summary" name="summary" required>
-        <p class="summary-validation-text hide">Error: This field is required</p>
+        <p class="validation-text hide" id="summary-validation-text">Error: This field is required</p>
         <label class="optional" for="detail">Please provide further details</label><br>
         <textarea maxlength="300" placeholder="This is optional, but very helpful..." type="text" id="detail"
           name="detail" rows="4"></textarea>
         <span>Provide your name and email if you’d like us to contact you:</span><br>
-        <div class="contact-info">
-          <label class="optional" for="name">Name</label><br>
-          <input maxlength="50" placeholder="Your name" type="text" id="name" name="name">
-        </div>
-        <div class="contact-info float-right">
-          <label class="optional" for="email">Email</label><br>
-          <input maxlength="50" placeholder="email@example.com" type="email" id="email" name="email">
+        <div class="flex justify-justified">
+          <div class="contact-info">
+            <label class="optional" for="name">Name</label><br>
+            <input maxlength="50" placeholder="Your name" type="text" id="name" name="name">
+          </div>
+          <div class="contact-info">
+            <label class="optional" for="email">Email</label><br>
+            <input maxlength="50" placeholder="email@example.com" type="email" id="email" name="email">
+            <p class="validation-text hide" id="email-validation-text">Email format is invalid. Please include an '@' in the email address.</p>
+          </div>
         </div>
         <div class="feedback-form-button-row flex align-center justify-end">
           <button class="button feedback-form-button" id="feedback-form-cancel-button">Cancel</button>
