@@ -20,6 +20,7 @@
 
   const decision = ['Yes', 'No']
   const inputNamesWithValidation = ['summary', 'email']
+  // const gusURL = 'https://gus--gusshared.sandbox.my.salesforce.com/services/data/v57.0/sobjects/ADM_Work__c'
   let voted
 
   const addListeners = (feedbackCard, decision) => {
@@ -50,7 +51,6 @@
 
     if (feedbackForm) {
       feedbackForm.addEventListener('submit', (e) => {
-        console.log(e)
         e.preventDefault()
         removeAllValidationVizIfValid(inputNamesWithValidation)
         createGUSWorkItem(feedbackForm)
@@ -80,10 +80,38 @@
 
   const addValidationViz = (element) => element.classList.add('invalid')
 
+  const createBody = (form) => {
+    const body = {
+      Found_in_Build__c: 'a06T0000001Vew6IAC',
+      Priority__c: 'Normal',
+      Product_Tag__c: 'a1aEE00000044TFYAY',
+    }
+
+    const formData = new FormData(form) // eslint-disable-line
+    body.Subject__c = formData.get('summary')
+    body.Details__c = `name: ${formData.get('name') || 'not provided'}
+email: ${formData.get('email') || 'not provided'}
+page URL: ${document.location.href}
+detail: ${formData.get('detail') || 'not provided'}`
+
+    return body
+  }
+
   const createGUSWorkItem = (form) => {
-    const data = new FormData(form) // eslint-disable-line
-    console.log(data)
+    const body = createBody(form)
+    console.log(body)
+
     // TODO: send the form to GUS
+    // const response = fetch(gusURL, {
+    //   mode: 'no-cors',
+    //   body,
+    //   headers: {
+    //     Authorization: 'Bearer fakeToken',
+    //     'Content-Type': 'application/json',
+    //   },
+    //   method: 'post',
+    // })
+    // console.log(response.json())
   }
 
   const hide = (element) => {
