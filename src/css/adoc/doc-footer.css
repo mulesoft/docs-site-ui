@@ -87,6 +87,7 @@
 
   & .post-feedback {
     padding: 25px;
+    text-align: center;
   }
 
   & .validation-text {

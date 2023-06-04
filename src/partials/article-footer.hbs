@@ -29,23 +29,31 @@
     </div>
     <div class="feedback-form hide">
       <form>
-        <label class="required" for="summary">Share your feedback</label><br>
-        <input maxlength="60" placeholder="Let us know what you liked, or how we can improve..." type="text"
-          id="summary" name="summary" required>
+        <p>
+          <label class="required" for="summary">Share your feedback</label>
+          <input maxlength="60" placeholder="Let us know what you liked, or how we can improve..." type="text"
+            id="summary" name="summary" required>
+        </p>
         <p class="validation-text hide" id="summary-validation-text">Error: This field is required</p>
-        <label class="optional" for="detail">Please provide further details</label><br>
-        <textarea maxlength="300" placeholder="This is optional, but very helpful..." type="text" id="detail"
-          name="detail" rows="4"></textarea>
+        <p>
+          <label class="optional" for="detail">Please provide further details</label>
+          <textarea maxlength="300" placeholder="This is optional, but very helpful..." type="text" id="detail"
+            name="detail" rows="4"></textarea>
+        </p>
         <div class="flex justify-justified">
           <fieldset class="flex justify-justified">
           <legend>Provide your name and email if you’d like us to contact you:</legend>
           <div class="contact-info">
-            <label class="optional" for="name">Name</label><br>
-            <input maxlength="50" placeholder="Your name" type="text" id="name" name="name">
+            <p>
+              <label class="optional" for="name">Name</label>
+              <input maxlength="50" placeholder="Your name" type="text" id="name" name="name">
+            </p>
           </div>
           <div class="contact-info">
-            <label class="optional" for="email">Email</label><br>
-            <input maxlength="50" placeholder="email@example.com" type="email" id="email" name="email">
+            <p>
+              <label class="optional" for="email">Email</label>
+              <input maxlength="50" placeholder="email@example.com" type="email" id="email" name="email">
+            </p>
             <p class="validation-text hide" id="email-validation-text">Email format is invalid. Please include an '@' in the email address.</p>
           </div>
           </fieldset>

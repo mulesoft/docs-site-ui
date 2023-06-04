@@ -54,7 +54,7 @@
         e.preventDefault()
         removeAllValidationVizIfValid(inputNamesWithValidation)
         createGUSWorkItem(feedbackForm)
-        hide(feedbackForm)
+        hide(feedbackFormDiv)
         show(postFeedbackThankYouButton)
       })
 
