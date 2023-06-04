@@ -34,7 +34,7 @@ window.settings_timer=setTimeout(function () {_vwo_code.finish() },settings_tole
 <!-- End VWO Async SmartCode -->
 
 {{!-- Coveo --}}
-<script type="module" src="https://static.cloud.coveo.com/atomic/v2.21/atomic.esm.js"></script>
+<script type="module" src="https://static.cloud.coveo.com/atomic/v2.30/atomic.esm.js"></script>
 <script nonce="**CSP_NONCE**">
   (async () => {
     await customElements.whenDefined("atomic-search-interface");
@@ -42,6 +42,7 @@ window.settings_timer=setTimeout(function () {_vwo_code.finish() },settings_tole
     await searchInterface.initialize({
       accessToken: "{{env.COVEO_API_KEY}}",
       organizationId: "mulesoftprodqzggq6re",
+      organizationEndpoints: await searchInterface.getOrganizationEndpoints('mulesoftprodqzggq6re'),
     });
     if (window.location.href.includes('/search')) searchInterface.executeFirstSearch();
   })();
