@@ -109,6 +109,10 @@
       border: 1px solid red;
     }
 
+    &:hover {
+      border-color: var(--steel-2);
+    }
+
     &::placeholder {
       color: #747474;
       font-size: 12px;
