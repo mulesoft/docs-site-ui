@@ -46,7 +46,12 @@
         e.preventDefault()
         hide(feedbackFormDiv)
         removeAllValidationVizIfValid(inputNamesWithValidation)
-        voted ? show(feedbackSecondRow) : show(giveFeedbackButtons[0])
+        if (voted) {
+          show(feedbackSecondRow)
+          show(giveFeedbackButtons[1])
+        } else {
+          show(giveFeedbackButtons[0])
+        }
       })
     }
 
