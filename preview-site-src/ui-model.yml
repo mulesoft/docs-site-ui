@@ -5,6 +5,8 @@ asciidoc:
     - '@asciidoctor/tabs'
   attributes:
     customer-feedback-survey: https://s2.userzoom.com/m/MSBDNTQxOFMxMzI4
+    maintenanceTime: '9:00 AM PDT'
+    maintenanceDate: 'May 31, 2023'
 site:
   url: &index_url /
   homeUrl: *index_url
@@ -23,6 +25,8 @@ site:
           items:
           - content: Search
             url: /general/search.html
+          - content: Maintenance
+            url: /general/maintenance.html
           - content: Build and Deploy an API
             url: /general/api-led-overview.html
             items:
