@@ -172,9 +172,12 @@
         <div class="slds-text-title">
             <p>docs.mulesoft.com is temporarily down for maintenance</p>
         </div>
-        {{#if (and page.componentVersion.asciidoc.attributes.maintenanceTime page.componentVersion.asciidoc.attributes.maintenanceDate)}}
+        {{#if (or 
+                (and page.componentVersion.asciidoc.attributes.maintenanceTime page.componentVersion.asciidoc.attributes.maintenanceDate)
+                (and asciidoc.attributes.maintenanceTime asciidoc.attributes.maintenanceDate)
+            )}}
         <div class="slds-text-description">
-            <p>docs.mulesoft.com will be available after <strong>{{page.componentVersion.asciidoc.attributes.maintenanceTime}}</strong> on <strong>{{page.componentVersion.asciidoc.attributes.maintenanceDate}}</strong>. Thank you for your patience as we make important updates to our site.</p>
+            <p>docs.mulesoft.com will be available after <strong>{{or page.componentVersion.asciidoc.attributes.maintenanceTime asciidoc.attributes.maintenanceTime}}</strong> on <strong>{{or page.componentVersion.asciidoc.attributes.maintenanceDate asciidoc.attributes.maintenanceDate}}</strong>. Thank you for your patience as we make important updates to our site.</p>
         </div>
         {{/if}}
     </div>

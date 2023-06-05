@@ -18,6 +18,7 @@
   & div {
     margin: auto;
     text-align: center;
+    word-break: keep-all;
   }
 
   & .slds-illustration__svg {
@@ -39,7 +40,6 @@
     margin-bottom: 24px;
     overflow-wrap: normal;
     width: 90%;
-    word-break: keep-all;
 
     & p {
       margin: 40px;
@@ -58,7 +58,6 @@
     margin-bottom: 50px;
     overflow-wrap: normal;
     width: 80%;
-    word-break: keep-all;
 
     @media (--md) {
       margin-bottom: 150px;
