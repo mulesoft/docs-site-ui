@@ -5,6 +5,14 @@
     font-size: 12px;
     min-width: var(--nav-item-height);
 
+    &:focus,
+    &:hover {
+      background-color: var(--aluminum-4);
+      border-color: var(--aluminum-4);
+      box-shadow: none;
+      color: var(--black);
+    }
+
     & img {
       vertical-align: middle;
     }
