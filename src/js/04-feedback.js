@@ -22,6 +22,7 @@
   const inputNamesWithValidation = ['summary', 'email']
   // const gusURL = 'https://gus--gusshared.sandbox.my.salesforce.com/services/data/v57.0/sobjects/ADM_Work__c'
   let voted
+  let feedbackSubmitted
 
   const addListeners = (feedbackCard, decision) => {
     decision.forEach((decision) => {
@@ -56,6 +57,7 @@
         createGUSWorkItem(feedbackForm)
         hide(feedbackFormDiv)
         show(postFeedbackThankYouButton)
+        feedbackSubmitted = true
       })
 
       feedbackFormSubmitButton.addEventListener('click', () => {
@@ -147,8 +149,10 @@ detail: ${formData.get('detail') || 'not provided'}`
       feedbackOptionButtons.forEach((button) => hide(button))
       show(feedbackAckMsgDiv)
       updateFeedbackAckMsg(feedbackAckMsgDiv, decision)
-      show(feedbackFormDiv)
-      feedbackForm.querySelector('input').focus()
+      if (!feedbackSubmitted) {
+        show(feedbackFormDiv)
+        feedbackForm.querySelector('input').focus()
+      }
     } catch (error) {
       console.warn(error)
     }
