@@ -27,7 +27,14 @@
   const addListeners = (feedbackCard, decision) => {
     decision.forEach((decision) => {
       const feedbackButton = feedbackCard.querySelector(`button.feedback-${decision.toLowerCase()}`)
-      if (feedbackButton) feedbackButton.addEventListener('click', (e) => track(decision, e))
+      const feedbackButtonHelpText = feedbackCard.querySelector(`p.feedback-${decision.toLowerCase()}-help-text`)
+      if (feedbackButton) {
+        feedbackButton.addEventListener('click', (e) => track(decision, e))
+        feedbackButton.addEventListener('mouseover', () => show(feedbackButtonHelpText))
+        feedbackButton.addEventListener('mouseout', () => hide(feedbackButtonHelpText))
+        feedbackButton.addEventListener('focus', () => show(feedbackButtonHelpText))
+        feedbackButton.addEventListener('blur', () => hide(feedbackButtonHelpText))
+      }
     })
 
     giveFeedbackButtons.forEach((button) => {

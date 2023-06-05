@@ -142,6 +142,7 @@
 
   & > .mobile-survey-help-text {
     bottom: 20px;
+    position: fixed;
     right: 70px;
   }
 
