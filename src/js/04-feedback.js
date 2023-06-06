@@ -13,6 +13,7 @@
 
   const feedbackFormDiv = feedbackCard.querySelector('div.feedback-form')
   const feedbackForm = feedbackFormDiv?.querySelector('form')
+  const feedbackFormRequiredInputs = feedbackForm?.querySelectorAll('input[required]')
   const feedbackFormCancelButton = feedbackForm?.querySelector('button#feedback-form-cancel-button')
   const feedbackFormSubmitButton = feedbackForm?.querySelector('input.feedback-form-button')
 
@@ -63,6 +64,11 @@
     }
 
     if (feedbackForm) {
+      document.addEventListener('keyup', () => {
+        toggleDisability(feedbackFormRequiredInputs, feedbackFormSubmitButton)
+      })
+      toggleDisability(feedbackFormRequiredInputs, feedbackFormSubmitButton)
+
       feedbackForm.addEventListener('submit', (e) => {
         e.preventDefault()
         removeAllValidationVizIfValid(inputNamesWithValidation)
@@ -93,6 +99,16 @@
   }
 
   const addValidationViz = (element) => element.classList.add('invalid')
+
+  const toggleDisability = (feedbackFormRequiredInputs, feedbackFormSubmitButton) => {
+    let disabled = false
+    feedbackFormRequiredInputs.forEach((input) => {
+      if (input.value === '' || !input.value.replace(/\s/g, '').length) disabled = true
+    })
+    disabled
+      ? feedbackFormSubmitButton.setAttribute('disabled', 'disabled')
+      : feedbackFormSubmitButton.removeAttribute('disabled')
+  }
 
   const createBody = (form) => {
     const body = {
