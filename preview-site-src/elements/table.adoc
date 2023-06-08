@@ -32,6 +32,13 @@ https://docs.asciidoctor.org/asciidoc/latest/tables/build-a-basic-table/[Antora 
 ! C11
 ! C12
 
+| Cell 3.1
+| Cell 3.2
+
+* Organization
+* Tag
+* Category
+
 !===
 
 |===
