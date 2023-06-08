@@ -16,8 +16,7 @@
   const feedbackFormCancelButton = feedbackForm?.querySelector('button#feedback-form-cancel-button')
   const feedbackFormSubmitButton = feedbackForm?.querySelector('input.feedback-form-button')
 
-  const feedbackFormThankYouButton = feedbackCard.querySelector('span.feedback-form-thank-you')
-  const feedbackFormFocusTrapper = feedbackCard.querySelector('span.feedback-form-focus-trapper')
+  const feedbackFormThankYouSign = feedbackCard.querySelector('span.feedback-form-thank-you')
 
   const decision = ['Yes', 'No']
   const inputNamesWithValidation = ['summary', 'email']
@@ -71,17 +70,14 @@
         removeAllValidationVizIfValid(inputNamesWithValidation)
         createGUSWorkItem(feedbackForm)
         hide(feedbackFormDiv)
-        show(feedbackFormThankYouButton)
+        show(feedbackFormThankYouSign)
         feedbackSubmitted = true
-        console.log(feedbackFormFocusTrapper)
-        if (feedbackFormFocusTrapper) {
-          feedbackFormFocusTrapper.tabIndex = 0
-          feedbackFormFocusTrapper.focus()
-          feedbackFormFocusTrapper.addEventListener('blur', (e) => {
-            e.preventDefault()
-            feedbackFormFocusTrapper.removeAttribute('tabIndex')
-          })
-        }
+        feedbackFormThankYouSign.tabIndex = 0
+        feedbackFormThankYouSign.focus()
+        feedbackFormThankYouSign.addEventListener('blur', (e) => {
+          e.preventDefault()
+          feedbackFormThankYouSign.removeAttribute('tabIndex')
+        })
       })
 
       feedbackFormSubmitButton.addEventListener('click', () => {
@@ -99,6 +95,7 @@
           e.preventDefault()
           show(validationText)
           addValidationViz(input)
+          input.focus()
         })
       }
     })
