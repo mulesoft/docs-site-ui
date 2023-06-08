@@ -19,7 +19,7 @@
   const feedbackFormThankYouSign = feedbackCard.querySelector('span.feedback-form-thank-you')
 
   const decision = ['Yes', 'No']
-  const inputNamesWithValidation = ['subject', 'email']
+  const inputNamesWithValidation = ['feedback', 'email']
   // const gusURL = 'http://localhost:3000/api/gus/workitem'
   let voted
   let feedbackSubmitted
@@ -77,7 +77,6 @@
       })
 
       feedbackFormSubmitButton.addEventListener('click', () => {
-        console.log('hel')
         removeAllValidationVizIfValid(inputNamesWithValidation)
       })
     }
@@ -105,8 +104,8 @@
     const formData = new FormData(form) // eslint-disable-line
     return {
       pageURL: document.location.href,
-      subject: formData.get('subject'),
-      detail: formData.get('detail') || 'not provided',
+      subject: formData.get('feedback'),
+      detail: formData.get('feedback-detail') || 'not provided',
       name: formData.get('name') || 'not provided',
       email: formData.get('email') || 'not provided',
     }

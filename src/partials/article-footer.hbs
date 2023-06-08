@@ -32,15 +32,15 @@
     <div class="feedback-form hide">
       <form>
         <p>
-          <label for="subject">Share your feedback (required)</label>
+          <label for="feedback">Share your feedback (required)</label>
           <input aria-required="true" maxlength="100" placeholder="Let us know what you liked, or how we can improve..." type="text"
-            id="subject" name="subject" required>
-          <span class="validation-text hide" id="subject-validation-text">Error: This field is required</span>
+            id="feedback" name="feedback" required>
+          <span aria-live="assertive" class="validation-text hide" id="feedback-validation-text">Error: The feedback field is required</span>
         </p>
         <p>
-          <label for="detail">Please provide further details (optional)</label>
-          <textarea maxlength="1000" placeholder="This is optional, but very helpful..." type="text" id="detail"
-            name="detail" rows="4"></textarea>
+          <label for="feedback-detail">Please provide further details (optional)</label>
+          <textarea maxlength="1000" placeholder="This is optional, but very helpful..." type="text" id="feedback-detail"
+            name="feedback-detail" rows="4"></textarea>
         </p>
         <div class="flex justify-justified">
           <fieldset class="flex justify-justified">
@@ -55,7 +55,7 @@
             <p>
               <label for="email">Email (optional)</label>
               <input maxlength="50" placeholder="email@example.com" type="email" id="email" name="email">
-              <span class="validation-text hide" id="email-validation-text">Error: Email format is invalid. Please include an '@' in the email address.</span>
+              <span aria-live="assertive" class="validation-text hide" id="email-validation-text">Error: Email format is invalid. Please include an '@' in the email address.</span>
             </p>
           </div>
           </fieldset>
