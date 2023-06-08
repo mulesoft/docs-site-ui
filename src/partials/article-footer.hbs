@@ -32,13 +32,13 @@
     <div class="feedback-form hide">
       <form>
         <p>
-          <label class="required" for="subject">Share your feedback</label>
-          <input maxlength="100" placeholder="Let us know what you liked, or how we can improve..." type="text"
+          <label for="subject">Share your feedback (required)</label>
+          <input aria-required="true" maxlength="100" placeholder="Let us know what you liked, or how we can improve..." type="text"
             id="subject" name="subject" required>
           <p class="validation-text hide" id="subject-validation-text">Error: This field is required</p>
         </p>
         <p>
-          <label class="optional" for="detail">Please provide further details</label>
+          <label for="detail">Please provide further details (optional)</label>
           <textarea maxlength="1000" placeholder="This is optional, but very helpful..." type="text" id="detail"
             name="detail" rows="4"></textarea>
         </p>
@@ -47,13 +47,13 @@
           <legend>Provide your name and email if you'd like us to contact you:</legend>
           <div class="contact-info">
             <p>
-              <label class="optional" for="name">Name</label>
+              <label for="name">Name (optional)</label>
               <input maxlength="50" placeholder="Your name" type="text" id="name" name="name">
             </p>
           </div>
           <div class="contact-info">
             <p>
-              <label class="optional" for="email">Email</label>
+              <label for="email">Email (optional)</label>
               <input maxlength="50" placeholder="email@example.com" type="email" id="email" name="email">
             </p>
             <p class="validation-text hide" id="email-validation-text">Email format is invalid. Please include an '@' in the email address.</p>

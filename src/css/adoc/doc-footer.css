@@ -46,14 +46,6 @@
       display: inline-block;
       width: 49%;
     }
-
-    & .optional::after {
-      content: " (optional)";
-    }
-
-    & .required::after {
-      content: " (required)";
-    }
   }
 
   & .feedback-first-row {
