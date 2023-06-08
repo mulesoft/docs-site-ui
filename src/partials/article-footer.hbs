@@ -8,7 +8,6 @@
       </div>
       <div class="feedback-options flex">
         <button class="button feedback-yes" aria-label="click here if the article was helpful">
-          {{!-- <p class="sr-only">click here if the article was helpful</p> --}}
           <img loading="lazy" src="{{@root.uiRootPath}}/img/icons/thumbs-up.png" alt="" height="12">
         </button>
         <p class="help-text hide" id="feedback-yes-help-text">Yes, thanks!</p>
@@ -69,10 +68,11 @@
         </div>
       </form>
     </div>
-    <span class="post-feedback hide">
+    <span class="feedback-form-thank-you hide">
       <img loading="lazy" src="{{@root.uiRootPath}}/img/icons/blue-heart.png" alt="" height="14">
       Thanks for your feedback!
     </span>
+    <span class="feedback-form-focus-trapper"></span>
   </section>
   {{/if}}
   {{> github}}

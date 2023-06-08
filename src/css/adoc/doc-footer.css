@@ -103,7 +103,7 @@
     padding-top: 0;
   }
 
-  & .post-feedback {
+  & .feedback-form-thank-you {
     padding: 25px;
     text-align: center;
   }
@@ -159,7 +159,7 @@
     margin: auto;
   }
 
-  &:has(> .feedback-form.hide):has(> .feedback-second-row.hide):has(> .post-feedback.hide) {
+  &:has(> .feedback-form.hide):has(> .feedback-second-row.hide):has(> .feedback-form-thank-you.hide) {
     height: min-content;
 
     & .feedback-first-row {
@@ -172,7 +172,7 @@
   @media (--md) {
     width: 100%;
 
-    &:has(> .feedback-form.hide):has(> .feedback-second-row.hide):has(> .post-feedback.hide) {
+    &:has(> .feedback-form.hide):has(> .feedback-second-row.hide):has(> .feedback-form-thank-you.hide) {
       min-height: 52px;
 
       & .feedback-first-row {
