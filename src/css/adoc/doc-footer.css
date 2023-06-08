@@ -104,7 +104,8 @@
     color: red;
     font-family: var(--sans-serif);
     font-size: 12px;
-    margin-top: -5px;
+    position: relative;
+    top: -8px;
   }
 
   & input:not([type="submit"]),

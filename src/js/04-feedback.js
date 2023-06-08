@@ -89,12 +89,14 @@
   const addValidationListeners = (inputNames) => {
     inputNames.forEach((inputName) => {
       const input = document.querySelector(`input#${inputName}`)
-      const validationText = document.querySelector(`p#${inputName}-validation-text`)
+      const validationText = document.querySelector(`span#${inputName}-validation-text`)
       if (input) {
         input.addEventListener('invalid', (e) => {
           e.preventDefault()
           show(validationText)
           addValidationViz(input)
+          input.ariaInvalid = true
+          input.setAttribute('aria-describedby', `${inputName}-validation-text`)
           input.focus()
         })
       }
@@ -146,7 +148,11 @@
   }
 
   const removeValidationViz = (input, validationText) => {
-    if (input) input.classList.remove('invalid')
+    if (input) {
+      input.classList.remove('invalid')
+      input.removeAttribute('aria-describedby')
+      input.removeAttribute('aria-invalid')
+    }
     if (validationText) validationText.classList.add('hide')
   }
 
