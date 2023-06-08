@@ -7,13 +7,12 @@
         <p>Was this article helpful?</p>
       </div>
       <div class="feedback-options flex">
-        <button class="button feedback-yes" aria-describedby="feedback-yes-help-text">
-          <p class="sr-only">click to answer yes</p>
+        <button class="button feedback-yes" aria-label="click here if the article was helpful">
+          {{!-- <p class="sr-only">click here if the article was helpful</p> --}}
           <img loading="lazy" src="{{@root.uiRootPath}}/img/icons/thumbs-up.png" alt="" height="12">
         </button>
         <p class="help-text hide" id="feedback-yes-help-text">Yes, thanks!</p>
-        <button class="button feedback-no" aria-describedby="feedback-no-help-text">
-          <p class="sr-only">click to answer no</p>
+        <button class="button feedback-no" aria-label="click here if the article was not helpful">
           <img loading="lazy" src="{{@root.uiRootPath}}/img/icons/thumbs-down.png" alt="" height="12">
         </button>
         <p class="help-text hide" id="feedback-no-help-text">No, not really.</p>
@@ -21,7 +20,7 @@
           <img loading="lazy" src="{{@root.uiRootPath}}/img/icons/feedback-ack.svg" alt="" height="20">
           <p>You voted for:</p>
         </div>
-        <button class="button give-feedback">
+        <button class="button give-feedback" aria-label="click here if you would like to provide written feedback for this page">
           Give feedback
         </button>
       </div>
@@ -63,7 +62,9 @@
           </fieldset>
         </div>
         <div class="feedback-form-button-row flex align-center justify-end">
-          <button class="button feedback-form-button" id="feedback-form-cancel-button">Cancel</button>
+          <button class="button feedback-form-button" id="feedback-form-cancel-button" aria-label="click here to exit the feedback form">
+            Cancel
+          </button>
           <input class="button-primary feedback-form-button" name="submit" type="submit" value="Submit">
         </div>
       </form>
