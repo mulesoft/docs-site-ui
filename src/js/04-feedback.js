@@ -27,7 +27,7 @@
   const addListeners = (feedbackCard, decision) => {
     decision.forEach((decision) => {
       const feedbackButton = feedbackCard.querySelector(`button.feedback-${decision.toLowerCase()}`)
-      const feedbackButtonHelpText = feedbackCard.querySelector(`p.feedback-${decision.toLowerCase()}-help-text`)
+      const feedbackButtonHelpText = feedbackCard.querySelector(`p#feedback-${decision.toLowerCase()}-help-text`)
       if (feedbackButton) {
         feedbackButton.addEventListener('click', (e) => track(decision, e))
         feedbackButton.addEventListener('mouseover', () => show(feedbackButtonHelpText))
