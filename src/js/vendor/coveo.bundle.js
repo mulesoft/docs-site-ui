@@ -108,10 +108,6 @@
 use ${osMap[this.clientOS].secondaryKeyLabelLong} + ${shortcutKeyMap.keyLabel}`
     }
 
-    addAnalyticsListener () {
-      this.atomicSearchbox.addEventListener('click', () => analytics && analytics.track('Clicked Search'))
-    }
-
     addKbdElementToSearchbox () {
       const searchboxInnerDiv = this.searchboxDiv.querySelector('div')
       if (!searchboxInnerDiv.querySelector('kbd')) {
