@@ -56,8 +56,10 @@
         if (voted) {
           show(feedbackSecondRow)
           show(giveFeedbackButtons[1])
+          giveFeedbackButtons[1].focus()
         } else {
           show(giveFeedbackButtons[0])
+          giveFeedbackButtons[0].focus()
         }
       })
     }
