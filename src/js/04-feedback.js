@@ -72,12 +72,7 @@
         hide(feedbackFormDiv)
         show(feedbackFormThankYouSign)
         feedbackSubmitted = true
-        feedbackFormThankYouSign.tabIndex = 0
         feedbackFormThankYouSign.focus()
-        feedbackFormThankYouSign.addEventListener('blur', (e) => {
-          e.preventDefault()
-          feedbackFormThankYouSign.removeAttribute('tabIndex')
-        })
       })
 
       feedbackFormSubmitButton.addEventListener('click', () => {
@@ -89,15 +84,14 @@
   const addValidationListeners = (inputNames) => {
     inputNames.forEach((inputName) => {
       const input = document.querySelector(`input#${inputName}`)
-      const validationText = document.querySelector(`span#${inputName}-validation-text`)
       if (input) {
+        const validationText = document.querySelector(`span#${inputName}-validation-text`)
         input.addEventListener('invalid', (e) => {
           e.preventDefault()
           show(validationText)
           addValidationViz(input)
           input.ariaInvalid = true
           input.setAttribute('aria-describedby', `${inputName}-validation-text`)
-          input.focus()
         })
       }
     })
@@ -135,6 +129,11 @@
     //   .catch(err => console.error(err))
   }
 
+  const focusOnFirstInvalidInput = (feedbackForm) => {
+    const firstInvalidInput = feedbackForm?.querySelector('input.invalid')
+    if (firstInvalidInput) firstInvalidInput.focus()
+  }
+
   const hide = (element) => {
     if (element) element.classList.add('hide')
   }
@@ -142,9 +141,10 @@
   const removeAllValidationVizIfValid = (inputNames) => {
     inputNames.forEach((inputName) => {
       const input = document.querySelector(`input#${inputName}`)
-      const validationText = document.querySelector(`p#${inputName}-validation-text`)
+      const validationText = document.querySelector(`span#${inputName}-validation-text`)
       if (input.checkValidity()) removeValidationViz(input, validationText)
     })
+    focusOnFirstInvalidInput(feedbackForm)
   }
 
   const removeValidationViz = (input, validationText) => {

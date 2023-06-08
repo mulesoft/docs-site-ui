@@ -35,8 +35,8 @@
           <label for="subject">Share your feedback (required)</label>
           <input aria-required="true" maxlength="100" placeholder="Let us know what you liked, or how we can improve..." type="text"
             id="subject" name="subject" required>
+          <span class="validation-text hide" id="subject-validation-text">Error: This field is required</span>
         </p>
-        <span class="validation-text hide" id="subject-validation-text">Error: This field is required</span>
         <p>
           <label for="detail">Please provide further details (optional)</label>
           <textarea maxlength="1000" placeholder="This is optional, but very helpful..." type="text" id="detail"
@@ -55,8 +55,8 @@
             <p>
               <label for="email">Email (optional)</label>
               <input maxlength="50" placeholder="email@example.com" type="email" id="email" name="email">
+              <span class="validation-text hide" id="email-validation-text">Error: Email format is invalid. Please include an '@' in the email address.</span>
             </p>
-            <span class="validation-text hide" id="email-validation-text">Email format is invalid. Please include an '@' in the email address.</>
           </div>
           </fieldset>
         </div>
@@ -68,7 +68,7 @@
         </div>
       </form>
     </div>
-    <span class="feedback-form-thank-you hide">
+    <span class="feedback-form-thank-you hide" tabIndex="-1">
       <img loading="lazy" src="{{@root.uiRootPath}}/img/icons/blue-heart.png" alt="" height="14">
       Thanks for your feedback!
     </span>
