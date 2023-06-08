@@ -19,8 +19,8 @@
   const feedbackFormThankYouSign = feedbackCard.querySelector('span.feedback-form-thank-you')
 
   const decision = ['Yes', 'No']
-  const inputNamesWithValidation = ['summary', 'email']
-  // const gusURL = 'https://gus--gusshared.sandbox.my.salesforce.com/services/data/v57.0/sobjects/ADM_Work__c'
+  const inputNamesWithValidation = ['subject', 'email']
+  // const gusURL = 'http://localhost:3000/api/gus/workitem'
   let voted
   let feedbackSubmitted
 
@@ -104,37 +104,33 @@
   const addValidationViz = (element) => element.classList.add('invalid')
 
   const createBody = (form) => {
-    const body = {
-      Found_in_Build__c: 'a06T0000001Vew6IAC',
-      Priority__c: 'Normal',
-      Product_Tag__c: 'a1aEE00000044TFYAY',
-    }
-
     const formData = new FormData(form) // eslint-disable-line
-    body.Subject__c = formData.get('summary')
-    body.Details__c = `name: ${formData.get('name') || 'not provided'}
-email: ${formData.get('email') || 'not provided'}
-page URL: ${document.location.href}
-detail: ${formData.get('detail') || 'not provided'}`
-
-    return body
+    return {
+      pageURL: document.location.href,
+      subject: formData.get('subject'),
+      detail: formData.get('detail') || 'not provided',
+      name: formData.get('name') || 'not provided',
+      email: formData.get('email') || 'not provided',
+    }
   }
 
   const createGUSWorkItem = (form) => {
     const body = createBody(form)
     console.log(body)
 
-    // TODO: send the form to GUS
-    // const response = fetch(gusURL, {
+    // // TODO: send the form to GUS
+    // fetch(gusURL, {
+    //   credentials: "same-origin",
     //   mode: 'no-cors',
-    //   body,
+    //   // body,
     //   headers: {
-    //     Authorization: 'Bearer fakeToken',
+    //     // Authorization: 'Bearer fakeToken',
     //     'Content-Type': 'application/json',
     //   },
-    //   method: 'post',
-    // })
-    // console.log(response.json())
+    //   method: 'POST',
+    // }).then(response => response.json())
+    //   .then(data => console.log(data))
+    //   .catch(err => console.error(err))
   }
 
   const hide = (element) => {
