@@ -70,7 +70,8 @@
 
     & .feedback-form-button {
       font-family: var(--sans-serif);
-      height: 36px;
+      font-size: 14px;
+      height: 40px;
       line-height: unset;
       width: 100px;
 
