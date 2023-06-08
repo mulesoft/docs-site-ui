@@ -4,14 +4,14 @@
   <section class="feedback-section flex align-center col">
     <div class="feedback-row feedback-first-row flex align-center">
       <div>
-        <p>Was this article helpful?</p>
+        <p id="feedback-question">Was this article helpful?</p>
       </div>
       <div class="feedback-options flex">
-        <button class="button feedback-yes" aria-label="click here if the article was helpful">
+        <button class="button feedback-yes" aria-label="The article was helpful">
           <img loading="lazy" src="{{@root.uiRootPath}}/img/icons/thumbs-up.png" alt="" height="12">
         </button>
         <p class="help-text hide" id="feedback-yes-help-text">Yes, thanks!</p>
-        <button class="button feedback-no" aria-label="click here if the article was not helpful">
+        <button class="button feedback-no" aria-label="The article was not helpful">
           <img loading="lazy" src="{{@root.uiRootPath}}/img/icons/thumbs-down.png" alt="" height="12">
         </button>
         <p class="help-text hide" id="feedback-no-help-text">No, not really.</p>
@@ -19,7 +19,7 @@
           <img loading="lazy" src="{{@root.uiRootPath}}/img/icons/feedback-ack.svg" alt="" height="20">
           <p>You voted for:</p>
         </div>
-        <button class="button give-feedback" aria-label="click here if you would like to provide written feedback for this page">
+        <button class="button give-feedback" aria-label="Leave written feedback for the article">
           Give feedback
         </button>
       </div>
