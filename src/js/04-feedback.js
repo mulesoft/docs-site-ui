@@ -13,8 +13,8 @@
 
   const feedbackFormDiv = feedbackCard.querySelector('div.feedback-form')
   const feedbackForm = feedbackFormDiv?.querySelector('form')
-  const feedbackFormCancelButton = feedbackForm?.querySelector('input#feedback-form-cancel-button')
-  const feedbackFormSubmitButton = feedbackForm?.querySelector('input.feedback-form-button')
+  const feedbackFormCancelButton = feedbackForm?.querySelector('input[name="cancel"]')
+  const feedbackFormSubmitButton = feedbackForm?.querySelector('input[name="submit"]')
 
   const feedbackFormThankYouSign = feedbackCard.querySelector('span.feedback-form-thank-you')
 
@@ -77,6 +77,7 @@
       })
 
       feedbackFormSubmitButton.addEventListener('click', () => {
+        console.log('hel')
         removeAllValidationVizIfValid(inputNamesWithValidation)
       })
     }
