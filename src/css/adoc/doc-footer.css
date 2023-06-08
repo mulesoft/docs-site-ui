@@ -69,9 +69,10 @@
     padding-top: 5px;
 
     & .feedback-form-button {
+      border-radius: 0;
       font-family: var(--sans-serif);
       font-size: 14px;
-      height: 40px;
+      height: 36px;
       line-height: unset;
       width: 100px;
 
@@ -109,7 +110,7 @@
     top: -8px;
   }
 
-  & input:not([type="submit"]),
+  & input:not([type="button"]):not([type="submit"]),
   & textarea {
     border: 1px solid #c9c9c9;
     border-radius: 4px;
