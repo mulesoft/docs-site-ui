@@ -20,7 +20,7 @@
 
   const decision = ['Yes', 'No']
   const inputNamesWithValidation = ['feedback', 'email']
-  const gusURL = 'http://gus-wi-creator:3000/api/gus/workitem'
+  // const gusURL = 'http://gus-wi-creator:3000/api/gus/workitem'
   let voted
   let feedbackSubmitted
 
@@ -73,9 +73,7 @@
         hide(feedbackFormDiv)
         show(feedbackFormThankYouSign)
         feedbackSubmitted = true
-        voted
-          ? feedbackFormThankYouSign.focus()
-          : feedbackOptionButtons[0].focus()
+        voted ? feedbackFormThankYouSign.focus() : feedbackOptionButtons[0].focus()
       })
 
       feedbackFormSubmitButton.addEventListener('click', () => {
@@ -117,17 +115,17 @@
     const body = createBody(form)
     console.log(body)
 
-    fetch(gusURL, {
-      credentials: 'same-origin',
-      mode: 'no-cors',
-      body,
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      method: 'POST',
-    }).then((response) => console.log(response.json()))
-      .then((data) => console.log(data))
-      .catch((err) => console.error(err))
+    // fetch(gusURL, {
+    //   credentials: 'same-origin',
+    //   mode: 'no-cors',
+    //   body,
+    //   headers: {
+    //     'Content-Type': 'application/json',
+    //   },
+    //   method: 'POST',
+    // }).then((response) => console.log(response.json()))
+    //   .then((data) => console.log(data))
+    //   .catch((err) => console.error(err))
   }
 
   const focusOnFirstInvalidInput = (feedbackForm) => {
