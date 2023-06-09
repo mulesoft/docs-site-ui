@@ -1,4 +1,4 @@
-;(() => {
+;(async () => {
   'use strict'
 
   const feedbackCard = document.querySelector('section.feedback-section')
@@ -20,7 +20,7 @@
 
   const decision = ['Yes', 'No']
   const inputNamesWithValidation = ['feedback', 'email']
-  // const gusURL = 'http://gus-wi-creator:3000/api/gus/workitem'
+  const gusURL = 'http://gus-wi-creator:3000/api/gus/workitem'
   let voted
   let feedbackSubmitted
 
@@ -102,30 +102,42 @@
 
   const createBody = (form) => {
     const formData = new FormData(form) // eslint-disable-line
-    return {
+    return JSON.stringify({
       pageURL: document.location.href,
       subject: formData.get('feedback'),
       detail: formData.get('feedback-detail') || 'not provided',
       name: formData.get('name') || 'not provided',
       email: formData.get('email') || 'not provided',
-    }
+    })
   }
 
-  const createGUSWorkItem = (form) => {
+  async function createGUSWorkItem (form) {
     const body = createBody(form)
     console.log(body)
 
-    // fetch(gusURL, {
-    //   credentials: 'same-origin',
-    //   mode: 'no-cors',
-    //   body,
-    //   headers: {
-    //     'Content-Type': 'application/json',
-    //   },
-    //   method: 'POST',
-    // }).then((response) => console.log(response.json()))
-    //   .then((data) => console.log(data))
-    //   .catch((err) => console.error(err))
+    // const xhr = new XMLHttpRequest() // eslint-disable-line
+
+    // xhr.addEventListener('readystatechange', function () {
+    //   if (this.readyState === 4) {
+    //     console.log(this.responseText)
+    //   }
+    // })
+
+    // xhr.open('POST', 'http://localhost:3000/api/gus/workitem')
+    // xhr.setRequestHeader('Content-Type', 'application/json')
+    // xhr.send(body)
+
+    /* eslint-disable */
+    const response = await fetch(gusURL, {
+      /* eslint-enable */
+      body,
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      method: 'POST',
+    })
+
+    console.log(response)
   }
 
   const focusOnFirstInvalidInput = (feedbackForm) => {
