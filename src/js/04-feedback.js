@@ -73,7 +73,9 @@
         hide(feedbackFormDiv)
         show(feedbackFormThankYouSign)
         feedbackSubmitted = true
-        feedbackFormThankYouSign.focus()
+        voted
+          ? feedbackFormThankYouSign.focus()
+          : feedbackOptionButtons[0].focus()
       })
 
       feedbackFormSubmitButton.addEventListener('click', () => {
