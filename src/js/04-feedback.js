@@ -20,7 +20,7 @@
 
   const decision = ['Yes', 'No']
   const inputNamesWithValidation = ['feedback', 'email']
-  // const gusURL = 'http://localhost:3000/api/gus/workitem'
+  const gusURL = 'http://gus-wi-creator:3000/api/gus/workitem'
   let voted
   let feedbackSubmitted
 
@@ -117,19 +117,17 @@
     const body = createBody(form)
     console.log(body)
 
-    // // TODO: send the form to GUS
-    // fetch(gusURL, {
-    //   credentials: "same-origin",
-    //   mode: 'no-cors',
-    //   // body,
-    //   headers: {
-    //     // Authorization: 'Bearer fakeToken',
-    //     'Content-Type': 'application/json',
-    //   },
-    //   method: 'POST',
-    // }).then(response => response.json())
-    //   .then(data => console.log(data))
-    //   .catch(err => console.error(err))
+    fetch(gusURL, {
+      credentials: 'same-origin',
+      mode: 'no-cors',
+      body,
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      method: 'POST',
+    }).then((response) => console.log(response.json()))
+      .then((data) => console.log(data))
+      .catch((err) => console.error(err))
   }
 
   const focusOnFirstInvalidInput = (feedbackForm) => {
