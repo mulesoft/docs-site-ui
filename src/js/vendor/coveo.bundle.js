@@ -52,7 +52,6 @@
 
   const isBigScreenSize = () => window.matchMedia(' (min-width: 768px)').matches
   const isMobileBrowser = () => /Android|iPhone|iPad/i.test(navigator.userAgent)
-  const isSearchPage = (pathname) => pathname.includes('/general/search')
 
   class Facet {
     constructor (atomicFacet, facetShadowRoot, facetDiv) {
@@ -322,7 +321,6 @@ use ${osMap[this.clientOS].secondaryKeyLabelLong} + ${shortcutKeyMap.keyLabel}`
           const searchbox = new Searchbox(atomicSearchbox, searchboxShadowRoot, searchboxInput)
           try {
             searchbox.makeMoreAssistive()
-            if (!isSearchPage(window.location.pathname)) searchbox.addAnalyticsListener()
             clearInterval(updateSearchbox)
           } catch (error) {
             console.error(error)
