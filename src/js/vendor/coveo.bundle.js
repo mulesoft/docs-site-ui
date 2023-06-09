@@ -1,7 +1,6 @@
 ;(() => {
   'use strict'
 
-  const analytics = window.analytics
   const uiRootPath = document.getElementById('site-script').dataset.uiRootPath
 
   const shortcutKeyMap = {
