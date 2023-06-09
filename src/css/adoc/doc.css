@@ -246,15 +246,11 @@
   /* ordered and unordered lists */
   & ol,
   & ul {
+    font-size: 14px;
     padding-left: var(--lg);
 
-    & ol,
-    & ul {
-      font-size: 14px;
-
-      & a {
-        font-size: 16px;
-      }
+    & a {
+      font-size: 16px;
     }
   }
 
