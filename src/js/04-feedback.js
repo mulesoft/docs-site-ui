@@ -80,7 +80,6 @@
     if (feedbackForm) {
       feedbackForm.addEventListener('submit', (e) => {
         e.preventDefault()
-        console.log(e)
         removeAllValidationVizIfValid(inputNamesWithValidation)
         createGUSWorkItem(feedbackForm)
         hide(feedbackFormDiv)
@@ -105,7 +104,7 @@
           show(validationText)
           addValidationViz(input)
           input.ariaInvalid = true
-          input.setAttribute('aria-describedby', `${inputName}-validation-text`)
+          input.setAttribute('aria-labelledby', `${inputName}-validation-text`)
         })
       }
     })
@@ -162,13 +161,13 @@
     if (element) element.classList.add('hide')
   }
 
-  const removeAllValidationVizIfValid = (inputNames) => {
+  const removeAllValidationVizIfValid = (inputNames, override) => {
     inputNames.forEach((inputName) => {
       const input = document.querySelector(`input#${inputName}`)
       const validationText = document.querySelector(`span#${inputName}-validation-text`)
-      if (input.checkValidity()) removeValidationViz(input, validationText)
+      if (override || input.checkValidity()) removeValidationViz(input, validationText)
     })
-    focusOnFirstInvalidInput(feedbackForm)
+    if (!override) focusOnFirstInvalidInput(feedbackForm)
   }
 
   const removeValidationViz = (input, validationText) => {
