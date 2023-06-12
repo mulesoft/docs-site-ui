@@ -135,7 +135,7 @@
   }
 
   & label,
-  & span:not([aria-live]),
+  & span:not([aria-live]):not(.validation-text),
   & fieldset {
     border: none;
     font-family: var(--sans-serif-bold);
@@ -186,7 +186,8 @@
       padding: var(--sm) 13px;
 
       & .help-text {
-        margin-top: -43px;
+        margin-left: -25px;
+        margin-top: -72px;
       }
     }
 
