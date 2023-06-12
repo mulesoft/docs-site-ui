@@ -1,7 +1,6 @@
 ;(() => {
   'use strict'
 
-  const analytics = window.analytics
   const uiRootPath = document.getElementById('site-script').dataset.uiRootPath
 
   const shortcutKeyMap = {
@@ -53,42 +52,6 @@
 
   const isBigScreenSize = () => window.matchMedia(' (min-width: 768px)').matches
   const isMobileBrowser = () => /Android|iPhone|iPad/i.test(navigator.userAgent)
-  const isSearchPage = (pathname) => pathname.includes('/general/search')
-
-  class Facet {
-    constructor (atomicFacet, facetShadowRoot, facetDiv) {
-      this.atomicFacet = atomicFacet
-      this.facetShadowRoot = facetShadowRoot
-      this.facetDiv = facetDiv
-    }
-
-    updateFacetTexts () {
-      if (this.facetDiv) {
-        const facetTitle = this.facetDiv.querySelector('h1')
-        facetTitle.innerHTML = `Filter by ${facetTitle.innerHTML}`
-        const facetInput = this.facetDiv.querySelector('input')
-        if (facetInput) facetInput.placeholder = 'Search Products'
-      }
-    }
-  }
-
-  class Pager {
-    constructor (atomicPager, pagerShadowRoot, paginationNav) {
-      this.atomicPager = atomicPager
-      this.pagerShadowRoot = pagerShadowRoot
-      this.paginationNav = paginationNav
-    }
-
-    makeMoreAssistive () {
-      if (this.paginationNav) {
-        const previousButton = this.paginationNav.querySelector('button[part="previous-button"]')
-        previousButton.setAttribute('aria-label', 'Previous page')
-
-        const nextButton = this.paginationNav.querySelector('button[part="next-button"]')
-        nextButton.setAttribute('aria-label', 'Next page')
-      }
-    }
-  }
 
   class Searchbox {
     constructor (atomicSearchbox, searchboxShadowRoot, searchboxInput) {
@@ -106,10 +69,6 @@
       // because for some reason, it returned an error in firefox
       this.searchboxInput.ariaLabel = `${this.searchboxInput.getAttribute('aria-label')} For shortcut to search, \
 use ${osMap[this.clientOS].secondaryKeyLabelLong} + ${shortcutKeyMap.keyLabel}`
-    }
-
-    addAnalyticsListener () {
-      this.atomicSearchbox.addEventListener('click', () => analytics && analytics.track('Clicked Search'))
     }
 
     addKbdElementToSearchbox () {
@@ -252,62 +211,6 @@ use ${osMap[this.clientOS].secondaryKeyLabelLong} + ${shortcutKeyMap.keyLabel}`
     }
   }
 
-  const updateFirstAtomicFacet = () => {
-    // this function is set up with retries (via setInterval)
-    // because Atomic's shadow root elements often doesn't show up when the page initially loads
-    // until they are eventually rendered,
-    // so using retries makes sure that the elements are loaded
-    let tries = 500
-    const updateFacet = setInterval(() => {
-      if (--tries <= 0) {
-        clearInterval(updateFacet)
-      }
-
-      const atomicFacet = document.querySelector('atomic-facet')
-      const facetShadowRoot = atomicFacet && atomicFacet.shadowRoot
-      if (facetShadowRoot) {
-        const facetDiv = facetShadowRoot.querySelector('div[part="facet"]')
-        if (facetDiv) {
-          const facet = new Facet(atomicFacet, facetShadowRoot, facetDiv)
-          try {
-            facet.updateFacetTexts()
-            clearInterval(updateFacet)
-          } catch (error) {
-            console.error(error)
-          }
-        }
-      }
-    }, 100)
-  }
-
-  const updateAtomicPager = () => {
-    // this function is set up with retries (via setInterval)
-    // because Atomic's shadow root elements often doesn't show up when the page initially loads
-    // until they are eventually rendered,
-    // so using retries makes sure that the elements are loaded
-    let tries = 500
-    const updatePager = setInterval(() => {
-      if (--tries <= 0) {
-        clearInterval(updatePager)
-      }
-
-      const atomicPager = document.querySelector('atomic-pager')
-      const pagerShadowRoot = atomicPager && atomicPager.shadowRoot
-      if (pagerShadowRoot) {
-        const paginationNav = pagerShadowRoot.querySelector('nav')
-        if (paginationNav) {
-          const pager = new Pager(atomicPager, pagerShadowRoot, paginationNav)
-          try {
-            pager.makeMoreAssistive()
-            clearInterval(updatePager)
-          } catch (error) {
-            console.error(error)
-          }
-        }
-      }
-    }, 100)
-  }
-
   const updateAtomicSearchbox = () => {
     // this function is set up with retries (via setInterval)
     // because Atomic's shadow root elements often doesn't show up when the page initially loads
@@ -327,7 +230,6 @@ use ${osMap[this.clientOS].secondaryKeyLabelLong} + ${shortcutKeyMap.keyLabel}`
           const searchbox = new Searchbox(atomicSearchbox, searchboxShadowRoot, searchboxInput)
           try {
             searchbox.makeMoreAssistive()
-            if (!isSearchPage(window.location.pathname)) searchbox.addAnalyticsListener()
             clearInterval(updateSearchbox)
           } catch (error) {
             console.error(error)
@@ -337,8 +239,6 @@ use ${osMap[this.clientOS].secondaryKeyLabelLong} + ${shortcutKeyMap.keyLabel}`
     }, 100)
   }
 
-  updateFirstAtomicFacet()
-  updateAtomicPager()
   updateAtomicSearchbox()
   addLinkToBackButton()
 })()
