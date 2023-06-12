@@ -1,6 +1,8 @@
 ;(async () => {
   'use strict'
 
+  const surveyAppearPercent = document.location.host === 'docs.mulesoft.com' ? 5 : 100
+
   const aside = document.querySelector('aside')
   const backdrop = document.querySelector('.modal-backdrop')
   const hideClass = 'hide'
@@ -25,7 +27,7 @@
 
   const hideForever = (mobileSurveyPopover, e) => {
     toggleClass(mobileSurveyPopover, hideClass, true, e)
-    localStorage.setItem('hide_mobile_survey_popover', true)
+    localStorage.setItem('docs_mulesoft_hide_mobile_survey_popover', true)
   }
 
   const isExpanded = (element) => element.ariaExpanded !== 'false'
@@ -36,7 +38,7 @@
     window.getComputedStyle(element).display !== 'none' &&
     window.getComputedStyle(element).visibility !== 'hidden'
 
-  const mobileSurveyIsHidden = () => localStorage.getItem('hide_mobile_survey_popover')
+  const mobileSurveyIsHidden = () => localStorage.getItem('docs_mulesoft_hide_mobile_survey_popover')
 
   const setTabindex = (parentElement, link, yes) => {
     if (!contains(parentElement, link)) {
@@ -56,13 +58,13 @@
   }
 
   const toggleAttribute = (element, attrName, bool, e) => {
-    element && element.setAttribute(attrName, bool)
     if (e) e.preventDefault()
+    return element?.setAttribute(attrName, bool)
   }
 
   const toggleClass = (element, className, bool, e) => {
-    element && element.classList.toggle(className, bool)
     if (e) e.preventDefault()
+    return element?.classList?.toggle(className, bool)
   }
 
   const toggleHelpText = (helpText, bool) => (helpText.innerHTML = bool ? 'Take Survey' : 'Hide')
@@ -72,17 +74,25 @@
     links.forEach((link) => setTabindex(element, link, bool))
   }
 
+  const showSurvey = (percent) => Math.random() < percent / 100
+
   // For some reason, mobile survey doesn't show up right after the page loads until I add this timeout.
   // Keep this timeout here for now until we have a better solution
   setTimeout(() => {
     const mobileSurveyDiv = document.querySelector('div.mobile-survey-div')
     if (!mobileSurveyDiv) return
 
+    if (!showSurvey(surveyAppearPercent)) {
+      toggleClass(document.querySelector('aside > section.survey'), hideClass, true)
+      toggleClass(mobileSurveyDiv, hideClass, true)
+      return
+    }
+
     const mobileSurveyToggleButton = mobileSurveyDiv.querySelector('button.survey-toggle')
     const mobileSurveyButton = mobileSurveyDiv.querySelector('button.mobile-survey-button')
     const mobileSurveySection = mobileSurveyDiv.querySelector('section.mobile-survey')
     const mobileSurveyHelpText = mobileSurveyDiv.querySelector('p.mobile-survey-help-text')
-    const takeTheSurveyButton = mobileSurveyDiv.querySelector('.survey-button')
+    const takeTheSurveyLink = mobileSurveyDiv.querySelector('.survey-link')
     const mobileSurveyPopover = mobileSurveyDiv.querySelector('.survey-popover')
 
     const mobileSurveyIconImage = mobileSurveyButton.querySelector('img.survey-icon-image')
@@ -94,6 +104,7 @@
       toggleClass(mobileSurveyIconCloseImage, hideClass, yes)
       toggleClass(mobileSurveyPopover, hideClass, true)
       toggleAttribute(mobileSurveyButton, 'aria-expanded', !yes)
+      toggleHelpText(mobileSurveyHelpText, yes)
       if (isMobileScreen()) toggleClass(backdrop, 'show', !yes)
     }
 
@@ -125,8 +136,7 @@
         }
         hideForever(mobileSurveyPopover)
         toggleAll(mobileSurveyIsExpanded)
-        toggleHelpText(mobileSurveyHelpText, mobileSurveyIsExpanded)
-        if (!mobileSurveyIsExpanded) takeTheSurveyButton.focus()
+        if (!mobileSurveyIsExpanded) takeTheSurveyLink.focus()
         e.preventDefault()
       })
     }
@@ -137,8 +147,8 @@
       if (surveyPopoverCloseButton) {
         surveyPopoverCloseButton.addEventListener('click', (e) => hideForever(mobileSurveyPopover, e))
       }
-      if (takeTheSurveyButton) {
-        takeTheSurveyButton.addEventListener('click', () => hideForever(mobileSurveyPopover))
+      if (takeTheSurveyLink) {
+        takeTheSurveyLink.addEventListener('click', () => hideForever(mobileSurveyPopover))
       }
       const surveyPopoverContentLink = document.querySelector('.survey-popover-content a')
       if (surveyPopoverContentLink) {
