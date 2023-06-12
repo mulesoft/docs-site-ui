@@ -7,17 +7,18 @@
         <p id="feedback-question">Was this article helpful?</p>
       </div>
       <div class="feedback-options flex">
-        <button class="button feedback-yes" aria-label="The article was helpful">
+        <button aria-pressed=false class="button feedback-yes" aria-label="The article was helpful">
           <img loading="lazy" src="{{@root.uiRootPath}}/img/icons/thumbs-up.png" alt="" height="12">
         </button>
         <p class="help-text hide" id="feedback-yes-help-text">Yes, thanks!</p>
-        <button class="button feedback-no" aria-label="The article was not helpful">
+        <button aria-pressed=false class="button feedback-no" aria-label="The article was not helpful">
           <img loading="lazy" src="{{@root.uiRootPath}}/img/icons/thumbs-down.png" alt="" height="12">
         </button>
         <p class="help-text hide" id="feedback-no-help-text">No, not really.</p>
         <div class="feedback-ack flex hide">
           <img loading="lazy" src="{{@root.uiRootPath}}/img/icons/feedback-ack.svg" alt="" height="20">
-          <p>You voted for:</p>
+          <span aria-live="polite" aria-labelledby="feedback-vote-result"></span>
+          <p id="feedback-vote-result">You voted for:</p>
         </div>
         <button class="button give-feedback" aria-label="Leave written feedback for the article">
           Give feedback
@@ -66,7 +67,7 @@
         </div>
       </form>
     </div>
-    <span  class="feedback-form-thank-you hide" tabIndex="-1">
+    <span class="feedback-form-thank-you hide" tabIndex="-1">
       <span aria-live="polite" aria-label="Your feedback has been successfully submitted."></span>
       <img loading="lazy" src="{{@root.uiRootPath}}/img/icons/blue-heart.png" alt="" height="14">
       Thanks for your feedback!

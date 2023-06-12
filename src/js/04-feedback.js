@@ -29,7 +29,19 @@
       const feedbackButton = feedbackCard.querySelector(`button.feedback-${decision.toLowerCase()}`)
       const feedbackButtonHelpText = feedbackCard.querySelector(`p#feedback-${decision.toLowerCase()}-help-text`)
       if (feedbackButton) {
-        feedbackButton.addEventListener('click', (e) => track(decision, e))
+        feedbackButton.addEventListener('click', (e) => {
+          e.preventDefault()
+          voted = true
+          trackAnalytics(decision)
+          feedbackButton.setAttribute('aria-pressed', true)
+          feedbackOptionButtons.forEach((button) => hide(button))
+          show(feedbackAckMsgDiv)
+          updateFeedbackAckMsg(feedbackAckMsgDiv, decision)
+          if (!feedbackSubmitted) {
+            show(feedbackFormDiv)
+            feedbackForm.querySelector('input').focus()
+          }
+        })
         feedbackButton.addEventListener('mouseover', () => show(feedbackButtonHelpText))
         feedbackButton.addEventListener('mouseout', () => hide(feedbackButtonHelpText))
         feedbackButton.addEventListener('focus', () => show(feedbackButtonHelpText))
@@ -68,6 +80,7 @@
     if (feedbackForm) {
       feedbackForm.addEventListener('submit', (e) => {
         e.preventDefault()
+        console.log(e)
         removeAllValidationVizIfValid(inputNamesWithValidation)
         createGUSWorkItem(feedbackForm)
         hide(feedbackFormDiv)
@@ -171,8 +184,7 @@
     if (element) element.classList.remove('hide')
   }
 
-  const track = (decision, e) => {
-    voted = true
+  const trackAnalytics = (decision) => {
     try {
       if (window.analytics) {
         window.analytics.track(`Clicked Helpful ${decision}`, {
@@ -180,22 +192,17 @@
           url: window.location.href,
         })
       }
-      feedbackOptionButtons.forEach((button) => hide(button))
-      show(feedbackAckMsgDiv)
-      updateFeedbackAckMsg(feedbackAckMsgDiv, decision)
-      if (!feedbackSubmitted) {
-        show(feedbackFormDiv)
-        feedbackForm.querySelector('input').focus()
-      }
     } catch (error) {
       console.warn(error)
     }
-    if (e) e.preventDefault()
   }
 
   const updateFeedbackAckMsg = (feedbackAckMsgDiv, decision) => {
     const msg = feedbackAckMsgDiv.querySelector('p')
-    if (msg) msg.innerText += ` ${decision}`
+    if (msg) {
+      msg.innerText += ` ${decision}`
+      msg.setAttribute('aria-label', `You voted for ${decision ? 'helpful' : 'not helpful'}`)
+    }
   }
 
   addListeners(feedbackCard, decision)
