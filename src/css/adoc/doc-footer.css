@@ -98,6 +98,7 @@
   }
 
   & .feedback-form-thank-you {
+    font-family: var(--sans-serif-bold);
     font-size: 14px;
     padding: 25px;
     text-align: center;
@@ -135,7 +136,7 @@
   }
 
   & label,
-  & span:not([aria-live]):not(.validation-text),
+  & span:not([aria-live]):not(.validation-text):not(.feedback-form-thank-you),
   & fieldset {
     border: none;
     font-family: var(--sans-serif-bold);
