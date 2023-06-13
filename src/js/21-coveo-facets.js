@@ -19,7 +19,7 @@
   const createVersionFacet = (name, title) => {
     const versionFacet = document.createElement('atomic-facet')
     versionFacet.setAttribute('depends-on-product', title)
-    versionFacet.setAttribute('facet-id', name)
+    versionFacet.setAttribute('facet-id', `${name}-version`)
     versionFacet.setAttribute('field', 'mulesoftversionwithlatest')
     versionFacet.setAttribute('heading-level', 2)
     versionFacet.setAttribute('label', `${title} Version`)
