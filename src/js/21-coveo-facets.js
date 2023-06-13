@@ -16,30 +16,35 @@
     delete window.siteNavigationData
   }
 
-  const createVersionFacet = (name, title, versions) => {
-    const formattedVersions = getFormattedDisplayVersions(versions)
-    if (formattedVersions) {
-      const versionFacet = document.createElement('atomic-facet')
-      versionFacet.setAttribute('allowed-values', formattedVersions)
-      versionFacet.setAttribute('depends-on-product', title)
-      versionFacet.setAttribute('facet-id', `${name}-version`)
-      versionFacet.setAttribute('field', 'mulesoftversionwithlatest')
-      versionFacet.setAttribute('heading-level', 2)
-      versionFacet.setAttribute('label', `${title} Version`)
-      versionFacet.setAttribute('number-of-value', 20)
-      versionFacet.setAttribute('sort-criteria', 'score')
-      versionFacet.setAttribute('with-search', false)
-      return versionFacet
+  const createVersionFacet = (componentID, componentDisplayName, versions) => {
+    if (isSearchable(componentID)) {
+      const formattedVersions = getFormattedDisplayVersions(versions)
+      if (formattedVersions) {
+        const versionFacet = document.createElement('atomic-facet')
+        versionFacet.setAttribute('allowed-values', formattedVersions)
+        versionFacet.setAttribute('depends-on-product', componentDisplayName)
+        versionFacet.setAttribute('facet-id', `${componentID}-version`)
+        versionFacet.setAttribute('field', 'mulesoftversionwithlatest')
+        versionFacet.setAttribute('heading-level', 2)
+        versionFacet.setAttribute('label', `${componentDisplayName} Version`)
+        versionFacet.setAttribute('number-of-value', 20)
+        versionFacet.setAttribute('sort-criteria', 'score')
+        versionFacet.setAttribute('with-search', false)
+        return versionFacet
+      }
     }
   }
 
   const getFormattedDisplayVersions = (versions) => {
     const listOfVersions = versions.map((t) => t.displayVersion || t.version)
-    if (listOfVersions.length && !['default', 'latest', 'master'].includes(listOfVersions[0])) {
+    if (listOfVersions.length && isNumberedVersion(listOfVersions[0])) {
       listOfVersions[0] += ' [latest]'
       return `["${listOfVersions.join('", "')}"]`
     }
   }
+
+  const isNumberedVersion = (versionName) => !['default', 'latest', 'master'].includes(versionName)
+  const isSearchable = (componentName) => !['general, reuse'].includes(componentName)
 
   const updateFacetTexts = (facetDiv) => {
     if (facetDiv) {
