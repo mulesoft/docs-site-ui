@@ -244,8 +244,8 @@ site:
       - *amazon_s3_connector_latest
     salesforce-connector:
       latest: &salesforce_connector_latest
-        version: '9.7'
-        displayVersion: '9.7 (Mule 4)'
+        version: '10.17'
+        displayVersion: '10.17 (Mule 4)'
         title: Salesforce Connector
         url: &salesforce_connector_url /salesforce-connector/salesforce-connector.html
         asciidoc:
@@ -267,6 +267,21 @@ site:
             url: /salesforce-connector/examples.html
       versions:
       - *salesforce_connector_latest
+      - version: '9.7'
+        displayVersion: '9.7 (Mule 4)'
+        title: Salesforce Connector
+        url: &salesforce_connector_url /salesforce-connector/salesforce-connector.html
+        asciidoc:
+          attributes:
+            page-component-desc: Connect to the Salesforce SOAP API, REST API, Bulk API, and Streaming API.
+            page-connector-type: Connector
+            page-connector-level: Select
+            page-exchange-asset-id: mule-salesforce-connector
+            page-exchange-group-id: com.mulesoft.connectors
+            page-runtime-version: 4.1.1
+            page-release-notes-page: connector-relnotes.adoc
+            page-vendor-name: salesforce
+            page-vendor-title: Salesforce
       - version: '0.3.9'
         title: Salesforce Connector
         displayVersion: '3.9 (Mule 3)'
