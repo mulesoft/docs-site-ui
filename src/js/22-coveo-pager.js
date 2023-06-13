@@ -16,8 +16,8 @@
     }
 
     const atomicPager = document.querySelector('atomic-pager')
-    const pagerShadowRoot = atomicPager && atomicPager.shadowRoot
-    const paginationNav = pagerShadowRoot && pagerShadowRoot.querySelector('nav')
+    const pagerShadowRoot = atomicPager?.shadowRoot
+    const paginationNav = pagerShadowRoot?.querySelector('nav')
     if (paginationNav) {
       try {
         updateAriaLabel(paginationNav, 'previous-button')
