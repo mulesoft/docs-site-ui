@@ -11,9 +11,7 @@
   }
 
   const updatePager = setInterval(() => {
-    if (--tries <= 0) {
-      clearInterval(updatePager)
-    }
+    if (--tries <= 0) clearInterval(updatePager)
 
     const atomicPager = document.querySelector('atomic-pager')
     const pagerShadowRoot = atomicPager?.shadowRoot
