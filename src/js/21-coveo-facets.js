@@ -10,14 +10,15 @@
     const atomicFacetManager = atomicFacetsLayoutSection.querySelector('atomic-facet-manager')
     const components = window.siteNavigationData
     components.forEach((component) => {
-      const versionFacet = createVersionFacet(component.name, component.title)
+      const versionFacet = createVersionFacet(component.name, component.title, component.versions)
       atomicFacetManager.appendChild(versionFacet)
     })
     delete window.siteNavigationData
   }
 
-  const createVersionFacet = (name, title) => {
+  const createVersionFacet = (name, title, versions) => {
     const versionFacet = document.createElement('atomic-facet')
+    versionFacet.setAttribute('allowed-values', getFormattedDisplayVersions(versions))
     versionFacet.setAttribute('depends-on-product', title)
     versionFacet.setAttribute('facet-id', `${name}-version`)
     versionFacet.setAttribute('field', 'mulesoftversionwithlatest')
@@ -26,6 +27,12 @@
     versionFacet.setAttribute('number-of-value', 20)
     versionFacet.setAttribute('sort-criteria', 'score')
     return versionFacet
+  }
+
+  const getFormattedDisplayVersions = (versions) => {
+    const listOfVersions = versions.map((t) => t.displayVersion || t.version)
+    listOfVersions[0] += ' [latest]'
+    return `["${listOfVersions.join('", "')}"]`
   }
 
   const updateFacetTexts = (facetDiv) => {
