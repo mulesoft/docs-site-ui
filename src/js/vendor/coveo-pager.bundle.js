@@ -6,7 +6,7 @@
   let tries = 500
 
   const updateAriaLabel = (paginationNav, partName) => {
-    const button = paginationNav?.querySelector(`button[part="${partName}"]`)
+    const button = paginationNav.querySelector(`button[part="${partName}"]`)
     if (button) button.setAttribute('aria-label', `${button.getAttribute('aria-label')} page`)
   }
 
@@ -16,8 +16,8 @@
     }
 
     const atomicPager = document.querySelector('atomic-pager')
-    const pagerShadowRoot = atomicPager?.shadowRoot
-    const paginationNav = pagerShadowRoot?.querySelector('nav')
+    const pagerShadowRoot = atomicPager && atomicPager.shadowRoot
+    const paginationNav = pagerShadowRoot && pagerShadowRoot.querySelector('nav')
     if (paginationNav) {
       try {
         updateAriaLabel(paginationNav, 'previous-button')

@@ -48,8 +48,8 @@
     if (--tries <= 0) clearInterval(updateFacet)
 
     const atomicFacet = document.querySelector('atomic-facet')
-    const facetShadowRoot = atomicFacet?.shadowRoot
-    const firstFacetDiv = facetShadowRoot?.querySelector('div[part="facet"]')
+    const facetShadowRoot = atomicFacet && atomicFacet.shadowRoot
+    const firstFacetDiv = facetShadowRoot && facetShadowRoot.querySelector('div[part="facet"]')
     if (firstFacetDiv) {
       try {
         updateFacetTexts(firstFacetDiv)
