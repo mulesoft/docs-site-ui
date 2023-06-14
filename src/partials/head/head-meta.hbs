@@ -20,6 +20,9 @@
 <meta name="latest-version" content="{{page.component.latest.version}}">
 <meta name="version-with-latest" content="{{or page.displayVersion page.version}}">
 {{/if}}
+{{else}}
+<meta name="is-latest-version" content="true">
+<meta name="version-with-latest" content="{{or page.displayVersion page.version}} [latest]">
 {{/if}}
 <meta name="page-url" content="{{page.url}}">
 <meta name="page-component" content="{{page.component.name}}">
@@ -35,6 +38,6 @@
 <meta name="generator" content="Antora {{or antoraVersion site.antoraVersion}}">
 {{/if}}
 <meta name="viewport" content="width=device-width, height=device-height, initial-scale=1">
-<link rel="stylesheet" href="{{uiRootPath}}/css/site.css">
+<link rel="stylesheet" href="{{@root.uiRootPath}}/css/site.css">
 {{> marketing-styles}}
-<link rel="icon" href="{{uiRootPath}}/img/favicon.ico" type="image/x-icon">
+<link rel="icon" href="{{@root.uiRootPath}}/img/favicon.ico" type="image/x-icon">
