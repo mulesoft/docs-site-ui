@@ -1,28 +1,29 @@
+<meta charset="utf-8">
 {{#if page.component}}
-    <meta name="product" content="{{page.component.title}}">
+<meta name="product" content="{{page.component.title}}">
 {{/if}}
+{{#if (and page.version (not (is-one-of page.version 'default' 'latest' 'master')))}}
 <meta name="version" content="{{or page.displayVersion page.version}}">
-{{!-- {{#if page.latest.url}} --}}
-{{#with (get-semver page.version)}}
-    {{#if this.major}}
-    <meta name="version-major" content="{{this.major}}">
-    {{/if}}
-    {{#if this.minor}}
-    <meta name="version-minor" content="{{this.minor}}">
-    {{/if}}
-    {{#if this.patch}}
-    <meta name="version-patch" content="{{this.patch}}">
-    {{/if}}
-{{/with}}
 {{#if (eq page.component.latest.version page.version)}}
-    <meta name="is-latest-version" content="true">
-    <meta name="version-with-latest" content="{{or page.displayVersion page.version}} [latest]">
+<meta name="is-latest-version" content="true">
+<meta name="version-with-latest" content="{{or page.displayVersion page.version}} [latest]">
 {{else}}
-    <meta name="is-latest-version" content="false">
-    <meta name="version-with-latest" content="{{or page.displayVersion page.version}}">
-    <meta name="latest-version" content="{{page.component.latest.version}}">
+{{#with (get-semver page.version)}}
+{{#if this.major}}
+<meta name="version-major" content="{{this.major}}">
 {{/if}}
-{{!-- {{/if}} --}}
+{{#if this.minor}}
+<meta name="version-minor" content="{{this.minor}}">
+{{/if}}
+{{#if this.patch}}
+<meta name="version-patch" content="{{this.patch}}">
+{{/if}}
+{{/with}}
+<meta name="is-latest-version" content="false">
+<meta name="version-with-latest" content="{{or page.displayVersion page.version}}">
+<meta name="latest-version" content="{{page.component.latest.version}}">
+{{/if}}
+{{/if}}
 <meta name="page-url" content="{{page.url}}">
 <meta name="page-component" content="{{page.component.name}}">
 <meta name="page-version" content="{{page.version}}">
