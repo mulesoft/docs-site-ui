@@ -104,6 +104,10 @@
           addValidationViz(input)
           input.ariaInvalid = true
           input.setAttribute('aria-labelledby', `${inputName}-validation-text`)
+          document.activeElement.blur()
+          setTimeout(() => {
+            focusOnFirstInvalidInput(feedbackForm)
+          }, 50)
         })
       }
     })
