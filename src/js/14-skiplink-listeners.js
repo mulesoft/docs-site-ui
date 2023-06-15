@@ -1,8 +1,9 @@
 ;(() => {
   'use strict'
 
-  const skipLinks = document.querySelectorAll('.skip-link')
-  if (!skipLinks.length) return
+  const bodySkipLinks = document.querySelectorAll('body > .skip-link-container > .skip-link')
+  const asideSkipLinks = document.querySelectorAll('aside > .skip-link-container > .skip-link')
+  if (!bodySkipLinks.length && !asideSkipLinks.length) return
 
   const nav = document.querySelector('nav.nav')
   const main = document.querySelector('main')
@@ -10,7 +11,28 @@
   const asideToc = aside?.querySelector('.aside-toc')
   const toolbar = document.querySelector('.toolbar')
 
-  const addListeners = (skipLinks) => {
+  const addAsideListeners = (skipLinks) => {
+    if (skipLinks.length) {
+      const [mainContentSkipLink] = skipLinks
+
+      if (main) {
+        addResizeListener(main, mainContentSkipLink)
+        mainContentSkipLink.addEventListener('click', (e) => focusOn(getMainSelector(), e))
+        mainContentSkipLink.addEventListener('focus', (e) => {
+          mainContentSkipLink.parentNode.classList.add('aside-skip-link-container-selected')
+          e.preventDefault()
+        })
+        mainContentSkipLink.addEventListener('blur', (e) => {
+          mainContentSkipLink.parentNode.classList.remove('aside-skip-link-container-selected')
+          e.preventDefault()
+        })
+      } else {
+        mainContentSkipLink.remove()
+      }
+    }
+  }
+
+  const addBodyListeners = (skipLinks) => {
     if (skipLinks.length >= 3) {
       const [leftNavSkipLink, mainContentSkipLink, pageNavSkipLink] = skipLinks
 
@@ -90,5 +112,6 @@
     if (!remainingSkipLinks.length) remainingSkipLinks.remove()
   }
 
-  addListeners(skipLinks)
+  addBodyListeners(bodySkipLinks)
+  addAsideListeners(asideSkipLinks)
 })()

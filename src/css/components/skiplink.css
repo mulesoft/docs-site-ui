@@ -10,12 +10,20 @@
   position: absolute;
   top: 6px;
   transition: opacity .3s linear, z-index .5s linear;
+  width: fit-content;
   z-index: 0;
 
   &:focus-within {
     opacity: 1;
     z-index: 200;
   }
+}
+
+.aside-skip-link-container-selected {
+  left: unset;
+  margin: auto;
+  margin-bottom: 15px;
+  position: relative;
 }
 
 .skip-link {
