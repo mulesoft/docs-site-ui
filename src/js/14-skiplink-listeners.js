@@ -57,7 +57,7 @@
       if (aside && asideToc) {
         addResizeListener(aside, pageNavSkipLink)
         pageNavSkipLink.addEventListener('click', (e) => {
-          if (isVisible(aside)) focusOn('.aside-toc a', e)
+          if (isVisible(aside)) focusOn('aside a, aside button:not(.skip-link)', e)
         })
       } else {
         pageNavSkipLink.remove()
