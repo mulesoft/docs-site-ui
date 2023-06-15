@@ -33,7 +33,6 @@
           e.preventDefault()
           voted = true
           trackAnalytics(decision)
-          feedbackButton.setAttribute('aria-pressed', true)
           feedbackOptionButtons.forEach((button) => hide(button))
           show(feedbackAckMsgDiv)
           updateFeedbackAckMsg(feedbackAckMsgDiv, decision)
@@ -173,7 +172,7 @@
   const removeValidationViz = (input, validationText) => {
     if (input) {
       input.classList.remove('invalid')
-      input.removeAttribute('aria-describedby')
+      input.removeAttribute('aria-labelledby')
       input.removeAttribute('aria-invalid')
     }
     if (validationText) validationText.classList.add('hide')
