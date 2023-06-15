@@ -69,3 +69,9 @@
     display: none;
   }
 }
+
+.toc-title {
+  font-family: var(--sans-serif-bold);
+  font-size: var(--lg);
+  margin-bottom: var(--sm);
+}
