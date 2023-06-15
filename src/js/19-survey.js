@@ -6,10 +6,17 @@
 
   const surveyToggleButton = surveySection.querySelector('button.survey-toggle')
   const surveyTextDiv = surveySection.querySelector('div.survey-text')
-  const takeTheSurveyButton = surveySection.querySelector('a.survey-button')
+  const takeTheSurveyLink = surveySection.querySelector('a.survey-link')
 
-  const toggleAttribute = (element, attrName, bool) => element && element.setAttribute(attrName, bool)
-  const toggleClass = (element, className, bool) => element && element.classList.toggle(className, bool)
+  const toggleAttribute = (element, attrName, bool, e) => {
+    if (e) e.preventDefault()
+    return element?.setAttribute(attrName, bool)
+  }
+
+  const toggleClass = (element, className, bool, e) => {
+    if (e) e.preventDefault()
+    return element?.classList?.toggle(className, bool)
+  }
 
   if (surveyToggleButton) {
     surveyToggleButton.addEventListener('click', (e) => {
@@ -21,8 +28,8 @@
     })
   }
 
-  if (takeTheSurveyButton) {
+  if (takeTheSurveyLink) {
     const currentPageUrl = window.location.href
-    takeTheSurveyButton.href = `${takeTheSurveyButton.href}?source=${encodeURIComponent(currentPageUrl)}`
+    takeTheSurveyLink.href = `${takeTheSurveyLink.href}?source=${encodeURIComponent(currentPageUrl)}`
   }
 })()

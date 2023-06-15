@@ -1,7 +1,13 @@
+<meta charset="utf-8">
 {{#if page.component}}
 <meta name="product" content="{{page.component.title}}">
-{{#if page.latest.url}}
+{{/if}}
+{{#if (and page.version (not (is-one-of page.version 'default' 'latest' 'master')))}}
 <meta name="version" content="{{or page.displayVersion page.version}}">
+{{#if (eq page.component.latest.version page.version)}}
+<meta name="is-latest-version" content="true">
+<meta name="version-with-latest" content="{{or page.displayVersion page.version}} [latest]">
+{{else}}
 {{#with (get-semver page.version)}}
 {{#if this.major}}
 <meta name="version-major" content="{{this.major}}">
@@ -13,12 +19,9 @@
 <meta name="version-patch" content="{{this.patch}}">
 {{/if}}
 {{/with}}
-{{#if (eq page.component.latest.version page.version)}}
-<meta name="is-latest-version" content="true">
-<meta name="version-with-latest" content="{{or page.displayVersion page.version}} [latest]">
-{{else}}
-<meta name="latest-version" content="{{page.component.latest.version}}">
+<meta name="is-latest-version" content="false">
 <meta name="version-with-latest" content="{{or page.displayVersion page.version}}">
+<meta name="latest-version" content="{{page.component.latest.version}}">
 {{/if}}
 {{/if}}
 <meta name="page-url" content="{{page.url}}">
@@ -30,11 +33,10 @@
 {{#with site.keys.googleSiteVerification}}
 <meta name="google-site-verification" content="{{this}}">
 {{/with}}
-{{/if}}
 {{#if (or antoraVersion site.antoraVersion)}}
 <meta name="generator" content="Antora {{or antoraVersion site.antoraVersion}}">
 {{/if}}
 <meta name="viewport" content="width=device-width, height=device-height, initial-scale=1">
-<link rel="stylesheet" href="{{uiRootPath}}/css/site.css">
+<link rel="stylesheet" href="{{@root.uiRootPath}}/css/site.css">
 {{> marketing-styles}}
-<link rel="icon" href="{{uiRootPath}}/img/favicon.ico" type="image/x-icon">
+<link rel="icon" href="{{@root.uiRootPath}}/img/favicon.ico" type="image/x-icon">
