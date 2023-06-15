@@ -1,9 +1,7 @@
 <!DOCTYPE html>
 <html lang={{#if (eq (site-profile) 'jp' )}}"jp"{{else}}"en"{{/if}}>
 
-<head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+<head> 
     {{#if (not (is-one-of (site-profile) 'jp' 'prod'))}}
     <meta name="robots" content="none, noarchive">
     {{/if}}
