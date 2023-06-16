@@ -164,7 +164,10 @@
   }
 
   const removeTOCBlock = (sidebar) => {
-    if (sidebar) sidebar.removeChild(sidebar.querySelector('.aside-toc'))
+    if (sidebar) {
+      sidebar.removeChild(sidebar.querySelector('.aside-toc'))
+      sidebar.removeChild(sidebar.querySelector('.toc-title'))
+    }
   }
 
   const scrollTo = (urlHashValue) => {
