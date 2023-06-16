@@ -1,4 +1,4 @@
-;(async () => {
+;(() => {
   'use strict'
 
   const feedbackCard = document.querySelector('section.feedback-section')
@@ -21,6 +21,7 @@
   const decision = ['Yes', 'No']
   const inputNamesWithValidation = ['feedback', 'email']
   const gusURL = 'http://gus-wi-creator:3000/api/gus/workitem'
+  // const gusURL = 'http://localhost:3000/api/gus/workitem'
   let voted
   let feedbackSubmitted
 
@@ -128,31 +129,20 @@
 
   async function createGUSWorkItem (form) {
     const body = createBody(form)
-    console.log(body)
 
-    // const xhr = new XMLHttpRequest() // eslint-disable-line
+    const xhr = new XMLHttpRequest() // eslint-disable-line
 
-    // xhr.addEventListener('readystatechange', function () {
-    //   if (this.readyState === 4) {
-    //     console.log(this.responseText)
-    //   }
-    // })
-
-    // xhr.open('POST', 'http://localhost:3000/api/gus/workitem')
-    // xhr.setRequestHeader('Content-Type', 'application/json')
-    // xhr.send(body)
-
-    /* eslint-disable */
-    const response = await fetch(gusURL, {
-      /* eslint-enable */
-      body,
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      method: 'POST',
+    xhr.addEventListener('readystatechange', function () {
+      if (this.readyState === 4) {
+        console.log(this.responseText)
+      } else {
+        console.warn(this.responseText)
+      }
     })
 
-    console.log(response)
+    xhr.open('POST', gusURL)
+    xhr.setRequestHeader('Content-Type', 'application/json')
+    xhr.send(body)
   }
 
   const focusOnFirstInvalidInput = (feedbackForm) => {
