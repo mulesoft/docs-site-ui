@@ -20,7 +20,7 @@
 
   const decision = ['Yes', 'No']
   const inputNamesWithValidation = ['feedback', 'email']
-  const gusURL = 'http://gus-wi-creator:3000/api/gus/workitem'
+  const gusURL = 'gus-wi-creator:3000/api/gus/workitem'
   // const gusURL = 'http://localhost:3000/api/gus/workitem'
   let voted
   let feedbackSubmitted
