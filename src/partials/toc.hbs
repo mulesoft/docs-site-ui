@@ -1,9 +1,13 @@
 <aside class="toc toc-sidebar scrollbar">
+<div class="skip-link-container">
+    <button tabindex="0" class="skip-link">Skip to main content</button>
+</div>
 {{> github}}
 {{> survey iconName="arrow-down"}}
-  <div class="aside-toc">
-    <nav class="toc-menu" aria-label="Skip to page content sections"></nav>
-  </div>
+<h1 class="toc-title">On this page:</h1>
+<div class="aside-toc">
+  <nav class="toc-menu" aria-label="Skip to page content sections"></nav>
+</div>
 {{#if (ne page.layout '404')}}
 {{/if}}
 </aside>

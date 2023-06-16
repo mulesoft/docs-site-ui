@@ -12,6 +12,7 @@
   max-height: var(--vh,1vh) * 100;
   max-height: -moz-available;
   max-height: -webkit-fill-available;
+  order: 1;
   position: fixed;
   top: 0;
   transform: translateX(-100%);

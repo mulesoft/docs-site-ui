@@ -1,8 +1,9 @@
 ;(() => {
   'use strict'
 
-  const skipLinks = document.querySelectorAll('.skip-link')
-  if (!skipLinks.length) return
+  const bodySkipLinks = document.querySelectorAll('body > .skip-link-container > .skip-link')
+  const asideSkipLinks = document.querySelectorAll('aside > .skip-link-container > .skip-link')
+  if (!bodySkipLinks.length && !asideSkipLinks.length) return
 
   const nav = document.querySelector('nav.nav')
   const main = document.querySelector('main')
@@ -10,7 +11,28 @@
   const asideToc = aside?.querySelector('.aside-toc')
   const toolbar = document.querySelector('.toolbar')
 
-  const addListeners = (skipLinks) => {
+  const addAsideListeners = (skipLinks) => {
+    if (skipLinks.length) {
+      const [mainContentSkipLink] = skipLinks
+
+      if (main) {
+        addResizeListener(main, mainContentSkipLink)
+        mainContentSkipLink.addEventListener('click', (e) => focusOn(getMainSelector(), e))
+        mainContentSkipLink.addEventListener('focus', (e) => {
+          mainContentSkipLink.parentNode.classList.add('aside-skip-link-container-selected')
+          e.preventDefault()
+        })
+        mainContentSkipLink.addEventListener('blur', (e) => {
+          mainContentSkipLink.parentNode.classList.remove('aside-skip-link-container-selected')
+          e.preventDefault()
+        })
+      } else {
+        mainContentSkipLink.remove()
+      }
+    }
+  }
+
+  const addBodyListeners = (skipLinks) => {
     if (skipLinks.length >= 3) {
       const [leftNavSkipLink, mainContentSkipLink, pageNavSkipLink] = skipLinks
 
@@ -18,7 +40,7 @@
         // No addResizeListener for this one.
         // Instead, see 03-mobile-navbar for different behavior in small screen sizes
         leftNavSkipLink.addEventListener('click', (e) => {
-          if (isVisible(nav)) focusOn(getFirstFocusableItem(nav), e)
+          if (isVisible(nav)) focusOn(getNavFirstFocusableItem(nav), e)
           e.stopPropagation()
         })
       } else {
@@ -35,7 +57,7 @@
       if (aside && asideToc) {
         addResizeListener(aside, pageNavSkipLink)
         pageNavSkipLink.addEventListener('click', (e) => {
-          if (isVisible(aside)) focusOn('.aside-toc a', e)
+          if (isVisible(aside)) focusOn(getAsideFirstFocusableItem(aside), e)
         })
       } else {
         pageNavSkipLink.remove()
@@ -65,7 +87,9 @@
     if (e) e.preventDefault()
   }
 
-  const getFirstFocusableItem = (element) => getFocusableSearchBox() || element.querySelector('a')
+  const getAsideFirstFocusableItem = (aside) => {
+    return getAsideGithubButton(aside) || getAsideSurveyButton(aside) || getAsideFirstTocLink(aside)
+  }
 
   const getFocusableSearchBox = () => {
     const atomicSearchbox = document.querySelector('atomic-search-box')
@@ -73,10 +97,16 @@
     return searchboxShadowRoot?.querySelector('input')
   }
 
+  const getAsideFirstTocLink = (aside) => aside.querySelector('.aside-toc a')
+  const getAsideGithubButton = (aside) => aside.querySelector('a.github')
+  const getAsideSurveyButton = (aside) => aside.querySelector('a.survey-link')
+
   const getMainSelector = () => {
     if (isSearchPage()) return getFocusableSearchBox()
     return isVisible(toolbar) ? '.toolbar a' : '.doc a'
   }
+
+  const getNavFirstFocusableItem = (element) => getFocusableSearchBox() || element.querySelector('a')
 
   const isSearchPage = () => document.title.includes('Search Docs')
 
@@ -90,5 +120,6 @@
     if (!remainingSkipLinks.length) remainingSkipLinks.remove()
   }
 
-  addListeners(skipLinks)
+  addBodyListeners(bodySkipLinks)
+  addAsideListeners(asideSkipLinks)
 })()
