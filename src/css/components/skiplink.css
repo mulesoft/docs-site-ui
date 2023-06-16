@@ -19,6 +19,10 @@
   }
 }
 
+aside > .skip-link-container {
+  transition: unset;
+}
+
 .aside-skip-link-container-selected {
   left: unset;
   margin-bottom: 15px;
