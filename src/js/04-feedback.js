@@ -20,8 +20,8 @@
 
   const decision = ['Yes', 'No']
   const inputNamesWithValidation = ['feedback', 'email']
-  // const gusURL = 'gus-wi-creator:3000/api/gus/workitem'
-  const gusURL = 'localhost:3000/api/gus/workitem'
+  // // const gusURL = 'gus-wi-creator:3000/api/gus/workitem'
+  // const gusURL = 'localhost:3000/api/gus/workitem'
   let voted
   let feedbackSubmitted
 
@@ -78,10 +78,10 @@
     }
 
     if (feedbackForm) {
-      feedbackForm.addEventListener('submit', (e) => {
-        e.preventDefault()
-        removeAllValidationVizIfValid(inputNamesWithValidation)
-        createGUSWorkItem(feedbackForm)
+      feedbackForm.addEventListener('submit', () => {
+        // e.preventDefault()
+        // removeAllValidationVizIfValid(inputNamesWithValidation)
+        // createGUSWorkItem(feedbackForm)
         hide(feedbackFormDiv)
         show(feedbackFormThankYouSign)
         feedbackSubmitted = true
@@ -116,34 +116,34 @@
 
   const addValidationViz = (element) => element.classList.add('invalid')
 
-  const createBody = (form) => {
-    const formData = new FormData(form) // eslint-disable-line
-    return JSON.stringify({
-      pageURL: document.location.href,
-      subject: formData.get('feedback'),
-      detail: formData.get('feedback-detail') || 'not provided',
-      name: formData.get('name') || 'not provided',
-      email: formData.get('email') || 'not provided',
-    })
-  }
+  // const createBody = (form) => {
+  //   const formData = new FormData(form) // eslint-disable-line
+  //   return JSON.stringify({
+  //     pageURL: document.location.href,
+  //     subject: formData.get('feedback'),
+  //     detail: formData.get('feedback-detail') || 'not provided',
+  //     name: formData.get('name') || 'not provided',
+  //     email: formData.get('email') || 'not provided',
+  //   })
+  // }
 
-  async function createGUSWorkItem (form) {
-    const body = createBody(form)
+  // async function createGUSWorkItem (form) {
+  //   const body = createBody(form)
 
-    const xhr = new XMLHttpRequest() // eslint-disable-line
+  //   const xhr = new XMLHttpRequest() // eslint-disable-line
 
-    xhr.addEventListener('readystatechange', function () {
-      if (this.readyState === 4) {
-        console.log(this.responseText)
-      } else {
-        console.warn(this.responseText)
-      }
-    })
+  //   xhr.addEventListener('readystatechange', function () {
+  //     if (this.readyState === 4) {
+  //       console.log(this.responseText)
+  //     } else {
+  //       console.warn(this.responseText)
+  //     }
+  //   })
 
-    xhr.open('POST', gusURL)
-    xhr.setRequestHeader('Content-Type', 'application/json')
-    xhr.send(body)
-  }
+  //   xhr.open('POST', gusURL)
+  //   xhr.setRequestHeader('Content-Type', 'application/json')
+  //   xhr.send(body)
+  // }
 
   const focusOnFirstInvalidInput = (feedbackForm) => {
     const firstInvalidInput = feedbackForm?.querySelector('input.invalid')
