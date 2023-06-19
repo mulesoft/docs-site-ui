@@ -8,13 +8,13 @@
       </div>
       <div class="feedback-options flex">
         <div>
-          <button aria-pressed=false class="button feedback-yes" aria-label="The article was helpful">
+          <button class="button feedback-yes" aria-label="The article was helpful">
             <img loading="lazy" src="{{@root.uiRootPath}}/img/icons/thumbs-up.png" alt="" height="12">
           </button>
           <p class="help-text hide" id="feedback-yes-help-text">Yes, thanks!</p>
         </div>
         <div>
-          <button aria-pressed=false class="button feedback-no" aria-label="The article was not helpful">
+          <button class="button feedback-no" aria-label="The article was not helpful">
             <img loading="lazy" src="{{@root.uiRootPath}}/img/icons/thumbs-down.png" alt="" height="12">
           </button>
           <p class="help-text hide" id="feedback-no-help-text">No, not really.</p>
@@ -36,6 +36,7 @@
     </div>
     <div class="feedback-form hide">
       <form>
+        <span class="sr-only" id="error-summary"></span>
         <p>
           <label for="feedback">Share your feedback (required)</label>
           <input aria-required="true" maxlength="100" placeholder="Let us know what you liked, or how we can improve..." type="text"
@@ -60,7 +61,7 @@
             <p>
               <label for="email">Email (optional)</label>
               <input maxlength="50" placeholder="email@example.com" type="email" id="email" name="email">
-              <span class="validation-text hide" id="email-validation-text">Error: Email format is invalid. Please include an '@' in the email address.</span>
+              <span class="validation-text hide" id="email-validation-text">Error: Email format is invalid. Please include an '@' in the email address</span>
             </p>
           </div>
           </fieldset>
