@@ -177,7 +177,7 @@
     if (!override) focusOnFirstInvalidInput(feedbackForm)
   }
 
-  const removePrefix = (msg, prefix) => msg.startsWith(prefix) ? msg.slice(prefix.length) : msg
+  const removePrefix = (msg, prefix) => (msg.startsWith(prefix) ? msg.slice(prefix.length) : msg)
 
   const removeValidationViz = (input, validationText) => {
     if (input) {
