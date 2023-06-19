@@ -15,6 +15,7 @@
   const feedbackForm = feedbackFormDiv?.querySelector('form')
   const feedbackFormCancelButton = feedbackForm?.querySelector('input[name="cancel"]')
   const feedbackFormSubmitButton = feedbackForm?.querySelector('input[name="submit"]')
+  const feedbackFormErrorSummary = feedbackForm?.querySelector('span#error-summary')
 
   const feedbackFormThankYouSign = feedbackCard.querySelector('span.feedback-form-thank-you')
 
@@ -84,6 +85,7 @@
         // createGUSWorkItem(feedbackForm)
         hide(feedbackFormDiv)
         show(feedbackFormThankYouSign)
+        updateErrorSummary(feedbackFormErrorSummary)
         feedbackSubmitted = true
         voted ? feedbackFormThankYouSign.focus() : feedbackOptionButtons[0].focus()
       })
@@ -104,7 +106,8 @@
           show(validationText)
           addValidationViz(input)
           input.ariaInvalid = true
-          input.setAttribute('aria-labelledby', `${inputName}-validation-text`)
+          updateErrorSummary(feedbackFormErrorSummary)
+          input.setAttribute('aria-labelledby', feedbackFormErrorSummary.id)
           document.activeElement.blur()
           setTimeout(() => {
             focusOnFirstInvalidInput(feedbackForm)
@@ -115,6 +118,17 @@
   }
 
   const addValidationViz = (element) => element.classList.add('invalid')
+
+  const aggregateErrorMessages = (errorMessages) => {
+    let errorMsgs = ''
+    errorMessages.forEach((error, index) => {
+      if (error.innerText) {
+        const cleanedErrorMsg = removePrefix(error.innerText, 'Error: ')
+        errorMsgs += `\n${index + 1}: ${cleanedErrorMsg};`
+      }
+    })
+    return errorMsgs
+  }
 
   // const createBody = (form) => {
   //   const formData = new FormData(form) // eslint-disable-line
@@ -163,11 +177,14 @@
     if (!override) focusOnFirstInvalidInput(feedbackForm)
   }
 
+  const removePrefix = (msg, prefix) => msg.startsWith(prefix) ? msg.slice(prefix.length) : msg
+
   const removeValidationViz = (input, validationText) => {
     if (input) {
       input.classList.remove('invalid')
       input.removeAttribute('aria-labelledby')
       input.removeAttribute('aria-invalid')
+      updateErrorSummary(feedbackFormErrorSummary)
     }
     if (validationText) validationText.classList.add('hide')
   }
@@ -186,6 +203,17 @@
       }
     } catch (error) {
       console.warn(error)
+    }
+  }
+
+  const updateErrorSummary = (errorSummary) => {
+    const validationErrors = feedbackForm.querySelectorAll('.validation-text:not(.hide)')
+    const errorCount = validationErrors.length
+    if (errorCount) {
+      const errorMsg = aggregateErrorMessages(validationErrors)
+      errorSummary.innerText = `${errorCount} error${errorCount !== 1 ? 's' : ''} found in this form: ${errorMsg}`
+    } else {
+      errorSummary.innerText = ''
     }
   }
 
