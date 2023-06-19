@@ -78,9 +78,9 @@
     }
 
     if (feedbackForm) {
-      feedbackForm.addEventListener('submit', () => {
-        // e.preventDefault()
-        // removeAllValidationVizIfValid(inputNamesWithValidation)
+      feedbackForm.addEventListener('submit', (e) => {
+        e.preventDefault()
+        removeAllValidationVizIfValid(inputNamesWithValidation)
         // createGUSWorkItem(feedbackForm)
         hide(feedbackFormDiv)
         show(feedbackFormThankYouSign)
