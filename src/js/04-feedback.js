@@ -123,8 +123,7 @@
     let errorMsgs = ''
     errorMessages.forEach((error, index) => {
       if (error.innerText) {
-        const cleanedErrorMsg = removePrefix(error.innerText, 'Error: ')
-        errorMsgs += `\n${index + 1}: ${cleanedErrorMsg};`
+        errorMsgs += `\n${index + 1}: ${error.innerText};`
       }
     })
     return errorMsgs
@@ -176,8 +175,6 @@
     })
     if (!override) focusOnFirstInvalidInput(feedbackForm)
   }
-
-  const removePrefix = (msg, prefix) => (msg.startsWith(prefix) ? msg.slice(prefix.length) : msg)
 
   const removeValidationViz = (input, validationText) => {
     if (input) {

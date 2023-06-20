@@ -110,6 +110,10 @@
     font-size: 12px;
     position: relative;
     top: -8px;
+
+    &:before {
+      content: "Error: ";
+    }
   }
 
   & input:not([type="button"]):not([type="submit"]),
