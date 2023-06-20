@@ -146,10 +146,9 @@
       .then(function (response) {
         // Handle the response
         if (response.ok) {
-          // Request was successful
           console.log('Form submitted successfully')
+          console.log(response.text)
         } else {
-          // Request failed
           console.error('Error submitting form')
         }
       })
