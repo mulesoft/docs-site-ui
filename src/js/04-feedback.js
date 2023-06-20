@@ -21,8 +21,7 @@
 
   const decision = ['Yes', 'No']
   const inputNamesWithValidation = ['feedback', 'email']
-  // // const gusURL = 'gus-wi-creator:3000/api/gus/workitem'
-  const gusURL = 'http://gus-wi-creator:3000/api/gus/workitem'
+
   let voted
   let feedbackSubmitted
 
@@ -143,19 +142,21 @@
   const createGUSWorkItem = (form) => {
     const body = createBody(form)
 
-    const xhr = new XMLHttpRequest() // eslint-disable-line
-
-    xhr.addEventListener('readystatechange', function () {
-      if (this.readyState === 4) {
-        console.log(this.responseText)
-      } else {
-        console.warn(this.responseText)
-      }
-    })
-
-    xhr.open('POST', gusURL)
-    xhr.setRequestHeader('Content-Type', 'application/json')
-    xhr.send(body)
+    fetch('/api/form-submit', { method: 'POST', body }) // eslint-disable-line
+      .then(function (response) {
+        // Handle the response
+        if (response.ok) {
+          // Request was successful
+          console.log('Form submitted successfully')
+        } else {
+          // Request failed
+          console.error('Error submitting form')
+        }
+      })
+      .catch(function (error) {
+        // Handle network errors
+        console.error('Network error:', error)
+      })
   }
 
   const focusOnFirstInvalidInput = (feedbackForm) => {
