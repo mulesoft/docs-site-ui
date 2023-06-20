@@ -143,17 +143,15 @@
     const body = createBody(form)
 
     fetch('/api/form-submit', { method: 'POST', body }) // eslint-disable-line
-      .then(function (response) {
-        // Handle the response
+      .then((response) => {
         if (response.ok) {
           console.log('Form submitted successfully')
-          console.log(response.text)
+          console.log(response)
         } else {
           console.error('Error submitting form')
         }
       })
-      .catch(function (error) {
-        // Handle network errors
+      .catch((error) => {
         console.error('Network error:', error)
       })
   }
