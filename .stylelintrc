@@ -17,6 +17,7 @@
     "color-function-notation": null,
     "function-no-unknown": null,
     "function-url-quotes": null,
+    "import-notation": null,
     "max-line-length": null,
     "media-feature-range-notation": null,
     "selector-attribute-quotes": null,
