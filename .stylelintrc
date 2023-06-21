@@ -5,11 +5,26 @@
   ],
   "rules": {
     "comment-empty-line-before": null,
-    "function-comma-space-after": "never-single-line",
     "no-descending-specificity": null,
-    "number-leading-zero": "never",
+    "number-leading-zero": null,
     "order/properties-alphabetical-order": true,
+    "property-no-vendor-prefix": null,
+    "selector-no-vendor-prefix": null,
+    "selector-type-no-unknown": [true, { "ignoreTypes": ["/^atomic-/"] }],
     "rule-empty-line-before": null,
-    "selector-type-no-unknown": [true, { "ignoreTypes": ["/^atomic-/"] }]
+    "value-no-vendor-prefix": null,
+    "alpha-value-notation": null,
+    "color-function-notation": null,
+    "function-no-unknown": null,
+    "function-url-quotes": null,
+    "import-notation": null,
+    "max-line-length": null,
+    "media-feature-range-notation": null,
+    "selector-attribute-quotes": null,
+    "selector-class-pattern": null,
+    "selector-not-notation": null,
+    "shorthand-property-no-redundant-values": null,
+    "string-quotes": null,
+    "value-keyword-case": null
   }
 }
