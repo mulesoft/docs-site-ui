@@ -5,7 +5,6 @@
   ],
   "rules": {
     "comment-empty-line-before": null,
-    "function-comma-space-after": "never-single-line",
     "no-descending-specificity": null,
     "number-leading-zero": null,
     "order/properties-alphabetical-order": true,
