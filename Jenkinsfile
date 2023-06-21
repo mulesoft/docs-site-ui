@@ -33,10 +33,7 @@ pipeline {
         }
       }
       steps {
-        nodejs('node12') {
-          sh 'npm ci'
-          sh 'npx gulp bundle'
-        }
+        sh "docker build -f Dockerfile.test ."
       }
       post {
         failure {
