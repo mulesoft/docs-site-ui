@@ -15,6 +15,7 @@
     "value-no-vendor-prefix": null,
     "alpha-value-notation": null,
     "color-function-notation": null,
+    "declaration-block-no-redundant-longhand-properties": null,
     "function-no-unknown": null,
     "function-url-quotes": null,
     "import-notation": null,
