@@ -142,22 +142,25 @@
   const createGUSWorkItem = (form) => {
     const body = createBody(form)
 
-    fetch('/api/v1/form-submit', { // eslint-disable-line
+    fetch('/api/v1/form-submit', {
+      // eslint-disable-line
       body,
       headers: {
         'Content-Type': 'application/json',
       },
       method: 'POST',
-    }).then((response) => {
-      if (response.ok) {
-        console.log('Form submitted successfully')
-        console.log(response)
-      } else {
-        console.error('Error submitting form')
-      }
-    }).catch((error) => {
-      console.error('Network error:', error)
     })
+      .then((response) => {
+        if (response.ok) {
+          console.log('Form submitted successfully')
+          console.log(response)
+        } else {
+          console.error('Error submitting form')
+        }
+      })
+      .catch((error) => {
+        console.error('Network error:', error)
+      })
   }
 
   const focusOnFirstInvalidInput = (feedbackForm) => {
