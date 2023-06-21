@@ -142,14 +142,15 @@
   const createGUSWorkItem = (form) => {
     const body = createBody(form)
 
+    /* eslint-disable */
     fetch('/api/v1/form-submit', {
-      // eslint-disable-line
       body,
       headers: {
         'Content-Type': 'application/json',
       },
       method: 'POST',
     })
+      /* eslint-enable */
       .then((response) => {
         if (response.ok) {
           console.log('Form submitted successfully')
