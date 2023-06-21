@@ -35,7 +35,7 @@
   }
 
   & .slds-text-title {
-    font-family: 'EAvantGardeBold', Arial, Helvetica, sans-serif;
+    font-family: var(--heading);
     font-size: 25px;
     line-height: 35px;
     margin-bottom: 24px;
