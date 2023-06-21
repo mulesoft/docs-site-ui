@@ -145,6 +145,7 @@
     /* eslint-disable */
     fetch('/api/v1/form-submit', {
       body,
+      cache: 'no-cache',
       headers: {
         'Content-Type': 'application/json',
       },
