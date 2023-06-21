@@ -39,7 +39,7 @@
     const listOfVersions = versions.map((t) => t.displayVersion || t.version)
     if (listOfVersions.length && isNumberedVersion(listOfVersions[0])) {
       listOfVersions[0] += ' [latest]'
-      return `["${listOfVersions.join('", "')}"]`
+      return `["${listOfVersions.slice(0, 25).join('", "')}"]`
     }
   }
 
