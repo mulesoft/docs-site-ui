@@ -18,13 +18,10 @@
     "function-no-unknown": null,
     "function-url-quotes": null,
     "import-notation": null,
-    "max-line-length": null,
     "media-feature-range-notation": null,
     "selector-attribute-quotes": null,
     "selector-class-pattern": null,
     "selector-not-notation": null,
-    "shorthand-property-no-redundant-values": null,
-    "string-quotes": null,
-    "value-keyword-case": null
+    "shorthand-property-no-redundant-values": null
   }
 }
