@@ -115,7 +115,7 @@
     }
   }
 
-  & input:not([type="button"]):not([type="submit"]),
+  & input:not([type="button"], [type="submit"]),
   & textarea {
     border: 1px solid #c9c9c9;
     border-radius: 4px;
@@ -139,7 +139,7 @@
   }
 
   & label,
-  & span:not([aria-live]):not(.validation-text):not(.feedback-form-thank-you),
+  & span:not([aria-live], .validation-text, .feedback-form-thank-you),
   & fieldset {
     border: none;
     font-family: var(--sans-serif-bold);

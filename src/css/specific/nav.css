@@ -343,7 +343,7 @@ svg.nav-icon {
   }
 
   & button,
-  & span:not(.tooltip-dot-nav-version-menu):not(.tooltip-dot-nav-version) {
+  & span:not(.tooltip-dot-nav-version-menu, .tooltip-dot-nav-version) {
     display: list-item;
     padding: var(--xs) var(--input-md) var(--xs) var(--sm);
   }
