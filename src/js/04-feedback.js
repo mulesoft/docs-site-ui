@@ -20,7 +20,7 @@
   const feedbackFormThankYouSign = feedbackCard.querySelector('span.feedback-form-thank-you')
 
   const decision = ['Yes', 'No']
-  const inputNamesWithValidation = ['feedback', 'email']
+  const inputNamesWithValidation = ['feedback']
 
   let voted
   let feedbackSubmitted
@@ -104,13 +104,13 @@
           e.preventDefault()
           show(validationText)
           addValidationViz(input)
+          // updateErrorSummary(feedbackFormErrorSummary)
           input.ariaInvalid = true
-          updateErrorSummary(feedbackFormErrorSummary)
-          input.setAttribute('aria-labelledby', feedbackFormErrorSummary.id)
+          input.setAttribute('aria-labelledby', `${inputName}-validation-text`)
           document.activeElement.blur()
           setTimeout(() => {
             focusOnFirstInvalidInput(feedbackForm)
-          }, 50)
+          }, 100)
         })
       }
     })
@@ -211,13 +211,15 @@
   }
 
   const updateErrorSummary = (errorSummary) => {
-    const validationErrors = feedbackForm.querySelectorAll('.validation-text:not(.hide)')
-    const errorCount = validationErrors.length
-    if (errorCount) {
-      const errorMsg = aggregateErrorMessages(validationErrors)
-      errorSummary.innerText = `${errorCount} error${errorCount !== 1 ? 's' : ''} found in this form: ${errorMsg}`
-    } else {
-      errorSummary.innerText = ''
+    if (errorSummary) {
+      const validationErrors = feedbackForm.querySelectorAll('.validation-text:not(.hide)')
+      const errorCount = validationErrors.length
+      if (errorCount) {
+        const errorMsg = aggregateErrorMessages(validationErrors)
+        errorSummary.innerText = `${errorCount} error${errorCount !== 1 ? 's' : ''} found in this form: ${errorMsg}`
+      } else {
+        errorSummary.innerText = ''
+      }
     }
   }
 

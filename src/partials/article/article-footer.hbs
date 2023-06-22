@@ -36,7 +36,7 @@
     </div>
     <div class="feedback-form hide">
       <form>
-        <span class="sr-only" id="error-summary"></span>
+        {{!-- <span class="sr-only" id="error-summary"></span> --}}
         <p>
           <label for="feedback">Share your feedback (required)</label>
           <input aria-required="true" maxlength="100" placeholder="Let us know what you liked, or how we can improve..." type="text"
@@ -60,8 +60,8 @@
           <div class="contact-info">
             <p>
               <label for="email">Email (optional)</label>
-              <input maxlength="50" placeholder="email@example.com" type="email" id="email" name="email">
-              <span class="validation-text hide" id="email-validation-text">Email format is invalid. Please include an '@' in the email address</span>
+              <input maxlength="50" placeholder="email@example.com" type="text" id="email" name="email">
+              {{!-- <span class="validation-text hide" id="email-validation-text">Email format is invalid. Please include an '@' in the email address</span> --}}
             </p>
           </div>
           </fieldset>
