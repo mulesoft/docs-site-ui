@@ -1,6 +1,6 @@
 .survey {
   background: var(--survey-gradient);
-  box-shadow: 0 10px 30px rgba(0,0,0,.1);
+  box-shadow: 0 10px 30px #0000001a;
   color: #fff;
   margin-bottom: 20px;
   max-height: 280px;
@@ -110,7 +110,7 @@
     border: none;
     border-radius: 30px;
     bottom: 15px;
-    box-shadow: 0 10px 30px rgba(0,0,0,.4);
+    box-shadow: 0 10px 30px #0006;
     cursor: pointer;
     display: flex;
     height: 50px;
@@ -136,7 +136,7 @@
 
     &:focus,
     &:hover {
-      box-shadow: 0 0 0 3px rgba(0,162,223,.25);
+      box-shadow: 0 0 0 3px #00a2df40;
     }
   }
 
@@ -151,7 +151,7 @@
     border: none;
     border-radius: 5px;
     bottom: 80px;
-    box-shadow: 0 10px 30px rgba(0,0,0,.4);
+    box-shadow: 0 10px 30px #0006;
     color: #fff;
     margin-left: 15px;
     padding: 0;

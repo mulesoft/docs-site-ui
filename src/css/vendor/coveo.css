@@ -137,7 +137,7 @@ atomic-search-box {
     &:active,
     &:focus {
       border: 1px solid var(--secondary-navy);
-      box-shadow: 0 0 0 3px rgba(0,162,223,.25);
+      box-shadow: 0 0 0 3px #00a2df40;
     }
 
     &:hover {
@@ -148,7 +148,7 @@ atomic-search-box {
   &::part(suggestions-wrapper) {
     border-color: #c3c4c5;
     border-radius: 2px;
-    box-shadow: 0 2px 3px rgba(0,0,0,.16);
+    box-shadow: 0 2px 3px #00000029;
   }
 
   &::part(submit-button) {
@@ -161,7 +161,7 @@ atomic-search-box {
     &:focus {
       background-color: var(--secondary-navy);
       border: 1px solid var(--secondary-navy);
-      box-shadow: 0 0 0 3px rgba(0,162,223,.25);
+      box-shadow: 0 0 0 3px #00a2df40;
     }
   }
 

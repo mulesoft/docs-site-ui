@@ -150,7 +150,7 @@
 
     &:active,
     &:focus {
-      background: rgba(0,162,223,.075);
+      background: #00a2df13;
     }
 
     &:focus {

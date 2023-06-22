@@ -87,8 +87,7 @@
   }
 
   & .feedback-row {
-    flex-direction: row;
-    flex-wrap: wrap;
+    flex-flow: row wrap;
     padding: var(--sm) 13px;
   }
 
