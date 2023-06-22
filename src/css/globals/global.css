@@ -21,6 +21,10 @@ html {
   }
 }
 
+aside {
+  order: 3;
+}
+
 body {
   background: #fefefe;
   color: var(--steel-3);
@@ -46,6 +50,7 @@ body {
 
 .main {
   max-width: 100vw;
+  order: 2;
   width: 100%;
 
   @media (--lg) {

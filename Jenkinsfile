@@ -8,10 +8,22 @@ def gpgSecretKeyCredentialsId = 'ms-cx-engineering-gpg-private-key'
 def failureSlackChannel = '#dux-engineering-github-prs'
 
 // the following keywords are used to capture the correct error lines from a failed build's log
-// catchKeywords must be kept in order of priority, meaning that lines with "fatal" in them is the first
-// to be captured, followed by ERROR, and then by the subsequent keywords.
-excludedKeywords = ['[Pipeline]', 'No such container', 'No such image', 'make: ***']
-catchKeywords = ['fatal', 'ERROR', 'non-zero', 'Error', 'unauthorized']
+
+// excludedKeywords are in alphabetical order and are case-sensitive
+excludedKeywords = ['[Pipeline]', 'make: ***', 'No such container', 'No such image']
+
+// catchKeywords must be kept in order of priority and are case-sensitive
+catchKeywords = [
+    'failed build', // failed CorePaaS builds. Since we don't have the capability to get the failed downstream job, this will do 
+    ' 503 ', // 503 service not available. Happens when services like Jenkins, GUS, Nexus are down
+    ' 400 ', // 400 bad request. Happens when services like Jenkins, GUS, Nexus are not acting correctly
+    'fatal', // fatal errors, especially ones from Antora builds
+    'process apparently never started', // Jenkins restarts and breaks the build
+    'unauthorized', // permission issue typically from GitHub or Docker. Usually temporary and will go away on its own
+    'non-zero', // generic errors for non-zero error codes
+    'ERROR', // generic errors
+    'Error', // generic errors
+]
 
 pipeline {
   agent any
@@ -33,10 +45,7 @@ pipeline {
         }
       }
       steps {
-        nodejs('node12') {
-          sh 'npm ci'
-          sh 'npx gulp bundle'
-        }
+        sh "docker build -f Dockerfile.test ."
       }
       post {
         failure {
