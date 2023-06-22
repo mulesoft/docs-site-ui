@@ -82,7 +82,7 @@
   }
 
   & .icon-forward-arrow {
-    fill: currentColor;
+    fill: currentcolor;
     height: 12px;
     margin-left: var(--xs);
     opacity: .75;
@@ -228,7 +228,7 @@
     }
 
     & .svg {
-      fill: currentColor;
+      fill: currentcolor;
     }
   }
 }
