@@ -3,6 +3,37 @@
 
   const surveyAppearPercent = document.location.host === 'docs.mulesoft.com' ? 5 : 100
 
+  const eligibleCountryTimezones = [
+    // United States
+    'America/New_York',
+    'America/Chicago',
+    'America/Denver',
+    'America/Los_Angeles',
+    'America/Anchorage',
+    'Pacific/Honolulu',
+
+    // Ireland
+    'Europe/Dublin',
+
+    // Australia
+    'Australia/Sydney',
+    'Australia/Adelaide',
+    'Australia/Perth',
+    'Australia/Eucla',
+
+    // Canada (except Quebec)
+    'America/Toronto',
+    'America/Winnipeg',
+    'America/Edmonton',
+    'America/Vancouver',
+
+    // New Zealand
+    'Pacific/Auckland',
+
+    // United Kingdom
+    'Europe/London',
+  ]
+
   const aside = document.querySelector('aside')
   const backdrop = document.querySelector('.modal-backdrop')
   const hideClass = 'hide'
@@ -75,6 +106,7 @@
   }
 
   const showSurvey = (percent) => Math.random() < percent / 100
+  const userInCountries = (timezones) => timezones.includes(Intl.DateTimeFormat().resolvedOptions().timeZone)
 
   // For some reason, mobile survey doesn't show up right after the page loads until I add this timeout.
   // Keep this timeout here for now until we have a better solution
@@ -82,7 +114,7 @@
     const mobileSurveyDiv = document.querySelector('div.mobile-survey-div')
     if (!mobileSurveyDiv) return
 
-    if (!showSurvey(surveyAppearPercent)) {
+    if (!userInCountries(eligibleCountryTimezones) || !showSurvey(surveyAppearPercent)) {
       toggleClass(document.querySelector('aside > section.survey'), hideClass, true)
       toggleClass(mobileSurveyDiv, hideClass, true)
       return
