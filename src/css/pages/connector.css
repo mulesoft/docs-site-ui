@@ -52,7 +52,7 @@
   }
 
   & .icon-external {
-    fill: currentColor;
+    fill: currentcolor;
     margin-left: var(--xs);
     opacity: .5;
   }
