@@ -5,6 +5,7 @@
   ],
   "rules": {
     "comment-empty-line-before": null,
+    "import-notation": "string",
     "media-feature-range-notation": "prefix",
     "no-descending-specificity": null,
     "number-leading-zero": null,
@@ -18,7 +19,6 @@
     "color-function-notation": null,
     "function-no-unknown": null,
     "function-url-quotes": null,
-    "import-notation": null,
     "shorthand-property-no-redundant-values": null
   }
 }
