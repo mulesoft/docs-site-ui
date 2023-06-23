@@ -11,7 +11,7 @@
       outline: 2px solid #747474;
       padding: 1px;
 
-      &[target=_blank] {
+      &[target="_blank"] {
         margin-right: -1px;
       }
     }

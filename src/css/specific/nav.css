@@ -182,7 +182,7 @@ svg.nav-icon {
     & > .nav-list ~ .nav-list {
       display: none;
     }
-    & [aria-current=page] {
+    & [aria-current="page"] {
       background: var(--aluminum-3);
       border-left: 3px solid var(--secondary-navy);
       color: var(--secondary-navy);
