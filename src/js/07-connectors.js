@@ -15,7 +15,7 @@
   /* eslint-enable max-len */
 
   const addPopoverToConnectorLevel = () => {
-    var connectorTierTrigger = document.querySelector('.js-connector-level-trigger')
+    const connectorTierTrigger = document.querySelector('.js-connector-level-trigger')
     if (connectorTierTrigger) {
       const level = connectorTierTrigger.getAttribute('data-level')
       if (level) {
