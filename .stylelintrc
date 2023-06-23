@@ -13,7 +13,6 @@
     "selector-no-vendor-prefix": null,
     "selector-type-no-unknown": [true, { "ignoreTypes": ["/^atomic-/"] }],
     "value-no-vendor-prefix": null,
-    "function-no-unknown": null,
-    "shorthand-property-no-redundant-values": null
+    "function-no-unknown": null
   }
 }
