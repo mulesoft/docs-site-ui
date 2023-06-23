@@ -20,9 +20,6 @@
   tables.forEach((table) => {
     const tableHeaderTexts = getTableHeaderTexts(table)
     const tableRows = table.querySelectorAll('tr')
-    tableRows.forEach((tableRow) => {
-      console.log(tableRow)
-      addDataHeader(tableRow, tableHeaderTexts)
-    })
+    tableRows.forEach((tableRow) => addDataHeader(tableRow, tableHeaderTexts))
   })
 })()
