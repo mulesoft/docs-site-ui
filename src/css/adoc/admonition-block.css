@@ -44,7 +44,7 @@
     border-color: color-mod(var(--red-3) lightness(85%));
 
     &::before {
-      background-image: url(../img/icons/caution.svg);
+      background-image: url("../img/icons/caution.svg");
       color: color-mod(var(--red-3) lightness(40%));
       content: 'CAUTION';
     }
@@ -55,19 +55,19 @@
     border-color: color-mod(var(--yellow-3) lightness(75%));
 
     &::before {
-      background-image: url(../img/icons/important.svg);
+      background-image: url("../img/icons/important.svg");
       color: color-mod(var(--yellow-3) lightness(40%));
       content: 'IMPORTANT';
     }
   }
 
   &.note tbody::before {
-    background-image: url(../img/icons/note.svg);
+    background-image: url("../img/icons/note.svg");
     content: 'NOTE';
   }
 
   &.tip tbody::before {
-    background-image: url(../img/icons/tip.svg);
+    background-image: url("../img/icons/tip.svg");
     content: 'TIP';
   }
 
@@ -76,7 +76,7 @@
     border-color: color-mod(var(--red-3) lightness(85%));
 
     &::before {
-      background-image: url(../img/icons/caution.svg);
+      background-image: url("../img/icons/caution.svg");
       color: color-mod(var(--red-3) lightness(40%));
       content: 'WARNING';
     }

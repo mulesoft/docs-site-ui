@@ -57,7 +57,7 @@
   }
 
   & .li + .li:not(.last-breadcrumb-item)::before {
-    background-image: url(../img/icons/chevron.svg);
+    background-image: url("../img/icons/chevron.svg");
     background-position: center;
     background-repeat: no-repeat;
     background-size: var(--md);

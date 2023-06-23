@@ -105,7 +105,7 @@
   }
 
   & .input {
-    background-image: url(../img/icons/search-light.svg);
+    background-image: url("../img/icons/search-light.svg");
     background-position: var(--sm) 50%;
     background-repeat: no-repeat;
     background-size: 20px;
