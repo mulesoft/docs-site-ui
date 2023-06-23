@@ -8,7 +8,6 @@
     "import-notation": "string",
     "media-feature-range-notation": "prefix",
     "no-descending-specificity": null,
-    "number-leading-zero": null,
     "order/properties-alphabetical-order": true,
     "property-no-vendor-prefix": null,
     "selector-no-vendor-prefix": null,
