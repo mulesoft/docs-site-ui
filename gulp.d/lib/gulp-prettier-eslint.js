@@ -39,7 +39,6 @@ module.exports = () => {
       report.unchanged += 1
     } else {
       report.changed += 1
-      console.log(output)
       file.contents = Buffer.from(output)
     }
 
