@@ -10,7 +10,7 @@
   top: 6px;
   transition: opacity .3s linear, z-index .5s linear;
   width: fit-content;
-  z-index: 0;
+  z-index: -1;
 
   &:focus-within {
     opacity: 1;
