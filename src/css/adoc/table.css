@@ -1,63 +1,109 @@
-table.tableblock {
-  border-collapse: collapse;
-  display: block;
-  font-size: 14px;
-  overflow: auto;
+/* table {
   width: 100%;
-
-  /* when nesting admonition */
-  & table {
-    margin-bottom: var(--xs);
-    margin-top: var(--xs);
-  }
-
-  & tbody {
-    padding: var(--sm) var(--md);
-  }
-
-  & caption {
-    text-align: left;
-  }
-
-  & p {
-    margin-bottom: 0;
-    margin-top: 0;
+  border-collapse: collapse;
+  
+  & th, td {
+    display: block;
+    padding: 3px;
   }
 
   & th {
-    border-bottom: 2px solid var(--steel-3);
     text-align: left;
-  }
-
-  & tr + tr {
-    border-top: 1px solid var(--aluminum-3);
-  }
-
-  & caption,
-  & td,
-  & th {
-    padding: var(--xs) var(--sm);
-
-    & + td {
-      border-left: 1px solid var(--aluminum-3);
+    background-color: #eee;
+    padding: 5px;
+    outline:1px solid #ccc;
+    
+    &[scope="col"] {
+      display: none;
     }
   }
-}
-td.tableblock.valign-top {
-  vertical-align: top;
-}
-td.tableblock.valign-middle {
-  vertical-align: middle;
-}
-td.tableblock.valign-bottom {
-  vertical-align: bottom;
-}
-td.tableblock.halign-center {
-  text-align: center;
-}
-td.tableblock.halign-left {
-  text-align: left;
-}
-td.tableblock.halign-right {
-  text-align: right;
+
+  & td {
+    padding-left: 5px;
+
+    &::before {
+      content: attr(data-header);
+      font-weight: bold;
+      display: inline-block;
+      width: 50%;
+      text-align: right;
+      padding-right: 20px;
+    }
+  }
+} */
+
+@media (--md) {
+  table {
+    border-collapse: collapse;
+    display: block;
+    font-size: 14px;
+    overflow: auto;
+    width: 100%;
+  
+    /* when nesting admonition */
+    & table {
+      margin-bottom: var(--xs);
+      margin-top: var(--xs);
+    }
+  
+    & tbody {
+      padding: var(--sm) var(--md);
+    }
+  
+    & caption {
+      text-align: left;
+    }
+  
+    & p {
+      margin-bottom: 0;
+      margin-top: 0;
+    }
+  
+    & th {
+      border-bottom: 2px solid var(--steel-3);
+      text-align: left;
+    }
+  
+    & tr + tr {
+      border-top: 1px solid var(--aluminum-3);
+    }
+  
+    & caption,
+    & td,
+    & th {
+      padding: var(--xs) var(--sm);
+  
+      & + td {
+        border-left: 1px solid var(--aluminum-3);
+      }
+    }
+  
+    & td {
+      display: table-cell;
+
+      &.tableblock.valign-top {
+        vertical-align: top;
+      }
+      
+      &.tableblock.valign-middle {
+        vertical-align: middle;
+      }
+      
+      &.tableblock.valign-bottom {
+        vertical-align: bottom;
+      }
+      
+      &.tableblock.halign-center {
+        text-align: center;
+      }
+    
+      &.tableblock.halign-left {
+        text-align: left;
+      }
+    
+      &.tableblock.halign-right {
+        text-align: right;
+      }
+    }
+  }
 }
