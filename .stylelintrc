@@ -20,7 +20,6 @@
     "import-notation": null,
     "media-feature-range-notation": null,
     "selector-attribute-quotes": null,
-    "selector-class-pattern": null,
     "shorthand-property-no-redundant-values": null
   }
 }
