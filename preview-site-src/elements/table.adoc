@@ -5,7 +5,7 @@
 
 https://docs.asciidoctor.org/asciidoc/latest/tables/build-a-basic-table/[Antora docs reference^]
 
-== Basic table
+== Basic Table
 
 [cols="3,2,3"]
 |===
@@ -13,7 +13,20 @@ https://docs.asciidoctor.org/asciidoc/latest/tables/build-a-basic-table/[Antora 
 |This line starts with a vertical bar so this content is placed in a new cell in column 2 |When the processor encounters a whitespace followed by a vertical bar it ends the previous cell and starts a new cell
 |===
 
-== Nesting table
+== Realistic Table
+
+|===
+| |4-node Configuration | 7-node Configuration
+
+| Maximum instances per API group | 100 | 100
+| Client applications (per user) | 5000 | 5000
+| Client applications (per root organization) | 10000 | 10000
+| Maximum API instances manager per root organization | 6000 | 12000
+| Applied policies | 12000 | 24000
+| Created contracts | 12000 | 24000
+|===
+
+== Nesting Table
 
 [cols="1,2a"]
 |===
