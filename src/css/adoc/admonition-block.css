@@ -1,5 +1,4 @@
 .admonitionblock {
-
   & table,
   & tr,
   & td {
@@ -82,19 +81,24 @@
     }
   }
 }
+
 html:lang(jp) .admonitionblock {
   &.caution tbody::before {
     content: '注意';
   }
+
   &.important tbody::before {
     content: '重要';
   }
+
   &.note tbody::before {
     content: 'メモ';
   }
+
   &.tip tbody::before {
     content: 'ヒント';
   }
+
   &.warning tbody::before {
     content: '警告';
   }

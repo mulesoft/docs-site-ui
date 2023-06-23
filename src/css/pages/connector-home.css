@@ -1,6 +1,5 @@
 /* featured connectors */
 .connectors-popular {
-
   & .popular-cards {
     @media (min-width: 768px) and (max-width: 1035px), (max-width: 695px) {
       flex-wrap: wrap;
@@ -93,7 +92,6 @@
 
 /* search */
 .connectors-search {
-
   & .input,
   & .select-wrapper {
     height: var(--input-lg);
