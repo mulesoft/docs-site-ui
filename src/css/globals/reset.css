@@ -24,7 +24,7 @@ select {
   &.focus,
   &:focus {
     border-color: var(--secondary-navy);
-    box-shadow: 0 0 0 3px rgba(0,162,223,.25);
+    box-shadow: 0 0 0 3px #00a2df40;
     outline: 0;
   }
 
@@ -50,7 +50,7 @@ button {
   &.active,
   &:active {
     border-color: var(--secondary-navy);
-    box-shadow: 0 0 0 3px rgba(0,162,223,.25);
+    box-shadow: 0 0 0 3px #00a2df40;
     outline: 0;
   }
 }

@@ -269,7 +269,7 @@ svg.nav-icon {
 
   &:focus {
     border: 1px solid var(--secondary-navy);
-    box-shadow: 0 0 0 3px rgba(0,162,223,.25);
+    box-shadow: 0 0 0 3px #00a2df40;
   }
 }
 
@@ -288,7 +288,7 @@ svg.nav-icon {
 
   &:hover {
     border-color: var(--steel-2);
-    box-shadow: 0 0 0 3px rgba(88,89,90,.3);
+    box-shadow: 0 0 0 3px #58595a4d;
     color: var(--steel-2);
   }
 
@@ -305,7 +305,7 @@ svg.nav-icon {
 
   &.selector-active {
     border: 1px solid var(--secondary-navy);
-    box-shadow: 0 0 0 3px rgba(0,162,223,.25);
+    box-shadow: 0 0 0 3px #00a2df40;
     font-family: var(--sans-serif-bold);
   }
 }
@@ -313,7 +313,7 @@ svg.nav-icon {
 .nav-version-menu {
   background: var(--tertiary);
   border-radius: 2px;
-  box-shadow: 0 0 0 1px var(--aluminum-3), 0 2px 9px rgba(0,0,0,.1);
+  box-shadow: 0 0 0 1px var(--aluminum-3), 0 2px 9px #0000001a;
   font-size: .75rem;
   max-height: 0;
   max-width: 160px;

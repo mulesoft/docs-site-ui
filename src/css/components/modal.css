@@ -1,7 +1,7 @@
 .modal {
   background: var(--tertiary);
   border-radius: 4px;
-  box-shadow: 0 3px 15px rgba(0,0,0,.1);
+  box-shadow: 0 3px 15px #0000001a;
   font-size: 13px;
   left: var(--lg);
   margin-left: auto;
@@ -34,7 +34,7 @@
 
 .modal-backdrop {
   animation: fade-in var(--transition-speed-sm) var(--transition-timing) forwards;
-  background: rgba(0,0,0,.5);
+  background: #00000080;
   cursor: pointer;
   height: 100%;
   height: -moz-available;

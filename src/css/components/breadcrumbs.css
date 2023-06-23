@@ -82,7 +82,7 @@
     }
 
     &::-webkit-scrollbar-thumb {
-      background-color: rgba(0,0,0,.5);
+      background-color: #00000080;
       border: 3px solid var(--tertiary); /* should match background, can't be transparent */
       border-radius: 10px;
     }
@@ -111,7 +111,7 @@
 
   &:hover {
     border-color: var(--steel-2);
-    box-shadow: 0 0 0 3px rgba(88,89,90,.3);
+    box-shadow: 0 0 0 3px #58595a4d;
     color: var(--steel-2);
   }
 

@@ -16,7 +16,6 @@
     "rule-empty-line-before": null,
     "value-no-vendor-prefix": null,
     "alpha-value-notation": null,
-    "color-function-notation": null,
     "function-no-unknown": null,
     "shorthand-property-no-redundant-values": null
   }
