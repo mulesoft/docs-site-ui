@@ -56,6 +56,7 @@ table {
 
   & tbody tr {
     padding-bottom: 10px;
+    padding-left: 10px;
   }
 }
 
@@ -159,6 +160,8 @@ table {
 
     & tr {
       float: unset;
+      padding-bottom: 0;
+      padding-left: 0;
 
       &:not(:first-child) {
         border-top: 1px solid var(--aluminum-4);
