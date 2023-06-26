@@ -51,3 +51,12 @@ https://docs.asciidoctor.org/asciidoc/latest/tables/build-a-basic-table/[Antora 
 * Category
 
 |===
+
+[%header%autowidth.spread]
+|===
+|Property |Description
+
+|*Display Name* |Defaults to the generic endpoint name, which in this case is Ajax. Change the display name, which must be alpha-numeric, to reflect the endpoint's specific role, such as `Interactive Opinion Poll Connection`.
+|*Channel* |Specify the channel over which your Ajax endpoint communicates with the client web page. For example, `/services/echo`.
+|*Connector Configuration* |Use the dropdown list to select a previously configured connector configuration for this endpoint. If you have not created a connector configuration for this type of endpoint, you can do so from this window by clicking *Add*. Click *Edit* to modify a previously created global element.
+|===

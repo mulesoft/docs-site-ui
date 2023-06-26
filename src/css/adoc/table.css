@@ -3,10 +3,6 @@ table {
   border-top: 2px solid black;
   width: 100%;
 
-  & colgroup > col {
-    width: 100%;
-  }
-
   & td {
     align-items: center;
     display: flex;
@@ -14,7 +10,7 @@ table {
     max-height: 20px; */
     
     & p {
-      display: flex;
+      display: inline-table;
       font-size: 12px;
       margin-left: var(--lg);
     }
@@ -27,8 +23,6 @@ table {
     }
 
     &:not(:first-child) {
-      height: 25px;
-
       &::before {
         align-items: center;
         border-right: 1px solid black;
