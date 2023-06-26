@@ -1,7 +1,7 @@
 table {
+  border-collapse: collapse;
   border-top: 2px solid black;
   width: 100%;
-  border-collapse: collapse;
 
   & colgroup > col {
     width: 100%;

@@ -25,7 +25,9 @@
 
   const getTableColumnsWidthMap = (tableColumns) => {
     const columnsWidthMap = {}
-    tableColumns.forEach((col, index) => { columnsWidthMap[index] = col.style.width })
+    tableColumns.forEach((col, index) => {
+      columnsWidthMap[index] = col.style.width
+    })
     return columnsWidthMap
   }
 
@@ -37,7 +39,9 @@
 
   const isBigScreenSize = () => window.matchMedia(' (min-width: 768px)').matches
 
-  const setColWidth = (col, width) => { col.style.width = width }
+  const setColWidth = (col, width) => {
+    col.style.width = width
+  }
 
   const tables = document.querySelectorAll('table')
   tables.forEach((table) => addDataHeaders(table))
