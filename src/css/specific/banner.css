@@ -4,6 +4,7 @@
 
   & a {
     color: var(--secondary-navy);
+
     &:hover {
       background-color: #e8f8ff;
       border-radius: 5px;
@@ -11,7 +12,7 @@
       outline: 2px solid #747474;
       padding: 1px;
 
-      &[target=_blank] {
+      &[target="_blank"] {
         margin-right: -1px;
       }
     }

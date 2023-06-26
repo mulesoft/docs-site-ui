@@ -5,23 +5,14 @@
   ],
   "rules": {
     "comment-empty-line-before": null,
+    "import-notation": "string",
+    "media-feature-range-notation": "prefix",
     "no-descending-specificity": null,
-    "number-leading-zero": null,
     "order/properties-alphabetical-order": true,
     "property-no-vendor-prefix": null,
     "selector-no-vendor-prefix": null,
     "selector-type-no-unknown": [true, { "ignoreTypes": ["/^atomic-/"] }],
-    "rule-empty-line-before": null,
     "value-no-vendor-prefix": null,
-    "alpha-value-notation": null,
-    "color-function-notation": null,
-    "function-no-unknown": null,
-    "function-url-quotes": null,
-    "import-notation": null,
-    "media-feature-range-notation": null,
-    "selector-attribute-quotes": null,
-    "selector-class-pattern": null,
-    "selector-not-notation": null,
-    "shorthand-property-no-redundant-values": null
+    "function-no-unknown": null
   }
 }
