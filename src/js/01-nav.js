@@ -835,9 +835,8 @@
           .sort((a, b) => {
             if (!subcomponent.sortAll) return 0
             if (!a.title) return 1
-            if (a.title?.toLowerCase() < b.title?.toLowerCase()) {
-              return -1
-            }
+            if (a.title?.toLowerCase() < b.title?.toLowerCase()) return -1
+            return 0
           })
           .forEach((component) => {
             const iconId = 'icon-nav-component-' + component.name

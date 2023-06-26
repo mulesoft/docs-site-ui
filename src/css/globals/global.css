@@ -5,16 +5,19 @@ html {
   max-height: -webkit-fill-available;
   max-height: stretch;
   scrollbar-color: var(--aluminum-4) var(--aluminum-2);
+
   &::-webkit-scrollbar {
     background-color: var(--aluminum-2);
     height: 12px;
     width: 12px;
   }
+
   &::-webkit-scrollbar-thumb {
     background-clip: padding-box;
     background-color: var(--aluminum-4);
     border: 3px solid transparent;
     border-radius: 12px;
+
     &:hover {
       background-color: #a4a4a4;
     }
@@ -83,16 +86,19 @@ body {
   overscroll-behavior: none;
   scrollbar-color: var(--aluminum-4) transparent;
   scrollbar-width: thin;
+
   &::-webkit-scrollbar {
     background-color: transparent;
     height: 6px;
     width: 6px;
   }
+
   &::-webkit-scrollbar-thumb {
     background-clip: padding-box;
     background-color: var(--aluminum-4);
     border: 1.75px solid transparent;
     border-radius: 6px;
+
     &:hover {
       background-color: #a4a4a4;
     }
@@ -120,8 +126,10 @@ See: https://webaim.org/techniques/css/invisiblecontent/#techniques
 @media (pointer: fine) {
   .scrollbar {
     transition: scrollbar-color var(--transition-speed-sm) var(--transition-timing);
+
     &:not(:hover) {
       scrollbar-color: transparent transparent;
+
       &::-webkit-scrollbar-thumb {
         background-color: transparent;
       }

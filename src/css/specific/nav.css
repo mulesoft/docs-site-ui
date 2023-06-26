@@ -1,6 +1,6 @@
 .nav {
   background: var(--tertiary);
-  box-shadow: 1px 0 0 var(--aluminum-3), 3px 0 15px #00000006;
+  box-shadow: 1px 0 0 var(--aluminum-3), 3px 0 15px #0006;
   color: var(--steel-3);
   display: flex;
   flex-direction: column;
@@ -20,13 +20,16 @@
   visibility: hidden;
   width: var(--mobile-nav-width);
   z-index: var(--z-nav-mobile);
+
   &.is-active {
     transform: none;
     visibility: visible;
   }
+
   & * {
     -webkit-tap-highlight-color: transparent;
   }
+
   & .search {
     background: white;
     display: block;
@@ -34,6 +37,7 @@
     top: 0;
     z-index: inherit;
   }
+
   & .nav-close-button {
     background-color: var(--secondary-navy);
     border: none;
@@ -104,6 +108,7 @@
     font-family: var(--sans-serif-bold);
     letter-spacing: var(--bold-text-letter-spacing);
   }
+
   &:hover svg {
     filter: grayscale(0);
   }
@@ -132,6 +137,7 @@
 
 .nav-group {
   margin-right: -6px; /* cross-browser alternative to `overflow-y: overlay` */
+
   & > .nav-title {
     align-items: center;
     color: #000;
@@ -139,6 +145,7 @@
     font-size: 16px;
     padding-top: 2.25em;
   }
+
   &:first-child > .nav-list > .nav-item:first-child {
     margin-top: 0;
   }
@@ -155,6 +162,7 @@ svg.nav-group-icon {
   display: flex;
   justify-content: space-between;
   position: relative;
+
   & + .nav-list {
     margin-left: 2em;
   }
@@ -173,16 +181,20 @@ svg.nav-icon {
   & .nav-text + .nav-list {
     margin-left: 1.5em;
   }
+
   & .nav-text.has-icon + .nav-list {
     margin-left: 2em;
   }
+
   & .nav-item {
     margin-top: var(--md);
+
     &:not(.is-active) > .nav-list,
     & > .nav-list ~ .nav-list {
       display: none;
     }
-    & [aria-current=page] {
+
+    & [aria-current="page"] {
       background: var(--aluminum-3);
       border-left: 3px solid var(--secondary-navy);
       color: var(--secondary-navy);
@@ -190,14 +202,17 @@ svg.nav-icon {
       width: -moz-available;
       width: -webkit-fill-available;
     }
+
     &[data-component="archive"] {
       width: min-content;
     }
+
     &.is-active {
       & > .nav-item-toggle::before {
         content: "-";
       }
     }
+
     & .external-link-image {
       margin-left: 10px;
       margin-right: -5px;
@@ -208,19 +223,23 @@ svg.nav-icon {
       }
     }
   }
+
   & .nav-list {
     & > .nav-item {
       margin-top: var(--sm);
+
       & > .nav-text {
         &:hover {
           color: var(--steel-3);
           text-decoration: underline;
         }
       }
+
       &[data-component] {
         margin-left: -.5em;
       }
     }
+
     & .nav-icon {
       transform: scale(.75);
       transform-origin: right;
@@ -241,6 +260,7 @@ svg.nav-icon {
   padding: 0;
   position: absolute;
   width: 1.2em;
+
   &::before {
     content: "+";
     display: block;

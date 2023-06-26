@@ -27,7 +27,7 @@
     },
   ]
 
-  var defs = [
+  const defs = [
     {
       id: 'icon-external',
       viewBox: '0 0 14 14',
@@ -1109,12 +1109,12 @@
       },
     },
   ]
-  var icondefs = Object.assign(document.createElement('div'), { id: 'icondefs', hidden: true })
+  const icondefs = Object.assign(document.createElement('div'), { id: 'icondefs', hidden: true })
   icondefs.appendChild(
     defs.reduce(function (parent, icondef) {
-      var symbol = Object.assign(document.createElementNS('http://www.w3.org/2000/svg', 'symbol'), { id: icondef.id })
+      const symbol = Object.assign(document.createElementNS('http://www.w3.org/2000/svg', 'symbol'), { id: icondef.id })
       symbol.setAttribute('viewBox', icondef.viewBox)
-      var contents = icondef.contents || icondef.paths || [icondef.path]
+      const contents = icondef.contents || icondef.paths || [icondef.path]
       if (Array.isArray(contents)) {
         contents.forEach(function (props) {
           symbol.appendChild(

@@ -115,10 +115,11 @@
     if (!mobileSurveyDiv) return
 
     if (!userInCountries(eligibleCountryTimezones) || !showSurvey(surveyAppearPercent)) {
-      toggleClass(document.querySelector('aside > section.survey'), hideClass, true)
-      toggleClass(mobileSurveyDiv, hideClass, true)
+      mobileSurveyDiv.remove()
       return
     }
+
+    toggleClass(mobileSurveyDiv, hideClass, true)
 
     const mobileSurveyToggleButton = mobileSurveyDiv.querySelector('button.survey-toggle')
     const mobileSurveyButton = mobileSurveyDiv.querySelector('button.mobile-survey-button')

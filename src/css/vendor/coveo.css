@@ -139,10 +139,6 @@ atomic-search-box {
       border: 1px solid var(--secondary-navy);
       box-shadow: 0 0 0 3px #00a2df40;
     }
-
-    &:hover {
-      box-shadow: 0 0 0 1px var(--steel-2);
-    }
   }
 
   &::part(suggestions-wrapper) {

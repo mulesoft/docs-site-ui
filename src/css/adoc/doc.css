@@ -169,6 +169,7 @@
   & a:not(.button-primary, .dw-playground-link, .notice-banner-link, .view-all, #cta *) {
     &:not(footer *) {
       color: var(--secondary-navy);
+
       &:visited {
         color: var(--violet-4);
       }

@@ -1,6 +1,5 @@
 /* description lists */
 .doc {
-
   & dl {
     border: 1px solid var(--aluminum-3);
     border-radius: 2px;
