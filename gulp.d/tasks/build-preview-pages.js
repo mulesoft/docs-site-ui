@@ -1,6 +1,6 @@
 'use strict'
 
-const asciidoctor = require('asciidoctor')()
+const Asciidoctor = require('@asciidoctor/core')()
 const fs = require('fs-extra')
 const handlebars = require('handlebars')
 const { inspect } = require('util')
@@ -56,7 +56,7 @@ module.exports =
                   const pageModel = (uiModel.page = {
                     ...uiModel.page,
                   })
-                  const doc = asciidoctor.load(file.contents, {
+                  const doc = Asciidoctor.load(file.contents, {
                     safe: 'safe',
                     attributes: ASCIIDOC_ATTRIBUTES,
                   })
@@ -187,7 +187,7 @@ function loadSampleUiModel (src) {
     const uiModel = yaml.load(contents)
     const extensions = ((uiModel.asciidoc || {}).extensions || []).map((request) => {
       const extension = require(request)
-      extension.register.call(asciidoctor.Extensions)
+      extension.register.call(Asciidoctor.Extensions)
       return extension
     })
     uiModel.env = process.env
