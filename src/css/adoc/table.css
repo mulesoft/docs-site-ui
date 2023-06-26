@@ -1,39 +1,68 @@
 table {
+  border-top: 2px solid black;
   width: 100%;
   border-collapse: collapse;
 
-  & p {
-    display: inline-block;
-    /* font-family: var(--sans-serif-bold); */
+  & colgroup > col {
+    width: 100%;
   }
-  
+
+  & td {
+    align-items: center;
+    display: flex;
+    /* line-height: 20px;
+    max-height: 20px; */
+    
+    & p {
+      display: flex;
+      font-size: 12px;
+      margin-left: var(--lg);
+    }
+    
+    &:first-child {
+      & p {
+        font-size: var(--md);
+        margin-left: 0;
+      }
+    }
+
+    &:not(:first-child) {
+      height: 25px;
+
+      &::before {
+        align-items: center;
+        border-right: 1px solid black;
+        content: attr(data-header);
+        display: flex;
+        font-size: 12px;
+        padding-right: 20px;
+        text-align: right;
+      }
+    }
+  }
+
   & th {    
     display: none;
   }
 
-  & td {
-    display: block;
-    padding: 3px 3px 3px 5px;
+  & tr {
+    float: left;
+    width: 100%;
 
-    &::before {
-      border-right: 1px solid black;
-      content: attr(data-header);
-      font-weight: bold;
-      display: inline-block;
-      width: 50%;
-      text-align: right;
-      padding-right: 20px;
+    &:not(:first-child) {
+      border-top: 1px solid var(--gray);
     }
+  }
 
-    &:not([data-header]) {
-      font-family: var(--sans-serif-bold);
-    }
+  & tbody tr {
+    padding-bottom: 10px;
   }
 }
 
 @media (--md) {
   table {
     border-collapse: collapse;
+    border-top: unset;
     display: block;
     font-size: 14px;
     overflow: auto;
@@ -51,11 +80,6 @@ table {
   
     & caption {
       text-align: left;
-    }
-  
-    & p {
-      margin-bottom: 0;
-      margin-top: 0;
     }
   
     & th {
@@ -81,10 +105,6 @@ table {
   
     & td {
       display: table-cell;
-
-      &::before {
-        all: unset;
-      }
 
       &.tableblock.valign-top {
         vertical-align: top;
@@ -112,6 +132,36 @@ table {
 
       &:not([data-header]) {
         font-family: var(--sans-serif);
+      }
+
+      &:first-child {
+        & p {
+          font-size: 14px;
+          margin: 0;
+        }
+      }
+  
+      &:not(:first-child) {
+        & p {
+          margin: 0;
+        }  
+
+        &::before {
+          all: unset;
+        }
+      }
+
+      & p {
+        font-size: 14px;
+        margin: 0;
+      }
+    }
+
+    & tr {
+      float: unset;
+
+      &:not(:first-child) {
+        border-top: 1px solid var(--aluminum-4);
       }
     }
   }
