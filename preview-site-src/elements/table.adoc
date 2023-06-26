@@ -60,3 +60,58 @@ https://docs.asciidoctor.org/asciidoc/latest/tables/build-a-basic-table/[Antora 
 |*Channel* |Specify the channel over which your Ajax endpoint communicates with the client web page. For example, `/services/echo`.
 |*Connector Configuration* |Use the dropdown list to select a previously configured connector configuration for this endpoint. If you have not created a connector configuration for this type of endpoint, you can do so from this window by clicking *Add*. Click *Edit* to modify a previously created global element.
 |===
+
+[%header%autowidth.spread]
+|===
+|Property |Description
+|*Address* |Enter the address for this endpoint, such as `http://localhost:8081/file`.
+|*Response timeout* |Specify how long the endpoint must wait for a response (in ms). The default is *1000* ms.
+|*Encoding* |Choose from a drop-down list the character set used for message data. (such as UTF-8).
+|*Disable Transport Transformer* |Check this box if you do _not_ want to use the endpoint’s default response transport.
+|*MIME Type* |Select from the dropdown list one of the formats this endpoint supports.
+|*Cache Messages* |_(Applies to outbound Ajax endpoint only)_. Check this box to enable the dispatcher to cache messages. Messages will only be cached if no clients are subscribed to the channel.
+|*Message Cache Size* |_(Applies to outbound Ajax endpoint only)_. Enable Cache Messages, then select the cache size. Default cache size is 1024.
+|*Connector Endpoint* |Use the drop-down list to select a previously configured global endpoint template, if any exist. If you have not created a global element for this type of endpoint, you do so by clicking *Add* and completing the fields on the pane that appears. Click *Edit* to modify a previously created global element.
+|*Enable default events tracking* |Enable default xref:3.9@mule-runtime::business-events.adoc[business event] tracking for this endpoint.
+|===
+
+[%header%autowidth.spread]
+|===
+| Name | Type | Description | Default Value | Required
+| Configuration | String | The name of the configuration to use. | | x
+| Function Name a| String a|  Name of the Lambda function. Name formats: 
+
+* Function name: my-function. 
+* Function ARN: arn:aws:lambda:us-west-2:123456789012:function:my-function. 
+* Partial ARN: 123456789012:function:my-function. 
+
+The length constraint applies only to the full ARN. If you specify only the function name, it is limited to 64 characters in length. |  | x
+| Body a| Any |  the content to use |  #[payload] | 
+| Config Ref a| ConfigurationProvider |  The name of the configuration to use to execute this component. |  | x
+| Streaming Strategy a| * <<RepeatableInMemoryStream>>
+* <<RepeatableFileStoreStream>>
+* non-repeatable-stream |  Configures how Mule processes streams. The default is to use repeatable streams. |  | 
+| Custom Query Parameters a| Object | Custom query parameters to include in the request. The specified query parameters are merged with the default query parameters that are specified in the configuration. |  | 
+| Custom Headers a| Object | Custom headers to include in the request. The specified custom headers are merged with the default headers that are specified in the configuration. |  | 
+| Response Timeout a| Number |  Timeout for requests to the remote service. This value is qualified by the *Response Timeout Unit*. |  | 
+| Response Timeout Unit a| Enumeration, one of:
+
+** NANOSECONDS
+** MICROSECONDS
+** MILLISECONDS
+** SECONDS
+** MINUTES
+** HOURS
+** DAYS |  Time unit for the *Response Timeout* field. |  | 
+| Target Variable a| String |  Name of the variable that stores the operation's output. |  | 
+| Target Value a| String |  Expression that evaluates the operation’s output. The outcome of the expression is stored in the *Target Variable*. |  #[payload] | 
+| Reconnection Strategy a| * <<Reconnect>>
+* <<ReconnectForever>> |  A retry strategy in case of connectivity errors. |  | 
+|===
+
+[%header,cols="20s,25a,30a,15a,10a"]
+|===
+| Field | Type | Description | Default Value | Required
+| Url a| String | The URL of the OCSP responder. |  | 
+| Cert Alias a| String | Alias of the signing certificate for the OCSP response (must be in the trust store), if present. |  | 
+|===

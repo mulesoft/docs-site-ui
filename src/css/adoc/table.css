@@ -9,28 +9,35 @@ table {
     /* line-height: 20px;
     max-height: 20px; */
     
-    & p {
+    & div.content,
+    & p.tableblock {
       display: inline-table;
       font-size: 12px;
+      margin-bottom: 0;
       margin-left: var(--lg);
+      margin-top: 0;
+      max-width: 75%;
     }
     
     &:first-child {
       & p {
         font-size: var(--md);
+        margin-bottom: 5px;
         margin-left: 0;
+        margin-top: 5px;
       }
     }
 
-    &:not(:first-child) {
+    &:not(:first-child)[data-header] {
       &::before {
         align-items: center;
-        border-right: 1px solid black;
+        /* border-right: 1px solid black; */
         content: attr(data-header);
         display: flex;
         font-size: 12px;
         padding-right: 20px;
         text-align: right;
+        width: 20%;
       }
     }
   }
