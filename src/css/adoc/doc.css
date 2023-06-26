@@ -166,9 +166,10 @@
   }
 
   /* links */
-  & a:not(.button-primary):not(.dw-playground-link):not(.notice-banner-link):not(.view-all):not(#cta *) {
+  & a:not(.button-primary, .dw-playground-link, .notice-banner-link, .view-all, #cta *) {
     &:not(footer *) {
       color: var(--secondary-navy);
+
       &:visited {
         color: var(--violet-4);
       }

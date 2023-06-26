@@ -1,7 +1,7 @@
 .card {
-  border: 1px solid rgba(0,0,0,.06);
+  border: 1px solid #0000000f;
   border-radius: 2px;
-  box-shadow: 0 4px 16px rgba(0,0,0,.03);
+  box-shadow: 0 4px 16px #00000008;
   color: var(--steel-3);
   display: block;
   flex: 1 1 33%;
@@ -13,13 +13,13 @@
   transition: box-shadow var(--transition-speed-sm) var(--transition-timing);
 
   &:hover {
-    border-color: rgba(0,0,0,.1);
+    border-color: #0000001a;
   }
 
   &:active,
   &:focus {
     border-color: var(--secondary-navy);
-    box-shadow: 0 4px 16px rgba(0,162,223,.06), 0 0 0 3px rgba(0,162,223,.38);
+    box-shadow: 0 4px 16px #00a2df0f, 0 0 0 3px #00a2df61;
     color: var(--steel-3);
   }
 

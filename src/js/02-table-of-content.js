@@ -119,7 +119,11 @@
     const targetPosition = doc.parentNode.offsetTop
     let activeFragment
     headings.some((heading) => {
-      if (heading.getBoundingClientRect().top < targetPosition) activeFragment = `#${heading.id}`
+      if (heading.getBoundingClientRect().top < targetPosition) {
+        activeFragment = `#${heading.id}`
+        return true
+      }
+      return false
     })
     if (activeFragment) {
       if (lastActiveFragment) {

@@ -32,9 +32,7 @@
         syncIds &&
           ((syncId = tab.textContent.trim()) in syncIds ? (syncId = undefined) : true) &&
           (syncIds[(tab.dataset.syncId = syncId)] = tab)
-        idx || ((initial = { tab: tab, panel: panel }) && syncIds)
-          ? toggleHidden(panel, true)
-          : toggleSelected(tab, true)
+        idx || ((initial = { tab, panel }) && syncIds) ? toggleHidden(panel, true) : toggleSelected(tab, true)
         tab.setAttribute('aria-controls', panel.id)
         panel.setAttribute('role', 'tabpanel')
         forEach.call(panel.querySelectorAll('table.tableblock'), function (table) {
@@ -42,11 +40,11 @@
           table.parentNode.insertBefore(container, table).appendChild(table)
         })
         const onClick = syncId === undefined ? activateTab : activateTabSync
-        tab.addEventListener('click', onClick.bind({ tabs: tabs, tab: tab, panel: panel }))
+        tab.addEventListener('click', onClick.bind({ tabs, tab, panel }))
         tab.addEventListener('keydown', (e) => {
           if (isSpaceOrEnterKey(e.keyCode)) {
             e.preventDefault()
-            onClick.call({ tabs: tabs, tab: tab, panel: panel })
+            onClick.call({ tabs, tab, panel })
           }
         })
       })
@@ -62,7 +60,7 @@
           'syncStorageKey' in config &&
           window[(config.syncStorageScope || 'local') + 'Storage'].getItem(config.syncStorageKey + '-' + syncGroupId)
         const tab = preferredSyncId && syncIds[preferredSyncId]
-        tab && Object.assign(initial, { tab: tab, panel: document.getElementById(tab.getAttribute('aria-controls')) })
+        tab && Object.assign(initial, { tab, panel: document.getElementById(tab.getAttribute('aria-controls')) })
         toggleSelected(initial.tab, true) || toggleHidden(initial.panel, false)
       }
     })
@@ -101,7 +99,7 @@
     forEach.call(document.querySelectorAll('.tabs'), function (tabs) {
       if (tabs === thisTabs || tabs.dataset.syncGroupId !== thisTabs.dataset.syncGroupId) return
       forEach.call(tabs.querySelectorAll('.tablist .tab'), function (tab) {
-        if (tab.dataset.syncId === thisTab.dataset.syncId) activateTab.call({ tabs: tabs, tab: tab, isSync: true })
+        if (tab.dataset.syncId === thisTab.dataset.syncId) activateTab.call({ tabs, tab, isSync: true })
       })
     })
     let shiftedBy = thisTabs.getBoundingClientRect().y - initialY
@@ -128,6 +126,6 @@
     if (!id) return
     const tab = document.getElementById(~id.indexOf('%') ? decodeURIComponent(id) : id)
     if (!(tab && tab.classList.contains('tab'))) return
-    'syncId' in tab.dataset ? activateTabSync.call({ tab: tab }) : activateTab.call({ tab: tab })
+    'syncId' in tab.dataset ? activateTabSync.call({ tab }) : activateTab.call({ tab })
   }
 })()

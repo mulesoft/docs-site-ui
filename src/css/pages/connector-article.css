@@ -27,18 +27,18 @@
 }
 
 .connector-avatar {
-  border: 1px solid rgba(0,0,0,.075);
+  border: 1px solid #00000013;
   border-radius: var(--radius);
-  box-shadow: 0 6px 12px rgba(0,0,0,.05);
+  box-shadow: 0 6px 12px #0000000d;
   flex: 0 0 90px;
   height: 90px;
   margin-right: var(--lg);
 }
 
 .connector-sidebar {
-  border: 1px solid rgba(0,0,0,.075);
+  border: 1px solid #00000013;
   border-radius: var(--radius);
-  box-shadow: 0 6px 12px rgba(0,0,0,.05);
+  box-shadow: 0 6px 12px #0000000d;
   font-size: 14px;
   margin-bottom: var(--lg);
   padding-top: var(--md);
