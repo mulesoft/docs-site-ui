@@ -4,6 +4,7 @@
     "stylelint-order"
   ],
   "rules": {
+    "array-callback-return": null,
     "comment-empty-line-before": null,
     "import-notation": "string",
     "media-feature-range-notation": "prefix",
