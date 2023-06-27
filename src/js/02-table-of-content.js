@@ -126,9 +126,11 @@
     // NOTE equivalent to: doc.parentNode.getBoundingClientRect().top + window.pageYOffset
     const targetPosition = doc.parentNode.offsetTop
     let activeFragment
+    /* eslint-disable array-callback-return */
     headings.some((heading) => {
       if (heading.getBoundingClientRect().top < targetPosition) activeFragment = `#${heading.id}`
-    }, {})
+    })
+    /* eslint-enable array-callback-return */
     if (activeFragment) {
       if (lastActiveFragment) {
         links[lastActiveFragment].classList.remove('is-active')
