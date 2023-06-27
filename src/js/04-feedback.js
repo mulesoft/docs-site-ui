@@ -223,12 +223,11 @@
     }
   }
 
-  const updateFeedbackAckMsg = (feedbackAckMsgDiv, decision) => {
+  const updateFeedbackAckMsg = (feedbackAckMsgDiv, decisionStr) => {
     const msg = feedbackAckMsgDiv.querySelector('p')
     if (msg) {
-      msg.innerText += ` ${decision}`
-      console.log(decision)
-      msg.setAttribute('aria-label', `You voted for ${decision === 'Yes' ? 'helpful' : 'not helpful'}`)
+      msg.innerText += ` ${decisionStr}`
+      msg.setAttribute('aria-label', `You voted for ${decisionStr === 'Yes' ? 'helpful' : 'not helpful'}`)
     }
   }
 
