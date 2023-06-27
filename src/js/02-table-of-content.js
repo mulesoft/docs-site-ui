@@ -128,7 +128,7 @@
     let activeFragment
     headings.some((heading) => {
       if (heading.getBoundingClientRect().top < targetPosition) activeFragment = `#${heading.id}`
-    })
+    }, {})
     if (activeFragment) {
       if (lastActiveFragment) {
         links[lastActiveFragment].classList.remove('is-active')
