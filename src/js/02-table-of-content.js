@@ -14,25 +14,18 @@
   let menu
   const links = {}
 
+  const addDropdownArrowAttributes = (dropdownArrow) => {
+    dropdownArrow.alt = ''
+    dropdownArrow.ariaLabel = 'Expand page contents'
+    dropdownArrow.classList.add('select-dropdown-arrow')
+    dropdownArrow.src = `${document.getElementById('site-script').dataset.uiRootPath}/img/icons/dropdown-arrow.svg`
+    dropdownArrow.role = 'button'
+  }
+
   const addSelectWrap = (startOfContent) => {
     if (startOfContent) {
-      // generate list
-      const options = headings.reduce((accum, heading) => {
-        const option = toArray(heading.childNodes).reduce((target, child) => {
-          if (child.nodeName !== 'A') {
-            target.appendChild(child.cloneNode(true))
-          }
-          return target
-        }, document.createElement('option'))
-        option.value = `#${heading.id}`
-        accum.appendChild(option)
-        return accum
-      }, document.createElement('select'))
-
-      options.className = 'toc toc-embedded select'
-      options.insertBefore(createJumpToLabel(), options.firstChild)
-      addChangeListener(options)
-
+      const options = generateList(headings)
+      handleOptions(options)
       const selectWrap = createSelectWrapper(options)
       doc.insertBefore(selectWrap, startOfContent)
     }
@@ -59,13 +52,8 @@
   }
 
   const createDropdownArrow = () => {
-    const uiRootPath = document.getElementById('site-script').dataset.uiRootPath
     dropdownArrow = document.createElement('img')
-    dropdownArrow.alt = ''
-    dropdownArrow.ariaLabel = 'Expand page contents'
-    dropdownArrow.classList.add('select-dropdown-arrow')
-    dropdownArrow.src = `${uiRootPath}/img/icons/dropdown-arrow.svg`
-    dropdownArrow.role = 'button'
+    addDropdownArrowAttributes(dropdownArrow)
     return dropdownArrow
   }
 
@@ -82,6 +70,12 @@
     selectWrap.appendChild(options)
     selectWrap.appendChild(createDropdownArrow())
     return selectWrap
+  }
+
+  const handleOptions = (options) => {
+    options.className = 'toc toc-embedded select'
+    options.insertBefore(createJumpToLabel(), options.firstChild)
+    addChangeListener(options)
   }
 
   const updateExpandState = () => {
@@ -114,17 +108,29 @@
     })
   }
 
+  const generateList = (headings) => {
+    return headings.reduce((accum, heading) => {
+      const option = toArray(heading.childNodes).reduce((target, child) => {
+        if (child.nodeName !== 'A') {
+          target.appendChild(child.cloneNode(true))
+        }
+        return target
+      }, document.createElement('option'))
+      option.value = `#${heading.id}`
+      accum.appendChild(option)
+      return accum
+    }, document.createElement('select'))
+  }
+
   const highlightOnScroll = (doc, menu, headings) => {
     // NOTE equivalent to: doc.parentNode.getBoundingClientRect().top + window.pageYOffset
     const targetPosition = doc.parentNode.offsetTop
     let activeFragment
+    /* eslint-disable array-callback-return */
     headings.some((heading) => {
-      if (heading.getBoundingClientRect().top < targetPosition) {
-        activeFragment = `#${heading.id}`
-        return true
-      }
-      return false
+      if (heading.getBoundingClientRect().top < targetPosition) activeFragment = `#${heading.id}`
     })
+    /* eslint-enable array-callback-return */
     if (activeFragment) {
       if (lastActiveFragment) {
         links[lastActiveFragment].classList.remove('is-active')
