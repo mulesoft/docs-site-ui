@@ -1,4 +1,4 @@
-{{#unless (eq (site-profile) 'archive')}}
+{{#if (or preview (is-one-of (site-profile) 'prod' 'beta' 'review')) }}
 {{#if (or page.componentVersion.asciidoc.attributes.customer-feedback-survey asciidoc.attributes.customer-feedback-survey)}}
 <div class="mobile-survey-div hide">
     {{> survey class="mobile-survey hide" iconName="close" }}
@@ -19,4 +19,4 @@
     </div>
 </div>
 {{/if}}
-{{/unless}}
+{{/if}}
