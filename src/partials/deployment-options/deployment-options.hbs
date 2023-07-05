@@ -1,5 +1,5 @@
 {{#if page.attributes.deployment-options}}
-<div class="deployment-options-row flex">
+<div class="deployment-options-row flex flex-wrap">
     {{#with (deployment-options)}}
     {{#if this.ch2}} {{> do-ch2}} {{/if}}
     {{#if this.ch1}} {{> do-ch1}} {{/if}}
