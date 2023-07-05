@@ -1,6 +1,6 @@
 .deployment-options-row {
-    column-gap: 7px;
-    row-gap: 7px;
+    column-gap: 10px;
+    row-gap: 10px;
 
     & .deployment-option {
         border: 1px solid var(--aluminum-4);
