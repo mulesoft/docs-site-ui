@@ -60,6 +60,7 @@
 
   & .col:last-child {
     font-family: var(--sans-serif-bold);
+    text-align: right;
   }
 
   & .select {
