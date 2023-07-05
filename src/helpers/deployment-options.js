@@ -3,9 +3,7 @@
 module.exports = ({
   data: {
     root: {
-      page: {
-        attributes,
-      },
+      page: { attributes },
     },
   },
 }) => {
