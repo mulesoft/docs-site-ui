@@ -76,6 +76,7 @@
 
   & .categories-header {
     margin-bottom: var(--xs);
+    text-align: left;
   }
 
   & .link {
