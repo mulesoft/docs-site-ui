@@ -1,10 +1,14 @@
-.deployment-option {
-    border: 1px solid var(--aluminum-4);
-    border-radius: 20px;
-    color: var(--steel-2);
+.deployment-options-row {
     column-gap: 5px;
-    font-size: 12px;
-    padding: 2px 3px;
-    text-decoration: none;
-    width: fit-content;
+
+    & .deployment-option {
+        border: 1px solid var(--aluminum-4);
+        border-radius: 20px;
+        color: var(--steel-2);
+        column-gap: 5px;
+        font-size: 12px;
+        padding: 2px 3px;
+        text-decoration: none;
+        width: fit-content;
+    }
 }

@@ -1,13 +1,11 @@
 {{#if page.attributes.deployment-options}}
-<div class="deployment-options-row">
-    <p>
-        {{#with (deployment-options)}}
-        {{#if this.ch2}} {{> do-ch2}} {{/if}}
-        {{#if this.ch1}} {{> do-ch1}} {{/if}}
-        {{#if this.hybrid}} {{> do-hybrid}} {{/if}}
-        {{#if this.pce}} {{> do-pce}} {{/if}}
-        {{#if this.rtf}} {{> do-rtf}} {{/if}}
-        {{/with}}
-    </p>
+<div class="deployment-options-row flex">
+    {{#with (deployment-options)}}
+    {{#if this.ch2}} {{> do-ch2}} {{/if}}
+    {{#if this.ch1}} {{> do-ch1}} {{/if}}
+    {{#if this.hybrid}} {{> do-hybrid}} {{/if}}
+    {{#if this.pce}} {{> do-pce}} {{/if}}
+    {{#if this.rtf}} {{> do-rtf}} {{/if}}
+    {{/with}}
 </div>
 {{/if}}
