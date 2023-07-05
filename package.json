@@ -67,7 +67,7 @@
     "require-directory": "2.1.1",
     "require-from-string": "2.0.2",
     "stylelint": "15.10.0",
-    "stylelint-config-standard": "33.0.0",
+    "stylelint-config-standard": "34.0.0",
     "stylelint-order": "6.0.3",
     "through2": "4.0.2",
     "tippy.js": "6.3.7",
