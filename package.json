@@ -15,6 +15,7 @@
   "scripts": {
     "bundle": "npx gulp bundle",
     "format": "npx gulp format",
+    "format:bundle": "npx gulp format && npx gulp bundle",
     "lint": "npx gulp lint",
     "preview": "npx gulp preview",
     "release": "npx gulp release",
