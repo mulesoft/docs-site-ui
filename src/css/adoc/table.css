@@ -57,6 +57,7 @@ table:not(.connectors-table, div.admonitionblock table) {
     display: flex;
 
     & div.listingblock div.content {
+      max-width: 325px;
       padding-left: 0;
     }
 
@@ -78,24 +79,12 @@ table:not(.connectors-table, div.admonitionblock table) {
         margin-top: 0;
       }
 
-      & strong {
-        font-family: var(--sans-serif);
-      }
-    }
-    
-    &:first-child:not([data-header]) {
-      display: inline;
-
-      & p {
-        font-size: var(--md);
-        padding-bottom: 5px;
-        padding-left: 0;
-        width: 100%;
+      & pre {
+        max-width: 200px;
       }
     }
 
-    &:first-child[data-header],
-    &:not(:first-child)[data-header] {
+    &[data-header] {
       &::before {
         border-right: 1px solid black;
         content: attr(data-header);
@@ -108,6 +97,18 @@ table:not(.connectors-table, div.admonitionblock table) {
 
       & p:first-child {
         margin-top: 0;
+      }
+    }
+
+    &:not([data-header]) {
+      display: inline;
+
+      & p {
+        font-size: var(--md);
+        line-height: 20px;
+        padding-bottom: 10px;
+        padding-left: 0;
+        width: 100%;
       }
     }
   }
@@ -141,6 +142,7 @@ table:not(.connectors-table, div.admonitionblock table) {
 
   & caption,
   & tbody tr {
+    max-width: 325px;
     padding: 10px;
   }
 
@@ -235,10 +237,6 @@ table:not(.connectors-table, div.admonitionblock table) {
         text-align: right;
       }
 
-      &:not([data-header]) {
-        font-family: var(--sans-serif);
-      }
-
       &:first-child {
         & p {
           font-size: 14px;
@@ -246,25 +244,26 @@ table:not(.connectors-table, div.admonitionblock table) {
         }
       }
 
-      &:first-child:not([data-header]) {
-        display: revert;
-  
-        & p {
-          font-size: var(--md);
-          padding-bottom: 5px;
-          padding-left: 0;
-          width: 100%;
-        }
-      }
-  
-      &:first-child[data-header],
-      &:not(:first-child)[data-header] {
+      &[data-header] {
         & p {
           margin: 0;
         }  
 
         &::before {
           all: unset;
+        }
+      }
+
+      &:not([data-header]) {
+        display: revert;
+        font-family: var(--sans-serif);
+  
+        & p {
+          font-size: var(--md);
+          line-height: unset;
+          padding-bottom: 5px;
+          padding-left: 0;
+          width: 100%;
         }
       }
 
