@@ -173,6 +173,7 @@ table:not(.connectors-table, div.admonitionblock table) {
 
     & caption {
       font-size: 16px;
+      max-width: unset;
     }
   
     & tbody {
@@ -287,8 +288,8 @@ table:not(.connectors-table, div.admonitionblock table) {
           margin: revert;
         }
 
-        & strong {
-          font-family: var(--sans-serif-bold);
+        & pre {
+          max-width: unset;
         }
       }
     }
