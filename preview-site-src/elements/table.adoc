@@ -338,3 +338,22 @@ You can use *Continue On Error* in conjunction with *Use Single Transaction*. Su
 | Reconnection Strategy a| * <<reconnect>>
 * <<reconnect-forever>> |  Retry strategy in case of connectivity errors. |  |
 |===
+
+[%header,cols="20a,25a,23a,23a"]
+|===
+|Month|Release Available |Sandbox Environment Auto-Update | Production Environment Auto-Update
+|September|September 5|September 21-25|September 26-27
+|August|August 8|August 21-25|August 26-27
+|July|July 4|July 17-21|July 22-23
+|===
+
+[%header,cols="2a,1a"]
+|===
+|Issue Resolution | ID
+2+h|Mule
+| Kryo is upgraded to version 4.0.3. | W-13499198
+| The `java.lang.NullPointerException` error no longer appears while refreshing an OAuth token. | W-12975498
+2+h|DataWeave
+| Multipart reader performance is enhanced by using the proper input stream implementation. | W-13099773
+|Fixed OS security vulnerabilities. | N/A
+|===
