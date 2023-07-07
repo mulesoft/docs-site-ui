@@ -11,7 +11,8 @@
 
   const addDataHeaders = (table) => {
     const tableHeaderTextsObj = getTableHeaderTextsObj(table)
-    if (isHeavyLeftColumn(tableHeaderTextsObj)) table.classList.add('half-page')
+    if (isHeavyLeftColumn(tableHeaderTextsObj, 25) ||
+      (isNestedTable(table) && isHeavyLeftColumn(tableHeaderTextsObj, 20))) table.classList.add('half-page')
     getRows(table).forEach((tableRow) => addDataHeader(tableRow, Object.keys(tableHeaderTextsObj)))
   }
 
@@ -39,7 +40,7 @@
 
   const getAllTableColumns = () => document.querySelectorAll('table > colgroup > col')
   const getAllTables = () =>
-    document.querySelectorAll('table:not(.connectors-table, div.admonitionblock table, table table)')
+    document.querySelectorAll('table:not(.connectors-table, div.admonitionblock table)')
 
   // getDirectTableCells' implementation excludes the table cells from nested tables
   const getDirectTableCells = (tableRow) => Array.from(tableRow.children).filter((child) => child.tagName === 'TD')
@@ -93,11 +94,16 @@
   const hasContent = (text) => text && text.length
   const isBigScreenSize = () => window.matchMedia(' (min-width: 768px)').matches
 
-  const isHeavyLeftColumn = (obj) => {
+  const isHeavyLeftColumn = (obj, charLimit) => {
     for (const key in obj) {
-      if (key.length >= 25 && obj[key] <= 1) return true
+      if (key.length >= charLimit && obj[key] <= 1) return true
     }
     return false
+  }
+
+  const isNestedTable = (table) => {
+    const tableParent = table.parentNode
+    return tableParent.tagName === 'DIV' && tableParent.className.includes('content')
   }
 
   const setColWidth = (col, width) => {
@@ -130,7 +136,7 @@
   }
 
   getAllTables().forEach((table) => {
-    addMobileHiddenButton(table)
+    if (!isNestedTable(table)) addMobileHiddenButton(table)
     addDataHeaders(table)
   })
   handleTableColumns(getAllTableColumns())
