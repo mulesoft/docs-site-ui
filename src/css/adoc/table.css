@@ -1,3 +1,20 @@
+@media only screen and (max-width: 414px) {
+  max-width: 325px;
+
+  table:not(.connectors-table, div.admonitionblock table) {
+    & td {  
+      & div.listingblock div.content {
+        max-width: 325px;
+      }
+    }
+
+    & caption,
+    & tbody tr {
+      max-width: 325px;
+    }
+  }  
+}
+
 table:not(.connectors-table, div.admonitionblock table) {
   border-collapse: collapse;
   border-top: 2px solid black;
@@ -57,15 +74,15 @@ table:not(.connectors-table, div.admonitionblock table) {
     display: flex;
 
     & div.listingblock div.content {
-      max-width: 325px;
       padding-left: 0;
     }
-
+    
     & div.content,
     & p.tableblock {
       display: table-cell;
       font-size: 12px;
       margin: 0;
+      max-width: 325px;
       padding-bottom: 0;
       padding-left: var(--lg);
       padding-top: 0;
@@ -125,6 +142,7 @@ table:not(.connectors-table, div.admonitionblock table) {
       background-color: #d3d3d3;
       display: inline-table;
       height: 25px;
+      max-width: 100%;
 
       & p {
         font-family: var(--sans-serif-bold);
@@ -142,7 +160,6 @@ table:not(.connectors-table, div.admonitionblock table) {
 
   & caption,
   & tbody tr {
-    max-width: 325px;
     padding: 10px;
   }
 
