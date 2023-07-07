@@ -10,8 +10,9 @@
   }
 
   const addDataHeaders = (table) => {
-    const tableHeaderTexts = getTableHeaderTexts(table)
-    getRows(table).forEach((tableRow) => addDataHeader(tableRow, tableHeaderTexts))
+    const tableHeaderTextsObj = getTableHeaderTextsObj(table)
+    if (isHeavyLeftColumn(tableHeaderTextsObj)) table.classList.add('half-page')
+    getRows(table).forEach((tableRow) => addDataHeader(tableRow, Object.keys(tableHeaderTextsObj)))
   }
 
   const addMobileHiddenButton = (table) => {
@@ -68,9 +69,13 @@
     return columnsWidthMap
   }
 
-  const getTableHeaderTexts = (table) => {
-    const tableHeaders = Array.from(table.querySelectorAll('th'))
-    return tableHeaders.map((node) => node.innerText)
+  const getTableHeaderTextsObj = (table) => {
+    const output = {}
+    const tableHeaders = table.querySelectorAll('th')
+    tableHeaders.forEach((header) => {
+      output[header.innerText] = header.colSpan
+    })
+    return output
   }
 
   const handleTableColumns = (tableColumns) => {
@@ -87,6 +92,13 @@
 
   const hasContent = (text) => text && text.length
   const isBigScreenSize = () => window.matchMedia(' (min-width: 768px)').matches
+
+  const isHeavyLeftColumn = (obj) => {
+    for (const key in obj) {
+      if (key.length >= 25 && obj[key] <= 1) return true
+    }
+    return false
+  }
 
   const setColWidth = (col, width) => {
     col.style.width = width

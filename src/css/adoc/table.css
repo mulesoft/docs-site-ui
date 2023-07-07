@@ -109,7 +109,7 @@ table:not(.connectors-table, div.admonitionblock table) {
         font-size: 12px;
         padding-right: 20px;
         width: 30%;
-        word-wrap: normal;
+        word-wrap: break-word;
       }
 
       & p:first-child {
@@ -330,6 +330,19 @@ table:not(.connectors-table, div.admonitionblock table) {
       &:not(:first-child) {
         border-top: 1px solid var(--aluminum-4);
       }
+    }
+  }
+}
+
+table.half-page:not(.connectors-table, div.admonitionblock table) {
+  & td {
+    &[data-header]::before {
+      width: 50%;
+    }
+
+    & div.content,
+    & p.tableblock {
+      width: 50%;
     }
   }
 }
