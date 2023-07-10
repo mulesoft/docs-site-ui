@@ -60,6 +60,7 @@
 
   & .col:last-child {
     font-family: var(--sans-serif-bold);
+    text-align: right;
   }
 
   & .select {
@@ -75,6 +76,7 @@
 
   & .categories-header {
     margin-bottom: var(--xs);
+    text-align: left;
   }
 
   & .link {
