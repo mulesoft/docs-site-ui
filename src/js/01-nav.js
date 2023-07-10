@@ -799,7 +799,7 @@
         componentsAccum[component.name] = component = Object.assign({}, component, {
           iconId: document.getElementById(iconId) ? iconId : componentIconId,
           versions: component.versions.reduce((versionsAccum, version) => {
-            const versionName = version.version === 'master' ? '' : version.version
+            const versionName = version.version === 'master' || !version.version ? '' : version.version
             versionsAccum[versionName] = version = Object.assign({}, version, {
               version: versionName,
               nav: Object.assign({ items: [] }, version.sets[0]),
@@ -934,14 +934,12 @@
         this.navVersionIconId = document.getElementById('icon-nav-version') && 'icon-nav-version'
         this.url = head.querySelector('meta[name=page-url]').getAttribute('content')
         this.version = head.querySelector('meta[name=page-version]').getAttribute('content')
-        if (this.version === 'master') this.version = ''
+        if (this.version === 'master' || !this.version) this.version = ''
       }
     }
   }
 
   const nav = new Nav()
   const page = new Page()
-  if (page.component && nav.nav) {
-    nav.buildNav()
-  }
+  if (page.component && nav.nav) nav.buildNav()
 })()
