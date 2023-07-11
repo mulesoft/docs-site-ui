@@ -29,7 +29,7 @@ table:not(.connectors-table, div.admonitionblock table) {
 
       &[aria-expanded="false"] {
         &::before {
-          bottom: 0;
+          bottom: 5px;
           content: 'Show table';
           position: absolute;
           right: -10px;
