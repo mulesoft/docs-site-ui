@@ -40,7 +40,7 @@
   const tabindexStoreMap = {}
 
   const addSourceParam = (link) => {
-    const currentPageUrl = window.location.href
+    const currentPageUrl = window.location.pathname
     link.href = `${link.href}?source=${encodeURIComponent(currentPageUrl)}`
   }
 
