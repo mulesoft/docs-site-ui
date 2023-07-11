@@ -39,6 +39,11 @@
   const hideClass = 'hide'
   const tabindexStoreMap = {}
 
+  const addSourceParam = (link) => {
+    const currentPageUrl = window.location.href
+    link.href = `${link.href}?source=${encodeURIComponent(currentPageUrl)}`
+  }
+
   const contains = (parentElement, element) => parentElement.contains(element)
 
   // source:
@@ -188,5 +193,7 @@
         surveyPopoverContentLink.addEventListener('click', () => hideForever(mobileSurveyPopover))
       }
     }
+
+    if (takeTheSurveyLink) addSourceParam(takeTheSurveyLink)
   }, 50)
 })()
