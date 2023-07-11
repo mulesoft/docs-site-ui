@@ -88,7 +88,6 @@
   const handleToggle = (hideButton) => {
     const ariaExpandedValue = hideButton.getAttribute('aria-expanded') === 'true' ? 'false' : 'true'
     hideButton.setAttribute('aria-expanded', ariaExpandedValue)
-    hideButton.classList.toggle('flip-vertical')
   }
 
   const hasContent = (text) => text && text.length
@@ -114,8 +113,7 @@
     const label = 'Click to toggle the table'
 
     hideButton.classList.add('table-toggle')
-    hideButton.classList.add('flip-vertical')
-    hideButton.setAttribute('aria-expanded', false)
+    hideButton.setAttribute('aria-expanded', true)
     hideButton.setAttribute('aria-label', label)
     hideButton.setAttribute('title', label)
     hideButton.type = 'button'

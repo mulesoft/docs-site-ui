@@ -47,10 +47,6 @@ body {
   }
 }
 
-.flip-vertical {
-  transform: rotate(180deg);
-}
-
 .hide {
   display: none !important;
 }

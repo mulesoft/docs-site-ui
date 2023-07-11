@@ -26,6 +26,19 @@ table:not(.connectors-table, div.admonitionblock table) {
       float: right;
       height: 40px;
       width: 40px;
+
+      &[aria-expanded="false"] {
+        &::before {
+          bottom: 0;
+          content: 'Show table';
+          position: absolute;
+          right: -10px;
+        }
+        
+        & img {
+          transform: rotate(0);
+        }
+      }
   
       &.with-caption {
         position: absolute;
