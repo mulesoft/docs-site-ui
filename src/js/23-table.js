@@ -14,7 +14,9 @@
     if (
       isHeavyLeftColumn(tableHeaderTextsObj, 25) ||
       (isNestedTable(table) && isHeavyLeftColumn(tableHeaderTextsObj, 20))
-    ) { table.classList.add('half-page') }
+    ) {
+      table.classList.add('half-page')
+    }
     getRows(table).forEach((tableRow) => addDataHeader(tableRow, Object.keys(tableHeaderTextsObj)))
   }
 
