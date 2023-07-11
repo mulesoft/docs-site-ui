@@ -138,7 +138,7 @@ table:not(.connectors-table, div.admonitionblock table) {
 
   & tr {
     float: left;
-    max-width: 90vw;
+    max-width: 80vw;
     width: 100%;
 
     &:has(th[colspan]) {    
