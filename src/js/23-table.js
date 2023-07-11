@@ -11,8 +11,10 @@
 
   const addDataHeaders = (table) => {
     const tableHeaderTextsObj = getTableHeaderTextsObj(table)
-    if (isHeavyLeftColumn(tableHeaderTextsObj, 25) ||
-      (isNestedTable(table) && isHeavyLeftColumn(tableHeaderTextsObj, 20))) table.classList.add('half-page')
+    if (
+      isHeavyLeftColumn(tableHeaderTextsObj, 25) ||
+      (isNestedTable(table) && isHeavyLeftColumn(tableHeaderTextsObj, 20))
+    ) { table.classList.add('half-page') }
     getRows(table).forEach((tableRow) => addDataHeader(tableRow, Object.keys(tableHeaderTextsObj)))
   }
 
@@ -39,8 +41,7 @@
   }
 
   const getAllTableColumns = () => document.querySelectorAll('table > colgroup > col')
-  const getAllTables = () =>
-    document.querySelectorAll('table:not(.connectors-table, div.admonitionblock table)')
+  const getAllTables = () => document.querySelectorAll('table:not(.connectors-table, div.admonitionblock table)')
 
   // getDirectTableCells' implementation excludes the table cells from nested tables
   const getDirectTableCells = (tableRow) => Array.from(tableRow.children).filter((child) => child.tagName === 'TD')
