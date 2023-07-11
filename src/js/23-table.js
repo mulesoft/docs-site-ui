@@ -137,6 +137,7 @@
 
   getAllTables().forEach((table) => {
     if (!isNestedTable(table)) addMobileHiddenButton(table)
+    else table.classList.add('nested')
     addDataHeaders(table)
   })
   handleTableColumns(getAllTableColumns())
