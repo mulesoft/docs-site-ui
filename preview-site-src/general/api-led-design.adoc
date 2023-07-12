@@ -184,7 +184,7 @@ In a typical API project, you’d likely want to do a few more things:
 * Add xref:studio::set-credentials-in-studio-to.adoc[authentication].
 * Add annotations as defined in the RAML specification.
 +
-link:https://github.com/raml-org/raml-spec/blob/master/versions/raml-10/raml-10.md/#annotations["Take me to the RAML specification^", role="button-primary"]
+link:https://github.com/raml-org/raml-spec/blob/main/versions/raml-10/raml-10.md/#annotations["Take me to the RAML specification^", role="button-primary"]
 * xref:design-center::design-import-files.adoc[Add assets from Exchange using API Designer or Studio.]
 * xref:studio::import-api-specification-design-center.adoc[Model the data your API specification exposes, using Studio.]
 * xref:design-center::design-create-publish-api-fragment.adoc[Modularize your specifications for reuse with API fragments.]
