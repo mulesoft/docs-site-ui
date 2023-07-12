@@ -23,7 +23,7 @@
     "reinstall": "npm run clean && npm install"
   },
   "devDependencies": {
-    "@asciidoctor/core": "~2.2",
+    "@asciidoctor/core": "~3.0.0",
     "@asciidoctor/tabs": "latest",
     "@octokit/rest": "19.0.13",
     "@ronilaukkarinen/gulp-stylelint": "^14.1.1",
