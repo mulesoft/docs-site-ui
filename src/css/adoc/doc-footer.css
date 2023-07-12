@@ -55,12 +55,20 @@
 
     & .help-text {
       font-size: 12px;
-      margin-top: 50px;
+      margin-top: -75px;
       position: absolute;
+      
+      @media (--md) {
+        margin-top: 50px;
+      }
     }
 
-    & .feedback-yes-help-text {
-      margin-left: -32px;
+    & #feedback-yes-help-text {
+      margin-left: -25px;
+
+      @media (--md) {
+        margin-left: -32px;
+      }
     }
   }
 

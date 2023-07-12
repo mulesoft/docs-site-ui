@@ -3,7 +3,7 @@ table:not(.connectors-table, div.admonitionblock table) {
   border-top: 2px solid black;
   margin-left: auto;
   margin-right: auto;
-  margin-top: 40px;
+  margin-top: 80px;
   width: 100%;
 
   & .nested {
