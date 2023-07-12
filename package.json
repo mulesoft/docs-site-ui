@@ -23,6 +23,7 @@
     "reinstall": "npm run clean && npm install"
   },
   "devDependencies": {
+    "@asciidoctor/core": "~2.2",
     "@asciidoctor/tabs": "latest",
     "@octokit/rest": "19.0.13",
     "@ronilaukkarinen/gulp-stylelint": "^14.1.1",
@@ -49,7 +50,7 @@
     "gulp-uglify": "3.0.2",
     "gulp-vinyl-zip": "2.5.0",
     "handlebars": "4.7.7",
-    "highlight.js": "9.18.5",
+    "highlight.js": "11.8.0",
     "js-yaml": "4.1.0",
     "merge-stream": "2.0.0",
     "node-fetch": "3.3.1",

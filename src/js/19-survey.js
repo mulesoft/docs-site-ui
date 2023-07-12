@@ -41,6 +41,11 @@
   const surveyTextDiv = surveySection.querySelector('div.survey-text')
   const takeTheSurveyLink = surveySection.querySelector('a.survey-link')
 
+  const addSourceParam = (link) => {
+    const currentPageUrl = window.location.pathname
+    link.href = `${link.href}?source=${encodeURIComponent(currentPageUrl)}`
+  }
+
   const toggleAttribute = (element, attrName, bool, e) => {
     if (e) e.preventDefault()
     return element?.setAttribute(attrName, bool)
@@ -71,8 +76,5 @@
     })
   }
 
-  if (takeTheSurveyLink) {
-    const currentPageUrl = window.location.href
-    takeTheSurveyLink.href = `${takeTheSurveyLink.href}?source=${encodeURIComponent(currentPageUrl)}`
-  }
+  if (takeTheSurveyLink) addSourceParam(takeTheSurveyLink)
 })()
