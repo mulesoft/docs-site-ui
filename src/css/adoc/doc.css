@@ -166,7 +166,7 @@
   }
 
   /* links */
-  & a:not(.button-primary, .dw-playground-link, .notice-banner-link, .view-all, #cta *) {
+  & a:not(.button-primary, .deployment-option, .dw-playground-link, .notice-banner-link, .view-all, #cta *) {
     &:not(footer *) {
       color: var(--secondary-navy);
 

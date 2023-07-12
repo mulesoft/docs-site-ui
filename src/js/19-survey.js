@@ -40,6 +40,11 @@
   const surveyToggleButton = surveySection.querySelector('button.survey-toggle')
   const surveyTextDiv = surveySection.querySelector('div.survey-text')
 
+  const addSourceParam = (link) => {
+    const currentPageUrl = window.location.pathname
+    link.href = `${link.href}?source=${encodeURIComponent(currentPageUrl)}`
+  }
+
   const toggleAttribute = (element, attrName, bool, e) => {
     if (e) e.preventDefault()
     return element?.setAttribute(attrName, bool)
@@ -69,4 +74,6 @@
       e.preventDefault()
     })
   }
+
+  if (takeTheSurveyLink) addSourceParam(takeTheSurveyLink)
 })()
