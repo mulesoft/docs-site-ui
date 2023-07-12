@@ -22,9 +22,6 @@
   const decision = ['Yes', 'No']
   // const inputNamesWithValidation = ['feedback']
 
-  let feedbackSubmitted
-  let voted
-
   const addListeners = (feedbackCard, decision) => {
     decision.forEach((decision) => {
       const feedbackButton = feedbackCard.querySelector(`button.feedback-${decision.toLowerCase()}`)
@@ -35,7 +32,6 @@
           trackAnalytics(decision)
           show(feedbackFormThankYouSign)
           feedbackFormThankYouSign.focus()
-          voted = true
           feedbackOptionButtons.forEach((button) => hide(button))
           show(feedbackAckMsgDiv)
           updateFeedbackAckMsg(feedbackAckMsgDiv, decision)
@@ -229,8 +225,10 @@
     const msg = feedbackAckMsgDiv.querySelector('p')
     if (msg) {
       msg.innerText += ` ${decisionStr}`
-      msg.setAttribute('aria-label',
-      `You voted for ${decisionStr === 'Yes' ? 'helpful' : 'not helpful'}. Thanks for your feedback!`)
+      msg.setAttribute(
+        'aria-label',
+        `You voted for ${decisionStr === 'Yes' ? 'helpful' : 'not helpful'}. Thanks for your feedback!`
+      )
     }
   }
 
