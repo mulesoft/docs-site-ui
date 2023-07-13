@@ -13,9 +13,7 @@ SHELL ["/bin/bash", "-o", "pipefail", "-c"]
 
 COPY . .
 
-RUN mkdir ~/.ssh \
-    && ssh-keyscan -t rsa github.com > ~/.ssh/known_hosts \
-    && npm config set @mulesoft:registry=https://$MULE_NPM_REGISTRY \
+RUN npm config set @mulesoft:registry=https://$MULE_NPM_REGISTRY \
     && npm config set //$MULE_NPM_REGISTRY:_authToken=$NPM_TOKEN \
     && chown -R app:app . \
     && npm ci
