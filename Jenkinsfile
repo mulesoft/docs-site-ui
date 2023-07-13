@@ -51,7 +51,9 @@ pipeline {
         }
       }
       steps {
-        sh "docker build -f Dockerfile.test ."
+        withCredentials([string(credentialsId: NPM_TOKEN, variable: 'NPM_TOKEN')]) {
+          sh "docker build -f Dockerfile.test ."
+        }
       }
       post {
         failure {
