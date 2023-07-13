@@ -130,7 +130,7 @@ atomic-search-box {
     &::placeholder,
     &:-ms-input-placeholder, /* Internet Explorer 10-11 */
     &::-ms-input-placeholder { /* Microsoft Edge */
-      color: #6d7883;
+      color: var(--eyebrow-gray);
       opacity: 1; /* Firefox */
     }
 

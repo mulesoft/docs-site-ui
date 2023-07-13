@@ -20,6 +20,7 @@ catchKeywords = [
     'fatal', // fatal errors, especially ones from Antora builds
     'process apparently never started', // Jenkins restarts and breaks the build
     'unauthorized', // permission issue typically from GitHub or Docker. Usually temporary and will go away on its own
+    'HttpError', // http related errors like rate limiting
     'non-zero', // generic errors for non-zero error codes
     'ERROR', // generic errors
     'Error', // generic errors
@@ -38,6 +39,11 @@ pipeline {
     )
   }
   stages {
+    stage('Checkout') {
+      steps {
+          checkout scm
+      }
+    }
     stage('Test') {
       when {
         not {

@@ -70,7 +70,7 @@ const createPR = async ({ octokit, owner, repo }, tagName, ref, filePath, secret
     title: `${tagName} for ${ref}`,
     head: newBranchName,
     base: ref,
-    body: `ref: ${await getLastClosedPRLink({ octokit, owner, repo: 'docs-site-ui' })}
+    body: `ref: https://github.com/mulesoft/docs-site-ui/releases/tag/${tagName}
 
 Before you merge this PR, please verify your changes in the following site:
 https://beta.docs.mulesoft.com/beta-ui-staging/general/ (deployed every 2 hours).
