@@ -2,7 +2,7 @@
 
 emoji = ':sadpanda:'
 
-def defaultBranch = 'master'
+def defaultBranch = 'main'
 def githubCredentialsId = 'GH_TOKEN'
 def gpgSecretKeyCredentialsId = 'ms-cx-engineering-gpg-private-key'
 def failureSlackChannel = '#dux-engineering-github-prs'
