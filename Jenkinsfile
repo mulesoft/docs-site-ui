@@ -52,7 +52,7 @@ pipeline {
       }
       steps {
         withCredentials([string(credentialsId: NPM_TOKEN, variable: 'NPM_TOKEN')]) {
-          sh "docker build -f Dockerfile.test ."
+          sh "docker build -f Dockerfile.test . --build-arg NPM_TOKEN=${NPM_TOKEN}"
         }
       }
       post {
