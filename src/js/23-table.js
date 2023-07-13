@@ -53,6 +53,10 @@
     let hideButton = document.createElement('button')
     hideButton = setHideButtonAttributes(hideButton)
 
+    const hideButtonHelperText = document.createElement('p')
+    hideButtonHelperText.innerText = 'Show'
+    hideButton.appendChild(hideButtonHelperText)
+
     const hideButtonImg = getHideButtonImg()
     hideButton.appendChild(hideButtonImg)
 
@@ -115,7 +119,7 @@
   const setHideButtonAttributes = (hideButton) => {
     const label = 'Click to toggle the table'
 
-    hideButton.classList.add('table-toggle')
+    hideButton.classList.add('flex', 'table-toggle')
     hideButton.setAttribute('aria-expanded', true)
     hideButton.setAttribute('aria-label', label)
     hideButton.setAttribute('title', label)

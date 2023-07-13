@@ -3,7 +3,7 @@ table:not(.connectors-table, div.admonitionblock table) {
   border-top: 2px solid black;
   margin-left: auto;
   margin-right: auto;
-  margin-top: 80px;
+  margin-top: 60px;
   width: 100%;
 
   & .nested {
@@ -13,7 +13,7 @@ table:not(.connectors-table, div.admonitionblock table) {
   }
 
   & .table-toggle-row {
-    bottom: 42px;
+    bottom: 45px;
     display: flex;
     height: 0;
     justify-content: flex-end;
@@ -22,21 +22,20 @@ table:not(.connectors-table, div.admonitionblock table) {
     & .table-toggle {
       background-color: unset;
       border: none;
+      border-radius: 5px;
+      column-gap: 3px;
       cursor: pointer;
       float: right;
       height: 40px;
-      width: 40px;
+      min-width: 40px;
 
-      &[aria-expanded="false"] {
-        &::before {
-          bottom: 5px;
-          content: 'Show table';
-          position: absolute;
-          right: -10px;
-        }
-        
+      &[aria-expanded="false"] {        
         & img {
           transform: rotate(0);
+        }
+
+        & p {
+          display: unset;
         }
       }
   
@@ -49,13 +48,25 @@ table:not(.connectors-table, div.admonitionblock table) {
         transform: rotate(180deg);
         width: var(--lg);
       }
-  
-      &:active,
-      &:focus {
-        border-radius: 5px;
-        outline: 2px solid var(--gray);
-        text-decoration: none;
+
+      & p {
+        display: none;
+        margin: auto;
       }
+  
+      &:active {
+        border: 2px solid var(--eyebrow-gray);
+        outline: none;
+      }
+
+      &:focus {
+        box-shadow: none;
+        outline: 2px solid var(--eyebrow-gray);
+      }
+
+      &:hover {
+        background-color: var(--light-blue);
+      }      
     }
   }
  
@@ -163,6 +174,7 @@ table:not(.connectors-table, div.admonitionblock table) {
 
   & caption,
   & tbody tr {
+    max-width: 70%;
     padding: 10px;
   }
 
