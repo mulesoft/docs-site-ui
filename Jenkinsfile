@@ -87,7 +87,7 @@ pipeline {
       steps {
         withCredentials([
           string(credentialsId: githubCredentialsId, variable: 'GH_TOKEN'),
-          string(credentialsId: gpgSecretKeyCredentialsId , variable: 'SECRET_KEY')
+          string(credentialsId: gpgSecretKeyCredentialsId , variable: 'SECRET_KEY'),
           string(credentialsId: 'NPM_TOKEN', variable: 'NPM_TOKEN')]) {
             sh "docker build --build-arg GH_TOKEN=${GH_TOKEN} --build-arg SECRET_KEY=${SECRET_KEY} --build-arg GIT_BRANCH=${env.GIT_BRANCH} --build-arg NPM_TOKEN=${NPM_TOKEN} -f Dockerfile ."
         }
