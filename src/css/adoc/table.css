@@ -1,4 +1,4 @@
-table:not(.connectors-table, div.admonitionblock table) {
+table:not(.connectors-table, div.admonitionblock table, div.panels table) {
   border-collapse: collapse;
   border-top: 2px solid black;
   margin-left: auto;
@@ -174,7 +174,6 @@ table:not(.connectors-table, div.admonitionblock table) {
 
   & caption,
   & tbody tr {
-    max-width: 70%;
     padding: 10px;
   }
 
