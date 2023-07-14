@@ -43,7 +43,7 @@
     }
   }
 
-  const isNumberedVersion = (versionName) => !['default', 'latest', 'main'].includes(versionName)
+  const isNumberedVersion = (versionName) => !['default', 'latest', 'master'].includes(versionName)
   const isSearchable = (componentName) => !['general, reuse'].includes(componentName)
 
   const updateFacetTexts = (facetDiv) => {
