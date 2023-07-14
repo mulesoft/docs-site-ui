@@ -1,10 +1,19 @@
 .doc-footer {
-  padding-bottom: var(--xl);
-  padding-left: var(--xl);
-  padding-top: 300px;
+  padding: 300px var(--xl) var(--xl);
 
-  & .button {
+  & button {
     font-size: 12px;
+    min-width: var(--nav-item-height);
+
+    &:hover {
+      background-color: var(--aluminum-4);
+      border-color: var(--aluminum-4);
+      color: var(--black);
+    }
+
+    & img {
+      vertical-align: middle;
+    }
   }
 
   & .button-edit {
@@ -18,50 +27,184 @@
 }
 
 .feedback-section {
-  align-items: center;
+  align-self: center;
   border: 1px solid var(--aluminum-3);
   border-radius: 2px;
-  display: flex;
-  flex-direction: column;
-  max-width: max-content;
-  padding: var(--sm) var(--lg);
-  width: 70%;
+  min-width: 340px;
+  width: 75%;
 
-  @media (min-width: 540px) {
-    width: max-content;
+  & .feedback-ack {
+    align-items: center;
+    column-gap: 9px;
   }
 
-  /* uncomment this block when GUS feedback is implemented */
-  /* & .row {
-    border-bottom: 1px solid var(--aluminum-3);
-  } */
+  & .feedback-form {
+    padding: var(--sm) 13px;
+    width: 100%;
 
-  &.flip [data-thanks="start"],
-  & [data-thanks="end"] {
-    display: none;
+    & .contact-info {
+      display: inline-block;
+      width: 49%;
+    }
   }
 
-  &.flip [data-thanks="end"] {
-    display: block;
-    margin-bottom: 0;
+  & .feedback-first-row {
+    height: 52px;
+    justify-content: space-between;
+    width: 100%;
+
+    & .help-text {
+      font-size: 12px;
+      margin-top: -75px;
+      position: absolute;
+      
+      @media (--md) {
+        margin-top: 50px;
+      }
+    }
+
+    & #feedback-yes-help-text {
+      margin-left: -25px;
+
+      @media (--md) {
+        margin-left: -32px;
+      }
+    }
   }
 
-  & span {
+  & .feedback-form-button-row {
+    column-gap: 10px;
+    padding-top: 5px;
+
+    & .feedback-form-button {
+      border-radius: 0;
+      font-family: var(--sans-serif);
+      font-size: 14px;
+      height: 36px;
+      line-height: unset;
+      width: 100px;
+
+      &[disabled="disabled"] {
+        cursor: default;
+      }
+    }
+  }
+
+  & .feedback-options {
+    column-gap: 9px;
+  }
+
+  & .feedback-row {
+    flex-flow: row wrap;
+    padding: var(--sm) 13px;
+  }
+
+  & .feedback-second-row {
+    align-self: flex-end;
+    padding-top: 0;
+  }
+
+  & .feedback-form-thank-you {
     font-family: var(--sans-serif-bold);
     font-size: 14px;
-    margin-right: var(--xl);
+    padding: 25px;
+    text-align: center;
   }
 
-  & .link {
-    color: var(--secondary-navy);
-    cursor: pointer;
+  & .validation-text {
+    color: red;
+    font-family: var(--sans-serif);
     font-size: 12px;
-    margin-top: var(--md);
+    position: relative;
+    top: -8px;
 
-    &:hover,
-    &:active,
-    &:focus {
-      text-decoration: underline;
+    &::before {
+      content: "Error: ";
+    }
+  }
+
+  & input:not([type="button"], [type="submit"]),
+  & textarea {
+    border: 1px solid #c9c9c9;
+    border-radius: 4px;
+    margin-bottom: 8px;
+    min-height: 32px;
+    padding: 8px;
+    width: 100%;
+
+    &.invalid {
+      border: 1px solid red;
+    }
+
+    &:hover {
+      border-color: var(--steel-2);
+    }
+
+    &::placeholder {
+      color: #747474;
+      font-size: 12px;
+    }
+  }
+
+  & label,
+  & span:not([aria-live], .validation-text, .feedback-form-thank-you),
+  & fieldset {
+    border: none;
+    font-family: var(--sans-serif-bold);
+    font-size: 12px;
+    margin: auto;
+    padding: 0;
+    width: 100%;
+  }
+
+  & legend {
+    margin-bottom: 8px;
+  }
+
+  & p {
+    font-family: var(--sans-serif-bold);
+    font-size: 12px;
+    margin: auto;
+  }
+
+  &:has(> .feedback-form.hide):has(> .feedback-second-row.hide):has(> .feedback-form-thank-you.hide) {
+    height: min-content;
+
+    & .feedback-first-row {
+      flex-direction: column;
+      height: 85px;
+      justify-content: space-around;
+    }
+  }
+
+  @media (--md) {
+    width: 100%;
+
+    &:has(> .feedback-form.hide):has(> .feedback-second-row.hide):has(> .feedback-form-thank-you.hide) {
+      min-height: 52px;
+
+      & .feedback-first-row {
+        flex-direction: row;
+        height: 52px;
+        justify-content: space-between;
+        padding: var(--sm) 13px;
+      }
+    }
+
+    & .feedback-first-row {
+      flex-direction: row;
+      height: 52px;
+      justify-content: space-between;
+      padding: var(--sm) 13px;
+
+      & .help-text {
+        margin-left: -25px;
+        margin-top: -72px;
+      }
+    }
+
+    & p {
+      font-size: 14px;
     }
   }
 }

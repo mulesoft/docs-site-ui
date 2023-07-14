@@ -5,7 +5,7 @@
 .doc .source-toolbox {
   color: var(--pre-annotation-font-color);
   display: flex;
-  font-family: 'Open Sans', sans-serif;
+  font-family: var(--lume-g-font-family);
   font-size: calc(13.5 / var(--rem-base) * 1rem);
   line-height: 1;
   position: absolute;
