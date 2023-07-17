@@ -1,4 +1,4 @@
-FROM artifacts.msap.io/mulesoft/core-paas-base-image-node-18:v4.7.40
+FROM artifacts.msap.io/mulesoft/core-paas-base-image-node-18:v4.7.42
 
 ARG MULE_NPM_REGISTRY=nexus3.build.msap.io/repository/npm-internal/
 ARG NPM_TOKEN
