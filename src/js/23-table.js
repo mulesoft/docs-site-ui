@@ -1,6 +1,8 @@
 ;(() => {
   'use strict'
 
+  const panels = document.querySelector('div.panels')
+
   const addDataHeader = (tableRow, headerTexts) => {
     const tableCells = getDirectTableCells(tableRow)
     tableCells.forEach((tableCell, indexNum) => {
@@ -42,6 +44,7 @@
     })
   }
 
+  const contains = (parent, child) => parent?.contains(child)
   const getAllTableColumns = () => document.querySelectorAll('table > colgroup > col')
   const getAllTables = () => document.querySelectorAll('table:not(.connectors-table, div.admonitionblock table)')
 
@@ -97,7 +100,7 @@
     hideButton.setAttribute('aria-expanded', ariaExpandedValue)
   }
 
-  const hasContent = (text) => text && text.length
+  const hasContent = (text) => text?.length
   const isBigScreenSize = () => window.matchMedia(' (min-width: 768px)').matches
 
   const isHeavyLeftColumn = (obj, charLimit) => {
@@ -141,8 +144,9 @@
   }
 
   getAllTables().forEach((table) => {
-    if (!isNestedTable(table)) addMobileHiddenButton(table)
-    else table.classList.add('nested')
+    if (!isNestedTable(table)) {
+      if (!contains(panels, table)) addMobileHiddenButton(table)
+    } else table.classList.add('nested')
     addDataHeaders(table)
   })
   handleTableColumns(getAllTableColumns())
