@@ -554,7 +554,6 @@
 
   const buildNav = (nav, navData, pageData) => {
     appendComponents(navData)
-    console.log(navData)
     cleanComponents(navData)
     const cleanedGroups = getCleanedGroups(navData)
     createNavGroups(nav, cleanedGroups, pageData)
@@ -566,8 +565,8 @@
   }
 
   const cleanComponents = (navData) => {
-    processComponents(navData)
-    processSubcomponents(navData)
+    const components = processComponents(navData)
+    navData.subcomponents = processSubcomponents(components, navData.subcomponents)
   }
 
   const getCleanedGroups = (navData) => {
@@ -871,7 +870,7 @@
 
   const processComponents = (navData) => {
     const componentIconId = document.getElementById('icon-nav-component') && 'icon-nav-component'
-    navData.components.reduce((componentsAccum, component) => {
+    return navData.components.reduce((componentsAccum, component) => {
       let versions
       const iconId = 'icon-nav-component-' + component.name
       componentsAccum[component.name] = component = Object.assign({}, component, {
@@ -904,13 +903,12 @@
     }, {})
   }
 
-  const processSubcomponents = (navData) => {
-    const componentPool = getComponentPool(navData.components)
-    navData.subcomponents.forEach((subcomponent) => {
-      const targetComponent = navData.components[subcomponent?.parent]
+  const processSubcomponents = (components, subcomponents) => {
+    subcomponents.forEach((subcomponent) => {
+      const targetComponent = components[subcomponent?.parent]
       if (!targetComponent?.unversioned) return
       const targetItems = targetComponent.nav.items
-      Object.values(selectComponents(subcomponent.components, componentPool))
+      Object.values(selectComponents(subcomponent.components, getComponentPool(components)))
         .sort((a, b) => {
           if (!subcomponent.sortAll) return 0
           if (!a.title) return 1
@@ -923,6 +921,7 @@
           targetItems.push(component)
         })
     })
+    return subcomponents
   }
 
   const navData = getNavData()
