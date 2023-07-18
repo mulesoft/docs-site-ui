@@ -1,102 +1,66 @@
 ;(() => {
   'use strict'
 
-  const processPartialNoticeBanner = () => {
-    const partialNoticeBannerDiv = document.querySelector('.doc .notice-banner.paragraph')
-    if (partialNoticeBannerDiv) {
-      removeExistingNoticeBanner()
-      moveNoticeBannerToDoc(partialNoticeBannerDiv)
-      addCloseButton(partialNoticeBannerDiv)
-    }
-  }
-
-  const removeExistingNoticeBanner = () => {
-    const versionNoticeBannerDiv = document.querySelector('.doc .notice-banner:not(.paragraph)')
-    if (versionNoticeBannerDiv) versionNoticeBannerDiv.remove()
-  }
-
-  const moveNoticeBannerToDoc = (noticeBannerDiv) => {
-    const doc = document.querySelector('.doc')
-    if (doc) doc.insertBefore(noticeBannerDiv, doc.firstChild)
-  }
-
   const addCloseButton = (noticeBannerDiv) => {
-    if (noticeBannerDiv.firstChild?.tagName !== 'BUTTON') {
-      const closeButton = document.createElement('button')
-      closeButton.title = 'Close notice banner'
-      closeButton.classList.add('notice-banner-close-button')
-      closeButton.classList.add('button')
-      closeButton.innerHTML = '<img loading="lazy" src="{{@root.uiRootPath}}/img/icons/close.svg" alt="">'
-      noticeBannerDiv.insertBefore(closeButton, noticeBannerDiv.firstChild)
-    }
+    let closeButton = document.createElement('button')
+    closeButton = addCloseButtonAttributes(closeButton)
+    noticeBannerDiv.appendChild(closeButton)
   }
 
-  const enhanceTopBanner = () => {
-    const topBannerDiv = document.querySelector('.top-banner')
-    if (topBannerDiv) {
-      makeBannerCloseButtonFunctional(topBannerDiv, 'flex')
-    }
+  const addCloseButtonAttributes = (closeButton) => {
+    closeButton.title = 'Close notice banner'
+    closeButton.classList.add('close-button')
+    const uiRootPath = document.getElementById('site-script').dataset.uiRootPath
+    closeButton.innerHTML = `<img loading="lazy" src="${uiRootPath}/img/icons/close.svg" alt="">`
+    return closeButton
   }
 
-  const enhanceNoticeBanner = () => {
-    const noticeBannerDiv = document.querySelector('.notice-banner')
-    if (noticeBannerDiv) {
-      makeBannerCloseButtonFunctional(noticeBannerDiv)
-    }
-  }
-
-  const makeBannerCloseButtonFunctional = (bannerDiv, classToRemove) => {
+  const addEventListeners = (bannerDiv, classToRemove) => {
     const closeButton = bannerDiv.querySelector('.close-button')
     if (closeButton) {
-      addEventListeners(bannerDiv, closeButton, classToRemove)
+      closeButton.addEventListener('click', () => hideBanner(bannerDiv, classToRemove))
+      closeButton.addEventListener('keydown', (e) => {
+        if (isSpaceOrEnterKey(e.keyCode)) {
+          if (bannerDiv) {
+            if (isTopBanner(bannerDiv)) {
+              const searchboxInput = getFocusableSearchBox()
+              if (searchboxInput && isBigScreenSize()) {
+                searchboxInput.focus()
+              } else {
+                const menuButton = document.querySelector('.nav-toggle')
+                if (menuButton && window.getComputedStyle(menuButton).display !== 'none') {
+                  menuButton.focus()
+                } else {
+                  const nextFocusableElement = getNextFocusableElement()
+                  if (nextFocusableElement) nextFocusableElement.focus()
+                }
+              }
+            } else {
+              const nextFocusableElement = getNextFocusableElement()
+              if (nextFocusableElement) nextFocusableElement.focus()
+            }
+            hideBanner(bannerDiv, classToRemove)
+            e.preventDefault()
+          }
+        }
+      })
     }
   }
 
-  const addEventListeners = (bannerDiv, closeButton, classToRemove) => {
-    closeButton.addEventListener('click', () => {
-      if (bannerDiv) hideBanner(bannerDiv, classToRemove)
-    })
-    closeButton.addEventListener('keydown', (e) => {
-      if (isSpaceOrEnterKey(e.keyCode)) {
-        if (bannerDiv) {
-          if (isTopBanner(bannerDiv)) {
-            const searchboxInput = getFocusableSearchBox()
-            if (searchboxInput && isBigScreenSize()) {
-              searchboxInput.focus()
-            } else {
-              const menuButton = document.querySelector('.nav-toggle')
-              if (menuButton && window.getComputedStyle(menuButton).display !== 'none') {
-                menuButton.focus()
-              } else {
-                const nextFocusableElement = getNextFocusableElement()
-                if (nextFocusableElement) nextFocusableElement.focus()
-              }
-            }
-          } else {
-            const nextFocusableElement = getNextFocusableElement()
-            if (nextFocusableElement) nextFocusableElement.focus()
-          }
-          hideBanner(bannerDiv, classToRemove)
-          e.preventDefault()
-        }
-      }
-    })
-  }
+  const enhanceNoticeBanner = (noticeBannerDiv) => addEventListeners(noticeBannerDiv)
+  const enhanceTopBanner = (topBannerDiv) => addEventListeners(topBannerDiv, 'flex')
 
   const getFocusableSearchBox = () => {
     const atomicSearchbox = document.querySelector('atomic-search-box')
     const searchboxShadowRoot = atomicSearchbox && atomicSearchbox.shadowRoot
-    if (searchboxShadowRoot) {
-      return searchboxShadowRoot.querySelector('input')
-    }
+    if (searchboxShadowRoot) return searchboxShadowRoot.querySelector('input')
   }
 
   const getNextFocusableElement = () => {
     const focusableElements = document.querySelectorAll(
       'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])'
     )
-    const focusedElement = document.activeElement
-    const currentIndex = Array.from(focusableElements).indexOf(focusedElement)
+    const currentIndex = Array.from(focusableElements).indexOf(document.activeElement)
     let nextIndex = currentIndex + 1 >= focusableElements.length ? 0 : currentIndex + 1
     while (focusableElements[nextIndex]) {
       const currElement = focusableElements[nextIndex]
@@ -104,6 +68,8 @@
       nextIndex++
     }
   }
+
+  const hasCloseButton = (element) => element.firstChild?.tagName === 'BUTTON'
 
   const hideBanner = (bannerDiv, classToRemove) => {
     bannerDiv.classList.add('hide')
@@ -120,20 +86,28 @@
   }
 
   const isBigScreenSize = () => window.matchMedia(' (min-width: 768px)').matches
+  const isSpaceOrEnterKey = (keyCode) => [13, 32].includes(keyCode)
+  const isTopBanner = (element) => element.classList.contains('top-banner')
+  const isVisible = (element) =>
+    !element.classList.contains('hide') && window.getComputedStyle(element).display !== 'none'
+  const moveToTop = (element, parent) => parent?.insertBefore(element, parent.firstChild)
 
-  const isSpaceOrEnterKey = (keyCode) => {
-    return [13, 32].includes(keyCode)
+  const processPartialNoticeBanner = (partialNoticeBannerDiv) => {
+    const existingBanner = document.querySelector('.doc .notice-banner:not(.paragraph)')
+    remove(existingBanner)
+    moveToTop(partialNoticeBannerDiv, document.querySelector('.doc'))
+    partialNoticeBannerDiv.classList.add('flex')
+    if (!hasCloseButton(partialNoticeBannerDiv)) addCloseButton(partialNoticeBannerDiv)
   }
 
-  const isTopBanner = (element) => {
-    return element.classList.contains('top-banner')
-  }
+  const remove = (versionNoticeBannerDiv) => versionNoticeBannerDiv?.remove()
 
-  const isVisible = (element) => {
-    return !element.classList.contains('hide') && window.getComputedStyle(element).display !== 'none'
-  }
+  const partialNoticeBannerDiv = document.querySelector('.doc .notice-banner.paragraph')
+  if (partialNoticeBannerDiv) processPartialNoticeBanner(partialNoticeBannerDiv)
 
-  processPartialNoticeBanner()
-  enhanceTopBanner()
-  enhanceNoticeBanner()
+  const topBannerDiv = document.querySelector('.top-banner')
+  if (topBannerDiv) enhanceTopBanner(topBannerDiv)
+
+  const noticeBannerDiv = document.querySelector('.notice-banner')
+  if (noticeBannerDiv) enhanceNoticeBanner(noticeBannerDiv)
 })()
