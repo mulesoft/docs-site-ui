@@ -90,17 +90,21 @@
   const isTopBanner = (element) => element.classList.contains('top-banner')
   const isVisible = (element) =>
     !element.classList.contains('hide') && window.getComputedStyle(element).display !== 'none'
-  const moveToTop = (element, parent) => parent?.insertBefore(element, parent.firstChild)
 
   const processPartialNoticeBanner = (partialNoticeBannerDiv) => {
     const existingBanner = document.querySelector('.doc .notice-banner:not(.paragraph)')
     remove(existingBanner)
-    moveToTop(partialNoticeBannerDiv, document.querySelector('.doc'))
+    replaceExistingBanner(partialNoticeBannerDiv, document.querySelector('.doc .notice-banner:not(.paragraph)'))
     partialNoticeBannerDiv.classList.add('flex')
     if (!hasCloseButton(partialNoticeBannerDiv)) addCloseButton(partialNoticeBannerDiv)
   }
 
-  const remove = (versionNoticeBannerDiv) => versionNoticeBannerDiv?.remove()
+  const remove = (element) => element?.remove()
+
+  const replaceExistingBanner = (newBanner, existingBanner) => {
+    existingBanner.parent.insertBefore(newBanner, existingBanner)
+    remove(existingBanner)
+  }
 
   const partialNoticeBannerDiv = document.querySelector('.doc .notice-banner.paragraph')
   if (partialNoticeBannerDiv) processPartialNoticeBanner(partialNoticeBannerDiv)
