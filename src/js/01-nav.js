@@ -317,7 +317,6 @@
   }
 
   const relativize = (to, page) => {
-    console.log(to, page)
     if (!(page.url && to.charAt() === '/')) return to
     let hash = ''
     const hashIdx = to.indexOf('#')
@@ -555,9 +554,9 @@
 
   const buildNav = (nav, navData, pageData) => {
     appendComponents(navData)
+    console.log(navData)
     cleanComponents(navData)
     const cleanedGroups = getCleanedGroups(navData)
-    console.log(cleanedGroups)
     createNavGroups(nav, cleanedGroups, pageData)
     // nav.addEventListener('click', (e) => closeActiveVersionMenu(e))
     // window.addEventListener('scroll', (e) => adjustNavHeight(e))
@@ -618,17 +617,12 @@
     if (!pageData) {
       return navItem
     } else if (pageData.component === componentName) {
-      console.log(componentData.versions)
-      console.log(pageData.version)
-      console.log(componentData.versions[pageData.version])
       versionData = componentData.versions[pageData.version]
     } else if (isSubcomponent(pageData.component, componentData)) {
       versionData = componentData.versions['']
     } else {
       return navItem
     }
-    console.log(componentData)
-    console.log(versionData)
     if (versionData.nav) {
       pageData.scope = navItem.appendChild(createNavList(versionData.nav, versionData.version))
     }
