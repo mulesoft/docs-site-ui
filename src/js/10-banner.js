@@ -91,11 +91,18 @@
   const isVisible = (element) =>
     !element.classList.contains('hide') && window.getComputedStyle(element).display !== 'none'
 
-  const processPartialNoticeBanner = (partialNoticeBannerDiv) => {
+  const moveBanner = (bannerDiv) => {
     const existingBanner = document.querySelector('.doc .notice-banner:not(.paragraph)')
-    remove(existingBanner)
-    replaceExistingBanner(partialNoticeBannerDiv, document.querySelector('.doc .notice-banner:not(.paragraph)'))
+    if (existingBanner) replaceExistingBanner(bannerDiv, existingBanner)
+    else {
+      const doc = document.querySelector('.doc')
+      if (doc) doc.parentElement.insertBefore(bannerDiv, doc)
+    }
+  }
+
+  const processPartialNoticeBanner = (partialNoticeBannerDiv) => {
     partialNoticeBannerDiv.classList.add('flex')
+    moveBanner(partialNoticeBannerDiv)
     if (!hasCloseButton(partialNoticeBannerDiv)) addCloseButton(partialNoticeBannerDiv)
   }
 
