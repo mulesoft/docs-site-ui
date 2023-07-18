@@ -1,4 +1,13 @@
 <meta charset="utf-8">
+{{#if page.description}}
+<meta name="description" content="{{page.description}}">
+{{/if}}
+{{#if page.keywords}}
+<meta name="keywords" content="{{page.keywords}}">
+{{/if}}
+{{#if (not (is-one-of (site-profile) 'jp' 'prod'))}}
+<meta name="robots" content="none, noarchive">
+{{/if}}
 {{#if page.component}}
 <meta name="product" content="{{page.component.title}}">
 {{/if}}
@@ -40,6 +49,4 @@
 <meta name="generator" content="Antora {{or antoraVersion site.antoraVersion}}">
 {{/if}}
 <meta name="viewport" content="width=device-width, height=device-height, initial-scale=1">
-<link rel="stylesheet" href="{{@root.uiRootPath}}/css/site.css">
 {{> marketing-styles}}
-<link rel="shortcut icon" href="{{@root.uiRootPath}}/img/favicon.ico" type="image/x-icon">
