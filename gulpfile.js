@@ -15,7 +15,11 @@ const srcDir = 'src'
 const destDir = `${previewDestDir}/_`
 const partialsDir = `${srcDir}/partials`
 const { reload: livereload } = process.env.LIVERELOAD === 'true' ? require('gulp-connect') : {}
-const serverConfig = { host: '0.0.0.0', port: 8080, livereload }
+const serverConfig = {
+  host: '0.0.0.0',
+  port: 8080,
+  livereload,
+}
 
 const task = require('./gulp.d/tasks')
 const glob = {
@@ -23,6 +27,11 @@ const glob = {
   css: [`${srcDir}/css/**/*.css`, `!${srcDir}/css/**/*.min.css`],
   js: ['gulpfile.js', 'gulp.d/**/*.js', `${srcDir}/{helpers,js}/**/*.js`, `!${srcDir}/js/**/*.min.js`],
 }
+
+const getMarketingContentTask = createTask({
+  name: 'get-marketing-content',
+  call: task.getMarketingContent(partialsDir),
+})
 
 const cleanTask = createTask({
   name: 'clean',
@@ -84,7 +93,16 @@ const bundleTask = createTask({
 const releasePublishTask = createTask({
   desc: 'Publish the release to GitHub by attaching it to a new tag',
   name: 'release:publish',
-  call: task.release(buildDir, bundleName, owner, repo, process.env.GITHUB_TOKEN),
+  call: task.release(
+    buildDir,
+    bundleName,
+    owner,
+    repo,
+    process.env.GH_TOKEN,
+    process.env.SECRET_KEY,
+    // this is not needed for CI/CD, but needed if you are testing with your local key that has a passphrase
+    process.env.PASSPHRASE
+  ),
 })
 
 const releaseTask = createTask({
@@ -112,7 +130,7 @@ const previewServeTask = createTask({
 const previewTask = createTask({
   name: 'preview',
   desc: 'Generate a preview site and launch a server to view it',
-  call: series(previewBuildTask, previewServeTask),
+  call: series(getMarketingContentTask, previewBuildTask, previewServeTask),
 })
 
 const updateTask = createTask({

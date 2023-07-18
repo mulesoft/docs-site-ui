@@ -1,5 +1,4 @@
 .admonitionblock {
-
   & table,
   & tr,
   & td {
@@ -9,7 +8,7 @@
   & tbody {
     border: 1px solid var(--aluminum-3);
     border-radius: 2px;
-    color: var(--steel-1);
+    color: var(--steel-2);
     display: block;
     font-size: 14px;
     padding: var(--md) var(--lg) var(--sm);
@@ -21,7 +20,6 @@
       display: block;
       font-family: var(--heading);
       font-size: 13px;
-      font-weight: var(--weight-bold);
       opacity: .6;
       padding-left: 20px;
     }
@@ -45,7 +43,7 @@
     border-color: color-mod(var(--red-3) lightness(85%));
 
     &::before {
-      background-image: url(../img/icons/caution.svg);
+      background-image: url("../img/icons/caution.svg");
       color: color-mod(var(--red-3) lightness(40%));
       content: 'CAUTION';
     }
@@ -56,19 +54,19 @@
     border-color: color-mod(var(--yellow-3) lightness(75%));
 
     &::before {
-      background-image: url(../img/icons/important.svg);
+      background-image: url("../img/icons/important.svg");
       color: color-mod(var(--yellow-3) lightness(40%));
       content: 'IMPORTANT';
     }
   }
 
   &.note tbody::before {
-    background-image: url(../img/icons/note.svg);
+    background-image: url("../img/icons/note.svg");
     content: 'NOTE';
   }
 
   &.tip tbody::before {
-    background-image: url(../img/icons/tip.svg);
+    background-image: url("../img/icons/tip.svg");
     content: 'TIP';
   }
 
@@ -77,9 +75,31 @@
     border-color: color-mod(var(--red-3) lightness(85%));
 
     &::before {
-      background-image: url(../img/icons/caution.svg);
+      background-image: url("../img/icons/caution.svg");
       color: color-mod(var(--red-3) lightness(40%));
       content: 'WARNING';
     }
+  }
+}
+
+html:lang(jp) .admonitionblock {
+  &.caution tbody::before {
+    content: '注意';
+  }
+
+  &.important tbody::before {
+    content: '重要';
+  }
+
+  &.note tbody::before {
+    content: 'メモ';
+  }
+
+  &.tip tbody::before {
+    content: 'ヒント';
+  }
+
+  &.warning tbody::before {
+    content: '警告';
   }
 }

@@ -9,7 +9,7 @@
   }
 
   & .link {
-    color: var(--core-blue-3);
+    color: var(--secondary-navy);
     text-decoration: none;
 
     &:hover .icon-back-arrow,
@@ -27,18 +27,18 @@
 }
 
 .connector-avatar {
-  border: 1px solid rgba(0,0,0,.075);
+  border: 1px solid #00000013;
   border-radius: var(--radius);
-  box-shadow: 0 6px 12px rgba(0,0,0,.05);
+  box-shadow: 0 6px 12px #0000000d;
   flex: 0 0 90px;
   height: 90px;
   margin-right: var(--lg);
 }
 
 .connector-sidebar {
-  border: 1px solid rgba(0,0,0,.075);
+  border: 1px solid #00000013;
   border-radius: var(--radius);
-  box-shadow: 0 6px 12px rgba(0,0,0,.05);
+  box-shadow: 0 6px 12px #0000000d;
   font-size: 14px;
   margin-bottom: var(--lg);
   padding-top: var(--md);
@@ -54,12 +54,13 @@
 
   & .col:first-child,
   & .categories-header {
-    color: var(--aluminum-5);
+    color: var(--steel-2);
     padding-right: var(--sm);
   }
 
   & .col:last-child {
-    font-weight: var(--weight-bold);
+    font-family: var(--sans-serif-bold);
+    text-align: right;
   }
 
   & .select {
@@ -74,8 +75,8 @@
   }
 
   & .categories-header {
-    font-weight: var(--weight-normal);
     margin-bottom: var(--xs);
+    text-align: left;
   }
 
   & .link {
@@ -83,7 +84,6 @@
     border-radius: 2px;
     cursor: pointer;
     display: flex;
-    font-weight: var(--weight-normal);
     margin: 0 var(--xs);
     padding: var(--xs) var(--sm);
     text-decoration: none;
@@ -95,7 +95,7 @@
     &:focus,
     &:active {
       background: #e2f8ff; /* yet another blue */
-      color: var(--core-blue-3);
+      color: var(--secondary-navy);
     }
 
     & .icon-external {
@@ -119,7 +119,7 @@
   }
 
   & .icon-help {
-    fill: var(--aluminum-5);
+    fill: var(--steel-2);
     padding: 2px;
   }
 }

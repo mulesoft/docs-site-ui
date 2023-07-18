@@ -5,10 +5,14 @@
   ],
   "rules": {
     "comment-empty-line-before": null,
-    "function-comma-space-after": "never-single-line",
+    "import-notation": "string",
+    "media-feature-range-notation": "prefix",
     "no-descending-specificity": null,
-    "number-leading-zero": "never",
     "order/properties-alphabetical-order": true,
-    "rule-empty-line-before": null,
+    "property-no-vendor-prefix": null,
+    "selector-no-vendor-prefix": null,
+    "selector-type-no-unknown": [true, { "ignoreTypes": ["/^atomic-/"] }],
+    "value-no-vendor-prefix": null,
+    "function-no-unknown": null
   }
 }

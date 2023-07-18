@@ -3,39 +3,40 @@
   border-radius: var(--radius);
   cursor: pointer;
   font-size: 14px;
-  font-weight: var(--weight-bold);
   transition: box-shadow var(--transition-speed-sm) var(--transition-timing);
 }
 
 .button {
   background: var(--tertiary);
   border: 1px solid var(--aluminum-4);
-  color: var(--aluminum-5);
+  color: var(--steel-2);
   height: var(--nav-item-height);
   padding: var(--xs);
 
   &:hover {
-    border-color: var(--aluminum-5);
-    color: var(--steel-1);
+    background-color: var(--light-blue);
+    border-color: var(--steel-2);
+    color: var(--steel-2);
   }
 
   &:focus {
-    border-color: var(--core-blue-3);
-    color: var(--core-blue-3);
+    border-color: var(--secondary-navy);
+    color: var(--secondary-navy);
   }
 
   &:active {
-    border-color: var(--core-blue-3);
-    color: var(--core-blue-3);
+    border-color: var(--secondary-navy);
+    color: var(--secondary-navy);
   }
 }
 
 .button-primary {
-  background: var(--core-blue-3);
+  background: var(--secondary-navy);
   border: 0;
   border-radius: var(--radius);
   color: var(--tertiary);
   display: inline-block;
+  font-family: var(--sans-serif-bold);
   height: 40px;
   line-height: 40px;
   padding: 0 13px;
@@ -59,7 +60,6 @@
 .doc .button-primary code {
   background: none;
   border: 0;
-  font-weight: var(--weight-normal);
   padding: 0;
   top: 0; /* reset */
 }

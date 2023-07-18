@@ -1,0 +1,66 @@
+.slds-illustration {
+  & .slds-illustration-stroke-primary {
+    stroke: var(--slds-g-color-palette-cloud-blue-80,#90d0fe);
+  }
+
+  & .slds-illustration-stroke-secondary {
+    stroke: var(--slds-g-color-palette-cloud-blue-90,#cfe9fe);
+  }
+
+  & .slds-illustration-fill-primary {
+    fill: var(--slds-g-color-palette-cloud-blue-80,#90d0fe);
+  }
+
+  & .slds-illustration-fill-secondary {
+    fill: var(--slds-g-color-palette-cloud-blue-90,#cfe9fe);
+  }
+
+  & div {
+    margin: auto;
+    overflow-wrap: normal;
+    text-align: center;
+    word-break: keep-all;
+  }
+
+  & .slds-illustration-svg {
+    display: block;
+    height: 250px;
+    margin: auto;
+    margin-bottom: 24px;
+    margin-top: 65px;
+
+    @media (--md) {
+      margin-bottom: 44px;
+    }
+  }
+
+  & .slds-text-title {
+    font-family: var(--heading);
+    font-size: 25px;
+    line-height: 35px;
+    margin-bottom: 24px;
+    width: 90%;
+
+    & p {
+      margin: 40px;
+    }
+
+    @media (--md) {
+      font-size: 28px;
+      line-height: 40px;
+      margin-bottom: 44px;
+      width: 600px;
+    }
+  }
+
+  & .slds-text-description {
+    font-size: 17px;
+    margin-bottom: 50px;
+    width: 80%;
+
+    @media (--md) {
+      margin-bottom: 150px;
+      width: 600px;
+    }
+  }
+}

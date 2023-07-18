@@ -87,7 +87,7 @@ abbr[title] {
 
 b,
 strong {
-  font-weight: bolder;
+  font-family: var(--sans-serif-bold);
 }
 
 /**
@@ -155,8 +155,7 @@ input,
 optgroup,
 select,
 textarea {
-  font-family: inherit; /* 1 */
-  font-size: 100%; /* 1 */
+  font-family: var(--sans-serif); /* 1 */
   line-height: 1.15; /* 1 */
   margin: 0; /* 2 */
 }
@@ -190,6 +189,7 @@ button,
 [type="reset"],
 [type="submit"] {
   -webkit-appearance: button;
+  appearance: button;
 }
 
 /**

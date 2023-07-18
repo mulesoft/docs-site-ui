@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang={{#if (eq (site-profile) 'jp' )}}"jp"{{else}}"en"{{/if}}>
+
+<head>
+    <title>{{{detag (or page.title 'Untitled')}}}{{#if site.title}} | {{{site.title}}}{{/if}}</title>
+    {{> head}}
+</head>
+
+<body class="flex col home">
+    {{> header}}
+    {{> top-banner}}
+    <div class="flex container wrapper">
+        {{> nav}}
+        <main class="main" id="landing-page" data-ceiling="topbar">
+            {{> toolbar}}
+            {{> notice-banner}}
+            {{> landing-page}}
+        </main>
+    </div>
+    {{> mobile-survey}}
+    {{> footer}}
+</body>
+
+</html>

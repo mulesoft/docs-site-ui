@@ -18,13 +18,12 @@
 
   /* numbered callouts from codeblocks */
   & .conum {
-    background: var(--tertiary);
-    border: 1px solid var(--aluminum-3);
-    border-radius: 4px;
-    font-family: var(--sans-serif);
+    background: #1a5492;
+    border-radius: 10px;
+    color: white;
+    font-family: var(--sans-serif-bold);
     font-size: 12px;
     font-style: normal;
-    font-weight: --weight-bold;
     padding: 0 5px;
 
     &::after {
@@ -47,7 +46,6 @@
 
   /* references within codeblock */
   & .colist {
-
     /* numbers */
     & td:first-of-type {
       padding: 0 10px;
@@ -93,18 +91,15 @@
       border: 0;
       font-family: inherit;
       font-size: inherit;
-      font-weight: inherit;
       padding: 0;
       top: 0;
     }
   }
 
   & .anchor {
-    display: inline-block;
     float: right;
     height: var(--lg);
     opacity: 0;
-    padding-right: var(--sm);
     transform: scale(.9);
     transition: opacity var(--transition-speed-sm) var(--transition-timing), transform var(--transition-speed-sm) var(--transition-timing);
 
@@ -118,17 +113,14 @@
       opacity: .5;
       outline: 0;
     }
+  }
 
-    &::before {
-      background-image: url(../img/icons/anchor.svg);
-      background-position: center;
-      background-repeat: no-repeat;
-      background-size: var(--lg);
-      content: '';
-      display: block;
-      height: var(--lg);
-      width: var(--lg);
-    }
+  & .anchor-image {
+    display: block;
+    height: var(--lg);
+    margin-bottom: 0;
+    margin-top: 0;
+    width: var(--lg);
   }
 
   & h1 .anchor {
@@ -160,43 +152,57 @@
   & ol,
   & dl,
   & figure,
-  & img,
   & blockquote,
   & table {
     margin-bottom: var(--md);
     margin-top: var(--md);
   }
 
-  pre,
-  table,
-  aside {
+  & pre,
+  & table,
+  & aside {
     margin-bottom: var(--lg);
     margin-top: var(--lg);
   }
 
   /* links */
-  & a:not(.button-primary):not(.notice-banner-link) {
-    color: var(--core-blue-3);
+  & a:not(.button-primary, .deployment-option, .dw-playground-link, .notice-banner-link, .view-all, #cta *) {
+    &:not(footer *) {
+      color: var(--secondary-navy);
 
+      &:visited {
+        color: var(--violet-4);
+      }
+    }
+
+    &:active,
     &:focus {
-      outline: 0;
+      border-radius: 5px;
+      outline: 2px solid var(--gray);
+      text-decoration: none;
     }
 
-    &:focus,
     &:hover {
-      color: var(--core-blue-2);
-    }
+      background-color: #c0edff;
+      border-radius: 5px;
+      color: var(--secondary-navy);
 
-    &:active {
-      color: var(--core-blue-4);
+      &:not(.anchor) {
+        margin-left: -3px;
+        margin-right: -3px;
+        padding: 1px 3px;
+      }
     }
+  }
 
-    &[target="_blank"] {
-      background-image: url(../img/icons/external-link.svg);
-      background-position: right center;
-      background-repeat: no-repeat;
-      background-size: 12px;
-      padding-right: 16px;
+  & .external-link-image {
+    margin-left: 4px;
+    width: 12px;
+  }
+
+  & .button-primary {
+    & .external-link-image {
+      filter: brightness(20) saturate(0);
     }
   }
 
@@ -224,12 +230,12 @@
       border: 0;
       border-radius: 0;
       display: block;
-      padding: 0;
+      padding: 15px 0;
       top: 0;
     }
   }
 
-  & code {
+  & p code {
     background: var(--aluminum-1);
     border: 1px solid var(--aluminum-3);
     border-radius: 2px;
@@ -241,11 +247,11 @@
   /* ordered and unordered lists */
   & ol,
   & ul {
+    font-size: 14px;
     padding-left: var(--lg);
 
-    & ol,
-    & ul {
-      font-size: 14px;
+    & a {
+      font-size: 16px;
     }
   }
 
@@ -282,7 +288,7 @@
   }
 
   & blockquote {
-    color: var(--aluminum-5);
+    color: var(--steel-2);
     margin-left: 0;
   }
 
@@ -290,4 +296,22 @@
   & .image img {
     margin: 0;
   }
+
+  & kbd {
+    background: #fafafa;
+    border: 1px solid #c1c1c1;
+    border-radius: .25em;
+    box-shadow: 0 1px 0 #c1c1c1, inset 0 0 0 .1em #fff;
+    display: inline-block;
+    font-size: .6667rem;
+    margin-right: 4px;
+    padding: .25em .5em;
+    vertical-align: text-bottom;
+    white-space: nowrap;
+  }
+}
+
+.page-images {
+  margin-bottom: 8px !important;
+  margin-top: 24px !important;
 }

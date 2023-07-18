@@ -28,7 +28,7 @@ If you're using the Data Gateway through the Anypoint Platform, then you must li
 
 * The following error message is shown when trying to create a new Data Gateway "Error: A message body reader for java.lang.class.org.mule.cs.model.Client, and java type class org.mule.cs.model.Client, and MIME media type text/plain; charset=utf-8 was not found"
 
-**  The user belongs to a business group where it has the right permissions, but Data Gateway is looking for permissions within the master organization level, where the user doesn't have it. Therefore, a 401 is returned and the Data Gateway can't be created. The workaround is to assign the user the "DataGateway Administrator" permission on any given environment within the master organization, this will allow the user to create a Data Gateway within the Business Group and environment he already has.
+**  The user belongs to a business group where it has the right permissions, but Data Gateway is looking for permissions within the main organization level, where the user doesn't have it. Therefore, a 401 is returned and the Data Gateway can't be created. The workaround is to assign the user the "DataGateway Administrator" permission on any given environment within the main organization, this will allow the user to create a Data Gateway within the Business Group and environment he already has.
 
 === Salesforce
 

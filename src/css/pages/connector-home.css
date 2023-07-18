@@ -1,6 +1,5 @@
 /* featured connectors */
 .connectors-popular {
-
   & .popular-cards {
     @media (min-width: 768px) and (max-width: 1035px), (max-width: 695px) {
       flex-wrap: wrap;
@@ -49,10 +48,9 @@
   /* smaller featured items */
   & .featured-link {
     align-items: center;
-    color: var(--steel-2);
+    color: var(--steel-3);
     display: flex;
     font-size: 15px;
-    font-weight: var(--weight-bold);
     height: 50px;
     padding-left: var(--lg);
     padding-right: var(--md);
@@ -65,7 +63,7 @@
     }
 
     &:focus {
-      color: var(--core-blue-3);
+      color: var(--secondary-navy);
       outline: 0;
     }
 
@@ -83,7 +81,7 @@
   }
 
   & .icon-forward-arrow {
-    fill: currentColor;
+    fill: currentcolor;
     height: 12px;
     margin-left: var(--xs);
     opacity: .75;
@@ -94,7 +92,6 @@
 
 /* search */
 .connectors-search {
-
   & .input,
   & .select-wrapper {
     height: var(--input-lg);
@@ -106,7 +103,7 @@
   }
 
   & .input {
-    background-image: url(../img/icons/search-light.svg);
+    background-image: url("../img/icons/search-light.svg");
     background-position: var(--sm) 50%;
     background-repeat: no-repeat;
     background-size: 20px;
@@ -151,7 +148,7 @@
 
     &:active,
     &:focus {
-      background: rgba(0,162,223,.075);
+      background: #00a2df13;
     }
 
     &:focus {
@@ -229,7 +226,7 @@
     }
 
     & .svg {
-      fill: currentColor;
+      fill: currentcolor;
     }
   }
 }

@@ -1,6 +1,6 @@
 'use strict'
 
-const eslint = require('gulp-eslint')
+const eslint = require('gulp-eslint-new')
 const vfs = require('vinyl-fs')
 
 module.exports = (files) => (done) =>

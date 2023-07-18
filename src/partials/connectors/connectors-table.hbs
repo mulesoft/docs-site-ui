@@ -7,7 +7,7 @@
 <template id="connectors-row" class="hidden">
 <tr class="tr">
   <td class="td">
-    <img src="" class="img js-connector-icon" width="30" alt="icon">
+    <img loading="lazy" src="" class="img js-connector-icon" width="30" alt="icon">
   </td>
   <td class="td js-connector-title"></td>
   <td class="td js-connector-link">
@@ -15,32 +15,6 @@
     <a class="link js-connector-link-mule3" href="#">Mule 3</a>
   </td>
   <td class="td js-connector-type"></td>
-  <td class="td">
-    <button class="button js-connector-menu-trigger">
-      <svg class="svg" width="16" height="16"><use xlink:href="#icon-kabob"/></svg>
-    </button>
-    <div class="js-connector-menu hidden">
-      <div class="popover popover-connector-menu">
-        <header class="header">Quick links</header>
-        <ul class="list js-connector-qlinks">
-          <li>
-            <a class="link js-connector-qlink-mule4" href="#">Mule 4</a>
-          </li>
-          <li>
-            <a class="link js-connector-qlink-mule3" href="#">Mule 3</a>
-          </li>
-          <li>
-            <a class="link js-connector-qlink-relnotes" href="#">Release notes</a>
-          </li>
-          <li>
-            <a class="link js-connector-qlink-exchange" href="#" target="_blank">View in Exchange
-              <svg class="icon icon-md icon-external"><use xlink:href="#icon-external"/></svg>
-            </a>
-          </li>
-        </ul>
-      </div>
-    </div>
-  </td>
 </tr>
 </template>
 <script nonce="**CSP_NONCE**" id="connectors-data" type="application/json">
@@ -50,7 +24,12 @@
   {
     "title": "{{connector.title}}",
     "type": "{{attributes.page-connector-type}}",
-    "iconURL": "https://anypoint.mulesoft.com/exchange/organizations/68ef9520-24e9-4cf2-b2f5-620025690913/assets/{{attributes.page-exchange-group-id}}/{{attributes.page-exchange-asset-id}}/icon/{{#if (not (isNull attributes.page-icon-extension))}}{{attributes.page-icon-extension}}{{else}}svg{{/if}}/",
+    "iconURL":
+    {{#if (and attributes.page-exchange-group-id attributes.page-exchange-asset-id)}}
+      "https://anypoint.mulesoft.com/exchange/organizations/68ef9520-24e9-4cf2-b2f5-620025690913/assets/{{attributes.page-exchange-group-id}}/{{attributes.page-exchange-asset-id}}/icon/{{#if (not (is-null attributes.page-icon-extension))}}{{attributes.page-icon-extension}}{{else}}svg{{/if}}/"
+    {{else}}
+      "{{@root.uiRootPath}}/img/icons/connectors.svg"
+    {{/if}},
     {{#if attributes.page-exchange-asset-id}}
     "exchangeURL": "https://www.anypoint.mulesoft.com/exchange/{{attributes.page-exchange-group-id}}/{{attributes.page-exchange-asset-id}}/",
     {{/if}}
@@ -121,24 +100,17 @@
       if (connector.latestVersion.runtimeVersion === '3') {
         row.querySelector('.js-connector-link').removeChild(row.querySelector('.js-connector-link-mule4'))
         row.querySelector('.js-connector-link').removeChild(row.querySelector('.js-connector-link-delim'))
-        row.querySelector('.js-connector-qlinks').removeChild(row.querySelector('.js-connector-qlink-mule4').parentNode)
       } else {
-        row.querySelector('.js-connector-link-mule4').href =
-          row.querySelector('.js-connector-qlink-mule4').href = connector.latestVersion.url
+        row.querySelector('.js-connector-link-mule4').href = connector.latestVersion.url
       }
       if (connector.latestMule3Version) {
-        row.querySelector('.js-connector-link-mule3').href =
-          row.querySelector('.js-connector-qlink-mule3').href = connector.latestMule3Version.url
+        row.querySelector('.js-connector-link-mule3').href = connector.latestMule3Version.url
       } else {
         if (connector.latestVersion.runtimeVersion !== '3') {
           row.querySelector('.js-connector-link').removeChild(row.querySelector('.js-connector-link-delim'))
         }
         row.querySelector('.js-connector-link').removeChild(row.querySelector('.js-connector-link-mule3'))
-        row.querySelector('.js-connector-qlinks').removeChild(row.querySelector('.js-connector-qlink-mule3').parentNode)
       }
-      row.querySelector('.js-connector-qlink-exchange').href = connector.exchangeURL
-      var relnotesQLink = row.querySelector('.js-connector-qlink-relnotes')
-      if (!(relnotesQLink.href = connector.releaseNotesPageURL)) relnotesQLink.parentNode.style.display = 'none'
       return accum.concat(row)
     }, [])
     slot.innerHTML = ''
@@ -157,38 +129,6 @@
         }
         if (currentNode) window.location.href = currentNode.dataset.href
       })
-    })
-    if (typeof tippy === 'function') {
-      activateConnectorMenuTriggers(slot)
-    } else {
-      window.addEventListener('load', function () { activateConnectorMenuTriggers(slot) })
-    }
-  }
-
-  function activateConnectorMenuTriggers (scope) {
-    tippy(scope.querySelectorAll('.js-connector-menu-trigger'), {
-      content: function (trigger) { return trigger.parentNode.querySelector('.js-connector-menu').innerHTML },
-      duration: [0, 150],
-      flip: false,
-      interactive: true,
-      offset: '32, 0',
-      placement: 'left-start',
-      role: 'menu',
-      theme: 'popover-versions',
-      touchHold: true, // maps touch as click
-      trigger: 'click',
-      onHide: function (instance) {
-        instance.popper.classList.remove('shown')
-      },
-      onHidden: function (instance) {
-        instance.popper.classList.add('hide')
-      },
-      onShow: function (instance) {
-        instance.popper.classList.remove('hide')
-      },
-      onShown: function (instance) {
-        instance.popper.classList.add('shown')
-      },
     })
   }
 

@@ -1,7 +1,7 @@
 .modal {
   background: var(--tertiary);
   border-radius: 4px;
-  box-shadow: 0 3px 15px rgba(0,0,0,.1);
+  box-shadow: 0 3px 15px #0000001a;
   font-size: 13px;
   left: var(--lg);
   margin-left: auto;
@@ -20,7 +20,7 @@
 
   @media (--lg) {
     left: 0;
-    max-width: calc(var(--screen-lg) - var(--lg) - var(--lg));
+    max-width: calc(var(--screen-lg) - var(--lg) - var(--md));
     right: 0;
     width: 100%;
   }
@@ -34,9 +34,10 @@
 
 .modal-backdrop {
   animation: fade-in var(--transition-speed-sm) var(--transition-timing) forwards;
-  background: rgba(0,0,0,.15);
+  background: #00000080;
   cursor: pointer;
   height: 100%;
+  height: -moz-available;
   height: -webkit-fill-available; /* resolves to height of viewport for fixed element */
   left: 0;
   opacity: 0;
@@ -54,6 +55,7 @@
   0% {
     opacity: 0;
   }
+
   100% {
     opacity: 1;
   }

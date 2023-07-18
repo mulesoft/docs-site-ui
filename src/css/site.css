@@ -11,22 +11,27 @@
 @import "pages/connector.css";
 @import "pages/connector-article.css";
 @import "pages/connector-home.css";
+@import "pages/maintenance.css";
+@import "pages/home.css";
 
 /* components */
 @import "components/breadcrumbs.css";
 @import "components/button.css";
 @import "components/card.css";
+@import "components/code-snippet-toolbar.css";
+@import "components/deployment-options.css";
 @import "components/github.css";
 @import "components/icon.css";
 @import "components/input.css";
 @import "components/modal.css";
 @import "components/popover.css";
 @import "components/select.css";
+@import "components/skiplink.css";
+@import "components/survey.css";
 @import "components/tooltip.css";
 
 /* specific */
 @import "specific/banner.css";
-@import "specific/notice-banner.css";
 @import "specific/gdpr.css";
 @import "specific/header.css";
 @import "specific/nav.css";
@@ -43,7 +48,8 @@
 
 /* vendor */
 @import "vendor/coveo.css";
+@import 'vendor/lume.css';
+@import "vendor/tabs.css";
 
 /* other */
 @import "highlight.css";
-@import "components/clipboard.css";

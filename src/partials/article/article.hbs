@@ -1,0 +1,14 @@
+<article class="doc">
+    {{#if (eq page.layout '404')}}
+    {{> 404-content}}
+    {{else}}
+    {{#if page.title}}
+    <h1 class="page">{{{page.title}}}</h1>
+    {{/if}}
+    {{> deployment-options}}
+    {{{page.contents}}}
+    {{/if}}
+</article>
+{{#if (ne page.layout '404')}}
+{{> article-footer}}
+{{/if}}

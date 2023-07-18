@@ -1,0 +1,55 @@
+<atomic-result-template>
+  <template>
+    <style>
+      atomic-field-condition {
+        align-items: center;
+        display: inline-flex;
+        white-space: nowrap;
+      }
+      atomic-result-badge::part(result-badge-element) {
+        background-color: var(--eyebrow-gray);
+        color: #fff;
+      }
+      atomic-result-link > a {
+        text-decoration: underline;
+      }
+      atomic-result-link > a:active,
+      atomic-result-link > a:focus {
+        border-radius: 5px;
+        outline: 2px solid var(--gray) !important;
+        outline-offset: -1px;
+        text-decoration: none !important;
+      }
+      atomic-result-link > a:not(:visited) {
+        color: #var(--secondary-navy) !important;
+      }
+      atomic-result-link > a:hover {
+        background-color: #c0edff;
+        border-radius: 5px;
+        color: var(--secondary-navy);
+      }
+      atomic-result-section-excerpt {
+        margin-top: 0.875rem !important;
+      }
+    </style>
+    <atomic-result-section-title>
+      <atomic-result-link target="_blank"></atomic-result-link>
+    </atomic-result-section-title>
+    <atomic-result-section-excerpt>
+      <atomic-result-text field="excerpt"></atomic-result-text>
+    </atomic-result-section-excerpt>
+    <atomic-result-section-bottom-metadata>
+      <atomic-result-fields-list>
+        <atomic-field-condition class="field" if-defined="product">
+          <atomic-result-text field="product"></atomic-result-text>
+        </atomic-field-condition>
+        <atomic-field-condition class="field" if-defined="version">
+          <atomic-result-text field="version"></atomic-result-text>
+        </atomic-field-condition>
+        <atomic-field-condition class="field" if-defined="mulesoftislatestversion">
+          <atomic-result-badge label="latest version"></atomic-result-badge>
+        </atomic-field-condition>
+      </atomic-result-fields-list>
+    </atomic-result-section-bottom-metadata>
+  </template>
+</atomic-result-template>

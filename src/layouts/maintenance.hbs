@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang={{#if (eq (site-profile) 'jp' )}}"jp"{{else}}"en"{{/if}}></html>
+
+<head>
+    <title>{{{detag (or page.title 'Untitled')}}}{{#if site.title}} | {{{site.title}}}{{/if}}</title>
+    {{> head}}
+</head>
+
+<body class="flex col">
+    {{> header}}
+    {{> top-banner}}
+    {{> maintenance-page}}
+    {{> footer}}
+</body>
+
+</html>

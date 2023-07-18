@@ -1,0 +1,9 @@
+{{#if (eq (site-profile) 'jp')}}
+{{> header-content-jp}}
+{{else}}
+    {{#if (eq (site-profile) 'archive')}}
+    {{> header-content-archive}}
+    {{else}}
+    {{> header-content-en}}
+    {{/if}}
+{{/if}}
