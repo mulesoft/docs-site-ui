@@ -38,16 +38,16 @@
   }
 
   const computeRelativePath = (from, to) => {
-    const fromParts = trimArray(from.split('/'))
-    const toParts = trimArray(to.split('/'))
+    var fromParts = trimArray(from.split('/'))
+    var toParts = trimArray(to.split('/'))
     for (var i = 0, l = Math.min(fromParts.length, toParts.length), sharedPathLength = l; i < l; i++) {
       if (fromParts[i] !== toParts[i]) {
         sharedPathLength = i
         break
       }
     }
-    const outputParts = []
-    for (let remain = fromParts.length - sharedPathLength; remain > 0; remain--) {
+    var outputParts = []
+    for (var remain = fromParts.length - sharedPathLength; remain > 0; remain--) {
       outputParts.push('..')
     }
     return outputParts.concat(toParts.slice(sharedPathLength)).join('/')
@@ -77,13 +77,13 @@
       attrs = undefined
     }
     if (~name.indexOf('.')) {
-      const nameParts = name.split('.')
+      var nameParts = name.split('.')
       name = nameParts.shift() || 'div'
       ;(attrs || (attrs = {})).className = nameParts.join(' ')
     }
-    const element = document.createElement(name)
+    var element = document.createElement(name)
     if (attrs) {
-      const dataset = attrs.dataset
+      var dataset = attrs.dataset
       if (dataset) {
         delete attrs.dataset
         Object.assign(Object.assign(element, attrs).dataset, dataset)
@@ -96,7 +96,7 @@
   }
 
   function createSvgElement (attrs, useRef) {
-    const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg')
+    var svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg')
     svg.setAttribute('xmlns', svg.namespaceURI)
     svg.setAttribute('width', '1em')
     svg.setAttribute('height', '1em')
@@ -107,7 +107,7 @@
       }
     }
     if (attrs) {
-      const className = attrs.className
+      var className = attrs.className
       if (className) {
         svg.setAttribute('class', className)
         delete attrs.className
@@ -115,7 +115,7 @@
       Object.assign(svg, attrs)
     }
     if (useRef) {
-      const use = document.createElementNS(svg.namespaceURI, 'use')
+      var use = document.createElementNS(svg.namespaceURI, 'use')
       use.setAttributeNS('http://www.w3.org/1999/xlink', 'xlink:href', useRef)
       svg.appendChild(use)
     }
@@ -297,11 +297,41 @@
     return isArchiveSite() ? `Archive ${title}` : languageMap[document.documentElement.lang].title
   }
 
-  const getNavData = (components) => {
+  const isArchiveSite = () => {
+    return window.location.host.includes('archive')
+  }
+
+  const isBetaSite = () => {
+    return isExternalBetaSite() || isInternalBetaSite() || isReviewSite()
+  }
+
+  const isExternalBetaSite = () => {
+    return window.location.host.includes('beta')
+  }
+
+  const isInternalBetaSite = () => {
+    return window.location.host.includes('dev-docs-internal')
+  }
+
+  const isJapaneseSite = () => {
+    return document.documentElement.lang === 'jp'
+  }
+
+  const isLocalBuild = () => {
+    return window.location.href.startsWith('file://')
+  }
+
+  const isReviewSite = () => {
+    return window.location.host.includes('review')
+  }
+
+  const getNavData = () => {
+    const components = window.siteNavigationData
     /*
       Normally, we would delete window.siteNavigationData here to clean up.
       But this data is needed for the Coveo scripts later, so keep them and let the Coveo scripts delete.
     */
+
     const groups = components.groups || [{ root: true, components: ['home', '*'] }]
     const homeUrl = components.homeUrl || document.querySelector('a.home-link')?.getAttribute('href') || '/'
     const subcomponents = components.subcomponents || []
@@ -314,10 +344,10 @@
     if (firstLink) firstLink.focus()
   }
 
-  const relativize = (to, page) => {
+  const relativize = (to) => {
     if (!(page.url && to.charAt() === '/')) return to
-    let hash = ''
-    const hashIdx = to.indexOf('#')
+    var hash = ''
+    var hashIdx = to.indexOf('#')
     if (~hashIdx) {
       hash = to.substr(hashIdx)
       to = to.substr(0, hashIdx)
@@ -333,6 +363,31 @@
   }
 
   class Nav {
+    constructor (nav) {
+      this.nav = nav
+      this.navData = getNavData()
+    }
+
+    addNavList () {
+      this.navGroup.appendChild(this.createNavList(this.groupData.components[0].nav))
+    }
+
+    addNavGroupList () {
+      if (this.groupData && this.groupData.components) {
+        const navList = createElement('ul.nav-list')
+        this.groupData.components.forEach((componentData) => {
+          navList.appendChild(this.createNavItemForComponent(componentData))
+        })
+        this.navGroup.appendChild(navList)
+      }
+    }
+
+    addNavGroupTitle () {
+      if (this.groupData && this.groupData.title) {
+        this.navGroup.appendChild(createElement('h3.nav-title', this.groupData.title))
+      }
+    }
+
     adjustNavHeight (e) {
       if (this.nav) {
         const header = document.querySelector('.ms-com-content-header')
@@ -353,14 +408,145 @@
       if (e) e.preventDefault()
     }
 
-    createNavItemToggle (navItemData, pageData) {
+    appendArchiveComponent () {
+      if (!(isArchiveSite() || isBetaSite() || isJapaneseSite() || isLocalBuild())) {
+        if (!this.alreadyHasComponent('archive')) {
+          this.navData.components.push({
+            name: 'archive',
+            title: 'Archived Documentation',
+            versions: [
+              {
+                version: '',
+                sets: [
+                  {
+                    content: 'Archive',
+                    url: 'https://archive.docs.mulesoft.com/',
+                  },
+                ],
+              },
+            ],
+          })
+        }
+      }
+    }
+
+    appendHomeComponent () {
+      if (!this.alreadyHasComponent('home')) {
+        this.navData.components.push({
+          name: 'home',
+          title: setTitle('Home'),
+          versions: [
+            {
+              version: '',
+              sets: [{ content: 'Home', url: this.navData.homeUrl }],
+            },
+          ],
+        })
+      }
+    }
+
+    alreadyHasComponent (name) {
+      return this.navData.components.some((candidate) => {
+        return candidate.name === name
+      })
+    }
+
+    buildNav () {
+      this.reshapeNavData()
+      this.createNavGroups()
+      this.nav.addEventListener('click', (e) => closeActiveVersionMenu(e))
+      window.addEventListener('scroll', (e) => this.adjustNavHeight(e))
+      window.addEventListener('resize', (e) => this.adjustNavHeight(e))
+      this.adjustNavHeight()
+      this.scrollToCurrentPageItem()
+    }
+
+    cleanComponents () {
+      const components = this.processComponents()
+      this.componentPool = Object.assign({}, components)
+      this.processSubcomponents(components)
+    }
+
+    cleanGroups () {
+      const groupIconId = document.getElementById('icon-nav-group') && 'icon-nav-group'
+      this.cleanedGroups = this.navData.groups.reduce((groupsAccum, group) => {
+        let groupComponents
+        groupsAccum.push({
+          iconId: groupIconId,
+          components: (groupComponents = Object.values(
+            selectComponents(group.components, this.componentPool, group.exclude)
+          )),
+          title: group.title,
+          spreadSingleItem: group.spreadSingleItem,
+        })
+        let component
+        if (!groupComponents.length) {
+          groupsAccum.pop()
+        } else if (groupComponents.length === 1 && (component = groupComponents[0]).unversioned) {
+          const items = component.nav.items
+          if ((items[0] || {}).url?.includes('/general/')) {
+            component.nav.items = items.slice(1)
+          }
+          component.nav.items.forEach(function (it) {
+            const iconId = it.url
+              ? 'icon-nav-page' + it.url.replace(/(?:\.html|\/)$/, '').replace(/[/#]/g, '-')
+              : 'icon-nav-page-' + component.name + '-' + it.content?.toLowerCase().replace(/ +/g, '-')
+            it.iconId = document.getElementById(iconId)
+              ? iconId
+              : group.spreadSingleItem
+                ? 'icon-nav-component'
+                : it.iconId
+          })
+        }
+        return groupsAccum
+      }, [])
+    }
+
+    createNavGroups () {
+      this.navGroups = createElement('.nav-groups.scrollbar')
+      this.nav.appendChild(this.navGroups)
+      this.cleanedGroups.forEach((groupData) => {
+        this.groupData = groupData
+        this.navGroup = createElement('.nav-group')
+        this.addNavGroupTitle()
+
+        this.navGroupHasSingleComponent() ? this.addNavList() : this.addNavGroupList()
+
+        this.navGroups.appendChild(this.navGroup)
+      })
+
+      this.navGroups.addEventListener('mousedown', inhibitSelectionOnSecondClick)
+    }
+
+    createNavItemForComponent (componentData) {
+      const componentName = componentData.name
+      const navItem = createElement('li.nav-item', {
+        dataset: { component: componentName },
+      })
+      navItem.appendChild(this.createNavTitle(navItem, componentData))
+      let versionData
+      if (page.component === componentName) {
+        versionData = componentData.versions[page.version]
+      } else if (isSubcomponent(page.component, componentData)) {
+        versionData = componentData.versions['']
+      } else {
+        return navItem
+      }
+      if (versionData.nav) {
+        page.scope = navItem.appendChild(this.createNavList(versionData.nav, versionData.version))
+      }
+      navItem.classList.add('is-active')
+      return navItem
+    }
+
+    createNavItemToggle (navItemData) {
       const navItemToggle = createElement('button.nav-item-toggle')
       navItemToggle.setAttribute('type', 'button')
       if (navItemData.content) {
         navItemToggle.ariaLabel = `Toggle ${navItemData.content}`
       }
-      if (pageData.navItemToggleIconId) {
-        navItemToggle.appendChild(createSvgElement('.icon.nav-item-toggle-icon', '#' + pageData.navItemToggleIconId))
+      if (page.navItemToggleIconId) {
+        navItemToggle.appendChild(createSvgElement('.icon.nav-item-toggle-icon', '#' + page.navItemToggleIconId))
       }
       return navItemToggle
     }
@@ -375,6 +561,193 @@
       }
 
       return navLink
+    }
+
+    createNavList (navEntryData, version, lineage) {
+      const navList = createElement('ul.nav-list')
+      if (version) navList.dataset.version = version
+      navEntryData.items.forEach((navItemData) => {
+        if (navItemData.name) {
+          navList.appendChild(this.createNavItemForComponent(navItemData))
+          return
+        }
+
+        const navItem = createElement('li.nav-item')
+        if (navItemData.url) {
+          const navLink = this.createNavLink(navItemData)
+          if (navItemData.url === page.url) {
+            ;(lineage || []).forEach((el) => {
+              el.classList.add('is-active')
+            })
+            navItem.classList.add('is-active')
+            navLink.setAttribute('aria-current', 'page')
+          }
+          navItem.appendChild(navLink)
+        } else {
+          navItem.appendChild(createElement('span.nav-text', navItemData.content))
+          if (navItemData.items) {
+            navItem.lastChild.addEventListener('click', toggleSubNav.bind(navItem))
+          }
+        }
+
+        if (navItemData.items) {
+          const navItemToggle = this.createNavItemToggle(navItemData)
+          navItemToggle.ariaExpanded = navItem.classList.contains('is-active')
+          navItemToggle.addEventListener('click', toggleSubNav.bind(navItem))
+          navItem.insertBefore(navItemToggle, navItem.firstChild)
+          navItem.appendChild(this.createNavList(navItemData, undefined, (lineage || []).concat(navItem)))
+        }
+        navList.appendChild(navItem)
+      })
+      return navList
+    }
+
+    createNavTitle (navItem, componentData) {
+      const navTitle = createElement('.nav-title')
+      const navLink = ['home', 'archive'].includes(componentData.name)
+        ? createElement('a.link.nav-text', componentData.title)
+        : createElement('span.link.nav-text', componentData.title)
+      navLink.setAttribute('tabindex', '0')
+      if (componentData.name === 'home') {
+        const homeUrl = componentData.nav.url
+        if ((navLink.href = relativize(homeUrl)) === relativize(page.url)) {
+          navItem.classList.add('is-active')
+          navLink.ariaCurrent = 'page'
+        }
+      } else if (componentData.name === 'archive') {
+        navLink.href = componentData.nav.url
+        navLink.target = '_blank'
+      } else {
+        navLink.ariaLabel = `Toggle ${componentData.title}`
+        navLink.setAttribute('role', 'button')
+        navLink.setAttribute('type', 'button')
+        setTimeout(() => {
+          navLink.ariaExpanded = navItem.classList.contains('is-active')
+        }, 100)
+        navLink.addEventListener('mousedown', (e) => {
+          this.toggleNav(navItem, componentData, false)
+          navLink.ariaExpanded = navItem.classList.contains('is-active')
+          e.preventDefault()
+        })
+        navLink.addEventListener('keydown', (e) => {
+          if (isSpaceOrEnterKey(e.keyCode)) {
+            this.toggleNav(navItem, componentData, false)
+            navLink.ariaExpanded = navItem.classList.contains('is-active')
+            e.preventDefault()
+          }
+        })
+      }
+      if (componentData.iconId) {
+        navTitle.classList.add('has-icon')
+        const iconElement = createSvgElement('.icon.nav-icon', '#' + componentData.iconId)
+        iconElement.setAttribute('alt', '')
+        navLink.insertBefore(iconElement, navLink.firstChild)
+      }
+      navTitle.appendChild(navLink)
+      if (!componentData.unversioned) {
+        navTitle.appendChild(this.createNavVersionDropdown(navItem, componentData))
+      }
+      return navTitle
+    }
+
+    createNavVersionDropdown (navItem, componentData) {
+      const versions = Object.values(componentData.versions)
+      const currentVersionData = getCurrentVersionData(versions)
+      const navVersionDropdown = createElement('.nav-version-dropdown')
+      navVersionDropdown.addEventListener('click', trapEvent)
+      const navVersionButton = createElement('button.button.nav-version-button')
+      navVersionButton.setAttribute('tabindex', '-1')
+      const activeVersion = componentData.name === page.component ? page.version : currentVersionData.version
+      const activeDisplayVersion = componentData.versions[activeVersion].displayVersion
+      const navVersionLabel = createElement('label', activeDisplayVersion)
+      navVersionLabel.id = `combo-${componentData.name}-label`
+      navVersionButton.appendChild(navVersionLabel)
+      const navVersion = createElement('div.nav-version', { dataset: { version: activeVersion } })
+      navVersion.setAttribute('tabindex', '0')
+      navVersion.setAttribute('role', 'combobox')
+      navVersion.ariaExpanded = false
+      navVersion.ariaHasPopup = 'listbox'
+      navVersion.id = `combo-${componentData.name}`
+      navVersion.setAttribute('aria-labelledby', `combo-${componentData.name}-label`)
+      navVersion.setAttribute('aria-controls', `listbox-${componentData.name}`)
+      if (activeVersion === currentVersionData.version) {
+        addCurrentVersionIndicator(navVersionButton, 'tooltip-dot-nav-version-menu')
+      }
+      navVersionButton.appendChild(navVersion)
+      if (page.navVersionIconId) {
+        navVersionButton.appendChild(createSvgElement('.icon.nav-version-icon', '#' + page.navVersionIconId))
+      }
+      const navVersionMenu = createElement('div.nav-version-menu')
+      navVersionMenu.setAttribute('role', 'listbox')
+      navVersionMenu.id = `listbox-${componentData.name}`
+      navVersionMenu.setAttribute('aria-labelledby', `combo-${componentData.name}-label`)
+      versions.reduce((lastVersionData, versionData) => {
+        if (!isArchiveSite()) {
+          if (versionData === currentVersionData) {
+            navVersionMenu.appendChild(createElement('span.nav-version-label', 'Current version'))
+          } else if (versionData.prerelease) {
+            if (!lastVersionData) {
+              navVersionMenu.appendChild(createElement('span.nav-version-label', 'Prerelease versions'))
+            }
+          } else if (lastVersionData === currentVersionData) {
+            navVersionMenu.appendChild(createElement('span.nav-version-label', 'Previous versions'))
+          }
+        } else if (versionData === currentVersionData) {
+          navVersionMenu.appendChild(createElement('span.nav-version-label', 'Archived versions'))
+        }
+        const versionDataset = {
+          version: versionData.version,
+        }
+        const navVersionOption = createElement(
+          'button.nav-version-option',
+          { dataset: versionDataset },
+          versionData.displayVersion
+        )
+        navVersionOption.setAttribute('tabindex', '-1')
+        navVersionOption.id = `${componentData.name}-${versionData.displayVersion}`
+        navVersionOption.addEventListener('keydown', (e) => {
+          if (isSpaceOrEnterKey(e.keyCode)) {
+            setTabIndexForVersions()
+          }
+        })
+        navVersionOption.addEventListener('focus', (e) => {
+          setAriaActiveDescendant(componentData.name, versionData.displayVersion, true)
+          e.stopPropagation()
+        })
+        navVersionOption.addEventListener('blur', () => {
+          setAriaActiveDescendant(componentData.name, versionData.displayVersion, false)
+        })
+        if (versionData === currentVersionData) {
+          addCurrentVersionIndicator(navVersionMenu, 'tooltip-dot-nav-version')
+        }
+        if (versionData.version === activeVersion) {
+          navVersionOption.classList.add('selected')
+        }
+        navVersionMenu
+          .appendChild(navVersionOption)
+          .addEventListener('click', (e) => this.selectVersion(navVersionMenu, navItem, componentData, e))
+        return versionData
+      }, undefined)
+      navVersionButton.addEventListener('mousedown', (e) => {
+        this.toggleVersionMenu(navVersionMenu)
+        e.preventDefault()
+      })
+      navVersion.addEventListener('keydown', (e) => {
+        if (isSpaceOrEnterKey(e.keyCode)) {
+          this.toggleVersionMenu(navVersionMenu)
+          setTabIndexForVersions()
+          e.preventDefault()
+        }
+      })
+      navVersionDropdown.appendChild(navVersionButton)
+      navVersionDropdown.appendChild(navVersionMenu)
+      navVersion.addEventListener('blur', () => {
+        autoCloseVersionDropdown(navVersionMenu)
+      })
+      navVersionMenu.lastChild.addEventListener('blur', () => {
+        autoCloseVersionDropdown(navVersionMenu)
+      })
+      return navVersionDropdown
     }
 
     ensureNavList (navItem, componentData, selectedVersion) {
@@ -409,6 +782,78 @@
 
     getNavGroupsBottom () {
       return this.navGroups.getBoundingClientRect().bottom
+    }
+
+    navGroupHasSingleComponent () {
+      const componentsData = this.groupData.components
+      return (
+        componentsData.length === 1 &&
+        componentsData[0].unversioned &&
+        componentsData[0].nav.items.length &&
+        this.groupData.spreadSingleItem
+      )
+    }
+
+    processComponents () {
+      const componentIconId = document.getElementById('icon-nav-component') && 'icon-nav-component'
+      return this.navData.components.reduce((componentsAccum, component) => {
+        let versions
+        const iconId = 'icon-nav-component-' + component.name
+        componentsAccum[component.name] = component = Object.assign({}, component, {
+          iconId: document.getElementById(iconId) ? iconId : componentIconId,
+          versions: component.versions.reduce((versionsAccum, version) => {
+            const versionName = version.version === 'master' || !version.version ? '' : version.version
+            versionsAccum[versionName] = version = Object.assign({}, version, {
+              version: versionName,
+              nav: Object.assign({ items: [] }, version.sets[0]),
+            })
+            if (versionName && !version.displayVersion) version.displayVersion = versionName
+            version.sets.slice(1).forEach((set) => {
+              version.nav.items = version.nav.items.concat(set.items) // quick fix to merge multiple sets together
+            })
+            delete version.sets
+            return versionsAccum
+          }, (versions = {})),
+        })
+
+        if ('' in versions && Object.keys(versions).length === 1) {
+          Object.defineProperty(component, 'nav', {
+            get: function () {
+              return this.versions[''].nav
+            },
+          })
+          component.unversioned = true
+        }
+
+        return componentsAccum
+      }, {})
+    }
+
+    processSubcomponents (components) {
+      this.navData.subcomponents.forEach((subcomponent) => {
+        const targetComponent = components[subcomponent.parent]
+        if (!(targetComponent || {}).unversioned) return
+        const targetItems = targetComponent.nav.items
+        Object.values(selectComponents(subcomponent.components, this.componentPool))
+          .sort((a, b) => {
+            if (!subcomponent.sortAll) return 0
+            if (!a.title) return 1
+            if (a.title?.toLowerCase() < b.title?.toLowerCase()) return -1
+            return 0
+          })
+          .forEach((component) => {
+            const iconId = 'icon-nav-component-' + component.name
+            component.iconId = document.getElementById(iconId) ? iconId : targetComponent.iconId
+            targetItems.push(component)
+          })
+      })
+    }
+
+    reshapeNavData () {
+      this.appendHomeComponent()
+      this.appendArchiveComponent()
+      this.cleanComponents()
+      this.cleanGroups()
     }
 
     scrollToCurrentPageItem () {
@@ -482,435 +927,22 @@
     }
   }
 
-  const addNavGroupTitle = (navGroup, title) => navGroup.appendChild(createElement('h3.nav-title', title))
-
-  const addNavList = (navGroup, groupData) => navGroup.appendChild(createNavList(groupData.components[0].nav))
-
-  const addNavGroupList = (navGroup, components, pageData) => {
-    const navList = createElement('ul.nav-list')
-    components.forEach((componentData) => {
-      navList.appendChild(createNavItemForComponent(componentData, pageData))
-    })
-    navGroup.appendChild(navList)
-  }
-
-  const alreadyHasComponent = (navData, name) => {
-    return navData.components.some((candidate) => {
-      return candidate.name === name
-    })
-  }
-
-  const appendArchiveComponent = (navData) => {
-    if (isEngProdSite()) {
-      if (!alreadyHasComponent(navData, 'archive')) {
-        navData.components.push({
-          name: 'archive',
-          title: 'Archived Documentation',
-          versions: [
-            {
-              version: '',
-              sets: [
-                {
-                  content: 'Archive',
-                  url: 'https://archive.docs.mulesoft.com/',
-                },
-              ],
-            },
-          ],
-        })
+  class Page {
+    constructor () {
+      const head = document.head
+      const pageComponentMeta = head.querySelector('meta[name=page-component]')
+      if (pageComponentMeta) {
+        this.component = pageComponentMeta.getAttribute('content')
+        this.navItemToggleIconId = document.getElementById('icon-nav-item-toggle') && 'icon-nav-item-toggle'
+        this.navVersionIconId = document.getElementById('icon-nav-version') && 'icon-nav-version'
+        this.url = head.querySelector('meta[name=page-url]').getAttribute('content')
+        this.version = head.querySelector('meta[name=page-version]').getAttribute('content')
+        if (this.version === 'master' || !this.version) this.version = ''
       }
     }
   }
 
-  const appendComponents = (navData) => {
-    appendHomeComponent(navData)
-    appendArchiveComponent(navData)
-  }
-
-  const appendHomeComponent = (navData) => {
-    if (!alreadyHasComponent(navData, 'home')) {
-      navData.components.push({
-        name: 'home',
-        title: setTitle('Home'),
-        versions: [
-          {
-            version: '',
-            sets: [{ content: 'Home', url: navData.homeUrl }],
-          },
-        ],
-      })
-    }
-  }
-
-  const buildNav = (nav, navData, pageData) => {
-    appendComponents(navData)
-    const cleanedComponents = processComponents(navData)
-    processSubcomponents(navData, cleanedComponents)
-    const cleanedGroups = getCleanedGroups(navData, cleanedComponents)
-    createNavGroups(nav, cleanedGroups, pageData)
-    // nav.addEventListener('click', (e) => closeActiveVersionMenu(e))
-    // window.addEventListener('scroll', (e) => adjustNavHeight(e))
-    // window.addEventListener('resize', (e) => adjustNavHeight(e))
-    // adjustNavHeight()
-    // scrollToCurrentPageItem()
-  }
-
-  const getCleanedGroups = (navData, components) => {
-    console.log(getComponentPool(components))
-    const groupIconId = document.getElementById('icon-nav-group') && 'icon-nav-group'
-    return navData.groups.reduce((groupsAccum, group) => {
-      let groupComponents
-      groupsAccum.push({
-        iconId: groupIconId,
-        components: (groupComponents = Object.values(
-          selectComponents(group.components, getComponentPool(components), group.exclude)
-        )),
-        title: group.title,
-        spreadSingleItem: group.spreadSingleItem,
-      })
-      let component
-      if (!groupComponents.length) {
-        groupsAccum.pop()
-      } else if (groupComponents.length === 1 && (component = groupComponents[0]).unversioned) {
-        const items = component.nav.items
-        if ((items[0] || {}).url?.includes('/general/')) {
-          component.nav.items = items.slice(1)
-        }
-        component.nav.items.forEach(function (it) {
-          const iconId = it.url
-            ? 'icon-nav-page' + it.url.replace(/(?:\.html|\/)$/, '').replace(/[/#]/g, '-')
-            : 'icon-nav-page-' + component.name + '-' + it.content?.toLowerCase().replace(/ +/g, '-')
-          it.iconId = document.getElementById(iconId)
-            ? iconId
-            : group.spreadSingleItem
-              ? 'icon-nav-component'
-              : it.iconId
-        })
-      }
-      return groupsAccum
-    }, [])
-  }
-
-  const createNavItemForComponent = (componentData, pageData) => {
-    const componentName = componentData.name
-    const navItem = createElement('li.nav-item', {
-      dataset: { component: componentName },
-    })
-    navItem.appendChild(createNavTitle(navItem, componentData, pageData))
-    let versionData
-
-    return navItem
-    if (!pageData) {
-      return navItem
-    } else if (pageData.component === componentName) {
-      versionData = componentData.versions[pageData.version]
-    } else if (isSubcomponent(pageData.component, componentData)) {
-      versionData = componentData.versions['']
-    } else {
-      return navItem
-    }
-    if (versionData.nav) {
-      pageData.scope = navItem.appendChild(createNavList(versionData.nav, versionData.version))
-    }
-    navItem.classList.add('is-active')
-    return navItem
-  }
-
-  const createNavList = (navEntryData, version, lineage) => {
-    const navList = createElement('ul.nav-list')
-    if (version) navList.dataset.version = version
-    navEntryData.items.forEach((navItemData) => {
-      if (navItemData.name) {
-        navList.appendChild(this.createNavItemForComponent(navItemData))
-        return
-      }
-
-      const navItem = createElement('li.nav-item')
-      if (navItemData.url) {
-        const navLink = this.createNavLink(navItemData)
-        if (navItemData.url === page?.url) {
-          ;(lineage || []).forEach((el) => {
-            el.classList.add('is-active')
-          })
-          navItem.classList.add('is-active')
-          navLink.setAttribute('aria-current', 'page')
-        }
-        navItem.appendChild(navLink)
-      } else {
-        navItem.appendChild(createElement('span.nav-text', navItemData.content))
-        if (navItemData.items) {
-          navItem.lastChild.addEventListener('click', toggleSubNav.bind(navItem))
-        }
-      }
-
-      if (navItemData.items) {
-        const navItemToggle = this.createNavItemToggle(navItemData)
-        navItemToggle.ariaExpanded = navItem.classList.contains('is-active')
-        navItemToggle.addEventListener('click', toggleSubNav.bind(navItem))
-        navItem.insertBefore(navItemToggle, navItem.firstChild)
-        navItem.appendChild(this.createNavList(navItemData, undefined, (lineage || []).concat(navItem)))
-      }
-      navList.appendChild(navItem)
-    })
-    return navList
-  }
-
-  const createNavTitle = (navItem, componentData, pageData) => {
-    const navTitle = createElement('.nav-title')
-    const navLink = ['home', 'archive'].includes(componentData.name)
-      ? createElement('a.link.nav-text', componentData.title)
-      : createElement('span.link.nav-text', componentData.title)
-    navLink.setAttribute('tabindex', '0')
-    if (componentData.name === 'home') {
-      const homeUrl = componentData.nav?.url
-      const pageURL = pageData ? pageData.url : '/index.html'
-      if ((navLink.href = relativize(homeUrl, pageData)) === relativize(pageURL, pageData)) {
-        navItem.classList.add('is-active')
-        navLink.ariaCurrent = 'page'
-      }
-    } else if (componentData.name === 'archive') {
-      navLink.href = componentData.nav?.url
-      navLink.target = '_blank'
-    } else {
-      navLink.ariaLabel = `Toggle ${componentData.title}`
-      navLink.setAttribute('role', 'button')
-      navLink.setAttribute('type', 'button')
-      setTimeout(() => {
-        navLink.ariaExpanded = navItem.classList.contains('is-active')
-      }, 100)
-      navLink.addEventListener('mousedown', (e) => {
-        this.toggleNav(navItem, componentData, false)
-        navLink.ariaExpanded = navItem.classList.contains('is-active')
-        e.preventDefault()
-      })
-      navLink.addEventListener('keydown', (e) => {
-        if (isSpaceOrEnterKey(e.keyCode)) {
-          this.toggleNav(navItem, componentData, false)
-          navLink.ariaExpanded = navItem.classList.contains('is-active')
-          e.preventDefault()
-        }
-      })
-    }
-    if (componentData.iconId) {
-      navTitle.classList.add('has-icon')
-      const iconElement = createSvgElement('.icon.nav-icon', '#' + componentData.iconId)
-      iconElement.setAttribute('alt', '')
-      navLink.insertBefore(iconElement, navLink.firstChild)
-    }
-    navTitle.appendChild(navLink)
-    // if (!componentData.unversioned) {
-    //   navTitle.appendChild(createNavVersionDropdown(navItem, componentData, pageData))
-    // }
-    return navTitle
-  }
-
-  const createNavGroups = (nav, cleanedGroups, pageData) => {
-    const navGroups = createElement('.nav-groups.scrollbar')
-    nav.appendChild(navGroups)
-    cleanedGroups.forEach((groupData) => {
-      const navGroup = createElement('.nav-group')
-      addNavGroupTitle(navGroup, groupData.title)
-
-      hasSingleComponent(groupData)
-        ? addNavList(navGroup, groupData)
-        : addNavGroupList(navGroup, groupData.components, pageData)
-
-      navGroups.appendChild(navGroup)
-    })
-
-    navGroups.addEventListener('mousedown', inhibitSelectionOnSecondClick)
-  }
-
-  const createNavVersionDropdown = (navItem, componentData, pageData) => {
-    const versions = Object.values(componentData.versions)
-    const currentVersionData = getCurrentVersionData(versions)
-    const navVersionDropdown = createElement('.nav-version-dropdown')
-    navVersionDropdown.addEventListener('click', trapEvent)
-    const navVersionButton = createElement('button.button.nav-version-button')
-    navVersionButton.setAttribute('tabindex', '-1')
-    const activeVersion = componentData.name === pageData?.component ? pageData.version : currentVersionData.version
-    const activeDisplayVersion = componentData.versions[activeVersion]?.displayVersion
-    const navVersionLabel = createElement('label', activeDisplayVersion)
-    navVersionLabel.id = `combo-${componentData.name}-label`
-    navVersionButton.appendChild(navVersionLabel)
-    const navVersion = createElement('div.nav-version', { dataset: { version: activeVersion } })
-    navVersion.setAttribute('tabindex', '0')
-    navVersion.setAttribute('role', 'combobox')
-    navVersion.ariaExpanded = false
-    navVersion.ariaHasPopup = 'listbox'
-    navVersion.id = `combo-${componentData.name}`
-    navVersion.setAttribute('aria-labelledby', `combo-${componentData.name}-label`)
-    navVersion.setAttribute('aria-controls', `listbox-${componentData.name}`)
-    if (activeVersion === currentVersionData.version) {
-      addCurrentVersionIndicator(navVersionButton, 'tooltip-dot-nav-version-menu')
-    }
-    navVersionButton.appendChild(navVersion)
-    const navVersionIconId = pageData?.navVersionIconId ? pageData.navVersionIconId : 'icon-nav-version'
-    navVersionButton.appendChild(createSvgElement('.icon.nav-version-icon', '#' + navVersionIconId))
-    const navVersionMenu = createElement('div.nav-version-menu')
-    navVersionMenu.setAttribute('role', 'listbox')
-    navVersionMenu.id = `listbox-${componentData.name}`
-    navVersionMenu.setAttribute('aria-labelledby', `combo-${componentData.name}-label`)
-    versions.reduce((lastVersionData, versionData) => {
-      if (!isArchiveSite()) {
-        if (versionData === currentVersionData) {
-          navVersionMenu.appendChild(createElement('span.nav-version-label', 'Current version'))
-        } else if (versionData.prerelease) {
-          if (!lastVersionData) {
-            navVersionMenu.appendChild(createElement('span.nav-version-label', 'Prerelease versions'))
-          }
-        } else if (lastVersionData === currentVersionData) {
-          navVersionMenu.appendChild(createElement('span.nav-version-label', 'Previous versions'))
-        }
-      } else if (versionData === currentVersionData) {
-        navVersionMenu.appendChild(createElement('span.nav-version-label', 'Archived versions'))
-      }
-      const versionDataset = {
-        version: versionData.version,
-      }
-      const navVersionOption = createElement(
-        'button.nav-version-option',
-        { dataset: versionDataset },
-        versionData.displayVersion
-      )
-      navVersionOption.setAttribute('tabindex', '-1')
-      navVersionOption.id = `${componentData.name}-${versionData.displayVersion}`
-      navVersionOption.addEventListener('keydown', (e) => {
-        if (isSpaceOrEnterKey(e.keyCode)) {
-          setTabIndexForVersions()
-        }
-      })
-      navVersionOption.addEventListener('focus', (e) => {
-        setAriaActiveDescendant(componentData.name, versionData.displayVersion, true)
-        e.stopPropagation()
-      })
-      navVersionOption.addEventListener('blur', () => {
-        setAriaActiveDescendant(componentData.name, versionData.displayVersion, false)
-      })
-      if (versionData === currentVersionData) {
-        addCurrentVersionIndicator(navVersionMenu, 'tooltip-dot-nav-version')
-      }
-      if (versionData.version === activeVersion) {
-        navVersionOption.classList.add('selected')
-      }
-      navVersionMenu
-        .appendChild(navVersionOption)
-        .addEventListener('click', (e) => this.selectVersion(navVersionMenu, navItem, componentData, e))
-      return versionData
-    }, undefined)
-    navVersionButton.addEventListener('mousedown', (e) => {
-      this.toggleVersionMenu(navVersionMenu)
-      e.preventDefault()
-    })
-    navVersion.addEventListener('keydown', (e) => {
-      if (isSpaceOrEnterKey(e.keyCode)) {
-        this.toggleVersionMenu(navVersionMenu)
-        setTabIndexForVersions()
-        e.preventDefault()
-      }
-    })
-    navVersionDropdown.appendChild(navVersionButton)
-    navVersionDropdown.appendChild(navVersionMenu)
-    navVersion.addEventListener('blur', () => {
-      autoCloseVersionDropdown(navVersionMenu)
-    })
-    navVersionMenu.lastChild.addEventListener('blur', () => {
-      autoCloseVersionDropdown(navVersionMenu)
-    })
-    return navVersionDropdown
-  }
-
-  const getComponentPool = (components) => Object.assign({}, components)
-
-  const getPageData = (head) => {
-    const pageData = {}
-    const pageComponentMeta = head.querySelector('meta[name=page-component]')
-    if (pageComponentMeta) {
-      pageData.component = pageComponentMeta.getAttribute('content')
-      pageData.navItemToggleIconId = document.getElementById('icon-nav-item-toggle') && 'icon-nav-item-toggle'
-      pageData.navVersionIconId = document.getElementById('icon-nav-version') && 'icon-nav-version'
-      pageData.url = head.querySelector('meta[name=page-url]').getAttribute('content')
-      pageData.version = head.querySelector('meta[name=page-version]').getAttribute('content')
-      if (pageData.version === 'master' || !pageData.version) pageData.version = ''
-    }
-    return pageData
-  }
-
-  const hasSingleComponent = (groupData) => {
-    const componentsData = groupData.components
-    return (
-      componentsData.length === 1 &&
-      componentsData[0].unversioned &&
-      componentsData[0].nav.items.length &&
-      groupData.spreadSingleItem
-    )
-  }
-
-  const isArchiveSite = () => window.location.host.includes('archive')
-  const isBetaSite = () => isExternalBetaSite() || isInternalBetaSite() || isReviewSite()
-  const isEngProdSite = () => !(isArchiveSite() || isBetaSite() || isJapaneseSite() || isLocalBuild())
-  const isExternalBetaSite = () => window.location.host.includes('beta')
-  const isInternalBetaSite = () => window.location.host.includes('dev-docs-internal')
-  const isJapaneseSite = () => document.documentElement.lang === 'jp'
-  const isLocalBuild = () => window.location.href.startsWith('file://')
-  const isReviewSite = () => window.location.host.includes('review')
-
-  const processComponents = (navData) => {
-    const componentIconId = document.getElementById('icon-nav-component') && 'icon-nav-component'
-    return navData.components.reduce((componentsAccum, component) => {
-      let versions
-      const iconId = 'icon-nav-component-' + component.name
-      componentsAccum[component.name] = component = Object.assign({}, component, {
-        iconId: document.getElementById(iconId) ? iconId : componentIconId,
-        versions: component.versions.reduce((versionsAccum, version) => {
-          const versionName = version.version === 'master' || !version.version ? '' : version.version
-          versionsAccum[versionName] = version = Object.assign({}, version, {
-            version: versionName,
-            nav: Object.assign({ items: [] }, version.sets[0]),
-          })
-          if (versionName && !version.displayVersion) version.displayVersion = versionName
-          version.sets.slice(1).forEach((set) => {
-            version.nav.items = version.nav.items.concat(set.items) // quick fix to merge multiple sets together
-          })
-          delete version.sets
-          return versionsAccum
-        }, (versions = {})),
-      })
-
-      if ('' in versions && Object.keys(versions).length === 1) {
-        Object.defineProperty(component, 'nav', {
-          get: function () {
-            return this.versions[''].nav
-          },
-        })
-        component.unversioned = true
-      }
-
-      return componentsAccum
-    }, {})
-  }
-
-  const processSubcomponents = (navData, components) => {
-    navData.subcomponents.forEach((subcomponent) => {
-      const targetComponent = components[subcomponent?.parent]
-      if (!targetComponent?.unversioned) return
-      const targetItems = targetComponent.nav.items
-      Object.values(selectComponents(subcomponent.components, getComponentPool(components)))
-        .sort((a, b) => {
-          if (!subcomponent.sortAll) return 0
-          if (!a.title) return 1
-          if (a.title?.toLowerCase() < b.title?.toLowerCase()) return -1
-          return 0
-        })
-        .forEach((component) => {
-          const iconId = 'icon-nav-component-' + component.name
-          component.iconId = document.getElementById(iconId) ? iconId : targetComponent.iconId
-          targetItems.push(component)
-        })
-    })
-  }
-
-  const navData = getNavData(window.siteNavigationData)
-  const pageData = getPageData(document.head)
-  if (pageData.component) buildNav(nav, navData, pageData)
+  const navObj = new Nav(nav)
+  const page = new Page()
+  navObj.buildNav()
 })()
