@@ -3,15 +3,6 @@
 
 <head>
     <title>{{{detag (or page.title 'Untitled')}}}{{#if site.title}} | {{{site.title}}}{{/if}}</title>
-    {{#if page.canonicalUrl}}
-    <link rel="canonical" href="{{page.canonicalUrl}}">
-    {{/if}}
-    {{#if page.description}}
-    <meta name="description" content="{{page.description}}">
-    {{/if}}
-    {{#if page.keywords}}
-    <meta name="keywords" content="{{page.keywords}}">
-    {{/if}}
     {{> head}}
 </head>
 

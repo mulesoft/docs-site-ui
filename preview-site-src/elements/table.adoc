@@ -5,7 +5,7 @@
 
 https://docs.asciidoctor.org/asciidoc/latest/tables/build-a-basic-table/[Antora docs reference^]
 
-== Basic table
+== Basic Table
 
 [cols="3,2,3"]
 |===
@@ -13,45 +13,347 @@ https://docs.asciidoctor.org/asciidoc/latest/tables/build-a-basic-table/[Antora 
 |This line starts with a vertical bar so this content is placed in a new cell in column 2 |When the processor encounters a whitespace followed by a vertical bar it ends the previous cell and starts a new cell
 |===
 
-== Nesting table
+== "Normal" Tables
 
-[cols="1,2a"]
-|===
-| Col 1 | Col 2
-
-| Cell 1.1
-| Cell 1.2
-
-| Cell 2.1
-| Cell 2.2
-
-! Col1 ! Col2
-
-! C11
-! C12
-
-| Cell 3.1
-| Cell 3.2
-
-* Organization
-* Tag
-* Category
+Ref: https://dev-docs-internal.kqa.msap.io/beta-mobile-tables/private-cloud/3.2/supported-cluster-config
 
 |===
+| |4-node Configuration | 7-node Configuration
 
-[tabs]
-====
-Tab A:: Contents of tab A.
+| Maximum instances per API group | 100 | 100
+| Client applications (per user) | 5000 | 5000
+| Client applications (per root organization) | 10000 | 10000
+| Maximum API instances manager per root organization | 6000 | 12000
+| Applied policies | 12000 | 24000
+| Created contracts | 12000 | 24000
+|===
 
-Tab B::
-+
-Contents of tab B.
+[%header%autowidth.spread]
+|===
+|Property |Description
 
-Tab C::
-+
---
-Contents of tab C.
+|*Display Name* |Defaults to the generic endpoint name, which in this case is Ajax. Change the display name, which must be alpha-numeric, to reflect the endpoint's specific role, such as `Interactive Opinion Poll Connection`.
+|*Channel* |Specify the channel over which your Ajax endpoint communicates with the client web page. For example, `/services/echo`.
+|*Connector Configuration* |Use the dropdown list to select a previously configured connector configuration for this endpoint. If you have not created a connector configuration for this type of endpoint, you can do so from this window by clicking *Add*. Click *Edit* to modify a previously created global element.
+|===
 
-Contains more than one block.
---
-====
+[%header%autowidth.spread]
+|===
+|Property |Description
+|*Address* |Enter the address for this endpoint, such as `http://localhost:8081/file`.
+|*Response timeout* |Specify how long the endpoint must wait for a response (in ms). The default is *1000* ms.
+|*Encoding* |Choose from a drop-down list the character set used for message data. (such as UTF-8).
+|*Disable Transport Transformer* |Check this box if you do _not_ want to use the endpoint’s default response transport.
+|*MIME Type* |Select from the dropdown list one of the formats this endpoint supports.
+|*Cache Messages* |_(Applies to outbound Ajax endpoint only)_. Check this box to enable the dispatcher to cache messages. Messages will only be cached if no clients are subscribed to the channel.
+|*Message Cache Size* |_(Applies to outbound Ajax endpoint only)_. Enable Cache Messages, then select the cache size. Default cache size is 1024.
+|*Connector Endpoint* |Use the drop-down list to select a previously configured global endpoint template, if any exist. If you have not created a global element for this type of endpoint, you do so by clicking *Add* and completing the fields on the pane that appears. Click *Edit* to modify a previously created global element.
+|*Enable default events tracking* |Enable default xref:3.9@mule-runtime::business-events.adoc[business event] tracking for this endpoint.
+|===
+
+[%header%autowidth.spread]
+|===
+| Name | Type | Description | Default Value | Required
+| Configuration | String | The name of the configuration to use. | | x
+| Function Name a| String a|  Name of the Lambda function. Name formats: 
+
+* Function name: my-function. 
+* Function ARN: arn:aws:lambda:us-west-2:123456789012:function:my-function. 
+* Partial ARN: 123456789012:function:my-function. 
+
+The length constraint applies only to the full ARN. If you specify only the function name, it is limited to 64 characters in length. |  | x
+| Body a| Any |  the content to use |  #[payload] | 
+| Config Ref a| ConfigurationProvider |  The name of the configuration to use to execute this component. |  | x
+| Streaming Strategy a| * <<RepeatableInMemoryStream>>
+* <<RepeatableFileStoreStream>>
+* non-repeatable-stream |  Configures how Mule processes streams. The default is to use repeatable streams. |  | 
+| Custom Query Parameters a| Object | Custom query parameters to include in the request. The specified query parameters are merged with the default query parameters that are specified in the configuration. |  | 
+| Custom Headers a| Object | Custom headers to include in the request. The specified custom headers are merged with the default headers that are specified in the configuration. |  | 
+| Response Timeout a| Number |  Timeout for requests to the remote service. This value is qualified by the *Response Timeout Unit*. |  | 
+| Response Timeout Unit a| Enumeration, one of:
+
+** NANOSECONDS
+** MICROSECONDS
+** MILLISECONDS
+** SECONDS
+** MINUTES
+** HOURS
+** DAYS |  Time unit for the *Response Timeout* field. |  | 
+| Target Variable a| String |  Name of the variable that stores the operation's output. |  | 
+| Target Value a| String |  Expression that evaluates the operation’s output. The outcome of the expression is stored in the *Target Variable*. |  #[payload] | 
+| Reconnection Strategy a| * <<Reconnect>>
+* <<ReconnectForever>> |  A retry strategy in case of connectivity errors. |  | 
+|===
+
+[%header,cols="20s,25a,30a,15a,10a"]
+|===
+| Field | Type | Description | Default Value | Required
+| Url a| String | The URL of the OCSP responder. |  | 
+| Cert Alias a| String | Alias of the signing certificate for the OCSP response (must be in the trust store), if present. |  | 
+|===
+
+[%header,cols="30s,70a",width=80%]
+|===
+|Field|Value
+|*Display Name*|Enter a name of your choice.
+|*Connector Configuration*|Select the global configuration that you created.
+|*Operation*|Create object
+|*Bucket Name*|`${config.bucket}`
+|*Key*|mulesoft.png
+|*Content Reference*|`#[payload]`
+|===
+
+== Table with Images
+
+.Roster (in alphabetical order)
+[%header,caption="",cols="1,2,2"]
+|===
+|Name|Fun Fact|Show us your favorite animal picture!
+
+|Armel Gansop
+|I am a PSG fan!
+|image:images/samoyed.png[alt="samoyed dog breed",height=100]
+
+|Gary Cheung
+|I love using my WaterPik® Water Flosser!
+|image:images/lazy-sheep.png[alt="2 lazy looking sheep",height=100]
+
+|Valkyrie Hunter
+|I don't follow instructions 🪄
+|image:images/siamese.png[alt="Jerk Siamese Cat",height=100]
+
+|===
+
+== Table with First Column that Spans Multiple Rows and Categories
+
+Ref: https://docs.mulesoft.com/mq/mq-faq#regions
+
+[%header,cols="15,15,30"]
+|===
+| Location | Region Name | Region
+3+h| US Control Plane
+.4+| North America | US East (N. Virginia)|`us-east-1`
+                   | US East (Ohio)       |`us-east-2`
+                   | US West (Oregon)     |`us-west-2`
+                   | Canada  (Central)    |`ca-central-1`
+.2+| Europe        | Europe (Ireland)     |`eu-west-1`
+                   | Europe (London)      |`eu-west-2`
+.3+| APAC          | Asia Pacific (Singapore) |`ap-southeast-1`
+                   | Asia Pacific (Sydney) |`ap-southeast-2`
+                   | Asia Pacific (Tokyo)  |`ap-northeast-1`
+3+h| EU Control Plane
+.2+| Europe        | Europe (Frankfurt)    |`eu-central-1`
+                   | Europe (Ireland)      |`eu-west-1`
+3+h| MuleSoft Government Cloud
+.2+| |            GovCloud (US-West)       | `us-gov-west-1`
+|===
+
+== Table With Code Snippet and Title
+
+Ref: https://docs.mulesoft.com/mule-sdk/1.1/xml-sdk
+
+.Attributes of <parameter>
+[%header,cols="20,20,30,70a"]
+|===
+|Name | Use | Default Value | Description
+
+| `name`
+| required
+| NA
+| Name of the `<parameter>`
+
+| `defaultValue`
+| optional
+| NA
+| The `<operation>` uses the default value if you do not provide another value.
+
+| `use`
+| required
+| `AUTO`
+| Possible values:
+
+* `REQUIRED`: Parameter must be present. It cannot be REQUIRED if the parameter has a `defaultValue`.
+* `OPTIONAL`: Parameter is not required.
+* `AUTO`: Defaults at runtime to `REQUIRED` if `defaultValue` is absent. Otherwise, it is marked as `OPTIONAL`.
+
+| `type`
+| required
+| NA
+| Defines the data type of the `<parameter>`. You can use any primitive type such as `string`, `boolean`, `datetime`, `date`, `number`, `time`, or it can also rely on any type defined in the <<xml_sdk_catalog, catalog>>.
+
+| `password`
+| optional
+| `false`
+| Marks the `<parameter>` with `\****` in the UI.
+
+| `role`
+| required
+| `behavior`
+| Set of defined roles for a given parameter that modifies the generated XSD for the current `<parameter>`.
+
+* `behavior` renders an attribute.
+* `CONTENT` implies support for DataWeave in place as a child element.
+* `PRIMARY` works like `CONTENT` but maps to the payload by default.
+
+See xref:content-parameters.adoc[more info on roles].
+
+| `summary`
+| optional
+| NA
+| Adds a small tooltip to the `<parameter>`.
+
+| `example`
+| optional
+| NA
+| Adds a short example of the data type for this parameter.
+
+| `displayName`
+| optional
+| NA
+| Provides a UI label. When there is no `displayName`, the default value is a hyphenated version of the `name` attribute.
+
+| `order`
+| optional
+| NA
+| Defines an order in which to render each element in the UI.
+
+| `tab`
+| optional
+| NA
+| Defines the group (or tab) to which the `<parameter>` must belong in the UI.
+
+| `visibility`
+| optional
+| `PUBLIC`
+| *Available since version 1.2*
+
+Marks an operation's visibility to either `PUBLIC` (anyone can see and use it) or `PRIVATE` (accessible only for the current module and cannot be seen externally), for example:
+
+[source,xml,linenums]
+----
+<operation name="example" visibility="PRIVATE">
+<parameters>
+<parameter name="errorTopic" type="string" />
+----
+
+| `doc:description`
+| optional
+| NA
+| Documentation for the `<parameter>`.
+|===
+
+== Table With First Column that Spans Multiple Rows
+
+Ref: https://docs.mulesoft.com/composer/ms_composer_http_reference#connections
+
+NOTE: This card is on this page because it's technically a table. As long as this card looks ok, you are good!
+
+[%header%autowidth.spread]
+
+|===
+
+|Step |Field |Example Value |Notes
+.13+|Connect to your HTTP Account |*Connection Display Name* | `+Fort Nox at admin@1342287+` | This should be your user.
+|*Authorization Type*| `OAuth 2.0 Authorization Code` | The value in this field is fixed.
+|*Base URL* | `+https://api.fortnox.se+` |
+|*Client ID* | `NmE4OTUzY2...` |
+|*Client Secret* |`wMTUtZWV...` |
+|*Scopes* | `+companyinformation+`| For all available scopes, see https://developer.fortnox.se/general/authentication[OAuth 2.0 Scopes for Fortnox APIs^].
+|*Authorization URL* | `+https://apps.fortnox.se/oauth-v1/auth+` | You must register your callback URL on the Fortnox account created application. Fortnox allows you to specify only one callback URL by application, so you must create different applications to specify different environment callback URLs.
+|*Authorization URL Query Parameters*
+a|Parameter 1:
+
+* *Key*: `access_type`
+* *Value*: `offline` |
+
+|*Token Exchange URL* | `+https://apps.fortnox.se/oauth-v1/token+` |
+|*Token Exchange Headers*
+a|Parameter 1:
+
+* *Key*: `Authorization`
+* *Value*: `Basic NmE4OTUzY2MtMTk2Zi00MjZiLTgwMTUtZWVjMjY1OWI1MzAx` a|
+
+Fortnox requires a Basic authentication header in the `Basic CREDENTIALS` format, where CREDENTIALS is the Base64 encoding of *Client ID* and *Client Secret*, separated with a colon. For example:
+
+* *Client ID*: `8VurtMGDTeAI`
+* *Client Secret*: `yFKwme8LEQ`
+* *Credentials*: `OFZ1cnRNR0RUZUFJOnlGS3dtZThMRVE=`
+
+For more information, see https://developer.fortnox.se/general/authentication[Authentication].
+
+|*Token Refresh URL* | `+https://apps.fortnox.se/oauth-v1/token+` |
+|*Token Refresh Headers*
+a|Parameter 1:
+
+* *Key*: `Authorization`
+* *Value*: `Basic NmE4OTUzY2MtMTk2Zi00MjZiLTgwMTUtZWVjMjY1OWI1MzAx` a|
+
+Fortnox requires a Basic authentication header in the `Basic CREDENTIALS` format, where CREDENTIALS is the Base64 encoding of *Client ID* and *Client Secret*, separated with a colon. For example:
+
+* *Client ID*: `8VurtMGDTeAI`
+* *Client Secret*: `yFKwme8LEQ`
+* *Credentials*: `OFZ1cnRNR0RUZUFJOnlGS3dtZThMRVE=`
+
+For more information, see https://developer.fortnox.se/general/authentication[Authentication].
+|*Access Token Expired Code* | `401` |
+.2+|Test HTTP Connection |*Request Method* | `Get` |
+|*Request Path* | `+/3/companyinformation+` |
+
+|===
+
+== Nested Table
+
+Ref: https://docs.mulesoft.com/microsoft-dynamics-365-connector/2.6/microsoft-dynamics-365-connector-reference#createMultiple
+
+[%header,cols="20s,25a,30a,15a,10a"]
+|===
+| Name | Type | Description | Default Value | Required
+| Configuration | String | Name of the configuration to use. | | x
+| Logical Name a| String |  Logical name of the entity. It is always the schema name in lower case. |  | x
+| Entities Attributes a| Array of Object |  List of the entities' attributes to create as a list of maps. |  `#[payload]` |
+| Use Single Transaction a| Boolean |  Use a single transaction for creation. If the entity creation fails, the transaction is rolled back. |  `false` |
+| Continue On Error a| Boolean |  Continue in case of error. The default value of `false` stops creating records after one create fails.
+
+You can use *Continue On Error* in conjunction with *Use Single Transaction*. Suppose you want to execute an operation with a payload of 10 records. This payload contains one broken record, number 5, that fails. The other 9 records succeed. The following table shows the output, which depends on the values of *Continue On Error* and *Use Single Transaction*:
+
+[%header%autowidth.spread]
+!===
+! Use Single Transaction ! Continue on Error ! Expected result ! Successful records ! Failed records ! Unprocessed records
+! False ! False ! No rollback. Stops processing records after a failed record. ! 1-4 ! 5 ! 6-10
+! False ! True ! No rollback. Continues to process records even after a failed record. ! 1-4, 6-10 ! 5 ! N/A
+! True ! False ! If the connector fails to create an entity, no records are committed. ! N/A ! Failed records 1-10 ! N/A
+! True ! True ! If the connector fails to create an entity, no records are committed. ! N/A ! Failed records 1-10 ! N/A
+!===
+
+
+|  `false` |
+| Encoding a| a| Body encoding.
+
+* If no value is specified, set the Mule default encoding.
+
+* If a value is specified, set the `-M-Dmule.encoding` VM argument to the same value to avoid an encoding mismatch. | |
+| Config Ref a| ConfigurationProvider |  Name of the configuration used to execute this component. |  | x
+| Target Variable a| String |  Name of the variable that stores the operation's output. |  |
+| Target Value a| String |  Expression that evaluates the operation’s output. The outcome of the expression is stored in the *Target Variable* field. |  `#[payload]` |
+| Reconnection Strategy a| * <<reconnect>>
+* <<reconnect-forever>> |  Retry strategy in case of connectivity errors. |  |
+|===
+
+[%header,cols="20a,25a,23a,23a"]
+|===
+|Month|Release Available |Sandbox Environment Auto-Update | Production Environment Auto-Update
+|September|September 5|September 21-25|September 26-27
+|August|August 8|August 21-25|August 26-27
+|July|July 4|July 17-21|July 22-23
+|===
+
+[%header,cols="2a,1a"]
+|===
+|Issue Resolution | ID
+2+h|Mule
+| Kryo is upgraded to version 4.0.3. | W-13499198
+| The `java.lang.NullPointerException` error no longer appears while refreshing an OAuth token. | W-12975498
+2+h|DataWeave
+| Multipart reader performance is enhanced by using the proper input stream implementation. | W-13099773
+|Fixed OS security vulnerabilities. | N/A
+|===

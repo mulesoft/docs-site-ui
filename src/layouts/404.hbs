@@ -1,10 +1,7 @@
 <!DOCTYPE html>
 <html lang={{#if (eq (site-profile) 'jp' )}}"jp"{{else}}"en"{{/if}}>
 
-<head> 
-    {{#if (not (is-one-of (site-profile) 'jp' 'prod'))}}
-    <meta name="robots" content="none, noarchive">
-    {{/if}}
+<head>
     {{#if (ne (site-profile) 'jp')}}
     <title>{{{detag (or page.title 'ページが見つかりません')}}}{{#if site.title}} | {{{site.title}}}{{/if}}</title>
     {{else}}

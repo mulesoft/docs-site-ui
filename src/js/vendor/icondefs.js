@@ -1,4 +1,4 @@
-;(function () {
+;(() => {
   /* eslint-disable max-len */
   // prettier-ignore
 

@@ -1,72 +1,362 @@
-table.tableblock {
+table:not(.connectors-table, div.admonitionblock table, div.panels table) {
   border-collapse: collapse;
-  display: block;
-  font-size: 14px;
-  overflow: auto;
+  border-top: 2px solid black;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 60px;
   width: 100%;
 
-  /* when nesting admonition */
-  & table {
-    margin-bottom: var(--xs);
-    margin-top: var(--xs);
+  & .nested {
+    & tr {
+      max-width: 40vw;
+    }
   }
 
-  & tbody {
-    padding: var(--sm) var(--md);
-  }
+  & .table-toggle-row {
+    bottom: 45px;
+    display: flex;
+    height: 0;
+    justify-content: flex-end;
+    position: relative;
+  
+    & .table-toggle {
+      background-color: unset;
+      border: none;
+      border-radius: 5px;
+      column-gap: 3px;
+      cursor: pointer;
+      float: right;
+      height: 40px;
+      min-width: 40px;
 
+      &[aria-expanded="false"] {        
+        & img {
+          transform: rotate(0);
+        }
+
+        & p {
+          display: unset;
+        }
+      }
+  
+      &.with-caption {
+        position: absolute;
+      }
+  
+      & img {
+        margin: auto;
+        transform: rotate(180deg);
+        width: var(--lg);
+      }
+
+      & p {
+        display: none;
+        margin: auto;
+      }
+  
+      &:active {
+        border: 2px solid var(--eyebrow-gray);
+        outline: none;
+      }
+
+      &:focus {
+        box-shadow: none;
+        outline: 2px solid var(--eyebrow-gray);
+      }
+
+      &:hover {
+        background-color: var(--light-blue);
+      }      
+    }
+  }
+ 
   & caption {
+    font-family: var(--sans-serif-bold);
     text-align: left;
   }
 
-  & p {
-    margin-bottom: 0;
-    margin-top: 0;
+  & table {
+    & tbody {
+      & tr {
+        padding-left: 0;
+      }
+    }
   }
 
-  & th {
-    border-bottom: 2px solid var(--steel-3);
-    text-align: left;
+  & td {
+    display: flex;
+
+    & div.listingblock div.content {
+      padding-left: 0;
+    }
+    
+    & div.content,
+    & p.tableblock {
+      display: table-cell;
+      font-size: 12px;
+      margin: 0;
+      max-width: 325px;
+      padding-bottom: 0;
+      padding-left: var(--lg);
+      padding-top: 0;
+      width: 70%;
+
+      & a,
+      & code,
+      & ul {
+        font-size: 12px;
+        margin-bottom: 0;
+        margin-top: 0;
+      }
+
+      & pre {
+        max-width: 50vw;
+      }
+    }
+
+    &[data-header] {
+      &::before {
+        border-right: 1px solid black;
+        content: attr(data-header);
+        display: table-cell;
+        font-size: 12px;
+        padding-right: 20px;
+        width: 30%;
+        word-wrap: break-word;
+      }
+
+      & p:first-child {
+        margin-top: 0;
+      }
+    }
+
+    &:not([data-header]) {
+      display: inline;
+
+      & p {
+        font-size: var(--md);
+        line-height: 20px;
+        padding-bottom: 10px;
+        padding-left: 0;
+        width: 100%;
+      }
+    }
   }
 
-  & tr + tr {
-    border-top: 1px solid var(--aluminum-3);
+  & thead th {    
+    display: none;
+  }
+
+  & tr {
+    float: left;
+    max-width: 80vw;
+    width: 100%;
+
+    &:has(th[colspan]) {    
+      background-color: #d3d3d3;
+      display: inline-table;
+      height: 25px;
+      max-width: 100%;
+
+      & p {
+        font-family: var(--sans-serif-bold);
+        font-size: 12px;
+        margin: 0;
+        padding-left: 10px;
+        text-align: left;
+      }
+    }
+
+    &:not(:first-child) {
+      border-top: 1px solid var(--aluminum-4);
+    }
   }
 
   & caption,
-  & td,
-  & th {
-    padding: var(--xs) var(--sm);
+  & tbody tr {
+    padding: 10px;
+  }
 
-    & + td {
-      border-left: 1px solid var(--aluminum-3);
+  & .source-toolbox {
+    top: 1.8rem;
+  }
+}
+
+@media (--md) {
+  table:not(.connectors-table, div.admonitionblock table) {
+    border-collapse: collapse;
+    border-top: unset;
+    display: block;
+    font-size: 14px;
+    margin-top: var(--lg);
+    overflow: auto;
+    width: 100%;
+
+    & .table-toggle-row {
+      display: none;
+    }
+  
+    /* when nesting admonition */
+    & table {
+      margin-bottom: var(--xs);
+      margin-top: var(--xs);
+    }
+
+    & caption {
+      font-size: 16px;
+      max-width: unset;
+    }
+  
+    & tbody {
+      padding: var(--sm) var(--md);
+    }
+
+    & thead {
+      border-bottom: 2px solid var(--steel-3);
+
+      & th {
+        display: table-cell;
+      }
+    }
+  
+    & th {
+      font-family: var(--sans-serif-bold);
+      text-align: left;
+    }
+  
+    & tr + tr {
+      border-top: 1px solid var(--aluminum-5);
+    }
+  
+    & caption,
+    & td,
+    & th {
+      padding: var(--xs) var(--sm);
+  
+      & + td {
+        border-left: 1px solid var(--aluminum-4);
+      }
+    }
+  
+    & td {
+      display: table-cell;
+
+      &[rowspan] {
+        border-right: 1px solid var(--aluminum-4);
+      }
+
+      &.tableblock.valign-top {
+        vertical-align: top;
+      }
+      
+      &.tableblock.valign-middle {
+        vertical-align: middle;
+      }
+      
+      &.tableblock.valign-bottom {
+        vertical-align: bottom;
+      }
+      
+      &.tableblock.halign-center {
+        text-align: center;
+      }
+    
+      &.tableblock.halign-left {
+        text-align: left;
+      }
+    
+      &.tableblock.halign-right {
+        text-align: right;
+      }
+
+      &:first-child {
+        & p {
+          font-size: 14px;
+          margin: 0;
+        }
+      }
+
+      &[data-header] {
+        & p {
+          margin: 0;
+        }  
+
+        &::before {
+          all: unset;
+        }
+      }
+
+      &:not([data-header]) {
+        display: revert;
+        font-family: var(--sans-serif);
+  
+        & p {
+          font-size: var(--md);
+          line-height: unset;
+          padding-bottom: 5px;
+          padding-left: 0;
+          width: 100%;
+        }
+      }
+
+      &.js-connector-title,
+      &.js-connector-link,
+      &.js-connector-type {
+        font-size: 16px;
+      }
+      
+      & div.content,
+      & div.content > div.paragraph > p,
+      & p.tableblock {
+        font-size: 14px;
+        margin: 0;
+        padding: 0;
+
+        & a,
+        & code,
+        & ul {
+          font-size: 14px;
+          margin: revert;
+        }
+
+        & pre {
+          max-width: unset;
+        }
+      }
+    }
+
+    & tr {
+      float: unset;
+      padding-bottom: 0;
+      padding-left: 0;
+
+      &:has(th[colspan]) {  
+        display: revert;
+        height: 40px;
+  
+        & p {
+          font-size: revert;
+          padding-left: revert;
+          text-align: revert;
+        }
+      }
+
+      &:not(:first-child) {
+        border-top: 1px solid var(--aluminum-4);
+      }
     }
   }
 }
 
-td {
-  &.tableblock.valign-top {
-    vertical-align: top;
-  }
-  
-  &.tableblock.valign-middle {
-    vertical-align: middle;
-  }
-  
-  &.tableblock.valign-bottom {
-    vertical-align: bottom;
-  }
-  
-  &.tableblock.halign-center {
-    text-align: center;
-  }
+table.half-page:not(.connectors-table, div.admonitionblock table) {
+  & td {
+    &[data-header]::before {
+      width: 50%;
+    }
 
-  &.tableblock.halign-left {
-    text-align: left;
-  }
-
-  &.tableblock.halign-right {
-    text-align: right;
+    & div.content,
+    & p.tableblock {
+      width: 50%;
+    }
   }
 }
-  

@@ -10,8 +10,8 @@ const vfs = require('vinyl-fs')
 const zip = require('gulp-vinyl-zip')
 const { createMessage, decryptKey, readPrivateKey, sign } = require('openpgp')
 
-const baseBranches = ['archive', 'jp', 'master']
-const defaultBranch = 'master'
+const baseBranches = ['archive', 'jp', 'main']
+const defaultBranch = 'main'
 
 const base64decode = async (str) => {
   const decoder = new TextDecoder('utf-8')
@@ -70,7 +70,7 @@ const createPR = async ({ octokit, owner, repo }, tagName, ref, filePath, secret
     title: `${tagName} for ${ref}`,
     head: newBranchName,
     base: ref,
-    body: `ref: ${await getLastClosedPRLink({ octokit, owner, repo: 'docs-site-ui' })}
+    body: `ref: https://github.com/mulesoft/docs-site-ui/releases/tag/${tagName}
 
 Before you merge this PR, please verify your changes in the following site:
 https://beta.docs.mulesoft.com/beta-ui-staging/general/ (deployed every 2 hours).
@@ -248,7 +248,7 @@ const normalizeString = async (str) => str.replace(/\r\n/g, '\n').trim()
 const releaseExists = async (githubConfig, tag) => (await getLastReleaseThatStartsWith(githubConfig, tag)) !== undefined
 
 const setBranchName = async (gitBranch) => {
-  let branchName = gitBranch || 'master'
+  let branchName = gitBranch || 'main'
   branchName = branchName.startsWith('origin/') ? branchName.substring(7) : branchName
   return branchName.toLowerCase()
 }

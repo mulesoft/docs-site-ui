@@ -9,9 +9,9 @@ The following are code blocks of different languages (they are highlighted diffe
 
 == Inline
 
-This is am inline code: `test 12345 !@&$*(#$(#)]`
+This is an inline code: `test 12345 !@&$*(#$(#)]`
 
-== No highlights
+== No Highlights
 
 [source]
 ----

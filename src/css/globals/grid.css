@@ -68,3 +68,7 @@
 .shrink {
   flex: 0 0 auto;
 }
+
+.float-right {
+  float: right;
+}

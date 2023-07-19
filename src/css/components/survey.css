@@ -141,13 +141,7 @@
   }
 
   & > .mobile-survey-help-text {
-    background: #444;
-    border-radius: 5px;
     bottom: 20px;
-    color: var(--tertiary);
-    cursor: pointer;
-    font-size: 10px;
-    padding: 3px 10px;
     position: fixed;
     right: 70px;
   }
