@@ -520,8 +520,6 @@
         })
       }
     }
-
-    return navData
   }
 
   const appendComponents = (navData) => {
@@ -542,14 +540,13 @@
         ],
       })
     }
-    return navData
   }
 
   const buildNav = (nav, navData, pageData) => {
     appendComponents(navData)
-    cleanComponents(navData)
-    console.log(navData)
-    const cleanedGroups = getCleanedGroups(navData)
+    const cleanedComponents = processComponents(navData)
+    processSubcomponents(navData, cleanedComponents)
+    const cleanedGroups = getCleanedGroups(navData, cleanedComponents)
     createNavGroups(nav, cleanedGroups, pageData)
     // nav.addEventListener('click', (e) => closeActiveVersionMenu(e))
     // window.addEventListener('scroll', (e) => adjustNavHeight(e))
@@ -558,19 +555,15 @@
     // scrollToCurrentPageItem()
   }
 
-  const cleanComponents = (navData) => {
-    const components = processComponents(navData)
-    navData.subcomponents = processSubcomponents(components, navData.subcomponents)
-  }
-
-  const getCleanedGroups = (navData) => {
+  const getCleanedGroups = (navData, components) => {
+    console.log(getComponentPool(components))
     const groupIconId = document.getElementById('icon-nav-group') && 'icon-nav-group'
     return navData.groups.reduce((groupsAccum, group) => {
       let groupComponents
       groupsAccum.push({
         iconId: groupIconId,
         components: (groupComponents = Object.values(
-          selectComponents(group.components, getComponentPool(navData.components), group.exclude)
+          selectComponents(group.components, getComponentPool(components), group.exclude)
         )),
         title: group.title,
         spreadSingleItem: group.spreadSingleItem,
@@ -897,8 +890,8 @@
     }, {})
   }
 
-  const processSubcomponents = (components, subcomponents) => {
-    subcomponents.forEach((subcomponent) => {
+  const processSubcomponents = (navData, components) => {
+    navData.subcomponents.forEach((subcomponent) => {
       const targetComponent = components[subcomponent?.parent]
       if (!targetComponent?.unversioned) return
       const targetItems = targetComponent.nav.items
@@ -915,7 +908,6 @@
           targetItems.push(component)
         })
     })
-    return subcomponents
   }
 
   const navData = getNavData(window.siteNavigationData)
