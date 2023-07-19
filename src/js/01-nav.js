@@ -297,13 +297,11 @@
     return isArchiveSite() ? `Archive ${title}` : languageMap[document.documentElement.lang].title
   }
 
-  const getNavData = () => {
-    const components = window.siteNavigationData
+  const getNavData = (components) => {
     /*
       Normally, we would delete window.siteNavigationData here to clean up.
       But this data is needed for the Coveo scripts later, so keep them and let the Coveo scripts delete.
     */
-
     const groups = components.groups || [{ root: true, components: ['home', '*'] }]
     const homeUrl = components.homeUrl || document.querySelector('a.home-link')?.getAttribute('href') || '/'
     const subcomponents = components.subcomponents || []
@@ -335,11 +333,6 @@
   }
 
   class Nav {
-    constructor () {
-      this.nav = document.querySelector('.nav')
-      this.navData = getNavData()
-    }
-
     adjustNavHeight (e) {
       if (this.nav) {
         const header = document.querySelector('.ms-com-content-header')
@@ -555,6 +548,7 @@
   const buildNav = (nav, navData, pageData) => {
     appendComponents(navData)
     cleanComponents(navData)
+    console.log(navData)
     const cleanedGroups = getCleanedGroups(navData)
     createNavGroups(nav, cleanedGroups, pageData)
     // nav.addEventListener('click', (e) => closeActiveVersionMenu(e))
@@ -924,7 +918,7 @@
     return subcomponents
   }
 
-  const navData = getNavData()
+  const navData = getNavData(window.siteNavigationData)
   const pageData = getPageData(document.head)
   if (pageData.component) buildNav(nav, navData, pageData)
 })()
