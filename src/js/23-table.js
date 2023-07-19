@@ -45,7 +45,7 @@
   }
 
   const contains = (parent, child) => parent?.contains(child)
-  const getAllTableColumns = () => document.querySelectorAll('table > colgroup > col')
+  const getAllTableColumns = () => document.querySelectorAll('table:not(div.panel table) > colgroup > col')
   const getAllTables = () => document.querySelectorAll('table:not(.connectors-table, div.admonitionblock table)')
 
   // getDirectTableCells' implementation excludes the table cells from nested tables
