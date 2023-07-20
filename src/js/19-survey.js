@@ -4,8 +4,6 @@
   const surveySection = document.querySelector('aside > section.survey')
   if (!surveySection) return
 
-  const surveyAppearPercent = 100
-
   const eligibleCountryTimezones = [
     // United States
     'America/New_York',
@@ -56,10 +54,9 @@
     return element?.classList?.toggle(className, bool)
   }
 
-  const showSurvey = (percent) => Math.random() < percent / 100
   const userInCountries = (timezones) => timezones.includes(Intl.DateTimeFormat().resolvedOptions().timeZone)
 
-  if (!userInCountries(eligibleCountryTimezones) || !showSurvey(surveyAppearPercent)) {
+  if (!userInCountries(eligibleCountryTimezones)) {
     surveySection.remove()
     return
   }
