@@ -1,8 +1,6 @@
 ;(async () => {
   'use strict'
 
-  const surveyAppearPercent = document.location.host === 'docs.mulesoft.com' ? 5 : 100
-
   const eligibleCountryTimezones = [
     // United States
     'America/New_York',
@@ -110,7 +108,6 @@
     links.forEach((link) => setTabindex(element, link, bool))
   }
 
-  const showSurvey = (percent) => Math.random() < percent / 100
   const userInCountries = (timezones) => timezones.includes(Intl.DateTimeFormat().resolvedOptions().timeZone)
 
   // For some reason, mobile survey doesn't show up right after the page loads until I add this timeout.
@@ -119,7 +116,7 @@
     const mobileSurveyDiv = document.querySelector('div.mobile-survey-div')
     if (!mobileSurveyDiv) return
 
-    if (!userInCountries(eligibleCountryTimezones) || !showSurvey(surveyAppearPercent)) {
+    if (!userInCountries(eligibleCountryTimezones)) {
       mobileSurveyDiv.remove()
       return
     }
