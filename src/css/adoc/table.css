@@ -1,4 +1,4 @@
-table:not(.connectors-table, div.admonitionblock table, div.calloutlist table, div.panels table) {
+table:not(.connectors-table, div.admonitionblock table, div.colist table, div.panels table) {
   border-collapse: collapse;
   border-top: 2px solid black;
   margin-left: auto;
@@ -191,7 +191,7 @@ div.panels table {
 }
 
 @media (--md) {
-  table:not(.connectors-table, div.admonitionblock table, div.calloutlist table, div.panels table) {
+  table:not(.connectors-table, div.admonitionblock table, div.colist table, div.panels table) {
     border-collapse: collapse;
     border-top: unset;
     display: block;
