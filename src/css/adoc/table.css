@@ -182,6 +182,11 @@ table:not(.connectors-table, div.admonitionblock table, div.calloutlist table, d
   }
 }
 
+div.panels table {
+  font-size: 16px;
+  margin: 0;
+}
+
 @media (--md) {
   table:not(.connectors-table, div.admonitionblock table, div.calloutlist table, div.panels table) {
     border-collapse: collapse;
