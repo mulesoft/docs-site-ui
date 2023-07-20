@@ -229,10 +229,7 @@
     const msg = feedbackAckMsgDiv.querySelector('p')
     if (msg) {
       msg.innerText += ` ${decisionStr}`
-      msg.setAttribute(
-        'aria-label',
-        `You voted for ${decisionStr === 'Yes' ? 'helpful' : 'not helpful'}.`
-      )
+      msg.setAttribute('aria-label', `You voted for ${decisionStr === 'Yes' ? 'helpful' : 'not helpful'}.`)
     }
   }
 
