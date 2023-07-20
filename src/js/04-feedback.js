@@ -79,8 +79,8 @@
     if (feedbackForm) {
       feedbackForm.addEventListener('submit', (e) => {
         e.preventDefault()
-        removeAllValidationVizIfValid(inputNamesWithValidation)
         submitFeedbackToBackend(feedbackForm)
+        removeAllValidationVizIfValid(inputNamesWithValidation)
         hide(feedbackFormDiv)
         show(feedbackFormThankYouSign)
         updateErrorSummary(feedbackFormErrorSummary)
