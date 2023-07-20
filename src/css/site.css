@@ -19,6 +19,7 @@
 @import "components/button.css";
 @import "components/card.css";
 @import "components/code-snippet-toolbar.css";
+@import "components/deployment-options.css";
 @import "components/github.css";
 @import "components/icon.css";
 @import "components/input.css";
@@ -47,6 +48,7 @@
 
 /* vendor */
 @import "vendor/coveo.css";
+@import 'vendor/lume.css';
 @import "vendor/tabs.css";
 
 /* other */

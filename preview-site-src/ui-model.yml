@@ -15,7 +15,7 @@ site:
   components:
     general:
       latest: &general_latest
-        version: master
+        version: ~
         title: Home
         url: *index_url
         navigation:
@@ -55,7 +55,7 @@ site:
       - *general_latest
     release-notes:
       latest: &release_notes_latest
-        version: master
+        version: ~
         title: Release Notes
         url: '#'
         navigation:
@@ -70,7 +70,7 @@ site:
       - *release_notes_latest
     elements:
       latest: &elements_latest
-        version: master
+        version: ~
         title: Elements
         url: '#'
         navigation:
@@ -91,7 +91,7 @@ site:
       - *elements_latest
     anypoint-cli:
       latest: &anypoint_cli_latest
-        version: master
+        version: ~
         title: Anypoint CLI
         url: '#'
         navigation:
@@ -102,7 +102,7 @@ site:
       - *anypoint_cli_latest
     rtfcloud:
       latest: &rtfcloud_latest
-        version: master
+        version: ~
         title: RTFCloud
         url: &rtfcloud_url /rtfcloud-index.html
         navigation:
@@ -189,7 +189,7 @@ site:
       - *data_gateway_latest
     connectors:
       latest: &connectors_latest
-        version: master
+        version: ~
         title: Connectors
         url: &connectors_url /connectors.html
         navigation:
@@ -361,7 +361,7 @@ site:
       latest: *connector_devkit_latest
     docusign-connector:
       latest: &docusign_connector_latest
-        version: master
+        version: ~
         title: DocuSign Connector
         url: '#'
         navigation:
@@ -372,6 +372,23 @@ site:
             url: '#'
       versions:
       - *docusign_connector_latest
+    runtime-manager:
+      latest: &runtime_manager_latest
+        version: ~
+        title: Runtime Manager
+        url: '#'
+        navigation:
+        - items:
+          - content: Anypoint Runtime Manager
+            url: /runtime-manager/index.html
+          - content: Debugging The Runtime Manager Agent
+            url: /runtime-manager/debugging-the-runtime-manager-agent.html
+          - content: Hybrid Schedule Management
+            url: /runtime-manager/hybrid-schedule-mgmt.html
+          - content: Runtime Management CLI
+            url: /runtime-manager/runtime-manager-cli.html
+      versions:
+      - *runtime_manager_latest
 nav:
   subcomponents:
   - parent: connectors
@@ -391,5 +408,5 @@ page:
     component: general
   origin:
     url: https://github.com/mulesoft/docs-site-ui
-    editUrlPattern: https://github.com/mulesoft/docs-site-ui/edit/master/preview-site-src/%s
+    editUrlPattern: https://github.com/mulesoft/docs-site-ui/edit/main/preview-site-src/%s
     private: true

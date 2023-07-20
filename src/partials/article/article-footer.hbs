@@ -24,19 +24,18 @@
           <span aria-live="polite" aria-labelledby="feedback-vote-result" class="sr-only"></span>
           <p id="feedback-vote-result">You voted for:</p>
         </div>
-        <button class="button give-feedback" aria-label="Leave written feedback for the article">
+        {{!-- <button class="button give-feedback" aria-label="Leave written feedback for the article">
           Give feedback
-        </button>
+        </button> --}}
       </div>
     </div>
-    <div class="feedback-row feedback-second-row flex hide">
+    {{!-- <div class="feedback-row feedback-second-row flex hide">
       <button class="button give-feedback">
         Give feedback
       </button>
-    </div>
+    </div> 
     <div class="feedback-form hide">
       <form>
-        {{!-- <span class="sr-only" id="error-summary"></span> --}}
         <p>
           <label for="feedback">Share your feedback (required)</label>
           <input aria-required="true" maxlength="100" placeholder="Let us know what you liked, or how we can improve..." type="text"
@@ -61,7 +60,6 @@
             <p>
               <label for="email">Email (optional)</label>
               <input maxlength="50" placeholder="email@example.com" pattern=".*" type="email" id="email" name="email">
-              {{!-- <span class="validation-text hide" id="email-validation-text">Email format is invalid. Please include an '@' in the email address</span> --}}
             </p>
           </div>
           </fieldset>
@@ -71,9 +69,8 @@
           <input aria-label="Submit feedback" class="button-primary feedback-form-button" name="submit" type="submit" value="Submit">
         </div>
       </form>
-    </div>
+    </div> --}}
     <span class="feedback-form-thank-you hide" tabIndex="-1">
-      <span aria-live="polite" aria-label="Your feedback has been successfully submitted."></span>
       <img loading="lazy" src="{{@root.uiRootPath}}/img/icons/blue-heart.png" alt="" height="14">
       Thanks for your feedback!
     </span>

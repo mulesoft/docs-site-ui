@@ -2,7 +2,7 @@
 
 emoji = ':sadpanda:'
 
-def defaultBranch = 'master'
+def defaultBranch = 'main'
 def githubCredentialsId = 'GH_TOKEN'
 def gpgSecretKeyCredentialsId = 'ms-cx-engineering-gpg-private-key'
 def failureSlackChannel = '#dux-engineering-github-prs'
@@ -20,6 +20,7 @@ catchKeywords = [
     'fatal', // fatal errors, especially ones from Antora builds
     'process apparently never started', // Jenkins restarts and breaks the build
     'unauthorized', // permission issue typically from GitHub or Docker. Usually temporary and will go away on its own
+    'HttpError', // http related errors like rate limiting
     'non-zero', // generic errors for non-zero error codes
     'ERROR', // generic errors
     'Error', // generic errors
@@ -50,7 +51,9 @@ pipeline {
         }
       }
       steps {
-        sh "docker build -f Dockerfile.test ."
+        withCredentials([string(credentialsId: 'NPM_TOKEN', variable: 'NPM_TOKEN')]) {
+          sh "docker build -f Dockerfile.test . --build-arg NPM_TOKEN=${NPM_TOKEN}"
+        }
       }
       post {
         failure {
@@ -84,8 +87,9 @@ pipeline {
       steps {
         withCredentials([
           string(credentialsId: githubCredentialsId, variable: 'GH_TOKEN'),
-          string(credentialsId: gpgSecretKeyCredentialsId , variable: 'SECRET_KEY')]) {
-              sh "docker build --build-arg GH_TOKEN=${GH_TOKEN} --build-arg SECRET_KEY=${SECRET_KEY} --build-arg GIT_BRANCH=${env.GIT_BRANCH} -f Dockerfile ."
+          string(credentialsId: gpgSecretKeyCredentialsId , variable: 'SECRET_KEY'),
+          string(credentialsId: 'NPM_TOKEN', variable: 'NPM_TOKEN')]) {
+            sh "docker build --build-arg GH_TOKEN=${GH_TOKEN} --build-arg SECRET_KEY=${SECRET_KEY} --build-arg GIT_BRANCH=${env.GIT_BRANCH} --build-arg NPM_TOKEN=${NPM_TOKEN} -f Dockerfile ."
         }
       }
       post {

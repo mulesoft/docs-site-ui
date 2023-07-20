@@ -1,14 +1,11 @@
 <article class="doc">
     {{#if (eq page.layout '404')}}
-    {{#if (eq (site-profile) 'jp')}}
-    {{> 404-content-jp}}
-    {{else}}
-    {{> 404-content-en}}
-    {{/if}}
+    {{> 404-content}}
     {{else}}
     {{#if page.title}}
     <h1 class="page">{{{page.title}}}</h1>
     {{/if}}
+    {{> deployment-options}}
     {{{page.contents}}}
     {{/if}}
 </article>

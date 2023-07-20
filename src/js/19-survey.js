@@ -4,8 +4,6 @@
   const surveySection = document.querySelector('aside > section.survey')
   if (!surveySection) return
 
-  const surveyAppearPercent = document.location.host === 'docs.mulesoft.com' ? 5 : 100
-
   const eligibleCountryTimezones = [
     // United States
     'America/New_York',
@@ -40,6 +38,11 @@
   const surveyToggleButton = surveySection.querySelector('button.survey-toggle')
   const surveyTextDiv = surveySection.querySelector('div.survey-text')
 
+  const addSourceParam = (link) => {
+    const currentPageUrl = window.location.pathname
+    link.href = `${link.href}?source=${encodeURIComponent(currentPageUrl)}`
+  }
+
   const toggleAttribute = (element, attrName, bool, e) => {
     if (e) e.preventDefault()
     return element?.setAttribute(attrName, bool)
@@ -50,10 +53,9 @@
     return element?.classList?.toggle(className, bool)
   }
 
-  const showSurvey = (percent) => Math.random() < percent / 100
   const userInCountries = (timezones) => timezones.includes(Intl.DateTimeFormat().resolvedOptions().timeZone)
 
-  if (!userInCountries(eligibleCountryTimezones) || !showSurvey(surveyAppearPercent)) {
+  if (!userInCountries(eligibleCountryTimezones)) {
     surveySection.remove()
     return
   }
@@ -69,4 +71,6 @@
       e.preventDefault()
     })
   }
+
+  if (takeTheSurveyLink) addSourceParam(takeTheSurveyLink)
 })()

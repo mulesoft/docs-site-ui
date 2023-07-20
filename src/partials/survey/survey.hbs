@@ -1,4 +1,4 @@
-{{#unless (eq (site-profile) 'archive')}}
+{{#if (or preview (is-one-of (site-profile) 'prod' 'beta' 'review')) }}
 {{#if (or page.componentVersion.asciidoc.attributes.customer-feedback-survey asciidoc.attributes.customer-feedback-survey)}}
 <section class="survey hide {{#if class}}{{class}}{{/if}}">
   <div class="survey-toggle-div flex justify-end">
@@ -11,12 +11,12 @@
     {{> survey-icon }}
   </div>
   <div class="survey-text">
-    <p>Take our <strong>5 minute survey</strong> and you'll be entered to <strong>win 1 of 10 $25 gift cards</strong>!
+    <p id="survey-text-label">Take our <strong>5-minute survey</strong> and you'll have a chance to <strong>win one of 25 gift cards worth $25 USD (or equivalent)</strong>!
     </p>
   </div>
   <div class="survey-link-div">
-    <a aria-label="Take our 5 minute survey and you'll be entered to win 1 of 10 $25 gift cards!" class="survey-link" href="{{or page.componentVersion.asciidoc.attributes.customer-feedback-survey asciidoc.attributes.customer-feedback-survey}}" target="_blank">Take the survey!</a>
+    <a aria-labelledby="survey-text-label" class="survey-link" href="{{or page.componentVersion.asciidoc.attributes.customer-feedback-survey asciidoc.attributes.customer-feedback-survey}}" target="_blank">Take the survey!</a>
   </div>
 </section>
 {{/if}}
-{{/unless}}
+{{/if}}

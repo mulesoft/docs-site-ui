@@ -10,8 +10,8 @@ const vfs = require('vinyl-fs')
 const zip = require('gulp-vinyl-zip')
 const { createMessage, decryptKey, readPrivateKey, sign } = require('openpgp')
 
-const baseBranches = ['archive', 'jp', 'master']
-const defaultBranch = 'master'
+const baseBranches = ['archive', 'jp', 'main']
+const defaultBranch = 'main'
 
 const base64decode = async (str) => {
   const decoder = new TextDecoder('utf-8')
@@ -248,7 +248,7 @@ const normalizeString = async (str) => str.replace(/\r\n/g, '\n').trim()
 const releaseExists = async (githubConfig, tag) => (await getLastReleaseThatStartsWith(githubConfig, tag)) !== undefined
 
 const setBranchName = async (gitBranch) => {
-  let branchName = gitBranch || 'master'
+  let branchName = gitBranch || 'main'
   branchName = branchName.startsWith('origin/') ? branchName.substring(7) : branchName
   return branchName.toLowerCase()
 }

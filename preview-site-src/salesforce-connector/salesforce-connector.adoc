@@ -91,11 +91,11 @@ If you use Anypoint Studio, it will do this automatically for you.
    <repository>
         <id>mule-ee-releases</id>
         <name>MuleEE Releases Repository</name>
-        <url>https://repository-master.mulesoft.org/nexus/content/repositories/releases-ee/</url>
+        <url>https://repository-main.mulesoft.org/nexus/content/repositories/releases-ee/</url>
     <repository>
         <id>mule-ee-snapshots</id>
         <name>MuleEE Snapshots Repository</name>
-        <url>https://repository-master.mulesoft.org/nexus/content/repositories/ci-snapshots/</url>
+        <url>https://repository-main.mulesoft.org/nexus/content/repositories/ci-snapshots/</url>
     </repository>
 </repositories>
 ----

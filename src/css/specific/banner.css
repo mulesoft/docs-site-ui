@@ -1,4 +1,5 @@
-.banner {
+.banner,
+.paragraph.notice-banner {
   position: sticky;
   z-index: var(--z-banner);
 
@@ -42,10 +43,10 @@
     border: none;
     color: var(--black);
     cursor: pointer;
-    float: right;
     padding: 10px;
 
     & img {
+      max-width: unset;
       width: 15px;
     }
   }

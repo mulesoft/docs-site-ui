@@ -3,23 +3,18 @@ const components = ['composer', 'release-notes']
 
 const getDatedReleaseNotesRawPages = (contentCatalog) => {
   return contentCatalog.getPages(({ asciidoc, out }) => {
-    if (!asciidoc || !out) return
-    return getReleaseNotesWithRevdate(asciidoc)
+    if (asciidoc && out) return getPagesWithDeploymentOptions(asciidoc)
   })
 }
 
-const getReleaseNotesWithRevdate = (asciidoc) => {
+const getPagesWithDeploymentOptions = (asciidoc) => {
   const attributes = asciidoc.attributes
   return asciidoc.attributes && isReleaseNotes(attributes) && hasRevDate(attributes)
 }
 
-const isReleaseNotes = (attributes) => {
-  return components.includes(attributes['page-component-name'])
-}
-
-const hasRevDate = (attributes) => {
-  return attributes['page-revdate']
-}
+const hasRevDate = (attributes) => attributes['page-revdate']
+const isReleaseNotes = (attributes) => components.includes(attributes['page-component-name'])
+const isValidDate = (dateStr) => !isNaN(Date.parse(dateStr))
 
 const turnRawPagesIntoPageUiModels = (site, pages, contentCatalog) => {
   const { buildPageUiModel } = module.parent.require('@antora/page-composer/build-ui-model')
@@ -29,14 +24,7 @@ const turnRawPagesIntoPageUiModels = (site, pages, contentCatalog) => {
     .sort(sortByRevDate)
 }
 
-const isValidDate = (dateStr) => {
-  const dateObj = Date.parse(dateStr)
-  return !isNaN(dateObj)
-}
-
-const sortByRevDate = (a, b) => {
-  return new Date(b.attributes.revdate) - new Date(a.attributes.revdate)
-}
+const sortByRevDate = (a, b) => new Date(b.attributes.revdate) - new Date(a.attributes.revdate)
 
 const getMostRecentlyUpdatedPages = (pageUIModels, numOfItems) => {
   const maxNumberOfPages = pageUIModels.length > numOfItems ? numOfItems : pageUIModels.length
@@ -48,11 +36,7 @@ const getResultList = (pageUIModels, maxNumberOfPages) => {
   const resultList = []
   for (let i = 0; i < maxNumberOfPages; i++) {
     const page = pageUIModels[i]
-    if (page.attributes?.revdate) {
-      if (page.title) {
-        resultList.push(getSelectedAttributes(page))
-      }
-    }
+    if (page.attributes?.revdate && page.title) resultList.push(getSelectedAttributes(page))
   }
   return resultList
 }
@@ -72,9 +56,7 @@ const getLatestVersion = (contentsStr) => {
   const nodes = parseHTML(contentsStr)
   const firstVersion = nodes.querySelector('h2')
   if (firstVersion) {
-    const output = {
-      anchor: firstVersion.id,
-    }
+    const output = { anchor: firstVersion.id }
     if (isVersion(firstVersion.innerText)) output.innerText = firstVersion.innerText
     return output
   }
