@@ -37,6 +37,7 @@
 
   const surveyToggleButton = surveySection.querySelector('button.survey-toggle')
   const surveyTextDiv = surveySection.querySelector('div.survey-text')
+  const takeTheSurveyLink = surveySection.querySelector('a.survey-link')
 
   const addSourceParam = (link) => {
     const currentPageUrl = window.location.pathname
