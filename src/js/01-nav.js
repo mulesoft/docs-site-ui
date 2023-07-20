@@ -2,6 +2,9 @@
 ;(() => {
   'use strict'
 
+  const nav = document.querySelector('.nav')
+  if (!nav) return
+
   const languageMap = {
     en: {
       title: 'Home',
@@ -360,8 +363,8 @@
   }
 
   class Nav {
-    constructor () {
-      this.nav = document.querySelector('.nav')
+    constructor (nav) {
+      this.nav = nav
       this.navData = getNavData()
     }
 
@@ -939,7 +942,7 @@
     }
   }
 
-  const nav = new Nav()
+  const navObj = new Nav(nav)
   const page = new Page()
-  if (page.component && nav.nav) nav.buildNav()
+  navObj.buildNav()
 })()
