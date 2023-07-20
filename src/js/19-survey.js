@@ -4,7 +4,7 @@
   const surveySection = document.querySelector('aside > section.survey')
   if (!surveySection) return
 
-  const surveyAppearPercent = document.location.host === 'docs.mulesoft.com' ? 5 : 100
+  const surveyAppearPercent = 100
 
   const eligibleCountryTimezones = [
     // United States
