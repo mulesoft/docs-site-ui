@@ -131,7 +131,7 @@
     const formData = new FormData(form) // eslint-disable-line
     const formJSON = {
       pageURL: document.location.href,
-      subject: formData.get('feedback'),
+      summary: formData.get('feedback'),
     }
 
     if (formData.get('feedback-detail')) formJSON.detail = formData.get('feedback-detail')
@@ -141,8 +141,6 @@
 
   const submitFeedbackToBackend = (form) => {
     const body = createBody(form)
-
-    console.log(body)
 
     /* eslint-disable */
     fetch('/api/v1/form-submit', {
