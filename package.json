@@ -54,7 +54,7 @@
     "highlight.js": "11.8.0",
     "js-yaml": "4.1.0",
     "merge-stream": "2.0.0",
-    "node-fetch": "3.3.1",
+    "node-fetch": "3.3.2",
     "node-html-parser": "6.1.5",
     "openpgp": "^5.7.0",
     "pad": "^3.2.0",
