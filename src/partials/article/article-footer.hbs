@@ -1,0 +1,82 @@
+{{#if page.component}}
+<footer class="flex col doc-footer">
+  {{#if env.GOOGLE_ANALYTICS_KEY}}
+  <section class="feedback-section flex align-center col">
+    <div class="feedback-row feedback-first-row flex align-center">
+      <div>
+        <p id="feedback-question">Was this article helpful?</p>
+      </div>
+      <div class="feedback-options flex">
+        <div>
+          <button class="button feedback-yes" aria-label="The article was helpful">
+            <img loading="lazy" src="{{@root.uiRootPath}}/img/icons/thumbs-up.png" alt="" height="12">
+          </button>
+          <p class="help-text hide" id="feedback-yes-help-text">Yes, thanks!</p>
+        </div>
+        <div>
+          <button class="button feedback-no" aria-label="The article was not helpful">
+            <img loading="lazy" src="{{@root.uiRootPath}}/img/icons/thumbs-down.png" alt="" height="12">
+          </button>
+          <p class="help-text hide" id="feedback-no-help-text">No, not really.</p>
+        </div>
+        <div class="feedback-ack flex hide">
+          <img loading="lazy" src="{{@root.uiRootPath}}/img/icons/feedback-ack.svg" alt="" height="20">
+          <span aria-live="polite" aria-labelledby="feedback-vote-result" class="sr-only"></span>
+          <p id="feedback-vote-result">You voted for:</p>
+        </div>
+        {{!-- <button class="button give-feedback" aria-label="Leave written feedback for the article">
+          Give feedback
+        </button> --}}
+      </div>
+    </div>
+    {{!-- <div class="feedback-row feedback-second-row flex hide">
+      <button class="button give-feedback">
+        Give feedback
+      </button>
+    </div> 
+    <div class="feedback-form hide">
+      <form>
+        <p>
+          <label for="feedback">Share your feedback (required)</label>
+          <input aria-required="true" maxlength="100" placeholder="Let us know what you liked, or how we can improve..." type="text"
+            id="feedback" name="feedback" required>
+          <span class="validation-text hide" id="feedback-validation-text">The feedback field is required</span>
+        </p>
+        <p>
+          <label for="feedback-detail">Please provide further details (optional)</label>
+          <textarea maxlength="1000" placeholder="This is optional, but very helpful..." type="text" id="feedback-detail"
+            name="feedback-detail" rows="4"></textarea>
+        </p>
+        <div class="flex justify-justified">
+          <fieldset class="flex justify-justified">
+          <legend>Provide your name and email if we need to contact you for clarification about your feedback:</legend>
+          <div class="contact-info">
+            <p>
+              <label for="name">Name (optional)</label>
+              <input maxlength="50" placeholder="Your name" type="text" id="name" name="name">
+            </p>
+          </div>
+          <div class="contact-info">
+            <p>
+              <label for="email">Email (optional)</label>
+              <input maxlength="50" placeholder="email@example.com" pattern=".*" type="email" id="email" name="email">
+            </p>
+          </div>
+          </fieldset>
+        </div>
+        <div class="feedback-form-button-row flex align-center justify-end">
+           <input aria-label="Cancel and minimize feedback form" type="button" name="cancel" value="Cancel" class="button feedback-form-button"/>         
+          <input aria-label="Submit feedback" class="button-primary feedback-form-button" name="submit" type="submit" value="Submit">
+        </div>
+      </form>
+    </div> --}}
+    <span class="feedback-form-thank-you hide" tabIndex="-1">
+      <img loading="lazy" src="{{@root.uiRootPath}}/img/icons/blue-heart.png" alt="" height="14">
+      Thanks for your feedback!
+    </span>
+  </section>
+  {{/if}}
+  {{> github}}
+  {{> mobile-survey }}
+</footer>
+{{/if}}
