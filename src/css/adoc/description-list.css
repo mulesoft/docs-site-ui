@@ -1,8 +1,6 @@
 /* description lists */
 .doc {
   & dl {
-    border: 1px solid var(--aluminum-3);
-    border-radius: 2px;
     display: inline-block;
     font-size: 13px;
     padding: var(--md);
@@ -15,17 +13,13 @@
 
   & dt {
     font-family: var(--sans-serif-bold);
-
-    &::after {
-      content: ':';
-    }
+    font-size: 16px;
   }
 
   & dd {
-    margin-left: 0;
+    margin-left: 2em;
 
     & + dt {
-      border-top: 1px solid var(--aluminum-3);
       margin-top: var(--sm);
       padding-top: var(--sm);
     }
