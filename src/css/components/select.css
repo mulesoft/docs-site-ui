@@ -7,7 +7,7 @@
 
 .select {
   appearance: none;
-  background: var(--tertiary);
+  background: var(--white);
   border: 1px solid var(--aluminum-4);
   border-radius: 2px;
   box-shadow: none;
@@ -18,7 +18,7 @@
   transition: box-shadow var(--transition-speed-sm) var(--transition-timing);
 
   &:focus {
-    border-color: var(--secondary-navy);
+    border-color: var(--lume-g-color-blue-40);
     box-shadow: 0 0 0 3px #00a2df40;
     outline: 0;
   }

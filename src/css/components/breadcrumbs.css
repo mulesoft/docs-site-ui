@@ -22,14 +22,14 @@
     &:focus {
       border-radius: 5px;
       opacity: 1;
-      outline: 2px solid var(--gray);
+      outline: 2px solid var(--lume-g-color-neutral-50);
       text-decoration: none;
     }
 
     &:hover {
       background-color: #c0edff;
       border-radius: 5px;
-      color: var(--secondary-navy);
+      color: var(--lume-g-color-blue-40);
       margin-top: -3px;
       opacity: 1;
       padding-top: 1px;
@@ -83,7 +83,7 @@
 
     &::-webkit-scrollbar-thumb {
       background-color: #00000080;
-      border: 3px solid var(--tertiary); /* should match background, can't be transparent */
+      border: 3px solid var(--white); /* should match background, can't be transparent */
       border-radius: 10px;
     }
   }
@@ -98,7 +98,7 @@
 
 .breadcrumbs-toggle {
   align-items: center;
-  background-color: var(--tertiary);
+  background-color: var(--white);
   border: 1px solid var(--aluminum-4);
   border-radius: 50%;
   display: flex;
@@ -133,7 +133,7 @@
 
 .secondary-breadcrumbs-drawer {
   align-items: center;
-  background: var(--tertiary);
+  background: var(--white);
   border-bottom: 1px solid var(--aluminum-4);
   display: flex;
   height: var(--breadcrumbs-drawer-height);

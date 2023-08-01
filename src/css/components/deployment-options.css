@@ -13,7 +13,7 @@
 
         &:active,
         &:focus {
-            border: 1px solid var(--secondary-navy);
+            border: 1px solid var(--lume-g-color-blue-40);
             box-shadow: 0 0 0 3px #00a2df40;
             font-family: var(--sans-serif-bold);
         }

@@ -20,7 +20,7 @@
   }
 
   & .link {
-    color: var(--secondary-navy);
+    color: var(--lume-g-color-blue-40);
   }
 }
 
@@ -38,7 +38,7 @@
 }
 
 .gdpr-text {
-  color: var(--tertiary);
+  color: var(--white);
   font-size: 13px;
   line-height: 1.4;
   margin-bottom: 0;
@@ -55,7 +55,7 @@
 .gdpr-close {
   background: none;
   border: 0;
-  color: var(--tertiary);
+  color: var(--white);
   cursor: pointer;
   font-size: 35px;
   height: 30px;

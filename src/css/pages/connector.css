@@ -46,7 +46,7 @@
     &:focus,
     &:active {
       background: #e2f8ff; /* yet another blue */
-      color: var(--secondary-navy);
+      color: var(--lume-g-color-blue-40);
     }
   }
 

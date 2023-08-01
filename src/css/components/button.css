@@ -7,7 +7,7 @@
 }
 
 .button {
-  background: var(--tertiary);
+  background: var(--white);
   border: 1px solid var(--aluminum-4);
   color: var(--steel-2);
   height: var(--nav-item-height);
@@ -20,21 +20,21 @@
   }
 
   &:focus {
-    border-color: var(--secondary-navy);
-    color: var(--secondary-navy);
+    border-color: var(--lume-g-color-blue-40);
+    color: var(--lume-g-color-blue-40);
   }
 
   &:active {
-    border-color: var(--secondary-navy);
-    color: var(--secondary-navy);
+    border-color: var(--lume-g-color-blue-40);
+    color: var(--lume-g-color-blue-40);
   }
 }
 
 .button-primary {
-  background: var(--secondary-navy);
+  background: var(--lume-g-color-blue-40);
   border: 0;
   border-radius: var(--radius);
-  color: var(--tertiary);
+  color: var(--white);
   display: inline-block;
   font-family: var(--sans-serif-bold);
   height: 40px;

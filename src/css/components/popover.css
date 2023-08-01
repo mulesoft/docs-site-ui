@@ -4,7 +4,7 @@
 }
 
 .tippy-box[data-theme~="connector-popover"] {
-  background: var(--tertiary);
+  background: var(--white);
   border: 1px solid var(--aluminum-3);
   border-radius: 2px;
   box-shadow: 0 2px 9px #0000001a;
@@ -14,9 +14,9 @@
 }
 
 .tippy-box[data-theme~="current-version-popover"] {
-  background: var(--secondary-navy);
+  background: var(--lume-g-color-blue-40);
   border: none;
-  color: var(--tertiary);
+  color: var(--white);
   font-size: 11px;
   padding: 10px;
 
@@ -26,12 +26,12 @@
 }
 
 .tippy-box[data-theme~="gray-archive-link-popover"] {
-  background: var(--secondary-navy);
+  background: var(--lume-g-color-blue-40);
   border: none;
   color: white;
 
   & .tippy-svg-arrow > svg {
-    fill: var(--secondary-navy);
+    fill: var(--lume-g-color-blue-40);
   }
 }
 

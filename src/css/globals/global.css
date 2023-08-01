@@ -50,7 +50,7 @@ body {
 .help-text {
   background: #444;
   border-radius: 5px;
-  color: var(--tertiary);
+  color: var(--white);
   font-size: 10px;
   padding: 3px 10px;
 }

@@ -170,7 +170,7 @@
         padding: 0 10px;
 
         &:focus {
-          outline: 2px solid var(--gray);
+          outline: 2px solid var(--lume-g-color-neutral-50);
         }
 
         & > img {
@@ -186,18 +186,18 @@
         margin: 10px 0;
 
         & > a {
-          color: var(--tertiary);
+          color: var(--white);
 
           &:focus {
             border-radius: 5px;
-            outline: 2px solid var(--gray);
+            outline: 2px solid var(--lume-g-color-neutral-50);
             text-decoration: none;
           }
 
           &:hover {
             background-color: #c0edff;
             border-radius: 5px;
-            color: var(--secondary-navy);
+            color: var(--lume-g-color-blue-40);
           }
         }
       }

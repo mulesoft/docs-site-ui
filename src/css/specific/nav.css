@@ -1,5 +1,5 @@
 .nav {
-  background: var(--tertiary);
+  background: var(--white);
   box-shadow: 1px 0 0 var(--aluminum-3), 3px 0 15px #0006;
   color: var(--steel-3);
   display: flex;
@@ -39,7 +39,7 @@
   }
 
   & .nav-close-button {
-    background-color: var(--secondary-navy);
+    background-color: var(--lume-g-color-blue-40);
     border: none;
     border-radius: 0 2px 2px 0;
     height: 50px;
@@ -56,9 +56,9 @@
     }
 
     &:focus {
-      background-color: var(--tertiary);
+      background-color: var(--white);
       box-shadow: 0 0 0 3px rgb(0 162 223 / 25%);
-      outline: 1px solid var(--secondary-navy);
+      outline: 1px solid var(--lume-g-color-blue-40);
 
       & img {
         filter: initial;
@@ -68,7 +68,7 @@
     &:active {
       background-color: var(--eyebrow-gray);
       box-shadow: 0 0 0 3px rgb(0 162 223 / 25%);
-      outline: 1px solid var(--secondary-navy);
+      outline: 1px solid var(--lume-g-color-blue-40);
 
       /* need to restate this to keep the arrow white */
       & img {
@@ -120,7 +120,7 @@
 
   &:focus {
     border-radius: var(--radius);
-    outline: 2px solid var(--gray) !important;
+    outline: 2px solid var(--lume-g-color-neutral-50) !important;
   }
 
   &:hover {
@@ -196,8 +196,8 @@ svg.nav-icon {
 
     & [aria-current="page"] {
       background: var(--aluminum-3);
-      border-left: 3px solid var(--secondary-navy);
-      color: var(--secondary-navy);
+      border-left: 3px solid var(--lume-g-color-blue-40);
+      color: var(--lume-g-color-blue-40);
       padding: 3px;
       width: -moz-available;
       width: -webkit-fill-available;
@@ -268,7 +268,7 @@ svg.nav-icon {
 
   &:focus-visible {
     border-radius: var(--radius);
-    outline: 2px solid var(--gray);
+    outline: 2px solid var(--lume-g-color-neutral-50);
   }
 
   &:hover {
@@ -288,7 +288,7 @@ svg.nav-icon {
   width: 100%;
 
   &:focus {
-    border: 1px solid var(--secondary-navy);
+    border: 1px solid var(--lume-g-color-blue-40);
     box-shadow: 0 0 0 3px #00a2df40;
   }
 }
@@ -324,14 +324,14 @@ svg.nav-icon {
   }
 
   &.selector-active {
-    border: 1px solid var(--secondary-navy);
+    border: 1px solid var(--lume-g-color-blue-40);
     box-shadow: 0 0 0 3px #00a2df40;
     font-family: var(--sans-serif-bold);
   }
 }
 
 .nav-version-menu {
-  background: var(--tertiary);
+  background: var(--white);
   border-radius: 2px;
   box-shadow: 0 0 0 1px var(--aluminum-3), 0 2px 9px #0000001a;
   font-size: .75rem;
@@ -403,7 +403,7 @@ svg.nav-icon {
 
     &:active,
     &:focus {
-      outline: 2px solid var(--gray);
+      outline: 2px solid var(--lume-g-color-neutral-50);
     }
   }
 }

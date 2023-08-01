@@ -24,7 +24,7 @@
     &:active,
     &:focus-visible {
       border-radius: 0;
-      outline: 2px solid var(--gray);
+      outline: 2px solid var(--lume-g-color-neutral-50);
     }
 
     &:hover {
@@ -42,7 +42,7 @@
 
     & > ul li {
       background-color: #6c6c6c;
-      color: var(--tertiary);
+      color: var(--white);
     }
   }
 }

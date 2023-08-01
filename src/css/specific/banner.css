@@ -4,7 +4,7 @@
   z-index: var(--z-banner);
 
   & a {
-    color: var(--secondary-navy);
+    color: var(--lume-g-color-blue-40);
 
     &:hover {
       background-color: #e8f8ff;
@@ -28,7 +28,7 @@
     }
 
     &:visited {
-      color: var(--secondary-navy);
+      color: var(--lume-g-color-blue-40);
     }
   }
 
