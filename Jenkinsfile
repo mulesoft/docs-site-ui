@@ -6,6 +6,7 @@ def defaultBranch = 'main'
 def githubCredentialsId = 'GH_TOKEN'
 def gpgSecretKeyCredentialsId = 'ms-cx-engineering-gpg-private-key'
 def failureSlackChannel = '#dux-engineering-github-prs'
+def node_version = '18'
 
 // the following keywords are used to capture the correct error lines from a failed build's log
 
@@ -47,18 +48,18 @@ pipeline {
     stage('Install Dependencies') {
       steps {
         withCredentials([string(credentialsId: 'NPM_TOKEN', variable: 'NPM_TOKEN')]) {
-          sh 'curl -fsSL https://deb.nodesource.com/setup_18.x | sudo -E bash - && sudo apt-get install -y nodejs'
+          sh "curl -fsSL https://deb.nodesource.com/setup_${node_version}.x | sudo -E bash - && sudo apt-get install -y nodejs"
           sh 'npm config set @mulesoft:registry=https://nexus3.build.msap.io/repository/npm-internal/ && npm config set //nexus3.build.msap.io/repository/npm-internal/:_authToken=$NPM_TOKEN'
           sh 'npm ci --cache=.cache/npm --no-audit' 
         }
       }
     }
     stage('Test') {
-      // when {
-      //   not {
-      //     branch defaultBranch
-      //   }
-      // }
+      when {
+        not {
+          branch defaultBranch
+        }
+      }
       steps {
         sh 'npx gulp bundle'
       }
@@ -95,7 +96,8 @@ pipeline {
         withCredentials([
           string(credentialsId: githubCredentialsId, variable: 'GH_TOKEN'),
           string(credentialsId: gpgSecretKeyCredentialsId , variable: 'SECRET_KEY')]) {
-            sh "npx gulp release"
+          sh "export GIT_BRANCH=env.GIT_BRANCH"
+          sh "npx gulp release"
         }
       }
       post {
