@@ -18,7 +18,7 @@
     cursor: pointer;
     display: flex;
     line-height: 1.5;
-    padding: .25em 1em;
+    padding: 0.25em 1em;
     position: relative;
 
     &:active,
@@ -33,7 +33,7 @@
     }
 
     & + li {
-      margin-left: .25em;
+      margin-left: 0.25em;
     }
   }
 
@@ -42,7 +42,7 @@
 
     & > ul li {
       background-color: #6c6c6c;
-      color: var(--white);
+      color: var(--tertiary);
     }
   }
 }

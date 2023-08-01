@@ -38,7 +38,7 @@
 }
 
 .gdpr-text {
-  color: var(--white);
+  color: var(--tertiary);
   font-size: 13px;
   line-height: 1.4;
   margin-bottom: 0;
@@ -55,11 +55,11 @@
 .gdpr-close {
   background: none;
   border: 0;
-  color: var(--white);
+  color: var(--tertiary);
   cursor: pointer;
   font-size: 35px;
   height: 30px;
-  opacity: .25;
+  opacity: 0.25;
   padding: 0;
   position: absolute;
   right: 0;

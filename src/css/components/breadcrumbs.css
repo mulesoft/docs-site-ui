@@ -15,7 +15,7 @@
   & .link {
     color: #000;
     height: var(--lg);
-    opacity: .75;
+    opacity: 0.75;
     text-decoration: underline;
 
     &:active,
@@ -61,11 +61,11 @@
     background-position: center;
     background-repeat: no-repeat;
     background-size: var(--md);
-    content: '';
+    content: "";
     display: inline-block;
     height: var(--md);
     margin: 0 var(--xs);
-    opacity: .4; /* same as search icon */
+    opacity: 0.4; /* same as search icon */
     pointer-events: none;
     transform: rotate(-90deg);
     width: var(--md);
@@ -83,7 +83,7 @@
 
     &::-webkit-scrollbar-thumb {
       background-color: #00000080;
-      border: 3px solid var(--white); /* should match background, can't be transparent */
+      border: 3px solid var(--tertiary); /* should match background, can't be transparent */
       border-radius: 10px;
     }
   }
@@ -98,7 +98,7 @@
 
 .breadcrumbs-toggle {
   align-items: center;
-  background-color: var(--white);
+  background-color: var(--tertiary);
   border: 1px solid var(--aluminum-4);
   border-radius: 50%;
   display: flex;
@@ -106,7 +106,7 @@
   margin: auto 0 auto 5px;
   min-width: 1.75em;
   padding: 0;
-  transform: translateY(.075em);
+  transform: translateY(0.075em);
   width: 1.75em;
 
   &:hover {
@@ -133,7 +133,7 @@
 
 .secondary-breadcrumbs-drawer {
   align-items: center;
-  background: var(--white);
+  background: var(--tertiary);
   border-bottom: 1px solid var(--aluminum-4);
   display: flex;
   height: var(--breadcrumbs-drawer-height);

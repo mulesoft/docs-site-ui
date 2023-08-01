@@ -4,7 +4,7 @@
 }
 
 .tippy-box[data-theme~="connector-popover"] {
-  background: var(--white);
+  background: var(--tertiary);
   border: 1px solid var(--aluminum-3);
   border-radius: 2px;
   box-shadow: 0 2px 9px #0000001a;
@@ -16,7 +16,7 @@
 .tippy-box[data-theme~="current-version-popover"] {
   background: var(--lume-g-color-blue-30);
   border: none;
-  color: var(--white);
+  color: var(--tertiary);
   font-size: 11px;
   padding: 10px;
 

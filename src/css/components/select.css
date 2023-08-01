@@ -7,7 +7,7 @@
 
 .select {
   appearance: none;
-  background: var(--white);
+  background: var(--tertiary);
   border: 1px solid var(--aluminum-4);
   border-radius: 2px;
   box-shadow: none;
@@ -30,7 +30,7 @@
 
 .select-dropdown-arrow {
   max-height: 10px; /* set max height so 17-image-margin.js doesn't add top margin to it */
-  opacity: .75;
+  opacity: 0.75;
   pointer-events: none;
   position: absolute;
   right: 8px;

@@ -4,7 +4,7 @@
   --atomic-primary: var(--lume-g-color-blue-30);
   --atomic-primary-light: var(--core-blue-4);
   --atomic-primary-dark: var(--core-blue-5);
-  --atomic-on-primary: var(--white);
+  --atomic-on-primary: var(--tertiary);
   --atomic-ring-primary: var(--robust-blue-4);
 
   /* Neutral colors */
@@ -13,7 +13,7 @@
   --atomic-neutral-light: var(--aluminum-4);
 
   /* Semantic colors */
-  --atomic-background: var(--white);
+  --atomic-background: var(--tertiary);
   --atomic-on-background: var(--steel-5);
   --atomic-success: var(--lume-g-color-green-50);
   --atomic-error: var(--lume-g-color-red-40);
@@ -21,9 +21,9 @@
   --atomic-disabled: var(--aluminum-4);
 
   /* Border radius */
-  --atomic-border-radius: .25rem;
-  --atomic-border-radius-md: .5rem;
-  --atomic-border-radius-lg: .75rem;
+  --atomic-border-radius: 0.25rem;
+  --atomic-border-radius-md: 0.5rem;
+  --atomic-border-radius-lg: 0.75rem;
   --atomic-border-radius-xl: 1rem;
 
   /* Font */
@@ -32,8 +32,8 @@
   --atomic-font-bold: var(--weight-bold);
 
   /* Text size */
-  --atomic-text-base: .875rem; /* 14px */
-  --atomic-text-sm: .75rem; /* 12px */
+  --atomic-text-base: 0.875rem; /* 14px */
+  --atomic-text-sm: 0.75rem; /* 12px */
   --atomic-text-lg: 1rem; /* 16px */
   --atomic-text-xl: 1.125rem; /* 18px */
   --atomic-text-2xl: 1.5rem; /* 24px */
@@ -69,12 +69,12 @@ atomic-facet {
   }
 
   &::part(value-checkbox-label) {
-    padding: .1rem .2rem .2rem 2rem;
+    padding: 0.1rem 0.2rem 0.2rem 2rem;
   }
 
   &::part(value-link) {
-    padding-bottom: .2rem;
-    padding-top: .2rem;
+    padding-bottom: 0.2rem;
+    padding-top: 0.2rem;
   }
 }
 
@@ -129,7 +129,8 @@ atomic-search-box {
   &::part(input) {
     &::placeholder,
     &:-ms-input-placeholder, /* Internet Explorer 10-11 */
-    &::-ms-input-placeholder { /* Microsoft Edge */
+    &::-ms-input-placeholder {
+      /* Microsoft Edge */
       color: var(--eyebrow-gray);
       opacity: 1; /* Firefox */
     }

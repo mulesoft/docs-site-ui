@@ -1,5 +1,5 @@
 .toolbar {
-  background: var(--white);
+  background: var(--tertiary);
   border-bottom: 1px solid var(--aluminum-3);
   padding: var(--sm) var(--lg);
   position: sticky;
@@ -24,8 +24,8 @@
 
   @media (min-width: 1024px) {
     column-gap: var(--atomic-layout-spacing-x);
-    grid-template-areas: '. search-page-back-button atomic-external .';
-    grid-template-columns: 1fr minmax(17rem,22rem) minmax(50%,70rem) 1fr;
+    grid-template-areas: ". search-page-back-button atomic-external .";
+    grid-template-columns: 1fr minmax(17rem, 22rem) minmax(50%, 70rem) 1fr;
     padding-left: 0;
     padding-right: 0;
   }

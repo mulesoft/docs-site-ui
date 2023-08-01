@@ -1,5 +1,5 @@
 .modal {
-  background: var(--white);
+  background: var(--tertiary);
   border-radius: 4px;
   box-shadow: 0 3px 15px #0000001a;
   font-size: 13px;
@@ -13,7 +13,7 @@
   position: fixed;
   right: var(--lg);
   top: var(--md);
-  transform: scale(.975);
+  transform: scale(0.975);
   transition: transform var(--transition-speed-sm) var(--transition-timing);
   width: auto;
   z-index: var(--z-modal);
@@ -33,7 +33,8 @@
 }
 
 .modal-backdrop {
-  animation: fade-in var(--transition-speed-sm) var(--transition-timing) forwards;
+  animation: fade-in var(--transition-speed-sm) var(--transition-timing)
+    forwards;
   background: #00000080;
   cursor: pointer;
   height: 100%;

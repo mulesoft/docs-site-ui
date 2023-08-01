@@ -50,7 +50,7 @@ body {
 .help-text {
   background: #444;
   border-radius: 5px;
-  color: var(--white);
+  color: var(--tertiary);
   font-size: 10px;
   padding: 3px 10px;
 }
@@ -125,7 +125,8 @@ See: https://webaim.org/techniques/css/invisiblecontent/#techniques
 
 @media (pointer: fine) {
   .scrollbar {
-    transition: scrollbar-color var(--transition-speed-sm) var(--transition-timing);
+    transition: scrollbar-color var(--transition-speed-sm)
+      var(--transition-timing);
 
     &:not(:hover) {
       scrollbar-color: transparent transparent;

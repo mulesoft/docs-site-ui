@@ -27,14 +27,14 @@
   --viridian-3: #00b49d;
   --teal-3: #00b5d1;
   --violet: #681da8;
-  --white: #fff;
+  --tertiary: #fff;
   --black: #000;
-  --survey-gradient: linear-gradient(180deg,#2c3792 0%,#000849 91.19%);
+  --survey-gradient: linear-gradient(180deg, #2c3792 0%, #000849 91.19%);
 
   /* typography */
-  --heading: 'EAvantGardeBold', arial, sans-serif;
-  --sans-serif: 'ESF', arial, sans-serif;
-  --sans-serif-bold: 'ESFBold', arial, sans-serif;
+  --heading: "EAvantGardeBold", arial, sans-serif;
+  --sans-serif: "ESF", arial, sans-serif;
+  --sans-serif-bold: "ESFBold", arial, sans-serif;
   --weight-normal: 400;
   --weight-medium: 600;
   --weight-bold: 700;
@@ -65,7 +65,7 @@
   --screen-lg: 992px;
   --screen-xl: 1350px;
   --screen-xxl: 1650px;
-  --bold-text-letter-spacing: -.005em;
+  --bold-text-letter-spacing: -0.005em;
 
   /* z-index */
   --z-gdpr: 20;
@@ -80,7 +80,7 @@
   --z-nav-toolbar: 8;
 
   /* animations/transitions */
-  --transition-speed-sm: .15s;
-  --transition-speed-md: .3s;
-  --transition-timing: cubic-bezier(.46,.03,.52,.96);
+  --transition-speed-sm: 0.15s;
+  --transition-speed-md: 0.3s;
+  --transition-timing: cubic-bezier(0.46, 0.03, 0.52, 0.96);
 }

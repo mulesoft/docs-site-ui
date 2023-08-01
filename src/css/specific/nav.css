@@ -1,5 +1,5 @@
 .nav {
-  background: var(--white);
+  background: var(--tertiary);
   box-shadow: 1px 0 0 var(--aluminum-3), 3px 0 15px #0006;
   color: var(--steel-3);
   display: flex;
@@ -9,7 +9,7 @@
   left: 0;
   max-height: 100%;
   max-height: stretch;
-  max-height: var(--vh,1vh) * 100;
+  max-height: var(--vh, 1vh) * 100;
   max-height: -moz-available;
   max-height: -webkit-fill-available;
   order: 1;
@@ -56,7 +56,7 @@
     }
 
     &:focus {
-      background-color: var(--white);
+      background-color: var(--tertiary);
       box-shadow: 0 0 0 3px rgb(0 162 223 / 25%);
       outline: 1px solid var(--lume-g-color-blue-30);
 
@@ -153,7 +153,7 @@
 
 svg.nav-group-icon {
   height: 1em;
-  margin-left: .625em;
+  margin-left: 0.625em;
   order: 1;
   width: 1em;
 }
@@ -172,8 +172,8 @@ svg.nav-icon {
   filter: grayscale(1);
   flex: none;
   height: 1.6em;
-  margin-right: .5em;
-  opacity: .75;
+  margin-right: 0.5em;
+  opacity: 0.75;
   width: 1.5em;
 }
 
@@ -236,12 +236,12 @@ svg.nav-icon {
       }
 
       &[data-component] {
-        margin-left: -.5em;
+        margin-left: -0.5em;
       }
     }
 
     & .nav-icon {
-      transform: scale(.75);
+      transform: scale(0.75);
       transform-origin: right;
     }
   }
@@ -256,7 +256,7 @@ svg.nav-icon {
   font-family: var(--sans-serif-bold);
   line-height: inherit;
   margin-left: -1.5em;
-  opacity: .8;
+  opacity: 0.8;
   padding: 0;
   position: absolute;
   width: 1.2em;
@@ -301,10 +301,10 @@ svg.nav-icon {
   align-items: center;
   border-radius: 1em;
   display: flex;
-  font-size: .75rem;
+  font-size: 0.75rem;
   height: 1.75em;
   padding: 0 2px 0 6px;
-  transform: translateY(.075em);
+  transform: translateY(0.075em);
 
   &:hover {
     border-color: var(--steel-2);
@@ -319,7 +319,7 @@ svg.nav-icon {
 
   & svg.nav-version-icon {
     height: 1em;
-    margin: 0 .125em;
+    margin: 0 0.125em;
     width: 1em;
   }
 
@@ -331,10 +331,10 @@ svg.nav-icon {
 }
 
 .nav-version-menu {
-  background: var(--white);
+  background: var(--tertiary);
   border-radius: 2px;
   box-shadow: 0 0 0 1px var(--aluminum-3), 0 2px 9px #0000001a;
-  font-size: .75rem;
+  font-size: 0.75rem;
   max-height: 0;
   max-width: 160px;
   min-width: 80px;
@@ -345,9 +345,10 @@ svg.nav-icon {
   position: absolute;
   right: 1.5em;
   top: 2.25em;
-  transform: scale(.95) translate3d(2px,-5px,0);
+  transform: scale(0.95) translate3d(2px, -5px, 0);
   transform-origin: top right;
-  transition: opacity var(--transition-speed-sm) var(--transition-timing), transform var(--transition-speed-sm) var(--transition-timing);
+  transition: opacity var(--transition-speed-sm) var(--transition-timing),
+    transform var(--transition-speed-sm) var(--transition-timing);
   z-index: var(--z-nav);
 
   &.is-active {
@@ -355,11 +356,13 @@ svg.nav-icon {
     letter-spacing: var(--bold-text-letter-spacing);
     opacity: 1;
     pointer-events: auto;
-    transform: scale(1) translate3d(0,0,0);
+    transform: scale(1) translate3d(0, 0, 0);
   }
 
   &.is-clipped {
-    transition: opacity var(--transition-speed-sm) var(--transition-timing), transform var(--transition-speed-sm) var(--transition-timing), max-height 0s var(--transition-speed-sm);
+    transition: opacity var(--transition-speed-sm) var(--transition-timing),
+      transform var(--transition-speed-sm) var(--transition-timing),
+      max-height 0s var(--transition-speed-sm);
   }
 
   & button,
@@ -378,7 +381,7 @@ svg.nav-icon {
 
   & .nav-version-option.selected {
     &::after {
-      content: ' ✔️';
+      content: " ✔️";
       float: right;
       font-size: xx-small;
       margin-right: calc(0px - var(--lg));

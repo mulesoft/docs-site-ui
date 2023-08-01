@@ -7,7 +7,7 @@
 }
 
 .button {
-  background: var(--white);
+  background: var(--tertiary);
   border: 1px solid var(--aluminum-4);
   color: var(--steel-2);
   height: var(--nav-item-height);
@@ -34,7 +34,7 @@
   background: var(--lume-g-color-blue-30);
   border: 0;
   border-radius: var(--radius);
-  color: var(--white);
+  color: var(--tertiary);
   display: inline-block;
   font-family: var(--sans-serif-bold);
   height: 40px;

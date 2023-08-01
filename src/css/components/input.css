@@ -1,6 +1,6 @@
 .input,
 .textarea {
-  background: var(--white);
+  background: var(--tertiary);
   border: 1px solid var(--aluminum-4);
   border-radius: 2px;
   color: var(--steel-5);
