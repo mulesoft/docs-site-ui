@@ -52,7 +52,7 @@ pipeline {
       // }
       steps {
         withCredentials([string(credentialsId: 'NPM_TOKEN', variable: 'NPM_TOKEN')]) {
-          nodejs("node") {
+          nodejs("node18") {
             script {
               sh 'npm ci --cache=.cache/npm --no-audit' 
               sh 'npx gulp bundle'   
