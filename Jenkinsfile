@@ -45,11 +45,11 @@ pipeline {
       }
     }
     stage('Test') {
-      when {
-        not {
-          branch defaultBranch
-        }
-      }
+      // when {
+      //   not {
+      //     branch defaultBranch
+      //   }
+      // }
       steps {
         withCredentials([string(credentialsId: 'NPM_TOKEN', variable: 'NPM_TOKEN')]) {
           nodejs("node") {
