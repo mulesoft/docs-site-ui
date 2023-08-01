@@ -53,7 +53,8 @@ pipeline {
       steps {
         withCredentials([string(credentialsId: 'NPM_TOKEN', variable: 'NPM_TOKEN')]) {
           script {
-            sh 'curl -fsSL https://deb.nodesource.com/setup_18.x | sudo -E bash - && sudo apt-get install -y nodejs'
+            sh 'curl -fsSL https://deb.nodesource.com/setup_18.x | bash - &&apt-get install -y nodejs'
+            sh 'npm config set @mulesoft:registry=https://nexus3.build.msap.io/repository/npm-internal/ && npm config set //nexus3.build.msap.io/repository/npm-internal/:_authToken=$NPM_TOKEN'
             sh 'npm ci --cache=.cache/npm --no-audit' 
             sh 'npx gulp bundle'  
           }
