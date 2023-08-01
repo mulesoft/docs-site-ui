@@ -52,23 +52,28 @@ pipeline {
       }
       steps {
         withCredentials([string(credentialsId: 'NPM_TOKEN', variable: 'NPM_TOKEN')]) {
-          sh "docker build -f Dockerfile.test . --build-arg NPM_TOKEN=${NPM_TOKEN}"
-        }
-      }
-      post {
-        failure {
-          steps {
+          nodejs("node") {
             script {
-              if (env.GIT_BRANCH.startsWith("PR-")) {
-                slackSend color: 'danger', 
-                channel: failureSlackChannel, 
-                message: "${emoji} <${env.BUILD_URL}|${currentBuild.displayName}> UI bundle test failed for ${env.GIT_BRANCH}, so the ${env.GIT_BRANCH} is not updated. \
-                Please run `npx gulp bundle` to see the errors, fix them, and then push the fix to retrigger this build. ${getErrorMsg()}"
-              }
+              sh 'npm ci --cache=.cache/npm --no-audit' 
+              sh 'npx gulp bundle'   
             }
           }
         }
       }
+      // post {
+      //   failure {
+      //     steps {
+      //       script {
+      //         if (env.GIT_BRANCH.startsWith("PR-")) {
+      //           slackSend color: 'danger', 
+      //           channel: failureSlackChannel, 
+      //           message: "${emoji} <${env.BUILD_URL}|${currentBuild.displayName}> UI bundle test failed for ${env.GIT_BRANCH}, so the ${env.GIT_BRANCH} is not updated. \
+      //           Please run `npx gulp bundle` to see the errors, fix them, and then push the fix to retrigger this build. ${getErrorMsg()}"
+      //         }
+      //       }
+      //     }
+      //   }
+      // }
     }
     stage('Release') {
       when {
