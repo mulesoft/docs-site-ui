@@ -159,13 +159,13 @@ body.home {
 
       &:active,
       &:focus {
-        color: var(--lume-g-color-blue-40);
+        color: var(--lume-g-color-blue-30);
         outline: 2px solid var(--lume-g-color-neutral-50);
       }
 
       &:hover {
         background-color: var(--aluminum-4);
-        color: var(--lume-g-color-blue-40);
+        color: var(--lume-g-color-blue-30);
       }
     }
 

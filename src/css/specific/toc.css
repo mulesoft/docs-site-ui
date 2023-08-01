@@ -47,9 +47,9 @@
   &:active,
   &.is-active {
     background-color: #e8e9ea;
-    border-color: var(--lume-g-color-blue-40);
+    border-color: var(--lume-g-color-blue-30);
     border-width: 5px;
-    color: var(--lume-g-color-blue-40);
+    color: var(--lume-g-color-blue-30);
     margin-left: -1px;
   }
 

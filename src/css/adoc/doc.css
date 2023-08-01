@@ -168,7 +168,7 @@
   /* links */
   & a:not(.button-primary, .deployment-option, .dw-playground-link, .notice-banner-link, .view-all, #cta *) {
     &:not(footer *) {
-      color: var(--lume-g-color-blue-40);
+      color: var(--lume-g-color-blue-30);
 
       &:visited {
         color: var(--violet);
@@ -185,7 +185,7 @@
     &:hover {
       background-color: #c0edff;
       border-radius: 5px;
-      color: var(--lume-g-color-blue-40);
+      color: var(--lume-g-color-blue-30);
 
       &:not(.anchor) {
         margin-left: -3px;

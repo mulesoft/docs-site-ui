@@ -39,7 +39,7 @@
   }
 
   & .nav-close-button {
-    background-color: var(--lume-g-color-blue-40);
+    background-color: var(--lume-g-color-blue-30);
     border: none;
     border-radius: 0 2px 2px 0;
     height: 50px;
@@ -58,7 +58,7 @@
     &:focus {
       background-color: var(--white);
       box-shadow: 0 0 0 3px rgb(0 162 223 / 25%);
-      outline: 1px solid var(--lume-g-color-blue-40);
+      outline: 1px solid var(--lume-g-color-blue-30);
 
       & img {
         filter: initial;
@@ -68,7 +68,7 @@
     &:active {
       background-color: var(--eyebrow-gray);
       box-shadow: 0 0 0 3px rgb(0 162 223 / 25%);
-      outline: 1px solid var(--lume-g-color-blue-40);
+      outline: 1px solid var(--lume-g-color-blue-30);
 
       /* need to restate this to keep the arrow white */
       & img {
@@ -196,8 +196,8 @@ svg.nav-icon {
 
     & [aria-current="page"] {
       background: var(--aluminum-3);
-      border-left: 3px solid var(--lume-g-color-blue-40);
-      color: var(--lume-g-color-blue-40);
+      border-left: 3px solid var(--lume-g-color-blue-30);
+      color: var(--lume-g-color-blue-30);
       padding: 3px;
       width: -moz-available;
       width: -webkit-fill-available;
@@ -288,7 +288,7 @@ svg.nav-icon {
   width: 100%;
 
   &:focus {
-    border: 1px solid var(--lume-g-color-blue-40);
+    border: 1px solid var(--lume-g-color-blue-30);
     box-shadow: 0 0 0 3px #00a2df40;
   }
 }
@@ -324,7 +324,7 @@ svg.nav-icon {
   }
 
   &.selector-active {
-    border: 1px solid var(--lume-g-color-blue-40);
+    border: 1px solid var(--lume-g-color-blue-30);
     box-shadow: 0 0 0 3px #00a2df40;
     font-family: var(--sans-serif-bold);
   }

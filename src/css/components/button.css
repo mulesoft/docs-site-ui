@@ -20,18 +20,18 @@
   }
 
   &:focus {
-    border-color: var(--lume-g-color-blue-40);
-    color: var(--lume-g-color-blue-40);
+    border-color: var(--lume-g-color-blue-30);
+    color: var(--lume-g-color-blue-30);
   }
 
   &:active {
-    border-color: var(--lume-g-color-blue-40);
-    color: var(--lume-g-color-blue-40);
+    border-color: var(--lume-g-color-blue-30);
+    color: var(--lume-g-color-blue-30);
   }
 }
 
 .button-primary {
-  background: var(--lume-g-color-blue-40);
+  background: var(--lume-g-color-blue-30);
   border: 0;
   border-radius: var(--radius);
   color: var(--white);

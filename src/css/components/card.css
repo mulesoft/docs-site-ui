@@ -18,7 +18,7 @@
 
   &:active,
   &:focus {
-    border-color: var(--lume-g-color-blue-40);
+    border-color: var(--lume-g-color-blue-30);
     box-shadow: 0 4px 16px #00a2df0f, 0 0 0 3px #00a2df61;
     color: var(--steel-3);
   }

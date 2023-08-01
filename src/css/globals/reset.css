@@ -23,7 +23,7 @@ select {
   /* focus state */
   &.focus,
   &:focus {
-    border-color: var(--lume-g-color-blue-40);
+    border-color: var(--lume-g-color-blue-30);
     box-shadow: 0 0 0 3px #00a2df40;
     outline: 0;
   }
@@ -49,7 +49,7 @@ button {
   &:focus,
   &.active,
   &:active {
-    border-color: var(--lume-g-color-blue-40);
+    border-color: var(--lume-g-color-blue-30);
     box-shadow: 0 0 0 3px #00a2df40;
     outline: 0;
   }
