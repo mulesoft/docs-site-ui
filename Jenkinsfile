@@ -53,8 +53,7 @@ pipeline {
       steps {
         withCredentials([string(credentialsId: 'NPM_TOKEN', variable: 'NPM_TOKEN')]) {
           script {
-            sh 'curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.0/install.sh | bash'
-            sh 'nvm install 18'
+            sh 'curl -fsSL https://deb.nodesource.com/setup_18.x | sudo -E bash - && sudo apt-get install -y nodejs'
             sh 'npm ci --cache=.cache/npm --no-audit' 
             sh 'npx gulp bundle'  
           }
