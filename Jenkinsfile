@@ -52,11 +52,11 @@ pipeline {
       // }
       steps {
         withCredentials([string(credentialsId: 'NPM_TOKEN', variable: 'NPM_TOKEN')]) {
-          nodejs("node18") {
-            script {
-              sh 'npm ci --cache=.cache/npm --no-audit' 
-              sh 'npx gulp bundle'   
-            }
+          script {
+            sh 'curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.0/install.sh | bash'
+            sh 'nvm install 18'
+            sh 'npm ci --cache=.cache/npm --no-audit' 
+            sh 'npx gulp bundle'  
           }
         }
       }
