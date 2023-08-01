@@ -44,6 +44,15 @@ pipeline {
           checkout scm
       }
     }
+    stage('Install Dependencies') {
+      steps {
+        withCredentials([string(credentialsId: 'NPM_TOKEN', variable: 'NPM_TOKEN')]) {
+          sh 'curl -fsSL https://deb.nodesource.com/setup_18.x | sudo -E bash - && sudo apt-get install -y nodejs'
+          sh 'npm config set @mulesoft:registry=https://nexus3.build.msap.io/repository/npm-internal/ && npm config set //nexus3.build.msap.io/repository/npm-internal/:_authToken=$NPM_TOKEN'
+          sh 'npm ci --cache=.cache/npm --no-audit' 
+        }
+      }
+    }
     stage('Test') {
       // when {
       //   not {
@@ -51,27 +60,22 @@ pipeline {
       //   }
       // }
       steps {
-        withCredentials([string(credentialsId: 'NPM_TOKEN', variable: 'NPM_TOKEN')]) {
-          sh 'curl -fsSL https://deb.nodesource.com/setup_18.x | sudo -E bash - && sudo apt-get install -y nodejs'
-          sh 'npm config set @mulesoft:registry=https://nexus3.build.msap.io/repository/npm-internal/ && npm config set //nexus3.build.msap.io/repository/npm-internal/:_authToken=$NPM_TOKEN'
-          sh 'npm ci --cache=.cache/npm --no-audit' 
-          sh 'npx gulp bundle'
+        sh 'npx gulp bundle'
+      }
+      post {
+        failure {
+          steps {
+            script {
+              if (env.GIT_BRANCH.startsWith("PR-")) {
+                slackSend color: 'danger', 
+                channel: failureSlackChannel, 
+                message: "${emoji} <${env.BUILD_URL}|${currentBuild.displayName}> UI bundle test failed for ${env.GIT_BRANCH}, so the ${env.GIT_BRANCH} is not updated. \
+                Please run `npx gulp bundle` to see the errors, fix them, and then push the fix to retrigger this build. ${getErrorMsg()}"
+              }
+            }
+          }
         }
       }
-      // post {
-      //   failure {
-      //     steps {
-      //       script {
-      //         if (env.GIT_BRANCH.startsWith("PR-")) {
-      //           slackSend color: 'danger', 
-      //           channel: failureSlackChannel, 
-      //           message: "${emoji} <${env.BUILD_URL}|${currentBuild.displayName}> UI bundle test failed for ${env.GIT_BRANCH}, so the ${env.GIT_BRANCH} is not updated. \
-      //           Please run `npx gulp bundle` to see the errors, fix them, and then push the fix to retrigger this build. ${getErrorMsg()}"
-      //         }
-      //       }
-      //     }
-      //   }
-      // }
     }
     stage('Release') {
       when {
@@ -90,9 +94,8 @@ pipeline {
       steps {
         withCredentials([
           string(credentialsId: githubCredentialsId, variable: 'GH_TOKEN'),
-          string(credentialsId: gpgSecretKeyCredentialsId , variable: 'SECRET_KEY'),
-          string(credentialsId: 'NPM_TOKEN', variable: 'NPM_TOKEN')]) {
-            sh "docker build --build-arg GH_TOKEN=${GH_TOKEN} --build-arg SECRET_KEY=${SECRET_KEY} --build-arg GIT_BRANCH=${env.GIT_BRANCH} --build-arg NPM_TOKEN=${NPM_TOKEN} -f Dockerfile ."
+          string(credentialsId: gpgSecretKeyCredentialsId , variable: 'SECRET_KEY')]) {
+            sh "npx gulp release"
         }
       }
       post {
