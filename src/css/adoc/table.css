@@ -119,6 +119,7 @@ table:not(.connectors-table, div.admonitionblock table, div.colist table, div.pa
         border-right: 1px solid black;
         content: attr(data-header);
         display: table-cell;
+        font-family: var(--sans-serif-bold);
         font-size: 12px;
         padding-right: 20px;
         width: 30%;

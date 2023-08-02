@@ -6,9 +6,9 @@
   }
 
   & tbody {
-    border: 1px solid var(--aluminum-3);
+    border: 1px solid var(--aluminum-4);
     border-radius: 2px;
-    color: var(--steel-2);
+    color: var(--steel-3);
     display: block;
     font-size: 14px;
     padding: var(--md) var(--lg) var(--sm);
