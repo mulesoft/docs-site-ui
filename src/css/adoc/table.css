@@ -4,6 +4,7 @@ table:not(.connectors-table, div.admonitionblock table, div.colist table, div.pa
   margin-left: auto;
   margin-right: auto;
   margin-top: 60px;
+  max-width: 100vw;
   width: 100%;
 
   & .nested {
