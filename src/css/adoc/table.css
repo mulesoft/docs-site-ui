@@ -111,7 +111,7 @@ table:not(.connectors-table, div.admonitionblock table, div.colist table, div.pa
       }
 
       & pre {
-        max-width: 50vw;
+        max-width: 55vw;
       }
     }
 
