@@ -1,5 +1,4 @@
 = Contribute to MuleSoft Documentation
-:page-deployment-options: ch2, ch1, rtf, pce, hybrid
 ifndef::env-site,env-github[]
 endif::[]
 
