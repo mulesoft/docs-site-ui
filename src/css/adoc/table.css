@@ -96,7 +96,7 @@ table:not(.connectors-table, div.admonitionblock table, div.colist table, div.pa
       display: table-cell;
       font-size: 0.7rem;
       margin: 0;
-      max-width: 325px;
+      max-width: 100%;
       padding-bottom: 0;
       padding-left: var(--lg);
       padding-top: 0;
