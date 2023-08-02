@@ -24,8 +24,8 @@
 
   @media (min-width: 1024px) {
     column-gap: var(--atomic-layout-spacing-x);
-    grid-template-areas: '. search-page-back-button atomic-external .';
-    grid-template-columns: 1fr minmax(17rem,22rem) minmax(50%,70rem) 1fr;
+    grid-template-areas: ". search-page-back-button atomic-external .";
+    grid-template-columns: 1fr minmax(17rem, 22rem) minmax(50%, 70rem) 1fr;
     padding-left: 0;
     padding-right: 0;
   }

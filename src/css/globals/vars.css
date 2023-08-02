@@ -1,8 +1,6 @@
 :root {
   /* colors */
   --eyebrow-gray: #6d7883;
-  --secondary-navy: #002196;
-  --dark-navy: #00044c;
   --light-blue: #e8f8ff;
   --core-blue-0: #f2fafd;
   --core-blue-1: #abe2f5;
@@ -15,11 +13,6 @@
   --robust-blue-3: #506773;
   --robust-blue-4: #32444d;
   --robust-blue-5: #272f33;
-  --future-green-1: #aaf2cb;
-  --future-green-2: #33cc7a;
-  --future-green-3: #17bc65;
-  --future-green-4: #0e8c48;
-  --future-green-5: #174d30;
   --steel-1: #6b6c6d;
   --steel-2: #58595a;
   --steel-3: #3a3b3c;
@@ -31,24 +24,17 @@
   --aluminum-4: #cacbcc;
   --aluminum-5: #989a9b;
   --yellow-2: #ffe3a2;
-  --yellow-3: #f2be24;
   --viridian-3: #00b49d;
   --teal-3: #00b5d1;
-  --navy-3: #178bea;
-  --indigo-3: #5e66f9;
-  --violet-3: #9a63f9;
-  --violet-4: #681da8;
-  --red-3: #d1344e;
+  --violet: #681da8;
   --tertiary: #fff;
   --black: #000;
-  --gray: #888;
-  --survey-gradient: linear-gradient(180deg,#2c3792 0%,#000849 91.19%);
+  --survey-gradient: linear-gradient(180deg, #2c3792 0%, #000849 91.19%);
 
   /* typography */
-  --heading: 'EAvantGardeBold', arial, sans-serif;
-  --sans-serif: 'ESF', arial, sans-serif;
-  --sans-serif-bold: 'ESFBold', arial, sans-serif;
-  --monospace: sfmono-regular, menlo, monaco, consolas, 'Liberation Mono', 'Courier New', monospace;
+  --heading: "EAvantGardeBold", arial, sans-serif;
+  --sans-serif: "ESF", arial, sans-serif;
+  --sans-serif-bold: "ESFBold", arial, sans-serif;
   --weight-normal: 400;
   --weight-medium: 600;
   --weight-bold: 700;
@@ -79,7 +65,7 @@
   --screen-lg: 992px;
   --screen-xl: 1350px;
   --screen-xxl: 1650px;
-  --bold-text-letter-spacing: -.005em;
+  --bold-text-letter-spacing: -0.005em;
 
   /* z-index */
   --z-gdpr: 20;
@@ -94,7 +80,7 @@
   --z-nav-toolbar: 8;
 
   /* animations/transitions */
-  --transition-speed-sm: .15s;
-  --transition-speed-md: .3s;
-  --transition-timing: cubic-bezier(.46,.03,.52,.96);
+  --transition-speed-sm: 0.15s;
+  --transition-speed-md: 0.3s;
+  --transition-timing: cubic-bezier(0.46, 0.03, 0.52, 0.96);
 }

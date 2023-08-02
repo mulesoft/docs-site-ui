@@ -44,7 +44,7 @@ h6 {
 }
 
 .monospace {
-  font-family: var(--monospace);
+  font-family: var(--lume-g-font-family);
   font-size: 14px;
   white-space: pre;
   word-wrap: normal;
@@ -57,6 +57,6 @@ h6 {
   &:active,
   &:focus,
   &:hover {
-    color: var(--secondary-navy);
+    color: var(--lume-g-color-blue-30);
   }
 }

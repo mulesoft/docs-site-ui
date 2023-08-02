@@ -25,6 +25,7 @@
   "devDependencies": {
     "@asciidoctor/core": "~2.2",
     "@asciidoctor/tabs": "latest",
+    "@mulesoft/lume-icon": "^0.1.47",
     "@mulesoft/lume-styling-hooks": "v0.1.47",
     "@octokit/rest": "20.0.1",
     "@ronilaukkarinen/gulp-stylelint": "^14.1.1",

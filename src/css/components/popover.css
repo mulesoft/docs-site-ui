@@ -14,7 +14,7 @@
 }
 
 .tippy-box[data-theme~="current-version-popover"] {
-  background: var(--secondary-navy);
+  background: var(--lume-g-color-blue-30);
   border: none;
   color: var(--tertiary);
   font-size: 11px;
@@ -26,12 +26,12 @@
 }
 
 .tippy-box[data-theme~="gray-archive-link-popover"] {
-  background: var(--secondary-navy);
+  background: var(--lume-g-color-blue-30);
   border: none;
   color: white;
 
   & .tippy-svg-arrow > svg {
-    fill: var(--secondary-navy);
+    fill: var(--lume-g-color-blue-30);
   }
 }
 

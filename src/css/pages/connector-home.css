@@ -63,7 +63,7 @@
     }
 
     &:focus {
-      color: var(--secondary-navy);
+      color: var(--lume-g-color-blue-30);
       outline: 0;
     }
 
