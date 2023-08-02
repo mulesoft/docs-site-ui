@@ -1,8 +1,4 @@
 body.home {
-  & main:not(.sidebar) {
-    max-width: none;
-  }
-
   & article.doc {
     padding: 0;
 
