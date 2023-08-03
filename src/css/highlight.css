@@ -1,42 +1,36 @@
 .hljs-comment,
 .hljs-meta {
-  color: #747474;
+  color: var(--lume-g-color-neutral-40);
 }
 
-.hljs-keyword,
-.hljs-built_in { /* stylelint-disable selector-class-pattern */
-  color: #0b827c;
+.hljs-built_in, /* stylelint-disable selector-class-pattern */
+.hljs-keyword {
+  color: var(--lume-g-color-green-30);
   font-weight: var(--weight-bold);
-}
-
-.hljs-subst {
-  color: #0b827c;
 }
 
 .hljs-number,
 .hljs-literal,
 .hljs-variable,
 .hljs-tag .hljs-attr {
-  color: #9050e9;
+  color: var(--violet);
 }
 
+.hljs-doctag,
 .hljs-string,
-.hljs-doctag {
-  color: #2e844a;
+.hljs-subst {
+  color: var(--lume-g-color-green-30);
 }
 
-.hljs-tag,
-.hljs-attribute {
-  color: #e3066a;
+.hljs-attribute,
+.hljs-regexp,
+.hljs-tag {
+  color: var(--lume-g-color-red-40);
 }
 
 .hljs-built-in,
 .hljs-title {
   color: #a86403;
-}
-
-.hljs-regexp {
-  color: #d83a00;
 }
 
 .hljs-emphasis {
