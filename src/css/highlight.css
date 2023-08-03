@@ -5,7 +5,7 @@
 
 .hljs-built_in, /* stylelint-disable selector-class-pattern */
 .hljs-keyword {
-  color: var(--lume-g-color-green-30);
+  color: var(--lume-g-color-green-50);
   font-weight: var(--weight-bold);
 }
 
@@ -19,7 +19,7 @@
 .hljs-doctag,
 .hljs-string,
 .hljs-subst {
-  color: var(--lume-g-color-green-30);
+  color: var(--lume-g-color-green-50);
 }
 
 .hljs-attribute,
