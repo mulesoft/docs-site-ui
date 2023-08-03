@@ -14,8 +14,8 @@
   const addDataHeaders = (table) => {
     const tableHeaderTextsObj = getTableHeaderTextsObj(table)
     if (
-      isHeavyLeftColumn(tableHeaderTextsObj, 25) ||
-      (isNestedTable(table) && isHeavyLeftColumn(tableHeaderTextsObj, 20))
+      isHeavyLeftColumn(tableHeaderTextsObj, 15) ||
+      (isNestedTable(table) && isHeavyLeftColumn(tableHeaderTextsObj, 10))
     ) {
       table.classList.add('half-page')
     }
@@ -108,7 +108,14 @@
 
   const isHeavyLeftColumn = (obj, charLimit) => {
     for (const key in obj) {
-      if (key.length >= charLimit && obj[key] <= 1) return true
+      if (obj[key] <= 1) {
+        const words = key.split(' ')
+
+        for (let i = 0; i < words.length; i++) {
+          const word = words[i]
+          if (word.length >= charLimit) return true
+        }
+      }
     }
     return false
   }

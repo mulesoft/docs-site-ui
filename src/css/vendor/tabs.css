@@ -18,13 +18,13 @@
     cursor: pointer;
     display: flex;
     line-height: 1.5;
-    padding: .25em 1em;
+    padding: 0.25em 1em;
     position: relative;
 
     &:active,
     &:focus-visible {
       border-radius: 0;
-      outline: 2px solid var(--gray);
+      outline: 2px solid var(--lume-g-color-neutral-50);
     }
 
     &:hover {
@@ -33,7 +33,7 @@
     }
 
     & + li {
-      margin-left: .25em;
+      margin-left: 0.25em;
     }
   }
 

@@ -4,11 +4,12 @@ table:not(.connectors-table, div.admonitionblock table, div.colist table, div.pa
   margin-left: auto;
   margin-right: auto;
   margin-top: 60px;
+  max-width: 100vw;
   width: 100%;
 
   & .nested {
     & tr {
-      max-width: 40vw;
+      max-width: 50vw;
     }
   }
 
@@ -93,9 +94,9 @@ table:not(.connectors-table, div.admonitionblock table, div.colist table, div.pa
     & div.content,
     & p.tableblock {
       display: table-cell;
-      font-size: 12px;
+      font-size: 0.7rem;
       margin: 0;
-      max-width: 325px;
+      max-width: 100%;
       padding-bottom: 0;
       padding-left: var(--lg);
       padding-top: 0;
@@ -104,13 +105,13 @@ table:not(.connectors-table, div.admonitionblock table, div.colist table, div.pa
       & a,
       & code,
       & ul {
-        font-size: 12px;
+        font-size: 0.7rem;
         margin-bottom: 0;
         margin-top: 0;
       }
 
       & pre {
-        max-width: 50vw;
+        max-width: 55vw;
       }
     }
 
@@ -119,10 +120,11 @@ table:not(.connectors-table, div.admonitionblock table, div.colist table, div.pa
         border-right: 1px solid black;
         content: attr(data-header);
         display: table-cell;
-        font-size: 12px;
+        font-family: var(--sans-serif-bold);
+        font-size: 0.7rem;
         padding-right: 20px;
         width: 30%;
-        word-wrap: break-word;
+        word-wrap: normal;
       }
 
       & p:first-child {
@@ -149,7 +151,7 @@ table:not(.connectors-table, div.admonitionblock table, div.colist table, div.pa
 
   & tr {
     float: left;
-    max-width: 80vw;
+    max-width: 90vw;
     width: 100%;
 
     &:has(th[colspan]) {    
@@ -160,7 +162,7 @@ table:not(.connectors-table, div.admonitionblock table, div.colist table, div.pa
 
       & p {
         font-family: var(--sans-serif-bold);
-        font-size: 12px;
+        font-size: 0.7rem;
         margin: 0;
         padding-left: 10px;
         text-align: left;

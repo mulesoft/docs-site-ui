@@ -83,7 +83,7 @@
     bottom: 50%;
     position: fixed;
     right: 50%;
-    transform: translate(50%,50%);
+    transform: translate(50%, 50%);
 
     & > .survey-toggle-div {
       @media (--md) {
@@ -170,7 +170,7 @@
         padding: 0 10px;
 
         &:focus {
-          outline: 2px solid var(--gray);
+          outline: 2px solid var(--lume-g-color-neutral-50);
         }
 
         & > img {
@@ -190,14 +190,14 @@
 
           &:focus {
             border-radius: 5px;
-            outline: 2px solid var(--gray);
+            outline: 2px solid var(--lume-g-color-neutral-50);
             text-decoration: none;
           }
 
           &:hover {
             background-color: #c0edff;
             border-radius: 5px;
-            color: var(--secondary-navy);
+            color: var(--lume-g-color-blue-30);
           }
         }
       }

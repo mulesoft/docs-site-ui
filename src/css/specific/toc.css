@@ -41,15 +41,15 @@
 
   &:focus {
     border-radius: var(--radius);
-    outline: 2px solid var(--gray);
+    outline: 2px solid var(--lume-g-color-neutral-50);
   }
 
   &:active,
   &.is-active {
     background-color: #e8e9ea;
-    border-color: var(--secondary-navy);
+    border-color: var(--lume-g-color-blue-30);
     border-width: 5px;
-    color: var(--secondary-navy);
+    color: var(--lume-g-color-blue-30);
     margin-left: -1px;
   }
 

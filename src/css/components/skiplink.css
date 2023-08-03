@@ -44,12 +44,12 @@ aside > .skip-link-container {
 
   &:active,
   &:focus {
-    color: var(--secondary-navy);
-    outline: 3px solid var(--gray) !important;
+    color: var(--lume-g-color-blue-30);
+    outline: 3px solid var(--lume-g-color-neutral-50) !important;
   }
 
   &:hover {
     background-color: #c0edff;
-    color: var(--secondary-navy);
+    color: var(--lume-g-color-blue-30);
   }
 }

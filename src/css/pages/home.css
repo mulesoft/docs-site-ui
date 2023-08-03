@@ -1,8 +1,4 @@
 body.home {
-  & main:not(.sidebar) {
-    max-width: none;
-  }
-
   & article.doc {
     padding: 0;
 
@@ -159,13 +155,13 @@ body.home {
 
       &:active,
       &:focus {
-        color: var(--secondary-navy);
-        outline: 2px solid var(--gray);
+        color: var(--lume-g-color-blue-30);
+        outline: 2px solid var(--lume-g-color-neutral-50);
       }
 
       &:hover {
         background-color: var(--aluminum-4);
-        color: var(--secondary-navy);
+        color: var(--lume-g-color-blue-30);
       }
     }
 
