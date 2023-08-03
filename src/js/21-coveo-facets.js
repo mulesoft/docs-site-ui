@@ -28,7 +28,7 @@
         versionFacet.setAttribute('heading-level', 2)
         versionFacet.setAttribute('label', `${componentDisplayName} Version`)
         versionFacet.setAttribute('number-of-value', 20)
-        versionFacet.setAttribute('sort-criteria', 'score')
+        versionFacet.setAttribute('sort-criteria', 'alphanumericDescending')
         versionFacet.setAttribute('with-search', false)
         return versionFacet
       }
