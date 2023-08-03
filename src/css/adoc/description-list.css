@@ -3,7 +3,8 @@
   & dl {
     display: inline-block;
     font-size: 13px;
-    padding: var(--md);
+    margin: var(--sm) 0 0 0;
+    padding: 0;
   }
 
   & p {
