@@ -3,8 +3,8 @@
   color: var(--lume-g-color-neutral-40);
 }
 
-.hljs-built_in, /* stylelint-disable selector-class-pattern */
-.hljs-keyword {
+.hljs-keyword,
+.hljs-built_in { /* stylelint-disable selector-class-pattern */
   color: var(--lume-g-color-blue-40);
   font-weight: var(--weight-bold);
 }
