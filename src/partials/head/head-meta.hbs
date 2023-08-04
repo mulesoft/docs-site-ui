@@ -28,12 +28,10 @@
 <meta name="version-patch" content="{{this.patch}}">
 {{/if}}
 {{/with}}
-<meta name="is-latest-version" content="false">
 <meta name="version-with-latest" content="{{or page.displayVersion page.version}}">
 <meta name="latest-version" content="{{page.component.latest.version}}">
 {{/if}}
 {{else}}
-<meta name="is-latest-version" content="true">
 <meta name="version-with-latest" content="{{or page.displayVersion page.version}} [latest]">
 {{/if}}
 <meta name="page-url" content="{{page.url}}">
