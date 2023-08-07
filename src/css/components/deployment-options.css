@@ -1,5 +1,6 @@
 .deployment-options-row {
     column-gap: 10px;
+    margin-top: 15px;
     row-gap: 10px;
 
     & .deployment-option {
@@ -13,7 +14,7 @@
 
         &:active,
         &:focus {
-            border: 1px solid var(--secondary-navy);
+            border: 1px solid var(--lume-g-color-blue-30);
             box-shadow: 0 0 0 3px #00a2df40;
             font-family: var(--sans-serif-bold);
         }

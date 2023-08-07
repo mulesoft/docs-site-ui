@@ -125,7 +125,8 @@ See: https://webaim.org/techniques/css/invisiblecontent/#techniques
 
 @media (pointer: fine) {
   .scrollbar {
-    transition: scrollbar-color var(--transition-speed-sm) var(--transition-timing);
+    transition: scrollbar-color var(--transition-speed-sm)
+      var(--transition-timing);
 
     &:not(:hover) {
       scrollbar-color: transparent transparent;

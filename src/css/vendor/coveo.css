@@ -1,7 +1,7 @@
 /* based on https://static.cloud.coveo.com/atomic/v1/themes/coveo.css */
 :root {
   /* Primary colors */
-  --atomic-primary: var(--secondary-navy);
+  --atomic-primary: var(--lume-g-color-blue-30);
   --atomic-primary-light: var(--core-blue-4);
   --atomic-primary-dark: var(--core-blue-5);
   --atomic-on-primary: var(--tertiary);
@@ -15,15 +15,15 @@
   /* Semantic colors */
   --atomic-background: var(--tertiary);
   --atomic-on-background: var(--steel-5);
-  --atomic-success: var(--future-green-4);
-  --atomic-error: var(--red-3);
-  --atomic-visited: var(--violet-4);
+  --atomic-success: var(--lume-g-color-green-50);
+  --atomic-error: var(--lume-g-color-red-40);
+  --atomic-visited: var(--violet);
   --atomic-disabled: var(--aluminum-4);
 
   /* Border radius */
-  --atomic-border-radius: .25rem;
-  --atomic-border-radius-md: .5rem;
-  --atomic-border-radius-lg: .75rem;
+  --atomic-border-radius: 0.25rem;
+  --atomic-border-radius-md: 0.5rem;
+  --atomic-border-radius-lg: 0.75rem;
   --atomic-border-radius-xl: 1rem;
 
   /* Font */
@@ -32,8 +32,8 @@
   --atomic-font-bold: var(--weight-bold);
 
   /* Text size */
-  --atomic-text-base: .875rem; /* 14px */
-  --atomic-text-sm: .75rem; /* 12px */
+  --atomic-text-base: 0.875rem; /* 14px */
+  --atomic-text-sm: 0.75rem; /* 12px */
   --atomic-text-lg: 1rem; /* 16px */
   --atomic-text-xl: 1.125rem; /* 18px */
   --atomic-text-2xl: 1.5rem; /* 24px */
@@ -69,12 +69,12 @@ atomic-facet {
   }
 
   &::part(value-checkbox-label) {
-    padding: .1rem .2rem .2rem 2rem;
+    padding: 0.1rem 0.2rem 0.2rem 2rem;
   }
 
   &::part(value-link) {
-    padding-bottom: .2rem;
-    padding-top: .2rem;
+    padding-bottom: 0.2rem;
+    padding-top: 0.2rem;
   }
 }
 
@@ -129,14 +129,15 @@ atomic-search-box {
   &::part(input) {
     &::placeholder,
     &:-ms-input-placeholder, /* Internet Explorer 10-11 */
-    &::-ms-input-placeholder { /* Microsoft Edge */
+    &::-ms-input-placeholder {
+      /* Microsoft Edge */
       color: var(--eyebrow-gray);
       opacity: 1; /* Firefox */
     }
 
     &:active,
     &:focus {
-      border: 1px solid var(--secondary-navy);
+      border: 1px solid var(--lume-g-color-blue-30);
       box-shadow: 0 0 0 3px #00a2df40;
     }
   }
@@ -155,8 +156,8 @@ atomic-search-box {
 
     &:active,
     &:focus {
-      background-color: var(--secondary-navy);
-      border: 1px solid var(--secondary-navy);
+      background-color: var(--lume-g-color-blue-30);
+      border: 1px solid var(--lume-g-color-blue-30);
       box-shadow: 0 0 0 3px #00a2df40;
     }
   }
@@ -184,7 +185,7 @@ atomic-sort-dropdown {
 }
 
 .search-page-back-button {
-  border: 2px solid var(--secondary-navy);
+  border: 2px solid var(--lume-g-color-blue-30);
   color: var(--black);
   height: auto;
   margin-bottom: 10px;
@@ -200,7 +201,7 @@ atomic-sort-dropdown {
 
   &:hover {
     background-color: var(--light-blue);
-    border-color: var(--dark-navy);
+    border-color: var(--lume-g-color-neutral-50);
     color: var(--black);
   }
 
@@ -225,9 +226,9 @@ atomic-sort-dropdown {
 
   &:active,
   &:focus {
-    border-color: var(--secondary-navy);
+    border-color: var(--lume-g-color-blue-30);
     box-shadow: 0 0 0 3px rgb(0 162 223 / 25%);
-    color: var(--secondary-navy);
+    color: var(--lume-g-color-blue-30);
     outline: 0;
   }
 

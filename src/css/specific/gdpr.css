@@ -20,7 +20,7 @@
   }
 
   & .link {
-    color: var(--secondary-navy);
+    color: var(--lume-g-color-blue-30);
   }
 }
 
@@ -59,7 +59,7 @@
   cursor: pointer;
   font-size: 35px;
   height: 30px;
-  opacity: .25;
+  opacity: 0.25;
   padding: 0;
   position: absolute;
   right: 0;
