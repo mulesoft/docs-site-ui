@@ -220,7 +220,7 @@ body.home {
         color: var(--core-blue-3);
       }
 
-      & h3 {
+      & h2 {
         color: #fff;
         font-size: 16px;
         padding: 0;
