@@ -46,6 +46,7 @@ pipeline {
     stage('Install Dependencies') {
       steps {
         installNode(nodeVersion)
+        installNodeDependencies()
       }
     }
     stage('Test') {
