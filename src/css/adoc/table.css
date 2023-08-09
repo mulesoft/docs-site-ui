@@ -85,7 +85,7 @@ table:not(.connectors-table, div.admonitionblock table, div.colist table, div.pa
   }
 
   & td {
-    display: flex;
+    display: table-row;
 
     & div.listingblock div.content {
       padding-left: 0;
@@ -93,14 +93,14 @@ table:not(.connectors-table, div.admonitionblock table, div.colist table, div.pa
     
     & div.content,
     & p.tableblock {
-      display: table-cell;
+      display: grid;
       font-size: 0.7rem;
       margin: 0;
-      max-width: 100%;
+      max-width: 50vw;
       padding-bottom: 0;
       padding-left: var(--lg);
       padding-top: 0;
-      width: 70%;
+      width: 50vw;
 
       & a,
       & code,
@@ -108,6 +108,8 @@ table:not(.connectors-table, div.admonitionblock table, div.colist table, div.pa
         font-size: 0.7rem;
         margin-bottom: 0;
         margin-top: 0;
+        max-width: 50vw;
+        width: fit-content;
       }
 
       & pre {
@@ -122,8 +124,8 @@ table:not(.connectors-table, div.admonitionblock table, div.colist table, div.pa
         display: table-cell;
         font-family: var(--sans-serif-bold);
         font-size: 0.7rem;
+        min-width: 30vw;
         padding-right: 20px;
-        width: 30%;
         word-wrap: normal;
       }
 
@@ -318,9 +320,11 @@ div.panels table {
       & div.content,
       & div.content > div.paragraph > p,
       & p.tableblock {
+        display: block;
         font-size: 14px;
-        margin: 0;
+        margin: 0 0 3px;
         padding: 0;
+        width: initial;
 
         & a,
         & code,
@@ -355,18 +359,35 @@ div.panels table {
         border-top: 1px solid var(--aluminum-4);
       }
     }
+
+    & .source-toolbox {
+      top: 0.8rem;
+    }
   }
 }
 
 table.half-page:not(.connectors-table, div.admonitionblock table) {
   & td {
     &[data-header]::before {
-      width: 50%;
+      min-width: 10vw;
     }
 
     & div.content,
     & p.tableblock {
-      width: 50%;
+      width: 25vw;
+    }
+  }
+
+  @media (--md) {
+    & td {
+      &[data-header]::before {
+        min-width: fit-content;
+      }
+  
+      & div.content,
+      & p.tableblock {
+        width: fit-content;
+      }
     }
   }
 }
