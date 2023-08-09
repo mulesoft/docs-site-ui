@@ -3,8 +3,6 @@
 emoji = ':sadpanda:'
 
 def defaultBranch = 'main'
-def githubCredentialsId = 'GH_TOKEN'
-def gpgSecretKeyCredentialsId = 'ms-cx-engineering-gpg-private-key'
 def failureSlackChannel = '#dux-engineering-github-prs'
 def node_version = '18'
 
@@ -15,7 +13,7 @@ excludedKeywords = ['[Pipeline]', 'make: ***', 'No such container', 'No such ima
 
 // catchKeywords must be kept in order of priority and are case-sensitive
 catchKeywords = [
-    'failed build', // failed CorePaaS builds. Since we don't have the capability to get the failed downstream job, this will do 
+    'failed build', // failed CorePaaS builds. Since we don't have the capability to get the failed downstream job, this will do
     ' 503 ', // 503 service not available. Happens when services like Jenkins, GUS, Nexus are down
     ' 400 ', // 400 bad request. Happens when services like Jenkins, GUS, Nexus are not acting correctly
     'fatal', // fatal errors, especially ones from Antora builds
@@ -34,8 +32,8 @@ pipeline {
   }
   parameters {
     booleanParam(
-      name: "MANUAL_RELEASE",
-      description: "Check this box to create a manual release (default: false)",
+      name: 'MANUAL_RELEASE',
+      description: 'Check this box to create a manual release (default: false)',
       defaultValue: false
     )
   }
@@ -47,11 +45,7 @@ pipeline {
     }
     stage('Install Dependencies') {
       steps {
-        withCredentials([string(credentialsId: 'NPM_TOKEN', variable: 'NPM_TOKEN')]) {
-          sh "curl -fsSL https://deb.nodesource.com/setup_${node_version}.x | sudo -E bash - && sudo apt-get install -y nodejs"
-          sh 'npm config set @mulesoft:registry=https://nexus3.build.msap.io/repository/npm-internal/ && npm config set //nexus3.build.msap.io/repository/npm-internal/:_authToken=$NPM_TOKEN'
-          sh 'npm ci --cache=.cache/npm --no-audit' 
-        }
+        installNode(nodeVersion)
       }
     }
     stage('Test') {
@@ -67,11 +61,11 @@ pipeline {
         failure {
           steps {
             script {
-              if (env.GIT_BRANCH.startsWith("PR-")) {
-                slackSend color: 'danger', 
-                channel: failureSlackChannel, 
+              if (isPR()) {
+                slackSend color: 'danger',
+                channel: failureSlackChannel,
                 message: "${emoji} <${env.BUILD_URL}|${currentBuild.displayName}> UI bundle test failed for ${env.GIT_BRANCH}, so the ${env.GIT_BRANCH} is not updated. \
-                Please run `npx gulp bundle` to see the errors, fix them, and then push the fix to retrigger this build. ${getErrorMsg()}"
+                Please run `npm run format:bundle` to see the errors, fix those errors, and then push the fix to retrigger this build. ${getErrorMsg()}"
               }
             }
           }
@@ -83,27 +77,22 @@ pipeline {
         allOf {
           anyOf {
             branch defaultBranch
-            expression { return env.GIT_BRANCH.startsWith("PR-") }
+            expression { return env.GIT_BRANCH.startsWith('PR-') }
           }
           anyOf {
             expression { return params.MANUAL_RELEASE }
-            changeset "src/**"
-            changeset "package*.json"            
+            changeset 'src/**'
+            changeset 'package*.json'
           }
         }
       }
       steps {
-        withCredentials([
-          string(credentialsId: githubCredentialsId, variable: 'GH_TOKEN'),
-          string(credentialsId: gpgSecretKeyCredentialsId , variable: 'SECRET_KEY')]) {
-          sh "export GIT_BRANCH=env.GIT_BRANCH"
-          sh "npx gulp release"
-        }
+        release()
       }
       post {
         failure {
-          slackSend color: 'danger', 
-          channel: failureSlackChannel, 
+          slackSend color: 'danger',
+          channel: failureSlackChannel,
           message: "${emoji} <${env.BUILD_URL}|${currentBuild.displayName}> UI bundle release failed for ${env.GIT_BRANCH}. \
           Please manually start a release on Jenkins if needed. ${getErrorMsg()}"
         }
@@ -113,23 +102,48 @@ pipeline {
 }
 
 def getErrorLine(lines, catchKeywords, excludedKeywords) {
-    def linesWithoutExcludedKeywords = lines.findAll { line ->
+  def linesWithoutExcludedKeywords = lines.findAll { line ->
         !excludedKeywords.any { keyword -> line.contains(keyword) }
-    }
+  }
 
-    def errorLine
-    for (keyword in catchKeywords) {
-        def filteredLines = linesWithoutExcludedKeywords.findAll {it.contains(keyword)}
-        if (filteredLines.size() > 0) {
-            errorLine = filteredLines.last()
-            break
-        }
+  def errorLine
+  for (keyword in catchKeywords) {
+    def filteredLines = linesWithoutExcludedKeywords.findAll { it.contains(keyword) }
+    if (filteredLines.size() > 0) {
+      errorLine = filteredLines.last()
+      break
     }
+  }
 
-    return errorLine ?: 'Unknown error, check the build logs'
+  return errorLine ?: 'Unknown error, check the build logs'
 }
 
 def getErrorMsg() {
-    def logLines = currentBuild.rawBuild.getLog(Integer.MAX_VALUE)
-    return " ```${getErrorLine(logLines, catchKeywords, excludedKeywords)}```"
+  def logLines = currentBuild.rawBuild.getLog(Integer.MAX_VALUE)
+  return " ```${getErrorLine(logLines, catchKeywords, excludedKeywords)}```"
+}
+
+void installNode(String nodeVersion) {
+  withCredentials([string(credentialsId: 'NPM_TOKEN', variable: 'NPM_TOKEN')]) {
+    sh "curl -fsSL https://deb.nodesource.com/setup_${nodeVersion}.x | sudo -E bash - && sudo apt-get install -y nodejs"
+    sh 'npm config set @mulesoft:registry=https://nexus3.build.msap.io/repository/npm-internal/{'
+    sh "npm config set //nexus3.build.msap.io/repository/npm-internal/:_authToken=${NPM_TOKEN}"
+  }
+}
+
+void installNodeDependencies() {
+  sh 'npm ci --cache=.cache/npm --no-audit'
+}
+
+def isPR() {
+  return env.GIT_BRANCH.startsWith('PR-')
+}
+
+void release() {
+  withCredentials([
+    string(credentialsId: 'GH_TOKEN', variable: 'GH_TOKEN'),
+    string(credentialsId: 'ms-cx-engineering-gpg-private-key' , variable: 'SECRET_KEY')]) {
+    sh 'export GIT_BRANCH=env.GIT_BRANCH'
+    sh 'npm run release'
+    }
 }
