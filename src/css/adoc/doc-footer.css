@@ -18,6 +18,11 @@
       color: var(--black);
     }
 
+    &:focus {
+      /* this is for overriding the default button focus color */
+      color: var(--lume-g-color-blue-50);
+    }
+
     & img {
       height: 100%;
     }
