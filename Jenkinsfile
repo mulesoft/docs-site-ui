@@ -103,7 +103,7 @@ pipeline {
 
 def getErrorLine(lines, catchKeywords, excludedKeywords) {
   def linesWithoutExcludedKeywords = lines.findAll { line ->
-        !excludedKeywords.any { keyword -> line.contains(keyword) }
+    !excludedKeywords.any { keyword -> line.contains(keyword) }
   }
 
   def errorLine
