@@ -10,7 +10,6 @@
     font-family: var(--sans-serif-bold);
     font-size: 14px;
     height: 28px;
-    min-width: 70px;
     padding: 4px 12px;
 
     &:hover:not(:disabled) {
@@ -104,6 +103,10 @@
 
   & .feedback-options {
     column-gap: 9px;
+
+    & button {
+      min-width: 70px;
+    }
   }
 
   & .feedback-row {
