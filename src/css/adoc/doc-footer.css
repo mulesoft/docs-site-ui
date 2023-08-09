@@ -28,8 +28,9 @@
 
 .feedback-section {
   align-self: center;
-  border: 1px solid var(--aluminum-3);
+  border-bottom: 1px solid #d4d4d4;
   border-radius: 2px;
+  border-top: 1px solid #d4d4d4;
   min-width: 340px;
   width: 75%;
 
@@ -163,8 +164,12 @@
 
   & p {
     font-family: var(--sans-serif-bold);
-    font-size: 12px;
+    font-size: 16px;
     margin: auto;
+  }
+
+  & #feedback-question-subtitle {
+    font-family: var(--sans-serif);
   }
 
   &:has(> .feedback-form.hide):has(> .feedback-second-row.hide):has(> .feedback-form-thank-you.hide) {
@@ -193,9 +198,9 @@
 
     & .feedback-first-row {
       flex-direction: row;
-      height: 52px;
+      height: fit-content;
       justify-content: space-between;
-      padding: var(--sm) 13px;
+      padding: 29px 0;
 
       & .help-text {
         margin-left: -25px;
