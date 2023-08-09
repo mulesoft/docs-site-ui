@@ -31,7 +31,7 @@
   }
 
   & .search {
-    background: white;
+    background: var(--lume-g-color-neutral-100);
     display: block;
     position: sticky;
     top: 0;

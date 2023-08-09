@@ -12,7 +12,7 @@
     height: 28px;
     min-width: 70px;
     padding: 4px 12px;
-  
+
     &:hover:not(:disabled) {
       /* this is for overriding the default button focus color */
       color: var(--lume-g-color-blue-50);
@@ -65,15 +65,15 @@
       &#feedback-yes {
         background-color: var(--lume-g-color-blue-50);
         padding: 0 12px;
-        
+
         & p {
-          color: white;
+          color: var(--lume-g-color-neutral-100);
           font-size: 20px;
         }
       }
 
       &#feedback-no {
-        background-color: #eaf5fe;
+        background-color: var(--lume-g-color-blue-95);
         border-color: var(--lume-g-color-blue-20);
         color: var(--lume-g-color-blue-20);
 
@@ -117,15 +117,15 @@
   }
 
   & .feedback-form-thank-you {
+    color: var(--lume-g-color-green-50);
     font-family: var(--sans-serif-bold);
     font-size: 14px;
     padding-bottom: 20px;
     width: 100%;
-    color: var(--lume-g-color-green-50)
   }
 
   & .validation-text {
-    color: red;
+    color: var(--lume-g-color-red-50);
     font-family: var(--sans-serif);
     font-size: 12px;
     position: relative;
@@ -138,7 +138,7 @@
 
   & input:not([type="button"], [type="submit"]),
   & textarea {
-    border: 1px solid #c9c9c9;
+    border: 1px solid var(--lume-g-color-neutral-80);
     border-radius: 4px;
     margin-bottom: 8px;
     min-height: 32px;
@@ -146,7 +146,7 @@
     width: 100%;
 
     &.invalid {
-      border: 1px solid red;
+      border: 1px solid var(--lume-g-color-red-50);
     }
 
     &:hover {
@@ -154,7 +154,7 @@
     }
 
     &::placeholder {
-      color: #747474;
+      color: var(--lume-g-color-neutral-50);
       font-size: 12px;
     }
   }
@@ -184,7 +184,9 @@
     font-family: var(--sans-serif);
   }
 
-  &:has(> .feedback-form.hide):has(> .feedback-second-row.hide):has(> .feedback-form-thank-you.hide) {
+  &:has(> .feedback-form.hide):has(> .feedback-second-row.hide):has(
+      > .feedback-form-thank-you.hide
+    ) {
     height: min-content;
 
     & .feedback-first-row {
@@ -197,7 +199,9 @@
   @media (--md) {
     width: 100%;
 
-    &:has(> .feedback-form.hide):has(> .feedback-second-row.hide):has(> .feedback-form-thank-you.hide) {
+    &:has(> .feedback-form.hide):has(> .feedback-second-row.hide):has(
+        > .feedback-form-thank-you.hide
+      ) {
       min-height: 52px;
 
       & .feedback-first-row {
