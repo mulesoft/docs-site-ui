@@ -41,10 +41,6 @@
             feedbackForm.querySelector('input').focus()
           }
         })
-        feedbackButton.addEventListener('mouseover', () => show(feedbackButtonHelpText))
-        feedbackButton.addEventListener('mouseout', () => hide(feedbackButtonHelpText))
-        feedbackButton.addEventListener('focus', () => show(feedbackButtonHelpText))
-        feedbackButton.addEventListener('blur', () => hide(feedbackButtonHelpText))
       }
     })
 
