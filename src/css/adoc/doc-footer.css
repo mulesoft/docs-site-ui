@@ -2,8 +2,15 @@
   padding: 300px var(--xl) var(--xl);
 
   & button {
-    font-size: 12px;
-    min-width: var(--nav-item-height);
+    border-color: var(--lume-g-color-blue-50);
+    border-radius: 5px;
+    border-width: 2px;
+    color: var(--lume-g-color-blue-50);
+    column-gap: 4px;
+    font-family: var(--sans-serif-bold);
+    font-size: 14px;
+    height: 28px;
+    padding: 4px 12px;
 
     &:hover {
       background-color: var(--aluminum-4);
@@ -12,7 +19,7 @@
     }
 
     & img {
-      vertical-align: middle;
+      height: 100%;
     }
   }
 
