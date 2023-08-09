@@ -13,20 +13,24 @@
   height: var(--nav-item-height);
   padding: var(--xs);
 
-  &:hover {
+  &:hover:not(:disabled) {
     background-color: var(--light-blue);
     border-color: var(--steel-2);
     color: var(--steel-2);
   }
 
-  &:focus {
+  &:focus:not(:disabled) {
     border-color: var(--lume-g-color-blue-30);
     color: var(--lume-g-color-blue-30);
   }
 
-  &:active {
+  &:active:not(:disabled) {
     border-color: var(--lume-g-color-blue-30);
     color: var(--lume-g-color-blue-30);
+  }
+
+  &:disabled {
+    cursor: default;
   }
 }
 

@@ -10,15 +10,10 @@
     font-family: var(--sans-serif-bold);
     font-size: 14px;
     height: 28px;
+    min-width: 70px;
     padding: 4px 12px;
-
-    &:hover {
-      background-color: var(--aluminum-4);
-      border-color: var(--aluminum-4);
-      color: var(--black);
-    }
-
-    &:focus {
+  
+    &:hover:not(:disabled) {
       /* this is for overriding the default button focus color */
       color: var(--lume-g-color-blue-50);
     }
@@ -40,9 +35,9 @@
 
 .feedback-section {
   align-self: center;
-  border-bottom: 1px solid #d4d4d4;
+  border-bottom: 1px solid var(--lume-g-color-neutral-80);
   border-radius: 2px;
-  border-top: 1px solid #d4d4d4;
+  border-top: 1px solid var(--lume-g-color-neutral-80);
   min-width: 340px;
   width: 75%;
 
@@ -66,21 +61,25 @@
     justify-content: space-between;
     width: 100%;
 
-    & .help-text {
-      font-size: 12px;
-      margin-top: -75px;
-      position: absolute;
-      
-      @media (--md) {
-        margin-top: 50px;
+    & button.selected {
+      &#feedback-yes {
+        background-color: var(--lume-g-color-blue-50);
+        padding: 0 12px;
+        
+        & p {
+          color: white;
+          font-size: 20px;
+        }
       }
-    }
 
-    & #feedback-yes-help-text {
-      margin-left: -25px;
+      &#feedback-no {
+        background-color: #eaf5fe;
+        border-color: var(--lume-g-color-blue-20);
+        color: var(--lume-g-color-blue-20);
 
-      @media (--md) {
-        margin-left: -32px;
+        & img {
+          filter: brightness(0.75);
+        }
       }
     }
   }
@@ -120,8 +119,9 @@
   & .feedback-form-thank-you {
     font-family: var(--sans-serif-bold);
     font-size: 14px;
-    padding: 25px;
-    text-align: center;
+    padding-bottom: 20px;
+    width: 100%;
+    color: var(--lume-g-color-green-50)
   }
 
   & .validation-text {
@@ -212,7 +212,7 @@
       flex-direction: row;
       height: fit-content;
       justify-content: space-between;
-      padding: 29px 0;
+      padding: 20px 0;
 
       & .help-text {
         margin-left: -25px;

@@ -9,22 +9,18 @@
       </div>
       <div class="feedback-options flex">
         <div>
-          <button class="button feedback-yes flex" aria-label="The article was helpful">
+          <button class="button flex" id="feedback-yes" aria-label="The article was helpful">
             <p>Yes</p>
             <img loading="lazy" src="{{@root.uiRootPath}}/img/icons/like.svg" alt="" height="12">
           </button>
         </div>
         <div>
-          <button class="button feedback-no flex" aria-label="The article was not helpful">
+          <button class="button flex" id="feedback-no" aria-label="The article was not helpful">
             <p>No</p>
             <img loading="lazy" src="{{@root.uiRootPath}}/img/icons/dislike.svg" alt="" height="12">
           </button>
         </div>
-        <div class="feedback-ack flex hide">
-          <img loading="lazy" src="{{@root.uiRootPath}}/img/icons/feedback-ack.svg" alt="" height="20">
-          <span aria-live="polite" aria-labelledby="feedback-vote-result" class="sr-only"></span>
-          <p id="feedback-vote-result">You voted for:</p>
-        </div>
+        <span aria-live="polite" class="sr-only" id="feedback-ack"></span>
       </div>
     </div>
     <div class="feedback-form hide">
@@ -47,8 +43,8 @@
       </form>
     </div>
     <span class="feedback-form-thank-you hide" tabIndex="-1">
-      <img loading="lazy" src="{{@root.uiRootPath}}/img/icons/blue-heart.png" alt="" height="14">
-      Thanks for your feedback!
+      <img loading="lazy" src="{{@root.uiRootPath}}/img/icons/success.svg" alt="" height="14">
+      Your feedback has been successfully submitted. Thank you!
     </span>
   </section>
   {{/if}}

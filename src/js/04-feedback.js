@@ -4,10 +4,8 @@
   const feedbackCard = document.querySelector('section.feedback-section')
   if (!feedbackCard) return
 
+  const feedbackAckMsgSpan = feedbackCard.querySelector('span#feedback-ack')
   const feedbackOptionButtons = feedbackCard.querySelectorAll('div.feedback-options button')
-
-  const feedbackAckMsgDiv = feedbackCard.querySelector('div.feedback-ack')
-  const feedbackSecondRow = feedbackCard.querySelector('div.feedback-second-row')
 
   const giveFeedbackButtons = feedbackCard.querySelectorAll('button.give-feedback')
 
@@ -21,25 +19,34 @@
 
   const decision = ['Yes', 'No']
   const inputNamesWithValidation = ['feedback']
-  let feedbackSubmitted
+  // let feedbackSubmitted
   let voted
 
   const addListeners = (feedbackCard, decision) => {
     decision.forEach((decision) => {
-      const feedbackButton = feedbackCard.querySelector(`button.feedback-${decision.toLowerCase()}`)
-      const feedbackButtonHelpText = feedbackCard.querySelector(`p#feedback-${decision.toLowerCase()}-help-text`)
+      const feedbackButton = feedbackCard.querySelector(`button#feedback-${decision.toLowerCase()}`)
+      // const feedbackButtonHelpText = feedbackCard.querySelector(`p#feedback-${decision.toLowerCase()}-help-text`)
       if (feedbackButton) {
         feedbackButton.addEventListener('click', (e) => {
           e.preventDefault()
           voted = true
           trackAnalytics(decision)
-          feedbackOptionButtons.forEach((button) => hide(button))
-          show(feedbackAckMsgDiv)
-          updateFeedbackAckMsg(feedbackAckMsgDiv, decision)
-          if (!feedbackSubmitted) {
-            show(feedbackFormDiv)
-            feedbackForm.querySelector('input').focus()
+          updateFeedbackAckMsg(feedbackAckMsgSpan, decision)
+          feedbackButton.classList.add('selected')
+          feedbackOptionButtons.forEach((button) => {
+            button.disabled = true
+          })
+          feedbackButton.disabled = true
+          if (feedbackButton.id === 'feedback-yes') {
+            const icon = feedbackButton.querySelector('img')
+            icon?.remove()
           }
+          show(feedbackFormThankYouSign)
+          feedbackFormThankYouSign.focus()
+          // if (!feedbackSubmitted) {
+          //   show(feedbackFormDiv)
+          //   feedbackForm.querySelector('input').focus()
+          // }
         })
       }
     })
@@ -62,7 +69,6 @@
         hide(feedbackFormDiv)
         removeAllValidationVizIfValid(inputNamesWithValidation)
         if (voted) {
-          show(feedbackSecondRow)
           show(giveFeedbackButtons[1])
           giveFeedbackButtons[1].focus()
         } else {
@@ -80,7 +86,7 @@
         hide(feedbackFormDiv)
         show(feedbackFormThankYouSign)
         updateErrorSummary(feedbackFormErrorSummary)
-        feedbackSubmitted = true
+        // feedbackSubmitted = true
         voted ? feedbackFormThankYouSign.focus() : feedbackOptionButtons[0].focus()
       })
 
@@ -219,12 +225,8 @@
     }
   }
 
-  const updateFeedbackAckMsg = (feedbackAckMsgDiv, decisionStr) => {
-    const msg = feedbackAckMsgDiv.querySelector('p')
-    if (msg) {
-      msg.innerText += ` ${decisionStr}`
-      msg.setAttribute('aria-label', `You voted for ${decisionStr === 'Yes' ? 'helpful' : 'not helpful'}.`)
-    }
+  const updateFeedbackAckMsg = (feedbackAckMsgSpan, decisionStr) => {
+    feedbackAckMsgSpan.setAttribute('aria-label', `You voted for ${decisionStr === 'Yes' ? 'helpful' : 'not helpful'}.`)
   }
 
   addListeners(feedbackCard, decision)

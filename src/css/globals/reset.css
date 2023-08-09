@@ -45,12 +45,12 @@ textarea {
 
 /* reset buttons */
 button {
-  &.focus,
-  &:focus,
-  &.active,
-  &:active {
+  &.focus:not(:disabled),
+  &:focus:not(:disabled),
+  &.active:not(:disabled),
+  &:active:not(:disabled) {
     border-color: var(--lume-g-color-blue-30);
-    box-shadow: 0 0 0 3px #00a2df40;
+    box-shadow: 0 0 0 3px var(--lume-g-color-blue-50);
     outline: 0;
   }
 }
