@@ -9,7 +9,6 @@
 
   const feedbackFormDiv = feedbackCard.querySelector('div.feedback-form')
   const feedbackForm = feedbackFormDiv?.querySelector('form')
-  const feedbackFormErrorSummary = feedbackForm?.querySelector('span#error-summary')
 
   const feedbackFormThankYouSign = feedbackCard.querySelector('span.feedback-form-thank-you')
 
@@ -35,8 +34,6 @@
       }
     })
 
-    // addValidationListeners(inputNamesWithValidation)
-
     if (feedbackForm) {
       feedbackForm.addEventListener('submit', (e) => {
         e.preventDefault()
@@ -44,44 +41,15 @@
           submitFeedbackToBackend(feedbackForm)
           hide(feedbackFormDiv)
           show(feedbackFormThankYouSign)
-          updateErrorSummary(feedbackFormErrorSummary)
           feedbackFormThankYouSign.focus()
+        } else {
+          const checkboxesValidationText = feedbackForm.querySelector('span#checkboxes-validation-text')
+          show(checkboxesValidationText)
+          const focusElement = getFirstVisibleFocusableChildElement(feedbackFormDiv)
+          focusElement?.focus()
         }
       })
     }
-  }
-
-  const addValidationListeners = (inputNames) => {
-    inputNames.forEach((inputName) => {
-      const input = document.querySelector(`input#${inputName}`)
-      if (input) {
-        const validationText = document.querySelector(`span#${inputName}-validation-text`)
-        input.addEventListener('invalid', (e) => {
-          e.preventDefault()
-          show(validationText)
-          addValidationViz(input)
-          updateErrorSummary(feedbackFormErrorSummary)
-          input.ariaInvalid = true
-          input.setAttribute('aria-labelledby', `${inputName}-validation-text`)
-          document.activeElement.blur()
-          setTimeout(() => {
-            focusOnFirstInvalidInput(feedbackForm)
-          }, 100)
-        })
-      }
-    })
-  }
-
-  const addValidationViz = (element) => element.classList.add('invalid')
-
-  const aggregateErrorMessages = (errorMessages) => {
-    let errorMsgs = ''
-    errorMessages.forEach((error, index) => {
-      if (error.innerText) {
-        errorMsgs += `\n${index + 1}: ${error.innerText};`
-      }
-    })
-    return errorMsgs
   }
 
   const atLeastOneCheckboxChecked = (feedbackForm) => {
@@ -142,37 +110,8 @@
       })
   }
 
-  const focusOnFirstInvalidInput = (feedbackForm) => {
-    const firstInvalidInput = feedbackForm?.querySelector('input.invalid')
-    if (firstInvalidInput) firstInvalidInput.focus()
-  }
-
-  const hide = (element) => {
-    if (element) element.classList.add('hide')
-  }
-
-  const removeAllValidationVizIfValid = (inputNames, override) => {
-    inputNames.forEach((inputName) => {
-      const input = document.querySelector(`input#${inputName}`)
-      const validationText = document.querySelector(`span#${inputName}-validation-text`)
-      if (override || input.checkValidity()) removeValidationViz(input, validationText)
-    })
-    if (!override) focusOnFirstInvalidInput(feedbackForm)
-  }
-
-  const removeValidationViz = (input, validationText) => {
-    if (input) {
-      input.classList.remove('invalid')
-      input.removeAttribute('aria-labelledby')
-      input.removeAttribute('aria-invalid')
-      updateErrorSummary(feedbackFormErrorSummary)
-    }
-    if (validationText) validationText.classList.add('hide')
-  }
-
-  const show = (element) => {
-    if (element) element.classList.remove('hide')
-  }
+  const hide = (element) => element?.classList.add('hide')
+  const show = (element) => element?.classList.remove('hide')
 
   const trackAnalytics = (decision) => {
     try {
@@ -184,19 +123,6 @@
       }
     } catch (error) {
       console.warn(error)
-    }
-  }
-
-  const updateErrorSummary = (errorSummary) => {
-    if (errorSummary) {
-      const validationErrors = feedbackForm.querySelectorAll('.validation-text:not(.hide)')
-      const errorCount = validationErrors.length
-      if (errorCount) {
-        const errorMsg = aggregateErrorMessages(validationErrors)
-        errorSummary.innerText = `${errorCount} error${errorCount !== 1 ? 's' : ''} found in this form: ${errorMsg}`
-      } else {
-        errorSummary.innerText = ''
-      }
     }
   }
 
