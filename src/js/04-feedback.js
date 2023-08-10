@@ -1,4 +1,4 @@
-; (() => {
+;(() => {
   'use strict'
 
   const feedbackCard = document.querySelector('section.feedback-section')
@@ -23,7 +23,9 @@
           trackAnalytics(decision)
           updateFeedbackAckMsg(feedbackAckMsgSpan, decision)
           feedbackButton.classList.add('selected')
-          feedbackOptionButtons.forEach((button) => { button.disabled = true })
+          feedbackOptionButtons.forEach((button) => {
+            button.disabled = true
+          })
           if (userSelectedHelpful(feedbackButton)) removeIcon(feedbackButton)
 
           show(feedbackFormDiv)
