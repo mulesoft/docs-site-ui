@@ -1,4 +1,4 @@
-;(() => {
+; (() => {
   'use strict'
 
   const feedbackCard = document.querySelector('section.feedback-section')
@@ -7,87 +7,46 @@
   const feedbackAckMsgSpan = feedbackCard.querySelector('span#feedback-ack')
   const feedbackOptionButtons = feedbackCard.querySelectorAll('div.feedback-options button')
 
-  const giveFeedbackButtons = feedbackCard.querySelectorAll('button.give-feedback')
-
   const feedbackFormDiv = feedbackCard.querySelector('div.feedback-form')
   const feedbackForm = feedbackFormDiv?.querySelector('form')
-  const feedbackFormCancelButton = feedbackForm?.querySelector('input[name="cancel"]')
-  const feedbackFormSubmitButton = feedbackForm?.querySelector('input[name="submit"]')
   const feedbackFormErrorSummary = feedbackForm?.querySelector('span#error-summary')
 
   const feedbackFormThankYouSign = feedbackCard.querySelector('span.feedback-form-thank-you')
 
-  const decision = ['Yes', 'No']
-  const inputNamesWithValidation = ['feedback']
-  // let feedbackSubmitted
-  let voted
+  const decision = ['yes', 'no']
 
   const addListeners = (feedbackCard, decision) => {
     decision.forEach((decision) => {
-      const feedbackButton = feedbackCard.querySelector(`button#feedback-${decision.toLowerCase()}`)
-      // const feedbackButtonHelpText = feedbackCard.querySelector(`p#feedback-${decision.toLowerCase()}-help-text`)
+      const feedbackButton = feedbackCard.querySelector(`button#feedback-${decision}`)
       if (feedbackButton) {
         feedbackButton.addEventListener('click', (e) => {
           e.preventDefault()
-          voted = true
           trackAnalytics(decision)
           updateFeedbackAckMsg(feedbackAckMsgSpan, decision)
           feedbackButton.classList.add('selected')
-          feedbackOptionButtons.forEach((button) => {
-            button.disabled = true
-          })
-          feedbackButton.disabled = true
-          if (feedbackButton.id === 'feedback-yes') {
-            const icon = feedbackButton.querySelector('img')
-            icon?.remove()
-          }
+          feedbackOptionButtons.forEach((button) => { button.disabled = true })
+          if (userSelectedHelpful(feedbackButton)) removeIcon(feedbackButton)
+
           show(feedbackFormDiv)
-          feedbackForm.querySelector('input').focus()
+          show(feedbackFormDiv.querySelector(`fieldset#questions-${decision}`))
+          const focusElement = getFirstVisibleFocusableChildElement(feedbackFormDiv)
+          focusElement?.focus()
         })
       }
     })
 
-    giveFeedbackButtons.forEach((button) => {
-      button.addEventListener('click', (e) => {
-        e.preventDefault()
-        hide(button)
-        show(feedbackFormDiv)
-        feedbackForm.querySelector('input').focus()
-      })
-    })
-
-    addValidationListeners(inputNamesWithValidation)
-
-    if (feedbackFormCancelButton) {
-      feedbackFormCancelButton.addEventListener('click', (e) => {
-        e.preventDefault()
-        e.stopImmediatePropagation()
-        hide(feedbackFormDiv)
-        removeAllValidationVizIfValid(inputNamesWithValidation)
-        if (voted) {
-          show(giveFeedbackButtons[1])
-          giveFeedbackButtons[1].focus()
-        } else {
-          show(giveFeedbackButtons[0])
-          giveFeedbackButtons[0].focus()
-        }
-      })
-    }
+    // addValidationListeners(inputNamesWithValidation)
 
     if (feedbackForm) {
       feedbackForm.addEventListener('submit', (e) => {
         e.preventDefault()
-        submitFeedbackToBackend(feedbackForm)
-        removeAllValidationVizIfValid(inputNamesWithValidation)
-        hide(feedbackFormDiv)
-        show(feedbackFormThankYouSign)
-        updateErrorSummary(feedbackFormErrorSummary)
-        // feedbackSubmitted = true
-        voted ? feedbackFormThankYouSign.focus() : feedbackOptionButtons[0].focus()
-      })
-
-      feedbackFormSubmitButton.addEventListener('click', () => {
-        removeAllValidationVizIfValid(inputNamesWithValidation)
+        if (atLeastOneCheckboxChecked(feedbackForm)) {
+          submitFeedbackToBackend(feedbackForm)
+          hide(feedbackFormDiv)
+          show(feedbackFormThankYouSign)
+          updateErrorSummary(feedbackFormErrorSummary)
+          feedbackFormThankYouSign.focus()
+        }
       })
     }
   }
@@ -125,6 +84,13 @@
     return errorMsgs
   }
 
+  const atLeastOneCheckboxChecked = (feedbackForm) => {
+    const checkboxes = feedbackForm.querySelectorAll('input[type="checkbox"]')
+    for (let i = 0; i < checkboxes.length; i++) {
+      if (!isHidden(checkboxes[i]) && checkboxes[i].checked) return true
+    }
+  }
+
   const createBody = (form) => {
     const formData = new FormData(form) // eslint-disable-line
     const formJSON = {
@@ -132,13 +98,26 @@
       summary: formData.get('feedback'),
     }
 
-    if (formData.get('feedback-detail')) formJSON.detail = formData.get('feedback-detail')
-
     return JSON.stringify(formJSON)
+  }
+
+  const getFirstVisibleFocusableChildElement = (element) => {
+    const inputs = element.querySelectorAll('input')
+    for (let i = 0; i < inputs.length; i++) {
+      if (!isHidden(inputs[i])) return inputs[i]
+    }
+  }
+
+  const isHidden = (element) => element.offsetParent === null
+
+  const removeIcon = (element) => {
+    const icon = element.querySelector('img')
+    icon?.remove()
   }
 
   const submitFeedbackToBackend = (form) => {
     const body = createBody(form)
+    console.log(body)
 
     /* eslint-disable */
     fetch('/api/v1/form-submit', {
@@ -222,8 +201,10 @@
   }
 
   const updateFeedbackAckMsg = (feedbackAckMsgSpan, decisionStr) => {
-    feedbackAckMsgSpan.setAttribute('aria-label', `You voted for ${decisionStr === 'Yes' ? 'helpful' : 'not helpful'}.`)
+    feedbackAckMsgSpan.setAttribute('aria-label', `You voted for ${decisionStr === 'yes' ? 'helpful' : 'not helpful'}.`)
   }
+
+  const userSelectedHelpful = (feedbackButton) => feedbackButton.id === 'feedback-yes'
 
   addListeners(feedbackCard, decision)
 })()

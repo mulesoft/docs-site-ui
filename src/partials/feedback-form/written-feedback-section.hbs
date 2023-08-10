@@ -1,2 +1,15 @@
-{{> written-feedback-section-good }}
-{{> written-feedback-section-bad }}
+<div class="feedback-form hide">
+<form>
+{{> written-feedback-checkboxes-yes }}
+{{> written-feedback-checkboxes-no }}
+<p>
+    <label for="feedback">Would you like to share any additional feedback?</label>
+    <textarea maxlength="1000" placeholder="Tell us what you liked or didn’t like" type="text" id="feedback"
+        name="feedback" rows="4"></textarea>
+</p>
+<div class="feedback-form-button-row flex align-center justify-end">
+    <input aria-label="Submit feedback" class="button-primary feedback-form-button" name="submit" type="submit"
+        value="Submit">
+</div>
+</form>
+</div>
