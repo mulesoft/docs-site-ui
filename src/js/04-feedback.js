@@ -41,12 +41,8 @@
             const icon = feedbackButton.querySelector('img')
             icon?.remove()
           }
-          show(feedbackFormThankYouSign)
-          feedbackFormThankYouSign.focus()
-          // if (!feedbackSubmitted) {
-          //   show(feedbackFormDiv)
-          //   feedbackForm.querySelector('input').focus()
-          // }
+          show(feedbackFormDiv)
+          feedbackForm.querySelector('input').focus()
         })
       }
     })
