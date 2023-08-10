@@ -46,7 +46,6 @@
   }
 
   & .feedback-form {
-    padding: var(--sm) 13px;
     width: 100%;
 
     & .contact-info {
@@ -87,16 +86,12 @@
     padding-top: 5px;
 
     & .feedback-form-button {
-      border-radius: 0;
+      background-color: var(--lume-g-color-blue-50);
+      border-radius: 5px;
       font-family: var(--sans-serif);
       font-size: 14px;
-      height: 36px;
       line-height: unset;
-      width: 100px;
-
-      &[disabled="disabled"] {
-        cursor: default;
-      }
+      margin-bottom: 1em;
     }
   }
 
@@ -145,7 +140,27 @@
     }
   }
 
-  & input:not([type="button"], [type="submit"]),
+  & fieldset {
+    & div {
+      padding-bottom: 0.5em;
+    }
+
+    & label {
+      font-family: var(--sans-serif);
+    }
+  }
+
+  & fieldset,
+  & span:not([aria-live], .validation-text, .feedback-form-thank-you) {
+    border: none;
+    font-family: var(--sans-serif-bold);
+    font-size: 12px;
+    margin: auto;
+    padding: 0 0 1em 0;
+    width: 100%;
+  }
+
+  & input:not([type="button"], [type="checkbox"], [type="submit"]),
   & textarea {
     border: 1px solid var(--lume-g-color-neutral-80);
     border-radius: 4px;
@@ -168,18 +183,9 @@
     }
   }
 
-  & label,
-  & span:not([aria-live], .validation-text, .feedback-form-thank-you),
-  & fieldset {
-    border: none;
-    font-family: var(--sans-serif-bold);
-    font-size: 12px;
-    margin: auto;
-    padding: 0;
-    width: 100%;
-  }
-
-  & legend {
+  & legend,
+  & p > label {
+    font-size: 14px;
     margin-bottom: 8px;
   }
 
@@ -240,6 +246,7 @@
       }
     }
 
+    & legend,
     & p {
       font-size: 14px;
     }
