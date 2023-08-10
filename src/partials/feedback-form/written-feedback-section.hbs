@@ -1,9 +1,10 @@
 <div class="feedback-form hide">
 <form>
+<span aria-live="polite" class="validation-text hide" id="checkboxes-validation-text">Please check at least 1 checkbox.</span>
 {{> written-feedback-checkboxes-yes }}
 {{> written-feedback-checkboxes-no }}
 <p>
-    <label for="feedback">Would you like to share any additional feedback?</label>
+    <label for="feedback">Would you like to share any additional feedback? (Optional)</label>
     <textarea maxlength="1000" placeholder="Tell us what you liked or didn’t like" type="text" id="feedback"
         name="feedback" rows="4"></textarea>
 </p>
