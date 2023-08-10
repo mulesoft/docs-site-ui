@@ -1,0 +1,30 @@
+  {{#if env.GOOGLE_ANALYTICS_KEY}}
+  <section class="feedback-section flex align-center col">
+    <div class="feedback-row feedback-first-row flex align-center">
+      <div>
+        <p id="feedback-question">Did you find this article useful?</p>
+        <p id="feedback-question-subtitle">Let us know so we can improve!</p>
+      </div>
+      <div class="feedback-options flex">
+        <div>
+          <button class="button flex" id="feedback-yes" aria-label="The article was helpful">
+            <p>Yes</p>
+            <img loading="lazy" src="{{@root.uiRootPath}}/img/icons/like.svg" alt="" height="12">
+          </button>
+        </div>
+        <div>
+          <button class="button flex" id="feedback-no" aria-label="The article was not helpful">
+            <p>No</p>
+            <img loading="lazy" src="{{@root.uiRootPath}}/img/icons/dislike.svg" alt="" height="12">
+          </button>
+        </div>
+        <span aria-live="polite" class="sr-only" id="feedback-ack"></span>
+      </div>
+    </div>
+    {{> written-feedback-section }}
+    <span class="feedback-form-thank-you hide" tabIndex="-1">
+      <img loading="lazy" src="{{@root.uiRootPath}}/img/icons/success.svg" alt="">
+      Your feedback has been successfully submitted. Thank you!
+    </span>
+  </section>
+  {{/if}}

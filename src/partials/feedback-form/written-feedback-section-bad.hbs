@@ -1,0 +1,22 @@
+<div class="feedback-form hide">
+    <form>
+        <p>
+            <label for="feedback">Share your feedback (required)</label>
+            <input aria-required="true" maxlength="100"
+                placeholder="Let us know what you liked, or how we can improve..." type="text" id="feedback"
+                name="feedback" required>
+            <span class="validation-text hide" id="feedback-validation-text">The feedback field is required</span>
+        </p>
+        <p>
+            <label for="feedback-detail">Please provide further details (optional)</label>
+            <textarea maxlength="1000" placeholder="This is optional, but very helpful..." type="text"
+                id="feedback-detail" name="feedback-detail" rows="4"></textarea>
+        </p>
+        <div class="feedback-form-button-row flex align-center justify-end">
+            <input aria-label="Cancel and minimize feedback form" type="button" name="cancel" value="Cancel"
+                class="button feedback-form-button" />
+            <input aria-label="Submit feedback" class="button-primary feedback-form-button" name="submit" type="submit"
+                value="Submit">
+        </div>
+    </form>
+</div>
