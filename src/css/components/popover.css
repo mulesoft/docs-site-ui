@@ -28,7 +28,7 @@
 .tippy-box[data-theme~="gray-archive-link-popover"] {
   background: var(--lume-g-color-blue-30);
   border: none;
-  color: white;
+  color: var(--lume-g-color-neutral-100);
 
   & .tippy-svg-arrow > svg {
     fill: var(--lume-g-color-blue-30);
@@ -36,12 +36,12 @@
 }
 
 .tippy-box[data-theme~="white-archive-link-popover"] {
-  background: white;
+  background: var(--lume-g-color-neutral-100);
   border: none;
   color: black;
 
   & .tippy-svg-arrow > svg {
-    fill: white;
+    fill: var(--lume-g-color-neutral-100);
   }
 }
 
