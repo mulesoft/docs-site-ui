@@ -1,5 +1,13 @@
 {{#if page.canonicalUrl}}
 <link rel="canonical" href="{{page.canonicalUrl}}">
 {{/if}}
+{{#unless (eq page.attributes.pagination undefined)}}
+{{#with page.previous}}
+<link rel="prev" href="{{{relativize ./url}}}">
+{{/with}}
+{{#with page.next}}
+<link rel="next" href="{{{relativize ./url}}}">
+{{/with}}
+{{/unless}}
 <link rel="icon" href="{{@root.uiRootPath}}/img/favicon.ico" type="image/x-icon">
 <link rel="stylesheet" href="{{@root.uiRootPath}}/css/site.css">
