@@ -242,6 +242,11 @@
       padding: 15px 0;
       top: 0;
     }
+
+    &.collapsed {
+      max-height: 166px;
+      overflow-y: hidden;
+    }
   }
 
   & p code {
