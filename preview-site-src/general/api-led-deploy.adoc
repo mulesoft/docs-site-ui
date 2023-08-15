@@ -1,4 +1,5 @@
 = Step 5. Deploy the API to CloudHub
+:page-pagination:
 
 Now that you've created and tested the Mule app that contains your new API from
 within Studio, let's deploy the API to CloudHub. First, we'll create an API proxy,
