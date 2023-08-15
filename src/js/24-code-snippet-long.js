@@ -3,6 +3,9 @@
 
   const collapse = (codeSnippet) => {
     codeSnippet.classList.add('collapsed')
+    const expandBar = document.createElement('span')
+    expandBar.innerText = 'Expand content'
+    codeSnippet.appendChild(expandBar)
   }
 
   const tallerThan = (element, length) => element.getBoundingClientRect().height > length
