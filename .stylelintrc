@@ -4,14 +4,12 @@
     "stylelint-order"
   ],
   "rules": {
-    "comment-empty-line-before": null,
     "import-notation": "string",
     "media-feature-range-notation": "prefix",
     "no-descending-specificity": null,
     "order/properties-alphabetical-order": true,
     "property-no-vendor-prefix": null,
     "selector-no-vendor-prefix": null,
-    "selector-type-no-unknown": [true, { "ignoreTypes": ["/^atomic-/"] }],
     "value-no-vendor-prefix": null,
     "function-no-unknown": null
   }

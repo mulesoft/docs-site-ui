@@ -410,3 +410,11 @@ page:
     url: https://github.com/mulesoft/docs-site-ui
     editUrlPattern: https://github.com/mulesoft/docs-site-ui/edit/main/preview-site-src/%s
     private: true
+  previous:
+    content: Test Previous Page
+    url: '#'
+    urlType: 'internal'
+  next:
+    content: Test Next Page
+    url: '#'
+    urlType: 'internal'

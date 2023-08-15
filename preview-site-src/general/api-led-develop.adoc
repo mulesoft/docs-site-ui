@@ -1,4 +1,5 @@
-= Step 3. Develop the API 
+= Step 3. Develop the API
+:page-pagination:
 
 You've created an API specification, now use it to create an API.
 
