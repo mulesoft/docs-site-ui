@@ -5,6 +5,7 @@
     codeSnippet.classList.add('collapsed')
     const expandBar = document.createElement('span')
     expandBar.innerText = 'Expand content'
+    expandBar.classList.add('code-expand')
     codeSnippet.appendChild(expandBar)
   }
 

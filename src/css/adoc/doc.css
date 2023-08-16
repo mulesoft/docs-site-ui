@@ -246,6 +246,26 @@
     &.collapsed {
       max-height: 166px;
       overflow-y: hidden;
+
+      & .code-expand {
+        align-content: center;
+        background-color: #e5e6e7;
+        bottom: 0;
+        display: flex;
+        flex-wrap: wrap;
+        font-family: var(--lume-g-font-family);
+        height: 2rem;
+        justify-content: center;
+        position: absolute;
+        width: 100%;
+
+        &::after {
+          background-image: url("../img/icons/arrow-down.svg");
+          background-repeat: no-repeat;
+          content: " ";
+          width: 20px;
+        }
+      }
     }
   }
 
