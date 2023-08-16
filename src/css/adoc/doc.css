@@ -252,6 +252,7 @@
         align-content: center;
         background-color: #e5e6e7;
         bottom: 0;
+        cursor: pointer;
         display: flex;
         flex-wrap: wrap;
         font-family: var(--lume-g-font-family);
