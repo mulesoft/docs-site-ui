@@ -245,29 +245,37 @@
 
     &.collapsed {
       background: linear-gradient(var(--aluminum-1), white);
+      bottom: 0;
       max-height: 166px;
       overflow-y: hidden;
 
-      & .code-expand {
-        align-content: center;
-        background-color: #e5e6e7;
-        bottom: 0;
-        cursor: pointer;
-        display: flex;
-        flex-wrap: wrap;
-        font-family: var(--lume-g-font-family);
-        height: 2rem;
-        justify-content: center;
-        position: absolute;
-        right: 0;
-        width: 100%;
-
+      & .code-expand {  
         &::after {
-          background-image: url("../img/icons/arrow-down.svg");
-          background-repeat: no-repeat;
-          content: " ";
-          width: 20px;
+          transform: rotate(0);
         }
+      }
+    }
+
+    & .code-expand {
+      align-content: center;
+      background-color: #e5e6e7;
+      bottom: -10px;
+      cursor: pointer;
+      display: flex;
+      flex-wrap: wrap;
+      font-family: var(--lume-g-font-family);
+      height: 2rem;
+      justify-content: center;
+      position: absolute;
+      right: 0;
+      width: 100%;
+
+      &::after {
+        background-image: url("../img/icons/arrow-down.svg");
+        background-repeat: no-repeat;
+        content: " ";
+        transform: rotate(180deg);
+        width: 20px;
       }
     }
   }
