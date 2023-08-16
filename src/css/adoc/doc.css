@@ -244,6 +244,7 @@
     }
 
     &.collapsed {
+      background: linear-gradient(var(--aluminum-1), white);
       max-height: 166px;
       overflow-y: hidden;
 
@@ -257,6 +258,7 @@
         height: 2rem;
         justify-content: center;
         position: absolute;
+        right: 0;
         width: 100%;
 
         &::after {
