@@ -38,8 +38,8 @@ nav.pagination {
       background-repeat: no-repeat;
       content: " ";
       height: 21px;
-      width: 21px;
       transform: rotate(270deg);
+      width: 21px;
     }
   }
   
@@ -49,8 +49,8 @@ nav.pagination {
       background-repeat: no-repeat;
       content: " ";
       height: 21px;
-      width: 21px;
       transform: translateX(-100%) rotate(90deg);
+      width: 21px;
     }
 
     &::before {
