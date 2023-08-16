@@ -3,10 +3,15 @@
 
   const collapse = (codeSnippet) => {
     codeSnippet.classList.add('collapsed')
-    const expandBar = document.createElement('span')
-    expandBar.innerText = 'Expand content'
-    expandBar.classList.add('code-expand')
-    codeSnippet.appendChild(expandBar)
+    const codeSnippetToggleBar = createCodeSnippetToggleBar()
+    codeSnippet.appendChild(codeSnippetToggleBar)
+  }
+
+  const createCodeSnippetToggleBar = () => {
+    const codeSnippetToggleBar = document.createElement('span')
+    codeSnippetToggleBar.innerText = 'Expand content'
+    codeSnippetToggleBar.classList.add('code-expand')
+    return codeSnippetToggleBar
   }
 
   const tallerThan = (element, length) => element.getBoundingClientRect().height > length
