@@ -258,13 +258,13 @@
 
     & .code-expand {
       align-content: center;
-      background-color: #e5e6e7;
-      bottom: -10px;
+      background: var(--lume-g-color-neutral-90);
+      bottom: -20px;
       cursor: pointer;
       display: flex;
       flex-wrap: wrap;
-      font-family: var(--lume-g-font-family);
-      height: 2rem;
+      font-family: var(--sans-serif);
+      height: var(--lume-g-font-size-4);
       justify-content: center;
       position: absolute;
       right: 0;
@@ -276,6 +276,11 @@
         content: " ";
         transform: rotate(180deg);
         width: 20px;
+      }
+
+      &:hover {
+        background: var(--lume-g-color-neutral-80);
+        font-family: var(--sans-serif-bold);
       }
     }
   }

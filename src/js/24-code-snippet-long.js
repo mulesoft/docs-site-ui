@@ -12,18 +12,31 @@
     const codeSnippetToggleBar = document.createElement('span')
     codeSnippetToggleBar.innerText = 'Expand content'
     codeSnippetToggleBar.classList.add('code-expand')
+    codeSnippetToggleBar.tabIndex = 0
+    codeSnippetToggleBar.setAttribute('aria-expanded', 'false')
+    codeSnippetToggleBar.setAttribute('aria-controls', 'code-snippet-content')
+    codeSnippetToggleBar.setAttribute('aria-label', 'Expand content')
+    codeSnippetToggleBar.setAttribute('role', 'button')
+    codeSnippetToggleBar.setAttribute('title', 'Expand content')
     codeSnippetToggleBar.addEventListener('click', () => toggle(codeSnippetToggleBar))
+    codeSnippetToggleBar.addEventListener('keyup', (e) => {
+      if (isEnterKey(e.keyCode)) {
+        e.preventDefault()
+        toggle(codeSnippetToggleBar)
+      }
+    })
     return codeSnippetToggleBar
   }
 
   const expand = (element) => element?.classList.remove('collapsed')
+  const isCollapsed = (element) => element?.classList.contains('collapsed')
+  const isEnterKey = (keyCode) => keyCode === 13
 
   const tallerThan = (element, length) => element.getBoundingClientRect().height > length
 
   const toggle = (codeSnippetToggleBar) => {
     const codePre = codeSnippetToggleBar.parentNode
-    const isCollapsed = codePre.classList.contains('collapsed')
-    if (isCollapsed) {
+    if (isCollapsed(codePre)) {
       expand(codePre)
       codeSnippetToggleBar.innerText = 'Collapse content'
     } else {
