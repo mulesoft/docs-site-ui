@@ -90,3 +90,82 @@ NOTE: The playground button doesn't work here (yet) because the asciidoc extensi
 ----
 include::preview-site-src/cookbook-dw/add-and-subtract-time/transform.dwl[]
 ----
+
+== Code Snippet with callouts
+
+[source,yaml]
+----
+
+#%Catalog Descriptor 1.0 # <1>
+triggerConditions: # <2>
+  branches:
+    - main
+    - release/(.*)
+  tags:
+    - support
+    - release/(.*)
+
+contact: # <3>
+  name: 'John Doe'
+  email: 'john.doe@org.com'
+
+versionStrategyConditions:
+  majorIncrease:
+    branches:
+      - master
+    tags:
+      - support
+  fixed:
+    branches:
+      - develop
+
+projects: # <4>
+  - main: api-spec/codat.json
+    assetId: my-awesome-api
+    contact:
+      name: 'Jane Doe'
+      email: 'jane.doe@org.com'
+    documentation:
+      add: documentation/add.md
+    customFields:
+      custom: value
+      another: field
+    tags:
+      - codat
+      - gcp
+    version: 2.0.0
+    versionStrategy: majorIncrease
+    versionStrategyConditions:
+      minorIncrease:
+        branches:
+          - main
+        tags:
+          - support
+      snapshot:
+        branches:
+          - develop
+    apiVersion: v3
+
+  - main: api-spec/billing-api.json
+    assetId: my-awesome-billing-api
+    triggerConditions:
+      user:
+        - admin
+    tags:
+      - finance
+      - aws
+    categories:
+      API Type:
+        - System API
+        - Experience API
+      Organization:
+        - Finance
+        - Billing
+    version: 1.0.0
+    versionStrategy: minorIncrease
+    apiVersion: v1
+----
+<1> Provides the starting line for the descriptor file
+<2> Sets trigger conditions
+<3> Provides the contact name and email ID 
+<4> Specifies the API information to be published
