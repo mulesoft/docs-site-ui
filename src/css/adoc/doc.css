@@ -192,7 +192,7 @@
     }
 
     &:hover {
-      background-color: #c0edff;
+      background-color: var(--lume-g-color-blue-80);
       border-radius: 5px;
       color: var(--lume-g-color-blue-30);
 
@@ -244,9 +244,8 @@
     }
 
     &.collapsed {
-      background: linear-gradient(var(--aluminum-1), white);
       bottom: 0;
-      max-height: 166px;
+      max-height: 460px;
       overflow-y: hidden;
 
       & .code-expand {  
@@ -254,12 +253,21 @@
           transform: rotate(0);
         }
       }
+
+      & .code-overlay {
+        background: linear-gradient(transparent 70%, white);
+        bottom: 0;
+        height: 100%;
+        position: absolute;
+        left: 0;
+        width: 100%;
+      }
     }
 
     & .code-expand {
       align-content: center;
       background: var(--lume-g-color-neutral-90);
-      bottom: -20px;
+      bottom: -26px;
       cursor: pointer;
       display: flex;
       flex-wrap: wrap;

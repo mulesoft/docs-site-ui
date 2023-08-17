@@ -1,9 +1,16 @@
 ;(() => {
   'use strict'
 
+  const maxCodeSnippetLength = 460 // 23 (height per line) * 20 (20 lines)
+
   const addCodeSnippetToggleBar = (codeSnippet) => {
     const codeSnippetToggleBar = createCodeSnippetToggleBar()
     codeSnippet.appendChild(codeSnippetToggleBar)
+  }
+
+  const addOverLay = (codeSnippet) => {
+    const overlay = createOverlay()
+    codeSnippet.appendChild(overlay)
   }
 
   const collapse = (codeSnippet) => codeSnippet?.classList.add('collapsed')
@@ -28,6 +35,12 @@
     return codeSnippetToggleBar
   }
 
+  const createOverlay = () => {
+    const overlay = document.createElement('div')
+    overlay.classList.add('code-overlay')
+    return overlay
+  }
+
   const expand = (element) => element?.classList.remove('collapsed')
   const isCollapsed = (element) => element?.classList.contains('collapsed')
   const isEnterKey = (keyCode) => keyCode === 13
@@ -45,13 +58,14 @@
     }
   }
 
-  const tooTall = (element) => tallerThan(element, 166)
+  const tooTall = (element) => tallerThan(element, maxCodeSnippetLength)
 
   const codeSnippets = document.querySelectorAll('pre')
   codeSnippets.forEach((codeSnippet) => {
     if (tooTall(codeSnippet)) {
       collapse(codeSnippet)
       addCodeSnippetToggleBar(codeSnippet)
+      addOverLay(codeSnippet)
     }
   })
 })()
