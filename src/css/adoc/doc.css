@@ -164,6 +164,10 @@
   & aside {
     margin-bottom: var(--lg);
     margin-top: var(--lg);
+
+    &:has(.code-expand) {
+      margin-bottom: calc(var(--lg) + 26px);
+    }
   }
 
   /* links */
