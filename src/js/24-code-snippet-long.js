@@ -69,16 +69,16 @@
 
   const tallerThan = (element, length) => element.getBoundingClientRect().height > length
 
-  const toggle = (codeSnippetToggleBar) => {
-    const codePre = codeSnippetToggleBar.parentNode
+  const toggle = (codePreToggleBar) => {
+    const codePre = codePreToggleBar.parentNode
     if (isCollapsed(codePre)) {
       expand(codePre)
-      codeSnippetToggleBar.innerText = 'Collapse content'
-      codeSnippetToggleBar.setAttribute('aria-expanded', true)
+      codePreToggleBar.innerText = 'Collapse content'
+      codePreToggleBar.setAttribute('aria-expanded', true)
     } else {
       collapse(codePre)
-      codeSnippetToggleBar.innerText = 'Expand content'
-      codeSnippetToggleBar.setAttribute('aria-expanded', false)
+      codePreToggleBar.innerText = 'Expand content'
+      codePreToggleBar.setAttribute('aria-expanded', false)
     }
   }
 
