@@ -192,7 +192,7 @@
     }
 
     &:hover {
-      background-color: #c0edff;
+      background-color: var(--lume-g-color-blue-80);
       border-radius: 5px;
       color: var(--lume-g-color-blue-30);
 
@@ -241,6 +241,55 @@
       display: block;
       padding: 15px 0;
       top: 0;
+    }
+
+    &.collapsed {
+      bottom: 0;
+      max-height: 460px;
+      overflow-y: hidden;
+
+      & .code-expand {  
+        &::after {
+          transform: rotate(0);
+        }
+      }
+
+      & .code-overlay {
+        background: linear-gradient(transparent 70%, white);
+        bottom: 0;
+        height: 100%;
+        left: 0;
+        position: absolute;
+        width: 100%;
+      }
+    }
+
+    & .code-expand {
+      align-content: center;
+      background: var(--lume-g-color-neutral-90);
+      bottom: -26px;
+      cursor: pointer;
+      display: flex;
+      flex-wrap: wrap;
+      font-family: var(--sans-serif);
+      height: var(--lume-g-font-size-4);
+      justify-content: center;
+      position: absolute;
+      right: 0;
+      width: 100%;
+
+      &::after {
+        background-image: url("../img/icons/arrow-down.svg");
+        background-repeat: no-repeat;
+        content: " ";
+        transform: rotate(180deg);
+        width: 20px;
+      }
+
+      &:hover {
+        background: var(--lume-g-color-neutral-80);
+        font-family: var(--sans-serif-bold);
+      }
     }
   }
 
