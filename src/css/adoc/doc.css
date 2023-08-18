@@ -271,7 +271,7 @@
     & .code-expand {
       align-content: center;
       background: var(--lume-g-color-neutral-90);
-      bottom: -26px;
+      bottom: -25px;
       cursor: pointer;
       display: flex;
       flex-wrap: wrap;
