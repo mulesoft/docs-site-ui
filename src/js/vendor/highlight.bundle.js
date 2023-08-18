@@ -17,6 +17,7 @@
   //hljs.registerLanguage('powershell', require('highlight.js/lib/languages/powershell'))
   hljs.registerLanguage('python', require('highlight.js/lib/languages/python'))
   hljs.registerLanguage('ruby', require('highlight.js/lib/languages/ruby'))
+  hljs.registerLanguage('rust', require('highlight.js/lib/languages/rust'))
   hljs.registerLanguage('scala', require('highlight.js/lib/languages/scala'))
   hljs.registerLanguage('shell', require('highlight.js/lib/languages/shell'))
   hljs.registerLanguage('sql', require('highlight.js/lib/languages/sql'))

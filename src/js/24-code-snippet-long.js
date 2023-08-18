@@ -60,9 +60,7 @@
     const code = codePre.querySelector('code')
     if (code) {
       const language = code.getAttribute('data-lang')
-      codeIDMap.set(language, codeIDMap.has(language)
-        ? codeIDMap.get(language) + 1
-        : 1)
+      codeIDMap.set(language, codeIDMap.has(language) ? codeIDMap.get(language) + 1 : 1)
       codePre.id = `${language}-snippet-${codeIDMap.get(language)}`
     }
   }
