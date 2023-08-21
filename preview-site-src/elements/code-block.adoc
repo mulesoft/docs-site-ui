@@ -42,6 +42,43 @@ public class Person
 }
 ----
 
+== Rust
+
+[source,rust,linenums]
+----
+#![warn(rust_2018_idioms)]
+#![allow(elided_lifetimes_in_paths)]
+
+use std::error::Error;
+use std::io;
+
+fn http_get_main(url: &str) -> Result<(), Box<dyn Error>> {
+    // Send the HTTP request and get a response.
+    let mut response = reqwest::blocking::get(url)?;
+    if !response.status().is_success() {
+        Err(format!("{}", response.status()))?;
+    }
+
+    // Read the response body and write it to stdout.
+    let stdout = io::stdout();
+    io::copy(&mut response, &mut stdout.lock())?;
+
+    Ok(())
+}
+
+fn main() {
+    let args: Vec<String> = std::env::args().collect();
+    if args.len() != 2 {
+        eprintln!("usage: http-get URL");
+        return;
+    }
+
+    if let Err(err) = http_get_main(&args[1]) {
+        eprintln!("error: {}", err);
+    }
+}
+----
+
 == XML
 
 [source,xml,linenums]
@@ -90,3 +127,82 @@ NOTE: The playground button doesn't work here (yet) because the asciidoc extensi
 ----
 include::preview-site-src/cookbook-dw/add-and-subtract-time/transform.dwl[]
 ----
+
+== Code Snippet with callouts
+
+[source,yaml]
+----
+
+#%Catalog Descriptor 1.0 # <1>
+triggerConditions: # <2>
+  branches:
+    - main
+    - release/(.*)
+  tags:
+    - support
+    - release/(.*)
+
+contact: # <3>
+  name: 'John Doe'
+  email: 'john.doe@org.com'
+
+versionStrategyConditions:
+  majorIncrease:
+    branches:
+      - master
+    tags:
+      - support
+  fixed:
+    branches:
+      - develop
+
+projects: # <4>
+  - main: api-spec/codat.json
+    assetId: my-awesome-api
+    contact:
+      name: 'Jane Doe'
+      email: 'jane.doe@org.com'
+    documentation:
+      add: documentation/add.md
+    customFields:
+      custom: value
+      another: field
+    tags:
+      - codat
+      - gcp
+    version: 2.0.0
+    versionStrategy: majorIncrease
+    versionStrategyConditions:
+      minorIncrease:
+        branches:
+          - main
+        tags:
+          - support
+      snapshot:
+        branches:
+          - develop
+    apiVersion: v3
+
+  - main: api-spec/billing-api.json
+    assetId: my-awesome-billing-api
+    triggerConditions:
+      user:
+        - admin
+    tags:
+      - finance
+      - aws
+    categories:
+      API Type:
+        - System API
+        - Experience API
+      Organization:
+        - Finance
+        - Billing
+    version: 1.0.0
+    versionStrategy: minorIncrease
+    apiVersion: v1
+----
+<1> Provides the starting line for the descriptor file
+<2> Sets trigger conditions
+<3> Provides the contact name and email ID 
+<4> Specifies the API information to be published
