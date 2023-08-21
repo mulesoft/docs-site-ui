@@ -1,5 +1,5 @@
 = Step 1. Prerequisites for Building an API
-:page-pagination:
+:page-pagination: next
 :experimental:
 
 Before you begin your API-led journey, verify that you have the required tools and access:

@@ -1,4 +1,5 @@
 = Step 4. Add Validation and Error Handling
+:page-pagination:
 
 So far, we've created an API and tested the HTTP request with a third-party client, and then published the API to Exchange.
 Now we'll use Studio to add validation and a unit test. In Studio, we'll use the scaffolding already created to:

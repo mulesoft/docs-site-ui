@@ -1,5 +1,5 @@
 = Step 6. Operate the Deployed API
-:page-pagination:
+:page-pagination: prev
 
 MuleSoft provides tools to help you manage your deployed API.
 
