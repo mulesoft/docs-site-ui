@@ -78,6 +78,16 @@ atomic-facet {
   }
 }
 
+atomic-recs-list {
+  &::part(label) {
+    color: #000;
+    font-family: var(--heading);
+    font-size: 22px;
+    line-height: inherit;
+    padding: 0;
+  }
+}
+
 atomic-pager::part(next-button),
 atomic-pager::part(page-button),
 atomic-pager::part(previous-button),
