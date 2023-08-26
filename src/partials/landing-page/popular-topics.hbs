@@ -4,6 +4,31 @@
             <atomic-recs-list label="Popular Topics" recommendation="recommendations">
                 <atomic-recs-result-template>
                     <template>
+                            <style>
+
+                                atomic-result-link a {
+                                    color: var(--lume-g-color-blue-30) !important;
+                                    font-family: var(--sans-serif-bold);
+                                    font-size: 16px;
+                                    text-decoration: none;
+                                }
+
+                                atomic-result-link>a:active,
+                                atomic-result-link>a:focus {
+                                    border-radius: 5px;
+                                    outline: 2px solid var(--lume-g-color-neutral-50) !important;
+                                    outline-offset: -1px;
+                                }
+
+                                atomic-result-link>a:hover {
+                                    background-color: #c0edff;
+                                    border-radius: 5px;
+                                }
+
+                                atomic-result-link>a:visited {
+                                    color: var(--violet) !important;
+                                }
+                                </style>
                         <atomic-result-section-title>
                             <atomic-result-link></atomic-result-link>
                         </atomic-result-section-title>

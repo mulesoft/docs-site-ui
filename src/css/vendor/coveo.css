@@ -87,15 +87,22 @@ atomic-recs-list {
     padding: 0;
   }
 
-  &::part(result-list-grid-clickable) {
-    color: var(--lume-g-color-blue-30);
-    font-family: var(--sans-serif-bold);
-    font-size: 16px;
+  &::part(result-list) {
+    gap: 0;
+    margin-top: 15px;
   }
 
   &::part(result-list-grid-clickable-container) {
     border: none;
     padding: unset;
+  }
+}
+
+atomic-recs-result {
+  &::part(result-list-grid-clickable) {
+    color: var(--lume-g-color-blue-30);
+    font-family: var(--sans-serif-bold);
+    font-size: 16px;
   }
 }
 
