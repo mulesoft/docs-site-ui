@@ -86,6 +86,17 @@ atomic-recs-list {
     line-height: inherit;
     padding: 0;
   }
+
+  &::part(result-list-grid-clickable) {
+    color: var(--lume-g-color-blue-30);
+    font-family: var(--sans-serif-bold);
+    font-size: 16px;
+  }
+
+  &::part(result-list-grid-clickable-container) {
+    border: none;
+    padding: unset;
+  }
 }
 
 atomic-pager::part(next-button),
