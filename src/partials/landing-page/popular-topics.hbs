@@ -1,43 +1,44 @@
 <div class='panel'>
     <div class="sect2">
-        <atomic-recs-interface id="recs">
-            <atomic-recs-list label="Popular Topics" recommendation="recommendations">
+        <atomic-recs-interface id="recs" search-hub="Documentation">
+            <atomic-recs-list label="Popular Topics" heading-level=2 number-of-recommendations=7>
                 <atomic-recs-result-template>
                     <template>
-                            <style>
-                                atomic-result-link a {
-                                    color: var(--lume-g-color-blue-30) !important;
-                                    font-family: var(--sans-serif-bold);
-                                    font-size: 16px;
-                                    text-decoration: none;
-                                }
+                        <style>
+                            atomic-result-link a {
+                                color: var(--lume-g-color-blue-30) !important;
+                                font-family: var(--sans-serif-bold);
+                                font-size: 16px;
+                                text-decoration: none;
+                            }
 
-                                atomic-result-link a:active,
-                                atomic-result-link a:focus {
-                                    border-radius: 5px;
-                                    outline: 2px solid var(--lume-g-color-neutral-50) !important;
-                                    outline-offset: -1px;
-                                }
+                            atomic-result-link a:active,
+                            atomic-result-link a:focus {
+                                border-radius: 5px;
+                                outline: 2px solid var(--lume-g-color-neutral-50) !important;
+                                outline-offset: -1px;
+                            }
 
-                                atomic-result-link a:hover {
-                                    background-color: var(--lume-g-color-blue-80);
-                                    border-radius: 5px;
-                                    margin-left: -3px;
-                                    margin-right: -3px;
-                                    padding: 1px 3px;
-                                    text-decoration: none !important;
-                                }
+                            atomic-result-link a:hover {
+                                background-color: var(--lume-g-color-blue-80);
+                                border-radius: 5px;
+                                margin-left: -3px;
+                                margin-right: -3px;
+                                padding: 1px 3px;
+                                text-decoration: none !important;
+                            }
 
-                                atomic-result-link a:visited {
-                                    color: var(--violet) !important;
-                                }
-                                </style>
+                            atomic-result-link a:visited {
+                                color: var(--violet) !important;
+                            }
+                        </style>
                         <atomic-result-section-title>
-                            <atomic-result-link></atomic-result-link>
+                            <atomic-result-link target="_blank"></atomic-result-link>
                         </atomic-result-section-title>
                     </template>
                 </atomic-recs-result-template>
             </atomic-recs-list>
+            <atomic-recs-error></atomic-recs-error>
         </atomic-recs-interface>
     </div>
 </div>
