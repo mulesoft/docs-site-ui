@@ -198,7 +198,6 @@
     &:hover {
       background-color: var(--lume-g-color-blue-80);
       border-radius: 5px;
-      color: var(--lume-g-color-blue-30);
 
       &:not(.anchor) {
         margin-left: -3px;

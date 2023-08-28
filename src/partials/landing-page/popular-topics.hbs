@@ -5,7 +5,6 @@
                 <atomic-recs-result-template>
                     <template>
                             <style>
-
                                 atomic-result-link a {
                                     color: var(--lume-g-color-blue-30) !important;
                                     font-family: var(--sans-serif-bold);
@@ -13,19 +12,23 @@
                                     text-decoration: none;
                                 }
 
-                                atomic-result-link>a:active,
-                                atomic-result-link>a:focus {
+                                atomic-result-link a:active,
+                                atomic-result-link a:focus {
                                     border-radius: 5px;
                                     outline: 2px solid var(--lume-g-color-neutral-50) !important;
                                     outline-offset: -1px;
                                 }
 
-                                atomic-result-link>a:hover {
-                                    background-color: #c0edff;
+                                atomic-result-link a:hover {
+                                    background-color: var(--lume-g-color-blue-80);
                                     border-radius: 5px;
+                                    margin-left: -3px;
+                                    margin-right: -3px;
+                                    padding: 1px 3px;
+                                    text-decoration: none !important;
                                 }
 
-                                atomic-result-link>a:visited {
+                                atomic-result-link a:visited {
                                     color: var(--violet) !important;
                                 }
                                 </style>

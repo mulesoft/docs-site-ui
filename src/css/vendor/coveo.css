@@ -88,7 +88,7 @@ atomic-recs-list {
   }
 
   &::part(result-list) {
-    gap: 0;
+    gap: 1px;
     margin-top: 15px;
   }
 
