@@ -57,7 +57,7 @@
     "merge-stream": "2.0.0",
     "node-fetch": "3.3.2",
     "node-html-parser": "6.1.6",
-    "openpgp": "^5.7.0",
+    "openpgp": "^5.10.1",
     "pad": "^3.2.0",
     "postcss": "8.4.28",
     "postcss-calc": "9.0.1",
