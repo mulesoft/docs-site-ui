@@ -38,25 +38,29 @@ window.settings_timer=setTimeout(function () {_vwo_code.finish() },settings_tole
 <script type="module" src="https://static.cloud.coveo.com/atomic/v2.42/atomic.esm.js"></script>
 <script nonce="**CSP_NONCE**">
   (async () => {
+    const ORG_ID = "mulesoftprodqzggq6re";
+
     await customElements.whenDefined("atomic-search-interface");
     const searchInterface = document.querySelector("#search");
     await searchInterface.initialize({
       accessToken: "{{env.COVEO_API_KEY}}",
-      organizationId: "mulesoftprodqzggq6re",
-      organizationEndpoints: await searchInterface.getOrganizationEndpoints("mulesoftprodqzggq6re"),
+      organizationId: ORG_ID,
+      organizationEndpoints: await searchInterface.getOrganizationEndpoints(ORG_ID),
     });
     if (window.location.href.includes('/search')) searchInterface.executeFirstSearch();
 
-    await customElements.whenDefined('atomic-recs-interface');
-    const recommendInterface = document.querySelector('#recs');
+    if (window.location.pathname === '/general/') {
+      await customElements.whenDefined('atomic-recs-interface');
+      const recommendInterface = document.querySelector('#recs');
 
-    await recommendInterface.initialize({
-      accessToken:'{{env.COVEO_API_KEY}}',
-      organizationId: 'mulesoftprodqzggq6re',
-      organizationEndpoints: await searchInterface.getOrganizationEndpoints("mulesoftprodqzggq6re"),
-    });
+      await recommendInterface.initialize({
+        accessToken:'{{env.COVEO_API_KEY}}',
+        organizationId: ORG_ID,
+        organizationEndpoints: await searchInterface.getOrganizationEndpoints(ORG_ID),
+      });
 
-    recommendInterface.getRecommendations(); 2
+      recommendInterface.getRecommendations();
+    }
   })();
 </script>
 {{/if}}
