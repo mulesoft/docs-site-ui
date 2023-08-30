@@ -92,6 +92,10 @@ atomic-recs-list {
     margin-top: 15px;
   }
 
+  &::part(result-list-grid-clickable) {
+    display: none;
+  }
+
   &::part(result-list-grid-clickable-container) {
     border: none;
     padding: unset;
