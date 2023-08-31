@@ -49,7 +49,7 @@ window.settings_timer=setTimeout(function () {_vwo_code.finish() },settings_tole
     });
     if (window.location.href.includes('/search')) searchInterface.executeFirstSearch();
 
-    if (['/', '/general/'].includes(window.location.pathname)) {
+    if (window.location.pathname === '/' || window.location.pathname.endsWith('/general/')) {
       await customElements.whenDefined('atomic-recs-interface');
       const recommendInterface = document.querySelector('#recs');
 
