@@ -98,7 +98,9 @@ atomic-recs-list {
 
   &::part(result-list-grid-clickable-container) {
     border: none;
+    box-shadow: none;
     padding: unset;
+    width: fit-content;
   }
 }
 
