@@ -1,54 +1,44 @@
 'use strict'
 
-const fs = require('fs')
-const https = require('https')
-const path = require('path')
+const fs = require('fs-extra')
+const fetch = (...args) => import('node-fetch').then(({ default: fetch }) => fetch(...args))
+const pretty = require('pretty')
 
-const HEADER_ENDPOINT_URL = 'https://www.mulesoft.com/api/header?searchbox=false'
-const HEADER_TEMPLATE_RELPATH = 'header-content.hbs'
-const FOOTER_ENDPOINT_URL = 'https://www.mulesoft.com/api/footer'
-const FOOTER_TEMPLATE_RELPATH = 'footer-content.hbs'
-const DEPENDENCIES_ENDPOINT_URL = 'https://www.mulesoft.com/api/dependencies'
+const languages = ['en', 'jp']
 
-module.exports = (partialsDir) => () =>
-  Promise.all([
-    getHbs(HEADER_ENDPOINT_URL, path.join(partialsDir, HEADER_TEMPLATE_RELPATH)),
-    getHbs(FOOTER_ENDPOINT_URL, path.join(partialsDir, FOOTER_TEMPLATE_RELPATH)),
-    getDependencies(DEPENDENCIES_ENDPOINT_URL, partialsDir),
-  ])
-
-function getHbs (url, to) {
-  return new Promise((resolve) =>
-    https.get(url, (response) => {
-      const body = []
-      response.on('data', (d) => body.push(d))
-      response.on('end', () => {
-        fs.writeFileSync(to, JSON.parse(body.join('')).data.replace(/ ?<!--.*?-->/g, '') + '\n')
-        resolve()
-      })
-    })
-  )
+module.exports = (partialsDir) => async () => {
+  languages.forEach((language) => {
+    updateContent(partialsDir, 'header', language)
+    updateContent(partialsDir, 'footer', language)
+  })
+  updateContent(partialsDir, 'header', 'archive')
 }
 
-function getDependencies (url, partialsDir) {
-  return new Promise((resolve) =>
-    https.get(url, (response) => {
-      const body = []
-      response.on('data', (d) => body.push(d))
-      response.on('end', () => {
-        let { scripts, styles } = JSON.parse(body.join('')).data
-        scripts = scripts.reduce((accum, src) => {
-          accum.push(`<script async src="${src}"></script>`)
-          return accum
-        }, [])
-        styles = styles.reduce((accum, href) => {
-          accum.push(`<link rel="stylesheet" href="${href}" type="text/css">`)
-          return accum
-        }, [])
-        fs.writeFileSync(path.join(partialsDir, 'marketing-scripts.hbs'), scripts.join('') + '\n')
-        fs.writeFileSync(path.join(partialsDir, 'marketing-styles.hbs'), styles.join('') + '\n')
-        resolve()
-      })
-    })
-  )
+async function updateContent (partialsDir, component, contentType) {
+  try {
+    const urlParams = await getUrlParams(contentType)
+    const content = await fetch(`https://www.mulesoft.com/api/${component}?${urlParams}&docs-site`)
+    if (await isGoodStatus(content.status)) {
+      const body = await content.json()
+      if (await hasValidData(body)) {
+        fs.writeFileSync(`${partialsDir}/${component}/${component}-content-${contentType}.hbs`, pretty(body.data))
+      }
+    }
+  } catch (error) {
+    console.warn(`cannot fetch content right now. Please try again later. Error: ${error}`)
+  }
+}
+
+async function getUrlParams (contentType) {
+  if (languages.includes(contentType)) {
+    return `language=${contentType}&selector=true&selector_jp`
+  }
+}
+
+async function isGoodStatus (status) {
+  return status >= 200 && status < 300
+}
+
+async function hasValidData (header) {
+  return header.data
 }

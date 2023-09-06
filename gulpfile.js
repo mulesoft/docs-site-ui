@@ -28,9 +28,10 @@ const glob = {
   js: ['gulpfile.js', 'gulp.d/**/*.js', `${srcDir}/{helpers,js}/**/*.js`, `!${srcDir}/js/**/*.min.js`],
 }
 
-const getMarketingContentTask = createTask({
-  name: 'get-marketing-content',
-  call: task.getMarketingContent(partialsDir),
+const updateTask = createTask({
+  name: 'update',
+  desc: 'Update header and footer partials from endpoint',
+  call: task.update(partialsDir),
 })
 
 const cleanTask = createTask({
@@ -130,13 +131,7 @@ const previewServeTask = createTask({
 const previewTask = createTask({
   name: 'preview',
   desc: 'Generate a preview site and launch a server to view it',
-  call: series(getMarketingContentTask, previewBuildTask, previewServeTask),
-})
-
-const updateTask = createTask({
-  name: 'update',
-  desc: 'Update header and footer partials from endpoint',
-  call: task.update(partialsDir),
+  call: series(updateTask, previewBuildTask, previewServeTask),
 })
 
 module.exports = exportTasks(
