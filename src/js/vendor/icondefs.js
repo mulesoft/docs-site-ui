@@ -283,7 +283,7 @@
       ],
     },
     {
-      id: 'icon-nav-component-cloudhub-1',
+      id: 'icon-nav-component-cloudhub',
       viewBox: '0 0 30 30',
       paths: [
         {
