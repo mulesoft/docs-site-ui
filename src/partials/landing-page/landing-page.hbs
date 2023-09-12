@@ -5,7 +5,10 @@
   </header>
   <div class='panels'>
     {{> latest-releases}}
-    {{> popular-topics}}
+    <div class='panel'>
+      {{{page.contents.popular-topics}}}
+    </div>
+    {{!-- {{> popular-topics}} --}}
   </div>
   {{{page.contents.the-road}}}
   <footer>
