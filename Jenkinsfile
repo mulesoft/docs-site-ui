@@ -127,7 +127,7 @@ def getErrorMsg() {
 void installNode(String nodeVersion) {
   withCredentials([string(credentialsId: 'NPM_TOKEN', variable: 'NPM_TOKEN')]) {
     sh "curl -fsSL https://deb.nodesource.com/setup_${nodeVersion}.x | sudo -E bash - && sudo apt-get install -y nodejs"
-    sh 'npm config set @mulesoft:registry=https://nexus3.build.msap.io/repository/npm-internal/{'
+    sh 'npm config set @mulesoft:registry=https://nexus3.build.msap.io/repository/npm-internal/'
     sh "npm config set //nexus3.build.msap.io/repository/npm-internal/:_authToken=${NPM_TOKEN}"
   }
 }
