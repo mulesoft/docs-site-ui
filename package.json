@@ -56,7 +56,7 @@
     "js-yaml": "4.1.0",
     "merge-stream": "2.0.0",
     "node-fetch": "3.3.2",
-    "node-html-parser": "6.1.6",
+    "node-html-parser": "6.1.9",
     "openpgp": "^5.10.1",
     "pad": "^3.2.0",
     "postcss": "8.4.29",
