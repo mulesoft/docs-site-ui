@@ -47,7 +47,7 @@ see https://segment.com/docs/connections/sources/catalog/libraries/website/javas
 <script type="text/javascript" src="https://static.cloud.coveo.com/coveo.analytics.js/2/coveoua.js"></script>
 <script nonce="**CSP_NONCE**">
   (async () => {
-    async function initSearch(organizationId, accessToken) {
+    async function initSearch (organizationId, accessToken) {
       await customElements.whenDefined("atomic-search-interface");
       const searchInterface = document.querySelector("#search");
       const organizationEndpoints = await searchInterface.getOrganizationEndpoints(organizationId)
@@ -59,7 +59,7 @@ see https://segment.com/docs/connections/sources/catalog/libraries/website/javas
       if (window.location.href.includes('/search')) searchInterface.executeFirstSearch();
     }
 
-    async function initCoveoUserAnalytics(organizationId, accessToken) {
+    async function initCoveoUserAnalytics (organizationId, accessToken) {
       coveoua("init", accessToken, `https://${organizationId}.analytics.org.coveo.com`);
       coveoua("send", "view", {
         contentIdKey: '@clickableUri',
@@ -68,7 +68,7 @@ see https://segment.com/docs/connections/sources/catalog/libraries/website/javas
       });
     }
 
-    async function initContentRecommendations(organizationId, accessToken) {
+    async function initContentRecommendations (organizationId, accessToken) {
       if (onHomePage(window.location.pathname)) {
         await customElements.whenDefined('atomic-recs-interface');
         const recommendInterface = document.querySelector('#recs');
