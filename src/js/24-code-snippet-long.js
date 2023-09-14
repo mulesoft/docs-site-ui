@@ -1,6 +1,17 @@
 ;(() => {
   'use strict'
 
+  const languageMap = {
+    en: {
+      collapseContent: 'Collapse content',
+      expandContent: 'Expand content'
+    },
+    jp: {
+      collapseContent: 'コンテンツを折りたたむ',
+      expandContent: 'コンテンツを展開する'
+    }
+  }
+
   // 23 (height per line) * 20 (20 lines)
   // make sure to also change the `.collapsed` max-height property in doc.css
   const maxCodePreLength = 460
@@ -71,11 +82,11 @@
     const codePre = codePreToggleBar.parentNode
     if (isCollapsed(codePre)) {
       expand(codePre)
-      codePreToggleBar.innerText = 'Collapse content'
+      codePreToggleBar.innerText = languageMap[document.documentElement.lang].collapseContent
       codePreToggleBar.setAttribute('aria-expanded', true)
     } else {
       collapse(codePre)
-      codePreToggleBar.innerText = 'Expand content'
+      codePreToggleBar.innerText = languageMap[document.documentElement.lang].expandContent
       codePreToggleBar.setAttribute('aria-expanded', false)
     }
   }
