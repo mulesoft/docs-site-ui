@@ -9,12 +9,12 @@
     en: {
       title: 'Home',
       current_ver: 'Current version',
-      previous_ver: 'Previous versions'
+      previous_ver: 'Previous versions',
     },
     jp: {
       title: 'ホーム',
       current_ver: '最新バージョン',
-      previous_ver: '以前のバージョン'
+      previous_ver: '以前のバージョン',
     },
   }
 

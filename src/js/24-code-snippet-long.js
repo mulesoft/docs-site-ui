@@ -4,12 +4,12 @@
   const languageMap = {
     en: {
       collapseContent: 'Collapse content',
-      expandContent: 'Expand content'
+      expandContent: 'Expand content',
     },
     jp: {
       collapseContent: 'コンテンツを折りたたむ',
-      expandContent: 'コンテンツを展開する'
-    }
+      expandContent: 'コンテンツを展開する',
+    },
   }
 
   // 23 (height per line) * 20 (20 lines)
