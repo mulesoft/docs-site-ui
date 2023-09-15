@@ -8,13 +8,13 @@
   const languageMap = {
     en: {
       title: 'Home',
-      current_ver: 'Current version',
-      previous_ver: 'Previous versions',
+      currentVersion: 'Current version',
+      previousVersions: 'Previous versions',
     },
     jp: {
       title: 'ホーム',
-      current_ver: '最新バージョン',
-      previous_ver: '以前のバージョン',
+      currentVersion: '最新バージョン',
+      previousVersions: '以前のバージョン',
     },
   }
 
@@ -688,13 +688,13 @@
       versions.reduce((lastVersionData, versionData) => {
         if (!isArchiveSite()) {
           if (versionData === currentVersionData) {
-            navVersionMenu.appendChild(createElement('span.nav-version-label', languageMap[document.documentElement.lang].current_ver))
+            navVersionMenu.appendChild(createElement('span.nav-version-label', languageMap[document.documentElement.lang].currentVersion))
           } else if (versionData.prerelease) {
             if (!lastVersionData) {
               navVersionMenu.appendChild(createElement('span.nav-version-label', 'Prerelease versions'))
             }
           } else if (lastVersionData === currentVersionData) {
-            navVersionMenu.appendChild(createElement('span.nav-version-label', languageMap[document.documentElement.lang].previous_ver))
+            navVersionMenu.appendChild(createElement('span.nav-version-label', languageMap[document.documentElement.lang].previousVersions))
           }
         } else if (versionData === currentVersionData) {
           navVersionMenu.appendChild(createElement('span.nav-version-label', 'Archived versions'))
