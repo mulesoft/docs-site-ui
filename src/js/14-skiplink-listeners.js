@@ -88,7 +88,7 @@
   }
 
   const getAsideFirstFocusableItem = (aside) => {
-    return getAsideGithubButton(aside) || getAsideSurveyButton(aside) || getAsideFirstTocLink(aside)
+    return getAsideGithubButton(aside) || getAsideFirstTocLink(aside)
   }
 
   const getFocusableSearchBox = () => {
@@ -99,7 +99,6 @@
 
   const getAsideFirstTocLink = (aside) => aside.querySelector('.aside-toc a')
   const getAsideGithubButton = (aside) => aside.querySelector('a.github')
-  const getAsideSurveyButton = (aside) => aside.querySelector('a.survey-link')
 
   const getMainSelector = () => {
     if (isSearchPage()) return getFocusableSearchBox()

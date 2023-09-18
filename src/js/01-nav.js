@@ -688,13 +688,17 @@
       versions.reduce((lastVersionData, versionData) => {
         if (!isArchiveSite()) {
           if (versionData === currentVersionData) {
-            navVersionMenu.appendChild(createElement('span.nav-version-label', languageMap[document.documentElement.lang].currentVersion))
+            navVersionMenu.appendChild(
+              createElement('span.nav-version-label', languageMap[document.documentElement.lang].currentVersion)
+            )
           } else if (versionData.prerelease) {
             if (!lastVersionData) {
               navVersionMenu.appendChild(createElement('span.nav-version-label', 'Prerelease versions'))
             }
           } else if (lastVersionData === currentVersionData) {
-            navVersionMenu.appendChild(createElement('span.nav-version-label', languageMap[document.documentElement.lang].previousVersions))
+            navVersionMenu.appendChild(
+              createElement('span.nav-version-label', languageMap[document.documentElement.lang].previousVersions)
+            )
           }
         } else if (versionData === currentVersionData) {
           navVersionMenu.appendChild(createElement('span.nav-version-label', 'Archived versions'))
