@@ -84,11 +84,12 @@ see https://segment.com/docs/connections/sources/catalog/libraries/website/javas
 
     const organizationId = "mulesoftprodqzggq6re";
     const accessToken = "{{env.COVEO_API_KEY}}";
+    const isProdSite = (hostname) => hostname === "docs.mulesoft.com";
     const onHomePage = (pathName) => pathName === '/' || pathName.endsWith('/general/');
 
     initSearch(organizationId, accessToken);
-    initCoveoUserAnalytics(organizationId, accessToken);
     initContentRecommendations(organizationId, accessToken);
+    if (isProdSite(window.location.hostname)) initCoveoUserAnalytics(organizationId, accessToken);
   })();
 </script>
 {{/if}}

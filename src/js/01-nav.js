@@ -8,9 +8,13 @@
   const languageMap = {
     en: {
       title: 'Home',
+      currentVersion: 'Current version',
+      previousVersions: 'Previous versions',
     },
     jp: {
       title: 'ホーム',
+      currentVersion: '最新バージョン',
+      previousVersions: '以前のバージョン',
     },
   }
 
@@ -206,22 +210,16 @@
     setTimeout(() => {
       const tabIndex = document.querySelector('.nav-version-menu.is-active') ? 0 : -1
       const navVersionOptions = document.querySelectorAll('.nav-version-option')
-      navVersionOptions.forEach((navVersionOption) => {
-        navVersionOption.setAttribute('tabindex', tabIndex)
-      })
+      navVersionOptions.forEach((no) => no.setAttribute('tabindex', tabIndex))
       const tooltipDots = document.querySelectorAll('.nav-version-menu .tooltip-dot-nav-version')
-      tooltipDots.forEach((tooltipDot) => {
-        tooltipDot.setAttribute('tabindex', tabIndex)
-      })
+      tooltipDots.forEach((td) => td.setAttribute('tabindex', tabIndex))
     }, 200)
   }
 
   function toggleSubNav () {
     this.classList.toggle('is-active')
     const toggleButton = this.querySelector('.nav-item-toggle')
-    if (toggleButton) {
-      toggleButton.ariaExpanded = this.classList.contains('is-active')
-    }
+    if (toggleButton) toggleButton.ariaExpanded = this.classList.contains('is-active')
   }
 
   function closeActiveVersionMenu (e) {
@@ -234,10 +232,9 @@
 
   const getBannerHeight = () => {
     const topBanner = document.querySelector('.top-banner')
-    if (topBanner) {
-      return topBanner.offsetHeight
-    }
-    return 0
+    return topBanner
+      ? topBanner.offsetHeight
+      : 0
   }
 
   function hideVersionMenu (menu, force) {
@@ -251,7 +248,7 @@
     }
   }
 
-  function inhibitSelectionOnSecondClick (e) {
+  const inhibitSelectionOnSecondClick = (e) => {
     if (e.detail > 1) e.preventDefault()
   }
 
@@ -264,9 +261,7 @@
     )
   }
 
-  function trapEvent (e) {
-    e.stopPropagation()
-  }
+  const trapEvent = (e) => e.stopPropagation()
 
   const trimArray = (arr) => {
     let start = 0
@@ -282,9 +277,7 @@
     return arr.slice(start, end)
   }
 
-  const coerceToArray = (val) => {
-    return Array.isArray(val) ? val : [val]
-  }
+  const coerceToArray = (val) => Array.isArray(val) ? val : [val]
 
   const clearSelected = (parentElement) => {
     const childrenElements = parentElement.querySelectorAll('button.selected')
@@ -293,37 +286,15 @@
     })
   }
 
-  const setTitle = (title) => {
-    return isArchiveSite() ? `Archive ${title}` : languageMap[document.documentElement.lang].title
-  }
+  const setTitle = (title) => isArchiveSite() ? `Archive ${title}` : languageMap[document.documentElement.lang].title
 
-  const isArchiveSite = () => {
-    return window.location.host.includes('archive')
-  }
-
-  const isBetaSite = () => {
-    return isExternalBetaSite() || isInternalBetaSite() || isReviewSite()
-  }
-
-  const isExternalBetaSite = () => {
-    return window.location.host.includes('beta')
-  }
-
-  const isInternalBetaSite = () => {
-    return window.location.host.includes('dev-docs-internal')
-  }
-
-  const isJapaneseSite = () => {
-    return document.documentElement.lang === 'jp'
-  }
-
-  const isLocalBuild = () => {
-    return window.location.href.startsWith('file://')
-  }
-
-  const isReviewSite = () => {
-    return window.location.host.includes('review')
-  }
+  const isArchiveSite = () => window.location.host.includes('archive')
+  const isBetaSite = () => isExternalBetaSite() || isInternalBetaSite() || isReviewSite()
+  const isExternalBetaSite = () => window.location.host.includes('beta')
+  const isInternalBetaSite = () => window.location.host.includes('dev-docs-internal')
+  const isJapaneseSite = () => document.documentElement.lang === 'jp'
+  const isLocalBuild = () => window.location.href.startsWith('file://')
+  const isReviewSite = () => window.location.host.includes('review')
 
   const getNavData = () => {
     const components = window.siteNavigationData
@@ -684,13 +655,17 @@
       versions.reduce((lastVersionData, versionData) => {
         if (!isArchiveSite()) {
           if (versionData === currentVersionData) {
-            navVersionMenu.appendChild(createElement('span.nav-version-label', 'Current version'))
+            navVersionMenu.appendChild(
+              createElement('span.nav-version-label', languageMap[document.documentElement.lang].currentVersion)
+            )
           } else if (versionData.prerelease) {
             if (!lastVersionData) {
               navVersionMenu.appendChild(createElement('span.nav-version-label', 'Prerelease versions'))
             }
           } else if (lastVersionData === currentVersionData) {
-            navVersionMenu.appendChild(createElement('span.nav-version-label', 'Previous versions'))
+            navVersionMenu.appendChild(
+              createElement('span.nav-version-label', languageMap[document.documentElement.lang].previousVersions)
+            )
           }
         } else if (versionData === currentVersionData) {
           navVersionMenu.appendChild(createElement('span.nav-version-label', 'Archived versions'))
