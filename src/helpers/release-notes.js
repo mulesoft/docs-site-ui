@@ -1,5 +1,5 @@
 const maxNumofItems = 10
-const components = ['composer', 'release-notes']
+const components = ['composer', 'release-notes', 'docs-code-builder']
 
 const getDatedReleaseNotesRawPages = (contentCatalog) => {
   return contentCatalog.getPages(({ asciidoc, out }) => {
