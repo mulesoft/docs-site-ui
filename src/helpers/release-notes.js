@@ -1,5 +1,6 @@
 const maxNumofItems = 10
 const components = ['composer', 'release-notes', 'anypoint-code-builder']
+const duplicateMap = {}
 
 const getDatedReleaseNotesRawPages = (contentCatalog) => {
   return contentCatalog.getPages(({ asciidoc, out }) => {
@@ -36,7 +37,13 @@ const getResultList = (pageUIModels, maxNumberOfPages) => {
   const resultList = []
   for (let i = 0; i < maxNumberOfPages; i++) {
     const page = pageUIModels[i]
-    if (page.attributes?.revdate && page.title) resultList.push(getSelectedAttributes(page))
+    if (page.attributes?.revdate && page.title) {
+      const revDateTitle = page.attributes.revdate + page.title
+      if (!(revDateTitle in duplicateMap)) {
+        duplicateMap[revDateTitle] = true
+        resultList.push(getSelectedAttributes(page))
+      }
+    }
   }
   return resultList
 }
