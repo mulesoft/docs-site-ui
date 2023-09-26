@@ -12,7 +12,7 @@ module.exports = ({
 
   const deploymentOptionsArr = deploymentOptions.split(',').map((item) => item.trim())
   return {
-    ch1: deploymentOptionsArr.includes('ch1'),
+    ch: deploymentOptionsArr.includes('ch'),
     ch2: deploymentOptionsArr.includes('ch2'),
     hybrid: deploymentOptionsArr.includes('hybrid'),
     pce: deploymentOptionsArr.includes('pce'),
