@@ -17,5 +17,7 @@ module.exports = ({
     hybrid: deploymentOptionsArr.includes('hybrid'),
     pce: deploymentOptionsArr.includes('pce'),
     rtf: deploymentOptionsArr.includes('rtf'),
+    cloudIDE: deploymentOptionsArr.includes('cloud-ide'),
+    desktopIDE: deploymentOptionsArr.includes('desktop-ide'),
   }
 }

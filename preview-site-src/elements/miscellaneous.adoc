@@ -1,7 +1,7 @@
 = Miscellaneous
 :keywords: miscellaneous
 :page-component-name: elements
-:page-deployment-options: ch2, ch1, rtf, pce, hybrid
+:page-deployment-options: ch2, ch1, rtf, pce, hybrid, cloud-ide, desktop-ide
 
 == Text
 
