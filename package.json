@@ -27,7 +27,7 @@
     "@asciidoctor/tabs": "latest",
     "@mulesoft/lume-icon": "^0.1.47",
     "@mulesoft/lume-styling-hooks": "0.2.4",
-    "@octokit/rest": "20.0.1",
+    "@octokit/rest": "20.0.2",
     "@ronilaukkarinen/gulp-stylelint": "^14.1.1",
     "asciidoctor": "3.0.2",
     "autoprefixer": "10.4.16",
