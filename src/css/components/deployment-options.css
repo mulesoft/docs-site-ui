@@ -9,20 +9,23 @@
         color: var(--steel-2);
         column-gap: 3px;
         font-size: 12px;
+        margin: 0;
         padding: 2px 3px;
         text-decoration: none;
 
-        &:active,
-        &:focus {
-            border: 1px solid var(--lume-g-color-blue-30);
-            box-shadow: 0 0 0 3px #00a2df40;
-            font-family: var(--sans-serif-bold);
-        }
-
-        &:hover {
-            border-color: var(--steel-2);
-            box-shadow: 0 0 0 3px #58595a4d;
-            color: var(--steel-2);
+        & a {
+            &:active,
+            &:focus {
+                border: 1px solid var(--lume-g-color-blue-30);
+                box-shadow: 0 0 0 3px #00a2df40;
+                font-family: var(--sans-serif-bold);
+            }
+            
+            &:hover {
+                border-color: var(--steel-2);
+                box-shadow: 0 0 0 3px #58595a4d;
+                color: var(--steel-2);
+            }
         }
     }
 }
