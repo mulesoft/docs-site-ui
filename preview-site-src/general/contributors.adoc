@@ -6,5 +6,6 @@ Here is a list of the contributors who have ever contributed to this UI bundle (
 
 * Armel Gansop
 * Dan Allen
+* Fer Mujica
 * Gary Cheung
 * Steve-O Anderson
