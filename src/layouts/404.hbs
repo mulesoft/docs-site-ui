@@ -2,11 +2,10 @@
 <html lang={{#if (eq (site-profile) 'jp' )}}"jp"{{else}}"en"{{/if}}>
 
 <head>
-    {{#if (eq (site-profile) 'jp')}}
-    <title>{{{detag (or page.title 'ページが見つかりません')}}}{{#if site.title}} | {{{site.title}}}{{/if}}</title>
-    {{else}}
-    <title>{{{detag (or page.title 'Page Not Found')}}}{{#if site.title}} | {{{site.title}}}{{/if}}</title>
-    {{/if}}
+    <title>
+        {{#if (eq (site-profile) 'jp')}}ページが見つかりません{{else}}Page Not Found{{/if}}
+        {{#if site.title}} | {{{site.title}}}{{/if}}
+    </title>
     {{> head}}
 </head>
 
