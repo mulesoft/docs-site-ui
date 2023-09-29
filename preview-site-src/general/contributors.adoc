@@ -4,7 +4,6 @@ endif::[]
 
 Here is a list of the individuals who have ever contributed to this UI bundle (in alphabetical order):
 
-* Armel Gansop
 * Dan Allen
 * Fer Mujica
 * Gary Cheung
