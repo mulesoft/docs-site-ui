@@ -2,7 +2,7 @@
 ifndef::env-site,env-github[]
 endif::[]
 
-Here is a list of the contributors who have ever contributed to this UI bundle (in alphabetical order):
+Here is a list of the individuals who have ever contributed to this UI bundle (in alphabetical order):
 
 * Armel Gansop
 * Dan Allen
