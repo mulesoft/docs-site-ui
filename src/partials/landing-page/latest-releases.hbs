@@ -3,7 +3,7 @@
     <h2 id="latest-releases"><a class="anchor" href="#latest-releases"><img loading="lazy" role="link"
           class="anchor-image" src="../_/img/icons/anchor.svg" alt="Jump to Latest Releases"
           title="Jump to Latest Releases"></a>
-      {{#if preview}}Contributor Signatures{{else}}Latest Releases{{/if}}
+      Latest Releases
     </h2>
     <table class="tableblock frame-all grid-all stretch">
       <colgroup>
@@ -11,9 +11,6 @@
         <col style="width: 90%;">
       </colgroup>
       <tbody>
-        {{#if preview}}
-        {{> quickstart}}
-        {{else}}
         {{#each (release-notes page.componentVersion.asciidoc.attributes.numberOfReleaseNotesItems)}}
         <tr>
           <td class="tableblock halign-left valign-top">
@@ -25,13 +22,10 @@
           </td>
         </tr>
         {{/each}}
-        {{/if}}
       </tbody>
     </table>
-    {{#if (not preview)}}
     <div class="paragraph">
       <p><a href="../release-notes/index.html" class="view-all">View all release notes</a></p>
     </div>
-    {{/if}}
   </div>
 </div>
