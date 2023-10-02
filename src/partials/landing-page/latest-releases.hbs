@@ -11,6 +11,9 @@
         <col style="width: 90%;">
       </colgroup>
       <tbody>
+        {{#if preview}}
+        {{> quickstart}}
+        {{else}}
         {{#each (release-notes page.componentVersion.asciidoc.attributes.numberOfReleaseNotesItems)}}
         <tr>
           <td class="tableblock halign-left valign-top">
@@ -22,10 +25,13 @@
           </td>
         </tr>
         {{/each}}
+        {{/if}}
       </tbody>
     </table>
+    {{#if (not preview)}}
     <div class="paragraph">
       <p><a href="../release-notes/index.html" class="view-all">View all release notes</a></p>
     </div>
+    {{/if}}
   </div>
 </div>

@@ -9,6 +9,7 @@
         color: var(--steel-2);
         column-gap: 3px;
         font-size: 12px;
+        margin: 0;
         padding: 2px 3px;
         text-decoration: none;
 
