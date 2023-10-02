@@ -24,6 +24,8 @@ site:
           items:
           - content: Search
             url: /general/search.html
+          - content: Contributors
+            url: /general/contributors.html
           - content: Maintenance
             url: /general/maintenance.html
           - content: Build and Deploy an API
@@ -63,8 +65,6 @@ site:
             url: /release-notes/by-date-index.html
           - content: Release Notes by Product
             url: /release-notes/
-          - content: Release Notes Archive
-            url: /release-notes/archive-index.html
       versions:
       - *release_notes_latest
     elements:
