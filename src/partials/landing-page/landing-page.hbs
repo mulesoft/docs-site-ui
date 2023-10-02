@@ -4,7 +4,12 @@
     {{{page.contents.cta}}}
   </header>
   <div class='panels'>
+    {{#if preview}}
+    {{> contributor-signatures}}
+    {{else}}
     {{> latest-releases}}
+    {{/if}}
+    
     <div class='panel'>
       {{{page.contents.popular-topics}}}
     </div>
