@@ -232,9 +232,7 @@
 
   const getBannerHeight = () => {
     const topBanner = document.querySelector('.top-banner')
-    return topBanner
-      ? topBanner.offsetHeight
-      : 0
+    return topBanner ? topBanner.offsetHeight : 0
   }
 
   function hideVersionMenu (menu, force) {
@@ -277,7 +275,7 @@
     return arr.slice(start, end)
   }
 
-  const coerceToArray = (val) => Array.isArray(val) ? val : [val]
+  const coerceToArray = (val) => (Array.isArray(val) ? val : [val])
 
   const clearSelected = (parentElement) => {
     const childrenElements = parentElement.querySelectorAll('button.selected')
@@ -286,7 +284,7 @@
     })
   }
 
-  const setTitle = (title) => isArchiveSite() ? `Archive ${title}` : languageMap[document.documentElement.lang].title
+  const setTitle = (title) => (isArchiveSite() ? `Archive ${title}` : languageMap[document.documentElement.lang].title)
 
   const isArchiveSite = () => window.location.host.includes('archive')
   const isBetaSite = () => isExternalBetaSite() || isInternalBetaSite() || isReviewSite()
