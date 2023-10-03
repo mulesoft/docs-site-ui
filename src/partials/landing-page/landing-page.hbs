@@ -4,7 +4,11 @@
     {{{page.contents.cta}}}
   </header>
   <div class='panels'>
+    {{#if preview}}
+    {{> contributor-signatures}}
+    {{else}}
     {{> latest-releases}}
+    {{/if}}
     {{> popular-topics}}
   </div>
   {{{page.contents.the-road}}}
