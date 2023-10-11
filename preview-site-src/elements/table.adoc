@@ -393,3 +393,16 @@ You can use *Continue On Error* in conjunction with *Use Single Transaction*. Su
 | Multipart reader performance is enhanced by using the proper input stream implementation. | W-13099773
 |Fixed OS security vulnerabilities. | N/A
 |===
+
+== Table with multiple paragraphs in a cell
+
+[%header%autowidth.spread]
+|===
+|Property |Description
+|*Address* |Enter the address for this endpoint, such as `http://localhost:8081/file`.
+
+Here is a second paragraph in the same cell.
+
+And here is another paragraph.
+|*Response timeout* |Specify how long the endpoint must wait for a response (in ms). The default is *1000* ms.
+|===
