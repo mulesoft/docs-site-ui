@@ -181,6 +181,10 @@ table:not(.connectors-table, div.admonitionblock table, div.colist table, div.pa
     padding: 10px;
   }
 
+  & td.tableblock p + p {
+    margin-top: var(--md);
+  }
+
   & .source-toolbox {
     top: 1.8rem;
   }
