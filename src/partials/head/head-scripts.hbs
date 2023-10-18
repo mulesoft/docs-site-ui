@@ -84,11 +84,12 @@ see https://segment.com/docs/connections/sources/catalog/libraries/website/javas
 
     const organizationId = "mulesoftprodqzggq6re";
     const accessToken = "{{env.COVEO_API_KEY}}";
+    const crToken = "xxb149e86e-a23c-43f6-9840-95d0bfa55830"; // no need to hide this token - it has extremely limited privilege and will show in the source code anyway
     const isProdSite = (hostname) => hostname === "docs.mulesoft.com";
     const onHomePage = (pathName) => pathName === '/' || pathName.endsWith('/general/');
 
     initSearch(organizationId, accessToken);
-    initContentRecommendations(organizationId, accessToken);
+    initContentRecommendations(organizationId, crToken);
     if (isProdSite(window.location.hostname)) initCoveoUserAnalytics(organizationId, accessToken);
   })();
 </script>
