@@ -84,11 +84,13 @@ atomic-recs-list {
     font-family: var(--heading);
     font-size: 22px;
     line-height: inherit;
+    margin-bottom: 0;
     padding: 0;
   }
 
   &::part(result-list) {
     gap: 1px;
+    margin-left: -5px;
     margin-top: 15px;
   }
 

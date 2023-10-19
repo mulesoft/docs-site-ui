@@ -2,31 +2,42 @@
     <div class="sect2">
         <atomic-recs-interface id="recs" pipeline="MS Docs Site - Popular Topics" search-hub="Popular Topics">
             {{!-- number-of-recommendations seems buggy. We want 7 items but can't specify 7 directly, only 15 would yield 7 results. --}}
-            <atomic-recs-list heading-level=2 label="Popular Topics" number-of-recommendations=15>
+            <atomic-recs-list density="compact" heading-level=2 label="Popular Topics" number-of-recommendations=15>
                 <atomic-recs-result-template>
                     <template>
                         <style>
+                            atomic-result-section-title {
+                                padding-bottom: 2px;
+                            }
+                            atomic-result-link {
+                                margin-bottom: 5px;
+                                margin-left: 5px;
+                                margin-right: 5px;
+                            }
+                            atomic-result-link:focus {
+                                margin-left: 5px;
+                            }
                             atomic-result-link a {
                                 color: var(--lume-g-color-blue-30) !important;
                                 font-family: var(--sans-serif-bold);
                                 font-size: 16px;
                                 line-height: 20px;
-                                text-decoration: none;
+                                text-decoration: none !important;
                             }
 
                             atomic-result-link a:active,
                             atomic-result-link a:focus {
                                 border-radius: 5px;
+                                margin-left: -1px;
                                 outline: 2px solid var(--lume-g-color-neutral-50) !important;
-                                outline-offset: -1px;
+                                padding: 0 1px;
                             }
 
                             atomic-result-link a:hover {
                                 background-color: var(--lume-g-color-blue-80);
                                 border-radius: 5px;
-                                margin-left: -3px;
-                                margin-right: -3px;
-                                padding: 1px 3px;
+                                margin-left: -1px;
+                                padding: 0 1px;
                                 text-decoration: none !important;
                             }
 
