@@ -1,8 +1,8 @@
 <div class='panel'>
     <div class="sect2">
         <atomic-recs-interface id="recs" pipeline="MS Docs Site - Popular Topics" search-hub="Popular Topics">
-            {{!-- number-of-recommendations seems buggy. We want 7 items but can't specify 7 directly, only 15 would yield 7 results. --}}
-            <atomic-recs-list density="compact" heading-level=2 label="Popular Topics" number-of-recommendations=15>
+            {{!-- number-of-recommendations seems buggy. We want 7 items but can't specify 7 directly, only another number (like 10) would yield 7 results. Please test for the exact number in the preview site. --}}
+            <atomic-recs-list density="compact" heading-level=2 label="Popular Topics" number-of-recommendations=10>
                 <atomic-recs-result-template>
                     <template>
                         <style>
