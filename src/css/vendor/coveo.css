@@ -84,7 +84,7 @@ atomic-recs-list {
     font-family: var(--heading);
     font-size: 22px;
     line-height: inherit;
-    margin-bottom: 0;
+    margin-bottom: -8px;
     padding: 0;
   }
 
