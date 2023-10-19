@@ -31,9 +31,6 @@
         versionFacet.setAttribute('sort-criteria', 'score')
         versionFacet.setAttribute('with-search', false)
 
-        const latestVersionValue = getLatestVersionValue(versions[0])
-        if (latestVersionValue) versionFacet.setAttribute('value-checkbox-checked', latestVersionValue)
-
         return versionFacet
       }
     }
@@ -45,10 +42,6 @@
       listOfVersions[0] += ' [latest]'
       return `["${listOfVersions.slice(0, 25).join('", "')}"]`
     }
-  }
-
-  const getLatestVersionValue = (version) => {
-    if (version?.displayVersion) return `${version.displayVersion} (latest)`
   }
 
   const isNumberedVersion = (versionName) => !['default', 'latest', 'master'].includes(versionName)
