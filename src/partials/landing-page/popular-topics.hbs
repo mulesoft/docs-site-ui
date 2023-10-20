@@ -11,7 +11,7 @@
                             }
                             atomic-result-link {
                                 margin-bottom: 5px;
-                                margin-left: 5px;
+                                margin-left: 20px;
                                 margin-right: 5px;
                             }
                             atomic-result-link:focus {
@@ -23,6 +23,17 @@
                                 font-size: 16px;
                                 line-height: 20px;
                                 text-decoration: none !important;
+                            }
+
+                            atomic-result-link a::before {
+                                content: "";
+                                position: absolute;
+                                top: 12px;
+                                left: 5px;
+                                width: 6px;
+                                height: 6px;
+                                border-radius: 50%;
+                                border: 3px solid black;
                             }
 
                             atomic-result-link a:active,
