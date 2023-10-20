@@ -34,7 +34,6 @@
       const headerText = parentHeading.textContent
       if (headerText) {
         const copyLinkBtn = createCopyLinkBtn(anchor.href)
-        //anchor.setAttribute('aria-label', `Jump to ${headerText}`)
         parentHeading.replaceChild(copyLinkBtn, anchor);
       }
     })
@@ -56,7 +55,7 @@
       placement: 'bottom',
       trigger: eventType,
       theme: 'copy-link-popover',
-      touchHold: true, // maps touch as click (for some reason)
+      touchHold: true,
       zIndex: 'var(--z-nav-mobile)'
     })
   }
