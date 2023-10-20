@@ -155,14 +155,6 @@
     }
   }
 
-  & a.link {
-    text-decoration: none;
-
-    &:hover {
-      text-decoration: underline;
-    }
-  }
-
   & p,
   & ul,
   & ol,
@@ -191,7 +183,6 @@
       .button-primary,
       .deployment-option,
       .dw-playground-link,
-      .link,
       .notice-banner-link,
       .view-all,
       #cta *
