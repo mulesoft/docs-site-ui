@@ -10,7 +10,6 @@
 
     btn.appendChild(img)
     btn.setAttribute('aria-label', copyText)
-    btn.setAttribute('data-href', href)
     btn.classList.add('button-copy-link')
     btn.addEventListener('click', copyLinkToClipboard.bind(btn, href))
     img.setAttribute('alt', copyText)
@@ -20,12 +19,7 @@
   }
 
   function copyLinkToClipboard (linkToCopy) {
-    window.navigator.clipboard.writeText(linkToCopy).then(
-      function () {
-        this.classList.add('clicked')
-      }.bind(this),
-      function () {}
-    )
+    window.navigator.clipboard.writeText(linkToCopy)
   }
 
   const convertSectAnchors = () => {
