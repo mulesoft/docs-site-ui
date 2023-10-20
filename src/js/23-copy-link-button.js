@@ -28,10 +28,11 @@
       const headerText = parentHeading.textContent
       if (headerText) {
         const copyLinkBtn = createCopyLinkBtn(anchor.href)
-        parentHeading.replaceChild(copyLinkBtn, anchor);
+        parentHeading.replaceChild(copyLinkBtn, anchor)
       }
     })
   }
+
   const addCopyLinkTooltips = () => {
     document.querySelectorAll('.button-copy-link').forEach((button) => {
       createTooltip(button, 'mouseenter', 'Copy link to clipboard')
@@ -50,7 +51,7 @@
       trigger: eventType,
       theme: 'copy-link-popover',
       touchHold: true,
-      zIndex: 'var(--z-nav-mobile)'
+      zIndex: 'var(--z-nav-mobile)',
     })
   }
 
