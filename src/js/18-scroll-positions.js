@@ -1,7 +1,6 @@
 ;(() => {
   'use strict'
 
-  const uiRootPath = document.getElementById('site-script').dataset.uiRootPath
   const toolbar = document.querySelector('.toolbar')
   const noticeBanner = document.querySelector('.notice-banner')
   const topBanner = document.querySelector('.top-banner')
@@ -30,18 +29,6 @@
     }, 50)
   }
 
-  const createLinkImage = (iconName, titleText) => {
-    const img = document.createElement('img')
-    if (titleText) {
-      img.alt = titleText
-      img.setAttribute('title', titleText)
-    }
-    img.setAttribute('role', 'link')
-    img.classList.add(`${iconName}-image`)
-    img.src = `${uiRootPath}/img/icons/${iconName}.svg`
-    return img
-  }
-
   const getAnchorLink = (link) => link.href.split('#')[1]
 
   const getMinHeight = () => {
@@ -60,18 +47,15 @@
         adjustScrollPosition(anchor)
       })
 
-      const headerText = anchor.parentElement.textContent
+      const parentHeading = anchor.parentElement
+      const headerText = parentHeading.textContent
       if (headerText) {
-        const anchorImg = createLinkImage('anchor', headerText)
-        anchor.appendChild(anchorImg)
-        anchor.setAttribute('aria-label', `Jump to ${headerText}`)
-
         const sidebarLinks = [...document.querySelectorAll('.toc-menu a')].filter((a) => a.textContent === headerText)
         if (sidebarLinks.length > 0) {
           sidebarLinks[0].addEventListener('click', () => {
-            adjustScrollPosition(anchor)
+            adjustScrollPosition(parentHeading)
             setTimeout(() => {
-              anchor.focus()
+              parentHeading.focus()
             }, 100)
           })
         }
