@@ -774,19 +774,22 @@
         const iconId = 'icon-nav-component-' + component.name
         componentsAccum[component.name] = component = Object.assign({}, component, {
           iconId: document.getElementById(iconId) ? iconId : componentIconId,
-          versions: component.versions.reduce((versionsAccum, version) => {
-            const versionName = version.version === 'master' || !version.version ? '' : version.version
-            versionsAccum[versionName] = version = Object.assign({}, version, {
-              version: versionName,
-              nav: Object.assign({ items: [] }, version.sets[0]),
-            })
-            if (versionName && !version.displayVersion) version.displayVersion = versionName
-            version.sets.slice(1).forEach((set) => {
-              version.nav.items = version.nav.items.concat(set.items) // quick fix to merge multiple sets together
-            })
-            delete version.sets
-            return versionsAccum
-          }, (versions = {})),
+          versions: component.versions.reduce(
+            (versionsAccum, version) => {
+              const versionName = version.version === 'master' || !version.version ? '' : version.version
+              versionsAccum[versionName] = version = Object.assign({}, version, {
+                version: versionName,
+                nav: Object.assign({ items: [] }, version.sets[0]),
+              })
+              if (versionName && !version.displayVersion) version.displayVersion = versionName
+              version.sets.slice(1).forEach((set) => {
+                version.nav.items = version.nav.items.concat(set.items) // quick fix to merge multiple sets together
+              })
+              delete version.sets
+              return versionsAccum
+            },
+            (versions = {})
+          ),
         })
 
         if ('' in versions && Object.keys(versions).length === 1) {

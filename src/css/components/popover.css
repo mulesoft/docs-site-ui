@@ -13,7 +13,8 @@
   padding-right: 15px;
 }
 
-.tippy-box[data-theme~="current-version-popover"] {
+.tippy-box[data-theme~="current-version-popover"],
+.tippy-box[data-theme~="copy-link-popover"] {
   background: var(--lume-g-color-blue-30);
   border: none;
   color: var(--tertiary);
