@@ -305,7 +305,7 @@
   }
 
   & p code,
-  .calloutlist code {
+  & .calloutlist code {
     background: var(--aluminum-1);
     border: 1px solid var(--aluminum-3);
     border-radius: 2px;
