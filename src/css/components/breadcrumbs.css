@@ -3,8 +3,7 @@
   font-size: 12px;
   height: var(--input-md); /* match search input */
   margin-left: 5px;
-  overflow-x: auto;
-  overflow-y: hidden;
+  overflow: auto hidden;
   padding-left: 7px;
   white-space: nowrap;
 
@@ -139,8 +138,7 @@
   display: flex;
   height: var(--breadcrumbs-drawer-height);
   min-height: 2em;
-  overflow-x: auto;
-  overflow-y: hidden;
+  overflow: auto hidden;
   padding: 10px 20px;
   position: sticky;
   top: 50px;

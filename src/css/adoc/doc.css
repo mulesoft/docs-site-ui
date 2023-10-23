@@ -205,7 +205,6 @@
     &:hover {
       background-color: var(--lume-g-color-blue-80);
       border-radius: 5px;
-      color: var(--lume-g-color-blue-30);
 
       &:not(.anchor) {
         margin-left: -3px;
@@ -276,7 +275,6 @@
     }
 
     & .code-expand {
-      align-content: center;
       background: var(--lume-g-color-neutral-90);
       bottom: -25px;
       cursor: pointer;
@@ -284,7 +282,7 @@
       flex-wrap: wrap;
       font-family: var(--sans-serif);
       height: var(--lume-g-font-size-4);
-      justify-content: center;
+      place-content: center;
       position: absolute;
       right: 0;
       width: 100%;

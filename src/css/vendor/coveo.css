@@ -78,6 +78,42 @@ atomic-facet {
   }
 }
 
+atomic-recs-list {
+  &::part(label) {
+    color: #000;
+    font-family: var(--heading);
+    font-size: 22px;
+    line-height: inherit;
+    margin-bottom: -8px;
+    padding: 0;
+  }
+
+  &::part(result-list) {
+    gap: 1px;
+    margin-left: -5px;
+    margin-top: 15px;
+  }
+
+  &::part(result-list-grid-clickable) {
+    display: none;
+  }
+
+  &::part(result-list-grid-clickable-container) {
+    border: none;
+    box-shadow: none;
+    padding: unset;
+    width: fit-content;
+  }
+}
+
+atomic-recs-result {
+  &::part(result-list-grid-clickable) {
+    color: var(--lume-g-color-blue-30);
+    font-family: var(--sans-serif-bold);
+    font-size: 16px;
+  }
+}
+
 atomic-pager::part(next-button),
 atomic-pager::part(page-button),
 atomic-pager::part(previous-button),
