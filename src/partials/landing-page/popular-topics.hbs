@@ -1,0 +1,71 @@
+<div class='panel'>
+    <div class="sect2">
+        <atomic-recs-interface id="recs" pipeline="MS Docs Site - Popular Topics" search-hub="Popular Topics">
+            {{!-- number-of-recommendations seems buggy. We want 7 items but can't specify 7 directly, only another number (like 10) would yield 7 results. Please test for the exact number in the preview site. --}}
+            <atomic-recs-list density="compact" heading-level=2 label="Popular Topics" number-of-recommendations=10>
+                <atomic-recs-result-template>
+                    <template>
+                        <style>
+                            atomic-result-section-title {
+                                margin-left: 30px;
+                                padding-bottom: 2px;
+                            }
+
+                            atomic-result-link {
+                                margin-bottom: 5px;
+                                margin-right: 5px;
+                            }
+
+                            atomic-result-link:focus {
+                                margin-left: 5px;
+                            }
+
+                            atomic-result-link a {
+                                color: var(--lume-g-color-blue-30) !important;
+                                font-family: var(--sans-serif-bold);
+                                font-size: 16px;
+                                line-height: 20px;
+                                text-decoration: none !important;
+                            }
+
+                            atomic-result-link a::before {
+                                content: "";
+                                position: absolute;
+                                top: 12px;
+                                left: 15px;
+                                width: 6px;
+                                height: 6px;
+                                border-radius: 50%;
+                                border: 3px solid black;
+                            }
+
+                            atomic-result-link a:active,
+                            atomic-result-link a:focus {
+                                border-radius: 5px;
+                                margin-left: -1px;
+                                outline: 2px solid var(--lume-g-color-neutral-50) !important;
+                                padding: 0 1px;
+                            }
+
+                            atomic-result-link a:hover {
+                                background-color: var(--lume-g-color-blue-80);
+                                border-radius: 5px;
+                                margin-left: -1px;
+                                padding: 0 1px;
+                                text-decoration: none !important;
+                            }
+
+                            atomic-result-link a:visited {
+                                color: var(--violet) !important;
+                            }
+                        </style>
+                        <atomic-result-section-title>
+                            <atomic-result-link target="_blank"></atomic-result-link>
+                        </atomic-result-section-title>
+                    </template>
+                </atomic-recs-result-template>
+            </atomic-recs-list>
+            <atomic-recs-error></atomic-recs-error>
+        </atomic-recs-interface>
+    </div>
+</div>

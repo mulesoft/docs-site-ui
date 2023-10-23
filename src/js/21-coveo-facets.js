@@ -30,6 +30,7 @@
         versionFacet.setAttribute('number-of-value', 20)
         versionFacet.setAttribute('sort-criteria', 'score')
         versionFacet.setAttribute('with-search', false)
+
         return versionFacet
       }
     }
