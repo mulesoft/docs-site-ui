@@ -1,11 +1,11 @@
 <aside class="toc toc-sidebar scrollbar">
 <div class="skip-link-container">
-    <button tabindex="0" class="skip-link">Skip to main content</button>
+    <button tabindex="0" class="skip-link hide-until-l10n" data-l10n-text="right-nav-skip-to-main">Skip to main content</button>
 </div>
 {{> github}}
-<h1 class="toc-title">{{#if (eq (site-profile) 'jp' )}}このページの内容{{else}}On this page{{/if}}:</h1>
+<h1 class="toc-title hide-until-l10n" data-l10n-text="right-nav-on-this-page">On this page:</h1>
 <div class="aside-toc">
-    <nav class="toc-menu" aria-label="Skip to page content sections"></nav>
+    <nav class="toc-menu" data-l10n-label="right-nav-skip-to-sections"></nav>
 </div>
 {{#if (ne page.layout '404')}}
 {{/if}}
