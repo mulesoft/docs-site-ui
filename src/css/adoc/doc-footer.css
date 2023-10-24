@@ -2,10 +2,10 @@
   padding: 300px var(--xl) var(--xl);
 
   & button {
-    border-color: var(--lume-g-color-blue-50);
+    border-color: var(--sds-c-button-color-background);
     border-radius: 5px;
     border-width: 2px;
-    color: var(--lume-g-color-blue-50);
+    color: var(--sds-c-button-color-background);
     column-gap: 4px;
     font-family: var(--sans-serif-bold);
     font-size: 14px;
@@ -14,7 +14,7 @@
 
     &:hover:not(:disabled) {
       /* this is for overriding the default button focus color */
-      color: var(--lume-g-color-blue-50);
+      color: var(--sds-c-button-color-background);
     }
 
     & img {
@@ -46,7 +46,6 @@
   }
 
   & .feedback-form {
-    padding: var(--sm) 13px;
     width: 100%;
 
     & .contact-info {
@@ -87,15 +86,15 @@
     padding-top: 5px;
 
     & .feedback-form-button {
-      border-radius: 0;
+      background-color: var(--sds-c-button-color-background);
+      border-radius: 5px;
       font-family: var(--sans-serif);
       font-size: 14px;
-      height: 36px;
       line-height: unset;
-      width: 100px;
+      margin-bottom: 1em;
 
-      &[disabled="disabled"] {
-        cursor: default;
+      &:hover {
+        background-color: var(--sds-c-button-color-background-hover);
       }
     }
   }
@@ -145,9 +144,27 @@
     }
   }
 
-  & input:not([type="button"], [type="submit"]),
+  & fieldset {
+    & label {
+      font-family: var(--sans-serif);
+      padding-left: 0.5em;
+      vertical-align: text-bottom;
+    }
+  }
+
+  & fieldset,
+  & span:not([aria-live], .validation-text, .feedback-form-thank-you) {
+    border: none;
+    font-family: var(--sans-serif-bold);
+    font-size: 12px;
+    margin: auto;
+    padding: 0 0 1em;
+    width: 100%;
+  }
+
+  & input:not([type="button"], [type="checkbox"], [type="submit"]),
   & textarea {
-    border: 1px solid var(--lume-g-color-neutral-80);
+    border: 1px solid var(--steel-2);
     border-radius: 4px;
     margin-bottom: 8px;
     min-height: 32px;
@@ -158,28 +175,15 @@
       border: 1px solid var(--lume-g-color-red-50);
     }
 
-    &:hover {
-      border-color: var(--steel-2);
-    }
-
     &::placeholder {
       color: var(--lume-g-color-neutral-50);
       font-size: 12px;
     }
   }
 
-  & label,
-  & span:not([aria-live], .validation-text, .feedback-form-thank-you),
-  & fieldset {
-    border: none;
-    font-family: var(--sans-serif-bold);
-    font-size: 12px;
-    margin: auto;
-    padding: 0;
-    width: 100%;
-  }
-
-  & legend {
+  & legend,
+  & p > label {
+    font-size: 14px;
     margin-bottom: 8px;
   }
 
@@ -240,6 +244,7 @@
       }
     }
 
+    & legend,
     & p {
       font-size: 14px;
     }

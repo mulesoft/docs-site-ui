@@ -4,7 +4,7 @@ emoji = ':sadpanda:'
 
 def defaultBranch = 'main'
 def failureSlackChannel = '#dux-engineering-github-prs'
-def nodeVersion = '18'
+def nodeVersion = '20'
 
 // the following keywords are used to capture the correct error lines from a failed build's log
 

@@ -5,11 +5,17 @@
   </header>
   <div class='panels'>
     {{#if preview}}
-    {{> contributor-signatures}}
+      {{> contributor-signatures}}
     {{else}}
-    {{> latest-releases}}
+      {{> latest-releases}}
     {{/if}}
-    {{> popular-topics}}
+    {{#if (eq (site-profile) 'jp' )}}
+      <div class='panel'>
+        {{{page.contents.popular-topics}}}
+      </div>
+    {{else}}
+      {{> popular-topics}}
+    {{/if}}
   </div>
   {{{page.contents.the-road}}}
   <footer>
