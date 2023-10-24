@@ -1,13 +1,40 @@
 {
     "en": {
+      "breadcrumbs-home": "Homepage",
+      "code-snippet-collapse-content": "Collapse content",
+      "code-snippet-copy": "Copy to clipboard",
+      "code-snippet-copied": "Copied",
+      "code-snippet-expand-content": "Expand content",
       "copy-link-copied-text": "Copied",
       "copy-link-hover-text": "Copy link to clipboard",
+      "left-nav-current-version": "Current version",
+      "left-nav-latest-version": "This is the latest version.",
+      "left-nav-previous-versions": "Previous versions",
+      "mobile-nav-dropdown-jump-to": "Jump to...",
+      "mobile-menu-button": "Menu",
+      "mobile-table-toggle-description": "Click to toggle the table",
+      "mobile-table-show": "Show",
+      "mobile-table-hide": "Hide",
       "right-nav-on-this-page": "On this page:",
       "right-nav-skip-to-main": "Skip to main content",
       "right-nav-skip-to-sections": "Skip to page content sections"
       },
-    "ja": {
+    "jp": {
+      "breadcrumbs-home": "ホームページ",
+      "code-snippet-collapse-content": "コンテンツを折りたたむ",
+      "code-snippet-copy": "クリップボードにコピー",
+      "code-snippet-copied": "コピー済み",
+      "code-snippet-expand-content": "コンテンツを展開する",
+      "copy-link-copied-text": "コピー済み",
       "copy-link-hover-text": "リンクをクリップボードにコピー",
+      "left-nav-current-version": "最新バージョン",
+      "left-nav-latest-version": "こちらは最新バージョンです。",
+      "left-nav-previous-versions": "以前のバージョン",
+      "mobile-nav-dropdown-jump-to": "ジャンプ先...",
+      "mobile-menu-button": "メニュー",
+      "mobile-table-toggle-description": "クリックしてテーブルを切り替え",
+      "mobile-table-show": "表示",
+      "mobile-table-hide": "非表示",
       "right-nav-on-this-page": "このページの内容:"
     }
 }
