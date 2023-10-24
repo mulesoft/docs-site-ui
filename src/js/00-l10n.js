@@ -2,19 +2,7 @@
 
 var l10n = l10n || {
   fallbackLocale: 'en',
-  messages: {
-    'en': {
-      'copy-link-copied-text': 'Copied',
-      'copy-link-hover-text': 'Copy link to clipboard',
-      'right-nav-on-this-page': 'On this page:',
-      'right-nav-skip-to-main': 'Skip to main content',
-      'right-nav-skip-to-sections': 'Skip to page content sections'
-      },
-    'ja': {
-      'copy-link-hover-text': 'リンクをクリップボードにコピー',
-      'right-nav-on-this-page': 'このページの内容:'
-    }
-  }
+  messages: 'includeLocMessagesAtBuildtime'
 };
 
 l10n.setLocale = function (lang) {
