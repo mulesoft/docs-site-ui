@@ -2,8 +2,8 @@
   'use strict'
 
   const uiRootPath = document.getElementById('site-script').dataset.uiRootPath
-  const copyHoverText = l10n.getMessage('copy-link-hover-text')
-  const copiedText = l10n.getMessage('copy-link-copied-text')
+  const copyHoverText = MSCX.l10n.getMessage('copy-link-hover-text')
+  const copiedText = MSCX.l10n.getMessage('copy-link-copied-text')
 
   const createCopyLinkBtn = (href) => {
     const btn = document.createElement('button')

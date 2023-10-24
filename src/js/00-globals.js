@@ -1,12 +1,13 @@
 'use strict'
 
-// eslint-disable-next-line
-var l10n = l10n || {
-  fallbackLocale: 'en',
-  messages: 'includeLocMessagesAtBuildtime',
+window.MSCX = window.MSCX || {
+  l10n: {
+    fallbackLocale: 'en',
+    messages: 'includeLocMessagesAtBuildtime',
+  },
 }
 
-l10n.setLocale = function (lang) {
+MSCX.l10n.setLocale = function (lang) {
   const docLang = document.documentElement.lang
 
   if (this.messages.hasOwnProperty.call(lang)) {
@@ -23,7 +24,7 @@ l10n.setLocale = function (lang) {
   }
 }
 
-l10n.getMessage = function (messageKey) {
+MSCX.l10n.getMessage = function (messageKey) {
   if (!(messageKey in this.message)) {
     console.error(`Missing UI string: ${messageKey}`)
     return messageKey
@@ -32,23 +33,23 @@ l10n.getMessage = function (messageKey) {
   return this.message[messageKey]
 }
 
-l10n.localizeDOM = function () {
+MSCX.l10n.localizeDOM = function () {
   const loadingElems = document.querySelectorAll('.hide-until-l10n')
 
-  l10n.localizeAttribute('data-l10n-text', 'textContent')
-  l10n.localizeAttribute('data-l10n-label', 'aria-label')
+  MSCX.l10n.localizeAttribute('data-l10n-text', 'textContent')
+  MSCX.l10n.localizeAttribute('data-l10n-label', 'aria-label')
   // Optionally, hide elements until loaded to prevent FOUC
   loadingElems.forEach((elem) => {
     elem.classList.remove('hide-until-l10n')
   })
 }
 
-l10n.localizeAttribute = function (attributeSrc, attributeTarget) {
+MSCX.l10n.localizeAttribute = function (attributeSrc, attributeTarget) {
   let locMsg = ''
   const elems = document.querySelectorAll(`[${attributeSrc}]`)
 
   elems.forEach((elem) => {
-    locMsg = l10n.getMessage(elem.getAttribute(attributeSrc))
+    locMsg = MSCX.l10n.getMessage(elem.getAttribute(attributeSrc))
     if (attributeTarget === 'textContent') {
       elem.textContent = locMsg
     } else {
@@ -57,8 +58,8 @@ l10n.localizeAttribute = function (attributeSrc, attributeTarget) {
   })
 }
 
-l10n.init = (function () {
-  Object.freeze(l10n.messages)
-  l10n.setLocale('ja')
-  window.addEventListener('load', l10n.localizeDOM)
+MSCX.l10n.init = (function () {
+  Object.freeze(MSCX.l10n.messages)
+  MSCX.l10n.setLocale('ja')
+  window.addEventListener('load', MSCX.l10n.localizeDOM)
 })()
