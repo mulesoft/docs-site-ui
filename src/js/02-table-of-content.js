@@ -1,6 +1,8 @@
 ;(() => {
   'use strict'
 
+  const jumpToText = MSCX.l10n.getMessage('mobile-nav-dropdown-jump-to')
+
   const doc = document.querySelector('.doc')
   const sidebar = document.querySelector('.toc-sidebar')
   const main = document.querySelector('.main')
@@ -59,7 +61,7 @@
 
   const createJumpToLabel = () => {
     const jumpTo = document.createElement('option')
-    jumpTo.innerHTML = 'Jump to…'
+    jumpTo.textContent = jumpToText
     jumpTo.setAttribute('disabled', true)
     return jumpTo
   }

@@ -5,18 +5,10 @@
   const nav = document.querySelector('.nav')
   if (!nav) return
 
-  const languageMap = {
-    en: {
-      title: 'Home',
-      currentVersion: 'Current version',
-      previousVersions: 'Previous versions',
-    },
-    jp: {
-      title: 'ホーム',
-      currentVersion: '最新バージョン',
-      previousVersions: '以前のバージョン',
-    },
-  }
+  const homeTitle = MSCX.l10n.getMessage('left-nav-home-title')
+  const currentVersion = MSCX.l10n.getMessage('left-nav-current-version')
+  const latestVersion = MSCX.l10n.getMessage('left-nav-latest-version')
+  const previousVersions = MSCX.l10n.getMessage('left-nav-previous-versions')
 
   const addCurrentVersionIndicator = (parentElement, className) => {
     if (!isArchiveSite()) {
@@ -63,7 +55,7 @@
     currentVersionIndicatorSpan.setAttribute('tabindex', tabIndex)
     tippy(currentVersionIndicatorSpan, {
       arrow: tippy.roundArrow,
-      content: 'This is the latest version.',
+      content: latestVersion,
       distance: 100,
       duration: [0, 150],
       maxWidth: 150,
@@ -284,7 +276,7 @@
     })
   }
 
-  const setTitle = (title) => (isArchiveSite() ? `Archive ${title}` : languageMap[document.documentElement.lang].title)
+  const setTitle = (title) => (isArchiveSite() ? `Archive ${title}` : homeTitle)
 
   const isArchiveSite = () => window.location.host.includes('archive')
   const isBetaSite = () => isExternalBetaSite() || isInternalBetaSite() || isReviewSite()
@@ -403,11 +395,11 @@
       if (!this.alreadyHasComponent('home')) {
         this.navData.components.push({
           name: 'home',
-          title: setTitle('Home'),
+          title: setTitle(homeTitle),
           versions: [
             {
               version: '',
-              sets: [{ content: 'Home', url: this.navData.homeUrl }],
+              sets: [{ content: homeTitle, url: this.navData.homeUrl }],
             },
           ],
         })
@@ -653,17 +645,13 @@
       versions.reduce((lastVersionData, versionData) => {
         if (!isArchiveSite()) {
           if (versionData === currentVersionData) {
-            navVersionMenu.appendChild(
-              createElement('span.nav-version-label', languageMap[document.documentElement.lang].currentVersion)
-            )
+            navVersionMenu.appendChild(createElement('span.nav-version-label', currentVersion))
           } else if (versionData.prerelease) {
             if (!lastVersionData) {
               navVersionMenu.appendChild(createElement('span.nav-version-label', 'Prerelease versions'))
             }
           } else if (lastVersionData === currentVersionData) {
-            navVersionMenu.appendChild(
-              createElement('span.nav-version-label', languageMap[document.documentElement.lang].previousVersions)
-            )
+            navVersionMenu.appendChild(createElement('span.nav-version-label', previousVersions))
           }
         } else if (versionData === currentVersionData) {
           navVersionMenu.appendChild(createElement('span.nav-version-label', 'Archived versions'))

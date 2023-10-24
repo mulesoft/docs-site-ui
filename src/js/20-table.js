@@ -1,6 +1,9 @@
 ;(() => {
   'use strict'
 
+  const tableShowText = MSCX.l10n.getMessage('mobile-table-show')
+  const tableToggleText = MSCX.l10n.getMessage('mobile-table-toggle')
+
   const panels = document.querySelector('div.panels')
 
   const addDataHeader = (tableRow, headerTexts) => {
@@ -60,7 +63,7 @@
     hideButton = setHideButtonAttributes(hideButton)
 
     const hideButtonHelperText = document.createElement('p')
-    hideButtonHelperText.innerText = 'Show'
+    hideButtonHelperText.innerText = tableShowText
     hideButton.appendChild(hideButtonHelperText)
 
     const hideButtonImg = getHideButtonImg()
@@ -130,7 +133,7 @@
   }
 
   const setHideButtonAttributes = (hideButton) => {
-    const label = 'Click to toggle the table'
+    const label = tableToggleText
 
     hideButton.classList.add('flex', 'table-toggle')
     hideButton.setAttribute('aria-expanded', true)
