@@ -25,7 +25,7 @@ MSCX.l10n = (function () {
     }
   }
 
-  function lookupMessage(messageKey) {
+  function lookupMessage (messageKey) {
     if (!(messageKey in messages)) {
       console.error(`Missing UI string: ${messageKey}`)
       return messageKey
@@ -37,8 +37,11 @@ MSCX.l10n = (function () {
   function localizeDOM () {
     const loadingElems = document.querySelectorAll('.hide-until-l10n')
 
-    localizeAttribute('data-l10n-text', 'textContent')
+    localizeAttribute('data-l10n-alt', 'alt')
     localizeAttribute('data-l10n-label', 'aria-label')
+    localizeAttribute('data-l10n-title', 'title')
+    localizeAttribute('data-l10n-text', 'textContent')
+
     // Optionally, hide elements until loaded to prevent FOUC
     loadingElems.forEach((elem) => {
       elem.classList.remove('hide-until-l10n')
@@ -51,6 +54,7 @@ MSCX.l10n = (function () {
 
     elems.forEach((elem) => {
       locMsg = lookupMessage(elem.getAttribute(attributeSrc))
+
       if (attributeTarget === 'textContent') {
         elem.textContent = locMsg
       } else {
@@ -64,6 +68,6 @@ MSCX.l10n = (function () {
   window.addEventListener('load', localizeDOM)
 
   return {
-    getMessage: lookupMessage
+    getMessage: lookupMessage,
   }
 })()
