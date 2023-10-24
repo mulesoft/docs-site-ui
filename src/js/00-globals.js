@@ -10,9 +10,9 @@ window.MSCX = window.MSCX || {
 MSCX.l10n.setLocale = function (lang) {
   const docLang = document.documentElement.lang
 
-  if (this.messages.hasOwnProperty.call(lang)) {
+  if (Object.hasOwn(this.messages, lang)) {
     this.locale = lang
-  } else if (this.messages.hasOwnProperty.call(docLang)) {
+  } else if (Object.hasOwn(this.messages, docLang)) {
     this.locale = docLang
   } else {
     this.locale = this.fallbackLocale
@@ -60,6 +60,6 @@ MSCX.l10n.localizeAttribute = function (attributeSrc, attributeTarget) {
 
 MSCX.l10n.init = (function () {
   Object.freeze(MSCX.l10n.messages)
-  MSCX.l10n.setLocale('ja')
+  MSCX.l10n.setLocale()
   window.addEventListener('load', MSCX.l10n.localizeDOM)
 })()
