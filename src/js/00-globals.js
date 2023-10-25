@@ -42,7 +42,6 @@ MSCX.l10n = (function () {
     localizeAttribute('data-l10n-title', 'title')
     localizeAttribute('data-l10n-text', 'textContent')
 
-    // Optionally, hide elements until loaded to prevent FOUC
     loadingElems.forEach((elem) => {
       elem.classList.remove('hide-until-l10n')
     })
