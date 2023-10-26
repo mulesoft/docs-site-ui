@@ -317,10 +317,6 @@
   & ul {
     font-size: 14px;
     padding-left: var(--lg);
-
-    & a {
-      font-size: 16px;
-    }
   }
 
   & ol.arabic {
