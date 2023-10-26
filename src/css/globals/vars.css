@@ -30,6 +30,10 @@
   --tertiary: #fff;
   --black: #000;
 
+  /* Salesforce Design System colors */
+  --sds-c-button-color-background: #0176d3;
+  --sds-c-button-color-background-hover: #023248;
+
   /* typography */
   --heading: "EAvantGardeBold", arial, sans-serif;
   --sans-serif: "ESF", arial, sans-serif;

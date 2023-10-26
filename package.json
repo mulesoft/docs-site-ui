@@ -7,7 +7,7 @@
     "url": "https://github.com/mulesoft/docs-site-ui"
   },
   "engines": {
-    "node": ">= 18.0.0"
+    "node": ">= 20.0.0"
   },
   "browserslist": [
     "last 2 versions"
@@ -26,7 +26,7 @@
     "@asciidoctor/core": "~2.2",
     "@asciidoctor/tabs": "latest",
     "@mulesoft/lume-icon": "^0.1.47",
-    "@mulesoft/lume-styling-hooks": "0.2.4",
+    "@mulesoft/lume-styling-hooks": "0.2.6",
     "@octokit/rest": "20.0.2",
     "@ronilaukkarinen/gulp-stylelint": "^14.1.1",
     "asciidoctor": "3.0.2",
@@ -57,7 +57,7 @@
     "js-yaml": "4.1.0",
     "merge-stream": "2.0.0",
     "node-fetch": "3.3.2",
-    "node-html-parser": "6.1.10",
+    "node-html-parser": "6.1.11",
     "openpgp": "^5.10.1",
     "pad": "^3.2.0",
     "postcss": "8.4.31",

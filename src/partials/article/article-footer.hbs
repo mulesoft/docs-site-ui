@@ -1,53 +1,6 @@
 {{#if page.component}}
 <footer class="flex col doc-footer">
-  {{#if env.GOOGLE_ANALYTICS_KEY}}
-  <section class="feedback-section flex align-center col">
-    <div class="feedback-row feedback-first-row flex align-center">
-      <div>
-        <p id="feedback-question">Did you find this article useful?</p>
-        <p id="feedback-question-subtitle">Let us know so we can improve!</p>
-      </div>
-      <div class="feedback-options flex">
-        <div>
-          <button class="button flex" id="feedback-yes" aria-label="The article was helpful">
-            <p>Yes</p>
-            <img loading="lazy" src="{{@root.uiRootPath}}/img/icons/like.svg" alt="" height="12">
-          </button>
-        </div>
-        <div>
-          <button class="button flex" id="feedback-no" aria-label="The article was not helpful">
-            <p>No</p>
-            <img loading="lazy" src="{{@root.uiRootPath}}/img/icons/dislike.svg" alt="" height="12">
-          </button>
-        </div>
-        <span aria-live="polite" class="sr-only" id="feedback-ack"></span>
-      </div>
-    </div>
-    <div class="feedback-form hide">
-      <form>
-        <p>
-          <label for="feedback">Share your feedback (required)</label>
-          <input aria-required="true" maxlength="100" placeholder="Let us know what you liked, or how we can improve..." type="text"
-            id="feedback" name="feedback" required>
-          <span class="validation-text hide" id="feedback-validation-text">The feedback field is required</span>
-        </p>
-        <p>
-          <label for="feedback-detail">Please provide further details (optional)</label>
-          <textarea maxlength="1000" placeholder="This is optional, but very helpful..." type="text" id="feedback-detail"
-            name="feedback-detail" rows="4"></textarea>
-        </p>
-        <div class="feedback-form-button-row flex align-center justify-end">
-           <input aria-label="Cancel and minimize feedback form" type="button" name="cancel" value="Cancel" class="button feedback-form-button"/>         
-          <input aria-label="Submit feedback" class="button-primary feedback-form-button" name="submit" type="submit" value="Submit">
-        </div>
-      </form>
-    </div>
-    <span class="feedback-form-thank-you hide" tabIndex="-1">
-      <img loading="lazy" src="{{@root.uiRootPath}}/img/icons/success.svg" alt="">
-      Your feedback has been successfully submitted. Thank you!
-    </span>
-  </section>
-  {{/if}}
+  {{> feedback-form }}
   {{> github}}
 </footer>
 {{/if}}
