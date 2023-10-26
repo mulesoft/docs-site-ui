@@ -2,17 +2,18 @@
   'use strict'
 
   const uiRootPath = document.getElementById('site-script').dataset.uiRootPath
+  const copyHoverText = MSCX.l10n.getMessage('copy-link-hover-text')
+  const copiedText = MSCX.l10n.getMessage('copy-link-copied-text')
 
   const createCopyLinkBtn = (href) => {
     const btn = document.createElement('button')
     const img = document.createElement('img')
-    const copyText = 'Copy link to clipboard'
 
     btn.appendChild(img)
-    btn.setAttribute('aria-label', copyText)
+    btn.setAttribute('aria-label', copyHoverText)
     btn.classList.add('button-copy-link')
     btn.addEventListener('click', copyLinkToClipboard.bind(btn, href))
-    img.setAttribute('alt', copyText)
+    img.setAttribute('alt', copyHoverText)
     img.classList.add('anchor-image')
     img.src = `${uiRootPath}/img/icons/anchor.svg`
     return btn
@@ -35,8 +36,8 @@
 
   const addCopyLinkTooltips = () => {
     document.querySelectorAll('.button-copy-link').forEach((button) => {
-      createTooltip(button, 'mouseenter', 'Copy link to clipboard')
-      createTooltip(button, 'click', 'Copied')
+      createTooltip(button, 'mouseenter', copyHoverText)
+      createTooltip(button, 'click', copiedText)
     })
   }
 

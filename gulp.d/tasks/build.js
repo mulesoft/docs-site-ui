@@ -18,6 +18,7 @@ const postcssImport = require('postcss-import')
 const postcssNesting = require('postcss-nesting')
 const postcssUrl = require('postcss-url')
 const postcssVar = require('postcss-custom-properties')
+const replace = require('gulp-replace')
 const uglify = require('gulp-terser')
 const vfs = require('vinyl-fs')
 
@@ -54,6 +55,7 @@ module.exports = (src, dest, preview) => () => {
   return merge(
     vfs
       .src('js/+([0-9])-*.js', { ...opts, sourcemaps })
+      .pipe(replace(/'includeLocMessagesAtBuildtime'/g, fs.readFileSync(`${src}/locales/messages.json`, 'utf-8')))
       .pipe(uglify())
       .pipe(concat('js/site.js')),
     vfs

@@ -55,7 +55,8 @@ body {
   padding: 3px 10px;
 }
 
-.hide {
+.hide,
+.hide-until-l10n {
   display: none !important;
 }
 

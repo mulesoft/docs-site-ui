@@ -1,6 +1,9 @@
 ;(function () {
   'use strict'
 
+  const copyClipboardText = MSCX.l10n.getMessage('code-snippet-copy')
+  const copiedClipboardText = MSCX.l10n.getMessage('code-snippet-copied')
+
   const CMD_RX = /^\$ (\S[^\\\n]*(\\\n(?!\$ )[^\\\n]*)*)(?=\n|$)/gm
   const LINE_CONTINUATION_RX = /( ) *\\\n *|\\\n( ?) */g
   const TRAILING_SPACE_RX = / +$/gm
@@ -63,7 +66,7 @@
     if (lang) toolbox.appendChild(lang)
     if (window.navigator.clipboard) {
       ;(copy = document.createElement('button')).className = 'code-snippet-button'
-      copy.setAttribute('title', 'Copy to Clipboard')
+      copy.setAttribute('title', copyClipboardText)
       if (config.svgAs === 'svg') {
         const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg')
         svg.setAttribute('class', 'code-snippet-icon')
@@ -86,7 +89,7 @@
         copy.firstChild.src = uiRootPath + '/img/icons/copy-default.svg'
       })
       ;(toast = document.createElement('span')).className = 'copy-toast'
-      toast.appendChild(document.createTextNode('✓ Copied'))
+      toast.appendChild(document.createTextNode(`✓ ${copiedClipboardText}`))
       copy.appendChild(toast)
       toolbox.appendChild(copy)
     }
