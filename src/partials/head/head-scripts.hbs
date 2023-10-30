@@ -95,6 +95,19 @@ see https://segment.com/docs/connections/sources/catalog/libraries/website/javas
 </script>
 {{/if}}
 
+{{!-- The two blocks scripts are needed for hypothesis apps to open in the review site --}}
 {{#if (eq (site-profile) 'review' )}}
-<script async src="https://54.80.84.2:5000/embed.js"></script>
+<script type="application/json" class="js-hypothesis-config">
+  {
+    "openSidebar": true,
+    "openLoginForm": true
+  }
+</script>
+
+<script type="application/json" class="js-hypothesis-config">
+  {
+    "sidebarAppUrl": "https://dev-docs-review-h.kdev.msap.io/app.html"
+  }
+</script>
+<script async defer src="https://dev-docs-review-h.kdev.msap.io/embed.js"></script>
 {{/if}}
