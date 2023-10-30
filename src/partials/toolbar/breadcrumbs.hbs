@@ -17,18 +17,18 @@
   </li>
   {{#with page.componentVersion}}
   {{#if (and ./title (not ./root) (not (is-one-of ./title 'Home' 'ホーム')) (ne ./url @root.page.url))}}
-  <li class="flex align-center li"><a class="link" href="{{{relativize ./url}}}">{{{./title}}}</a></li>
+  <li class="flex align-center li"><a class="link" href="{{{relativize ./url}}}">{{{./title}}}{{#if (not (is-null @root.page.version))}} ({{ @root.page.version }}){{/if}}</a></li>
   {{/if}}
   {{/with}}
   {{#each page.breadcrumbs}}
   {{#if (eq ./urlType 'internal')}}
-  {{#if (eq ./url @root.page.url)}}
-  <li class="flex align-center li">
-    <p>{{{./content}}}</p>
-  </li>
-  {{else if (ne ./url @root.page.breadcrumbs.0.url)}}
-  <li class="flex align-center li"><a class="link" href="{{{relativize ./url}}}">{{{./content}}}</a></li>
-  {{/if}}
+    {{#if (eq ./url @root.page.url)}}
+    <li class="flex align-center li">
+      <p>{{{./content}}}{{#if (and (ends-with ./url "index.html") (not (is-null @root.page.version)))}} ({{ @root.page.version }}){{/if}}</p>
+    </li>
+    {{else if (ne ./url @root.page.breadcrumbs.0.url)}}
+    <li class="flex align-center li"><a class="link" href="{{{relativize ./url}}}">{{{./content}}}</a></li>
+    {{/if}}
   {{/if}}
   {{/each}}
 {{/if}}
