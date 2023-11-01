@@ -131,6 +131,7 @@ void installNode(String nodeVersion) {
       script: 'bash -l -c "source $HOME/.nvm/nvm.sh 1>&2 ; nvm use || nvm install && nvm use"',
       returnStdout: true
     ).trim()
+    echo "NVM_BIN: ${env.NVM_BIN}"
     env.PATH = "${env.NVM_BIN}:${env.PATH}"
     sh 'npm config set @mulesoft:registry=https://nexus3.build.msap.io/repository/npm-internal/'
     sh "npm config set //nexus3.build.msap.io/repository/npm-internal/:_authToken=${NPM_TOKEN}"
