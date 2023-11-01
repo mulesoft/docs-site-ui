@@ -127,8 +127,8 @@ def getErrorMsg() {
 void installNode(String nodeVersion) {
   withCredentials([string(credentialsId: 'NPM_TOKEN', variable: 'NPM_TOKEN')]) {
     sh """
-      curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.0/install.sh | bash
-      source ~/.nvm/nvm.sh
+      curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.5/install.sh | bash
+      sudo source ~/.nvm/nvm.sh
       nvm install ${nodeVersion}
       nvm use ${nodeVersion}
     """
