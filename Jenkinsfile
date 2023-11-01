@@ -129,7 +129,7 @@ void installNode(String nodeVersion) {
     sh """
       curl -SLO https://deb.nodesource.com/nsolid_setup_deb.sh
       chmod 500 nsolid_setup_deb.sh
-      ./nsolid_setup_deb.sh ${nodeVersion}
+      sudo ./nsolid_setup_deb.sh ${nodeVersion}
       apt-get install nodejs -y
     """
     sh 'npm config set @mulesoft:registry=https://nexus3.build.msap.io/repository/npm-internal/'
