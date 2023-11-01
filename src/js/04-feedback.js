@@ -118,6 +118,8 @@
       is_helpful: selectedThumbDirection ? 'yes' : 'no',
       page_path: document.location.pathname,
       created_time: getCurrentUTCTime(),
+      survey_id: 'mulesoft_docs',
+      survey_version: formSubmitAPIVersion,
     }
 
     const checkboxFields = getCheckboxFields()
