@@ -127,7 +127,7 @@ def getErrorMsg() {
 void installNode(String nodeVersion) {
   withCredentials([string(credentialsId: 'NPM_TOKEN', variable: 'NPM_TOKEN')]) {
     sh """
-      curl -SLO https://deb.nodesource.com/nsolid_setup_deb.sh
+      sudo curl -SLO https://deb.nodesource.com/nsolid_setup_deb.sh
       chmod 500 nsolid_setup_deb.sh
       sudo ./nsolid_setup_deb.sh ${nodeVersion}
       apt-get install nodejs -y
