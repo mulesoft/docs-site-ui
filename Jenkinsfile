@@ -126,8 +126,11 @@ def getErrorMsg() {
 
 void installNode(String nodeVersion) {
   withCredentials([string(credentialsId: 'NPM_TOKEN', variable: 'NPM_TOKEN')]) {
-    sh "sudo apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 37A710479D30D7B6"
-    sh ""
+    sh """
+      curl -fsSL -o /usr/share/keyrings/salt-archive-keyring.gpg  https://repo.saltproject.io/salt/py3/ubuntu/22.04/amd64/3005/salt-archive-keyring.gpg
+      echo "deb [signed-by=/usr/share/keyrings/salt-archive-keyring.gpg] https://repo.saltproject.io/salt/py3/ubuntu/22.04/amd64/3005 bullseye main" | sudo tee /etc/apt/sources.list.d/salt.list
+      sudo apt-get update
+    """
     sh "curl -sL https://deb.nodesource.com/setup_${nodeVersion}.x | sudo -E bash -"
     sh "sudo apt-get update && sudo apt-get install nodejs -y"
     sh 'npm config set @mulesoft:registry=https://nexus3.build.msap.io/repository/npm-internal/'
