@@ -127,9 +127,13 @@ def getErrorMsg() {
 void installNode(String nodeVersion) {
   withCredentials([string(credentialsId: 'NPM_TOKEN', variable: 'NPM_TOKEN')]) {
     sh 'curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.5/install.sh | bash'
-    sh 'bash -l -c ". $HOME/.nvm/nvm.sh ; nvm use || nvm install && nvm use"'
-    sh 'nvm use && npm config set @mulesoft:registry=https://nexus3.build.msap.io/repository/npm-internal/'
-    sh "nvm use && npm config set //nexus3.build.msap.io/repository/npm-internal/:_authToken=${NPM_TOKEN}"
+    env.NVM_BIN = sh (
+      script: 'bash -l -c "source $HOME/.nvm/nvm.sh 1>&2 ; nvm use || nvm install && nvm use"',
+      returnStdout: true
+    ).trim()
+    env.PATH = "${env.NVM_BIN}:${env.PATH}"
+    sh 'npm config set @mulesoft:registry=https://nexus3.build.msap.io/repository/npm-internal/'
+    sh "npm config set //nexus3.build.msap.io/repository/npm-internal/:_authToken=${NPM_TOKEN}"
   }
 }
 
