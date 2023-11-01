@@ -126,13 +126,8 @@ def getErrorMsg() {
 
 void installNode(String nodeVersion) {
   withCredentials([string(credentialsId: 'NPM_TOKEN', variable: 'NPM_TOKEN')]) {
-    sh """
-      sudo apt-get update
-      sudo apt-get install -y ca-certificates curl gnupg
-      sudo mkdir -p /etc/apt/keyrings
-      curl -fsSL https://deb.nodesource.com/gpgkey/nodesource-repo.gpg.key | sudo gpg --dearmor -o /etc/apt/keyrings/nodesource.gpg
-      echo "deb [signed-by=/etc/apt/keyrings/nodesource.gpg] https://deb.nodesource.com/node_${nodeVersion}.x nodistro main" | sudo tee /etc/apt/sources.list.d/nodesource.list
-    """
+    sh "sudo apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 37A710479D30D7B6"
+    sh ""
     sh "curl -sL https://deb.nodesource.com/setup_${nodeVersion}.x | sudo -E bash -"
     sh "sudo apt-get update && sudo apt-get install nodejs -y"
     sh 'npm config set @mulesoft:registry=https://nexus3.build.msap.io/repository/npm-internal/'
