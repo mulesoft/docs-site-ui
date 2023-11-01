@@ -128,8 +128,8 @@ void installNode(String nodeVersion) {
   withCredentials([string(credentialsId: 'NPM_TOKEN', variable: 'NPM_TOKEN')]) {
     sh 'curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.5/install.sh | bash'
     sh 'bash -l -c ". $HOME/.nvm/nvm.sh ; nvm use || nvm install && nvm use"'
-    sh 'npm config set @mulesoft:registry=https://nexus3.build.msap.io/repository/npm-internal/'
-    sh "npm config set //nexus3.build.msap.io/repository/npm-internal/:_authToken=${NPM_TOKEN}"
+    sh 'nvm use && npm config set @mulesoft:registry=https://nexus3.build.msap.io/repository/npm-internal/'
+    sh "nvm use && npm config set //nexus3.build.msap.io/repository/npm-internal/:_authToken=${NPM_TOKEN}"
   }
 }
 
