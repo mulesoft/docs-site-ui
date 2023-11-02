@@ -208,6 +208,16 @@ div.panels table {
     overflow: auto;
     width: 100%;
 
+    &.grid-none {
+      & > * > tr {
+        border: none !important;
+
+        & > td {
+          border: none !important;
+        }
+      }
+    }
+
     & .table-toggle-row {
       display: none;
     }
