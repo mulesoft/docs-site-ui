@@ -147,9 +147,7 @@
     const surveyIDsSet = 'surveyIDs'
     const fallbackSurveyID = 'others'
     const lang = document.documentElement.lang
-    const surveyIDLabel = Object.hasOwn(surveyIDsSet[lang], baseURL)
-      ? surveyIDsSet[lang][baseURL]
-      : fallbackSurveyID
+    const surveyIDLabel = Object.hasOwn(surveyIDsSet[lang], baseURL) ? surveyIDsSet[lang][baseURL] : fallbackSurveyID
     return `mulesoft_docs_${surveyIDLabel}`
   }
 
