@@ -129,11 +129,6 @@
     return label
   }
 
-  const getBackendEndpoint = () => {
-    const endpoint = `/api/${formSubmitAPIVersion}/form-submit`
-    return isProdSite() ? endpoint : `${endpoint}?staging=true`
-  }
-
   const getCheckboxFields = () => Object.keys(questionsMap.no)
 
   const getCurrentUTCTime = () => {
@@ -157,7 +152,6 @@
       : fallbackSurveyID
   }
 
-  const isProdSite = () => window.location.host === 'docs.mulesoft.com'
   const isHidden = (element) => element.offsetParent === null
 
   const populateForm = (feedbackFieldSet, yes) => {
@@ -176,9 +170,9 @@
 
   const submitFeedbackToBackend = (form) => {
     const body = createBody(form)
-    const backendEndpoint = getBackendEndpoint()
+
     /* eslint-disable */
-    fetch(backendEndpoint, {
+    fetch(`/api/${formSubmitAPIVersion}/form-submit`, {
       body,
       cache: 'no-cache',
       headers: {
