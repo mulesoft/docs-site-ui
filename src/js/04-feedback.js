@@ -145,11 +145,12 @@
 
   const getSurveyID = (baseURL) => {
     const surveyIDsSet = 'surveyIDs'
-    const fallbackSurveyID = 'mulesoft_docs_misc'
+    const fallbackSurveyID = 'others'
     const lang = document.documentElement.lang
-    return Object.hasOwn(surveyIDsSet[lang], baseURL)
+    const surveyIDLabel = Object.hasOwn(surveyIDsSet[lang], baseURL)
       ? surveyIDsSet[lang][baseURL]
       : fallbackSurveyID
+    return `mulesoft_docs_${surveyIDLabel}`
   }
 
   const isHidden = (element) => element.offsetParent === null
