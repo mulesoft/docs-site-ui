@@ -57,6 +57,7 @@ module.exports = (src, dest, preview) => () => {
       .src('js/+([0-9])-*.js', { ...opts, sourcemaps })
       .pipe(replace(/'includeLocMessagesAtBuildtime'/g, fs.readFileSync(`${src}/locales/messages.json`, 'utf-8')))
       .pipe(replace(/'feedbackQuestions'/g, fs.readFileSync(`${src}/locales/feedback-questions.json`, 'utf-8')))
+      .pipe(replace(/'surveyIDs'/g, fs.readFileSync(`${src}/locales/survey-ids.json`, 'utf-8')))
       .pipe(uglify())
       .pipe(concat('js/site.js')),
     vfs

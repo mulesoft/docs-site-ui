@@ -7,12 +7,7 @@
   const formSubmitAPIVersion = 'v1'
 
   const questionSets = 'feedbackQuestions'
-
-  const questionSetVersion = Object.hasOwn(questionSets, formSubmitAPIVersion)
-    ? formSubmitAPIVersion
-    : 'v1'
-
-  const questionsMap = questionSets[questionSetVersion]
+  const questionsMap = questionSets[formSubmitAPIVersion]
 
   const feedbackAckMsgSpan = feedbackCard.querySelector('span#feedback-ack')
   const feedbackOptionButtons = feedbackCard.querySelectorAll('div.feedback-options button')
@@ -108,7 +103,7 @@
       is_helpful: selectedThumbDirection ? 'yes' : 'no',
       page_path: document.location.pathname,
       created_time: getCurrentUTCTime(),
-      survey_id: 'mulesoft_docs',
+      survey_id: getSurveyID(window.location.host),
       survey_version: formSubmitAPIVersion,
     }
 
@@ -148,9 +143,18 @@
 
   const getFirstVisibleFocusableChildElement = (element) => {
     const inputs = element.querySelectorAll('input')
-    for (let i = 0; i < inputs.length; i++) {
-      if (!isHidden(inputs[i])) return inputs[i]
+    for (const input of inputs) {
+      if (!isHidden(input)) return input
     }
+  }
+
+  const getSurveyID = (baseURL) => {
+    const surveyIDsSet = 'surveyIDs'
+    const fallbackSurveyID = 'mulesoft_docs_misc'
+    const lang = document.documentElement.lang
+    return Object.hasOwn(surveyIDsSet[lang], baseURL)
+      ? surveyIDsSet[lang][baseURL]
+      : fallbackSurveyID
   }
 
   const isProdSite = () => window.location.host === 'docs.mulesoft.com'
