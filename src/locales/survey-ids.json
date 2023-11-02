@@ -1,0 +1,13 @@
+{
+    "en": {
+        "docs.mulesoft.com": "en",
+        "beta.docs.mulesoft.com": "external_beta",
+        "dev-docs-internal.kqa.msap.io": "internal_beta",
+        "dev-docs-internal.kdev.msap.io": "internal_beta",
+        "dev-docs-review.kqa.msap.io": "review",
+        "dev-docs-review.kdev.msap.io": "review"
+    },
+    "jp": {
+        "docs.mulesoft.com": "jp"
+    }
+}
