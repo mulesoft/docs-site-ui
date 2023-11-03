@@ -9,6 +9,11 @@
   </div>
   {{else}}
   <div class='panels'>
+    {{#if preview}}
+      {{> contributor-signatures}}
+    {{else}}
+      {{> latest-releases}}
+    {{/if}}
     {{> trending-topics}}
   </div>
   {{/if}}
