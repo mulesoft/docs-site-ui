@@ -204,21 +204,23 @@ div.panels table {
     border-top: unset;
     display: block;
     font-size: 14px;
+    margin-left: 0;
+    margin-right: 0;
     margin-top: var(--lg);
     overflow: auto;
-    width: 100%;
+    width: fit-content;
 
     &.grid-none {
       & > * > tr {
         border: none !important;
 
         & > td {
-          border: none !important;
+          border: none;
         }
       }
     }
 
-    &.frame-shown {
+    &.frame-show {
       border: 1px solid;
     }
 
