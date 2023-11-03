@@ -10,7 +10,10 @@ site:
   url: &index_url /
   homeUrl: *index_url
   title: MuleSoft Documentation
-  keys: {}
+  keys: {
+  ## uncomment the following line to switch site-profile to jp
+    # siteProfile: 'jp'
+  }
   components:
     general:
       latest: &general_latest
