@@ -218,6 +218,10 @@ div.panels table {
       }
     }
 
+    &.frame-shown {
+      border: 1px solid;
+    }
+
     & .table-toggle-row {
       display: none;
     }
