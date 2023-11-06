@@ -37,3 +37,12 @@ This is the same in-page cross reference:
 This is an in-page cross reference for the #bold ID: <<bold,Click me>>.
 
 xref:table.adoc[Go to the table page]
+
+== Headings
+
+= H1 Test Heading
+== H2 Test Heading
+=== H3 Test Heading
+==== H4 Test Heading
+===== H5 Test Heading
+====== H6 Test Heading

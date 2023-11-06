@@ -39,7 +39,7 @@
   }
 
   & .nav-close-button {
-    background-color: var(--lume-g-color-blue-30);
+    background-color: var(--sds-g-color-blue-30);
     border: none;
     border-radius: 0 2px 2px 0;
     height: 50px;
@@ -58,7 +58,7 @@
     &:focus {
       background-color: var(--tertiary);
       box-shadow: 0 0 0 3px rgb(0 162 223 / 25%);
-      outline: 1px solid var(--lume-g-color-blue-30);
+      outline: 1px solid var(--sds-g-color-blue-30);
 
       & img {
         filter: initial;
@@ -68,7 +68,7 @@
     &:active {
       background-color: var(--eyebrow-gray);
       box-shadow: 0 0 0 3px rgb(0 162 223 / 25%);
-      outline: 1px solid var(--lume-g-color-blue-30);
+      outline: 1px solid var(--sds-g-color-blue-30);
 
       /* need to restate this to keep the arrow white */
       & img {
@@ -105,7 +105,7 @@
 .nav-group > .nav-list > .nav-item > .nav-text {
   &:hover {
     color: var(--steel-3);
-    font-family: var(--sans-serif-bold);
+    font-weight: var(--weight-bold);
     letter-spacing: var(--bold-text-letter-spacing);
   }
 
@@ -142,7 +142,7 @@
     align-items: center;
     color: #000;
     display: flex;
-    font-size: 16px;
+    font-size: var(--font-size-default);;
     padding-top: 2.25em;
   }
 
@@ -195,9 +195,9 @@ svg.nav-icon {
     }
 
     & [aria-current="page"] {
-      background: var(--aluminum-3);
-      border-left: 3px solid var(--lume-g-color-blue-30);
-      color: var(--lume-g-color-blue-30);
+      background-color: var(--sds-g-color-cloud-blue-95);
+      border-left: 3px solid var(--sds-g-color-blue-30);
+      color: var(--sds-g-color-blue-30);
       padding: 3px;
       width: -moz-available;
       width: -webkit-fill-available;
@@ -253,7 +253,7 @@ svg.nav-icon {
   box-shadow: none !important;
   color: inherit;
   cursor: pointer;
-  font-family: var(--sans-serif-bold);
+  font-weight: var(--weight-bold);
   line-height: inherit;
   margin-left: -1.5em;
   opacity: 0.8;
@@ -288,7 +288,7 @@ svg.nav-icon {
   width: 100%;
 
   &:focus {
-    border: 1px solid var(--lume-g-color-blue-30);
+    border: 1px solid var(--sds-g-color-blue-30);
     box-shadow: 0 0 0 3px #00a2df40;
   }
 }
@@ -324,9 +324,9 @@ svg.nav-icon {
   }
 
   &.selector-active {
-    border: 1px solid var(--lume-g-color-blue-30);
+    border: 1px solid var(--sds-g-color-blue-30);
     box-shadow: 0 0 0 3px #00a2df40;
-    font-family: var(--sans-serif-bold);
+    font-weight: var(--weight-bold);
   }
 }
 
@@ -352,7 +352,7 @@ svg.nav-icon {
   z-index: var(--z-nav);
 
   &.is-active {
-    font-family: var(--sans-serif-bold);
+    font-weight: var(--weight-bold);
     letter-spacing: var(--bold-text-letter-spacing);
     opacity: 1;
     pointer-events: auto;
@@ -372,7 +372,7 @@ svg.nav-icon {
   }
 
   & .nav-version-label {
-    font-family: var(--sans-serif-bold);
+    font-weight: var(--weight-bold);
   }
 
   & .nav-version-option + .nav-version-label {
@@ -400,7 +400,7 @@ svg.nav-icon {
 
     &:hover {
       background: var(--aluminum-2);
-      font-family: var(--sans-serif-bold);
+      font-weight: var(--weight-bold);
       letter-spacing: var(--bold-text-letter-spacing);
     }
 

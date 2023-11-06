@@ -15,7 +15,7 @@
 
 .tippy-box[data-theme~="current-version-popover"],
 .tippy-box[data-theme~="copy-link-popover"] {
-  background: var(--lume-g-color-blue-30);
+  background: var(--sds-g-color-blue-30);
   border: none;
   color: var(--tertiary);
   font-size: 11px;
@@ -27,12 +27,12 @@
 }
 
 .tippy-box[data-theme~="gray-archive-link-popover"] {
-  background: var(--lume-g-color-blue-30);
+  background: var(--sds-g-color-blue-30);
   border: none;
   color: var(--lume-g-color-neutral-100);
 
   & .tippy-svg-arrow > svg {
-    fill: var(--lume-g-color-blue-30);
+    fill: var(--sds-g-color-blue-30);
   }
 }
 
@@ -56,7 +56,7 @@
 
 .tippy-box[data-placement^="top"] > .tippy-svg-arrow::after,
 .tippy-box[data-placement^="top"] > .tippy-svg-arrow > svg {
-  top: 16px;
+  top: var(--font-size-default);;
   transform: rotate(180deg);
 }
 
@@ -65,7 +65,7 @@
 }
 
 .tippy-box[data-placement^="bottom"] > .tippy-svg-arrow > svg {
-  bottom: 16px;
+  bottom: var(--font-size-default);;
 }
 
 .tippy-box[data-placement^="left"] > .tippy-svg-arrow {
@@ -92,9 +92,9 @@
 
 .tippy-svg-arrow {
   fill: #333;
-  height: 16px;
+  height: var(--font-size-default);;
   text-align: initial;
-  width: 16px;
+  width: var(--font-size-default);;
 }
 
 .tippy-svg-arrow,

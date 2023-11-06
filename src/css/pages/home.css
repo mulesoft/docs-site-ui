@@ -26,38 +26,15 @@ body.home {
 
     & header,
     & footer {
-      background-color: #00044d;
+      background-color: var(--sds-g-color-blue-10);
       overflow-x: clip;
       position: relative;
     }
 
-    & header::before,
-    & header::after,
-    & footer::before,
-    & footer::after {
-      background: radial-gradient(circle at center,var(--core-blue-3) 0,var(--core-blue-3) 10%,transparent 10%,transparent) repeat -10px -10px / 25px 25px;
-      display: block;
-      position: absolute;
-    }
-
-    & header::after,
-    & footer::after {
-      background-size: 50px 50px;
-    }
-
-    & header::before {
-      bottom: -110px;
-      content: "";
-      height: 200px;
-      left: 50%;
-      margin-left: -2px;
-      width: 50%;
-    }
-
     & header {
       & h1 {
-        color: var(--core-blue-2);
-        font-size: 30px;
+        color: var(--sds-g-color-blue-60);
+        font-size: 36px;
         line-height: 1.3;
         margin: 0 20px;
         padding: 60px 0 30px;
@@ -69,7 +46,7 @@ body.home {
       }
 
       & #cta p {
-        font-size: 15px;
+        font-size: 14px;
         height: 154px;
         line-height: 1.35;
         margin: 0;
@@ -77,18 +54,24 @@ body.home {
       }
 
       & #cta a {
-        background-color: var(--core-blue-3);
+        background-color: var(--sds-g-color-blue-40);
+        border-radius: 4px;
         color: #fff;
         display: inline-block;
+        font-size: 14px;
+        font-weight: var(--weight-normal);
         padding: 10px 20px;
+        text-transform: uppercase;
+        transition: background-color .3s ease;
 
         &:active,
         &:focus {
+          background-color: #094e91;
           box-shadow: 0 0 0 3px #abe2f5;
         }
 
         &:hover {
-          background-color: var(--core-blue-4);
+          background-color: #094e91
         }
       }
     }
@@ -108,7 +91,6 @@ body.home {
       padding: 30px 40px;
 
       & h2 {
-        color: #000;
         font-size: 22px;
         line-height: inherit;
         padding: 0;
@@ -151,23 +133,22 @@ body.home {
       border: 1px solid var(--aluminum-4);
       color: var(--steel-2);
       display: inline-block;
-      font-size: 16px;
+      font-size: var(--font-size-default);;
       padding: 10px 12px;
 
       &:active,
       &:focus {
-        color: var(--lume-g-color-blue-30);
+        color: var(--sds-g-color-blue-30);
         outline: 2px solid var(--lume-g-color-neutral-50);
       }
 
       &:hover {
         background-color: var(--aluminum-4);
-        color: var(--lume-g-color-blue-30);
+        color: var(--sds-g-color-blue-30);
       }
     }
 
     & #the-road {
-      color: #000;
       font-size: 32px;
       padding: 80px 0 50px;
       text-align: center;
@@ -181,7 +162,6 @@ body.home {
 
     & #the-road + .sectionbody {
       align-items: center;
-      color: #000;
       display: grid;
       gap: 100px 0;
       grid-template-columns: repeat(1,1fr);
@@ -223,7 +203,7 @@ body.home {
 
       & h2 {
         color: #fff;
-        font-size: 16px;
+        font-size: var(--font-size-default);;
         padding: 0;
       }
 
@@ -242,11 +222,12 @@ body.home {
   body.home article.doc {
     & header {
       & h1 {
-        font-size: 45px;
+        font-size: 52px;
+        line-height: 60px;
       }
 
       & #cta p {
-        font-size: 20px;
+        font-size: 14px;
       }
     }
   }
@@ -368,6 +349,6 @@ body.home {
 
 #landing-page {
   & a {
-    font-family: var(--sans-serif-bold);
+    font-weight: var(--weight-bold);
   }
 }

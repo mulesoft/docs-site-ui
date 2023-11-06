@@ -1,3 +1,36 @@
+/* font imports */
+@font-face {
+  font-family: 'ITC Avant Garde';
+  font-style: normal;
+  font-weight: 700;
+  src: local('ITC Avant Garde');
+  src: url('../font/ITCAvantGardePro-Demi.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: 'Salesforce Sans';
+  font-style: normal;
+  font-weight: normal;
+  src: local('Salesforce Sans');
+  src: url('../font/SalesforceSans-Regular.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: 'Salesforce Sans';
+  font-style: italic;
+  font-weight: normal;
+  src: local('Salesforce Sans');
+  src: url('../font/SalesforceSans-Italic.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: 'Salesforce Sans';
+  font-style: normal;
+  font-weight: 700;
+  src: local('Salesforce Sans');
+  src: url('../font/SalesforceSans-Bold.woff2') format('woff2');
+}
+
 /* headings */
 h1,
 h2,
@@ -5,33 +38,40 @@ h3,
 h4,
 h5,
 h6 {
-  font-family: var(--heading);
-  line-height: 1.2;
+  color: var(--font-color-heading);
+  font-family: var(--font-heading);
+  font-weight: var(--weight-medium);
   margin: 0;
 }
 
 h1 {
-  font-size: 40px;
+  font-size: 48px;
+  line-height: 56px;
 }
 
 h2 {
-  font-size: 32px;
+  font-size: 40px;
+  line-height: 48px;
 }
 
 h3 {
-  font-size: 28px;
+  font-size: 32;
+  line-height: 40px;
 }
 
 h4 {
   font-size: 24px;
+  line-height: 32px;
 }
 
 h5 {
   font-size: 20px;
+  line-height: 28px;
 }
 
 h6 {
-  font-size: 16px;
+  font-size: var(--font-size-default);;
+  line-height: 24px;
 }
 
 /* utility */
@@ -40,7 +80,7 @@ h6 {
 }
 
 .strong {
-  font-family: var(--sans-serif-bold);
+  font-weight: var(--weight-bold);
 }
 
 .monospace {
@@ -57,6 +97,6 @@ h6 {
   &:active,
   &:focus,
   &:hover {
-    color: var(--lume-g-color-blue-30);
+    color: var(--sds-g-color-blue-30);
   }
 }

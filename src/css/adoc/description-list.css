@@ -13,8 +13,8 @@
   }
 
   & dt {
-    font-family: var(--sans-serif-bold);
-    font-size: 16px;
+    font-size: var(--font-size-default);;
+    font-weight: var(--weight-bold);
   }
 
   & dd {

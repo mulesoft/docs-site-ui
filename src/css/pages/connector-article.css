@@ -9,7 +9,7 @@
   }
 
   & .link {
-    color: var(--lume-g-color-blue-30);
+    color: var(--sds-g-color-blue-30);
     text-decoration: none;
 
     &:hover .icon-back-arrow,
@@ -59,7 +59,7 @@
   }
 
   & .col:last-child {
-    font-family: var(--sans-serif-bold);
+    font-weight: var(--weight-bold);
     text-align: right;
   }
 
@@ -95,7 +95,7 @@
     &:focus,
     &:active {
       background: #e2f8ff; /* yet another blue */
-      color: var(--lume-g-color-blue-30);
+      color: var(--sds-g-color-blue-30);
     }
 
     & .icon-external {

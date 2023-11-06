@@ -7,8 +7,8 @@
     border-width: 2px;
     color: var(--sds-c-button-color-background);
     column-gap: 4px;
-    font-family: var(--sans-serif-bold);
     font-size: 14px;
+    font-weight: var(--weight-bold);
     height: 28px;
     padding: 4px 12px;
 
@@ -88,7 +88,7 @@
     & .feedback-form-button {
       background-color: var(--sds-c-button-color-background);
       border-radius: 5px;
-      font-family: var(--sans-serif);
+      font-family: var(--font-sans-serif);
       font-size: 14px;
       line-height: unset;
       margin-bottom: 1em;
@@ -121,8 +121,8 @@
   & .feedback-form-thank-you {
     color: var(--lume-g-color-green-50);
     display: flex;
-    font-family: var(--sans-serif-bold);
     font-size: 14px;
+    font-weight: var(--weight-bold);
     justify-content: center;
     padding-bottom: var(--md);
     width: 75%;
@@ -134,7 +134,7 @@
 
   & .validation-text {
     color: var(--lume-g-color-red-50);
-    font-family: var(--sans-serif);
+    font-family: var(--font-sans-serif);
     font-size: 12px;
     position: relative;
     top: -8px;
@@ -146,7 +146,7 @@
 
   & fieldset {
     & label {
-      font-family: var(--sans-serif);
+      font-family: var(--font-sans-serif);
       padding-left: 0.5em;
       vertical-align: text-bottom;
     }
@@ -155,8 +155,8 @@
   & fieldset,
   & span:not([aria-live], .validation-text, .feedback-form-thank-you) {
     border: none;
-    font-family: var(--sans-serif-bold);
     font-size: 12px;
+    font-weight: var(--weight-bold);
     margin: auto;
     padding: 0 0 1em;
     width: 100%;
@@ -188,13 +188,13 @@
   }
 
   & p {
-    font-family: var(--sans-serif-bold);
-    font-size: 16px;
+    font-size: var(--font-size-default);;
+    font-weight: var(--weight-bold);
     margin: auto;
   }
 
   & #feedback-question-subtitle {
-    font-family: var(--sans-serif);
+    font-family: var(--font-sans-serif);
   }
 
   &:has(> .feedback-form.hide):has(> .feedback-second-row.hide):has(
