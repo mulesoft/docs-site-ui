@@ -220,6 +220,18 @@ div.panels table {
       }
     }
 
+    &.grid-rows {
+      td {
+          border: 1px;
+        }
+    }
+
+    &.grid-cols {
+      td {
+          border: none;
+        }
+    }
+
     &.frame-show {
       border: 1px solid;
     }
