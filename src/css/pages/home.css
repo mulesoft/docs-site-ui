@@ -133,7 +133,7 @@ body.home {
       border: 1px solid var(--aluminum-4);
       color: var(--steel-2);
       display: inline-block;
-      font-size: var(--font-size-default);;
+      font-size: var(--font-size-default);
       padding: 10px 12px;
 
       &:active,
@@ -203,7 +203,7 @@ body.home {
 
       & h2 {
         color: #fff;
-        font-size: var(--font-size-default);;
+        font-size: var(--font-size-default);
         padding: 0;
       }
 

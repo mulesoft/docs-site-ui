@@ -142,7 +142,7 @@
     align-items: center;
     color: #000;
     display: flex;
-    font-size: var(--font-size-default);;
+    font-size: var(--font-size-default);
     padding-top: 2.25em;
   }
 

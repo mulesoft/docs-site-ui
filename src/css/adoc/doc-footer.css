@@ -188,7 +188,7 @@
   }
 
   & p {
-    font-size: var(--font-size-default);;
+    font-size: var(--font-size-default);
     font-weight: var(--weight-bold);
     margin: auto;
   }

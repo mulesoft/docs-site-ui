@@ -56,7 +56,7 @@
 
 .tippy-box[data-placement^="top"] > .tippy-svg-arrow::after,
 .tippy-box[data-placement^="top"] > .tippy-svg-arrow > svg {
-  top: var(--font-size-default);;
+  top: 16px;
   transform: rotate(180deg);
 }
 
@@ -65,7 +65,7 @@
 }
 
 .tippy-box[data-placement^="bottom"] > .tippy-svg-arrow > svg {
-  bottom: var(--font-size-default);;
+  bottom: 16px;
 }
 
 .tippy-box[data-placement^="left"] > .tippy-svg-arrow {
@@ -92,9 +92,9 @@
 
 .tippy-svg-arrow {
   fill: #333;
-  height: var(--font-size-default);;
+  height: 16px;
   text-align: initial;
-  width: var(--font-size-default);;
+  width: 16px;
 }
 
 .tippy-svg-arrow,
