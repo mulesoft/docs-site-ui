@@ -14,7 +14,7 @@
   }
 
   const setDetailsAriaExpanded = (elem) => {
-    elem.setAttribute('aria-expanded', elem.hasAttribute('open'));
+    elem.setAttribute('aria-expanded', elem.hasAttribute('open'))
   }
 
   const listenForDetailsToggle = () => {
