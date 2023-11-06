@@ -8,12 +8,12 @@
     })
   }
 
-  const onExpand = (e) => {
+  const onDetailsExpand = (e) => {
     const elem = e.target
-    setAriaExpanded(elem)
+    setDetailsAriaExpanded(elem)
   }
 
-  const setAriaExpanded = (elem) => {
+  const setDetailsAriaExpanded = (elem) => {
     if (elem.hasAttribute('open')) {
       elem.setAttribute('aria-expanded', true)
       return
@@ -21,14 +21,14 @@
     elem.setAttribute('aria-expanded', false)
   }
 
-  const setDetailsExpandListeners = () => {
+  const listenForDetailsToggle = () => {
     const detailsElems = document.querySelectorAll('details')
     detailsElems.forEach((detail) => {
-      setAriaExpanded(detail)
-      detail.addEventListener('toggle', onExpand)
+      setDetailsAriaExpanded(detail)
+      detail.addEventListener('toggle', onDetailsExpand)
     })
   }
 
   addBlankAltTextsToTipIcons()
-  setDetailsExpandListeners()
+  listenForDetailsToggle()
 })()
