@@ -228,7 +228,7 @@ div.panels table {
 
     &.grid-cols {
       td {
-          border: none;
+          border: 1px;
         }
     }
 
