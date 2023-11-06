@@ -43,3 +43,11 @@ xref:table.adoc[Go to the table page]
 ==== Test Heading (H4)
 ===== Test Heading (H5)
 ====== Test Heading (H6)
+
+== Details
+
+.Click to expand the details element
+[%collapsible]
+====
+The contents display when the element is expanded
+====
