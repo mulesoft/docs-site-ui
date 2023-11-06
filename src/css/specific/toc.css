@@ -35,7 +35,7 @@
   &:hover {
     border-left-color: var(--steel-2);
     color: var(--steel-2);
-    font-family: var(--sans-serif-bold);
+    font-weight: var(--weight-bold);
     letter-spacing: var(--bold-text-letter-spacing);
   }
 
@@ -46,10 +46,10 @@
 
   &:active,
   &.is-active {
-    background-color: #e8e9ea;
-    border-color: var(--lume-g-color-blue-30);
+    background-color: var(--sds-g-color-cloud-blue-95);
+    border-color: var(--sds-g-color-blue-30);
     border-width: 5px;
-    color: var(--lume-g-color-blue-30);
+    color: var(--sds-g-color-blue-30);
     margin-left: -1px;
   }
 
@@ -71,7 +71,7 @@
 }
 
 .toc-title {
-  font-family: var(--sans-serif-bold);
   font-size: 14px;
+  font-weight: var(--weight-bold);
   margin-bottom: var(--sm);
 }

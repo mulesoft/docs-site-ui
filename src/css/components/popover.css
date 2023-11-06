@@ -15,7 +15,7 @@
 
 .tippy-box[data-theme~="current-version-popover"],
 .tippy-box[data-theme~="copy-link-popover"] {
-  background: var(--lume-g-color-blue-30);
+  background: var(--sds-g-color-blue-30);
   border: none;
   color: var(--tertiary);
   font-size: 11px;
@@ -27,12 +27,12 @@
 }
 
 .tippy-box[data-theme~="gray-archive-link-popover"] {
-  background: var(--lume-g-color-blue-30);
+  background: var(--sds-g-color-blue-30);
   border: none;
   color: var(--lume-g-color-neutral-100);
 
   & .tippy-svg-arrow > svg {
-    fill: var(--lume-g-color-blue-30);
+    fill: var(--sds-g-color-blue-30);
   }
 }
 

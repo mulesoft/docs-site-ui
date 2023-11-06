@@ -20,13 +20,13 @@
   }
 
   &:focus:not(:disabled) {
-    border-color: var(--lume-g-color-blue-30);
-    color: var(--lume-g-color-blue-30);
+    border-color: var(--sds-g-color-blue-30);
+    color: var(--sds-g-color-blue-30);
   }
 
   &:active:not(:disabled) {
-    border-color: var(--lume-g-color-blue-30);
-    color: var(--lume-g-color-blue-30);
+    border-color: var(--sds-g-color-blue-30);
+    color: var(--sds-g-color-blue-30);
   }
 
   &:disabled {
@@ -35,12 +35,12 @@
 }
 
 .button-primary {
-  background: var(--lume-g-color-blue-30);
+  background: var(--sds-g-color-blue-30);
   border: 0;
   border-radius: var(--radius);
   color: var(--tertiary);
   display: inline-block;
-  font-family: var(--sans-serif-bold);
+  font-weight: var(--weight-bold);
   height: 40px;
   line-height: 40px;
   padding: 0 13px;
