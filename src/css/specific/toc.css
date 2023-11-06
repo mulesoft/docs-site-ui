@@ -73,5 +73,6 @@
 .toc-title {
   font-size: 14px;
   font-weight: var(--weight-bold);
+  line-height: 1.2;
   margin-bottom: var(--sm);
 }
