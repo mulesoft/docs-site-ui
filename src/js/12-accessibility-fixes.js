@@ -14,11 +14,7 @@
   }
 
   const setDetailsAriaExpanded = (elem) => {
-    if (elem.hasAttribute('open')) {
-      elem.setAttribute('aria-expanded', true)
-      return
-    }
-    elem.setAttribute('aria-expanded', false)
+    elem.setAttribute('aria-expanded', elem.hasAttribute('open'));
   }
 
   const listenForDetailsToggle = () => {
