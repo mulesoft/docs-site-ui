@@ -11,9 +11,6 @@
         <col style="width: 90%;">
       </colgroup>
       <tbody>
-        {{#if preview}}
-        {{> quickstart}}
-        {{else}}
         {{#each (release-notes page.componentVersion.asciidoc.attributes.numberOfReleaseNotesItems)}}
         <tr>
           <td class="tableblock halign-left valign-top">
@@ -25,7 +22,6 @@
           </td>
         </tr>
         {{/each}}
-        {{/if}}
       </tbody>
     </table>
     <div class="paragraph">

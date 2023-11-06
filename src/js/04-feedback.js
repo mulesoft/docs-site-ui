@@ -6,23 +6,8 @@
 
   const formSubmitAPIVersion = 'v1'
 
-  const questionsMap = {
-    yes: {
-      legend: 'Thanks for the feedback! What made this article helpful? (Please check at least 1 checkbox.)',
-      is_accurate: 'Contains accurate information',
-      is_comprehensive: 'Includes all of the information I need',
-      is_clear: 'Easy to understand, with clear explanations and visuals',
-      other: 'Something else',
-    },
-    no: {
-      legend: "We're sorry to hear that. How can we improve this article? (Please check at least 1 checkbox.),",
-      is_accurate: 'Contains inaccurate or outdated information',
-      is_comprehensive: 'Missing important information',
-      is_clear: 'Confusing or difficult to understand',
-      is_descriptive: "The article is OK, but I don't like how the product described works",
-      other: 'Something else',
-    },
-  }
+  const questionSets = 'feedbackQuestions'
+  const questionsMap = questionSets[formSubmitAPIVersion]
 
   const feedbackAckMsgSpan = feedbackCard.querySelector('span#feedback-ack')
   const feedbackOptionButtons = feedbackCard.querySelectorAll('div.feedback-options button')
@@ -104,8 +89,8 @@
 
   const atLeastOneCheckboxChecked = (feedbackForm) => {
     const checkboxes = feedbackForm.querySelectorAll('input[type="checkbox"]')
-    for (let i = 0; i < checkboxes.length; i++) {
-      if (!isHidden(checkboxes[i]) && checkboxes[i].checked) return true
+    for (const checkbox of checkboxes) {
+      if (!isHidden(checkbox) && checkbox.checked) return true
     }
   }
 
@@ -118,6 +103,8 @@
       is_helpful: selectedThumbDirection ? 'yes' : 'no',
       page_path: document.location.pathname,
       created_time: getCurrentUTCTime(),
+      survey_id: getSurveyID(window.location.host),
+      survey_version: formSubmitAPIVersion,
     }
 
     const checkboxFields = getCheckboxFields()
@@ -151,9 +138,17 @@
 
   const getFirstVisibleFocusableChildElement = (element) => {
     const inputs = element.querySelectorAll('input')
-    for (let i = 0; i < inputs.length; i++) {
-      if (!isHidden(inputs[i])) return inputs[i]
+    for (const input of inputs) {
+      if (!isHidden(input)) return input
     }
+  }
+
+  const getSurveyID = (baseURL) => {
+    const surveyIDsSet = 'surveyIDs'
+    const fallbackSurveyID = 'others'
+    const lang = document.documentElement.lang
+    const surveyIDLabel = Object.hasOwn(surveyIDsSet[lang], baseURL) ? surveyIDsSet[lang][baseURL] : fallbackSurveyID
+    return `mulesoft_docs_${surveyIDLabel}`
   }
 
   const isHidden = (element) => element.offsetParent === null
