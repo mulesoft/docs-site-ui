@@ -193,6 +193,11 @@ body.home {
         color: var(--sds-g-color-blue-60);
       }
 
+      & a:hover {
+        color: var(--sds-g-color-blue-90);
+        text-decoration: underline;
+      }
+
       & h2 {
         color: #fff;
         font-size: var(--font-size-default);
