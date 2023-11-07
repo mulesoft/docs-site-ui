@@ -28,7 +28,7 @@
     }
 
     &:hover {
-      font-family: var(--sans-serif-bold);
+      font-weight: var(--weight-bold);
       letter-spacing: var(--bold-text-letter-spacing);
     }
 

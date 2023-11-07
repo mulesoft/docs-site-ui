@@ -21,9 +21,9 @@
     background: #1a5492;
     border-radius: 10px;
     color: var(--lume-g-color-neutral-100);
-    font-family: var(--sans-serif-bold);
     font-size: 12px;
     font-style: normal;
+    font-weight: var(--weight-bold);
     padding: 0 5px;
 
     &::after {
@@ -188,7 +188,13 @@
       #cta *
     ) {
     &:not(footer *) {
-      color: var(--lume-g-color-blue-30);
+      color: var(--sds-g-color-blue-50);
+
+      &:hover,
+      &:active,
+      &:focus {
+        color: var(--sds-g-color-blue-20);
+      }
 
       &:visited {
         color: var(--violet);
@@ -198,14 +204,10 @@
     &:active,
     &:focus {
       border-radius: 5px;
-      outline: 2px solid var(--lume-g-color-neutral-50);
-      text-decoration: none;
+      outline: var(--sds-g-color-blue-50) auto 1px;
     }
 
     &:hover {
-      background-color: var(--lume-g-color-blue-80);
-      border-radius: 5px;
-
       &:not(.anchor) {
         margin-left: -3px;
         margin-right: -3px;
@@ -280,7 +282,7 @@
       cursor: pointer;
       display: flex;
       flex-wrap: wrap;
-      font-family: var(--sans-serif);
+      font-family: var(--font-sans-serif);
       height: var(--lume-g-font-size-4);
       place-content: center;
       position: absolute;
@@ -297,7 +299,7 @@
 
       &:hover {
         background: var(--lume-g-color-neutral-80);
-        font-family: var(--sans-serif-bold);
+        font-weight: var(--weight-bold);
       }
     }
   }

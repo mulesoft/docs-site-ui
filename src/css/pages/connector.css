@@ -24,7 +24,7 @@
   font-size: 14px;
 
   & .header {
-    font-family: var(--sans-serif-bold);
+    font-weight: var(--weight-bold);
   }
 
   & .header,
@@ -46,7 +46,7 @@
     &:focus,
     &:active {
       background: #e2f8ff; /* yet another blue */
-      color: var(--lume-g-color-blue-30);
+      color: var(--sds-g-color-blue-30);
     }
   }
 

@@ -87,7 +87,7 @@ abbr[title] {
 
 b,
 strong {
-  font-family: var(--sans-serif-bold);
+  font-weight: var(--weight-bold);
 }
 
 /**
@@ -155,7 +155,7 @@ input,
 optgroup,
 select,
 textarea {
-  font-family: var(--sans-serif); /* 1 */
+  font-family: var(--font-sans-serif); /* 1 */
   line-height: 1.15; /* 1 */
   margin: 0; /* 2 */
 }

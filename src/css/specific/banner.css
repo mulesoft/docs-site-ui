@@ -4,7 +4,7 @@
   z-index: var(--z-banner);
 
   & a {
-    color: var(--lume-g-color-blue-30);
+    color: var(--sds-g-color-blue-30);
 
     &:hover {
       background-color: #e8f8ff;
@@ -28,7 +28,7 @@
     }
 
     &:visited {
-      color: var(--lume-g-color-blue-30);
+      color: var(--sds-g-color-blue-30);
     }
   }
 
@@ -75,7 +75,7 @@
 
 .top-banner {
   align-items: center;
-  background-color: var(--core-blue-0);
+  background-color: var(--sds-g-color-cloud-blue-95);
   border-bottom: 2px solid #57a3fd;
   height: var(--mobile-banner-height);
   top: 0;

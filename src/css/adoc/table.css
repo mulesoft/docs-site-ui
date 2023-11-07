@@ -72,7 +72,7 @@ table:not(.connectors-table, div.admonitionblock table, div.colist table, div.pa
   }
  
   & caption {
-    font-family: var(--sans-serif-bold);
+    font-weight: var(--weight-bold);
     text-align: left;
   }
 
@@ -122,8 +122,8 @@ table:not(.connectors-table, div.admonitionblock table, div.colist table, div.pa
         border-right: 1px solid black;
         content: attr(data-header);
         display: table-cell;
-        font-family: var(--sans-serif-bold);
         font-size: 0.7rem;
+        font-weight: var(--weight-bold);
         min-width: 30vw;
         padding-right: 20px;
         word-wrap: normal;
@@ -157,14 +157,14 @@ table:not(.connectors-table, div.admonitionblock table, div.colist table, div.pa
     width: 100%;
 
     &:has(th[colspan]) {    
-      background-color: #d3d3d3;
+      background-color: var(--sds-g-color-cloud-blue-95);
       display: inline-table;
       height: 25px;
       max-width: 100%;
 
       & p {
-        font-family: var(--sans-serif-bold);
         font-size: 0.7rem;
+        font-weight: var(--weight-bold);
         margin: 0;
         padding-left: 10px;
         text-align: left;
@@ -193,7 +193,7 @@ table:not(.connectors-table, div.admonitionblock table, div.colist table, div.pa
 /* tables on the homepage, for example "latest releases" */
 div.panels table {
   & p {
-    font-size: 16px;
+    font-size: var(--font-size-default);
     margin: 0;
   }
 }
@@ -252,7 +252,7 @@ div.panels table {
     }
 
     & caption {
-      font-size: 16px;
+      font-size: var(--font-size-default);
       max-width: unset;
     }
   
@@ -269,7 +269,8 @@ div.panels table {
     }
   
     & th {
-      font-family: var(--sans-serif-bold);
+      color: var(--font-color-heading);
+      font-weight: var(--weight-bold);
       text-align: left;
     }
   
@@ -337,7 +338,7 @@ div.panels table {
 
       &:not([data-header]) {
         display: revert;
-        font-family: var(--sans-serif);
+        font-family: var(--font-sans-serif);
   
         & p {
           font-size: var(--md);
@@ -351,7 +352,7 @@ div.panels table {
       &.js-connector-title,
       &.js-connector-link,
       &.js-connector-type {
-        font-size: 16px;
+        font-size: var(--font-size-default);
       }
       
       & div.content,
