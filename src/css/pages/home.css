@@ -55,7 +55,7 @@ body.home {
 
       & #cta a {
         background-color: var(--sds-g-color-blue-40);
-        border-radius: 4px;
+        border-radius: var(--radius);
         color: #fff;
         display: inline-block;
         font-size: 14px;

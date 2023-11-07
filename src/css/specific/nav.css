@@ -140,7 +140,6 @@
 
   & > .nav-title {
     align-items: center;
-    color: #000;
     display: flex;
     font-size: var(--font-size-default);
     padding-top: 2.25em;
@@ -299,6 +298,8 @@ svg.nav-icon {
 
 .nav-version-button {
   align-items: center;
+  border: 1px solid var(--aluminum-4);
+  color: var(--steel-2);
   border-radius: 1em;
   display: flex;
   font-size: 0.75rem;
