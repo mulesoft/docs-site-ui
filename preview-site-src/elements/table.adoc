@@ -407,20 +407,34 @@ And here is another paragraph.
 |*Response timeout* |Specify how long the endpoint must wait for a response (in ms). The default is *1000* ms.
 |===
 
-[%header,cols="4*a", grid=none, frame=show]
+== Table Borders
+
+ref: https://docs.asciidoctor.org/asciidoc/latest/tables/borders
+
+=== frame-show
+
+[frame=show]
 |===
-|vCore Size | Total Memory | Heap Memory | Storage
-|0.1        |1.2 GB        |480 MB       | 8 GB
-|0.2        |2 GB          |1 GB         | 8 GB
-|0.5        |2.6 GB        |1.3 GB       | 10 GB
-|1          |4 GB          |2 GB         | 12 GB
-|1.5        |6 GB          |3 GB         | 20 GB
-|2          |8 GB          |4 GB         | 20 GB
-|2.5        |9.5 GB        |4.75 GB      | 20 GB
-|3          |11 GB         |5.5 GB       | 20 GB
-|3.5        |13 GB         |6.5 GB       | 20 GB
-|4          |15 GB         |7.5 GB       | 20 GB
+|Column 1, header row |Column 2, header row |Column 3, header row
+
+|Cell in column 1, row 2
+|Cell in column 2, row 2
+|Cell in column 3, row 2
+
+|Cell in column 1, row 3
+|Cell in column 2, row 3
+|Cell in column 3, row 3
+
+|Cell in column 1, row 4
+|Cell in column 2, row 4
+|Cell in column 3, row 4
+
+|Cell in column 1, row 5
+|Cell in column 2, row 5
+|Cell in column 3, row 5
 |===
+
+=== grid-rows
 
 [grid=rows]
 |===
@@ -443,6 +457,8 @@ And here is another paragraph.
 |Cell in column 3, row 5
 |===
 
+=== grid-cols
+
 [grid=cols]
 |===
 |Test 1, header row |Test 2, header row |Test 3, header row
@@ -462,4 +478,21 @@ And here is another paragraph.
 |Cell in column 1, row 5
 |Cell in column 2, row 5
 |Cell in column 3, row 5
+|===
+
+=== combination of frame and grid
+
+[%header,cols="4*a", grid=none, frame=show]
+|===
+|vCore Size | Total Memory | Heap Memory | Storage
+|0.1        |1.2 GB        |480 MB       | 8 GB
+|0.2        |2 GB          |1 GB         | 8 GB
+|0.5        |2.6 GB        |1.3 GB       | 10 GB
+|1          |4 GB          |2 GB         | 12 GB
+|1.5        |6 GB          |3 GB         | 20 GB
+|2          |8 GB          |4 GB         | 20 GB
+|2.5        |9.5 GB        |4.75 GB      | 20 GB
+|3          |11 GB         |5.5 GB       | 20 GB
+|3.5        |13 GB         |6.5 GB       | 20 GB
+|4          |15 GB         |7.5 GB       | 20 GB
 |===
