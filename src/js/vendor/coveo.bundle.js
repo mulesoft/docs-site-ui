@@ -186,16 +186,24 @@ use ${osMap[this.clientOS].secondaryKeyLabelLong} + ${shortcutKeyMap.keyLabel}`
 
     updateInput () {
       if (this.searchboxInput) {
-        this.searchboxInput.placeholder = 'Search Docs'
-        // .getAttribute('aria-label') is used here instead of .ariaLabel
-        // because for some reason, it returned an error in firefox
-        this.searchboxInput.ariaLabel = this.searchboxInput
-          .getAttribute('aria-label')
-          .replace('Search field', 'Search Doc field')
-        if (this.searchboxDiv) {
-          if (!isMobileBrowser()) {
-            this.addKeyboardShortcutToSearchbox()
-            this.updateAriaLabelForInput()
+        if (document.documentElement.lang === 'en') {
+          this.searchboxInput.placeholder = 'Search Docs'
+          // .getAttribute('aria-label') is used here instead of .ariaLabel
+          // because for some reason, it returned an error in firefox
+          this.searchboxInput.ariaLabel = this.searchboxInput
+            .getAttribute('aria-label')
+            .replace('Search field', 'Search Doc field')
+          if (this.searchboxDiv) {
+            if (!isMobileBrowser()) {
+              this.addKeyboardShortcutToSearchbox()
+              this.updateAriaLabelForInput()
+            }
+          }
+        } else {
+          if (this.searchboxDiv) {
+            if (!isMobileBrowser()) {
+              this.addKeyboardShortcutToSearchbox()
+            }
           }
         }
         this.addLeftSearchIcon()
