@@ -75,7 +75,8 @@ body.home {
         }
 
         &:hover {
-          background-color: #094e91
+          background-color: #094e91;
+          text-decoration: none;
         }
       }
     }
