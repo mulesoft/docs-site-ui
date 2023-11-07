@@ -205,9 +205,9 @@ div.panels table {
     display: block;
     font-size: 14px;
     margin-top: var(--lg) 0 0;
+    max-width: fit-content;
     overflow: auto;
     width: 100%;
-    max-width: fit-content;
 
     &.grid-none {
       & > * > tr {
