@@ -1,8 +1,8 @@
 /* based on https://static.cloud.coveo.com/atomic/v1/themes/coveo.css */
 :root {
   /* Primary colors */
-  --atomic-primary: var(--sds-g-color-blue-30);
-  --atomic-primary-light: var(--core-blue-4);
+  --atomic-primary: var(--sds-g-color-blue-20);
+  --atomic-primary-light: var(--sds-g-color-blue-50);
   --atomic-primary-dark: var(--core-blue-5);
   --atomic-on-primary: var(--tertiary);
   --atomic-ring-primary: var(--robust-blue-4);
@@ -80,7 +80,7 @@ atomic-facet {
 
 atomic-recs-list {
   &::part(label) {
-    color: #000;
+    color: var(--font-color-heading);
     font-family: var(--font-heading);
     font-size: 22px;
     line-height: inherit;
@@ -149,7 +149,7 @@ nav atomic-search-box {
 atomic-search-box {
   &::part(wrapper) {
     border-color: #909aa3;
-    border-radius: 2px;
+    border-radius: var(--radius);
     height: 40px;
     margin-left: -4px;
 
@@ -180,12 +180,12 @@ atomic-search-box {
 
   &::part(suggestions-wrapper) {
     border-color: #c3c4c5;
-    border-radius: 2px;
+    border-radius: var(--radius);
     box-shadow: 0 2px 3px #00000029;
   }
 
   &::part(submit-button) {
-    border-radius: 2px;
+    border-radius: 0 var(--radius) var(--radius) 0;
     display: inline-flex;
     height: 40px;
     width: fit-content;
@@ -221,7 +221,7 @@ atomic-sort-dropdown {
 }
 
 .search-page-back-button {
-  border: 2px solid var(--sds-g-color-blue-30);
+  border: var(--radius) solid var(--sds-g-color-blue-30);
   color: var(--black);
   height: auto;
   margin-bottom: 10px;
