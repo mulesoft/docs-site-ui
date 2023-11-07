@@ -18,6 +18,15 @@ This is an inline code: `test 12345 !@&$*(#$(#)]`
 # Insert logic here
 ----
 
+== Dataweave
+
+NOTE: The playground button doesn't work here (yet) because the asciidoc extension that adds the button is in docs-site-playbook.
+
+[source,dataweave,linenums]
+----
+include::preview-site-src/cookbook-dw/add-and-subtract-time/transform.dwl[]
+----
+
 == Java
 
 [source,java,linenums]
@@ -142,16 +151,7 @@ properties:
     properties: object
 ----
 
-== Dataweave
-
-NOTE: The playground button doesn't work here (yet) because the asciidoc extension that adds the button is in docs-site-playbook.
-
-[source,dataweave,linenums]
-----
-include::preview-site-src/cookbook-dw/add-and-subtract-time/transform.dwl[]
-----
-
-== Code Snippet with callouts
+== Code Snippet with Callouts
 
 [source,yaml]
 ----
