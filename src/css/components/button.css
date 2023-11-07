@@ -8,25 +8,17 @@
 
 .button {
   background: var(--tertiary);
-  border: 1px solid var(--aluminum-4);
-  color: var(--steel-2);
+  border: 1px solid var(--sds-g-color-blue-50);
+  color: var(--sds-g-color-blue-50);
   height: var(--nav-item-height);
   padding: var(--xs);
 
-  &:hover:not(:disabled) {
-    background-color: var(--light-blue);
-    border-color: var(--steel-2);
-    color: var(--steel-2);
-  }
-
-  &:focus:not(:disabled) {
-    border-color: var(--sds-g-color-blue-30);
-    color: var(--sds-g-color-blue-30);
-  }
-
+  &:hover:not(:disabled),
+  &:focus:not(:disabled),
   &:active:not(:disabled) {
-    border-color: var(--sds-g-color-blue-30);
-    color: var(--sds-g-color-blue-30);
+    background-color: var(--sds-g-color-cloud-blue-95);
+    border-color: var(--sds-g-color-blue-20);
+    color: var(--sds-g-color-blue-20);
   }
 
   &:disabled {
@@ -35,7 +27,7 @@
 }
 
 .button-primary {
-  background: var(--sds-g-color-blue-30);
+  background: var(--sds-g-color-blue-50);
   border: 0;
   border-radius: var(--radius);
   color: var(--tertiary);
@@ -46,12 +38,9 @@
   padding: 0 13px;
   text-decoration: none;
 
-  &:hover {
-    background-color: var(--core-blue-4);
-  }
-
+  &:hover,
   &:active {
-    background-color: var(--core-blue-5);
+    background-color: var(--sds-g-color-blue-20);
   }
 
   &:focus {
