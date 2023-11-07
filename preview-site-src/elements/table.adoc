@@ -433,17 +433,33 @@ And here is another paragraph.
 |Cell in column 1, row 3
 |Cell in column 2, row 3
 |Cell in column 3, row 3
+
+|Cell in column 1, row 4
+|Cell in column 2, row 4
+|Cell in column 3, row 4
+
+|Cell in column 1, row 5
+|Cell in column 2, row 5
+|Cell in column 3, row 5
 |===
 
 [grid=cols]
 |===
-|Column 1, header row |Column 2, header row |Column 3, header row
+|Test 1, header row |Test 2, header row |Test 3, header row
 
-|Test in column 1, Test2
+|Cell in column 1, row 2
 |Cell in column 2, row 2
 |Cell in column 3, row 2
 
 |Cell in column 1, row 3
 |Cell in column 2, row 3
 |Cell in column 3, row 3
+
+|Cell in column 1, row 4
+|Cell in column 2, row 4
+|Cell in column 3, row 4
+
+|Cell in column 1, row 5
+|Cell in column 2, row 5
+|Cell in column 3, row 5
 |===

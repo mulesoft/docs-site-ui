@@ -204,11 +204,10 @@ div.panels table {
     border-top: unset;
     display: block;
     font-size: 14px;
-    margin-left: 0;
-    margin-right: 0;
-    margin-top: var(--lg);
+    margin-top: var(--lg) 0 0;
     overflow: auto;
-    width: fit-content;
+    width: 100%;
+    max-width: fit-content;
 
     &.grid-none {
       & > * > tr {
@@ -227,18 +226,17 @@ div.panels table {
     }
 
     &.grid-cols {
-      & tr {
-        border-top: unset !important;
+      & tr+tr {
+        border-top: unset;
       }
       
-      & td {
-        border-left: 1px solid #cacbcc;
-        border-right: 1px solid #cacbcc;
+      & td+td {
+        border-left: 1px solid var(--aluminum-4);
       }
     }
 
     &.frame-show {
-      border: 1px solid;
+      border: 1px solid var(--aluminum-4);
     }
 
     & .table-toggle-row {
