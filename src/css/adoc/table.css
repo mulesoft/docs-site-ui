@@ -230,6 +230,7 @@ div.panels table {
       & tr {
         border-top: unset !important;
       }
+      
       & td {
         border-left: 1px solid #cacbcc;
         border-right: 1px solid #cacbcc;
