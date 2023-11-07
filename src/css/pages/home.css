@@ -204,12 +204,13 @@ body.home {
       padding: 50px 20px;
 
       & a {
-        color: var(--core-blue-3);
+        color: var(--sds-g-color-blue-60);
       }
 
       & h2 {
         color: #fff;
         font-size: var(--font-size-default);
+        line-height: 1.25;
         padding: 0;
       }
 
@@ -318,21 +319,6 @@ body.home {
 
     & footer > :first-child {
       grid-column: 2;
-    }
-
-    & footer::before {
-      height: 200px;
-      left: 10px;
-      top: -15%;
-      width: 50%;
-    }
-
-    & footer::after {
-      height: 270px;
-      left: 85px;
-      opacity: .25;
-      top: -160px;
-      width: 30%;
     }
   }
 }
