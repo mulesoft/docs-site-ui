@@ -480,7 +480,7 @@ ref: https://docs.asciidoctor.org/asciidoc/latest/tables/borders
 |Cell in column 3, row 5
 |===
 
-=== combination of frame and grid
+=== combination of frame-show and grid-none
 
 [%header,cols="4*a", grid=none, frame=show]
 |===
