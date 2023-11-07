@@ -204,10 +204,24 @@ div.panels table {
     border-top: unset;
     display: block;
     font-size: 14px;
-    margin-top: var(--lg) 0 0;
+    margin: var(--lg) 0 0;
     max-width: fit-content;
     overflow: auto;
     width: 100%;
+
+    &.frame-show {
+      border: 1px solid var(--aluminum-4);
+    }
+
+    &.grid-cols {
+      & tr+tr {
+        border-top: unset;
+      }
+      
+      & td+td {
+        border-left: 1px solid var(--aluminum-4);
+      }
+    }
 
     &.grid-none {
       & > * > tr {
@@ -223,20 +237,6 @@ div.panels table {
       td {
           border: 1px;
         }
-    }
-
-    &.grid-cols {
-      & tr+tr {
-        border-top: unset;
-      }
-      
-      & td+td {
-        border-left: 1px solid var(--aluminum-4);
-      }
-    }
-
-    &.frame-show {
-      border: 1px solid var(--aluminum-4);
     }
 
     & .table-toggle-row {
