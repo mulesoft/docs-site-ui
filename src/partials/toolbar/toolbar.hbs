@@ -10,7 +10,7 @@
       <img loading="lazy" src="{{@root.uiRootPath}}/img/icons/arrow-down.svg" alt="">
     </button>
     {{/if}}
-    {{#if (and env.COVEO_API_KEY (ne page.title 'Search Docs') (not (is-one-of (site-profile) 'archive' 'jp')))}}
+    {{#if (and (or env.COVEO_API_KEY env.COVEO_API_KEY_JP) (ne page.title 'Search Docs') (ne (site-profile) 'archive'))}}
     <button aria-label="Search Docs" class="button toolbar-search-button">
       <img loading="lazy" class="toolbar-search-button-icon" src="{{@root.uiRootPath}}/img/icons/search.svg"
         alt="Search Docs">

@@ -1,8 +1,8 @@
 <nav class="nav fit" aria-label="Docs">
   <span class="mobile-nav-focus-trapper"></span>
-  {{#if (and env.COVEO_API_KEY (not (is-one-of (site-profile) 'archive' 'jp')))}}
+  {{#if (or preview (is-one-of (site-profile) 'prod' 'jp'))}}
   <div class="search">
-    <atomic-search-interface id="search" search-hub="Documentation">
+    <atomic-search-interface id="search" localization-compatibility-version="v4" {{#if (eq (site-profile) 'jp' )}}search-hub="Documentation-jp" language="ja"{{else}}search-hub="Documentation"{{/if}}>
       <atomic-search-layout>
           <atomic-layout-section section="search">
               <atomic-search-box redirection-url="{{relativize site.url}}/general/search{{#if preview}}.html{{/if}}">
