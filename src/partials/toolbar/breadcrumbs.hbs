@@ -24,7 +24,7 @@
   {{#if (eq ./urlType 'internal')}}
     {{#if (eq ./url @root.page.url)}}
     <li class="flex align-center li">
-      <p>{{{./content}}}{{#if (or (eq ./url @root.page.breadcrumbs.0.url) (and (ends-with ./url "index.html") (not (is-null @root.page.version)) (not (is-one-of @root.page.version 'default' 'latest' 'master' '~'))))}} ({{ @root.page.version }}){{/if}}</p>
+      <p>{{{./content}}}{{#if (and (not (is-null @root.page.version)) (not (is-one-of @root.page.version 'default' 'latest' 'master' '~')) (or (eq ./url @root.page.breadcrumbs.0.url) (and (ends-with ./url "index.html"))))}} ({{ @root.page.version }}){{/if}}</p>
     </li>
     {{else if (ne ./url @root.page.breadcrumbs.0.url)}}
     <li class="flex align-center li"><a class="link" href="{{{relativize ./url}}}">{{{./content}}}</a></li>

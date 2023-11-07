@@ -1,4 +1,16 @@
 :root {
+  /* Salesforce Design System colors */
+  --sds-c-button-color-background: #0176d3;
+  --sds-c-button-color-background-hover: #023248;
+  --sds-g-color-blue-10: #001639;
+  --sds-g-color-blue-20: #032d60;
+  --sds-g-color-blue-30: #014486;
+  --sds-g-color-blue-40: #0b5cab;
+  --sds-g-color-blue-50: #0176d3;
+  --sds-g-color-blue-60: #1b96ff;
+  --sds-g-color-gray-10: #181818;
+  --sds-g-color-cloud-blue-95: #eaf5fe;
+
   /* colors */
   --eyebrow-gray: #6d7883;
   --light-blue: #e8f8ff;
@@ -30,14 +42,18 @@
   --tertiary: #fff;
   --black: #000;
 
-  /* Salesforce Design System colors */
-  --sds-c-button-color-background: #0176d3;
-  --sds-c-button-color-background-hover: #023248;
+  /* Salesforce Design System typography */
+  --sds-g-font-display: 'ITC Avant Garde', system-ui, -apple-system, blinkmacsystemfont, 'Segoe UI', roboto, 'Helvetica Neue', arial, 'Noto Sans', sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
+  --sds-g-font-sans: 'Salesforce Sans', system-ui, -apple-system, blinkmacsystemfont, 'Segoe UI', roboto, 'Helvetica Neue', arial, 'Noto Sans', sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
 
   /* typography */
-  --heading: "EAvantGardeBold", arial, sans-serif;
-  --sans-serif: "ESF", arial, sans-serif;
-  --sans-serif-bold: "ESFBold", arial, sans-serif;
+  --font-color-default: var(--sds-g-color-gray-10);
+  --font-color-heading: var(--sds-g-color-blue-20);
+  --font-color-link: var(--sds-g-color-blue-50);
+  --font-color-link-hover: var(--sds-g-color-blue-20);
+  --font-heading: var(--sds-g-font-display);
+  --font-sans-serif: var(--sds-g-font-sans);
+  --font-size-default: 16px;
   --weight-normal: 400;
   --weight-medium: 600;
   --weight-bold: 700;
