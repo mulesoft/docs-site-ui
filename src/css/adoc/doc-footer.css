@@ -32,6 +32,10 @@
   }
 }
 
+.back-to-top {
+  margin-bottom: var(--xl);
+}
+
 .feedback-section {
   align-self: center;
   border-bottom: 1px solid var(--lume-g-color-neutral-80);
