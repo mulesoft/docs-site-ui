@@ -49,6 +49,56 @@
   }
 }
 
+.button-arrow {
+  color: var(--sds-g-color-blue-50);
+  font-size: 14px;
+  font-weight: var(--weight-bold);
+  text-decoration: none;
+
+  &:active,
+  &:hover,
+  &:focus {
+    color: var(--sds-g-color-blue-20);
+    text-decoration: underline;
+  }
+
+  &:visited {
+    text-decoration: underline;
+  }
+
+  &:active,
+  &:focus {
+    border-radius: 5px;
+    outline: var(--sds-g-color-blue-50) auto 1px;
+  }
+}
+
+a.button-arrow-up {
+  &::after {
+    background-image: url('../img/icons/arrow-cta.svg');
+    background-position: -1px 0;
+    background-repeat: no-repeat;
+    content: '';
+    display: inline-block;
+    height: 15px;
+    margin-left: 4px;
+    position: relative;
+    top: 0;
+    transform: rotate(-90deg);
+    transition: top .5s ease-in-out;
+    width: 18px;
+  }
+
+  &:hover::after {
+    background-image: url('../img/icons/arrow-cta-hover.svg');
+    height: 15px;
+    margin-left: 4px;
+    top: -6px;
+    transform: rotate(-90deg);
+    width: 18px;
+  }
+}
+
 /* overrides when button is in a doc */
 .doc .button-primary code {
   background: none;
