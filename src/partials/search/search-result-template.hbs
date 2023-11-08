@@ -53,7 +53,7 @@
           <atomic-result-text field="version"></atomic-result-text>
         </atomic-field-condition>
         <atomic-field-condition class="field" if-defined="mulesoftislatestversion">
-          <atomic-result-badge label="latest version"></atomic-result-badge>
+          <atomic-result-badge label="{{#if (eq (site-profile) 'jp')}}最新{{else}}latest version{{/if}}"></atomic-result-badge>
         </atomic-field-condition>
       </atomic-result-fields-list>
     </atomic-result-section-bottom-metadata>
