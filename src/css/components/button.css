@@ -73,7 +73,7 @@
   }
 }
 
-a.button-arrow-up {
+.button-arrow-up {
   &::after {
     background-image: url('../img/icons/arrow-cta.svg');
     background-position: -1px 0;
