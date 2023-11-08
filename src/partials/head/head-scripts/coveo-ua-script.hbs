@@ -1,0 +1,20 @@
+<script type="text/javascript" src="https://static.cloud.coveo.com/coveo.analytics.js/2/coveoua.js"></script>
+<script nonce="**CSP_NONCE**">
+  (async () => {
+    async function initCoveoUserAnalytics (organizationId, accessToken) {
+      coveoua("init", accessToken, `https://${organizationId}.analytics.org.coveo.com`);
+      coveoua("send", "view", {
+        contentIdKey: '@clickableUri',
+        contentIdValue: window.location.href,
+        contentType: 'Docs',
+      });
+    }
+    
+    const organizationId = "{{ org_id }}";
+    const accessToken = "{{#if env.COVEO_API_KEY_JP}}{{env.COVEO_API_KEY_JP}}{{else}}{{env.COVEO_API_KEY}}{{/if}}";
+
+    const isProdSite = (hostname) => hostname === "docs.mulesoft.com";
+
+    if (isProdSite(window.location.hostname)) initCoveoUserAnalytics(organizationId, accessToken);
+  })();
+</script>

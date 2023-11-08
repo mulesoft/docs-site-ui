@@ -1,0 +1,48 @@
+<script type="module" src="https://static.cloud.coveo.com/atomic/v2.48/atomic.esm.js"></script>
+<script nonce="**CSP_NONCE**">
+  (async () => {
+    async function initSearch (organizationId, accessToken) {
+      await customElements.whenDefined("atomic-search-interface");
+      const searchInterface = document.querySelector("#search");
+      if (searchInterface) {
+        const organizationEndpoints = await searchInterface.getOrganizationEndpoints(organizationId)
+        await searchInterface.initialize({
+          accessToken,
+          organizationId,
+          organizationEndpoints,
+        });
+        if (window.location.href.includes('/search')) searchInterface.executeFirstSearch();
+      }
+    }
+    
+    const organizationId = "{{ org_id }}";
+    const searchToken = "{{#if (eq (site-profile) 'jp')}}{{env.COVEO_API_KEY_JP}}{{else}}{{env.COVEO_API_KEY}}{{/if}}";
+
+    initSearch(organizationId, searchToken);
+  })();
+</script>
+
+<script nonce="**CSP_NONCE**">
+  (async () => {
+    async function initContentRecommendations (organizationId, accessToken) {
+      await customElements.whenDefined('atomic-recs-interface');
+      const recommendInterface = document.querySelector('#recs');
+      if (recommendInterface) {
+        const organizationEndpoints = await recommendInterface.getOrganizationEndpoints(organizationId);
+        await recommendInterface.initialize({
+          accessToken,
+          organizationId,
+          organizationEndpoints,
+        });
+        recommendInterface.getRecommendations();
+      }
+    }
+
+    const organizationId = "{{ org_id }}";
+    // no need to hide this token - it has extremely limited privilege and will show in the source code anyway
+    // TODO: store the CR token in Jenkins so it's easier to rotate if needed
+    const crToken = "xxb149e86e-a23c-43f6-9840-95d0bfa55830";
+
+    initContentRecommendations(organizationId, crToken);
+  })();
+</script>
