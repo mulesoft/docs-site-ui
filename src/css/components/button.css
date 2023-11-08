@@ -62,10 +62,6 @@
     text-decoration: underline;
   }
 
-  &:visited {
-    text-decoration: underline;
-  }
-
   &:active,
   &:focus {
     border-radius: 5px;
