@@ -1,7 +1,7 @@
 = Admonition
 :keywords: admonition, admonitions, warning, section, notes
 :page-component-name: elements
-:page-notice-banner-message: This is a custom notice message about admonitions
+:page-notice-banner-message: This is a <b>custom</b> notice message with a <a href="https://salesforce.com" target="_blank" rel="noopener">link</a>.
 
 https://docs.antora.org/antora/latest/asciidoc/admonitions/[Antora docs reference^]
 

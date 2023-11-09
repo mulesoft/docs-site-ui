@@ -4,31 +4,18 @@
   z-index: var(--z-banner);
 
   & a {
-    color: var(--sds-g-color-blue-30);
+    color: var(--sds-g-color-blue-50);
 
-    &:hover {
-      background-color: #e8f8ff;
-      border-radius: 5px;
-      margin: 0 -1px;
-      outline: 2px solid #747474;
-      padding: 1px;
-
-      &[target="_blank"] {
-        margin-right: -1px;
-      }
-    }
-
-    &:active {
-      background-color: #abd6e8;
-    }
-
+    &:hover,
+    &:active,
     &:focus {
-      border-radius: 5px;
-      outline: 2px solid #747474;
+      color: var(--sds-g-color-blue-20);
     }
 
-    &:visited {
-      color: var(--sds-g-color-blue-30);
+    &:active,
+    &:focus {
+      border-radius: var(--radius);
+      outline: var(--sds-g-color-blue-50) auto 1px;
     }
   }
 
