@@ -1,6 +1,6 @@
 {{#if page.attributes.notice-banner-message}}
 <div class="banner notice-banner flex">
-  <p>{{page.attributes.notice-banner-message}}</p>
+  <p>{{{raw-html page.attributes.notice-banner-message}}}</p>
   <button aria-label="Close notice banner" class="close-button" title="Close notice banner"><img loading="lazy" src="{{@root.uiRootPath}}/img/icons/close.svg" alt=""></button>
 </div>
 {{else if (or page.componentVersion.asciidoc.attributes.supportStatus page.attributes.support-status)}} 
