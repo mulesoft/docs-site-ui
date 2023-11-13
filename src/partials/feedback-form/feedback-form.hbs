@@ -2,7 +2,7 @@
   <section class="feedback-section flex align-center col">
     <div class="feedback-row feedback-first-row flex align-center">
       <div>
-        <p id="feedback-question">Did you find this article useful?</p>
+        <p id="feedback-question" class="feedback-title feedback-upper">Did this article solve your issue?</p>
         <p id="feedback-question-subtitle">Let us know so we can improve!</p>
       </div>
       <div class="feedback-options flex">
@@ -23,7 +23,7 @@
       </div>
     </div>
     {{> written-feedback-section }}
-    <span class="feedback-form-thank-you hide" tabIndex="-1">
+    <span class="feedback-form-thank-you feedback-title hide" tabIndex="-1">
       <img loading="lazy" src="{{@root.uiRootPath}}/img/icons/success.svg" alt="">
       Your feedback has been successfully submitted. Thank you!
     </span>

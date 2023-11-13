@@ -2,20 +2,12 @@
   padding: 300px var(--xl) var(--xl);
 
   & button {
-    border-color: var(--sds-c-button-color-background);
-    border-radius: 5px;
     border-width: 2px;
-    color: var(--sds-c-button-color-background);
     column-gap: 4px;
     font-size: 14px;
     font-weight: var(--weight-bold);
     height: 28px;
     padding: 4px 12px;
-
-    &:hover:not(:disabled) {
-      /* this is for overriding the default button focus color */
-      color: var(--sds-c-button-color-background);
-    }
 
     & img {
       height: 100%;
@@ -41,8 +33,19 @@
   border-bottom: 1px solid var(--lume-g-color-neutral-80);
   border-radius: 2px;
   border-top: 1px solid var(--lume-g-color-neutral-80);
+  font-family: var(--font-sans-serif);
+  font-size: 14px;
   min-width: 340px;
   width: 90%;
+
+  & .feedback-title,
+  & legend {
+    font-weight: var(--weight-bold);
+  }
+
+  & .feedback-upper {
+    text-transform: uppercase;
+  }
 
   & .feedback-ack {
     align-items: center;
@@ -90,16 +93,8 @@
     padding-top: 5px;
 
     & .feedback-form-button {
-      background-color: var(--sds-c-button-color-background);
-      border-radius: 5px;
-      font-family: var(--font-sans-serif);
-      font-size: 14px;
       line-height: unset;
       margin-bottom: 1em;
-
-      &:hover {
-        background-color: var(--sds-c-button-color-background-hover);
-      }
     }
   }
 
@@ -125,8 +120,6 @@
   & .feedback-form-thank-you {
     color: var(--lume-g-color-green-50);
     display: flex;
-    font-size: 14px;
-    font-weight: var(--weight-bold);
     justify-content: center;
     padding-bottom: var(--md);
     width: 75%;
@@ -138,8 +131,6 @@
 
   & .validation-text {
     color: var(--lume-g-color-red-50);
-    font-family: var(--font-sans-serif);
-    font-size: 12px;
     position: relative;
     top: -8px;
 
@@ -150,7 +141,6 @@
 
   & fieldset {
     & label {
-      font-family: var(--font-sans-serif);
       padding-left: 0.5em;
       vertical-align: text-bottom;
     }
@@ -159,8 +149,6 @@
   & fieldset,
   & span:not([aria-live], .validation-text, .feedback-form-thank-you) {
     border: none;
-    font-size: 12px;
-    font-weight: var(--weight-bold);
     margin: auto;
     padding: 0 0 1em;
     width: 100%;
@@ -168,9 +156,9 @@
 
   & input:not([type="button"], [type="checkbox"], [type="submit"]),
   & textarea {
-    border: 1px solid var(--steel-2);
-    border-radius: 4px;
-    margin-bottom: 8px;
+    border: 1px solid var(--lume-g-color-neutral-80);
+    border-radius: var(--radius);
+    margin: 3px 0 8px;
     min-height: 32px;
     padding: 8px;
     width: 100%;
@@ -181,24 +169,16 @@
 
     &::placeholder {
       color: var(--lume-g-color-neutral-50);
-      font-size: 12px;
     }
   }
 
   & legend,
   & p > label {
-    font-size: 14px;
-    margin-bottom: 8px;
+    margin-bottom: 3px;
   }
 
   & p {
-    font-size: var(--font-size-default);
-    font-weight: var(--weight-bold);
     margin: auto;
-  }
-
-  & #feedback-question-subtitle {
-    font-family: var(--font-sans-serif);
   }
 
   &:has(> .feedback-form.hide):has(> .feedback-second-row.hide):has(
@@ -246,11 +226,6 @@
         margin-left: -25px;
         margin-top: -72px;
       }
-    }
-
-    & legend,
-    & p {
-      font-size: 14px;
     }
   }
 }
