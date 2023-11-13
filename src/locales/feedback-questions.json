@@ -1,14 +1,14 @@
 {
   "v1": {
     "yes": {
-      "legend": "Thanks for the feedback! What made this article helpful? (Please check at least 1 checkbox.)",
+      "legend": "Thanks for the feedback! What made this article helpful?",
       "is_accurate": "Contains accurate information",
       "is_comprehensive": "Includes all of the information I need",
       "is_clear": "Easy to understand with clear explanations and visuals",
       "other": "Something else"
     },
     "no": {
-      "legend": "We're sorry to hear that. How can we improve this article? (Please check at least 1 checkbox.)",
+      "legend": "We're sorry to hear that. How can we improve this article?",
       "is_accurate": "Contains inaccurate or outdated information",
       "is_comprehensive": "Missing important information",
       "is_clear": "Confusing or difficult to understand",
