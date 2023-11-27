@@ -92,14 +92,6 @@ use ${osMap[this.clientOS].secondaryKeyLabelLong} + ${shortcutKeyMap.keyLabel}`
       }
     }
 
-    addSubmitButtonText () {
-      const submitText = document.createElement('p')
-      submitText.style.display = this.searchboxInput.value ? 'inherit' : 'none'
-      submitText.style.margin = this.searchboxInput.value ? 'auto 10px auto -5px' : 'auto 10px auto 0'
-      submitText.innerHTML = 'Docs'
-      this.searchboxSubmitButton.appendChild(submitText)
-    }
-
     appendKeyboardShortcut () {
       if (this.searchboxInput) {
         this.searchboxInput.placeholder = `${this.searchboxInput.placeholder} (${
@@ -214,7 +206,6 @@ use ${osMap[this.clientOS].secondaryKeyLabelLong} + ${shortcutKeyMap.keyLabel}`
     updateSubmitButton () {
       if (this.searchboxSubmitButton) {
         this.searchboxSubmitButton.setAttribute('aria-label', 'Search Docs')
-        this.addSubmitButtonText()
       }
     }
   }
