@@ -70,7 +70,7 @@
     "pretty": "2.0.0",
     "require-directory": "2.1.1",
     "require-from-string": "2.0.2",
-    "stylelint": "15.11.0",
+    "stylelint": "16.0.2",
     "stylelint-config-standard": "34.0.0",
     "stylelint-order": "6.0.4",
     "through2": "4.0.2",
