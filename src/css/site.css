@@ -49,5 +49,7 @@
 /* vendor */
 @import "vendor/coveo.css";
 @import 'vendor/lume.css';
-@import "vendor/prism.css";
 @import "vendor/tabs.css";
+
+/* other */
+@import "highlight.css";
