@@ -1,6 +1,7 @@
 ;(() => {
   'use strict'
 
+  const archiveTooltip = MSCX.l10n.getMessage('landing-footer-archive-tooltip')
   const archiveLinks = document.querySelectorAll('a[href="https://archive.docs.mulesoft.com/"]')
   if (!archiveLinks.length) return
 
@@ -15,10 +16,7 @@
   const applyTippy = (icon, color) => {
     tippy(icon, {
       arrow: tippy.roundArrow,
-      content:
-        'When a product version is no longer supported, ' +
-        'including products with end-of-life status, ' +
-        'its documentation moves to an archive site.',
+      content: archiveTooltip,
       duration: [0, 150],
       maxWidth: 240,
       offset: [0, 15],
