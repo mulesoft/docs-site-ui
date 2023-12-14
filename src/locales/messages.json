@@ -20,7 +20,9 @@
       "mobile-table-hide": "Hide",
       "right-nav-on-this-page": "On this page:",
       "right-nav-skip-to-main": "Skip to main content",
-      "right-nav-skip-to-sections": "Skip to page content sections"
+      "right-nav-skip-to-sections": "Skip to page content sections",
+      "search-close-button": "Close",
+      "search-toolbar-button": "Search Docs"
       },
     "jp": {
       "breadcrumbs-home": "ホームページ",
@@ -41,6 +43,8 @@
       "mobile-table-toggle": "クリックしてテーブルを切り替え",
       "mobile-table-show": "表示",
       "mobile-table-hide": "非表示",
-      "right-nav-on-this-page": "このページの内容:"
+      "right-nav-on-this-page": "このページの内容:",
+      "search-close-button": "閉じる",
+      "search-toolbar-button": "ドキュメントの検索"
     }
 }

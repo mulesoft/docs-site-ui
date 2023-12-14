@@ -11,9 +11,9 @@
     </button>
     {{/if}}
     {{#if (and (or env.COVEO_API_KEY env.COVEO_API_KEY_JP) (ne page.title 'Search Docs') (ne (site-profile) 'archive'))}}
-    <button aria-label="Search Docs" class="button toolbar-search-button">
+    <button data-l10n-label="search-toolbar-button" class="button toolbar-search-button">
       <img loading="lazy" class="toolbar-search-button-icon" src="{{@root.uiRootPath}}/img/icons/search.svg"
-        alt="Search Docs">
+        data-l10n-alt="search-toolbar-button">
     </button>
     {{/if}}
   </div>
