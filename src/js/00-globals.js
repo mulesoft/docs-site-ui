@@ -62,9 +62,20 @@ MSCX.l10n = (function () {
     })
   }
 
+  const setCopyright = () => {
+    document.querySelectorAll('.copyright-year').forEach((elem) => {
+      elem.textContent = String(new Date().getFullYear())
+    })
+  }
+
+  function doLast () {
+    localizeDOM()
+    setCopyright()
+  }
+
   Object.freeze(messageSets)
   setLocale()
-  window.addEventListener('load', localizeDOM)
+  window.addEventListener('load', doLast)
 
   return {
     getMessage: lookupMessage,
