@@ -40,7 +40,6 @@
           feedbackOptionButtons.forEach((button) => {
             button.disabled = true
           })
-          if (userSelectedHelpful(feedbackButton)) removeIcon(feedbackButton)
 
           show(feedbackFormDiv)
           populateForm(feedbackFieldSet, decision)
@@ -162,11 +161,6 @@
     if (checkbox) return yes ? 'yes' : 'no'
   }
 
-  const removeIcon = (element) => {
-    const icon = element.querySelector('img')
-    icon?.remove()
-  }
-
   const submitFeedbackToBackend = (form) => {
     const body = createBody(form)
 
@@ -210,8 +204,6 @@
   const updateFeedbackAckMsg = (feedbackAckMsgSpan, decisionStr) => {
     feedbackAckMsgSpan.setAttribute('aria-label', `You voted for ${decisionStr === 'yes' ? 'helpful' : 'not helpful'}.`)
   }
-
-  const userSelectedHelpful = (feedbackButton) => feedbackButton.id === 'feedback-yes'
 
   addListeners(feedbackCard, thumbDirections)
 })()
