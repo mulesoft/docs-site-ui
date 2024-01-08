@@ -65,26 +65,17 @@
     justify-content: space-between;
     width: 100%;
 
+    & button.selected,
+    & button:hover:not(:disabled) {
+      & img {
+        filter: brightness(0.35);
+      }
+    }
+
     & button.selected {
-      &#feedback-yes {
-        background-color: var(--lume-g-color-blue-50);
-        padding: 0 12px;
-
-        & p {
-          color: var(--lume-g-color-neutral-100);
-          font-size: var(--lg);
-        }
-      }
-
-      &#feedback-no {
-        background-color: var(--lume-g-color-blue-95);
-        border-color: var(--lume-g-color-blue-20);
-        color: var(--lume-g-color-blue-20);
-
-        & img {
-          filter: brightness(0.75);
-        }
-      }
+      background-color: var(--lume-g-color-blue-95);
+      border-color: var(--lume-g-color-blue-20);
+      color: var(--lume-g-color-blue-20);
     }
   }
 
