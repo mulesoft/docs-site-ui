@@ -164,3 +164,8 @@ You can then point Antora at this bundle using the `--ui-bundle-url` command-lin
 *NOTE: We are currently not accepting external code contributions. Thank you for your interest!*
 ====
 
+====
+:icons: font
+
+NOTE: We are currently not accepting external code contributions. Thank you for your interest!
+====
