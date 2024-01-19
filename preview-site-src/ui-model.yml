@@ -1,4 +1,4 @@
-antoraVersion: '3.0.3'
+antoraVersion: '3.1.7'
 preview: true
 asciidoc:
   extensions:
