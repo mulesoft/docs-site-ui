@@ -1,5 +1,6 @@
 .hljs-comment,
-.hljs-meta {
+.hljs-meta,
+.hljs-operator {
   color: var(--lume-g-color-neutral-40);
 }
 
@@ -11,9 +12,11 @@
 
 .hljs-number,
 .hljs-literal,
+.hljs-property,
 .hljs-variable,
-.hljs-tag .hljs-attr {
-  color: var(--violet);
+.hljs-tag,
+.hljs-attr {
+  color: var(--sds-g-color-palette-green-40);
 }
 
 .hljs-doctag,

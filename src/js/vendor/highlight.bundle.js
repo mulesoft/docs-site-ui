@@ -24,5 +24,104 @@
   hljs.registerLanguage('swift', require('highlight.js/lib/languages/swift'))
   hljs.registerLanguage('xml', require('highlight.js/lib/languages/xml'))
   hljs.registerLanguage('yaml', require('highlight.js/lib/languages/yaml'))
+  hljs.registerLanguage('dataweave', (hljs) => {
+    return {
+      contains: [
+        hljs.REGEXP_MODE,
+        {
+          className: 'string',
+          begin: '"',
+          end: '"',
+          contains: [{ className: 'subst', begin: '\\\\.', end: '\\\\.' }],
+        },
+        {
+          className: 'number',
+          begin: '\\b\\d+(\\.\\d+)?\\b',
+          relevance: 0,
+        },
+        {
+          className: 'variable',
+          begin: '\\bvars\\.[a-zA-Z_]+\\b',
+        },
+        {
+          className: 'key',
+          begin: /(["'])\w+\1\s*:/,
+          returnBegin: true,
+          contains: [
+            {
+              className: 'string',
+              begin: /(["'])\w+\1/,
+            },
+          ],
+        },
+        {
+          className: 'property',
+          begin: /(?::)\s*/,
+          end: /([,}\n])/,
+          contains: [
+            {
+              className: 'string',
+              begin: '"',
+              end: '"',
+              contains: [{ className: 'subst', begin: '\\\\.', end: '\\\\.' }],
+            },
+            {
+              className: 'number',
+              begin: '\\b\\d+(\\.\\d+)?\\b',
+              relevance: 0,
+            },
+            {
+              className: 'variable',
+              begin: '\\bvars\\.[a-zA-Z_]+\\b',
+            },
+          ],
+        },
+        {
+          className: 'mime-type',
+          begin: /\b(?:text|audio|video|application|multipart|image)\/[\w+-]+/,
+        },
+        {
+          className: 'date',
+          begin: /\|[\w:+-]+\|/,
+          relevance: 0,
+        },
+        {
+          className: 'comment',
+          variants: [{ begin: /(^|[^\\])\/\*[\s\S]*?(?:\*\/|$)/ }, { begin: /(^|[^\\:])\/\/.*/ }],
+        },
+        {
+          className: 'regex',
+          begin: /\/(?:[^\\/\r\n]|\\[^\r\n])+\//,
+          relevance: 0,
+        },
+        {
+          className: 'function',
+          begin: /\b[A-Za-z_]\w*(?=\s*\()/i,
+          relevance: 0,
+        },
+        {
+          className: 'punctuation',
+          begin: /[{}[\];(),.:@]/,
+        },
+        {
+          className: 'operator',
+          begin: /<<|>>|->|[<>~=]=?|!=|--?-?|\+\+?|!|\?/,
+          relevance: 0,
+        },
+        {
+          className: 'boolean',
+          begin: /\b(?:true|false)\b/,
+          relevance: 0,
+        },
+        {
+          className: 'keyword',
+          // eslint-disable-next-line max-len
+          begin:
+            /\b(?:match|input|output|ns|type|update|null|if|else|using|unless|at|is|as|case|do|fun|var|not|and|or)\b/,
+          relevance: 0,
+        },
+      ],
+    }
+  })
   hljs.initHighlightingOnLoad()
 })()
