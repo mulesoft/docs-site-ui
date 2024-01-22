@@ -21,6 +21,12 @@
   const thumbDirections = ['yes', 'no']
   let selectedThumbDirection
 
+  // these variables are used to prevent bot attacks by creating a time buffer between
+  // "user" clicking yes/no and clicking the submit button
+  let timerStart
+  let timerEnd
+  const bufferMilliseconds = 500
+
   const addLegend = (feedbackFieldSet, yes) => {
     const legend = document.createElement('legend')
     legend.innerText = questionsMap[yes].legend
@@ -33,6 +39,7 @@
       if (feedbackButton) {
         feedbackButton.addEventListener('click', (e) => {
           e.preventDefault()
+          timerStart = Date.now()
           trackAnalytics(decision)
           selectedThumbDirection = decision === 'yes'
           updateFeedbackAckMsg(feedbackAckMsgSpan, decision)
@@ -52,16 +59,19 @@
     if (feedbackForm) {
       feedbackForm.addEventListener('submit', (e) => {
         e.preventDefault()
-        if (atLeastOneCheckboxChecked(feedbackForm)) {
-          submitFeedbackToBackend(feedbackForm)
-          hide(feedbackFormDiv)
-          show(feedbackFormThankYouSign)
-          feedbackFormThankYouSign.focus()
-        } else {
-          const checkboxesValidationText = feedbackForm.querySelector('span#checkboxes-validation-text')
-          show(checkboxesValidationText)
-          const focusElement = getFirstVisibleFocusableChildElement(feedbackFormDiv)
-          focusElement?.focus()
+        timerEnd = Date.now()
+        if (timerEnd - timerStart > bufferMilliseconds) {
+          if (atLeastOneCheckboxChecked(feedbackForm)) {
+            submitFeedbackToBackend(feedbackForm)
+            hide(feedbackFormDiv)
+            show(feedbackFormThankYouSign)
+            feedbackFormThankYouSign.focus()
+          } else {
+            const checkboxesValidationText = feedbackForm.querySelector('span#checkboxes-validation-text')
+            show(checkboxesValidationText)
+            const focusElement = getFirstVisibleFocusableChildElement(feedbackFormDiv)
+            focusElement?.focus()
+          }
         }
       })
     }
