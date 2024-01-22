@@ -3,7 +3,7 @@
 :page-component-name: elements
 :page-notice-banner-message: This is a <b>custom</b> notice message with a <a href="https://salesforce.com" target="_blank" rel="noopener">link</a>.
 
-https://docs.antora.org/antora/latest/asciidoc/admonitions/[antora docs reference]
+https://docs.antora.org/antora/latest/asciidoc/admonitions/[Antora Docs Reference]
 
 NOTE: If you go into the basement, see if you can find Kenny's parka.
 

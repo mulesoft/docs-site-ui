@@ -3,7 +3,7 @@
 :page-component-name: elements
 :page-notice-banner-message: This is a custom notice message about tables
 
-https://docs.asciidoctor.org/asciidoc/latest/tables/build-a-basic-table/[antora docs reference]
+https://docs.asciidoctor.org/asciidoc/latest/tables/build-a-basic-table/[Antora Docs Reference]
 
 == Basic Table
 
