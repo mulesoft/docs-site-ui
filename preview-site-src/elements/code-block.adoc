@@ -42,6 +42,22 @@ public class Person
 }
 ----
 
+== JSON
+
+[source,json]
+---
+{
+  "address1": "Koala Boulevard 314",
+  "city": "San Diego",
+  "country": "USA",
+  "email": "mike@hotmail.com",
+  "name": "Michael",
+  "postalCode": "1345",
+  "stateOrProvince": "CA",
+  "test": 12345,
+}
+---
+
 == Rust
 
 [source,rust,linenums]
@@ -127,6 +143,60 @@ NOTE: The playground button doesn't work here (yet) because the asciidoc extensi
 ----
 include::preview-site-src/cookbook-dw/add-and-subtract-time/transform.dwl[]
 ----
+
+[source,dataweave]
+----
+%dw 2.0
+var firstInput = [
+  { "bookId":"101",
+    "title":"world history",
+    "price":"19.99"
+  },
+  {
+    "bookId":"202",
+    "title":"the great outdoors",
+    "price":"15.99"
+  }
+]
+var secondInput = [
+  {
+    "bookId":"101",
+    "author":"john doe"
+  },
+  {
+    "bookId":"202",
+    "author":"jane doe"
+  }
+]
+----
+
+[source,dataweave]
+---
+output application/json
+firstInput map (firstInputValue) ->
+  {
+    theId : firstInputValue.bookId as Number,
+    theTitle: firstInputValue.title,
+    thePrice: firstInputValue.price as Number,
+    (secondInput filter ($.*bookId contains firstInputValue.bookId) map (secondInputValue) -> {
+      theAuthor : secondInputValue.author
+    })
+  }
+---
+
+[source,dataweave]
+---
+%dw 2.0
+output application/problem+json with json
+---
+{
+  "type": "https://example.org/out-of-stock",
+  title: "Out of Stock",
+  status: vars.statusCode,
+  detail: "Item B00027Y5QG is no longer available",
+  product: "B00027Y5QG"
+}
+---
 
 == Code Snippet with callouts
 
