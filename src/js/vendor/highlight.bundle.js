@@ -87,10 +87,7 @@
         },
         {
           className: 'comment',
-          variants: [
-            { begin: /(^|[^\\])\/\*[\s\S]*?(?:\*\/|$)/ },
-            { begin: /(^|[^\\:])\/\/.*/ },
-          ],
+          variants: [{ begin: /(^|[^\\])\/\*[\s\S]*?(?:\*\/|$)/ }, { begin: /(^|[^\\:])\/\/.*/ }],
         },
         {
           className: 'regex',
@@ -119,7 +116,8 @@
         {
           className: 'keyword',
           // eslint-disable-next-line max-len
-          begin: /\b(?:match|input|output|ns|type|update|null|if|else|using|unless|at|is|as|case|do|fun|var|not|and|or)\b/,
+          begin:
+            /\b(?:match|input|output|ns|type|update|null|if|else|using|unless|at|is|as|case|do|fun|var|not|and|or)\b/,
           relevance: 0,
         },
       ],
