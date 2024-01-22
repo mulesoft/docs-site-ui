@@ -3,7 +3,7 @@
 :page-component-name: elements
 :page-notice-banner-message: This is a custom notice message about code blocks
 
-https://docs.antora.org/antora/latest/asciidoc/source/[Antora Docs Reference]
+https://docs.antora.org/antora/latest/asciidoc/source/[Antora docs reference]
 
 The following are code blocks of different languages (they are highlighted differently).
 
