@@ -5,7 +5,7 @@
 
 == Image
 
-https://docs.antora.org/antora/latest/page/image-resource-id-examples/[Antora docs reference^]
+https://docs.antora.org/antora/latest/page/image-resource-id-examples/[Antora docs reference]
 
 Here's an inline image: image:images/devkitoverviewarchitecture.png["alt text", height=30px], do you see it?
 
@@ -16,7 +16,7 @@ image::images/devkitoverviewarchitecture.png[alt text]
 
 == Video
 
-https://docs.antora.org/antora/latest/asciidoc/embed-video/[Antora docs reference^]
+https://docs.antora.org/antora/latest/asciidoc/embed-video/[Antora docs reference]
 
 video::rPQoq7ThGAU[youtube]
 

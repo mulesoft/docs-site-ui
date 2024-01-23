@@ -4,8 +4,8 @@
   const uiRootPath = document.getElementById('site-script').dataset.uiRootPath
 
   const appendExternalLinkIcon = (link) => {
-    const isDataWeavePlaygroundLink = link && link.classList.contains('dw-playground-link')
-    const isFooterLink = link && link.offsetParent && link.offsetParent.tagName === 'FOOTER'
+    const isDataWeavePlaygroundLink = link?.classList.contains('dw-playground-link')
+    const isFooterLink = link?.offsetParent?.tagName === 'FOOTER'
     if (!isDataWeavePlaygroundLink && !isFooterLink) {
       const externalLinkImg = createLinkImage('external-link', 'Leaving the Site')
       link.appendChild(externalLinkImg)
@@ -24,11 +24,18 @@
     return img
   }
 
+  const isExternalLink = (url) => !url.startsWith(window.location.origin)
+
+  const opensInNewWindow = (linkTarget) => linkTarget === '_blank'
+
   const processExternalLinks = (selectors) => {
-    const selectorText = selectors.map((el) => `${el} [target="_blank"]`).join(', ')
+    const selectorText = selectors.map((el) => `${el} a`).join(', ')
     const externalLinks = document.querySelectorAll(selectorText)
     externalLinks.forEach((externalLink) => {
-      appendExternalLinkIcon(externalLink)
+      if (isExternalLink(externalLink.href)) {
+        if (!opensInNewWindow(externalLink.target)) externalLink.target = '_blank'
+        appendExternalLinkIcon(externalLink)
+      }
     })
   }
 
