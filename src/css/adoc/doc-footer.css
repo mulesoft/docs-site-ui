@@ -100,10 +100,9 @@
   & .feedback-form-textarea-character-count {
     display: inline-block;
     font-size: 12px;
-    margin-top: -13px;
     position: relative;
     text-align: right;
-    top: -15px;
+    top: -12px;
     width: 100%;
   }
 

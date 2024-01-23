@@ -5,6 +5,7 @@
   if (!feedbackCard) return
 
   const formSubmitAPIVersion = 'v1'
+  const maxCharCount = 800
 
   const questionSets = 'feedbackQuestions'
   const questionsMap = questionSets[formSubmitAPIVersion]
@@ -15,6 +16,8 @@
   const feedbackFormDiv = feedbackCard.querySelector('div.feedback-form')
   const feedbackForm = feedbackFormDiv?.querySelector('form')
   const feedbackFieldSet = feedbackForm?.querySelector('fieldset')
+  const feedbackFormTextarea = feedbackForm?.querySelector('textarea')
+  const feedbackFormTextareaCharCount = feedbackForm?.querySelector('span.feedback-form-textarea-character-count')
 
   const feedbackFormThankYouSign = feedbackCard.querySelector('span.feedback-form-thank-you')
 
@@ -73,6 +76,14 @@
             focusElement?.focus()
           }
         }
+      })
+    }
+
+    if (feedbackFormTextarea) {
+      initializeCharCount(feedbackFormTextareaCharCount)
+      feedbackFormTextarea.addEventListener('keyup', (e) => {
+        const currentCharCount = feedbackFormTextarea.value.length
+        feedbackFormTextareaCharCount.innerText = `${maxCharCount - currentCharCount} / ${maxCharCount}`
       })
     }
   }
@@ -158,6 +169,10 @@
     const lang = document.documentElement.lang
     const surveyIDLabel = Object.hasOwn(surveyIDsSet[lang], baseURL) ? surveyIDsSet[lang][baseURL] : fallbackSurveyID
     return `mulesoft_docs_${surveyIDLabel}`
+  }
+
+  const initializeCharCount = (CharCountSpan) => {
+    CharCountSpan.innerText = `${maxCharCount} / ${maxCharCount}`
   }
 
   const isHidden = (element) => element.offsetParent === null
