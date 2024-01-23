@@ -9,11 +9,11 @@
     const tooltipDiv = createTooltipDiv()
     archiveLink.parentElement.appendChild(tooltipDiv)
 
-    const tooltipIcon = createTooltipIcon(archiveLink)
-    tooltipDiv.appendChild(tooltipIcon)
+    const tooltipButton = createTooltipButton(archiveLink)
+    tooltipDiv.appendChild(tooltipButton)
   }
 
-  const applyTippy = (icon, color) => {
+  const applyTippy = (button, icon, color) => {
     tippy(icon, {
       arrow: tippy.roundArrow,
       content: archiveTooltip,
@@ -22,6 +22,8 @@
       offset: [0, 15],
       theme: `${color}-archive-link-popover`,
       touchHold: true, // maps touch as click (for some reason)
+      trigger: 'click mouseenter',
+      triggerTarget: button,
       zIndex: 'var(--z-nav-mobile)',
     })
   }
@@ -32,22 +34,28 @@
     return tooltipDiv
   }
 
-  const createTooltipIcon = (archiveLink) => {
+  const createTooltipButton = (archiveLink) => {
+    const tooltipButton = document.createElement('button')
+    tooltipButton.classList.add('tooltip-button')
+    const tooltipIcon = createTooltipIcon(tooltipButton, archiveLink)
+    tooltipButton.appendChild(tooltipIcon)
+    return tooltipButton
+  }
+
+  const createTooltipIcon = (tooltipButton, archiveLink) => {
     const tooltipIcon = document.createElement('img')
     const iconColor = inLeftNav(archiveLink) ? 'gray' : 'white'
-    setIconAttributes(tooltipIcon, iconColor)
+    setIconAttributes(tooltipButton, tooltipIcon, iconColor)
     return tooltipIcon
   }
 
   const inLeftNav = (element) => element.classList.contains('nav-text')
 
-  const setIconAttributes = (icon, color) => {
+  const setIconAttributes = (button, icon, color) => {
     icon.classList.add('tooltip')
     icon.setAttribute('alt', 'Archived Documentation information')
-    icon.setAttribute('role', 'button')
-    icon.setAttribute('tabindex', '0')
     setSrcSVGPath(icon, color)
-    applyTippy(icon, color)
+    applyTippy(button, icon, color)
   }
 
   const setSrcSVGPath = (icon, color) => {
