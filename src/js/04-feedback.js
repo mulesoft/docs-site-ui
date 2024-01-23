@@ -84,6 +84,7 @@
       feedbackFormTextarea.addEventListener('keyup', (e) => {
         const currentCharCount = feedbackFormTextarea.value.length
         feedbackFormTextareaCharCount.innerText = `${maxCharCount - currentCharCount} / ${maxCharCount}`
+        e.preventDefault()
       })
     }
   }
