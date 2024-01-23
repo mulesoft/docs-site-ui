@@ -97,6 +97,15 @@
     }
   }
 
+  & .feedback-form-textarea-character-count {
+    display: inline-block;
+    font-size: 12px;
+    position: relative;
+    text-align: right;
+    top: -12px;
+    width: 100%;
+  }
+
   & .feedback-row {
     flex-flow: column;
     padding: var(--md) 13px;
@@ -138,7 +147,7 @@
   }
 
   & fieldset,
-  & span:not([aria-live], .validation-text, .feedback-form-thank-you) {
+  & span:not([aria-live], .validation-text, .feedback-form-textarea-character-count, .feedback-form-thank-you) {
     border: none;
     margin: auto;
     padding: 0 0 1em;
