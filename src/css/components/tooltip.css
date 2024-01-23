@@ -21,6 +21,18 @@
   }
 }
 
+.tooltip-button {
+  background: unset;
+  border: none;
+  margin: auto;
+  height: 16px;
+  padding: 0;
+
+  & img {
+    margin: 0;
+  }
+}
+
 .tooltip-dot {
   background-color: #5e8ef9;
   border-radius: 50%;
