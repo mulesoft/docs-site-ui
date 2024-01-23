@@ -172,8 +172,8 @@
     return `mulesoft_docs_${surveyIDLabel}`
   }
 
-  const initializeCharCount = (CharCountSpan) => {
-    CharCountSpan.innerText = `${maxCharCount} / ${maxCharCount}`
+  const initializeCharCount = (charCountSpan) => {
+    charCountSpan.innerText = `${maxCharCount} / ${maxCharCount}`
   }
 
   const isHidden = (element) => element.offsetParent === null
