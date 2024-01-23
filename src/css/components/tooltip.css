@@ -24,8 +24,8 @@
 .tooltip-button {
   background: unset;
   border: none;
-  margin: auto;
   height: 16px;
+  margin: auto;
   padding: 0;
 
   & img {
