@@ -37,11 +37,16 @@
   const createTooltipButton = (archiveLink) => {
     const tooltipButton = document.createElement('button')
     tooltipButton.classList.add('tooltip-button')
+    const tooltipIcon = createTooltipIcon(tooltipButton, archiveLink)
+    tooltipButton.appendChild(tooltipIcon)
+    return tooltipButton
+  }
+
+  const createTooltipIcon = (tooltipButton, archiveLink) => {
     const tooltipIcon = document.createElement('img')
     const iconColor = inLeftNav(archiveLink) ? 'gray' : 'white'
     setIconAttributes(tooltipButton, tooltipIcon, iconColor)
-    tooltipButton.appendChild(tooltipIcon)
-    return tooltipButton
+    return tooltipIcon
   }
 
   const inLeftNav = (element) => element.classList.contains('nav-text')
