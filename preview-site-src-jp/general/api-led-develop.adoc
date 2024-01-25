@@ -1,0 +1,204 @@
+= ステップ 3.API の開発 
+
+API 仕様を作成しましたので、次は API を作成します。
+
+Anypoint Platform では、​xref:mule-runtime::index.adoc[Mule Runtime Engine (Mule)]​ のインスタンスにデプロイするアプリケーションに API をパッケージします。
+Mule は、Mule アプリケーションを実行する軽量のインテグレーションエンジンです。Mule のインスタンスは、Studio と、Mule アプリケーションおよび API をデプロイする環境に埋め込まれます。
+これらの環境は対象と呼ばれます。対象の 1 つは Studio に埋め込まれる Mule で、開発とテストに使用します。もう 1 つの対象は ​xref:runtime-manager::cloudhub.adoc[CloudHub]​ で、MuleSoft によって管理されるクラウドベースの環境です。
+
+このチュートリアルでは、まず Mule を Studio にデプロイする方法を説明します。API が完成したら、今度は Mule を CloudHub にデプロイします。
+
+image:empty-studio.png[プロジェクトが存在しない Studio]
+
+. Package Explorer では、各プロジェクトで作成したファイルを操作できます。
+. キャンバスでは、プロジェクトの要素をドラッグアンドドロップして接続することで、フローを作成します。
+. [Mule Palette (Mule パレット)] では、コネクタやモジュールなどの標準アセットやカスタムアセットに簡単にアクセスできます。
+. 一番下にあるタブは、設定ダイアログや Mule デバッガなどの開発者用ダイアログへのアクセスに使用します。
+
+== ステップ 3.1: Anypoint Platform のログイン情報を Studio に追加する
+
+Anypoint Platform のログイン情報は、Studio に 1 回だけ追加すれば、以降に作成するすべてのプロジェクトで使用できます。
+
+. Studio を開き、​*[Anypoint Studio] > [Preferences (プリファレンス)]*​ をクリックします。
+. *[Anypoint Studio] > [Authentication (認証)]*​ を選択します。
+. Anypoint Platform のユーザ名とパスワードを入力します。
+. 必要であれば、この認証の有効期間を入力します。
+. *[Sign In (サインイン)]*​ をクリックします。
+. *[Apply and Close (適用して閉じる)]*​ をクリックします。
+
+このログイン情報は、Studio の多くの操作で自動的に使用されます。
+
+== ステップ 3.2: インポートした API 仕様で新しい Studio プロジェクトを作成する
+
+このステップではプロジェクトを作成します。
+
+. Studio で、​*[File (ファイル)] > [New (新規)] > [Mule Project (Mule プロジェクト)]*​ を選択します。
++
+image:new-project-dialog.png[新しいプロジェクトのダイアログ]
+. ダイアログボックスで、次の値を設定します。
+  ** *Project Name (プロジェクト名)*​: `hello-world`
+  ** *Runtime*​: 選択肢があれば、最新バージョンの Mule を選択します。これが Studio でテスト用にホストされる Mule Runtime Engine となります。
+  ** *[Import a published API (パブリッシュ済みの API をインポート)]*​ タブを選択します。
+    ... 緑のプラス記号をクリックして ​*[From Exchange (Exchange から)]*​ を選択します。
+    ... 必要であれば組織にログインします。
+    ... 検索ボックスに ​`hello-world`​ と入力します。
+    ... *hello-world*​ をクリックして選択します。
+    ... *[Add (追加)]*​ をクリックして ​*[Selected modules (選択したモジュール)]*​ リストに移動します。
+    ... *[Finish (完了)]*​ をクリックします。
+. 下にスクロールして、​*[Scaffold flows from these API specifications (これらの API 仕様からフローをスキャフォールディングする)]*​ チェックボックスがオンであることを確認します。この状態では、Studio はデフォルトのエラー処理や他の便利な機能をプロジェクトに追加します。
+. *[Finish (完了)]*​ をクリックします。
+. Studio は ​`hello-world.xml`​ という XML ファイルを作成し、キャンバスの ​*[Message Flow (メッセージフロー)]*​ ビューで開いて、API インターフェースで必要ないくつかの基本要素を表示します。
+
+image:my-first-project.png[スキャフォールディングありで API 仕様をインポートした後の Studio のビュー]
+
+キャンバスを下にスクロールすると、API を作成するために API 仕様に追加されたスキャフォールディングがすべて表示されます。
+
+* 要求を受信できる HTTP リスナ
+* メッセージをルーティングする APIkit ルータ
+* 各種エラー条件用のエラーハンドラ
+* *hello-world-console*​ というコンソール (このチュートリアルでは使用しません)
+* 設定の大半を行うエンドポイント ​`/greeting`​ への GET 要求。
+
+キャンバスには 3 つの異なるビューがあります。
+
+image:canvas-tabs.png[1 つのキャンバスと 3 つのビューすべてへのリンク, 500]
+
+* *[Message Flow (メッセージフロー)]*​ ビューでは、モジュールやコネクタなどのアセットをドラッグアンドドロップして、それらのリレーションを簡単に作成できます。
+* *[Global Elements (グローバル要素)]*​ ビューでは、複数のプロジェクトで使用するグローバル要素を簡単に指定できます。
+* *[Configuration XML (設定 XML)]*​ ビューでは、プロジェクトの XML を簡単に直接編集できます。
+
+では、キャンバスのフローの一番上にあるリスナで設定されている値を確認しましょう。
+
+. リスナをダブルクリックして、全体的な設定値を表示します。
+. 設定名の横にある編集アイコン ​image:edit-module-version-icon.png[ノートの上の鉛筆]​をクリックして、ホストが ​`0.0.0.0`​ でポートが ​`8081`​ であることを確認します。
+. *[Test Connection (接続をテスト)]*​ をクリックし、接続テストが成功したと報告されたら ​*[OK]*​ をクリックします。
+. *[OK]*​ をクリックして、設定を閉じます。これにより ​*[Global Elements (グローバル要素)]*​ タブに移動します。
+. *[Message Flow (メッセージフロー)]*​ タブをクリックして前のタブに戻ります。リスナの全体的な設定値が表示されることを確認します。
+. *[Path (パス)]*​ が ​*/api/**​ に設定されていることを確認します。このベストプラクティスにより、すべてのエンドポイントが ​`base-URI/api/endpoint`​ の形式になります。
+
+次のステップでは、ビジネスロジックを作成して、この API に必要な要素を設定します。
+
+== ステップ 3.3: API を設定する
+
+Studio から提供されたスキャフォールディングを使用し、​`/greeting`​ エンドポイントモジュールを設定して API を完成させます。
+
+. キャンバスの ​*[Message Flow (メッセージフロー)]*​ タブで、​`/greeting`​ エンドポイントモジュールが表示されるまで下にスクロールします。
++
+image:greeting-module.png[スキャフォールディングによって作成された GET Connector のビュー, 500]
+. *[Transform Message]*​ を右クリックして削除します。
+. *[Mule Palette (Mule パレット)]*​ で ​*[Favorites (お気に入り)]*​ をクリックして、コアコネクタのリストを表示します。
+. *[Set Payload]*​ をクリックして選択し、Transform Message を削除したスペースの​*「Source (提供元)」*​という表示ラベルのあるエリアの右側までドラッグします。
+. hello-world API からの応答として送信されるデータを表示するロジックを指定します。
+  .. フローに追加した Set Payload トランスフォーマをクリックします。
++
+image:set-payload.png[キャンバスのビューと Set Payload Connector の設定ダイアログ, 500]
+  .. キャンバスの一番下にある ​*[General (一般)]*​ タブで ​*[fx]*​ (関数) ボタンをクリックして選択解除します。このチュートリアルでは、値をハードコードします。
+  .. *[Settings (設定)]*​ の下にある ​*[Value (値)]*​ を ​`Today the greeting is Hello.`​ に設定します。
+. *[File (ファイル)] > [Save All (すべて保存)]*​ を選択して、作業内容を保存します。
+. キャンバスの一番下にある ​*[Configuration XML (設定 XML)]*​ をクリックして、作業で生成された XML を確認します。
+. *[Message Flow (メッセージフロー)]*​ をクリックして、次のステップ用にキャンバスを設定します。
+
+API を公開するためにデプロイできるシンプルな Mule アプリケーションを含むプロジェクトを作成しました。
+
+[NOTE]
+====
+この API は、通常の本番対応 API よりシンプルです。
+
+* ペイロード (GET 要求で供給されます) は、プロジェクト設定でハードコードされています。本番対応 API では、ペイロード値は別の提供元から供給されるか、もしくは変数の関数や DataWeave 式として定義されます。
+* インターフェースと実装 (ビジネスロジック) を別々の XML ファイルに分けるのがベストプラクティスですが、ここでは簡潔にするために省略されています。
+====
+
+== ステップ 3.4.API をテストする
+
+API を含む Studio プロジェクトを Mule Runtime Engine で実行し、サードパーティクライアントでテストします。
+
+. キャンバス上の任意の場所を右クリックして、​*[Run project hello-world (プロジェクト hello-world を実行)]*​ を選択します。
++
+コンソールが開き、アプリケーションが Studio 内の Mule Runtime Engine (Mule) にデプロイされる様子が状況メッセージで示されます。
+次のメッセージが表示されたら、API を含むアプリケーションが Mule にデプロイされたことになります。
++
+----
+*******************************************************************************************************
+*            - - + APPLICATION + - -            *       - - + DOMAIN + - -       * - - + STATUS + - - *
+*******************************************************************************************************
+* hello-world                                   * default                        * DEPLOYED           *
+*******************************************************************************************************
+----
+. アプリケーションをテストするため、REST クライアント (Advanced Rest クライアント) を開いて GET 要求を送信します。
++
+`\http://localhost:8081/api/greeting`
++
+REST クライアントが ​`200 OK`​ メッセージと ​`Today the greeting is Hello.`​ という本文を返すことを確認してください。
+. キャンバス内を右クリックして、​*[Stop project hello-world (プロジェクト hello-world を停止)]*​ を選択します。
+
+== ステップ 3.5.組織でビジネスグループを作成する
+
+API を Exchange にパブリッシュして他のユーザと共有するためには、先にトライアル組織でビジネスグループを作成する必要があります。
+Exchange のアセットは、ルートビジネスグループ以外のビジネスグループに属している必要があります。
+
+すでに組織でビジネスグループを作成してある場合は、このステップは省略してください。
+
+ビジネスグループを作成する手順は次のとおりです。
+
+. Anypoint Platform にログインします。
++
+link:https://anypoint.mulesoft.com/login/#/signup["Anypoint Platform に移動^", role="button-primary"]
+. ランディングページの ​*[Management Center]*​ の下で ​*[Access Management (アクセス管理)]*​ をクリックします。
+. *[Add Business Group (ビジネスグループを追加)]*​ をクリックして、以下の値を入力します。
+  ** *Business Group name (ビジネスグループ名)*​: `My Top Business Group`
+  ** *Owner (オーナー)*​: 自分の名前を探して選択します。
+  ** *[Owner can create environments (オーナーは環境を作成できる)]*​ をオンにします。
+  ** 他の値はすべてデフォルトのままにします。
+. *[Add Business Group (ビジネスグループを追加)]*​ をクリックします。
+
+[Access Management (アクセス管理)] 画面の組織名の下に新しいビジネスグループが表示されます。
+
+== ステップ 3.6.API を Exchange にパブリッシュする
+
+他のユーザがテンプレートやサンプルとして使用できるように、API を Exchange にパブリッシュします。
+
+. Studio の Package Explorer で、​`hello-world`​ プロジェクトを右クリックします。
+. *[Anypoint Platform] > [Publish to Exchange (Exchange にパブリッシュ)]*​ を選択します。
++
+image:pub-to-exchange.png[API を Exchange にパブリッシュするためのダイアログ]
+
+. プロジェクトの値を入力します。
+  ** *[User (ユーザ)]*​ では、自分のユーザ名を選択します。
+  ** *[Business group (ビジネスグループ)]*​ では、作成したビジネスグループ ​*My Top Business Group*​ を選択します。この項目にデフォルトで表示されるルートビジネスグループを使用することはできません。ログイン情報の期限が切れている場合は、​*[Add account (アカウントを追加)]*​ をクリックしてログイン情報を再び追加します。
+  ** *[Version (バージョン)]*​ はデフォルト値のままにしておきます。
+  ** *[Project type (プロジェクトタイプ)] > [Example (サンプル)]*​ を選択します。​*[Finish (完了)]*​ ボタンが有効になります。
+. *[Next (次へ)]*​ をクリックします。
+. 検索の補助となるドキュメント、説明、タグを追加できます。
+. *[Finish (完了)]*​ をクリックします。
+. 確認が求められたら ​*[Yes (はい)]*​ をクリックして続行します。
++
+プロジェクトが Exchange にアップロードされると、プロジェクトへの直接リンクが表示されます。
++
+image:link-to-published-api.png[Exchange にパブリッシュされた API へのリンクを表示するダイアログ, 600] 
+. リンクをクリックして、Exchange でプロジェクトを表示します。
++
+image:published-in-exchange.png[Exchange で表示された API]
+
+. HTTP Connector と Sockets Connector が連動関係としてリストされている点に注意してください。​*[Asset Versions (アセットバージョン)]*​ セクションのドロップダウンメニューで ​*[Version detail (バージョンの詳細)]*​ をクリックすると、この連動関係が表示されます。
+. パブリッシュの結果に満足したら、Studio に戻って ​*[OK]*​ をクリックし、開いているダイアログウィンドウを閉じます。
+
+== 次のステップ
+
+API の開発を完了するため、以下を追加します。
+
+* Validation
+* デバッグをサポートするイベントログ
+* エラー処理
+* API の単体テスト
+
+API が完成したら、更新後のバージョンを改めてパブリッシュします。
+
+== 開発者向けの詳細
+
+Anypoint Platform と Studio の機能について知るには、以下を参照してください。
+
+* DataWeave でデータを変換する。​xref:dataweave::dataweave-quickstart.adoc[クイックスタート]​、​xref:mule-runtime::mule-app-tutorial.adoc[チュートリアル]​。
+* xref:mule-runtime::about-flows.adoc[フロー、サブフロー、非同期キュー]​を使用して Mule アプリケーションを組み立てる。
+* アプリケーションのメタデータ (スキーマ) を定義して管理する。​xref:studio::metadata-editor-concept.adoc[メタデータエディタ]​。
+* xref:api-manager::analytics-landing-page.adoc[API Manager の Analytics]​ を使用して重要業績指標を実装する。
+* イベントを条件的にルーティングする。​xref:mule-runtime::choice-router-concept.adoc[Choice router]​、​xref:mule-runtime::scatter-gather-concept.adoc[Scatter-Gather ルータ]​。

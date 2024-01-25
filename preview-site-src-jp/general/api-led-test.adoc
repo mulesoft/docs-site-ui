@@ -1,0 +1,139 @@
+= ステップ 4.検証とエラー処理の追加
+
+これまでに、API を作成してサードパーティクライアントで HTTP 要求をテストし、API を Exchange にパブリッシュしました。
+次は Studio を使用して検証と単体テストを追加します。Studio では、すでに作成されているスキャフォールディングを使用して以下を行います。
+
+* Validation Module を使用して入力を検証する。
+* 1 つのエラー条件に対してエラーハンドラを作成する。
+
+== ステップ 4.1: 検証
+
+ユーザ入力が API に対して適切であることを保証するための操作を、Validation Module から API 実装に追加します。
+作成した API は非常にシンプルであるため、テストもシンプルになります。ペイロードのサイズが許容範囲内であることをテストします。
+
+*Validate size*​ 操作を ​`hello-world`​ プロジェクトに追加します。
+
+. Studio の ​`hello-world`​ プロジェクトで、​`hello-world.xml`​ がまだ開いていなければ開き、キャンバスの ​*[Message Flow (メッセージフロー)]*​ タブを表示します。
+. *[Mule Palette (Mule パレット)]*​ で、​*[Add Modules (モジュールを追加)] > [Validation (検証)]*​ を選択し、Validation Module を [Mule Palette (Mule パレット)] の左側までドラッグアンドドロップします。
++
+image:validation-module.png[[Validation (検証)] が選択された [Mule Palette (Mule パレット)], 500]
+. 表示された操作のリストから、​*Validate size*​ をキャンバスにドラッグして、エンドポイントモジュール内の ​*Set Payload*​ の右にドロップします。
++
+image:validate-size.png[GET Module にドロップされた Validate size, 500]
+. *Validate size*​ をクリックして ​*[General (一般)]*​ 設定タブを表示します。
++
+image:configure-validate.png[Validate size の設定タブ, 500]
+. *[General (一般)]*​ タブで以下の値を設定します。
+  .. *Value (値)*​: *[fx]*​ ボタンをクリックしてリテラルモードから式モードに変更し、テキストボックス内の文字列の後に ​`payload`​ と入力します。閉じ括弧は自動的に入力されます。
+  .. *Min (最小)*​: `6`​
+  .. *Max (最大)*​: `30`​
+  .. *[Error options (エラーオプション)] > [Message (メッセージ)]*​: `The specified message is either too long or too short.`​
+. Studio のメインメニューから ​*[File (ファイル)] > [Save All (すべて保存)]*​ を選択して、変更内容を保存します。
+. キャンバス内を右クリックして、​*[Run project hello-world (プロジェクト hello-world を実行)]*​ を選択します。
+. `hello-world`​ がデプロイされたことを示すメッセージがコンソールに表示されたら、Advanced Rest などのクライアントを使用して次の要求を送信します。
++
+[source, xml]
+----
+http://localhost:8081/api/greeting
+----
++
+`200 OK`​ と ​`Today the greeting is Hello.`​ を含むレスポンスヘッダーが返されたと要求クライアントから報告されることを確認します。これは、Validate size コネクタで設定した範囲内である場合に予期される挙動です。
+
+. キャンバス内を右クリックして、​*[Stop project hello-world (プロジェクト hello-world を停止)]*​ を選択します。
+
+ペイロードが短すぎる場合に検証が正しく機能することをテストするため、デバッガを使用して、エラーがトリガされるまで各イベントをステップ実行します。
+
+. Studio の ​`hello-world`​ プロジェクトで ​`hello-world.xml`​ を開きます。
+. *Set Payload*​ をクリックして、値を ​`Hi.`​ に設定します。
+. *[Mule Palette (Mule パレット)]*​ で ​*[Favorites (お気に入り)] > [Logger]*​ を選択し、Logger を ​*Set Payload*​ と ​*Validate size*​ の間にドラッグアンドドロップします。Logger はデバッグしやすいようにプロセスを停止します。Logger の設定は不要です。
+. *Set Payload*​ を右クリックして ​*[Add Breakpoint (ブレークポイントを追加)]*​. を選択します。
+. *Logger*​ を右クリックして ​*[Add breakpoint (ブレークポイントを追加)]*​ を選択します。
+. *Validate size*​ を右クリックして ​*[Add breakpoint (ブレークポイントを追加)]*​ を選択します。
+. キャンバス内を右クリックして、​*[Debug project hello-world (プロジェクト hello-world をデバッグ)]*​ を選択します。[Mule Debug (Mule デバッグ)] パースペクティブを開くように求められたら、​*[Remember my decision (私の決定を記憶する)]*​ チェックボックスをオンにして ​*[Yes (はい)]*​ をクリックします。
++
+image:mule-debugger-view.png[デバッガビューの Studio]
+
+. Advanced REST クライアントで ​`/greeting`​ エンドポイントに要求を送信します。
++
+[source, xml]
+----
+http://localhost:8081/api/greeting
+----
+
+. Studio に戻り、​*Set Payload*​ が破線で囲まれていることを確認します。
+. キャンバスで ​*Set Payload*​ をクリックし、キャンバスの上の ​*Mule デバッガ*​で ​*Set Payload*​ ノードを開きます。​*Set Payload*​ を開いて、ペイロード値が ​`Hi.`​ の 3 文字であることを確認します。
+. デバッガウィンドウの上に表示されている曲線の黄色い矢印をクリックします。
++
+image:next-toggle.png[次の切り替えポイントに移動するためのコントロール, 500]
++
+このコントロールにマウスポインタを置くと、​*「Next processor (次のプロセッサ) (F6)」*​と表示され、正しいコントロールであることを確認できます。デバッガペインには、Logger Connector が表示されます。
+. 曲線の黄色い矢印を再びクリックして、Validate size コネクタに移動します。
+. 曲線の黄色い矢印を再びクリックして、定義してあるエラーメッセージが今度はデバッガペインの​*エラー*​オブジェクトに表示され、Validate size コネクタが赤い破線で囲まれていることを確認します。
++
+image:validation-error.png[Validate size のエラーが表示されたデバッガビュー, 500]
+. 曲線の黄色い矢印を再びクリックして、キャンバスに [Message Flow (メッセージフロー)] の先頭が表示され、インポート時に追加されたスキャフォールディング項目の 1 つである APIkit ルータが赤い破線で囲まれていることを確認します。このルータがエラーを処理します。
+. 曲線の黄色い矢印を再びクリックしてフローを完了します。プロセスが完了したため、Mule デバッガペインは空白になります。
+. Advanced Rest クライアントを確認します。​`500 Server Error`​ とペイロード値が表示されます。
++
+ペイロードではなく定義してあるエラーが返されたことを確認するには、いずれかのエラーハンドラを設定する必要があります。
+. キャンバス内を右クリックして、​*[Stop project hello-world (プロジェクト hello-world を停止)]*​ を選択します。
+. *[Window (ウィンドウ)] > [Perspective (パースペクティブ)] > [Open Perspective (パースペクティブを開く)] > [Mule Design (Mule デザイン)]*​ を選択してデバッガビューを終了します。
+
+== ステップ 4.2: エラー処理
+
+では、セットアップした検証用のエラーハンドラを追加しましょう。
+
+. Studio の ​*[Mule Palette (Mule パレット)]*​ で ​*[Core] > [On Error Propagate]*​ を選択し、このエラーハンドラを ​*get:\greeting:hello-world-config*​ の ​*Error handling*​ までドラッグアンドドロップします。
++
+image:on-error.png[GET Module へのエラーハンドラの追加と設定, 500]
+. キャンバスの下にある ​*[General (一般)]*​ タブで、エラーハンドラを設定します。
+  ** *Display Name (表示名):*​ ​`On Error Propagate`​
+  ** *Settings Type (設定種別):*​ 検索アイコンをクリックして、ドロップダウンメニューから ​*VALIDATION:INVALID_SIZE*​ を選択します。
+  ** 他のデフォルト値は変更しないでください。
+. Set Payload Connector を新しい On Error Propagate エラーハンドラにドラッグします。
+. 新しい Set Payload Connector を設定します。
+  .. *Set Payload*​ をダブルクリックして ​*[General (一般)]*​ タブを開きます。
+  .. *[Settings (設定)] > [Value (値)]:*​ ​`payload`​ を ​`error.description`​ に置き換えます。
+. *[File (ファイル)] > [Save All (すべて保存)]*​ をクリックして、変更内容を保存します。
+. *Set Payload*​、​*Logger*​、​*Validate size*​ のブレークポイントを削除してある場合は、これらにブレークポイントを追加します。
+. キャンバス内を右クリックして、​*[Debug project hello-world (プロジェクト hello-world をデバッグ)]*​ を選択します。
+. アプリケーションがデプロイされたら、Advanced Rest クライアントからクエリ ​`\http://localhost:8081/api/greeting`​ を送信し、曲線の黄色い矢印を使用して各ブレークポイントをステップ実行します。
+. *On Error Propagate*​ の ​*Set Payload*​ に達すると、Validate size で作成したエラーメッセージに設定してあるペイロードが表示されます。
++
+image:payload-message.png[エラーハンドラで Set Payload に対して表示されるデバッガメッセージ, 500]
+. [Message Flow (メッセージフロー)] の先頭にある ​*APIkit ルータ*​に達すると、元のペイロード ​`Hi.`​ の代わりにエラーメッセージが表示されます。
++
+image:payload-response.png[ペイロードのエラーメッセージを表示している APIkit ルータのブレークポイント, 500]
+. プロジェクトを最後までステップ実行して Advanced Rest クライアントの応答を確認すると、​*500 Server Error*​ がエラーメッセージと一緒に返されていることが分かります。
+. 元のペイロードを ​`Today the greeting is Hello.`​ に戻します。
+. Studio のビューを ​*[Window (ウィンドウ)] > [Perspective (パースペクティブ)] > [Open Perspective (パースペクティブを開く)] > [Mule Design (Mule デザイン)]*​ に戻します。
+
+次は、更新した API をパブリッシュします。
+
+== ステップ 4.3: 更新した API をパブリッシュする
+
+改善した API を Exchange で公開します。
+
+. Studio の Package Explorer で、​`hello-world`​ プロジェクトを右クリックします。
+. *[Anypoint Platform] > [Publish to Exchange (Exchange にパブリッシュ)]*​ を選択します。
+. 以前と同じビジネスグループを選択します。有効なビジネスグループを選択するまで、​*[Next (次へ)]*​ ボタンはアクティブになりません。
+. バージョン番号は自動的に増分されますので、そのまま受け入れます。
+. *[Project type (プロジェクトタイプ)]*​ で ​*[Example (サンプル)]*​ を選択します。
+. *[Next (次へ)]*​ をクリックします。
+. *[Finish (完了)]*​ をクリックします。
+
+
+Exchange に新たにパブリッシュされた API バージョンへの直接リンクが Studio に表示されます。このリンクをコピーすることで、他のユーザと API を共有できます。
+
+== 次のステップ
+
+他のユーザが ​`/greeting`​ エンドポイントに要求を送信できるように、API をデプロイしましょう。
+
+== 開発者向けの詳細
+
+ユニットテスト、エラー処理、そして検証については、学習することがたくさんあります。
+詳細を確認してください。
+
+* xref:munit::index.adoc[MUnit]
+* xref:connectors::validation/validation-connector.adoc[Validation Module と操作]
+* xref:mule-runtime::intro-error-handlers.adoc[Mule 4 のエラー処理]

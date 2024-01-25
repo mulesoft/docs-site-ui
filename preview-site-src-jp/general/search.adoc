@@ -1,0 +1,2 @@
+= ドキュメントの検索
+:page-layout: search-page

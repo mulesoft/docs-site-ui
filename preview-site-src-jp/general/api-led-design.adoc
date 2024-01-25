@@ -1,0 +1,189 @@
+= ステップ 2.API 仕様の設計
+
+API を設計するには、まず目的と要件を評価します。
+
+* API のタイプはシンプルな API か、インテグレーションの一部か、あるいはバックエンドシステムの一部かを特定する。
+* データフロー (一方向、両方向、等) を理解する。
+* セキュリティ要件を調査する。
+
+統合プロジェクトのスコープとフローを定義したら、link:https://raml.org/[RAML]​ または link:https://openautomationsoftware.com/[OAS]​ で API 仕様を定義します。
+そして、その後のステップで API 仕様を使用して、API を短時間で開発します。
+
+== API 仕様と API
+
+API とは、特定のリソースにアクセスするためにパブリッシュされたインターフェースであり、正しい権限と適切な構造の要求を使用することでリソースにアクセスできるようにします。
+
+API 仕様とは、API の機能と予期される動作、そして設計の基本理念やサポートされるデータ型などの詳細を定義したものです。
+API 仕様にはドキュメントと API 定義が含まれ、人間とソフトウェアが読むことのできるコントラクトを作成します。
+
+MuleSoft は、API 仕様の作成を容易にするツールを提供しています。作成した API 仕様は、チーム、顧客、一般の人々と共有できます。
+API 仕様を利用することで、API の採用が促進され、プロジェクトをより早く完了できるようになります。
+
+== ステップ 2.1: 既存の API 仕様を調査する
+
+自分で API 仕様を作成する前に、既存の API 仕様を参考にすることで、自分と似たような状況に対して他の人々がどのようなアプローチを採ったかを学習できます。
+また、同じ目的の API 仕様がすでに存在するかどうかを調べて、その API 仕様が適切であれば再利用できます。
+
+必要な処理をすでに実装している API 仕様は、簡単に探すことができます。
+
+* 公開 Exchange を確認します。公開 Exchange とは、MuleSoft がホストしているポータルであり、API 仕様やコネクタなど、さまざまな公開アセットをダウンロードして使用できます。
+最もよく利用されている API 仕様、コネクタ、および他のアセットは、ランディングページに表示されています。
++
+link:https://www.mulesoft.com/exchange["Exchange に移動^", role="button-primary"]
++
+  .. *[Any Type (任意の種別)] > [REST APIs]*​ (検索バーの下) を選択して、REST API 仕様のみを表示します。
+  .. いずれかの仕様をクリックして、その API に対して定義されているデータ型と HTTP 要求を表示します。
++
+* 自分の組織 (アカウント) の Exchange を確認します。ログインすると、表示が自分の組織の非公開 Exchange に変わります。
++
+link:https://anypoint.mulesoft.com/login["Anypoint Platform に移動^", role="button-primary"]
++
+  .. 必要であれば Anypoint Platform にログインします。
+  .. Anypoint Platform ランディングページで、​*[Exchange]*​ の下にある ​*[Discover and share (検出して共有)]*​ をクリックします。
+  .. いずれかの仕様をクリックして、その API に対して定義されているデータ型と HTTP 要求を表示します。トライアル組織の場合は、まだ何も表示されない場合があります。
+
+Exchange で使用可能ないくつかのアセットを調査したら、Anypoint Platform に戻り、このチュートリアル API の機能を定義した新しい API 仕様を Web ベースツールで作成します。
+
+== ステップ 2.2: 自分の API 仕様を作成する
+
+シンプルな GET 要求に応答するシンプルな Hello World API の API 仕様を作成します。
+これを行うには、​xref:design-center::index.adoc[Design Center]​ に含まれる ​xref:design-center::design-create-publish-api-specs.adoc[API Designer]​ を使用します。
+
+. API Designer を開きます。
++
+link:https://anypoint.mulesoft.com/designcenter/designer/["API Designer に移動^", role="button-primary"]
+. *[Create new (新規作成)]*​ をクリックして API Designer エディタを開きます。
+. *[New API Spec (新しい API 仕様)]*​ をクリックします。
+. *[API Title (API タイトル)]*​ に ​`hello-world`​ と入力し、他のデフォルト値はそのままにします。
+. *[Create API (API を作成)]*​ をクリックします。API Designer エディタにサンプル RAML 定義が表示されます。
+. 既存のテキストを削除して、次の RAML をコピーして貼り付けます。
+
+[source,raml]
+----
+#%RAML 1.0
+title: hello, world
+version: v1
+description: A greeting for the world
+
+types:
+ greeting:
+   properties:
+     todays-greeting: string
+
+/greeting:
+     get:
+       responses:
+         200:
+           body:
+             application/json:
+               type: greeting
+               example:
+                 {todays-greeting: "test-greeting"}
+         404:
+           body:
+             application/json:
+               properties:
+                 message: string
+               example: |
+                 {
+                   "message" : "Greeting not found"
+                 }
+----
+この API 仕様には以下が含まれます。
+
+* 単一の HTTP 要求 (GET)
+* 単一のプロパティ (​`todays-greeting`​) とサンプル値を持つ単一のデータ型 (​`greeting`​)
+* HTTP 成功応答
+* HTTP エラー応答
+
+== ステップ 2.3: API 仕様をテストする
+
+API 仕様 ​`hello-world.raml`​ が完成しました。では、要求を送信してテストしましょう。
+モッキングサービスは、API 仕様に基づいて有効なエンドポイントを作成し、認証、リクエストヘッダー、レスポンスヘッダーを管理するためのシンプルな UI を提供します。
+
+API 仕様をテストする手順は次のとおりです。
+
+. `hello-world.raml`​ が開いてなければ開きます。
++
+link:https://anypoint.mulesoft.com/designcenter/#/projects["API Designer に移動^" role="button-primary"]
++
+image:api-spec1.png[完成した仕様]
++
+. [Documentation (ドキュメント)] パネルが開いていない場合は、ドキュメントアイコンをクリックします。
++
+image:api-documentation-icon.png[API Designer ドキュメントアイコン]
++
+. *API endpoints*​ という表示ラベルを探します。定義したエンドポイントが表示されます。HTTP 要求は緑色のボックスに表示されます。
++
+image:get-button.png[[GET] ボタン, 500]
+. *[GET]*​ をクリックして、GET 要求と仕様の詳細情報を表示します。
++
+image:code-response1.png[[Response (応答)] 項目, 500]
+. *[Code examples (コード例)]*​ をクリックして、各プロトコルのサンプルを確認します。
+. *[Responses (応答)]*​ の下にある ​*[200]*​ と ​*[404]*​ をクリックして、API 仕様で定義されている応答を確認します。
+. 青の ​*[Try It (試す)]*​ ボタンをクリックします。
++
+image:try-it.png[[Try It (試す)] ボタン, 500]
+. *[Send (送信)]*​ をクリックして、モッキングサービスが仕様に基づいて作成した一時的な要求 URL に要求を送信します。
++
+image:ignore-this.png[無視できるエラーメッセージ, 500]
++
+この画面に表示されるエラーメッセージは無視しても構いません。要求が成功すると ​`200 OK`​ とテストメッセージが返されます。
++
+image:successful-test1.png[テストが成功した場合の結果, 500]
+. ケバブメニューの ​*[Response details (レスポンス詳細)]*​ をクリックして、モッキングサービスのレスポンスヘッダーやリクエストヘッダーを調べれば、問題を診断したり、API 仕様の動作を理解することができます。
+. テストが終了したら、​*[Mocking Service Configuration (モッキングサービス設定)]*​ パネルを開いて、​*[Local Settings (ローカル設定)]*​ で ​*[Select By Default (デフォルトで選択)]*​ を有効にします。
++
+image:api-mocking-service-configuration-icon.png[モッキングサービスアイコン]
++
+image:disable-mocking-service.png[無効化される前のモッキングサービスコントロール, 500]
+
+== ステップ 2.4.API 仕様をパブリッシュする
+
+API をテストしたら、API を非公開 Exchange にパブリッシュして、組織内の他のユーザがこの API を再利用できるようにします。
+
+. `hello-world.raml`​ が開いてなければ開きます。
++
+link:https://anypoint.mulesoft.com/designcenter/#/projects["API Designer に移動^" role="button-primary"]
+. *[Publish (パブリッシュ)]*​ をクリックします。
+. *[Publish to Exchange (Exchange へのパブリッシュ)]*​ をクリックします。
++
+image:publish-to-exchange1.png[Exchange にパブリッシュするユーザインターフェース, 500]
+. すべてのデフォルト値を受け入れて、​*[Asset version (アセットバージョン)]*​ 項目にバージョン番号を入力します。
+. *[Publish to Exchange (Exchange にパブリッシュ)]*​ をクリックしてから ​*[Done (完了)]*​ をクリックします。
+
+パブリッシュ後は、組織内のすべてのユーザに hello-world API 仕様が表示され、再利用できるようになります。
+
+== 次のステップ
+
+API を設計してその API 仕様を作成したところで、次は Anypoint Studio (Studio) を使用して、API の実装とインターフェースを含む Mule アプリケーションを作成します。
+
+== 開発者向けの詳細
+
+詳細に興味がある場合は以下を参照してください。
+
+=== 詳細: Exchange
+
+アセットは、公開 Exchange、内部 Exchange、または公開開発者ポータルでパブリッシュできます。
+
+* 公開 Exchange に加えて、組織の内部のみで提供されているアセットも確認できます。
++
+link:https://anypoint.mulesoft.com/exchange/["Exchange に移動^", role="button-primary"]
++
+* 公開開発者ポータルを作成してある場合は、​*[Public portal (公開ポータル)]*​ をクリックしてポータルでアセットを確認できます。
+
+=== 詳細: API の機能
+
+通常の API プロジェクトでは、さらに多くの機能を実装します。
+
+* xref:studio::set-credentials-in-studio-to.adoc[認証]​を追加する。
+* RAML 仕様の定義に従って注釈を追加する。
++
+link:https://github.com/raml-org/raml-spec/blob/master/versions/raml-10/raml-10.md/#annotations["RAML 仕様に移動^", role="button-primary"]
+* xref:design-center::design-import-files.adoc[API Designer または Studio を使用して Exchange からアセットを追加する。]
+* xref:studio::import-api-specification-design-center.adoc[Studio を使用して API 仕様で公開するデータをモデリングする。]
+* xref:design-center::design-create-publish-api-fragment.adoc[仕様を再利用できるように API フラグメントでモジュール化する。]
+
+=== 開発者とパートナー向けの詳細
+
+API 仕様を共有してサポートするため、​xref:exchange::to-change-raml-version.adoc[次のバージョン]​に向けて API 仕様に関するフィードバックを集めましょう。

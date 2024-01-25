@@ -1,0 +1,99 @@
+antoraVersion: '3.1.7'
+preview: true
+asciidoc:
+  extensions:
+    - '@asciidoctor/tabs'
+  attributes:
+    maintenanceTime: '9:00 AM PDT'
+    maintenanceDate: 'May 31, 2023'
+site:
+  url: &index_url /
+  homeUrl: *index_url
+  title: MuleSoft JP Documentation
+  keys: {
+    siteProfile: 'jp'
+  }
+  components:
+    general:
+      latest: &general_latest
+        version: ~
+        title: Home
+        url: *index_url
+        navigation:
+        - content: ホーム
+          url: *index_url
+          # NOTE: the url of each item maps 1-to-1 with an icon in src/js/vendor/icondefs.js
+          items:
+          - content: API ビルドの最初から最後まで
+            url: /general/api-led-overview.html
+            items:
+              - content: ステップ 1. 前提条件
+                url: /general/api-led-prerequisites.html
+              - content: ステップ 2. API 仕様の設計
+                url: /general/api-led-design.html
+              - content: ステップ 3. API の開発
+                url: /general/api-led-develop.html
+              - content: ステップ 4. 検証とエラー処理の追加
+                url: /general/api-led-test.html
+              - content: ステップ 5. CloudHub への API のデプロイ
+                url: /general/api-led-deploy.html
+              - content: ステップ 6. API の操作
+                url: /general/api-led-operate.html
+          - content: ブラウザサポート
+            url: /general/browser-support.html
+          - content: 用語集
+            url: /general/glossary.html
+          - content: MuleSoft ドキュメントへの寄稿
+            url: /general/contribute.html
+          - content: External Link Test
+            url: https://www.ecosia.org/
+            urlType: external
+      versions:
+      - *general_latest
+    connectors:
+      latest: &connectors_latest
+        version: ~
+        title: Connectors
+        url: &connectors_url /connectors.html
+        navigation:
+        - items:
+          - content: All Connectors and Modules
+            url: *connectors_url
+      versions:
+      - *connectors_latest
+nav:
+  subcomponents:
+  - parent: accelerators-home
+    components: [consumer-goods, financial-services, healthcare, life-sciences, manufacturing, retail]
+  - parent: connectors
+    components: ['*-connector', '*-module']
+    sortAll: true
+  - parent: rpa-home
+    components: [rpa-manager, rpa-builder, rpa-recorder, rpa-bot]
+  - parent: gateway-home
+    components: [gateway, mule-gateway, policies]
+  groups:
+  - root: true
+    components: home
+  - title: 使用開始
+    components: general
+    spreadSingleItem: true
+  - title: ホスティング
+    components: [hosting-home, cloudhub-2, cloudhub-1, runtime-fabric, private-cloud, gov-cloud, eu-control-plane]
+  - title: 製品ごとのドキュメント
+    components: ['*', '!reuse']
+page:
+  src:
+    component: general
+  origin:
+    url: https://github.com/mulesoft/docs-site-ui
+    editUrlPattern: https://github.com/mulesoft/docs-site-ui/edit/main/preview-site-src/%s
+    private: true
+  previous:
+    content: Test Previous Page
+    url: '#'
+    urlType: 'internal'
+  next:
+    content: Test Next Page
+    url: '#'
+    urlType: 'internal'
