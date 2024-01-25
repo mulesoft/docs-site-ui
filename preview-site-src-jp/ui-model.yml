@@ -7,7 +7,7 @@ asciidoc:
     maintenanceTime: '9:00 AM PDT'
     maintenanceDate: 'May 31, 2023'
 site:
-  url: &index_url /
+  url: &index_url /jp/general
   homeUrl: *index_url
   title: MuleSoft JP Documentation
   keys: {
@@ -25,26 +25,26 @@ site:
           # NOTE: the url of each item maps 1-to-1 with an icon in src/js/vendor/icondefs.js
           items:
           - content: API ビルドの最初から最後まで
-            url: /general/api-led-overview.html
+            url: /jp/general/api-led-overview.html
             items:
               - content: ステップ 1. 前提条件
-                url: /general/api-led-prerequisites.html
+                url: /jp/general/api-led-prerequisites.html
               - content: ステップ 2. API 仕様の設計
-                url: /general/api-led-design.html
+                url: /jp/general/api-led-design.html
               - content: ステップ 3. API の開発
-                url: /general/api-led-develop.html
+                url: /jp/general/api-led-develop.html
               - content: ステップ 4. 検証とエラー処理の追加
-                url: /general/api-led-test.html
+                url: /jp/general/api-led-test.html
               - content: ステップ 5. CloudHub への API のデプロイ
-                url: /general/api-led-deploy.html
+                url: /jp/general/api-led-deploy.html
               - content: ステップ 6. API の操作
-                url: /general/api-led-operate.html
+                url: /jp/general/api-led-operate.html
           - content: ブラウザサポート
-            url: /general/browser-support.html
+            url: /jp/general/browser-support.html
           - content: 用語集
-            url: /general/glossary.html
+            url: /jp/general/glossary.html
           - content: MuleSoft ドキュメントへの寄稿
-            url: /general/contribute.html
+            url: /jp/general/contribute.html
           - content: External Link Test
             url: https://www.ecosia.org/
             urlType: external
@@ -53,11 +53,11 @@ site:
     connectors:
       latest: &connectors_latest
         version: ~
-        title: Connectors
-        url: &connectors_url /connectors.html
+        title: コネクタ
+        url: &connectors_url /jp/connectors.html
         navigation:
         - items:
-          - content: All Connectors and Modules
+          - content: すべてのコネクタおよびモジュール
             url: *connectors_url
       versions:
       - *connectors_latest
