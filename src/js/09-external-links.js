@@ -24,7 +24,7 @@
     return img
   }
 
-  const isExternalLink = (url) => !url.startsWith(window.location.origin)
+  const isExternalLink = (url) => !url.startsWith(window.location.origin) && url.startsWith('http')
 
   const opensInNewWindow = (linkTarget) => linkTarget === '_blank'
 
