@@ -1,5 +1,6 @@
 = ゲートウェイの作成と設定
 :keywords: データゲートウェイ, salesforce, sap, oracle
+:page-component-name: data-gateway
 
 include::partial$support-warning.adoc[]
 

@@ -1,5 +1,6 @@
 = Anypoint データゲートウェイについて
 :keywords: データゲートウェイ, salesforce, sap, oracle
+:page-component-name: data-gateway
 
 // Support notification from PM.
 include::partial$support-warning.adoc[]

@@ -1,5 +1,6 @@
 = Creating and Configuring a Gateway
 :keywords: data gateway, salesforce, sap, oracle
+:page-component-name: data-gateway
 
 == Overview
 

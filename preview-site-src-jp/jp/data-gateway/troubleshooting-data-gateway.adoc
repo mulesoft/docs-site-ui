@@ -1,5 +1,6 @@
 = データゲートウェイのトラブルシューティング
 :keywords: データゲートウェイ, salesforce, sap, oracle, db2, odata, mysql, sqlserver
+:page-component-name: data-gateway
 
 // Support notification from PM.
 include::partial$support-warning.adoc[]
