@@ -1,0 +1,65 @@
+= Anypoint データゲートウェイのインストール
+:keywords: データゲートウェイ, salesforce, sap, oracle, インストール
+
+// Support notification from PM.
+include::partial$support-warning.adoc[]
+
+Anypoint™ データゲートウェイは、Salesforce 管理パッケージとしてインストールするか、Anypoint Platform 経由でアクセスすることができます。Salesforce での管理パッケージのインストールについての詳細は、&#8203;https://help.salesforce.com/apex/HTViewHelpDoc?id=distribution_installing_packages.htm[Salesforce の公式ドキュメント] を参照してください。
+
+[TIP]
+====
+Anypoint Platform アカウントがあり、ユーザが適切なエンタイトルメントを所有している場合、&#8203; https://anypoint.mulesoft.com[Anypoint Platform]​ 内の左側のナビゲーションバーに [Data Gateway (データゲートウェイ)] リンクが表示されます。このドキュメントの手順に従う代わりにこの UI を直接使用して、Salesforce アカウントに Anypoint データゲートウェイをインストールすることもできます。
+====
+
+NOTE: Virtual Private Clouds (VPC) は、Anypoint データゲートウェイの使用中に会社のネットワークと Anypoint Platform 間の接続を確立するために推奨される唯一のメカニズムです。
+
+== 前提条件
+
+Anypoint データゲートウェイをインストールするには、次のものが必要です。
+
+* 機能としてアクティブ化されている  https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/platform_connect_about.htm[Salesforce Connect]​。
++
+この機能により、Salesforce が独自のリポジトリの外部に存在するデータにアクセスし、そのデータを変更できます。
+* Salesforce Connect 内で使用できる外部データソースライセンス。
+* Anypoint Platform でセットアップされた Virtual Private Cloud。
++
+データゲートウェイのセットアップを完了するには、VPC が必要です。
+
+
+== インストール
+
+Anypoint データゲートウェイをインストールするには、次の手順に従います。
+
+. Salesforce AppExchange の https://appexchange.salesforce.com/listingDetail?listingId=a0N30000000psNXEAY[Anypoint データゲートウェイのページ] にアクセスします。(または、&#8203; https://appexchange.salesforce.com/[AppExchange メインページ]​にアクセスし、使用可能なアプリケーションの中から Anypoint データゲートウェイを探します。すばやく見つけるには、画面上部の検索ボックスに「anypoint data gateway」と入力します。
+. パッケージをインストールする Salesforce 組織にログインします。
+. Anypoint データゲートウェイの情報ページで、​*[今すぐ入手]*​ をクリックします。
+. オンラインウィザードに表示されるインストール手順に従います。
+
+== インストール後の手順
+
+インストール後、データゲートウェイへのアクセスが許可されるユーザを定義する必要があります。これを行うには、次の手順に従います。
+
+. Salesforce で、​*[設定]*​ メニューにアクセスします。メニューにアクセスするには、右上にある自分のユーザ名をクリックし、ドロップダウンメニューから ​*[設定]*​ を選択します。[設定] メニューは画面左側に表示されます。
+. [設定] メニューで、​*[アプリケーションを管理する]*​ -> ​*[接続アプリケーション]*​ に移動します。
+. アプリケーションのリストで、​*[Anypoint Data Gateway Designer (Anypoint データゲートウェイデザイナ)]*​ をクリックします。
+. Anypoint ゲートウェイデザイナの ​*[接続アプリケーションの詳細]*​ ページが表示されます。上部付近にある ​*[編集]*​ ボタンをクリックします (下の図で強調表示されています。画像をクリックすると拡大できます)。
++
+image::connect-app-detail.png[connect.app.detail]
++
+
+. *[許可されているユーザ]*​ ドロップダウンメニューで、​*[管理者が承認したユーザは事前承認済み]*​ を選択します。
++
+image::connected-app-edit.png[connected.app.edit]
++
+
+. *[Save (保存)]*​ をクリックします。
+. *[接続アプリケーションの詳細]*​ ページに戻ります。​*[プロファイル]*​ セクションで、​*[プロファイルを管理する]*​ をクリックします。
+. *[アプリケーションプロファイルの割り当て]*​ とプロファイルのリストが表示されます。アプリケーションにアクセスできるようにするプロファイルを選択します。
+. *[Save (保存)]*​ をクリックします。
+
+ここまでで、データゲートウェイのインストールと、選択したユーザに対するアクセス権の設定が完了しました。
+
+== 関連情報
+
+* 最初のゲートウェイを作成するには、​xref:creating-and-configuring-a-gateway.adoc[「ゲートウェイの作成と設定」]​の手順に従います。
+* 接続とパラメータの定義、既存のゲートウェイの表示と変更についての詳細は、​xref:managing-gateways.adoc[「ゲートウェイの管理」]​を参照してください。

@@ -1,6 +1,5 @@
 = Quick Guide to Accessing Gateways and Objects
 :keywords: data gateway, salesforce, sap, oracle
-:page-component-name: api-governance
 
 == Overview
 

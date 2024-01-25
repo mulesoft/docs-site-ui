@@ -50,6 +50,31 @@ site:
             urlType: external
       versions:
       - *general_latest
+    data-gateway:
+      latest: &data_gateway_latest
+        version: '1.x'
+        displayVersion: '1.x'
+        title: Data Gateway (more realistic pages, all images broken)
+        url: '#'
+        navigation:
+          - items:
+            - content: Data Gateway
+              url: /jp/data-gateway/data-gateway.html
+            - content: Installing Anypoint Data Gateway
+              url: /jp/data-gateway/installing-anypoint-data-gateway.html
+            - content: Creating and Configuring a Gateway
+              url: /jp/data-gateway/creating-and-configuring-a-gateway.html
+            - content: Managing Gateways
+              url: /jp/data-gateway/managing-gateways.html
+            - content: Quick Guide to Accessing Gateways and Objects
+              url: /jp/data-gateway/quick-guide-to-accessing-gateways-and-objects.html
+            - content: Troubleshooting Data Gateway
+              url: /jp/data-gateway/troubleshooting-data-gateway.html
+        asciidoc:
+          attributes:
+            page-component-desc: Something about Data Gateway
+      versions:
+      - *data_gateway_latest
     connectors:
       latest: &connectors_latest
         version: ~

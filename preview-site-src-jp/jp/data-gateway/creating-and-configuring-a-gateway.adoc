@@ -1,0 +1,156 @@
+= ゲートウェイの作成と設定
+:keywords: データゲートウェイ, salesforce, sap, oracle
+
+include::partial$support-warning.adoc[]
+
+== 概要
+
+ゲートウェイを作成して管理するには、次の手順に従います。データゲートウェイを ​xref:installing-anypoint-data-gateway.adoc[Salesforce 経由]​で使用する場合は、Salesforce アカウントから ​*[MuleSoft]*​ タブをクリックして Anypoint ゲートウェイデザイナにアクセスします。Anypoint Platform 経由で使用する場合は、​*[Data Gateway (データゲートウェイ)]*​ タブでアクセスします。
+
+image::ms-tab-1_2.png[MS_tab-1.2]
+
+ゲートウェイデザイナでは、次のアクションを実行できます。
+
+* ゲートウェイの表示、追加、変更
+* 接続と VPC の設定
+* Salesforce への接続のパブリッシュ
+* ゲートウェイログの表示
+
+image::gateways-list-1_2.png[gateways_list-1.2]
+
+ゲートウェイデザイナのロールと権限は、Anypoint Platform で定義されているものと一致します。詳細は、​xref:managing-gateways.adoc[「ゲートウェイの管理」]​の「​*ユーザロールと権限*​」を参照してください。
+
+== 新規ゲートウェイの作成
+
+新しいゲートウェイを作成するには、​*[Create Gateway (ゲートウェイを作成)]*​ をクリックします。以下で説明する Anypoint Platform の簡単な設定画面に従って、作成プロセスを実行できます。
+
+[TIP]
+Anypoint Platform 経由でデータゲートウェイを使用している場合、最初に ​*[Login with Salesforce (Salesforce でログイン)]*​ ボタンをクリックし、リンクする Salesforce アカウントを選択し、必要なログイン情報を入力し、Salesforce データへの Anypoint Platform のアクセスを許可する必要があります。
+
+=== プロパティの設定
+
+ゲートウェイ作成ウィザードには、次に示す ​*[New Gateway (新規ゲートウェイ)]*​ 画面が表示されます。ここでは、次のパラメータを定義します。
+
+* 使用する接続。ドロップダウンメニューを使用して既存の接続から選択するか、​*[Create (作成)]*​ をクリックして新規接続を作成します。
+* ゲートウェイの名前
+* ゲートウェイの説明 (省略可能)
+* ゲートウェイのユーザ名とパスワード
+* 調整 (省略可能)
+
+image::newgateway-1_2.png[newgateway-1.2]
+
+必須パラメータを入力し、既存の接続を使用するか新規接続を作成するかを選択します。
+
+*[Apply Throttling (調整を適用)]*​ をオンにすると、調整パラメータを入力するように求められます。
+
+image::throttle-params-1_2.png[throttle_params-1.2]
+
+==== 調整
+
+この省略可能な設定では、API が 1 ミリ秒あたりに処理できる最大メッセージ数を制限します。調整は、ソースに関係なくすべての API コールに適用されます。設定された制限を超えたメッセージは、後で処理するためにキューに登録されます。使用可能なパラメータは次のとおりです。
+
+* *Delay Time in Milliseconds (遅延時間ミリ数):*​ SLA を超えた後に応答が遅延される時間。
+* *Delay Attempts (遅延試行回数):*​ 要求の処理を試行する最大回数。
+* *Maximum Requests Per Period (期間あたりの最大要求数):*​ 指定した期間あたりに許容する要求数。
+
+調整を設定するときに、入力項目をクリックすると簡単な説明が表示されます。
+
+image::throttle-desc-1_2.png[throttle_desc-1.2]
+
+必須パラメータを入力したら、​*[Create Gateway (ゲートウェイを作成)]*​ をクリックします。ゲートウェイの作成には数分かかりますが、​*[Return to Gateway list (ゲートウェイリストに戻る)]*​ をクリックするとすぐに作業を続行できます。
+
+image::creating-gw-1_2.png[creating_gw-1.2]
+
+ゲートウェイの作成が完了したら、​<<ゲートウェイのパブリッシュ>>​を実行できます。
+
+次のセクションでは、ゲートウェイ作成中のゲートウェイへの新規接続の作成方法について説明します。
+
+=== 新規接続の設定
+
+前述のとおり、新しいゲートウェイを作成するときには、既存の接続を使用するか新規接続を作成するかを選択できます。新規接続の作成を選択した場合、ウィザードで、次のように使用可能な接続種別からの選択が求められます。
+
+image::create-conn-1_2.png[create_conn-1.2]
+
+目的の接続種別をクリックし、​*[Next (次へ)]*​ をクリックします。ウィザードの接続パラメータ設定ウィンドウが表示されます。下の画像は、Oracle 用の設定パラメータです。
+
+image::oracle-conn-param.png[oracle.conn.param]
+
+必要に応じて、​_[Advanced (詳細)]_​ タブをクリックし、​*[Connection String (接続文字列)]*​ を使用して接続情報を指定できます。
+
+image::oracle-conn-string.png[oracle.conn.string]
+
+[NOTE]
+SAP 以外の任意の使用可能な​xref:index.adoc#supported-external-data-sources[外部データソース]​に対して、​*接続文字列*​を使用してゲートウェイを設定できます。
+
+必須パラメータを入力したら、​*[Next (次へ)]*​ をクリックします。ウィザードにダイアログが表示され、接続をテストし、接続がファイアウォールの内側にあるかどうかを指定できます。
+
+image::configure-oracle-db-1_2.png[configure_oracle_db-1.2]
+
+接続を実際に作成する前に、​*[Test Connection (接続をテスト)]*​ をクリックして、接続性を確認します。
+
+データソースがプライベートネットワークにある場合は、​**[<Datasource name> datasource is behind a firewall (<Datasource name> データソースはファイアウォールの内側にある)]**​ をクリックします。
+
+この場合、会社のネットワークと Anypoint Platform 間の堅牢で安全な IPsec または OpenSSL 接続である、​*Virtual Private Cloud (VPC)*​ を使用できます。VPC のセットアップには、会社の IT 組織からの支援が必要な場合があります。
+
+image::configure-oracle-db-1_2-b.png[configure_oracle_db-1.2.b]
+
+=== SAP 用の新規接続の設定
+
+データゲートウェイを SAP に接続するには、要件がいくつかあります。これについて次に説明します。
+
+==== SAP ライブラリ
+
+新しい SAP 接続を設定する場合、ローカルマシンで SAP ライブラリファイルが使用できる必要があります。接続設定ウィンドウに、SAP 接続に必要なライブラリのアップロードを求めるメッセージが表示されます。
+
+* SAP IDoc JCo ライブラリ (sapidoc-x.jar)
+* SAP JCo ライブラリ (sapjco-x.jar)
+* SAP JCo ネイティブライブラリ (libsapjco-x.jar)
+
+これらの SAP ライブラリは公式 SAP  https://websmp109.sap-ag.de/public/connectors[ダウンロードサイト]​からダウンロードします。ダウンロードするには、SAP ユーザ ID が必要です。
+
+SAP ライブラリについての詳細は、SAP ヘルプサイトの http://help.sap.com/saphelp_nwpi711/helpdata/en/48/70792c872c1b5ae10000000a42189c/content.htm?frameset=/en/48/707c54872c1b5ae10000000a42189c/frameset.htm&current_toc=/en/b4/3f9e64bff38c4f9a19635f57eb4248/plain.htm&node_id=444&show_children=false[「SAP Java Connector (SAP Java Connector)」] を参照してください。
+
+==== 必須関数モジュール ​Z_AW_RFC_READ_TABLE
+
+環境にゲートウェイをデプロイするには、データゲートウェイが使用する関数モジュール ​`Z_AW_RFC_READ_TABLE`​ が SAP インスタンス内に存在する必要があります。SAP インスタンス内にモジュールが存在する場合、必要な作業はありません。
+
+SAP のバージョンに応じて、関数モジュールは、​`/BODS/RFC_READ_TABLE`​ または ​`/SAPDS/RFC_READ_TABLE`​ と呼ばれる場合があります。SAP インスタンスにこれらの 2 つのモジュールのいずれかが含まれる場合、それを ​`Z_AW_RFC_READ_TABLE`​ という新しいモジュールにコピーします。
+
+SAP インスタンスに上記の関数がいずれも含まれていない場合は、関数モジュール ​`Z_AW_RFC_READ_TABLE`​ を作成する必要があります。SAP ソリューションや SAP リリースによっては、SAP Note 1752954 に従ってモジュールをインストールすることが可能な場合もあります。この SAP Note が、使用する特定の SAP ソリューションや SAP リリースに該当しない場合は、提供された SAP トランスポートから関数モジュールを実装する必要があります (ファイル ​`D900237.EH6`​ および ​`K900237.EH6`​ を参照)。SAP トランスポートのデプロイ方法については、SAP Note 1802544 を参照してください。SAP インスタンスにトランスポートをインポートできない場合は、提供されたソースコードから手動で関数モジュールを作成します (ファイル ​`Z_AW_RFC_READ_TABLE.abap`​ を参照)。
+
+いずれの場合も、データゲートウェイがアクセスできるすべての SAP インスタンスで ​`Z_AW_RFC_READ_TABLE`​ モジュールが使用可能である必要があります。
+
+RFC トランスポートは link:{attachmentsdir}​/SAP_transport2.zip[こちらからダウンロードできます]。
+
+== ゲートウェイのパブリッシュ
+
+ゲートウェイを作成すると、​*[Gateways (ゲートウェイ)]*​ ページのリストにゲートウェイが表示されます。ゲートウェイを Salesforce にパブリッシュするには、左側のメニューで ​*[Salesforce]*​ タブをクリックするか、ゲートウェイの ​*[Edit (編集)]*​ ボタンをクリックし、​*[Publish (パブリッシュ)]*​ を選択します。
+
+image::publish-1_2.png[publish-1.2]
+
+Salesforce 設定ページに移動します。ここでは、1 つの ​`Salesforce Connect`​ 接続にすべてのゲートウェイをパブリッシュし、1 つのエンドポイントを経由してまとめて公開できます。これを行うには、次の手順を実行します。
+
+. *[Publish to Salesforce (Salesforce にパブリッシュ)]*​ をオンにします。
++
+image::publish-gateway1.png[publish 1]
+
+. *[Published Gateways (パブリッシュ済みゲートウェイ)]*​ メニューで、どのゲートウェイをエンドポイントにパブリッシュするかを確認します。
+
++
+image::publish-gateway2.png[publish 2]
+. *[保存]*​ をクリックします。
+
+
+この時点で、ゲートウェイのセットアップ、作成、パブリッシュが完了し、ゲートウェイにオブジェクトを入力する準備が整いました。これを行うには、もう一度 ​*[Edit (編集)]*​ メニューを使用します。ここでは、ゲートウェイの停止、削除、変更もできます。これらの手順の詳細は、​xref:managing-gateways.adoc[「ゲートウェイの管理」]​を参照してください。
+
+[NOTE]
+====
+データゲートウェイの以前のバージョンでは、各ゲートウェイが Salesforce Connect 接続にマップされていました。現在は、すべてのゲートウェイが 1 つの Salesforce Connect 接続に向けられ、この画面に表示されるエンドポイントを経由して公開されます。
+
+*[Edit (編集)]*​ -> ​*[Settings (設定)]*​ をクリックして個別ゲートウェイの設定を入力すると、それを公開する別のエンドポイントが表示されます。このエンドポイントは、Salesforce 接続に対して有効ではありませんが、別のものに接続するために有用です。
+====
+
+
+== 関連情報
+
+* 接続とパラメータの定義、既存のゲートウェイの表示と変更についての詳細は、​xref:managing-gateways.adoc[「ゲートウェイの管理」]​を参照してください。
