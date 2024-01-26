@@ -39,7 +39,7 @@ see https://segment.com/docs/connections/sources/catalog/libraries/website/javas
 </script>
 <!-- End VWO Async SmartCode -->
 {{!-- Coveo --}}
-{{#if env.COVEO_API_KEY}}
+{{#if (or env.COVEO_API_KEY env.COVEO_API_KEY_JP)}}
 <script type="module" src="https://static.cloud.coveo.com/atomic/v2.46/atomic.esm.js"></script>
 <script type="text/javascript" src="https://static.cloud.coveo.com/coveo.analytics.js/2/coveoua.js"></script>
 <script nonce="**CSP_NONCE**">
