@@ -20,6 +20,7 @@ see https://segment.com/docs/connections/sources/catalog/libraries/website/javas
 
 <!-- Script for common areas on-clicks -->
 <script src="https://www.mulesoft.com/onClicks/app.js" defer=""></script>
+
 <!-- Start VWO Async SmartCode -->
 <script nonce="**CSP_NONCE**">
   window._vwo_code = window._vwo_code || (function () {
@@ -38,6 +39,7 @@ see https://segment.com/docs/connections/sources/catalog/libraries/website/javas
   }());
 </script>
 <!-- End VWO Async SmartCode -->
+
 {{!-- Coveo --}}
 {{#if (or env.COVEO_API_KEY env.COVEO_API_KEY_JP)}}
 <script type="module" src="https://static.cloud.coveo.com/atomic/v2.46/atomic.esm.js"></script>
