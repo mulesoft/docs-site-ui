@@ -1,0 +1,5 @@
+= Salesforce Connector Release Notes
+:page-component-name: general
+
+This page contains the release notes for the Salesforce Connector.
+It's just a placeholder.

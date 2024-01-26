@@ -1,0 +1,27 @@
+= Anypoint Platform のブラウザサポート
+:page-aliases: api-community-manager::browser-support.adoc
+
+次のサポート対象ブラウザの最新バージョンで Anypoint Platform を使用します。
+
+* Chromium を使用する Microsoft Edge
+* Chromium を使用しない Microsoft Edge (2020 年 12 月 31 日までサポート)
+* Google Chrome
+* Mozilla Firefox
+* Safari
+
+Anypoint Platform のブラウザサポートは、Salesforce Lightning Experience のポリシーに準拠します。
+
+== ブラウザサポートポリシーの例外
+
+Partner Manager 2.0 では、ブラウザサポートポリシーが異なります。
+
+* xref:release-notes::partner-manager/anypoint-partner-manager-2.0-release-notes.adoc#browser-compatibility[Partner Manager 2.0]
+
+== サポートされていないブラウザ
+
+Internet Explorer バージョン 11 以前はサポートされていません。
+Anypoint Platform でこのブラウザを使用すると、問題が発生する可能性があります。
+
+== 関連情報
+
+https://help.salesforce.com/articleView?id=getstart_browsers_sfx.htm&type=5[Lightning Experience でサポートされるブラウザ^]

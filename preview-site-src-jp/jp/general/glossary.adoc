@@ -1,0 +1,212 @@
+= Anypoint Platform 用語集
+:page-aliases: general:getting-started:glossary.adoc
+
+一部の製品名の正式な省略バージョンは括弧に入れて示しています。例: Anypoint Design Center (Design Center)。
+
+== A
+アクセス管理::
+アカウントを管理して組織内のアクセス権および権限を設定するのに役立つ Anypoint Platform の機能。REST API ではアクセスに関連したリソースをプログラムにより制御できます。
+
+エージェント::
+Runtime Manager エージェントのように、Mule が使用するか Mule に関連付けられているが、Mule の管理対象サービスコンポーネントではないサービス。エージェントは Anypoint Runtime Manager に登録され、対応する Mule インスタンスと同じライフサイクルになるため、Mule インスタンスを開始または停止したときにリソースを初期化して破棄することができます。
+
+Anypoint CLI::
+Anypoint Platform と Anypoint Platform Private Cloud Edition (Anypoint Platform PCE) のスクリプトおよびコマンドラインツール。
+
+Anypoint Design Center (Design Center)::
+Mule Runtime Engine (Mule) アプリケーションおよび API 定義のクラウドベースの開発環境。
+
+Anypoint Design Center の API Designer (API Designer)::
+API をデザイン、ドキュメント化、テストするための Web ベースのグラフィカル環境。
+
+Anypoint Exchange (Exchange)::
+再利用可能なアセット (API、ポリシー、API 仕様フラグメント、API グループ、GraphQL API、テンプレート、サンプル、カスタムアセット、ルールセット、コネクタなどのインテグレーションアセット) の選定されたカタログ。 
+
+Anypoint Flex Gateway::
+実行されている場所を問わずに API を管理して保護するように設計された、Envoy ベースの超高速かつ軽量の API ゲートウェイ。
+
+Anypoint Management Center (Management Center)::
+オンプレミスとクラウドの両方で Anypoint Platform を管理するための単一の Web インターフェース。API およびユーザを管理し、トラフィックを分析して、SLA を監視し、基になる統合フローをトラブルシューティングできます。
+
+Anypoint MQ (メッセージングキュー)::
+Anypoint Platform と完全に統合されたエンタープライズクラスのクラウドメッセージング。
+
+Anypoint Object Store v2::
+データ、バッチプロセス間の状態、単一アプリケーション内の Mule コンポーネントのストレージ。
+
+Anypoint Partner Manager v2::
+パートナー設定、ドキュメントフロー、トランザクション監視用の Web ベースのユーザインターフェース。
+
+Anypoint Platform™::
+API および統合をデザイン、構築、管理するための MuleSoft 製品。
+
+Anypoint Platform Private Cloud Edition::
+独自のローカルサーバで実行するために使用できる Anypoint Platform の専用パッケージ。この実装は Docker および Kubernetes で実行され、Pivotal Cloud Foundry と互換性があり、Runtime Manager、API Manager、Anypoint Exchange のバージョンが含まれます。
+
+Anypoint Runtime Fabric::
+Mule アプリケーションおよびゲートウェイの設定、調整、管理 (オーケストレーション)、デプロイメントを自動化するコンテナサービス。Runtime Fabric は AWS、Azure、仮想マシン (VM)、またはベアメタルサーバの顧客の管理対象インフラストラクチャで実行されます。
+
+Anypoint Runtime Manager (Runtime Manager)::
+Mule を使用して構築されたアプリケーションをデプロイして管理するコンソール。クラウドのサーバ (現在のところ CloudHub によって処理される) にデプロイするか、オンプレミスでデプロイします。Anypoint Platform のコンソールにアクセスするか、ローカルサーバで実行されるスタンドアロンプログラムとしてダウンロードします。以前は ARM と呼ばれていました。
+
+Anypoint Security::
+アプリケーションネットワークを保護する機能のレイヤ。
+これらのレイヤは連携し、API へのアクセスを制御したり、ポリシーを適用したり、すべてのインバウンドトラフィックまたはアウトバウンドトラフィックをプロキシしたりして、アプリケーションネットワークとネットワークの個々のノードの両方を保護します。これにより、外部の脅威や攻撃が軽減されます。
+
+Anypoint Studio (Studio)::
+Mule アプリケーションをデザイン、デバッグ、テストするためのビジュアルエディタと XML エディタを備えた統合開発環境。ビジュアルインターフェースを使用すると、コネクタ、ロガー、フローコントロール、ルータ、データトランスフォーマなどをデザインキャンバスにドラッグアンドドロップできます。Studio ユーザインターフェースからデバッグおよびテストすることもできます。
+
+Anypoint Virtual Private Cloud (Anypoint VPC)::
+Mule の CloudHub インスタンス (CloudHub ワーカー) をホストするためにクラウドで仮想、非公開、隔離ネットワークセグメントを作成できる機能。
+
+Anypoint Visualizer::
+アプリケーションネットワークグラフのさまざまなアスペクトの動的に生成されるビュー。
+
+API Governance::
+API ライフサイクルの一部として API にガバナンスルールを適用できる、Anypoint Platform の部分。
+
+API Manager::
+API を管理、制御、保護できる Anypoint Platform の部分。
+
+////
+It includes the [API Designer], which allows you to write a [RAML] definition of your API. It also includes tools to monitor usage metrics, apply [policies] and to expose interactive documentation through an [API Portal]
+////
+
+API Portal::
+API を紹介してユーザを呼び込むことができるアクセスポイント。
+////
+How is this different from a private Exchange portal?
+////
+
+API プロキシ::
+MuleSoft API への攻撃に対する保護のレイヤを提供する Anypoint API Manager の機能。
+コードを作成する必要はなく、UI を使用して API を管理できます。以前は API Gateway と呼ばれていました。
+
+APIkit::
+APIkit は Mule REST または SOAP API を構築するためのツールです。以前は SOAPkit と呼ばれていました。
+
+アプリケーションネットワーク::
+API を通じてアプリケーション、データ、デバイスを接続するネットワーク。
+ネットワークにより、他部署のコンシューマがアセットを見つけて使用できます。
+
+== C
+
+CloudHub::
+クラウドでアプリケーションを管理するためのサービスとしての統合プラットフォーム。Runtime Manager コンソールを通じてアプリケーションをクラウドにデプロイする場合、CloudHub はバックグラウンドで使用されます。
+
+クラスタリング::
+ユニットとして機能し、ユニットとして管理できる Mule インスタンスのセットを使用すること。クラスタとは複数のノードで構成された仮想サーバです。クラスタインスタンスはクラウドから管理できます。
+
+コンポーネント::
+1. Anypoint Platform では、POJO、Spring Bean、Java Bean、または Groovy、Ruby、Python、JavaScript などの Mule を通じて渡されるメッセージを処理するためのビジネスロジックが含まれるスクリプトを指します。これらのコンポーネントは通常、メッセージ全体、またはペイロードのみを入力として受け入れます。メッセージプロセッサチェーンの次の要素のメッセージペイロードとなるオブジェクトを返します。
+
+2. 通常は、ソフトウェアパッケージのアーキテクチャ的に固有の部分です。
+
+設定ビルダー::
+設定ファイルを解析するクラス。デフォルトの設定ビルダーは ​`org.mule.config.MuleXmlConfigurationBuilder`​ クラスであり、Mule XML 設定ファイルを解析します。
+
+コネクタ::
+Mule アプリケーションを Salesforce、CMIS、Twitter などの他の外部アプリケーションの API と統合するための自己完結型コンポーネント。コネクタのセットが Mule 4 に含まれています。MuleSoft またはサードパーティが作成した他のコネクタは Anypoint Exchange で入手できます。
+
+コントロールプレーン::
+ネットワーク管理へのプログラムによるアクセス。Anypoint Platform では、コントロールプレーンは Anypoint Design Center、Anypoint Management Center、Anypoint Exchange で構成されます。
+
+== D
+dataloader.io::
+Salesforce 用のデータローダ。
+
+DataSense::
+アプリケーションのデザインを容易にするためにメッセージメタデータを使用する Anypoint Studio の機能。DataSense を使用して、Anypoint Studio はデータ型や構造などの情報をあらかじめ取得し、アプリケーションでこのデータを正確にマップまたは使用する方法を指示できるようにします。
+
+DataWeave::
+DataWeave 言語は統合のためにデータを照会して変換します。
+
+== E
+
+Edge::
+エッジセキュリティを管理するための Anypoint Security 機能。
+
+== F
+
+フロー::
+Mule アプリケーション内では、フローは、Mule イベントで Mule Runtime によって順次実行される、コネクタ操作を含む実行可能なコンポーネントのブロックです。フローには、イベントの作成とフローの実行をトリガするイベント取得元も含めることができます。 
+
+== H
+
+ハイブリッドデプロイメント::
+Anypoint Runtime Manager のクラウドコンソールを使用して Mule アプリケーションを Mule Runtime Engine がホストされるオンプレミスサーバにデプロイすること。このデプロイメントがハイブリッドと呼ばれるのは、アプリケーションのホストがオンプレミスであるのに対してアプリケーションのクラウドがクラウドで行われるためです。
+
+== M
+メッセージ検索条件::
+メッセージが検索条件によって処理されるかどうかを制御するメッセージプロセッサ。
+
+メッセージプロセッサ::
+フローを構成するために使用される基本的な構成要素。メッセージプロセッサはフロー内でのメッセージの送受信の方法を制御します。
+
+メッセージレシーバ::
+コネクタが受信データを読み取り、メッセージとしてパッケージして、サービスコンポーネントのインバウンドルータに渡すために使用する Java クラス。メッセージレシーバは必要に応じてトランスフォーマを使用してデータを変換できます。
+
+モッキングサービス::
+API をテストまたは調査するために公開 URI を提供します。
+
+モジュール::
+コンポーネントのグループ。モジュールにより、値を集約してデータを圧縮し、Java 機能で JSON の処理ができるようになり、アプリケーションの柔軟性が高まります。
+
+Mule® アプリケーション::
+Mule Runtime Engine で実行するように設定されたアプリケーション。
+
+Mule Enterprise Edition (EE)::
+30 日間のトライアルダウンロードが可能な Mule のエンタープライズバージョン。Enterprise Edition には MuleSoft の完全な開発サイクル、テスト、テクニカルサポート、メンテナンスリリース、ホットフィックス、管理および監視のためのツールが含まれています。
+
+Mule® Runtime Engine (Mule® または Mule)::
+Anypoint Platform 用の Java ベースの統合ランタイムエンジン。
+
+== O
+
+組織::
+Anypoint Platform アカウントのすべてを格納するためのコンテナ。
+
+== P
+
+Pivotal Cloud Foundry::
+Pivotal という会社が提供するクラウドコンピューティングのサービスとしてのプラットフォーム (PaaS)。Anypoint Platform は Pivotal Cloud Foundry と統合されているため、Mule アプリケーションを独自の非公開ネットワークで動的に作成される仮想マシンにデプロイできます。「デプロイメント戦略」を参照してください。以前は PCF と呼ばれていました。
+
+ポリシー::
+認証、アクセス、コンシューム率、API リソースに対するサービスレベルアクセス (SLA) を制御するオブジェクト。Anypoint Platform には事前設定済みのポリシーとカスタムポリシーを作成するためのツールの両方が用意されています。
+
+== R
+
+RAML®::
+RESTful API Modeling Language (RAML) は、API を定義するために使用する仕様言語を提供します。
+
+Runtime Manager エージェント::
+Runtime Manager エージェントは Anypoint Runtime Manager コンソールとサーバで実行されている Mule インスタンス間の通信を仲介します。Mule エージェントを使用すると、Mule サーバを監視および制御できます。以前は Runtime エージェントと呼ばれていました。
+
+ランタイムプレーン::
+コントロールプレーンとランタイムコントロール用のデータプレーン間のコントラクト。Anypoint Platform では、ランタイムプレーンは Mule Runtime Engine と Anypoint Runtime Fabric などのツールで管理されるランタイムサービスで構成されます。
+
+== S
+
+シークレットマネージャ::
+非公開キー、パスワード、証明書などのシークレットの保存とアクセス制御を行う機能。
+
+== T
+
+トークナイゼーション::
+機密データ要素を非機密データ要素に置き換えること。
+
+トランスフォーマ::
+XSLT トランスフォーマなど、さまざまな型の間でメッセージペイロード (データ) を変換する機能。変換は DataWeave を使用して定義することもできます。
+
+トランスポート::
+FTP などの特定のメッセージングプロトコルでメッセージを運搬する機能。複数のコネクタにトランスポートが組み込まれています。
+
+== U
+
+ユニバーサルメッセージオブジェクト (UMO)::
+サービスコンポーネントの旧名。UMO は引き続き一部の MuleSoft API で表示されます。
+
+== X
+
+XA トランザクション::
+複数の管理対象リソースを取得して信頼性を保証するトランザクション。Mule Runtime Engine は XA トランザクション以外のマルチリソーストランザクションもサポートしています。こうしたトランザクションは信頼性を保証しません。

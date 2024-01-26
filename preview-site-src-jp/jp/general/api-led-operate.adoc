@@ -1,0 +1,28 @@
+= ステップ 6.デプロイした API の操作
+
+MuleSoft は、デプロイ済み API を管理するためのツールを提供しています。
+
+image::runtime-overview.png[ダッシュボードが表示されている Runtime Manager ユーザインターフェース]
+
+API の健全性をチェックするための手順は次のとおりです。
+
+. Anypoint Platform 組織から Runtime Manager に移動します。
++
+link:https://anypoint.mulesoft.com/cloudhub/#/console/home/applications["Runtime Manager に移動^", role="button-primary"]
++
+. Sandbox 環境を選択します。設計環境が自動的に表示された場合は、Sandbox 環境に切り替えます。
+  .. *[Design (デザイン)]*​ 環境ボタンをクリックします。
+  .. *[Sandbox]*​ をクリックして ​*[Switch (切り替え)]*​ ボタンをクリックします。
+. *hello-world-greeting-us-proxy*​ の行内の任意の場所をクリックします。
+
+プロキシにいくつかの要求を送信すると、インターフェースに Mule メッセージの形式でトラフィックが表示されます。
+
+Runtime Manager からは以下の情報も取得できます。
+
+* *[Logs (ログ)]*​ をクリックすると、選択したアプリケーションの過去 30 日間のすべてのトランザクションが表示されます (最大 100MB)。
+* *[Manage application (アプリケーションを管理)]*​ をクリックすると、このアプリケーションの設定が表示されます。
+* *[Insight (インサイト)]*​ をクリックすると、Monitoring および Visualizer が有効になります。
+
+== 開発者向けの詳細
+
+API の機能が多いほど、Runtime Manager は多くのデータを返します。詳細は ​xref:runtime-manager::index.adoc[Runtime Manager のドキュメント]​を参照してください。

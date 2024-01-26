@@ -164,7 +164,7 @@ site:
           - content: Dead page 3 for 3.7 (don't click)
             url: '#'
       latest: *salesforce_rtfcloud_latest
-    api-governance:
+    data-gateway:
       latest: &data_gateway_latest
         version: '1.x'
         displayVersion: '1.x'

@@ -1,0 +1,158 @@
+= ステップ 5.CloudHub への API のデプロイ
+
+新しい API を含む Mule アプリケーションを Studio で作成してテストしましたので、次は API を CloudHub にデプロイしましょう。まず、Exchange から API をテストできるようにするために API プロキシを作成します。その後、API をサービス拒否攻撃から保護するためのレート制限ポリシーをセットアップします。
+
+== ステップ 5.1: API を CloudHub にデプロイする
+
+この API を Mule アプリケーションとしてデプロイする手順は次のとおりです。
+
+. Studio で [Mule Design (Mule デザイン)] パースペクティブに切り替え、Package Explorer で ​`hello-world`​ プロジェクトを右クリックして、​*[Anypoint Platform] > [Deploy to CloudHub (CloudHub にデプロイ)]*​ を選択します。
+. Anypoint Platform のユーザ名とパスワードが要求された場合はそれぞれを入力して ​*[Sign In (サインイン)]*​ をクリックします。
++
+image:deploy1.png[CloudHub にデプロイするためのダイアログ]
+. API のデプロイ先となる自分のアカウントの Sandbox で作業を行う必要があります。​*[Sandbox]*​ ではなく ​*[Design (デザイン)]*​ と表示されている場合は以下の手順を実行してください。
+  .. *[Design (デザイン)]*​ をクリックして [Switch Environment (環境の切り替え)] ダイアログを開きます。
+  .. *[Sandbox]*​ をクリックします。
+  .. *[Switch (切り替え)]*​ をクリックします。
+. `hello-world-greeting-firstname-lastname`​ と入力します。すべてのアプリケーション名と API 名は CloudHub 全体で一意である必要があります。この例では、​`hello-world-greeting-sandy-kim`​ を使用します。
+. *[Deployment Target (デプロイメント対象)]*​ が ​`CloudHub`​ であることを確認します。
+. 他のデフォルト値は変更しないでください。
+. *[Deploy Application (アプリケーションをデプロイ)]*​ をクリックします。少しの間を置いて、デプロイメントの状況がウィンドウに表示されます。
+. *[Open in Browser (ブラウザで開く)]*​ をクリックして、Runtime Manager で表示される状況を確認します。
++
+image:open-in-browser.png[アプリケーションのデプロイ状況を表示している Runtime Manager]
+
++
+プロジェクトが正常にデプロイされると、Runtime Manager に表示されている状況が ​*[Started (開始済み)]*​ に変わります。
+. API デプロイメントをテストするため、Advanced Rest クライアントから要求を送信します。
+  .. *[Started (開始済み)]*​ をクリックして​*アプリケーションの URL*​ を表示します。
+  .. この例の ​`hello-world-greeting.sandy-kim.us-e2.cloudhub.io`​ の値をコピーします。
+  .. Advanced Rest クライアントで、コピーしたベース URI に要求を送信します。API エンドポイントの ​`/greeting`​ を付加してください。
++
+[source, xml]
+----
+GET http://hello-world-greeting.sandy-kim.us-e2.cloudhub.io/api/greeting
+----
+
+  .. `200 OK`​ と指定した挨拶文の ​`Today the greeting is Hello.`​ が表示されれば、作成した API は正常にデプロイされています。
+
+次に、アクセスを制限してサービスを保護するために、この API 用の API プロキシアプリケーションを作成する必要があります。
+レート制限ポリシーを追加しますが、これは API の実行中に行うことができます。
+
+== ステップ 5.2: API プロキシアプリケーションを作成する
+
+デプロイした API にレート制限ポリシーを追加するには、まず API を API Manager に追加してから、API プロキシを作成します。
+
+. Anypoint Platform にログインします。
++
+link:https://anypoint.mulesoft.com/login["Anypoint Platform に移動^", role="button-primary"]
+
+. *[API Manager]*​ をクリックします。
+. Sandbox 環境に切り替えます。
+. *[Manage API (API を管理)] > [Manage API from Exchange (Exchange から API を管理)]*​ をクリックします。
+. `hello`​ と入力してドロップダウンから ​`hello-world`​ を選択します。今は ​`hello-world-greeting`​ というデプロイ済みアプリケーションではなく、API を編集しています。
+. 以下の値が選択されていることを確認します。
+  ** *Asset type (アセットタイプ): RAML/OAS*
+  ** *API version (API バージョン): v1*
+  ** *Asset version (アセットバージョン): 1.0.1*
+  ** *Managing type (管理種別): Endpoint with Proxy (プロキシを使用したエンドポイント)*
+  ** *Proxy deployment target (プロキシデプロイメント対象): CloudHub*
+  ** *Mule version (Mule バージョン):*​ [Mule 4] のチェックボックスがオン
+  ** Implementation URI (実装 URI): `\http://hello-world-greeting-sandy-kim.us-e2.cloudhub.io/api`​。ステップ 1 の​*アプリケーション URL*​ に ​`/api`​ を付加したものと同じです。
+  ** この API は単純にハードコードされた値を返すため、TLS コンテキストは無視しても構いません。
+  ** Path (パス): `/`​。
+  ** 詳細オプションは無視します。
+. *[Save (保存)]*​ をクリックします。
+
+API Manager は、新しいプロキシの状況ページを表示します。
+
+image:proxy1.png[プロキシ作成前の API の状況ページ, 600]
+
+これで API が API Manager で管理されるようになったので、次のステップでプロキシを作成できます。
+
+== ステップ 5.3.API プロキシの設定
+
+API 用のプロキシを作成する手順は次のとおりです。
+
+. 前のステップで開いた API Manager の ​`hello-world`​ API 設定ページが表示されていない場合は、このページに移動します。
++
+link:https://anypoint.mulesoft.com/login["Anypoint Platform に移動^", role="button-primary"]
+. *[API Manager]*​ をクリックします。
+. *hello-world*​ をクリックしてドロップダウンを開きます。
+. *v1*​ をクリックしてプロキシ設定ページを表示します。
+. 一番上のセクションで以下を実行します。
+  ** *[Add a label (表示ラベルを追加)]*​ をクリックします。
+  ** *No policy*​ と入力し、Return を押して表示ラベルを保存します。
+. *[Deployment Configuration (デプロイメントの設定)]*​ セクションで以下を実行します。
+  ** *[Runtime version (Runtime バージョン): 4.2.2]*​ (さらに新しいバージョンがあればそのバージョン) を選択します。
+  ** *[Proxy application name (プロキシアプリケーション名)]*​ (これは Runtime Manager に表示されるアプリケーション名です) に ​*hello-world-greeting-proxy*​ と入力し、最後に自分の姓または他の一意の文字列を付加して、プロキシ名が一意になるようにします。ここに有効な値を入力するまで、デプロイボタンは有効になりません。
+  ** *[Update application if exists (存在する場合はアプリケーションを更新する)]*​ を選択します。
+. *[Deploy (デプロイ)]*​ をクリックします。進行状況ウィンドウが表示されます。
+. デプロイが完了したら、進行状況ウィンドウを閉じて設定ページに戻ります。
+
+この時点で、外部には公開しない実装 URL と、設定後は外部と共有しても安全なプロキシ URL が用意されました。
+
+image:proxy-deploy2.png[URL を表示している設定ページ, 600]
+
+プロキシを設定する手順は次のとおりです。
+
+. *[Proxy (プロキシ)]*​ セクションで、​*[Proxy URL (プロキシ URL)]*​ の後にあるリンクを右クリックして、リンクをコピーします。
+. ページの一番上で ​*[Add consumer endpoint (コンシューマエンドポイントを追加)]*​ をクリックします。
+. コピーしてあるリンクを貼り付け、Return を押してリンクを保存します。
+
+次の手順で、Exchange からプロキシエンドポイントをテストできます。
+
+. *[View API in Exchange (Exchange で API を表示)]*​ をクリックします。
++
+image:exchange-page-for-proxy.png[hello-world プロキシの Exchange ページ, 600]
+
+. *[API instances (API インスタンス)]*​ をクリックします。モッキングサービスバージョンと、今 Sandbox 環境で作成した新しいプロキシが「No policy」の表示ラベルと共に表示されます。
+. 左側で ​*/greeting*​ をクリックして開き、​*[GET]*​ をクリックします。
+. 右側で、列の一番上の方にある ​*[Mocking Service (モッキングサービス)]*​ をクリックしてドロップダウンメニューを開きます。
+. *[Sandbox: No policy (Sandbox: ポリシーなし)]*​ インスタンスを選択します。
+. *[Send (送信)]*​ をクリックします。応答が ​`200 OK`​ で挨拶文が ​`Today the greeting is Hello.`​ であることを確認してください。
+
+以下の手順でプロキシの設定を完了します。
+
+. *[API instances (API インスタンス)]*​ をクリックして Exchange の API インスタンスのリストに戻ります。
+. API を選択します。
+. *[Private (非公開)]*​ をクリックして ​*[Public (公開)]*​ を選択します。
+
+== ステップ 5.4: レート制限ポリシーを追加する
+
+レート制限ポリシーを追加する手順は次のとおりです。
+
+. API Manager に戻ります。
+. *hello-world*​ をクリックします。
+. *v1*​ をクリックします。
+. 左側のナビゲーションで ​*[Policies (ポリシー)]*​ を選択します。
+. *[Apply New Policy (新規ポリシーを適用)]*​ をクリックします。
+. デフォルトの ​*[All Mule Versions (すべての Mule バージョン)]*​ は変更しないでください。
+. スクロールして ​*[Rate limiting (レート制限)]*​ を探します (​*[Rate limiting - SLA based (レート制限 - SLA ベース)]*​ ではありません)。
+. *[Rate limiting (レート制限)]*​ をクリックし、​*1.3.5*​ またはそれ以降のバージョン (ある場合) を選択して、ダイアログボックスの一番下にある ​*[Configure Policy (ポリシーを設定)]*​ をクリックします。
+. [Apply Rate limiting policy (レート制限ポリシーを適用)] ページで、次の制限値を設定します。
+  ** *# of Reqs (要求数):*​ ​`3`
+  ** *Time Period (期間)*​: `1`
+  ** *Time Unit (時間単位)*​: *Minute (分)*
+. *[Expose Headers (ヘッダーを公開)]*​ を選択します。
+. *[Method & Resource conditions (メソッドとリソースの条件)]*​: *[Apply configurations to all API methods & resources (設定をすべての API メソッドおよびリソースに適用)]*​ を選択します。
+. *[Apply (適用)]*​ をクリックします。
+
+[Policies (ポリシー)] ホームページに新しいポリシーが表示されます。
+
+プロキシにポリシーが設定されていることを示すように API インスタンスの表示ラベルを変更します。
+
+. *[Settings (設定)]*​ をクリックします。
+. *[Label (表示ラベル)]*​ の隣にある鉛筆アイコンをクリックして、値を ​`Rate-limiting policy`​ に変更します。
+
+新しいポリシーをテストします。
+
+Advanced Rest クライアントで、​`429 Too Many Requests`​ が返されるまで GET 要求を API プロキシ ​`\http://hello-world-greeting-proxy.us-e2.cloudhub.io/greeting`​ (コンシューマエンドポイント + ​`/greeting`​) に繰り返し送信します。
+
+== 次のステップ
+
+API を Mule アプリケーションとして CloudHub の Mule にデプロイしましたので、以後は Anypoint Platform ツールを使用して管理できます。
+
+== 開発者向けの詳細
+
+MuleSoft は、​xref:mule-runtime::deploying.adoc[「Mule アプリケーションのデプロイ」]​で説明されている多くのデプロイオプションを提供しています。

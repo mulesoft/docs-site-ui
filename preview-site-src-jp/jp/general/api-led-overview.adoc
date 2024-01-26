@@ -1,0 +1,15 @@
+= チュートリアル: API ビルドの最初から最後まで
+
+あなたの顧客や従業員の皆さんは、あらゆるデバイスで、豊富なデータに裏付けされた快適なエクスペリエンスを求めています。
+https://blogs.mulesoft.com/dev/api-dev/what-is-api-led-connectivity/[API 主導の接続]​であれば、変化に適応し、ソリューションを効率的に再利用して、ビジネスのデジタルタッチポイントのセキュリティを確保できます。
+
+MuleSoft で最初の API 主導の完全なジャーニーを体験してください。
+
+. xref:api-led-prerequisites.adoc[前提条件]​
+. xref:api-led-design.adoc[API 仕様の設計]​
+. xref:api-led-develop.adoc[API の開発]​
+. xref:api-led-test.adoc[検証とエラー処理の追加]​
+. xref:api-led-deploy.adoc[CloudHub へのデプロイ]​
+. xref:api-led-operate.adoc[API の操作]
+
+単一リソースの API を作成して完全なジャーニーを体験したら、そのモデルを使用して自分自身の接続プロジェクトを計画しましょう。
