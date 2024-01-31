@@ -103,24 +103,38 @@
       opacity: .5;
     }
   }
+
+  & .link-connector-level {
+    color: var(--sds-g-color-blue-50);
+    font-weight: normal;
+
+    &:hover,
+    &:active,
+    &:focus {
+      color: var(--sds-g-color-blue-20);
+    }
+  }
 }
 
 /* level tooltip */
 .level-help {
-  border: 1px solid var(--aluminum-3);
-  border-radius: 8px;
   cursor: pointer;
-  height: 16px;
+  height: 18px;
   margin-left: var(--xs);
-  width: 16px;
+  width: 18px;
 
   &:focus {
     outline: 0;
   }
 
+  &:hover {
+    & .icon-help {
+      fill: var(--lume-c-icon-color-foreground-1);
+    }
+  }
+
   & .icon-help {
-    fill: var(--steel-2);
-    padding: 2px;
+    fill: var(--lume-c-icon-color-foreground-3);
   }
 }
 

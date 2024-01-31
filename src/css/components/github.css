@@ -11,8 +11,9 @@
   }
 
   & .svg {
-    height: 12px;
+    height: 14px;
     margin-right: 4px;
-    width: 12px;
+    margin-top: 4px;
+    width: 14px;
   }
 }
