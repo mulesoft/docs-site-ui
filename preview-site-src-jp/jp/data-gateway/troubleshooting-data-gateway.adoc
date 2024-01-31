@@ -1,0 +1,54 @@
+= データゲートウェイのトラブルシューティング
+:keywords: データゲートウェイ, salesforce, sap, oracle, db2, odata, mysql, sqlserver
+:page-component-name: data-gateway
+
+// Support notification from PM.
+include::partial$support-warning.adoc[]
+
+== エンタイトルメントのサポート
+
+Salesforce からデータゲートウェイデザイナにアクセスするには、Anypoint Platform アカウントに必要なエンタイトルメントが含まれていなければなりません。デザイナにアクセスできない場合は、これらのエンタイトルメントが MuleSoft との契約に含まれていることを確認してください。含まれていない場合は、MuleSoft アカウントチームにお問い合わせください。
+トライアルアカウントを持っている場合、このトライアルライセンスは一定期間後に有効期限が切れることに注意してください。このトライアル期間が終了すると、データゲートウェイデザイナにアクセスできなくなります。
+
+== Salesforce 組織の一致
+
+Anypoint Platform からデータゲートウェイを使用している場合は、使用中のリソースと同じ Salesforce 組織にある Salesforce アカウントに Anypoint Platform アカウントをリンクする必要があります。つまり、Salesforce 組織「A」に存在するリソースへのデータゲートウェイを作成する場合、同じ Anypoint Platform 組織の別のユーザが Salesforce 組織「B」の Salesforce ユーザとしてこれらのデータゲートウェイにアクセスしようとしても、これらのリソースを使用することはできません。
+
+== 既知の問題
+
+* ゲートウェイの作成は、次の場合に失敗します。
+
+**  関連する Salesforce 組織が、&#8203; https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/platform_connect_about.html[Salesforce Connect]​ 内に使用可能な外部データソースライセンスを持っていない。
+**  関連する Anypoint アカウントに使用可能な (1 vCore サイズの) ワーカーがない。
+
+* ゲートウェイの作成とデプロイメントは、このアプリケーションのバックグラウンドで行われるプロビジョニングの量により、最大 2 分ほどかかることがあります。読み込みメッセージは、このプロセス全体を通して存続します。
+
+* Salesforce API の既知の問題により、パブリッシュまたは同期に関する問題は、Salesforce で [設定] > [開発] > [外部データソース] に移動し、パブリッシュ済みデータソールを選択して [検証して同期] をクリックし、修正することができます。
+
+* 環境内のすべてのオブジェクトが 1 つの OData API からパブリッシュされるようになったので、特定の環境のデータゲートウェイ間でオブジェクト名が重複することがあってはなりません。
+
+* データマッピングの最新の修正を使用するには、blob、double、datetime 項目を使用する古いデータゲートウェイを置き換えるために、新しいデータゲートウェイを作成する必要があります。
+
+* 新しいデータゲートウェイを作成しようとすると、次のエラーメッセージが表示されます。「Error: A message body reader for java.lang.class.org.mule.cs.model.Client, and java type class org.mule.cs.model.Client, and MIME media type text/plain; charset=utf-8 was not found (エラー: java.lang.class.org.mule.cs.model.Client、java type class org.mule.cs.model.Client、MIME media type text/plain; charset=utf-8 のメッセージ本文リーダーが見つかりませんでした)」
+
+**  ユーザは適切な権限を持つビジネスグループに属していますが、データゲートウェイはマスタ組織レベル内で権限を探しています。ここにユーザの権限はありません。したがって、401 が返され、データゲートウェイを作成できません。回避策は、マスタ組織内の任意の環境に対する「データゲートウェイ管理者」権限をユーザに割り当てることです。これにより、ユーザがすでに持っているビジネスグループおよび環境内にデータゲートウェイを作成できるようになります。
+
+=== Salesforce
+
+* xref:installing-anypoint-data-gateway.adoc[インストール後の手順]​を完了しない限り、製品はインストール後に実行されません。
+
+* Salesforce API の既知の問題により、パブリッシュまたは同期に関する問題は、Salesforce で ​*[設定]*​ > ​*[開発]*​ > ​*[外部データソース]*​ に移動し、パブリッシュ済みデータソールを選択して ​*[検証して同期]*​ をクリックし、簡単に修正することができます。
+
+* Salesforce ではエンドポイントあたり 100 個のオブジェクトが許可されているので、Salesforce に 100 個を超えるオブジェクトをパブリッシュする場合、追加ゲートウェイ用に別個の環境を作成します。
+
+* パブリッシュされたデータゲートウェイ (v1.4.0 より前) は、新しい 1 つの OData API が確実に使用されるようにするために、左ナビゲーションバーの Salesforce リンクを使用して再パブリッシュする必要があります。
+
+=== Oracle
+
+* Oracle データゲートウェイがテーブルの取得に失敗した場合は、スキーマがすべて大文字であることを確認してください。
+
+=== DB2
+
+* DB2 データベースの制限により、blob 項目を含むテーブルに対する ​`$skip`​ および ​`$top`​ 演算子を使用した OData クエリは失敗します。すべての blob 項目を絞り込むには、$select を使用してください。
+
+== 関連情報

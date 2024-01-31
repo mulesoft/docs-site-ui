@@ -39,7 +39,8 @@
   const getFormattedDisplayVersions = (versions) => {
     const listOfVersions = versions.map((t) => t.displayVersion || t.version)
     if (listOfVersions.length && isNumberedVersion(listOfVersions[0])) {
-      listOfVersions[0] += ' [latest]'
+      const latest = MSCX.l10n.getMessage('latest')
+      listOfVersions[0] += ` ${latest}`
       return `["${listOfVersions.slice(0, 25).join('", "')}"]`
     }
   }

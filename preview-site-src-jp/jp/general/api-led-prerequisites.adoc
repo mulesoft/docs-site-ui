@@ -1,0 +1,22 @@
+= ステップ 1.API を構築するための前提条件
+:experimental:
+
+
+API 主導のジャーニーを開始する前に、必要なツールとアクセス権があることを確認してください。
+
+* 自分の Anypoint Platform 組織のユーザ名とパスワード。まだ Anypoint Platform 組織を持っていない場合は、Anypoint Platform でトライアル組織を作成してください。
++
+link:https://anypoint.mulesoft.com/login/#/signup["トライアル組織の作成^", role="button-primary"]
+* Anypoint Studio 7.4.1 以降をダウンロードします。Anypoint Studio は、アプリケーションを構築して Anypoint Platform にデプロイするための豊富な機能を備えた Eclipse ベースの IDE です。 
++
+link:https://www.mulesoft.com/lp/dl/studio["Anypoint Studio をダウンロード^", role="button-primary"]
+* REST 要求のテストには Advanced REST クライアントや Postman などのクライアントが必要ですので、まだ持っていなければ入手してください。このチュートリアルでは、Advanced REST クライアントを使用します。
++
+link:https://github.com/advanced-rest-client/arc-electron/releases["Advanced REST クライアントのインストール^", role=button-primary"]
++
+プラットフォームによっては、別のクライアントのインストールや、 https://github.com/advanced-rest-client/arc-electron/releases[GitHub からの Advanced REST クライアントのインストール]​が必要な場合もあります。
+
+== 役に立つヒント
+
+* ブラウザウィンドウを 2 つ開いて、片方で手順を参照しながら、他方で作業を実行しましょう。
+* Advanced REST クライアントのタイムアウトは長く設定しましょう。デバッグの実行中に REST 要求がタイムアウトしないようにするためです。

@@ -1,15 +1,13 @@
 {{#if (and env.GOOGLE_ANALYTICS_KEY (not preview))}}
+  {{> gtm-scripts }}
   {{> segment-script }}
 {{/if}}
-
 {{#if (or env.COVEO_API_KEY env.COVEO_API_KEY_JP)}}
   {{> coveo-search-scripts org_id="mulesoftprodqzggq6re"}}
 {{/if}}
-
 {{#if (eq (site-profile) 'prod')}}
   {{> coveo-ua-script org_id="mulesoftprodqzggq6re"}}
 {{/if}}
-
 {{#if (eq (site-profile) 'review' )}}
   {{> review-site-scripts }}
 {{/if}}

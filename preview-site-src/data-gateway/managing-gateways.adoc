@@ -1,6 +1,6 @@
 = Managing Gateways
 :keywords: data gateway, salesforce, sap, oracle
-:page-component-name: api-governance
+:page-component-name: data-gateway
 
 == Logging In
 

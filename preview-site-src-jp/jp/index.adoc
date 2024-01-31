@@ -1,0 +1,116 @@
+= [.brand]#MuleSoft# ドキュメント
+:page-layout: home
+:page-fragmentize:
+:!sectids:
+ifndef::env-site[:imagesdir: ../images]
+
+[#cta]
+xref:api-led-overview.adoc[MuleSoft は初めてですか? ここから始めてください。]
+
+[#the-road]
+== デジタルトランスフォーメーションへの道
+
+image::getting-started.png[alt=""]
+
+--
+[discrete]
+=== はじめに
+
+ビジネスで必要とされるデジタルトランスフォーメーションを構築します。
+
+* xref:api-led-overview.adoc[チュートリアル: API ビルドの最初から最後まで。]
+--
+
+image::discover.png[alt=""]
+
+--
+[discrete]
+=== 見つける
+
+Exchange を参照して、プロジェクトで再利用できる既存の API 仕様、テンプレート、例、他のアセットを見つけます。
+
+* https://www.anypoint.mulesoft.com/exchange/[再利用可能なアセットを見つけます。^]
+--
+
+image::design.png[alt=""]
+
+--
+[discrete]
+=== 設計
+
+新しい API 仕様を最初から作成してパブリッシュします。
+
+* xref:design-center::design-create-publish-api-specs.adoc[再利用可能な API 仕様を作成します。]
+* xref:access-management::index.adoc[Anypoint Platform アカウントへのアクセス権を管理します。]
+* xref:general::security.adoc[アプリケーションネットワークのセキュリティを強化します。]
+--
+
+image::develop.png[alt=""]
+
+--
+[discrete]
+=== 開発 & テスト
+
+API とインテグレーションアプリケーションをビルドしてテストします。
+
+* xref:studio::index.adoc[API を開発します。]
+* xref:connectors::index.adoc[データ、システム、およびアプリケーションを接続します。]
+* xref:mule-runtime::mule-app-dev.adoc[システム、サービス、API、およびデバイスを統合する Mule アプリケーションを開発します。]
+* xref:dataweave::index.adoc[Mule アプリケーション内でデータにアクセスし、データを変換します。]
+* xref:munit::index.adoc[API およびインテグレーションの自動テストを構築します。]
+--
+
+image::deploy.png[alt=""]
+
+--
+[discrete]
+=== デプロイ
+
+デプロイメントオプションを選択し、API とアプリケーションをデプロイして、それらをポリシーで保護します。
+
+* xref:runtime-manager::deployment-strategies.adoc[デプロイメントオプションを選択します。]
+* xref:api-manager::api-proxy-landing-page.adoc[API のプロキシを設定します。]
+* xref:policies::policies-policy-overview.adoc[API を保護するためのポリシーを作成します。]
+--
+
+image::monitor.png[alt=""]
+
+--
+[discrete]
+=== 監視
+
+ダッシュボード、メトリクス、視覚化を使用して API とインテグレーションを監視します。
+
+* xref:monitoring::index.adoc[インテグレーションアプリケーションおよび API のメトリクスを表示します。]
+* xref:api-functional-monitoring::index.adoc[API の機能動作およびパフォーマンスをテストします。]
+* xref:runtime-manager::monitoring.adoc[デプロイ済みアプリケーションを監視します。]
+--
+
+== クイックリンク
+
+[#popular-topics]
+== 人気のあるトピック
+
+//Date Range 5/01/2022 - 6/01/2022 (omits #1 ranking link to landing page, of course)
+* xref:dataweave::dataweave-cookbook-format-dates.adoc[日付と時刻の書式設定]
+* xref:dataweave::dw-operators.adoc[DataWeave の演算子]
+* xref:dataweave::dw-core-functions-filter.adoc[DataWeave 関数: filter]
+* xref:dataweave::dw-core-functions-map.adoc[DataWeave 関数: map]
+* xref:mule-runtime::batch-processing-concept.adoc[バッチ処理]
+* xref:dataweave::dataweave-functions.adoc[DataWeave リファレンス]
+* xref:connectors::index.adoc[コネクタ]
+// rank #8-10:
+// * xref:mule-runtime::mule-error-concept.adoc[Mule Errors]
+// * xref:mule-runtime::cloudhub-architecture.adoc[CloudHub Architecture]
+// * xref:dataweave::dw-core-functions-contains.adoc[DataWeave Function: contains]
+
+
+[#more-resources]
+== その他のリソース
+
+* https://developer.mulesoft.com/learn/dataweave/[DataWeave プレイグラウンド^]
+* https://help.mulesoft.com/s/[MuleSoft ヘルプセンター^]
+* https://developer.mulesoft.com/tutorials-and-howtos/getting-started/hello-mule[開発者チュートリアル^]
+* https://training.mulesoft.com/[Mulesoft トレーニング^]
+* https://trailhead.salesforce.com/content/learn/modules/mulesoft-basics[Trailhead: Anypoint Platform を使用した API ライフサイクル管理^]
+* https://archive.docs.mulesoft.com/[アーカイブ済みドキュメント^]

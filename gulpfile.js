@@ -10,6 +10,7 @@ const exportTasks = require('./gulp.d/lib/export-tasks')
 const bundleName = 'ui'
 const buildDir = process.env.CONTEXT === 'deploy-preview' ? 'public/dist' : 'build'
 const previewSrcDir = 'preview-site-src'
+const previewJpSrcDir = 'preview-site-src-jp'
 const previewDestDir = 'public'
 const srcDir = 'src'
 const destDir = `${previewDestDir}/_`
@@ -117,10 +118,21 @@ const buildPreviewPagesTask = createTask({
   call: task.buildPreviewPages(srcDir, previewSrcDir, previewDestDir, livereload),
 })
 
+const buildJpPreviewPagesTask = createTask({
+  name: 'preview:build-pages-jp',
+  call: task.buildPreviewPages(srcDir, previewJpSrcDir, previewDestDir, livereload),
+})
+
 const previewBuildTask = createTask({
   name: 'preview:build',
   desc: 'Process and stage the UI assets and generate pages for the preview',
   call: parallel(buildTask, buildPreviewPagesTask),
+})
+
+const previewBuildJpTask = createTask({
+  name: 'preview:build-jp',
+  desc: 'Process and stage the JP site UI assets and generate pages for the preview',
+  call: parallel(buildTask, buildJpPreviewPagesTask),
 })
 
 const previewServeTask = createTask({
@@ -134,6 +146,12 @@ const previewTask = createTask({
   call: series(updateTask, previewBuildTask, previewServeTask),
 })
 
+const previewJpTask = createTask({
+  name: 'preview-jp',
+  desc: 'Generate a JP preview site and launch a server to view it',
+  call: series(updateTask, previewBuildJpTask, previewServeTask),
+})
+
 module.exports = exportTasks(
   bundleTask,
   cleanTask,
@@ -145,6 +163,7 @@ module.exports = exportTasks(
   releaseTask,
   releasePublishTask,
   previewTask,
+  previewJpTask,
   previewBuildTask,
   updateTask
 )

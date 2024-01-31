@@ -1,0 +1,88 @@
+= Anypoint データゲートウェイについて
+:keywords: データゲートウェイ, salesforce, sap, oracle
+:page-component-name: data-gateway
+
+// Support notification from PM.
+include::partial$support-warning.adoc[]
+
+== 概要
+
+Anypoint データゲートウェイを使用すると、レガシーバックオフィスシステムに保存されたデータを簡単に Salesforce と統合できます。データゲートウェイでは、シンプルなポイント & クリックの視覚的なインターフェースを使用して Salesforce 自体の内部からデータにアクセスし、外部データに対して Salesforce の完全な機能を利用できます。
+
+データゲートウェイは、SAP、Oracle、MS SQL、MySQL などのシステムとの統合をサポートしています。これらのシステムとの接続は瞬時に行われ、ホストやユーザなどのパラメータを入力するだけで作業は完了します。多様なバックオフィスシステムと迅速に接続できるため、別個の設計環境を作成したり、Salesforce ユーザ向けに広範囲なトレーニングを実施したりする必要がありません。
+
+== Anypoint Platform アカウント経由のデータゲートウェイの使用
+
+Anypoint Platform アカウントがあり、ユーザが適切なエンタイトルメントを所有している場合、&#8203; https://anypoint.mulesoft.com[Anypoint Platform ホームページ]​と左側のナビゲーションバーに [Data Gateway (データゲートウェイ)] リンクが表示されます。
+
+image::index-0ac01.png[]
+
+
+データゲートウェイにリンクされている Salesforce アカウントを変更するには、左側のユーザメニューで [SalesForce] リンクをクリックし、[​`Change`​ (変更)] ボタンをクリックします。 +
+
+image::dgw-anypoint-platform2.png[Anypoint Platform 内]
+
+== Salesforce へのデータゲートウェイのインストール
+
+データゲートウェイは Salesforce パッケージとして入手可能で、&#8203; https://appexchange.salesforce.com/[Salesforce AppExchange]​ 経由でインストールします。パッケージのインストール後、データゲートウェイデザイナにアクセスして、目的の外部データソースへの新しいゲートウェイをすばやく簡単に作成できます。ゲートウェイの設定後、ゲートウェイをパブリッシュして、指定した外部エンティティがゲートウェイを使用できるようにするとともに、データソース内の既存のオブジェクトを表示したり、新しいオブジェクトを作成したりできます。
+
+image::basic-arch-final.png[basic_arch_final]
+
+詳細は、​xref:installing-anypoint-data-gateway.adoc[「Anypoint データゲートウェイのインストール」]​を参照してください。
+
+[NOTE]
+Anypoint データゲートウェイを使用するには、Salesforce アカウントに  https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/platform_connect_about.htm[Salesforce Connect]​ が含まれている必要があります。これは、Salesforce が独自のリポジトリの外部に存在するデータにアクセスし、そのデータを変更できるようにする機能です。
+
+
+== サポートされている外部データソース
+
+現在、Anypoint データゲートウェイは、次の外部データソースをサポートしています。
+
+* SAP
+* Oracle
+* DB2
+* MS SQL
+* MySQL
+
+さらに、次のデータソースのサポートが予定されています。
+
+* Oracle E-Business Suite
+* Siebel
+* PostgreSQL
+
+データゲートウェイには次のような利点があります。
+
+* *メタデータの自動入力および設定:*​ 外部データソースからのメタデータが自動的に取得されるため、オブジェクトの作成や設定の作業が大幅に簡略化されます。
+* *Virtual Private Cloud (VPC):*​ ネットワークが自動的に作成され、設定されます。
+* *ポイント & クリック GUI:*​ シンプルな視覚的インターフェースによって、開発者はインテグレーションの開発ではなくインテグレーションの設定に集中できます。
+
+== データゲートウェイの操作
+
+データゲートウェイを操作するための手順の概要は次のとおりです。データゲートウェイをインストールして設定するには、次の手順が必要です。
+
+* Salesforce AppExchange でデータゲートウェイを見つけます。
+* 管理パッケージとしてデータゲートウェイをインストールします。
+* インストール後の手順を実行します。
+* Anypoint データゲートウェイデザイナにサインアップまたは認証します。
+
+詳細は、​xref:installing-anypoint-data-gateway.adoc[「Anypoint データゲートウェイのインストール」]​を参照してください。
+
+データゲートウェイにログインした後に、次の手順が必要です。
+
+* Virtual Private Cloud (VPC) パラメータを設定します。
+* データへの接続を作成します。
+* ゲートウェイをパブリッシュします。
+
+詳細は、​xref:creating-and-configuring-a-gateway.adoc[「ゲートウェイの作成と設定」]​と​xref:managing-gateways.adoc[「ゲートウェイの管理」]​を参照してください。
+
+上記の手順を完了すると、データゲートウェイを使用して Salesforce 内からデータソースのオブジェクトを表示したり、データゲートウェイデザイナを使用してオブジェクトの作成や変更を行ったりできます。
+
+Anypoint データゲートウェイのインストール、設定、使用についての詳細は、次のページを参照してください。
+
+* xref:installing-anypoint-data-gateway.adoc[Anypoint データゲートウェイのインストール]​。
+* xref:creating-and-configuring-a-gateway.adoc[ゲートウェイの作成と設定]​。
+* xref:managing-gateways.adoc[ゲートウェイの管理]​。
+* xref:quick-guide-to-accessing-gateways-and-objects.adoc[ゲートウェイとオブジェクトへのアクセスクイックガイド]​。
+* xref:troubleshooting-data-gateway.adoc[データゲートウェイのトラブルシューティング]​。
+
+xref:release-notes::data-gateway/anypoint-data-gateway-release-notes.adoc[Anypoint データゲートウェイのリリースノート]​にも追加情報があります。

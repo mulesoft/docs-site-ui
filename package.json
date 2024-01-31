@@ -18,6 +18,7 @@
     "format:bundle": "npm run format && npm run bundle",
     "lint": "npx gulp lint",
     "preview": "npx gulp preview",
+    "preview-jp": "npx gulp preview-jp",
     "release": "npx gulp release",
     "clean": "rm -rf node_modules/",
     "reinstall": "npm run clean && npm install"
@@ -26,7 +27,7 @@
     "@asciidoctor/core": "~2.2",
     "@asciidoctor/tabs": "latest",
     "@mulesoft/lume-icon": "^0.1.47",
-    "@mulesoft/lume-styling-hooks": "0.2.18",
+    "@mulesoft/lume-styling-hooks": "0.2.19",
     "@octokit/rest": "20.0.2",
     "@ronilaukkarinen/gulp-stylelint": "^14.1.1",
     "asciidoctor": "3.0.2",
