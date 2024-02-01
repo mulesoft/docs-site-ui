@@ -1,0 +1,5 @@
+{{#if page.attributes.subheading}}
+<div class="subheading-row flex flex-wrap">
+    {{#if (eq page.attributes.subheading 'rss')}} {{> do-rss}} {{/if}}
+</div>
+{{/if}}

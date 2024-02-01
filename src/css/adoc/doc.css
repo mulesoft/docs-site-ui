@@ -16,6 +16,21 @@
     }
   }
 
+  & .subheading-row {
+    margin: var(--sm) 0;
+
+    & svg {
+      fill: var(--lume-c-icon-color-foreground-3);
+      margin-right: var(--sm);
+    }
+
+    & a:hover {
+      & svg {
+        fill: var(--lume-c-icon-color-foreground-1);
+      }
+    }
+  }
+
   /* numbered callouts from codeblocks */
   & .conum {
     background: #1a5492;
@@ -208,7 +223,7 @@
     }
 
     &:hover {
-      &:not(.anchor) {
+      &:not(.anchor, .link-subheading) {
         margin-left: -3px;
         margin-right: -3px;
         padding: 1px 3px;

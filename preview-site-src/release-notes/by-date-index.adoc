@@ -2,6 +2,7 @@
 ifndef::env-site,env-github[]
 endif::[]
 :keywords: release notes
+:page-subheading: rss
 
 [[october-22]]
 == October 2022
