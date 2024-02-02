@@ -26,5 +26,20 @@
                 color: var(--steel-2);
             }
         }
+
+        & .deployment-option-circle-crop {
+            background-color: var(--lume-c-icon-color-foreground-3);
+            border-radius: 50%;
+            height: 24px;
+            width: 24px;
+        }
+
+        & .icon-deployment-option {
+            filter: brightness(0) invert(1) ;
+            height: 24px;
+            padding: 2px;
+            width: 24px;
+        }
+
     }
 }
