@@ -4,9 +4,11 @@
   & button {
     border-width: 2px;
     column-gap: 4px;
+    display: flex;
     font-size: 14px;
     font-weight: var(--weight-bold);
     height: 28px;
+    min-height: unset;
     padding: 4px 12px;
 
     & img {
@@ -35,6 +37,7 @@
   border-top: 1px solid var(--lume-g-color-neutral-80);
   font-family: var(--font-sans-serif);
   font-size: 14px;
+  margin-bottom: 15px;
   min-width: 340px;
   width: 90%;
 
@@ -91,8 +94,10 @@
 
   & .feedback-options {
     column-gap: 9px;
+    height: 28px;
 
     & button {
+      margin: 0;
       min-width: 70px;
     }
   }
@@ -178,7 +183,8 @@
   }
 
   & p {
-    margin: auto;
+    align-self: center;
+    margin: 0;
   }
 
   &:has(> .feedback-form.hide):has(> .feedback-second-row.hide):has(
