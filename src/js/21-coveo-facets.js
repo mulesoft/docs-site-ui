@@ -40,7 +40,7 @@
     const listOfVersions = versions.map((t) => t.displayVersion || t.version)
     if (listOfVersions.length && isNumberedVersion(listOfVersions[0])) {
       const latest = MSCX.l10n.getMessage('latest')
-      listOfVersions[0] += ` ${latest}`
+      listOfVersions[0] += ` [${latest}]`
       return `["${listOfVersions.slice(0, 25).join('", "')}"]`
     }
   }
