@@ -304,6 +304,7 @@ svg.nav-icon {
   display: flex;
   font-size: 0.75rem;
   height: 1.75em;
+  min-height: unset;
   padding: 0 2px 0 6px;
   transform: translateY(0.075em);
 
