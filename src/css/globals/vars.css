@@ -1,7 +1,7 @@
 :root {
   /* Salesforce Design System colors */
-  --sds-c-button-color-background: #0176d3;
   --sds-c-button-color-background-hover: #023248;
+  --sds-c-button-color-background: #0176d3;
   --sds-g-color-blue-10: #001639;
   --sds-g-color-blue-20: #032d60;
   --sds-g-color-blue-30: #014486;
@@ -11,8 +11,9 @@
   --sds-g-color-blue-70: #78b0fd;
   --sds-g-color-blue-80: #aacbff;
   --sds-g-color-blue-90: #d8e6fe;
-  --sds-g-color-gray-10: #181818;
+  --sds-g-color-cloud-blue-50: #107CAD;
   --sds-g-color-cloud-blue-95: #eaf5fe;
+  --sds-g-color-gray-10: #181818;
   --sds-g-color-palette-green-40: #22683e;
   --sds-g-color-palette-green-50: #2e844a;
   --sds-g-color-palette-green-60: #3ba755;
@@ -60,6 +61,7 @@
   /* typography */
   --font-color-default: var(--sds-g-color-gray-10);
   --font-color-heading: var(--sds-g-color-blue-20);
+  --font-color-heading-alternate: var(--sds-g-color-cloud-blue-50);
   --font-color-link: var(--sds-g-color-blue-50);
   --font-color-link-hover: var(--sds-g-color-blue-20);
   --font-heading: var(--sds-g-font-display);

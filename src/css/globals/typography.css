@@ -45,31 +45,42 @@ h6 {
 }
 
 h1 {
-  font-size: 48px;
+  font-size: 33px;
   line-height: 56px;
 }
 
+@media (--md) {
+  h1 {
+    font-size: 45px;
+    line-height: 56px;
+  }
+}
+
+
 h2 {
-  font-size: 40px;
+  font-size: 33px;
   line-height: 48px;
 }
 
 h3 {
-  font-size: 32px;
+  font-size: 22px;
   line-height: 40px;
 }
 
 h4 {
-  font-size: 24px;
+  /* Add color for easier scanning as heading sizes are very similar */
+  color: var(--font-color-heading-alternate);
+  font-size: 20px;
   line-height: 32px;
 }
 
 h5 {
-  font-size: 20px;
+  font-size: 18px;
   line-height: 28px;
 }
 
 h6 {
+  color: var(--font-color-heading-alternate);
   font-size: var(--font-size-default);
   line-height: 24px;
 }
