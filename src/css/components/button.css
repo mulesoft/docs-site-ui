@@ -84,7 +84,7 @@
   color: #fff;
   cursor: pointer;
   display: inline-block;
-  font-family: "SFBold",Arial,sans-serif;
+  font-family: SFBold,Arial,sans-serif;
   font-size: 16px;
   line-height: 28px;
   margin: 0 15px 15px 0;
@@ -113,7 +113,7 @@
   color: #0176d3;
   cursor: pointer;
   display: inline-block;
-  font-family: "SFBold",Arial,sans-serif;
+  font-family: SFBold,Arial,sans-serif;
   font-size: 16px;
   line-height: 28px;
   margin: 0 15px 15px 0;
