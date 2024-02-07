@@ -298,12 +298,14 @@ svg.nav-icon {
 
 .nav-version-button {
   align-items: center;
+  background: 0 0;
   border: 1px solid var(--aluminum-4);
   border-radius: 1em;
   color: var(--steel-2);
   display: flex;
   font-size: 0.75rem;
   height: 1.75em;
+  min-height: unset;
   padding: 0 2px 0 6px;
   transform: translateY(0.075em);
 

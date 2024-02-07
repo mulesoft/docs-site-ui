@@ -15,13 +15,6 @@
   @media (--lg) {
     display: block;
   }
-
-  & .button-edit {
-    font-size: 11px;
-    margin-bottom: var(--lg);
-    padding-bottom: 4px;
-    padding-top: 4px;
-  }
 }
 
 .toc-menu a {
