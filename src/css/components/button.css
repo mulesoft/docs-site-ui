@@ -52,7 +52,7 @@
   top: 0; /* reset */
 }
 
-.button-primary:not(.ms-com-content.button),
+.button-primary:not(.ms-com-content .button, nav button),
 .mule-button-br.solid {
   background: #0176d3;
   border: 2px solid #0176d3;
@@ -81,7 +81,7 @@
   }
 }
 
-.button:not(.ms-com-content.button),
+.button:not(.ms-com-content .button, nav button),
 .mule-button-br {
   background: 0 0;
   border: 2px solid #0176d3;

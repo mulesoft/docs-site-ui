@@ -298,6 +298,7 @@ svg.nav-icon {
 
 .nav-version-button {
   align-items: center;
+  background: 0 0;
   border: 1px solid var(--aluminum-4);
   border-radius: 1em;
   color: var(--steel-2);
