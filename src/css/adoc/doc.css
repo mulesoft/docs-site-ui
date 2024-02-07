@@ -198,8 +198,8 @@
       .button-primary,
       .deployment-option,
       .dw-playground-link,
+      .mule-button-brl,
       .notice-banner-link,
-      .view-all,
       #cta *
     ) {
     &:not(footer *) {
