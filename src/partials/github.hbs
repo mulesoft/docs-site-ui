@@ -1,5 +1,5 @@
 {{#if (or preview (and (ne (site-profile) "archive") (or (and page.fileUri (not env.CI)) (and page.editUrl (not page.origin.private))))) }}
-    <a target="_blank" class="mule-button-br" 
+    <a target="_blank" class="github mule-button-br" 
     {{#if (and page.fileUri (not env.CI))}}
     href="{{page.fileUri}}"
     {{else}}
