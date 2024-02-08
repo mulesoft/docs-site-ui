@@ -16,7 +16,7 @@
     }
   }
 
-  & .button-edit {
+  & .github {
     margin-top: var(--md);
     max-width: fit-content;
 
@@ -37,7 +37,6 @@
   border-top: 1px solid var(--lume-g-color-neutral-80);
   font-family: var(--font-sans-serif);
   font-size: 14px;
-  margin-bottom: 15px;
   min-width: 340px;
   width: 90%;
 
