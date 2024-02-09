@@ -255,8 +255,8 @@ atomic-sort-dropdown {
 
 .toolbar-search-button {
   margin: auto 0 auto 7px;
+  padding: 4px;
   width: 30px;
-  padding: 4px 4px;
 
   & .toolbar-search-button-icon {
     width: 20px;

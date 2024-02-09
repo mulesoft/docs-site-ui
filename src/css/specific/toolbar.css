@@ -17,8 +17,8 @@
   }
 
   & button {
-    min-height: unset;
     height: 30px;
+    min-height: unset;
   }
 }
 
