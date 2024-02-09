@@ -4,9 +4,11 @@
   & button {
     border-width: 2px;
     column-gap: 4px;
+    display: flex;
     font-size: 14px;
     font-weight: var(--weight-bold);
     height: 28px;
+    min-height: unset;
     padding: 4px 12px;
 
     & img {
@@ -14,7 +16,7 @@
     }
   }
 
-  & .button-edit {
+  & .github {
     margin-top: var(--md);
     max-width: fit-content;
 
@@ -91,8 +93,10 @@
 
   & .feedback-options {
     column-gap: 9px;
+    height: 28px;
 
     & button {
+      margin: 0;
       min-width: 70px;
     }
   }
@@ -178,7 +182,8 @@
   }
 
   & p {
-    margin: auto;
+    align-self: center;
+    margin: 0;
   }
 
   &:has(> .feedback-form.hide):has(> .feedback-second-row.hide):has(

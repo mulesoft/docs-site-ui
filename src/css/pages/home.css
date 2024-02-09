@@ -6,7 +6,7 @@ body.home {
       text-decoration: none;
     }
 
-    & a:hover {
+    & a:not(.mule-button-br):hover {
       text-decoration: underline;
     }
 
@@ -137,7 +137,7 @@ body.home {
       }
     }
 
-    & a.view-all {
+    & a.mule-button-br {
       padding: 10px 12px;
     }
 
