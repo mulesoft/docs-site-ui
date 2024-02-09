@@ -4,9 +4,6 @@
 :!sectids:
 ifndef::env-site[:imagesdir: ../images]
 
-[#cta]
-xref:api-led-overview.adoc[MuleSoft は初めてですか? ここから始めてください。]
-
 [#the-road]
 == デジタルトランスフォーメーションへの道
 

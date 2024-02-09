@@ -45,35 +45,11 @@ body.home {
         text-align: center;
       }
 
-      & #cta p {
-        font-size: 14px;
+      & #cta {
         height: 154px;
         line-height: 1.35;
         margin: 0;
         text-align: center;
-      }
-
-      & #cta a {
-        background-color: var(--sds-g-color-blue-40);
-        border-radius: var(--radius);
-        color: #fff;
-        display: inline-block;
-        font-size: 14px;
-        font-weight: var(--weight-normal);
-        padding: 10px 20px;
-        text-transform: uppercase;
-        transition: background-color .3s ease;
-
-        &:active,
-        &:focus {
-          background-color: #094e91;
-          box-shadow: 0 0 0 3px #abe2f5;
-        }
-
-        &:hover {
-          background-color: #094e91;
-          text-decoration: none;
-        }
       }
     }
 
