@@ -103,14 +103,3 @@ image::monitor.png[alt=""]
 // * xref:mule-runtime::mule-error-concept.adoc[Mule Errors]
 // * xref:mule-runtime::cloudhub-architecture.adoc[CloudHub Architecture]
 // * xref:dataweave::dw-core-functions-contains.adoc[DataWeave Function: contains]
-
-
-[#more-resources]
-== その他のリソース
-
-* https://developer.mulesoft.com/learn/dataweave/[DataWeave プレイグラウンド^]
-* https://help.mulesoft.com/s/[MuleSoft ヘルプセンター^]
-* https://developer.mulesoft.com/tutorials-and-howtos/getting-started/hello-mule[開発者チュートリアル^]
-* https://training.mulesoft.com/[Mulesoft トレーニング^]
-* https://trailhead.salesforce.com/content/learn/modules/mulesoft-basics[Trailhead: Anypoint Platform を使用した API ライフサイクル管理^]
-* https://archive.docs.mulesoft.com/[アーカイブ済みドキュメント^]
