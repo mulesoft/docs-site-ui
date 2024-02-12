@@ -16,7 +16,7 @@
     padding-right: var(--xl);
   }
 
-  & button {
+  & button:not(.search-page-back-button) {
     height: 30px;
     min-height: unset;
   }
