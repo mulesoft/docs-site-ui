@@ -396,3 +396,49 @@
   margin-bottom: 8px !important;
   margin-top: 24px !important;
 }
+
+p.badge,
+p.prev-flag {
+  display: inline-block;
+  background: #e3066a;
+  border-radius: 12px;
+  padding: 0 18px;
+  margin-bottom: 8px;
+  color: #fff !important;
+  font-size: 12px !important;
+  letter-spacing: 0;
+  line-height: 25px !important;
+  font-family: "SFBold",Arial,sans-serif;
+
+  &.square {
+    margin-bottom: 4px;
+    border-radius: 12px;
+    line-height: 29px !important;
+    font-size: 12px !important;
+    letter-spacing: 1px;
+  }
+
+  &.indigo {
+    background: var(--color-indigo);
+  }
+
+  &.mule-blue {
+    background: var(--color-ms-blue);
+  }
+
+  &.navy-blue {
+    background: var(--color-navy);
+  }
+
+  &.orange {
+    background: var(--color-orange);
+  }
+
+  &.purple {
+    background: var(--color-purple);
+  }
+
+  &.viridian {
+    background: var(--color-viridian);
+  }
+}
