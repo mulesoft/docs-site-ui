@@ -3,39 +3,51 @@
     <style>
       atomic-field-condition {
         align-items: center;
-        display: inline-flex;
+        display: inline-flex !important;
+        font-size: var(--atomic-text-lg);
         white-space: nowrap;
       }
 
       atomic-result-badge::part(result-badge-element) {
-        background-color: var(--eyebrow-gray);
+        background: var(--color-ms-blue);
+        border-radius: 12px;
         color: #fff;
+        display: inline-block;
+        font-size: 12px !important;
+        letter-spacing: 0;
+        line-height: 25px !important;
+        padding: 0 18px;
+      }
+
+      atomic-result-badge::part(result-badge-label) {
+        font-size: var(--atomic-text-base);
       }
 
       atomic-result-link>a {
-        text-decoration: underline;
+        color: var(--sds-g-color-blue-50) !important;
       }
 
+      atomic-result-link>a:hover,
       atomic-result-link>a:active,
       atomic-result-link>a:focus {
-        border-radius: 5px;
-        outline: 2px solid var(--lume-g-color-neutral-50) !important;
-        outline-offset: -1px;
-        text-decoration: none !important;
+        color: var(--sds-g-color-blue-20) !important;
+        text-decoration: underline !important;
       }
 
-      atomic-result-link>a:not(:visited) {
-        color: #var(--lume-g-color-blue-30) !important;
-      }
-
-      atomic-result-link>a:hover {
-        background-color: #c0edff;
-        border-radius: 5px;
-        color: var(--lume-g-color-blue-30);
+      atomic-result-link>a:visited {
+        color: var(--violet) !important;
       }
 
       atomic-result-section-excerpt {
+        font-size: 16px !important;
         margin-top: 0.875rem !important;
+        max-height: 3rem !important;
+      }
+
+      atomic-result-section-title {
+        font-size: 33px !important;
+        line-height: normal !important;
+        min-height: 33px;
       }
     </style>
     <atomic-result-section-title>
