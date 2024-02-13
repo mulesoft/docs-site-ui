@@ -620,9 +620,8 @@
       navVersionButton.setAttribute('tabindex', '-1')
       const activeVersion = componentData.name === page.component ? page.version : currentVersionData.version
       const activeDisplayVersion = componentData.versions[activeVersion].displayVersion
-      const navVersionLabel = createElement('span', activeDisplayVersion)
+      const navVersionLabel = createElement('label', activeDisplayVersion)
       navVersionLabel.id = `combo-${componentData.name}-label`
-      navVersionLabel.classList.add('version-label')
       navVersionButton.appendChild(navVersionLabel)
       const navVersion = createElement('div.nav-version', { dataset: { version: activeVersion } })
       navVersion.setAttribute('tabindex', '0')
@@ -720,7 +719,7 @@
       } else {
         var versionData
         var navVersion = navItem.querySelector('.nav-version')
-        const navVersionLabel = navVersion.parentElement.querySelector('.version-label')
+        const navVersionLabel = navVersion.parentElement.querySelector('label')
         if (selectedVersion) {
           navVersion.dataset.version = selectedVersion
           versionData = componentData.versions[selectedVersion]
