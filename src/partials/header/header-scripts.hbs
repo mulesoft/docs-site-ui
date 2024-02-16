@@ -1,1 +1,11 @@
 <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-NH8DNZL" height="0" width="0" class="hidden-invisible"></iframe></noscript>
+
+{{! The two blocks scripts need to be separated for hypothesis apps to open in the review site }}
+<script type="application/json" class="js-hypothesis-config">
+  { "openSidebar": true, "openLoginForm": true }
+</script>
+
+<script type="application/json" class="js-hypothesis-config">
+  { "sidebarAppUrl": "https://dev-docs-review-h.kdev.msap.io/app.html" }
+</script>
+<script async defer src="https://dev-docs-review-h.kdev.msap.io/embed.js"></script>
