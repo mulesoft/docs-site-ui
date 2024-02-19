@@ -7,11 +7,10 @@
   let tries = 500
 
   const addVersionFacets = () => {
-    const atomicFacetManager = atomicFacetsLayoutSection.querySelector('atomic-facet-manager')
     const components = window.siteNavigationData
     components.forEach((component) => {
       const versionFacet = createVersionFacet(component.name, component.title, component.versions)
-      if (versionFacet) atomicFacetManager.appendChild(versionFacet)
+      if (versionFacet) atomicFacetsLayoutSection.appendChild(versionFacet)
     })
     delete window.siteNavigationData
   }
