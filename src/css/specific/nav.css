@@ -304,9 +304,10 @@ svg.nav-icon {
   border: 1px solid var(--aluminum-4);
   border-radius: 1em;
   color: var(--steel-2);
+  cursor: pointer;
   display: flex;
   font-size: 0.75rem;
-  height: 1.75em;
+  height: 25px;
   min-height: unset;
   padding: 0 2px 0 6px;
   transform: translateY(0.075em);
