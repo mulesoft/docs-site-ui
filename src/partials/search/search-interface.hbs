@@ -6,7 +6,8 @@
     {{#if (eq (site-profile) 'jp' )}}search-hub="Documentation-jp" language="ja"{{else}}search-hub="Documentation"{{/if}}>
     <atomic-search-layout>
       <atomic-layout-section section="facets">
-      <atomic-facet facet-id="product" field="product" heading-level=2 label="{{#if (eq (site-profile) 'jp')}}製品別に絞り込み{{else}}Filter by Product{{/if}}"></atomic-facet>
+        <atomic-facet-manager></atomic-facet-manager>
+        <atomic-facet facet-id="product" field="product" heading-level=2 label="{{#if (eq (site-profile) 'jp')}}製品別に絞り込み{{else}}Filter by Product{{/if}}"></atomic-facet>
       </atomic-layout-section>
       <atomic-layout-section section="main">
         <atomic-layout-section section="status">
@@ -21,6 +22,8 @@
           <atomic-did-you-mean></atomic-did-you-mean>
         </atomic-layout-section>
         <atomic-layout-section section="results">
+          <atomic-smart-snippet collapsed-height="70" maximum-height="70"></atomic-smart-snippet>
+          <atomic-smart-snippet-suggestions></atomic-smart-snippet-suggestions>
           <atomic-result-list image-size="icon" density="normal">
             {{> search-result-template}}
           </atomic-result-list>
