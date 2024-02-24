@@ -629,6 +629,7 @@
       if (versions.length === 1) {
         navVersionButton = createElement('p.prev-flag.mule-blue')
         navVersionButton.textContent = activeDisplayVersion
+        navVersionButton.title = `${activeDisplayVersion} is the current and only version of ${componentData.title}`
       } else {
         navVersionButton = createElement('button.nav-version-button')
         navVersionButton.setAttribute('tabindex', '-1')
@@ -701,7 +702,6 @@
           e.preventDefault()
         })
         navVersionDropdown.addEventListener('click', trapEvent)
-        navVersionDropdown.appendChild(navVersionMenu)
       }
       navVersionButton.appendChild(navVersion)
       navVersionDropdown.appendChild(navVersionButton)
@@ -715,9 +715,11 @@
       navVersion.addEventListener('blur', () => {
         autoCloseVersionDropdown(navVersionMenu)
       })
+      if (versions.length > 1) navVersionDropdown.appendChild(navVersionMenu)
       navVersionMenu.lastChild?.addEventListener('blur', () => {
         autoCloseVersionDropdown(navVersionMenu)
       })
+
       return navVersionDropdown
     }
 
