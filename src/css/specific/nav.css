@@ -313,6 +313,7 @@ svg.nav-icon {
   font-size: 0.75rem;
   height: 25px;
   min-height: unset;
+  min-width: 54px;
   padding: 0 2px 0 6px;
   transform: translateY(0.075em);
 
@@ -337,6 +338,10 @@ svg.nav-icon {
     border: 1px solid var(--sds-g-color-blue-30);
     box-shadow: 0 0 0 3px #00a2df40;
     font-weight: var(--weight-bold);
+  }
+
+  & .version-label {
+    margin: auto;
   }
 }
 
