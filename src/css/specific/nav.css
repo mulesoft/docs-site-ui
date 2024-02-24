@@ -296,6 +296,10 @@ svg.nav-icon {
 
 .nav-version-dropdown {
   flex: none;
+  
+  & p {
+    margin: 0;
+  }
 }
 
 .nav-version-button {
