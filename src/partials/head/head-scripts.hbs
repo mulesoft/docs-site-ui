@@ -4,8 +4,6 @@
 {{/if}}
 {{#if (or env.COVEO_API_KEY env.COVEO_API_KEY_JP)}}
   {{> coveo-search-scripts org_id="mulesoftprodqzggq6re"}}
-{{/if}}
-{{#if (and (is-one-of (site-profile) "jp" "prod") (or env.COVEO_API_KEY env.COVEO_API_KEY_JP))}}
   {{> coveo-ua-script org_id="mulesoftprodqzggq6re"}}
 {{/if}}
 {{#if (eq (site-profile) 'review' )}}
