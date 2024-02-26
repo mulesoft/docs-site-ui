@@ -15,6 +15,7 @@
 
     const isProdSite = (hostname) => hostname === "docs.mulesoft.com";
 
-    if (isProdSite(window.location.hostname)) initCoveoUserAnalytics(organizationId, accessToken);
+    if (isProdSite(window.location.hostname))
+    if (accessToken) initCoveoUserAnalytics(organizationId, accessToken);
   })();
 </script>
