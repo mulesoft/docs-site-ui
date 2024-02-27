@@ -135,6 +135,8 @@
 
   const isBigScreenSize = () => window.matchMedia(' (min-width: 768px)').matches
 
+  const isJPReleaseNotes = (title) => title === 'リリースノート'
+
   const isVisible = (element) => {
     const rect = element.getBoundingClientRect()
     const viewHeight = Math.max(document.documentElement.clientHeight, window.innerHeight)
@@ -533,32 +535,35 @@
           return
         }
 
-        const navItem = createElement('li.nav-item')
-        if (navItemData.url) {
-          const navLink = this.createNavLink(navItemData)
-          if (navItemData.url === page.url) {
-            ;(lineage || []).forEach((el) => {
-              el.classList.add('is-active')
-            })
-            navItem.classList.add('is-active')
-            navLink.setAttribute('aria-current', 'page')
-          }
-          navItem.appendChild(navLink)
-        } else {
-          navItem.appendChild(createElement('span.nav-text', navItemData.content))
-          if (navItemData.items) {
-            navItem.lastChild.addEventListener('click', toggleSubNav.bind(navItem))
-          }
-        }
 
-        if (navItemData.items) {
-          const navItemToggle = this.createNavItemToggle(navItemData)
-          navItemToggle.ariaExpanded = navItem.classList.contains('is-active')
-          navItemToggle.addEventListener('click', toggleSubNav.bind(navItem))
-          navItem.insertBefore(navItemToggle, navItem.firstChild)
-          navItem.appendChild(this.createNavList(navItemData, undefined, (lineage || []).concat(navItem)))
+        if (!isJPReleaseNotes(navItemData.content)) {
+          const navItem = createElement('li.nav-item')
+          if (navItemData.url) {
+            const navLink = this.createNavLink(navItemData)
+            if (navItemData.url === page.url) {
+              ;(lineage || []).forEach((el) => {
+                el.classList.add('is-active')
+              })
+              navItem.classList.add('is-active')
+              navLink.setAttribute('aria-current', 'page')
+            }
+            navItem.appendChild(navLink)
+          } else {
+            navItem.appendChild(createElement('span.nav-text', navItemData.content))
+            if (navItemData.items) {
+              navItem.lastChild.addEventListener('click', toggleSubNav.bind(navItem))
+            }
+          }
+
+          if (navItemData.items) {
+            const navItemToggle = this.createNavItemToggle(navItemData)
+            navItemToggle.ariaExpanded = navItem.classList.contains('is-active')
+            navItemToggle.addEventListener('click', toggleSubNav.bind(navItem))
+            navItem.insertBefore(navItemToggle, navItem.firstChild)
+            navItem.appendChild(this.createNavList(navItemData, undefined, (lineage || []).concat(navItem)))
+          }
+          navList.appendChild(navItem)
         }
-        navList.appendChild(navItem)
       })
       return navList
     }
