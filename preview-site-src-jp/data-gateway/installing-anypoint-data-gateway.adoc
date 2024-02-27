@@ -2,9 +2,6 @@
 :keywords: データゲートウェイ, salesforce, sap, oracle, インストール
 :page-component-name: data-gateway
 
-// Support notification from PM.
-include::partial$support-warning.adoc[]
-
 Anypoint™ データゲートウェイは、Salesforce 管理パッケージとしてインストールするか、Anypoint Platform 経由でアクセスすることができます。Salesforce での管理パッケージのインストールについての詳細は、&#8203;https://help.salesforce.com/apex/HTViewHelpDoc?id=distribution_installing_packages.htm[Salesforce の公式ドキュメント] を参照してください。
 
 [TIP]

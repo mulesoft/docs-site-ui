@@ -7,7 +7,7 @@ asciidoc:
     maintenanceTime: '9:00 AM PDT'
     maintenanceDate: 'May 31, 2023'
 site:
-  url: &index_url /jp/general
+  url: &index_url /jp
   homeUrl: *index_url
   title: MuleSoft JP Documentation
   keys: {
