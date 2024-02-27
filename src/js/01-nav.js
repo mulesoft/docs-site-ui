@@ -535,7 +535,6 @@
           return
         }
 
-
         if (!isJPReleaseNotes(navItemData.content)) {
           const navItem = createElement('li.nav-item')
           if (navItemData.url) {
