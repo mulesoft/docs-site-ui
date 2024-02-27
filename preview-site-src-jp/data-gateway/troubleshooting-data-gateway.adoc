@@ -2,9 +2,6 @@
 :keywords: データゲートウェイ, salesforce, sap, oracle, db2, odata, mysql, sqlserver
 :page-component-name: data-gateway
 
-// Support notification from PM.
-include::partial$support-warning.adoc[]
-
 == エンタイトルメントのサポート
 
 Salesforce からデータゲートウェイデザイナにアクセスするには、Anypoint Platform アカウントに必要なエンタイトルメントが含まれていなければなりません。デザイナにアクセスできない場合は、これらのエンタイトルメントが MuleSoft との契約に含まれていることを確認してください。含まれていない場合は、MuleSoft アカウントチームにお問い合わせください。
