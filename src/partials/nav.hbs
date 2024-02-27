@@ -5,7 +5,7 @@
     <atomic-search-interface id="search" localization-compatibility-version="v4" {{#if (eq (site-profile) 'jp' )}}search-hub="Documentation-jp" language="ja"{{else}}search-hub="Documentation"{{/if}}>
       <atomic-search-layout>
           <atomic-layout-section section="search">
-              <atomic-search-box redirection-url="{{#if (or preview preview-jp)}}general/search.html{{else}}{{relativize site.url}}/general/search{{/if}}">
+              <atomic-search-box redirection-url="{{relativize site.url}}/general/search{{#if preview}}.html{{/if}}">
               </atomic-search-box>
           </atomic-layout-section>
       </atomic-search-layout>
