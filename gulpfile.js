@@ -140,6 +140,11 @@ const previewServeTask = createTask({
   call: task.serve(previewDestDir, serverConfig, () => watch(glob.all, previewBuildTask)),
 })
 
+const previewServeJpTask = createTask({
+  name: 'preview:serve-jp',
+  call: task.serve(previewDestDir, serverConfig, () => watch(glob.all, previewBuildJpTask)),
+})
+
 const previewTask = createTask({
   name: 'preview',
   desc: 'Generate a preview site and launch a server to view it',
@@ -149,7 +154,7 @@ const previewTask = createTask({
 const previewJpTask = createTask({
   name: 'preview-jp',
   desc: 'Generate a JP preview site and launch a server to view it',
-  call: series(updateTask, previewBuildJpTask, previewServeTask),
+  call: series(updateTask, previewBuildJpTask, previewServeJpTask),
 })
 
 module.exports = exportTasks(
