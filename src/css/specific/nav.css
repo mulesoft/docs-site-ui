@@ -340,8 +340,12 @@ svg.nav-icon {
     font-weight: var(--weight-bold);
   }
 
+  .tooltip-dot + .version-label {
+    margin-left: auto;
+}
+
   & .version-label {
-    margin: auto;
+    margin: auto auto auto 9px;
   }
 }
 
