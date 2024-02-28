@@ -299,6 +299,14 @@ svg.nav-icon {
   
   & p {
     margin: 0;
+    
+    &.prev-flag {
+      background: unset;
+      border: 1px solid var(--aluminum-4);
+      border-radius: 2em;
+      color: var(--steel-2);
+      font-family: var(--font-sans-serif);
+    }
   }
 }
 

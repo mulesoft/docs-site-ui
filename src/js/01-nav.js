@@ -627,7 +627,7 @@
       let navVersionButton
 
       if (versions.length === 1) {
-        navVersionButton = createElement('p.prev-flag.mule-blue')
+        navVersionButton = createElement('p.prev-flag')
         navVersionButton.textContent = activeDisplayVersion
         navVersionButton.title = `${activeDisplayVersion} is the current and only version of ${componentData.title}`
       } else {
