@@ -1,11 +1,16 @@
 ;(() => {
-  const hasSameOrigin = (href) => href.startsWith(window.location.origin)
+  const getAnchor = (url) => {
+    const urlParts = url.split('#')
+    return (urlParts.length > 1) ? urlParts[1] : null
+  }
+
+  const hasSameOrigin = (url) => url.startsWith(window.location.origin)
 
   const populateTitle = (a) => {
     if (a.hasAttribute('title')) return
-
-    a.setAttribute('title-loading', true)
     if (hasSameOrigin(a.href)) {
+      const anchor = getAnchor(a.href)
+      console.log(anchor)
       fetch(a.href).then((response) => {
         return response.text().then((html) => {
           /* eslint-disable no-undef */
