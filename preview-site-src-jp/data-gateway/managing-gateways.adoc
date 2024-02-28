@@ -2,9 +2,6 @@
 :keywords: データゲートウェイ, salesforce, sap, oracle
 :page-component-name: data-gateway
 
-// Support notification from PM.
-include::partial$support-warning.adoc[]
-
 == ログイン
 
 データゲートウェイを​xref:installing-anypoint-data-gateway.adoc[インストールした]​後、​*[MuleSoft]*​ タブに移動し、Anypoint データゲートウェイデザイナにアクセスします。
