@@ -32,7 +32,7 @@ If you're using the Data Gateway through the Anypoint Platform, then you must li
 
 === Salesforce
 
-* The product does not run after installation unless you complete the xref:installing-anypoint-data-gateway.adoc[post-installation steps].
+* The product does not run after installation unless you complete the xref:installing-anypoint-data-gateway.adoc#_post_installation_steps[post-installation steps].
 
 * Due to known issues in the Salesforce API, any publishing or synchronization issue can be easily fixed by going to *Setup* > *Develop* > *External Data sources*, selecting the published data source and clicking *Validate and Sync* (in Salesforce).
 
