@@ -9,6 +9,14 @@
   const hasSameOrigin = (url) => url.startsWith(window.location.origin)
   const isAnchor = (url) => url.startsWith('#')
 
+  const setTitle = (a, desc) => {
+    let titleText = desc.replace(/\n/g, ' ').replace(/ +/g, ' ').trim()
+    if (desc) {
+      titleText = titleText.length > MAX_TITLE_LENGTH ? `${titleText.substring(0, 512)}...` : titleText
+      a.setAttribute('title', titleText)
+    }
+  }
+
   const populateTitle = (a) => {
     if (a.hasAttribute('title')) return
     if (hasSameOrigin(a.href)) {
@@ -23,6 +31,7 @@
           desc =
             anchorElement.tagName === 'P' ? anchorElement.textContent : anchorElement.querySelector('p').textContent
         }
+        setTitle(a, desc)
       } else {
         fetch(a.href).then(async (response) => {
           const html = await response.text()
@@ -31,12 +40,8 @@
             /* eslint-enable no-undef */
             .parseFromString(html, 'text/html')
             .querySelector('#preamble p, article p').textContent
+          setTitle(a, desc)
         })
-      }
-      let titleText = desc.replace(/\n/g, ' ').replace(/ +/g, ' ').trim()
-      if (desc) {
-        titleText = titleText.length > MAX_TITLE_LENGTH ? `${titleText.substring(0, 512)}...` : titleText
-        a.setAttribute('title', titleText)
       }
     }
   }
