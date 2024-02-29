@@ -286,7 +286,6 @@ svg.nav-icon {
   height: 100%;
   margin-left: -6px;
   position: fixed;
-  width: 100%;
 
   &:focus {
     border: 1px solid var(--sds-g-color-blue-30);
