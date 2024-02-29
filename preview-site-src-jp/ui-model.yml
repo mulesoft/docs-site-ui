@@ -7,7 +7,7 @@ asciidoc:
     maintenanceTime: '9:00 AM PDT'
     maintenanceDate: 'May 31, 2023'
 site:
-  url: &index_url /jp/general
+  url: &index_url /jp
   homeUrl: *index_url
   title: MuleSoft JP Documentation
   keys: {
@@ -75,6 +75,20 @@ site:
             page-component-desc: Something about Data Gateway
       versions:
       - *data_gateway_latest
+    studio:
+      latest: &studio_latest
+        version: '7.15'
+        displayVersion: '7.15'
+        title: Studio
+        url: '#'
+        navigation:
+          - items:
+            - content: 概要
+              url: /jp/studio/index.html
+            - content: リリースノート
+              url: /jp/studio/release-notes.html
+      versions:
+      - *studio_latest
     connectors:
       latest: &connectors_latest
         version: ~

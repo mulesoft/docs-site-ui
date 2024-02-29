@@ -1,4 +1,4 @@
-  {{#if env.GOOGLE_ANALYTICS_KEY}}
+{{#if (and env.GOOGLE_ANALYTICS_KEY (ne (site-profile) 'jp'))}}
   <section class="feedback-section flex align-center col">
     <div class="feedback-row feedback-first-row flex align-center">
       <div>

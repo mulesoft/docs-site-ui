@@ -286,7 +286,6 @@ svg.nav-icon {
   height: 100%;
   margin-left: -6px;
   position: fixed;
-  width: 100%;
 
   &:focus {
     border: 1px solid var(--sds-g-color-blue-30);
@@ -296,6 +295,18 @@ svg.nav-icon {
 
 .nav-version-dropdown {
   flex: none;
+  
+  & p {
+    margin: 0;
+    
+    &.prev-flag {
+      background: unset;
+      border: 1px solid var(--aluminum-4);
+      border-radius: 2em;
+      color: var(--steel-2);
+      font-family: var(--font-sans-serif);
+    }
+  }
 }
 
 .nav-version-button {
@@ -304,10 +315,12 @@ svg.nav-icon {
   border: 1px solid var(--aluminum-4);
   border-radius: 1em;
   color: var(--steel-2);
+  cursor: pointer;
   display: flex;
   font-size: 0.75rem;
-  height: 1.75em;
+  height: 25px;
   min-height: unset;
+  min-width: 54px;
   padding: 0 2px 0 6px;
   transform: translateY(0.075em);
 
@@ -332,6 +345,14 @@ svg.nav-icon {
     border: 1px solid var(--sds-g-color-blue-30);
     box-shadow: 0 0 0 3px #00a2df40;
     font-weight: var(--weight-bold);
+  }
+
+  .tooltip-dot + .version-label {
+    margin-left: auto;
+}
+
+  & .version-label {
+    margin: auto auto auto 9px;
   }
 }
 

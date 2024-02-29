@@ -2,8 +2,6 @@
 :keywords: データゲートウェイ, salesforce, sap, oracle
 :page-component-name: data-gateway
 
-include::partial$support-warning.adoc[]
-
 == 概要
 
 ゲートウェイを作成して管理するには、次の手順に従います。データゲートウェイを ​xref:installing-anypoint-data-gateway.adoc[Salesforce 経由]​で使用する場合は、Salesforce アカウントから ​*[MuleSoft]*​ タブをクリックして Anypoint ゲートウェイデザイナにアクセスします。Anypoint Platform 経由で使用する場合は、​*[Data Gateway (データゲートウェイ)]*​ タブでアクセスします。
