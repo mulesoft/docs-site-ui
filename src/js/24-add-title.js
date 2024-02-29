@@ -1,7 +1,7 @@
 ;(() => {
   const getAnchor = (url) => {
     const urlParts = url.split('#')
-    return (urlParts.length > 1) ? urlParts[1] : null
+    return urlParts.length > 1 ? urlParts[1] : null
   }
 
   const hasSameOrigin = (url) => url.startsWith(window.location.origin)
@@ -21,18 +21,16 @@
           if (anchor) {
             const anchorElement = pageHTML.querySelector(`#${anchor}`)?.nextElementSibling
             if (anchorElement) {
-              desc = anchorElement.tagName === 'P'
-                ? anchorElement.textContent
-                : anchorElement.querySelector('p').textContent
+              desc =
+                anchorElement.tagName === 'P' ? anchorElement.textContent : anchorElement.querySelector('p').textContent
             }
           } else {
             desc = pageHTML.querySelector('#preamble p, article p').textContent
           }
+          let titleText = desc.replace(/\n/g, ' ').replace(/ +/g, ' ').trim()
           if (desc) {
-            a.setAttribute(
-              'title',
-              desc.replace(/\n/g, ' ').replace(/ +/g, ' ').trim()
-            )
+            titleText = titleText.length > 512 ? `${titleText.substring(0, 512)}...` : titleText
+            a.setAttribute('title', titleText)
           }
         })
       })
