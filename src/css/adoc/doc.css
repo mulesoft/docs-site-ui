@@ -401,7 +401,7 @@ p.badge,
 p.prev-flag {
   background: #e3066a;
   border-radius: 12px;
-  color: #fff !important;
+  color: #fff;
   display: inline-block;
   font-family: SFBold,Arial,sans-serif;
   font-size: 12px !important;

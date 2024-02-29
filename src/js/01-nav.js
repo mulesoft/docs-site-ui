@@ -135,6 +135,8 @@
 
   const isBigScreenSize = () => window.matchMedia(' (min-width: 768px)').matches
 
+  const isJPReleaseNotes = (title) => title === 'リリースノート'
+
   const isVisible = (element) => {
     const rect = element.getBoundingClientRect()
     const viewHeight = Math.max(document.documentElement.clientHeight, window.innerHeight)
@@ -533,32 +535,34 @@
           return
         }
 
-        const navItem = createElement('li.nav-item')
-        if (navItemData.url) {
-          const navLink = this.createNavLink(navItemData)
-          if (navItemData.url === page.url) {
-            ;(lineage || []).forEach((el) => {
-              el.classList.add('is-active')
-            })
-            navItem.classList.add('is-active')
-            navLink.setAttribute('aria-current', 'page')
+        if (!isJPReleaseNotes(navItemData.content)) {
+          const navItem = createElement('li.nav-item')
+          if (navItemData.url) {
+            const navLink = this.createNavLink(navItemData)
+            if (navItemData.url === page.url) {
+              ;(lineage || []).forEach((el) => {
+                el.classList.add('is-active')
+              })
+              navItem.classList.add('is-active')
+              navLink.setAttribute('aria-current', 'page')
+            }
+            navItem.appendChild(navLink)
+          } else {
+            navItem.appendChild(createElement('span.nav-text', navItemData.content))
+            if (navItemData.items) {
+              navItem.lastChild.addEventListener('click', toggleSubNav.bind(navItem))
+            }
           }
-          navItem.appendChild(navLink)
-        } else {
-          navItem.appendChild(createElement('span.nav-text', navItemData.content))
-          if (navItemData.items) {
-            navItem.lastChild.addEventListener('click', toggleSubNav.bind(navItem))
-          }
-        }
 
-        if (navItemData.items) {
-          const navItemToggle = this.createNavItemToggle(navItemData)
-          navItemToggle.ariaExpanded = navItem.classList.contains('is-active')
-          navItemToggle.addEventListener('click', toggleSubNav.bind(navItem))
-          navItem.insertBefore(navItemToggle, navItem.firstChild)
-          navItem.appendChild(this.createNavList(navItemData, undefined, (lineage || []).concat(navItem)))
+          if (navItemData.items) {
+            const navItemToggle = this.createNavItemToggle(navItemData)
+            navItemToggle.ariaExpanded = navItem.classList.contains('is-active')
+            navItemToggle.addEventListener('click', toggleSubNav.bind(navItem))
+            navItem.insertBefore(navItemToggle, navItem.firstChild)
+            navItem.appendChild(this.createNavList(navItemData, undefined, (lineage || []).concat(navItem)))
+          }
+          navList.appendChild(navItem)
         }
-        navList.appendChild(navItem)
       })
       return navList
     }
@@ -612,87 +616,99 @@
     }
 
     createNavVersionDropdown (navItem, componentData) {
+      const navVersionDropdown = createElement('.nav-version-dropdown')
       const versions = Object.values(componentData.versions)
       const currentVersionData = getCurrentVersionData(versions)
-      const navVersionDropdown = createElement('.nav-version-dropdown')
-      navVersionDropdown.addEventListener('click', trapEvent)
-      const navVersionButton = createElement('button.button.nav-version-button')
-      navVersionButton.setAttribute('tabindex', '-1')
       const activeVersion = componentData.name === page.component ? page.version : currentVersionData.version
-      const activeDisplayVersion = componentData.versions[activeVersion].displayVersion
-      const navVersionLabel = createElement('label', activeDisplayVersion)
-      navVersionLabel.id = `combo-${componentData.name}-label`
-      navVersionButton.appendChild(navVersionLabel)
       const navVersion = createElement('div.nav-version', { dataset: { version: activeVersion } })
-      navVersion.setAttribute('tabindex', '0')
-      navVersion.setAttribute('role', 'combobox')
-      navVersion.ariaExpanded = false
-      navVersion.ariaHasPopup = 'listbox'
-      navVersion.id = `combo-${componentData.name}`
-      navVersion.setAttribute('aria-labelledby', `combo-${componentData.name}-label`)
-      navVersion.setAttribute('aria-controls', `listbox-${componentData.name}`)
-      if (activeVersion === currentVersionData.version) {
-        addCurrentVersionIndicator(navVersionButton, 'tooltip-dot-nav-version-menu')
-      }
-      navVersionButton.appendChild(navVersion)
-      if (page.navVersionIconId) {
-        navVersionButton.appendChild(createSvgElement('.icon.nav-version-icon', '#' + page.navVersionIconId))
-      }
+      const activeDisplayVersion = componentData.versions[activeVersion].displayVersion
+
       const navVersionMenu = createElement('div.nav-version-menu')
       navVersionMenu.setAttribute('role', 'listbox')
       navVersionMenu.id = `listbox-${componentData.name}`
       navVersionMenu.setAttribute('aria-labelledby', `combo-${componentData.name}-label`)
-      versions.reduce((lastVersionData, versionData) => {
-        if (!isArchiveSite()) {
-          if (versionData === currentVersionData) {
-            navVersionMenu.appendChild(createElement('span.nav-version-label', currentVersion))
-          } else if (versionData.prerelease) {
-            if (!lastVersionData) {
-              navVersionMenu.appendChild(createElement('span.nav-version-label', 'Prerelease versions'))
+
+      let navVersionButton
+
+      if (versions.length === 1) {
+        navVersionButton = createElement('p.prev-flag')
+        navVersionButton.textContent = activeDisplayVersion
+        navVersionButton.title = `${activeDisplayVersion} is the current and only version of ${componentData.title}`
+      } else {
+        navVersionButton = createElement('button.nav-version-button')
+        navVersionButton.setAttribute('tabindex', '-1')
+        const navVersionLabel = createElement('span.version-label', activeDisplayVersion)
+        navVersionLabel.id = `combo-${componentData.name}-label`
+        navVersionButton.appendChild(navVersionLabel)
+
+        navVersion.setAttribute('tabindex', '0')
+        navVersion.setAttribute('role', 'combobox')
+        navVersion.ariaExpanded = false
+        navVersion.ariaHasPopup = 'listbox'
+        navVersion.id = `combo-${componentData.name}`
+        navVersion.setAttribute('aria-labelledby', `combo-${componentData.name}-label`)
+        navVersion.setAttribute('aria-controls', `listbox-${componentData.name}`)
+        if (activeVersion === currentVersionData.version) {
+          addCurrentVersionIndicator(navVersionButton, 'tooltip-dot-nav-version-menu')
+        }
+        if (page.navVersionIconId) {
+          navVersionButton.appendChild(createSvgElement('.icon.nav-version-icon', '#' + page.navVersionIconId))
+        }
+        versions.reduce((lastVersionData, versionData) => {
+          if (!isArchiveSite()) {
+            if (versionData === currentVersionData) {
+              navVersionMenu.appendChild(createElement('span.nav-version-label', currentVersion))
+            } else if (versionData.prerelease) {
+              if (!lastVersionData) {
+                navVersionMenu.appendChild(createElement('span.nav-version-label', 'Prerelease versions'))
+              }
+            } else if (lastVersionData === currentVersionData) {
+              navVersionMenu.appendChild(createElement('span.nav-version-label', previousVersions))
             }
-          } else if (lastVersionData === currentVersionData) {
-            navVersionMenu.appendChild(createElement('span.nav-version-label', previousVersions))
+          } else if (versionData === currentVersionData) {
+            navVersionMenu.appendChild(createElement('span.nav-version-label', 'Archived versions'))
           }
-        } else if (versionData === currentVersionData) {
-          navVersionMenu.appendChild(createElement('span.nav-version-label', 'Archived versions'))
-        }
-        const versionDataset = {
-          version: versionData.version,
-        }
-        const navVersionOption = createElement(
-          'button.nav-version-option',
-          { dataset: versionDataset },
-          versionData.displayVersion
-        )
-        navVersionOption.setAttribute('tabindex', '-1')
-        navVersionOption.id = `${componentData.name}-${versionData.displayVersion}`
-        navVersionOption.addEventListener('keydown', (e) => {
-          if (isSpaceOrEnterKey(e.keyCode)) {
-            setTabIndexForVersions()
+          const versionDataset = {
+            version: versionData.version,
           }
+          const navVersionOption = createElement(
+            'button.nav-version-option',
+            { dataset: versionDataset },
+            versionData.displayVersion
+          )
+          navVersionOption.setAttribute('tabindex', '-1')
+          navVersionOption.id = `${componentData.name}-${versionData.displayVersion}`
+          navVersionOption.addEventListener('keydown', (e) => {
+            if (isSpaceOrEnterKey(e.keyCode)) {
+              setTabIndexForVersions()
+            }
+          })
+          navVersionOption.addEventListener('focus', (e) => {
+            setAriaActiveDescendant(componentData.name, versionData.displayVersion, true)
+            e.stopPropagation()
+          })
+          navVersionOption.addEventListener('blur', () => {
+            setAriaActiveDescendant(componentData.name, versionData.displayVersion, false)
+          })
+          if (versionData === currentVersionData) {
+            addCurrentVersionIndicator(navVersionMenu, 'tooltip-dot-nav-version')
+          }
+          if (versionData.version === activeVersion) {
+            navVersionOption.classList.add('selected')
+          }
+          navVersionMenu
+            .appendChild(navVersionOption)
+            .addEventListener('click', (e) => this.selectVersion(navVersionMenu, navItem, componentData, e))
+          return versionData
+        }, undefined)
+        navVersionButton.addEventListener('mousedown', (e) => {
+          this.toggleVersionMenu(navVersionMenu)
+          e.preventDefault()
         })
-        navVersionOption.addEventListener('focus', (e) => {
-          setAriaActiveDescendant(componentData.name, versionData.displayVersion, true)
-          e.stopPropagation()
-        })
-        navVersionOption.addEventListener('blur', () => {
-          setAriaActiveDescendant(componentData.name, versionData.displayVersion, false)
-        })
-        if (versionData === currentVersionData) {
-          addCurrentVersionIndicator(navVersionMenu, 'tooltip-dot-nav-version')
-        }
-        if (versionData.version === activeVersion) {
-          navVersionOption.classList.add('selected')
-        }
-        navVersionMenu
-          .appendChild(navVersionOption)
-          .addEventListener('click', (e) => this.selectVersion(navVersionMenu, navItem, componentData, e))
-        return versionData
-      }, undefined)
-      navVersionButton.addEventListener('mousedown', (e) => {
-        this.toggleVersionMenu(navVersionMenu)
-        e.preventDefault()
-      })
+        navVersionDropdown.addEventListener('click', trapEvent)
+      }
+      navVersionButton.appendChild(navVersion)
+      navVersionDropdown.appendChild(navVersionButton)
       navVersion.addEventListener('keydown', (e) => {
         if (isSpaceOrEnterKey(e.keyCode)) {
           this.toggleVersionMenu(navVersionMenu)
@@ -700,14 +716,14 @@
           e.preventDefault()
         }
       })
-      navVersionDropdown.appendChild(navVersionButton)
-      navVersionDropdown.appendChild(navVersionMenu)
       navVersion.addEventListener('blur', () => {
         autoCloseVersionDropdown(navVersionMenu)
       })
-      navVersionMenu.lastChild.addEventListener('blur', () => {
+      if (versions.length > 1) navVersionDropdown.appendChild(navVersionMenu)
+      navVersionMenu.lastChild?.addEventListener('blur', () => {
         autoCloseVersionDropdown(navVersionMenu)
       })
+
       return navVersionDropdown
     }
 
@@ -717,9 +733,9 @@
           navItem.appendChild(this.createNavList(componentData.nav))
         }
       } else {
-        var versionData
-        var navVersion = navItem.querySelector('.nav-version')
-        const navVersionLabel = navVersion.parentElement.querySelector('label')
+        let versionData
+        const navVersion = navItem.querySelector('.nav-version')
+        const navVersionLabel = navVersion.parentElement.querySelector('.version-label')
         if (selectedVersion) {
           navVersion.dataset.version = selectedVersion
           versionData = componentData.versions[selectedVersion]
@@ -728,8 +744,8 @@
           selectedVersion = navVersion.dataset.version
           versionData = componentData.versions[selectedVersion]
         }
-        var navList = navItem.querySelector('.nav-list[data-version="' + selectedVersion + '"]')
-        var firstNavList = navItem.querySelector('.nav-list[data-version]')
+        let navList = navItem.querySelector('.nav-list[data-version="' + selectedVersion + '"]')
+        const firstNavList = navItem.querySelector('.nav-list[data-version]')
         if (navList) {
           if (navList !== firstNavList) {
             navItem.insertBefore(navList, firstNavList)
