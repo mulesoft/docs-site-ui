@@ -20,9 +20,11 @@
           let desc
           if (anchor) {
             const anchorElement = pageHTML.querySelector(`#${anchor}`)?.nextElementSibling
-            desc = anchorElement.tagName === 'P'
-              ? anchorElement.textContent
-              : anchorElement.querySelector('p').textContent
+            if (anchorElement) {
+              desc = anchorElement.tagName === 'P'
+                ? anchorElement.textContent
+                : anchorElement.querySelector('p').textContent
+            }
           } else {
             desc = pageHTML.querySelector('#preamble p, article p').textContent
           }
