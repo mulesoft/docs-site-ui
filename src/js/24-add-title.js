@@ -19,14 +19,19 @@
             .parseFromString(html, 'text/html')
           let desc
           if (anchor) {
-            desc = pageHTML.querySelector(`#${anchor}`).nextElementSibling.textContent
+            const anchorElement = pageHTML.querySelector(`#${anchor}`)?.nextElementSibling
+            desc = anchorElement.tagName === 'P'
+              ? anchorElement.textContent
+              : anchorElement.querySelector('p').textContent
           } else {
             desc = pageHTML.querySelector('#preamble p, article p').textContent
           }
-          a.setAttribute(
-            'title',
-            desc.replace(/\n/g, ' ').replace(/ +/g, ' ').trim()
-          )
+          if (desc) {
+            a.setAttribute(
+              'title',
+              desc.replace(/\n/g, ' ').replace(/ +/g, ' ').trim()
+            )
+          }
         })
       })
     }
