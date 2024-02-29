@@ -5,20 +5,24 @@
   }
 
   const hasSameOrigin = (url) => url.startsWith(window.location.origin)
+  const isAnchor = (url) => url.startsWith('#')
 
   const populateTitle = (a) => {
     if (a.hasAttribute('title')) return
-    if (hasSameOrigin(a.href)) {
+    if (hasSameOrigin(a.href) && !isAnchor(a.href)) {
       const anchor = getAnchor(a.href)
-      console.log(anchor)
       fetch(a.href).then((response) => {
         return response.text().then((html) => {
           /* eslint-disable no-undef */
-          const desc = new DOMParser()
+          const pageHTML = new DOMParser()
             /* eslint-enable no-undef */
             .parseFromString(html, 'text/html')
-            .querySelector('#preamble, article p').textContent
-          a.removeAttribute('title-loading')
+          let desc
+          if (anchor) {
+            desc = pageHTML.querySelector(`#${anchor}`).nextElementSibling.textContent
+          } else {
+            desc = pageHTML.querySelector('#preamble p, article p').textContent
+          }
           a.setAttribute(
             'title',
             desc.replace(/\n/g, ' ').replace(/ +/g, ' ').trim()
