@@ -1,5 +1,5 @@
 ;(() => {
-  const MAX_TITLE_LENGTH = 255
+  const MAX_TITLE_LENGTH = 150
 
   const getAnchor = (url) => {
     const urlParts = url.split('#')
