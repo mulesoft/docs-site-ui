@@ -24,14 +24,13 @@
             anchorElement.tagName === 'P' ? anchorElement.textContent : anchorElement.querySelector('p').textContent
         }
       } else {
-        fetch(a.href).then((response) => {
-          return response.text().then((html) => {
-            /* eslint-disable no-undef */
-            desc = new DOMParser()
-              /* eslint-enable no-undef */
-              .parseFromString(html, 'text/html')
-              .querySelector('#preamble p, article p').textContent
-          })
+        fetch(a.href).then(async (response) => {
+          const html = await response.text()
+          /* eslint-disable no-undef */
+          desc = new DOMParser()
+            /* eslint-enable no-undef */
+            .parseFromString(html, 'text/html')
+            .querySelector('#preamble p, article p').textContent
         })
       }
       let titleText = desc.replace(/\n/g, ' ').replace(/ +/g, ' ').trim()
