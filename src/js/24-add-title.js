@@ -1,4 +1,6 @@
 ;(() => {
+  const MAX_TITLE_LENGTH = 255
+
   const getAnchor = (url) => {
     const urlParts = url.split('#')
     return urlParts.length > 1 ? urlParts[1] : null
@@ -29,7 +31,7 @@
           }
           let titleText = desc.replace(/\n/g, ' ').replace(/ +/g, ' ').trim()
           if (desc) {
-            titleText = titleText.length > 512 ? `${titleText.substring(0, 512)}...` : titleText
+            titleText = titleText.length > MAX_TITLE_LENGTH ? `${titleText.substring(0, 512)}...` : titleText
             a.setAttribute('title', titleText)
           }
         })
