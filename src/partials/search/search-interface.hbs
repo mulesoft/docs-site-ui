@@ -8,6 +8,7 @@
       <atomic-layout-section section="facets">
         <atomic-facet-manager></atomic-facet-manager>
         <atomic-facet facet-id="product" field="product" heading-level=2 label="{{#if (eq (site-profile) 'jp')}}製品別に絞り込み{{else}}Filter by Product{{/if}}"></atomic-facet>
+        <atomic-facet allowed-values="[&quot;10.17 (Mule 4) [latest]&quot;, &quot;9.7 (Mule 4)&quot;, &quot;3.9 (Mule 3)&quot;]" depends-on-product="Salesforce Connector" facet-id="salesforce-connector-version" field="mulesoftversionwithlatest" heading-level="2" label="Salesforce Connector Version" number-of-value="20" sort-criteria="score" with-search="false" data-atomic-rendered="true" data-atomic-loaded="true" class="hydrated" number-of-values="8" results-must-match="atLeastOneValue" display-values-as="checkbox" filter-facet-count=""></atomic-facet>
       </atomic-layout-section>
       <atomic-layout-section section="main">
         <atomic-layout-section section="status">
