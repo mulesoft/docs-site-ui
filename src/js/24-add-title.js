@@ -4,7 +4,7 @@
   const CACHE_MAP = {}
 
   const hasSameOrigin = (url) => url.startsWith(window.location.origin)
-  const isAnchor = (url) => url.startsWith('#')
+  const isAnchorFromSamePage = (url) => url.startsWith('#')
   const separateURL = (url) => url.split('#')
 
   const setTitle = (a, title) => {
@@ -15,36 +15,34 @@
   }
 
   const populateTitle = (a) => {
-    if (a.hasAttribute('title')) return
-    if (hasSameOrigin(a.href)) {
-      let anchor, baseURL, title
+    if (a.hasAttribute('title') || !hasSameOrigin(a.href)) return
+    let anchor, baseURL, title
 
-      if (isAnchor(a.href)) [baseURL, anchor] = separateURL(a.href)
+    if (isAnchorFromSamePage(a.href)) [baseURL, anchor] = separateURL(a.href)
 
-      if (anchor) {
-        const anchorElement = document.querySelector(`#${anchor}`)?.nextElementSibling
-        if (anchorElement) {
-          title =
-            anchorElement.tagName === 'P' ? anchorElement.textContent : anchorElement.querySelector('p').textContent
-        }
+    if (anchor) {
+      const anchorElement = document.querySelector(`#${anchor}`)?.nextElementSibling
+      if (anchorElement) {
+        title =
+          anchorElement.tagName === 'P' ? anchorElement.textContent : anchorElement.querySelector('p').textContent
+        setTitle(a, title)
+      }
+    } else {
+      if (CACHE_MAP[baseURL]) {
+        const title = CACHE_MAP[baseURL]
         setTitle(a, title)
       } else {
-        if (CACHE_MAP[baseURL]) {
-          const title = CACHE_MAP[baseURL]
+        fetch(a.href).then(async (response) => {
+          const html = await response.text()
+          /* eslint-disable no-undef */
+          const domParser = new DOMParser()
+          /* eslint-enable no-undef */
+          const title = domParser
+            .parseFromString(html, 'text/html')
+            .querySelector('#preamble p, article p').textContent
+          CACHE_MAP[baseURL] = title
           setTitle(a, title)
-        } else {
-          fetch(a.href).then(async (response) => {
-            const html = await response.text()
-            /* eslint-disable no-undef */
-            const domParser = new DOMParser()
-            /* eslint-enable no-undef */
-            const title = domParser
-              .parseFromString(html, 'text/html')
-              .querySelector('#preamble p, article p').textContent
-            CACHE_MAP[baseURL] = title
-            setTitle(a, title)
-          })
-        }
+        })
       }
     }
   }
