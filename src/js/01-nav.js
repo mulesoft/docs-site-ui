@@ -7,6 +7,7 @@
 
   const homeTitle = MSCX.l10n.getMessage('left-nav-home-title')
   const currentVersion = MSCX.l10n.getMessage('left-nav-current-version')
+  const currentAndOnlyVersion = MSCX.l10n.getMessage('left-nav-current-only-version')
   const latestVersion = MSCX.l10n.getMessage('left-nav-latest-version')
   const previousVersions = MSCX.l10n.getMessage('left-nav-previous-versions')
 
@@ -633,7 +634,7 @@
       if (versions.length === 1) {
         navVersionButton = createElement('p.prev-flag')
         navVersionButton.textContent = activeDisplayVersion
-        navVersionButton.title = `${activeDisplayVersion} is the current and only version of ${componentData.title}`
+        navVersionButton.title = currentAndOnlyVersion
       } else {
         navVersionButton = createElement('button.nav-version-button')
         navVersionButton.setAttribute('tabindex', '-1')

@@ -12,6 +12,7 @@
       "landing-footer-archive-tooltip": "When a product version is no longer supported, including products with end-of-life status, its documentation moves to an archive site.",
       "latest": "latest",
       "left-nav-current-version": "Current version",
+      "left-nav-current-only-version": "This is the current and only version.",
       "left-nav-home-title": "Home",
       "left-nav-latest-version": "This is the latest version.",
       "left-nav-previous-versions": "Previous versions",
