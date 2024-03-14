@@ -7,7 +7,7 @@
   </header>
   {{#if (eq (site-profile) 'jp' )}}
   <div class='panel single-panel'>
-    {{{page.contents.trending-topics}}}
+    {{> trending-topics}}
   </div>
   {{else}}
   <div class='panels'>
@@ -16,7 +16,9 @@
     {{else}}
       {{> latest-releases}}
     {{/if}}
-    {{> trending-topics}}
+    <div class='panel'>
+      {{> trending-topics}}
+    </div>
   </div>
   {{/if}}
   {{{page.contents.the-road}}}
