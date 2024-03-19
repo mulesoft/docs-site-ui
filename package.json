@@ -79,6 +79,6 @@
     "tippy.js": "6.3.7",
     "typeface-open-sans": "1.1.13",
     "vinyl-buffer": "1.0.1",
-    "vinyl-fs": "3.0.3"
+    "vinyl-fs": "4.0.0"
   }
 }
