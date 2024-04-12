@@ -24,12 +24,18 @@
     return false
   }
 
+  function linkAlreadyContainsBrackets (linkElement) {
+    const linkText = linkElement.textContent
+    return linkText.includes('「') || linkText.includes('」') || linkText.includes('『') || linkText.includes('』')
+  }
+
   // Does not work in preview builds, only full builds include xref class above
   function wrapXrefLinksInJpBrackets () {
     xrefLinks.forEach((link) => {
       const linkUrl = new URL(link.href)
 
       if (!linkContainsText(link)) return
+      if (linkAlreadyContainsBrackets(link)) return
       if (linkIsOnlyContentInParent(link)) return
 
       if (linkUrl.hash) {
