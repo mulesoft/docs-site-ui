@@ -25,6 +25,10 @@ MSCX.l10n = (function () {
     }
   }
 
+  function lookupLocale () {
+    return locale
+  }
+
   function lookupMessage (messageKey) {
     if (!(messageKey in messages)) {
       console.error(`Missing UI string: ${messageKey}`)
@@ -79,5 +83,6 @@ MSCX.l10n = (function () {
 
   return {
     getMessage: lookupMessage,
+    getLocale: lookupLocale,
   }
 })()
