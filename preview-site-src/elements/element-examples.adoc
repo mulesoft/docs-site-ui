@@ -1,8 +1,9 @@
 = Elements
 :page-component-name: elements
-:page-notice-banner-message: This is a custom notice message
+:page-notice-banner-message: <strong>Custom Notice Banner:</strong> Enablement status is available in Anypoint Platform from <a href="https://anypoint.mulesoft.com/codebuilder/" target="_blank" rel="noopener">Anypoint Code Builder<img role="link" class="external-link-image" src="../_/img/icons/external-link.svg" alt="Leaving the Site" title="Leaving the Site"></a>
 
 This page contains different elements like tables, code blocks, etc. so you can verify that everything looks ok.
+
 
 == Table
 

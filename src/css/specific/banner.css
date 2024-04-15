@@ -23,6 +23,10 @@
     filter: grayscale(100%) brightness(0);
     height: 22px;
     margin: auto 10px;
+
+    & .external-link-image {
+      height: 12px;
+    }
   }
 
   & .close-button {
