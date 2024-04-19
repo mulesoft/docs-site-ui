@@ -1,6 +1,7 @@
 ;(() => {
   'use strict'
 
+  const searchProducts = MSCX.l10n.getMessage('search-results-filter-placeholder-text')
   const atomicFacetsLayoutSection = document.querySelector('atomic-layout-section[section="facets"]')
   if (!atomicFacetsLayoutSection) return
 
@@ -50,7 +51,7 @@
   const updateFacetTexts = (facetDiv) => {
     if (facetDiv) {
       const facetInput = facetDiv.querySelector('input')
-      if (facetInput) facetInput.placeholder = 'Search Products'
+      if (facetInput) facetInput.placeholder = searchProducts
     }
   }
 
