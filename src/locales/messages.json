@@ -25,6 +25,7 @@
       "right-nav-skip-to-main": "Skip to main content",
       "right-nav-skip-to-sections": "Skip to page content sections",
       "search-close-button": "Close",
+      "search-results-filter-placeholder-text": "Search Products",
       "search-toolbar-button": "Search Docs"
       },
     "jp": {
@@ -40,6 +41,7 @@
       "landing-footer-archive-tooltip": "製品のバージョンがサポートされなくなった場合 (有効期限切れ状況の製品を含む)、そのドキュメントはアーカイブサイトに移動されます。",
       "latest": "最新",
       "left-nav-current-version": "最新バージョン",
+      "left-nav-current-only-version": "これは、現在の唯一のバージョンです。",
       "left-nav-home-title": "ホーム",
       "left-nav-latest-version": "こちらは最新バージョンです。",
       "left-nav-previous-versions": "以前のバージョン",
@@ -50,6 +52,7 @@
       "mobile-table-hide": "非表示",
       "right-nav-on-this-page": "このページの内容:",
       "search-close-button": "閉じる",
+      "search-results-filter-placeholder-text": "製品を検索",
       "search-toolbar-button": "ドキュメントの検索"
     }
 }
