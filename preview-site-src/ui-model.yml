@@ -102,6 +102,17 @@ site:
             url: '#'
       versions:
       - *anypoint_cli_latest
+    idp:
+      latest: &idp_latest
+        version: ~
+        title: IDP
+        url: '#'
+        navigation:
+        - items:
+          - content: Test IDP Link
+            url: '#'
+      versions:
+      - *idp_latest
     rtfcloud:
       latest: &rtfcloud_latest
         version: ~
