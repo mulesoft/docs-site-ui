@@ -103,10 +103,19 @@
     originalExpandState = undefined
   }
 
+  const onlyShowFirstBreadcrumbVersion = () => {
+    const breadcrumbItems = document.querySelectorAll('.breadcrumbs-item-version')
+
+    for (let i = 1; i < breadcrumbItems.length; i++) {
+      breadcrumbItems[i].style.display = 'none'
+    }
+  }
+
   if (isHomePage(window.location.pathname)) {
     hideToolbar(document.querySelector('.toolbar'))
   } else {
     scrollRight(breadcrumbs)
     addListeners()
   }
+  onlyShowFirstBreadcrumbVersion()
 })()
