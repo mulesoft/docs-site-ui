@@ -16,7 +16,7 @@
     padding-right: var(--xl);
   }
 
-  & button:not(.search-page-back-button) {
+  & button:not(.search-page-back-button, .breadcrumbs-toggle) {
     height: 30px;
     min-height: unset;
   }

@@ -115,7 +115,7 @@
     hideToolbar(document.querySelector('.toolbar'))
   } else {
     scrollRight(breadcrumbs)
-    addListeners()
   }
+  addListeners()
   onlyShowFirstBreadcrumbVersion()
 })()
