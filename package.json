@@ -34,7 +34,7 @@
     "autoprefixer": "10.4.19",
     "browser-pack-flat": "3.5.0",
     "browserify": "17.0.0",
-    "core-js": "3.34.0",
+    "core-js": "3.37.1",
     "cssnano": "6.0.3",
     "eslint": "8.56.0",
     "eslint-config-standard": "17.1.0",
