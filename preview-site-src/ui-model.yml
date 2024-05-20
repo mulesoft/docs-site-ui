@@ -9,7 +9,7 @@ asciidoc:
 site:
   url: &index_url /
   homeUrl: *index_url
-  title: MuleSoft Documentation
+  title: MuleSoft
   keys: {
   ## uncomment the following line to switch site-profile to jp
     # siteProfile: 'jp'
