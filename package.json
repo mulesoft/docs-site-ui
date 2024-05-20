@@ -46,7 +46,7 @@
     "gulp": "4.0.2",
     "gulp-concat": "2.6.1",
     "gulp-connect": "5.7.0",
-    "gulp-eslint-new": "1.8.4",
+    "gulp-eslint-new": "1.9.1",
     "gulp-imagemin": "7.1.0",
     "gulp-postcss": "9.0.1",
     "gulp-replace": "^1.1.4",
