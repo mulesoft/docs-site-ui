@@ -11,8 +11,7 @@ site:
   homeUrl: *index_url
   title: MuleSoft Documentation
   keys: {
-  ## uncomment the following line to switch site-profile to jp
-    # siteProfile: 'jp'
+    siteProfile: 'preview'
   }
   components:
     general:
