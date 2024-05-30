@@ -5,6 +5,7 @@
   if (!breadcrumbs.length) return
 
   const breadcrumbsToggleButton = document.querySelector('button.breadcrumbs-toggle')
+  if (!breadcrumbsToggleButton) return
   const secondaryBreadcrumbsDrawer = document.querySelector('.secondary-breadcrumbs-drawer')
 
   let originalExpandState
