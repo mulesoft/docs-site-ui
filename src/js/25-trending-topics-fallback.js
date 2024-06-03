@@ -10,7 +10,8 @@
       try {
         if (recsListShadowRoot.childElementCount === 0) {
           const trendingTopicsFallback = 'trendingTopicsFallback'
-          trendingTopicsFallback[document.documentElement.lang].forEach((link) => {
+          // TODO: add title
+          trendingTopicsFallback[document.documentElement.lang].links.forEach((link) => {
             const a = document.createElement('a')
             a.innerText = link.name
             a.setAttribute('href', link.url)

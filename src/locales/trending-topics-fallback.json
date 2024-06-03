@@ -1,5 +1,7 @@
 {
-    "en": [
+  "en": {
+    "title": "Trending Topics",
+    "links": [
       {
         "name": "Format Dates and Times",
         "url": "https://docs.mulesoft.com/dataweave/latest/dataweave-cookbook-format-dates"
@@ -28,8 +30,11 @@
         "name": "Connectors",
         "url": "https://docs.mulesoft.com/connectors/"
       }
-    ],
-    "jp": [
+    ]
+  },
+  "jp": {
+    "title": "トレンドトピック",
+    "links": [
       {
         "name": "日付と時刻の書式設定",
         "url": "https://docs.mulesoft.com/jp/dataweave/latest/dataweave-cookbook-format-dates"
@@ -59,4 +64,5 @@
         "url": "https://docs.mulesoft.com/jp/connectors/"
       }
     ]
+  }
 }
