@@ -4,19 +4,10 @@
   if (!document.querySelector('atomic-recs-interface')) return
 
   const addFallbackLinks = (parentDiv) => {
-    const trendingTopicsFallback = 'trendingTopicsFallback'
-    const title = document.createElement('h2')
-    title.innerText = trendingTopicsFallback[document.documentElement.lang].title
-    parentDiv.appendChild(title)
-    trendingTopicsFallback[document.documentElement.lang].links.forEach((link) => {
-      const div = document.createElement('div')
-      const a = document.createElement('a')
-      a.innerText = link.name
-      a.setAttribute('href', link.url)
-      a.classList.add('trending-topics-hardcoded')
-      parentDiv.appendChild(div)
-      div.appendChild(a)
-    })
+    const trendingTopicsFallbackDiv = document.querySelector('#trending-topics-fallback')
+    if (trendingTopicsFallbackDiv) {
+      trendingTopicsFallbackDiv.classList.remove('hidden')
+    }
   }
 
   const hasValidRecommendations = (recsListShadowRoot) => {
@@ -37,7 +28,7 @@
       try {
         if (!hasValidRecommendations(recsListShadowRoot)) {
           addFallbackLinks(atomicRecsList.parentElement.parentElement)
-          atomicRecsList.remove()
+          atomicRecsList.parentElement.remove()
         }
       } catch (error) {
         console.error(error)

@@ -284,7 +284,7 @@ nav {
   }
 }
 
-a.trending-topics-hardcoded::before {
+#trending-topics-fallback > * > a::before {
   border: 3px solid black;
   border-radius: 50%;
   content: "";
