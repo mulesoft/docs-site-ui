@@ -25,7 +25,7 @@
     if (atomicRecsResult) {
       const recsResultShadowRoot = atomicRecsResult.shadowRoot
       const atomicText = recsResultShadowRoot.querySelector('atomic-text')
-      return atomicText.value !== 'no-title'
+      return atomicText?.value !== 'no-title'
     }
     return true
   }
