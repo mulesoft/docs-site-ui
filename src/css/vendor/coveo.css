@@ -284,14 +284,11 @@ nav {
   }
 }
 
-a.trending-topics-hardcoded:before {
-  content: "";
-  border-radius: 50%;
+a.trending-topics-hardcoded::before {
   border: 3px solid black;
+  border-radius: 50%;
+  content: "";
   display: inline-grid;
-  margin-left: 8px;
-  margin-right: 14px;
-  margin-top: 20px;
-  margin-bottom: 5px;
+  margin: 20px 14px 5px 8px;
   vertical-align: super;
 }
