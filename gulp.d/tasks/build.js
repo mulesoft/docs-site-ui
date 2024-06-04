@@ -58,9 +58,6 @@ module.exports = (src, dest, preview) => () => {
       .pipe(replace(/'includeLocMessagesAtBuildtime'/g, fs.readFileSync(`${src}/locales/messages.json`, 'utf-8')))
       .pipe(replace(/'feedbackQuestions'/g, fs.readFileSync(`${src}/locales/feedback-questions.json`, 'utf-8')))
       .pipe(replace(/'surveyIDs'/g, fs.readFileSync(`${src}/locales/survey-ids.json`, 'utf-8')))
-      .pipe(
-        replace(/'trendingTopicsFallback'/g, fs.readFileSync(`${src}/locales/trending-topics-fallback.json`, 'utf-8'))
-      )
       .pipe(uglify())
       .pipe(concat('js/site.js')),
     vfs
