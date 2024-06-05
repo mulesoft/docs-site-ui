@@ -8,6 +8,7 @@
   {{#if (eq (site-profile) 'jp' )}}
   <div class='panel single-panel'>
     {{> trending-topics}}
+    {{> trending-topics-fallback-jp }}
   </div>
   {{else}}
   <div class='panels'>
@@ -18,6 +19,7 @@
     {{/if}}
     <div class='panel'>
       {{> trending-topics}}
+      {{> trending-topics-fallback-en }}
     </div>
   </div>
   {{/if}}

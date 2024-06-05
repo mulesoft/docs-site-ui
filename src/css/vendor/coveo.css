@@ -283,3 +283,12 @@ nav {
     max-height: 72px;
   }
 }
+
+#trending-topics-fallback > * > a::before {
+  border: 3px solid black;
+  border-radius: 50%;
+  content: "";
+  display: inline-grid;
+  margin: 18px 14px 5px 8px;
+  vertical-align: super;
+}
