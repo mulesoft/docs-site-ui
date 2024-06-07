@@ -5,8 +5,10 @@
       coveoua("init", accessToken, `https://${organizationId}.analytics.org.coveo.com`);
       coveoua("send", "view", {
         contentIdKey: '@clickableUri',
-        contentIdValue: window.location.href,
+        contentIdValue: `${window.location.origin}${window.location.pathname}`,
         contentType: 'Docs',
+        language: "{{#if (eq (site-profile) 'jp')}}ja{{else}}en{{/if}}",
+        location: `${window.location.origin}${window.location.pathname}`
       });
     }
     
