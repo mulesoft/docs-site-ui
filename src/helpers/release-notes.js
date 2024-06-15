@@ -78,9 +78,9 @@ const parseHTML = (html) => {
 const isVersion = (versionText) => {
   /* eslint-disable max-len */
   // https://confluence.internal.salesforce.com/pages/viewpage.action?spaceKey=MTDT&title=Use+the+Release+Notes+Templates
-  // examples: 1.0, 1.0.0, 2.11, 11.0, 4.x, 2.11.x
+  // examples: 1.0, 1.0.0, 2.11, 11.0, 4.x, 2.11.x, 2.4.30
   /* eslint-enable max-len */
-  return versionText.search('^([0-9])+.([0-9a-z])+(.[0-9])*$') > -1
+  return versionText.search('^([0-9])+.([0-9a-z]{1,3})+.([0-9a-z]{1,3})*$') > -1
 }
 
 const removeYear = (dateStr) => {
@@ -96,7 +96,7 @@ const cleanTitle = (title, version) => {
   if (title) {
     title = title.replace(/(Release Notes.*$)/, '').trim()
     if (version) {
-      title = title.replace(/(([0-9])+.([0-9a-z])+(.[0-9a-z])?$)/, '').trim()
+      title = title.replace(/(([0-9])+.([0-9a-z]{1,3})+.([0-9a-z]{1,3})?$)/, '').trim()
     }
   }
   return title
