@@ -96,7 +96,7 @@ const cleanTitle = (title, version) => {
   if (title) {
     title = title.replace(/(Release Notes.*$)/, '').trim()
     if (version) {
-      title = title.replace(/(([0-9])+.([0-9a-z])+(.[0-9a-z])?$)/, '').trim()
+      title = title.replace(/(([0-9]{1,2})+.([0-9a-z]{1,2})+(.[0-9a-z]{1,3})?$)/, '').trim()
     }
   }
   return title
