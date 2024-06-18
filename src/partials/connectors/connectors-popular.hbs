@@ -1,9 +1,8 @@
-{{#if (ne (site-profile) "archive")}}
 <section class="connectors-popular">
   <header class="header-connectors-title">Popular Connectors</header>
   <div class="flex popular-cards">
     {{#each (array 'salesforce' 'sap' 'amazon-s3') as |connectorName|}}
-    {{#with (lookup @root.site.components (concat connectorName '-connector')) as |connector|}}
+    {{#with (lookup (connectors) (concat connectorName '-connector')) as |connector|}}
     {{#with asciidoc}}
     <a class="card" href="{{relativize connector.url}}">
       <img loading="lazy" src="{{@root.uiRootPath}}/img/logos/{{attributes.page-vendor-name}}.png" alt="{{{attributes.page-vendor-title}}} Logo" class="card-img" height="50">
@@ -42,4 +41,3 @@
     {{/each}}
   </div>
 </section>
-{{/if}}

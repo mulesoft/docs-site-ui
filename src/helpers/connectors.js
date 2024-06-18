@@ -25,14 +25,18 @@ module.exports = function ({
         // Replace latest with a local version, rather than the latest imported version
         connector.latest = filteredVersions[0]
         connector.versions = filteredVersions
-        connectors[connector.title] = connector
+        connectors[component] = connector
       }
     }
 
-    const sortedConnectorTitles = Object.keys(connectors).sort()
+    const sortedByTitle = Object.keys(connectors).sort((a, b) => {
+      const aTitle = connectors[a].latest.title
+      const bTitle = connectors[b].latest.title
+      return aTitle.localeCompare(bTitle)
+    })
 
     const sortedConnectors = {}
-    sortedConnectorTitles.forEach((key) => {
+    sortedByTitle.forEach((key) => {
       sortedConnectors[key] = connectors[key]
     })
 
