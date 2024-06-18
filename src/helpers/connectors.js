@@ -25,11 +25,18 @@ module.exports = function ({
         // Replace latest with a local version, rather than the latest imported version
         connector.latest = filteredVersions[0]
         connector.versions = filteredVersions
-        connectors[component] = connector
+        connectors[connector.title] = connector
       }
     }
 
-    return connectors
+    const sortedConnectorTitles = Object.keys(connectors).sort()
+
+    const sortedConnectors = {}
+    sortedConnectorTitles.forEach((key) => {
+      sortedConnectors[key] = connectors[key]
+    })
+
+    return sortedConnectors
   }
 
   return getLocalConnectorComponents(site.components)
