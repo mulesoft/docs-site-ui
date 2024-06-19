@@ -29,7 +29,18 @@ module.exports = function ({
       }
     }
 
-    return connectors
+    const sortedByTitle = Object.keys(connectors).sort((a, b) => {
+      const aTitle = connectors[a].latest.title
+      const bTitle = connectors[b].latest.title
+      return aTitle.localeCompare(bTitle)
+    })
+
+    const sortedConnectors = {}
+    sortedByTitle.forEach((key) => {
+      sortedConnectors[key] = connectors[key]
+    })
+
+    return sortedConnectors
   }
 
   return getLocalConnectorComponents(site.components)
