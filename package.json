@@ -36,7 +36,7 @@
     "browserify": "17.0.0",
     "core-js": "3.37.1",
     "cssnano": "7.0.2",
-    "eslint": "8.57.0",
+    "eslint": "9.5.0",
     "eslint-config-standard": "17.1.0",
     "eslint-plugin-import": "2.29.1",
     "eslint-plugin-node": "11.1.0",
