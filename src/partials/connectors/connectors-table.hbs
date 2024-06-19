@@ -92,7 +92,7 @@
       if ((criteria.title && !connector_title.toLowerCase().includes(criteria.title)) || (criteria.runtime &&
           ((criteria.runtime === '3' && !connector.latestMule3Version) ||
           (criteria.runtime === '4' && connector.latestVersion.runtimeVersion !== '4'))) ||
-          (criteria.type && connector.type !== criteria.type)) return accum
+          (criteria.type && !connector.type.includes(criteria.type))) return accum
       var row = document.importNode(tmpl.content.querySelector('tr'), true)
       row.dataset.href = connector.latestVersion.url
       row.querySelector('.js-connector-icon').src = connector.iconURL
