@@ -25,7 +25,9 @@
     "title": "{{connector.title}}",
     "type": "{{attributes.page-connector-type}}",
     "iconURL":
-    {{#if (and attributes.page-exchange-group-id attributes.page-exchange-asset-id)}}
+    {{#if (and attributes.page-connector-icon-override attributes.page-connector-icon-url)}}
+      "{{attributes.page-connector-icon-url}}"
+    {{else if (and (not attributes.page-connector-icon-override) (and attributes.page-exchange-group-id attributes.page-exchange-asset-id))}}
       "https://anypoint.mulesoft.com/exchange/organizations/68ef9520-24e9-4cf2-b2f5-620025690913/assets/{{attributes.page-exchange-group-id}}/{{attributes.page-exchange-asset-id}}/icon/{{#if (not (is-null attributes.page-icon-extension))}}{{attributes.page-icon-extension}}{{else}}svg{{/if}}/"
     {{else}}
       "{{@root.uiRootPath}}/img/icons/connectors.svg"
