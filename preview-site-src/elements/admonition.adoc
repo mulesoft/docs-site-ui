@@ -5,7 +5,9 @@
 
 https://docs.antora.org/antora/latest/asciidoc/admonitions/[Antora docs reference]
 
-NOTE: If you go into the basement, see if you can find Kenny's parka.
+Admonitions created with the `NOTE:` shorthand:
+
+NOTE: If you go into the basement, see if you can find Kenny's `parka`.
 
 TIP: After someone sticks a fork in a socket, you'll need to reset the circuit in the dark basement.
 
@@ -14,3 +16,10 @@ WARNING: Never go into the basement.
 CAUTION: Don't stick forks in electric sockets.
 
 IMPORTANT: A monster lives in the basement.
+
+Admonitions created with the longer `[NOTE]` syntax and paragraph wrapping (as it's caused differences in styling before):
+
+[NOTE]
+--
+If you go into the basement, see if you can find Kenny's `parka`.
+--
