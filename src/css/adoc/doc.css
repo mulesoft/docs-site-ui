@@ -320,6 +320,7 @@
   }
 
   & p code,
+  & td code,
   & .calloutlist code {
     background: var(--aluminum-1);
     border: 1px solid var(--aluminum-3);
