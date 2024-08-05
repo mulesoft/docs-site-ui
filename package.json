@@ -63,7 +63,7 @@
     "postcss": "8.4.40",
     "postcss-calc": "10.0.0",
     "postcss-custom-media": "10.0.8",
-    "postcss-custom-properties": "13.3.12",
+    "postcss-custom-properties": "14.0.0",
     "postcss-import": "16.1.0",
     "postcss-nesting": "12.1.5",
     "postcss-url": "10.1.3",
