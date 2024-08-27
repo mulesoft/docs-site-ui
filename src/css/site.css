@@ -42,6 +42,7 @@
 @import "adoc/doc-footer.css";
 @import "adoc/abstract.css";
 @import "adoc/admonition-block.css";
+@import "adoc/collapsible-blocks.css";
 @import "adoc/description-list.css";
 @import "adoc/table.css";
 
