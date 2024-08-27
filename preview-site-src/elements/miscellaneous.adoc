@@ -58,10 +58,49 @@ Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor i
 
 Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
 
-== Details
+== Collapsible Blocks
 
-.Click to expand the details element
+.Stacked Collapsible Block 1 Title
 [%collapsible]
 ====
 The contents display when the element is expanded
 ====
+
+.Stacked Collapsible Block 2 Title
+[%collapsible]
+====
+The contents display when the element is expanded
+====
+
+=== Collapsible Block in a List
+
+. Step 1 of a list
+. Step 2 of a list
++
+.Click for more information
+[%collapsible]
+====
+[%header%autowidth.spread,cols="15%,35%,15%,35%"]
+|===
+| Field Name | Description | Required | Notes
+| *Upstream URL* | The URL to access for the proxy or the API. | Yes|  For example, you can use the URL of your API asset in Exchange. 
+| *Outbound TLS* | Specifies the TLS context to secure outbound traffic.  | No |  Only available on Mule 4+. If you can't see a context, ensure that you have the correct permissions.
+|===
+====
++
+. Step 3 of a list
+
+
+=== Collapsible Block in a Paragraph
+
+Log in to Anypoint Platform on your US or EU cloud host.
+
+.This is a super long title to test how wrapping works for collapsible blocks
+[%collapsible]
+====
+[discrete]
+=== Heading in a collapsible block
+* US cloud (non-EU host): https://anypoint.mulesoft.com/login/[Anypoint Platform (US)^]
+* EU cloud (EU host): https://eu1.anypoint.mulesoft.com/login/[Anypoint Platform (EU)^]
+====
+Some ending text
