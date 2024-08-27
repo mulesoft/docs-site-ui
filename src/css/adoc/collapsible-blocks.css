@@ -1,6 +1,6 @@
 details {
   border-radius: 8px;
-  box-shadow: 0px 8px 12px rgba(24,24,24,0.16), 0px 2px 8px rgba(24,24,24,0.08);
+  box-shadow: 0 8px 12px rgb(24 24 24 / 16%), 0 2px 8px rgba(24 24 24 / 8%);
   display: inline-block;
   min-width: 51%;
 }
@@ -57,7 +57,7 @@ summary:hover {
   background-color: var(--sds-g-color-blue-95);
 }
 
-summary:hover:after {
+summary:hover::after {
   background-color: var(--sds-g-color-blue-20);
 }
 
