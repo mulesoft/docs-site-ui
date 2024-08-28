@@ -90,7 +90,7 @@
     const output = {}
     const tableHeaders = table.querySelectorAll('th')
     tableHeaders.forEach((header) => {
-      output[header.innerText] = header.colSpan
+      output[header.textContent] = header.colSpan
     })
     return output
   }
