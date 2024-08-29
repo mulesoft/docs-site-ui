@@ -104,3 +104,15 @@ Log in to Anypoint Platform on your US or EU cloud host.
 * EU cloud (EU host): https://eu1.anypoint.mulesoft.com/login/[Anypoint Platform (EU)^]
 ====
 Some ending text
+
+=== Collapsible Block in an Admonition Block
+
+[NOTE]
+--
+When collapsible blocks are embedded in admonition blocks, the content should align to the inner block.
+
+.Collapsible Block Alignment Edge Case
+[%collapsible]
+====
+Previously, this content did not have any left padding.
+====

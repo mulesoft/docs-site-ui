@@ -13,7 +13,7 @@ details[open] > summary::after {
   transform: rotate(180deg);
 }
 
-details > .content {
+details > .content, .admonitionblock details > .content {
   padding: 12px 32px;
 }
 
