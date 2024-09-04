@@ -110,6 +110,7 @@ Some ending text
 [NOTE]
 --
 When collapsible blocks are embedded in admonition blocks, the content should align to the inner block.
+--
 
 .Collapsible Block Alignment Edge Case
 [%collapsible]
