@@ -362,6 +362,11 @@ div.panels table {
         padding: 0;
         width: initial;
 
+        & code.hljs {
+          border: 0;
+          padding: 15px 0;
+        }
+
         & a,
         & code,
         & ul {
