@@ -2,7 +2,7 @@
   <span class="mobile-nav-focus-trapper"></span>
   {{#if (or preview (is-one-of (site-profile) 'prod' 'jp'))}}
   <div class="search">
-    <atomic-search-interface id="search" localization-compatibility-version="v4" {{#if (eq (site-profile) 'jp' )}}search-hub="Documentation-jp" language="ja"{{else}}search-hub="Documentation"{{/if}}>
+    <atomic-search-interface id="search" localization-compatibility-version="v4" {{#if (eq (site-profile) 'jp' )}}search-hub="mulesoft-docs-jp" language="ja"{{else}}search-hub="mulesoft-docs"{{/if}}>
       <atomic-search-layout>
           <atomic-layout-section section="search">
               <atomic-search-box redirection-url="{{relativize site.url}}/general/search{{#if preview}}.html{{/if}}">

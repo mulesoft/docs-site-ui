@@ -22,7 +22,7 @@
       if (formattedVersions) {
         const versionFacet = document.createElement('atomic-facet')
         versionFacet.setAttribute('allowed-values', formattedVersions)
-        versionFacet.setAttribute('depends-on-product', componentDisplayName)
+        versionFacet.setAttribute('depends-on-mulesoftproduct', componentDisplayName)
         versionFacet.setAttribute('facet-id', `${componentID}-version`)
         versionFacet.setAttribute('field', 'mulesoftversionwithlatest')
         versionFacet.setAttribute('heading-level', 2)
