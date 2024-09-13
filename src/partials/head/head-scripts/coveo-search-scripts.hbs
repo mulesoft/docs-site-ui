@@ -43,10 +43,10 @@
       }
     }
 
-    // no need to hide this token - it has extremely limited privilege and will show in the source code anyway
-    // TODO: store the CR token in Jenkins so it's easier to rotate if needed
-    const crToken = "xxb149e86e-a23c-43f6-9840-95d0bfa55830";
-
-    initContentRecommendations('mulesoftprodqzggq6re', crToken);
+    {{#if (or env.COVEO_CR_API_KEY env.COVEO_CR_API_KEY_JP)}}
+    const organizationId = "{{ org_id }}";
+    const crToken = "{{#if (eq (site-profile) 'jp')}}{{env.COVEO_CR_API_KEY_JP}}{{else}}{{env.COVEO_CR_API_KEY}}{{/if}}"
+    initContentRecommendations(organizationId, crToken);
+    {{/if}}
   })();
 </script>
