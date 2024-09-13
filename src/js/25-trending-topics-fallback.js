@@ -26,10 +26,10 @@
     const recsListShadowRoot = atomicRecsList?.shadowRoot
     if (recsListShadowRoot) {
       try {
-        if (!hasValidRecommendations(recsListShadowRoot)) {
-          addFallbackLinks(atomicRecsList.parentElement.parentElement)
-          atomicRecsList.parentElement.remove()
-        }
+        // if (!hasValidRecommendations(recsListShadowRoot)) {
+        addFallbackLinks(atomicRecsList.parentElement.parentElement)
+        atomicRecsList.parentElement.remove()
+        // }
       } catch (error) {
         console.error(error)
       }
