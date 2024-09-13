@@ -43,11 +43,10 @@
       }
     }
 
-    const organizationId = "{{ org_id }}";
     // no need to hide this token - it has extremely limited privilege and will show in the source code anyway
     // TODO: store the CR token in Jenkins so it's easier to rotate if needed
     const crToken = "xxb149e86e-a23c-43f6-9840-95d0bfa55830";
 
-    initContentRecommendations(organizationId, crToken);
+    initContentRecommendations('mulesoftprodqzggq6re', crToken);
   })();
 </script>
