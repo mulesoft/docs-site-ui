@@ -74,7 +74,7 @@
     }
   }
 
-  const isActive = (element) => element.classList.contains('is-active')
+  const isActive = (element) => element?.classList.contains('is-active')
 
   const setTabindex = (link) => {
     if (!inLeftnav(link)) {
