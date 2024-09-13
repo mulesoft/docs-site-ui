@@ -3,8 +3,8 @@
   {{> segment-script }}
 {{/if}}
 {{#if (or env.COVEO_API_KEY env.COVEO_API_KEY_JP)}}
-  {{> coveo-search-scripts org_id="coveosalesforcetestakshatha"}}
-  {{> coveo-ua-script org_id="coveosalesforcetestakshatha"}}
+  {{> coveo-search-scripts org_id="fullsalesforce"}}
+  {{> coveo-ua-script org_id="fullsalesforce"}}
 {{/if}}
 {{#if (eq (site-profile) 'review' )}}
   {{> review-site-scripts }}
