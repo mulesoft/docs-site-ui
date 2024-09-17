@@ -26,7 +26,8 @@
         versionFacet.setAttribute('facet-id', `${componentID}-version`)
         versionFacet.setAttribute('field', 'mulesoftversionwithlatest')
         versionFacet.setAttribute('heading-level', 2)
-        versionFacet.setAttribute('label', `${componentDisplayName} Version`)
+        const label = isJapaneseSite() ? 'バージョン' : 'Version'
+        versionFacet.setAttribute('label', `${componentDisplayName} ${label}`)
         versionFacet.setAttribute('number-of-value', 20)
         versionFacet.setAttribute('sort-criteria', 'score')
         versionFacet.setAttribute('with-search', false)
@@ -45,6 +46,7 @@
     }
   }
 
+  const isJapaneseSite = () => document.documentElement.lang === 'jp'
   const isNumberedVersion = (versionName) => !['default', 'latest', 'master'].includes(versionName)
   const isSearchable = (componentName) => !['general, reuse'].includes(componentName)
 
