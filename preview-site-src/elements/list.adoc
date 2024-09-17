@@ -47,19 +47,283 @@ term 3::
 
 == Tabs
 
+=== Basic Tabs Nested in a List
+
+. This is a basic procedure.
+. The procedure contains a set of tabs:
++
 [tabs]
 ====
-Tab A:: Contents of tab A.
+Item One:: Contents of tab 1.
 
-Tab B::
+Item Two::
 +
-Contents of tab B.
+Contents of tab 2.
 
-Tab C::
+Item Three::
 +
 --
-Contents of tab C.
+Contents of tab 3.
 
 Contains more than one block.
 --
+====
++
+. The procedure ends with a normal paragraph of text after the tab content. Note that there is no division between where the tab ends and where the following content begins.
+
+=== Long Tab Titles
+
+[tabs]
+====
+A Title That Wraps to the Next Line:: Contents of tab 1.
+A Tab Title That Is Honestly Way Too Long:: Contents of tab 2.
+====
+
+=== Many Tabs
+
+We have one instance of four tabs in our docs:
+
+[tabs]
+====
+Api Instances::
++
+[source,ssh]
+----
+cat api-instances.json
+----
++
+The `api-instances.json` file contents resemble the following:
++
+----
+[
+   {
+      "address":"http://0.0.0.0:8080",
+      "kind":"ApiInstance",
+      "name":"jsonplaceholder-api",
+      "namespace":"default",
+      "policies":[
+         {
+            "config":{
+               "password":"admin",
+               "username":"chris"
+            },
+            "extension":{
+               "kind":"Extension",
+               "name":"http-basic-authentication-flex",
+               "namespace":"default"
+            },
+            "kind":"Policy",
+            "name":"jsonplaceholder-api-http-basic-authentication-flex-1",
+            "namespace":"default"
+         },
+         {
+            "config":{
+               "destinationRef":{
+                  "kind":"Service",
+                  "name":"jsonplaceholder-api-jsonplaceholder",
+                  "namespace":"default"
+               }
+            }
+            "extension":{
+               "kind":"Extension",
+               "name":"route",
+               "namespace":"default"
+            },
+            "kind":"Policy",
+            "name":"jsonplaceholder-api-jsonplaceholder-route-1",
+            "namespace":"default",
+            "order":50,
+            "rules":[
+               {
+                  "path":"/api(/users/.*)"
+               },
+               {
+                  "path":"/api(/comments/.*)"
+               }
+            ]
+         },
+         {
+            "extension":{
+               "kind":"Extension",
+               "name":"envoy.filters.http.router",
+               "namespace":"default"
+            },
+            "kind":"Policy",
+            "name":"envoy.filters.http.router",
+            "namespace":"default",
+            "order":2147483647
+         }
+      ]
+   }
+]
+----
+
+Services::
++
+[source,ssh]
+----
+cat services.json
+----
++
+The `services.json` file contents resemble the following:
++
+----
+[
+   {
+      "address":"https://jsonplaceholder.typicode.com:443/",
+      "kind":"Service",
+      "name":"jsonplaceholder-api-jsonplaceholder",
+      "namespace":"default"
+   }
+]
+----
+
+
+Configuration::
++
+[source,ssh]
+----
+cat configuration.json
+----
++
+The `configuration.json` file contents resemble the following:
++
+----
+{
+  "internalMetrics": {
+    "enabled": false
+  },
+  "logging": {},
+  "platformConnection": {
+    "anypoint": {
+      "url": "https://anypoint.mulesoft.com"
+    },
+    "environment": {
+      "cluster_id": "4aa281e9-1a1d-4c56-8669-2d887b2e1938",
+      "env_id": "ad067f80-69ee-4abb-9d05-bec98ece1e20",
+      "org_id": "1caa0b9b-4f4d-43c4-a1b6-f925a8c77baa"
+    },
+    "logging": {
+      "certificate": {
+        "cert": "demo-local.pem",
+        "key": "demo-local.key"
+      },
+      "url": "https://logging.ingestion.us-east-1.msap.io/ingestion/api/v1/logging"
+    },
+    "metering": {
+      "certificate": {
+        "cert": "demo-local.pem",
+        "key": "demo-local.key"
+      },
+      "url": "https://metering.ingestion.us-east-1.msap.io/ingestion/api/v1/metering"
+    },
+    "mode": "offline",
+    "monitoring": {
+      "certificate": {
+        "cert": "demo-local.pem",
+        "key": "demo-local.key"
+      },
+      "url": "https://monitoring.ingestion.us-east-1.msap.io/ingestion/api/v1/monitoring"
+    },
+    "runtimeEvents": {
+      "certificate": {
+        "cert": "demo-local.pem",
+        "key": "demo-local.key"
+      },
+      "url": "https://anypoint.mulesoft.com/apiruntime/v1/events"
+    }
+  },
+  "resourceLimits": {
+    "apiInstances": 100,
+    "policies": 400
+  },
+  "sharedStorage": {},
+  "version": "1.1.0"
+}
+----
+
+Extensions::
++
+[source,ssh]
+----
+cat extensions.json
+----
++
+The `extensions.json` file contains all the policies available in Flex Gateway. The file contents resemble the following:
++
+----
+{
+    "extends": [
+      {
+        "kind": "Extension",
+        "labels": {
+          "flex.mulesoft.com/created-by": "flex-filesystem",
+          "flex.mulesoft.com/managed-by": "flex-filesystem"
+        },
+        "name": "extension-definition",
+        "namespace": "default"
+      },
+      {
+        "kind": "Extension",
+        "labels": {
+          "flex.mulesoft.com/created-by": "flex-filesystem",
+          "flex.mulesoft.com/managed-by": "flex-filesystem"
+        },
+        "name": "extension-qos",
+        "namespace": "default"
+      }
+    ],
+    "kind": "Extension",
+    "labels": {
+      "flex.mulesoft.com/created-by": "flex-filesystem",
+      "flex.mulesoft.com/managed-by": "flex-filesystem"
+    },
+    "name": "header-injection-definition",
+    "namespace": "default",
+    "properties": [
+      {
+        "name": "config",
+        "properties": [
+          {
+            "items": {
+              "name": "inboundHeaders",
+              "properties": [
+                {
+                  "name": "key",
+                  "type": "stringOrDataweave"
+                },
+                {
+                  "name": "value",
+                  "type": "stringOrDataweave"
+                }
+              ],
+              "type": "object"
+            },
+            "name": "inboundHeaders",
+            "type": "array"
+          },
+          {
+            "items": {
+              "name": "outboundHeaders",
+              "properties": [
+                {
+                  "name": "key",
+                  "type": "stringOrDataweave"
+                },
+                {
+                  "name": "value",
+                  "type": "stringOrDataweave"
+                }
+              ],
+              "type": "object"
+            },
+            "name": "outboundHeaders",
+            "type": "array"
+          }
+        ],
+        "type": "object"
+      }
+    ]
+  }
+----
 ====
