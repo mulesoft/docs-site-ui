@@ -51,18 +51,20 @@
       }
     </style>
     <atomic-result-section-title>
-      <atomic-result-link target="_blank"></atomic-result-link>
+      <atomic-result-link>
+        <atomic-result-text field="mulesoftcleantitle"></atomic-result-text>
+      </atomic-result-link>
     </atomic-result-section-title>
     <atomic-result-section-excerpt>
       <atomic-result-text field="excerpt"></atomic-result-text>
     </atomic-result-section-excerpt>
     <atomic-result-section-bottom-metadata>
       <atomic-result-fields-list>
-        <atomic-field-condition class="field" if-defined="product">
-          <atomic-result-text field="product"></atomic-result-text>
+        <atomic-field-condition class="field" if-defined="mulesoftproduct">
+          <atomic-result-text field="mulesoftproduct"></atomic-result-text>
         </atomic-field-condition>
-        <atomic-field-condition class="field" if-defined="version">
-          <atomic-result-text field="version"></atomic-result-text>
+        <atomic-field-condition class="field" if-defined="mulesoftversion">
+          <atomic-result-text field="mulesoftversion"></atomic-result-text>
         </atomic-field-condition>
         <atomic-field-condition class="field" if-defined="mulesoftislatestversion">
           <atomic-result-badge label="{{#if (eq (site-profile) 'jp')}}最新{{else}}latest version{{/if}}"></atomic-result-badge>

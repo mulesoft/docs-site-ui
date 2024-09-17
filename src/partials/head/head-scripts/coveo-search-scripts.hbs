@@ -1,7 +1,7 @@
 <script
   type="module"
-  src="https://static.cloud.coveo.com/atomic/v2.59.0/atomic.esm.js"
-  integrity="sha512-AL7vE/EC84co2I2IgpGApJE0rmlkFROOeASm2nhd33CXjySFhYYnU5v9yj4aTtQg3GEgcxQHS9dwH+SgPdFnjg=="
+  src="https://static.cloud.coveo.com/atomic/v2.78.1/atomic.esm.js"
+  integrity="sha512-OgBW+DXnwraEnF880Ejou/WPdroRMyauAbnGwm7oqY0GClQELEm8XPMvwIo/lJsau610xPfaKTdhjyIBTr1jEA=="
   crossorigin="anonymous">
 </script>
 <script nonce="**CSP_NONCE**">
@@ -43,11 +43,10 @@
       }
     }
 
+    {{#if (or env.COVEO_CR_API_KEY env.COVEO_CR_API_KEY_JP)}}
     const organizationId = "{{ org_id }}";
-    // no need to hide this token - it has extremely limited privilege and will show in the source code anyway
-    // TODO: store the CR token in Jenkins so it's easier to rotate if needed
-    const crToken = "xxb149e86e-a23c-43f6-9840-95d0bfa55830";
-
+    const crToken = "{{#if (eq (site-profile) 'jp')}}{{env.COVEO_CR_API_KEY_JP}}{{else}}{{env.COVEO_CR_API_KEY}}{{/if}}"
     initContentRecommendations(organizationId, crToken);
+    {{/if}}
   })();
 </script>
