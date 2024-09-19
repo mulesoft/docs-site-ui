@@ -160,7 +160,6 @@
         },
       ],
     },
-    /*
     {
       id: 'icon-nav-component-anypoint-cli',
       viewBox: '0 0 24 24',
@@ -174,7 +173,6 @@
         },
       ],
     },
-    */
     {
       id: 'icon-nav-component-anypoint-code-builder',
       viewBox: '0 0 24 24',
