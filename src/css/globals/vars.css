@@ -62,6 +62,7 @@
   --lume-c-icon-color-foreground-1: var(--sds-g-color-blue-20);
   --lume-c-icon-color-foreground-2: var(--sds-g-color-blue-40);
   --lume-c-icon-color-foreground-3: var(--sds-g-color-blue-60);
+  --lume-c-icon-color-background-1: #fff;
 
   /* Salesforce Design System typography */
   --sds-g-font-display: 'ITC Avant Garde', system-ui, -apple-system, blinkmacsystemfont, 'Segoe UI', roboto, 'Helvetica Neue', arial, 'Noto Sans', sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';

@@ -422,6 +422,17 @@ site:
             url: /runtime-manager/runtime-manager-cli.html
       versions:
       - *runtime_manager_latest
+    hyperforce:
+      latest: &hyperforce_latest
+        version: ~
+        title: Hyperforce
+        url: '#'
+        navigation:
+        - items:
+          - content: About Hyperforce
+            url: '#'
+      versions:
+      - *hyperforce_latest
 nav:
   subcomponents:
   - parent: connectors
