@@ -26,7 +26,8 @@
       "right-nav-skip-to-sections": "Skip to page content sections",
       "search-close-button": "Close",
       "search-results-filter-placeholder-text": "Search Products",
-      "search-toolbar-button": "Search Docs"
+      "search-toolbar-button": "Search Docs",
+      "version": "Version"
       },
     "jp": {
       "breadcrumbs-home": "ホームページ",
@@ -53,6 +54,7 @@
       "right-nav-on-this-page": "このページの内容:",
       "search-close-button": "閉じる",
       "search-results-filter-placeholder-text": "製品を検索",
-      "search-toolbar-button": "ドキュメントの検索"
+      "search-toolbar-button": "ドキュメントの検索",
+      "version": "バージョン"
     }
 }
