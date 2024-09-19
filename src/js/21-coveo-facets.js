@@ -2,6 +2,7 @@
   'use strict'
 
   const searchProducts = MSCX.l10n.getMessage('search-results-filter-placeholder-text')
+  const version = MSCX.l10n.getMessage('version')
   const atomicFacetsLayoutSection = document.querySelector('atomic-layout-section[section="facets"]')
   if (!atomicFacetsLayoutSection) return
 
@@ -26,7 +27,7 @@
         versionFacet.setAttribute('facet-id', `${componentID}-version`)
         versionFacet.setAttribute('field', 'mulesoftversionwithlatest')
         versionFacet.setAttribute('heading-level', 2)
-        versionFacet.setAttribute('label', `${componentDisplayName} Version`)
+        versionFacet.setAttribute('label', `${componentDisplayName} ${version}`)
         versionFacet.setAttribute('number-of-value', 20)
         versionFacet.setAttribute('sort-criteria', 'score')
         versionFacet.setAttribute('with-search', false)
