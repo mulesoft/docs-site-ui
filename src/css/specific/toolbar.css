@@ -10,9 +10,7 @@
     height: var(--toolbar-height);
     overflow-y: hidden;
 
-    @media (min-width: 768px) {
-      display: none;
-    }
+
   }
 
   @media (--lg) {

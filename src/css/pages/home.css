@@ -311,4 +311,10 @@ body.home {
   & a {
     font-weight: var(--weight-bold);
   }
+
+  & .toolbar:not(.search-toolbar) {
+    @media (min-width: 768px) {
+      display: none;
+    }
+  }
 }
