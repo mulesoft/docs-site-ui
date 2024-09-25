@@ -9,8 +9,6 @@
   &:not(.search-toolbar) {
     height: var(--toolbar-height);
     overflow-y: hidden;
-
-
   }
 
   @media (--lg) {
