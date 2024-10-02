@@ -59,7 +59,7 @@ const createNewBranch = async ({ octokit, owner, repo }, ref, newBranchName) => 
   }
 }
 
-const createPR = async ({ octokit, owner, repo }, tagName, ref, filePath, secretKey, passphrase) => {
+const createPR = async ({ octokit, owner, repo, tagName, ref, filePath, secretKey, passphrase}) => {
   console.log(`submitting PR to the ${repo} repo, ${ref} branch...`)
   const newBranchName = `${tagName}-for-${ref}`
   await createNewBranch({ octokit, owner, repo }, ref, newBranchName)
@@ -412,12 +412,16 @@ module.exports = (dest, bundleName, owner, repo, token, secretKey, passphrase, u
     if (secretKey) {
       for (const ref of baseBranches) {
         await createPR(
-          { octokit, owner, repo: 'docs-site-playbook' },
-          tagName,
-          ref,
-          'antora-playbook.yml',
-          secretKey,
-          passphrase
+          {
+            octokit,
+            owner,
+            repo: 'docs-site-playbook',
+            tagName,
+            ref,
+            filePath: 'antora-playbook.yml',
+            secretKey,
+            passphrase,
+          }
         )
       }
     } else {
