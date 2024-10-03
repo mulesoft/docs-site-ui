@@ -58,7 +58,7 @@ const createNewBranch = async ({ octokit, owner, repo }, ref, newBranchName) => 
   }
 }
 
-const createPR = async ({ octokit, owner, repo }, tagName, ref, sites, secretKey, passphrase) => {
+const createPR = async ({ octokit, owner, repo, tagName, ref, sites, secretKey, passphrase }) => {
   console.log(`submitting PR to the ${repo} repo...`)
   const newBranchName = tagName
   await createNewBranch({ octokit, owner, repo }, ref, newBranchName)
@@ -402,12 +402,16 @@ module.exports = (dest, bundleName, owner, repo, token, secretKey, passphrase, u
     await updateRelease(githubConfig, 'latest', bundleName, bundlePath)
     if (secretKey) {
       await createPR(
-        { octokit, owner, repo: 'docs-site-playbook' },
-        tagName,
-        defaultBranch,
-        ['archive', 'en', 'jp'],
-        secretKey,
-        passphrase
+        {
+          octokit,
+          owner,
+          repo: 'docs-site-playbook',
+          tagName,
+          defaultBranch,
+          sites: ['archive', 'en', 'jp'],
+          secretKey,
+          passphrase,
+        }
       )
     } else {
       console.log('Secret key is not found, skipping PRs creation in the playbook repo.')
