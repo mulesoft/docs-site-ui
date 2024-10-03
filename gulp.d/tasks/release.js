@@ -37,7 +37,7 @@ committer ${await userToString(committer)}
 ${message}`.trim()
 }
 
-const createNewBranch = async ({ octokit, owner, repo }, ref, newBranchName) => {
+const createNewBranch = async ({ octokit, owner, repo, ref, newBranchName }) => {
   if (!(await branchAlreadyExists({ octokit, owner, repo }, headsify(newBranchName)))) {
     console.log(`Creating new branch ${newBranchName}...`)
     const { data: baseRefData } = await octokit.rest.git.getRef({
@@ -61,7 +61,7 @@ const createNewBranch = async ({ octokit, owner, repo }, ref, newBranchName) => 
 const createPR = async ({ octokit, owner, repo, tagName, ref, sites, secretKey, passphrase }) => {
   console.log(`submitting PR to the ${repo} repo...`)
   const newBranchName = tagName
-  await createNewBranch({ octokit, owner, repo }, ref, newBranchName)
+  await createNewBranch({ octokit, owner, repo, ref, newBranchName })
   await updateContent({
     octokit, owner, repo, ref, newBranchName, tagName, sites, secretKey, passphrase,
   })
@@ -407,7 +407,7 @@ module.exports = (dest, bundleName, owner, repo, token, secretKey, passphrase, u
           owner,
           repo: 'docs-site-playbook',
           tagName,
-          defaultBranch,
+          ref: defaultBranch,
           sites: ['archive', 'en', 'jp'],
           secretKey,
           passphrase,
@@ -417,7 +417,7 @@ module.exports = (dest, bundleName, owner, repo, token, secretKey, passphrase, u
       console.log('Secret key is not found, skipping PRs creation in the playbook repo.')
     }
   } else if (isPR(branchName)) {
-    ;(await releaseExists(githubConfig, tagName))
+    ; (await releaseExists(githubConfig, tagName))
       ? await updateRelease(githubConfig, tagName, bundleName, bundlePath)
       : await createRelease(githubConfig, tagName, bundleName, bundlePath, branchName, updateBranch)
   } else {
