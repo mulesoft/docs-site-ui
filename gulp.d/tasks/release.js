@@ -10,7 +10,6 @@ const vfs = require('vinyl-fs')
 const zip = require('gulp-vinyl-zip')
 const { createMessage, decryptKey, readPrivateKey, sign } = require('openpgp')
 
-const baseBranches = ['archive', 'jp', 'main']
 const defaultBranch = 'main'
 
 const base64decode = async (str) => {
@@ -59,15 +58,18 @@ const createNewBranch = async ({ octokit, owner, repo }, ref, newBranchName) => 
   }
 }
 
-const createPR = async ({ octokit, owner, repo, tagName, ref, filePath, secretKey, passphrase}) => {
-  console.log(`submitting PR to the ${repo} repo, ${ref} branch...`)
-  const newBranchName = `${tagName}-for-${ref}`
+const createPR = async ({ octokit, owner, repo }, tagName, ref, sites, secretKey, passphrase) => {
+  console.log(`submitting PR to the ${repo} repo...`)
+  const newBranchName = tagName
   await createNewBranch({ octokit, owner, repo }, ref, newBranchName)
-  await updateContent({ octokit, owner, repo }, ref, newBranchName, tagName, filePath, secretKey, passphrase)
+  await updateContent({
+    octokit, owner, repo, ref, newBranchName, tagName, sites, secretKey, passphrase,
+  })
+
   await octokit.pulls.create({
     owner,
     repo,
-    title: `${tagName} for ${ref}`,
+    title: tagName,
     head: newBranchName,
     base: ref,
     body: `ref: https://github.com/mulesoft/docs-site-ui/releases/tag/${tagName}
@@ -254,26 +256,8 @@ const setBranchName = async (gitBranch) => {
 }
 
 const updateContent = async (
-  { octokit, owner, repo },
-  ref,
-  newBranchName,
-  tagName,
-  filePath,
-  secretKey,
-  passphrase
+  { octokit, owner, repo, ref, newBranchName, tagName, sites, secretKey, passphrase }
 ) => {
-  // Get the current contents of the file
-  const {
-    data: { content },
-  } = await octokit.repos.getContent({
-    owner,
-    repo,
-    ref,
-    path: filePath,
-  })
-
-  const newContent = await updateUIBundleVer(content, tagName)
-
   const {
     data: {
       object: { sha: latestCommitSha },
@@ -292,13 +276,27 @@ const updateContent = async (
     commit_sha: latestCommitSha,
   })
 
-  const {
-    data: { sha: newBlobSha },
-  } = await octokit.git.createBlob({
-    owner,
-    repo,
-    content: newContent,
-  })
+  const tree = []
+
+  for (const site of sites) {
+    const path = `${site}-playbook.yml`
+    const { data: { content } } = await octokit.repos.getContent({ owner, repo, ref, path })
+    const newContent = await updateUIBundleVer(content, tagName)
+    const {
+      data: { sha: newBlobSha },
+    } = await octokit.git.createBlob({
+      owner,
+      repo,
+      content: newContent,
+    })
+
+    tree.push({
+      path,
+      mode: '100644',
+      type: 'blob',
+      sha: newBlobSha,
+    })
+  }
 
   const {
     data: { sha: newTreeSha },
@@ -306,14 +304,7 @@ const updateContent = async (
     owner,
     repo,
     base_tree: latestTreeSha,
-    tree: [
-      {
-        path: filePath,
-        mode: '100644',
-        type: 'blob',
-        sha: newBlobSha,
-      },
-    ],
+    tree,
   })
 
   const commitPayload = {
@@ -410,20 +401,14 @@ module.exports = (dest, bundleName, owner, repo, token, secretKey, passphrase, u
     await createRelease(githubConfig, tagName, bundleName, bundlePath, branchName, updateBranch)
     await updateRelease(githubConfig, 'latest', bundleName, bundlePath)
     if (secretKey) {
-      for (const ref of baseBranches) {
-        await createPR(
-          {
-            octokit,
-            owner,
-            repo: 'docs-site-playbook',
-            tagName,
-            ref,
-            filePath: 'antora-playbook.yml',
-            secretKey,
-            passphrase,
-          }
-        )
-      }
+      await createPR(
+        { octokit, owner, repo: 'docs-site-playbook' },
+        tagName,
+        defaultBranch,
+        ['archive', 'en', 'jp'],
+        secretKey,
+        passphrase
+      )
     } else {
       console.log('Secret key is not found, skipping PRs creation in the playbook repo.')
     }
