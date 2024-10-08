@@ -27,7 +27,7 @@
     "@asciidoctor/core": "~2.2",
     "@asciidoctor/tabs": "latest",
     "@mulesoft/lume-icon": "^0.1.47",
-    "@mulesoft/lume-styling-hooks": "1.0.15",
+    "@mulesoft/lume-styling-hooks": "1.0.16",
     "@octokit/rest": "20.1.1",
     "@ronilaukkarinen/gulp-stylelint": "^14.1.1",
     "asciidoctor": "3.0.4",
