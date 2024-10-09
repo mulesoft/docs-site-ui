@@ -63,7 +63,15 @@ const createPR = async ({ octokit, owner, repo, tagName, ref, sites, secretKey, 
   const newBranchName = tagName
   await createNewBranch({ octokit, owner, repo, ref, newBranchName })
   await updateContent({
-    octokit, owner, repo, ref, newBranchName, tagName, sites, secretKey, passphrase,
+    octokit,
+    owner,
+    repo,
+    ref,
+    newBranchName,
+    tagName,
+    sites,
+    secretKey,
+    passphrase,
   })
 
   await octokit.pulls.create({
@@ -255,9 +263,7 @@ const setBranchName = async (gitBranch) => {
   return branchName.toLowerCase()
 }
 
-const updateContent = async (
-  { octokit, owner, repo, ref, newBranchName, tagName, sites, secretKey, passphrase }
-) => {
+const updateContent = async ({ octokit, owner, repo, ref, newBranchName, tagName, sites, secretKey, passphrase }) => {
   const {
     data: {
       object: { sha: latestCommitSha },
@@ -280,7 +286,9 @@ const updateContent = async (
 
   for (const site of sites) {
     const path = `${site}-playbook.yml`
-    const { data: { content } } = await octokit.repos.getContent({ owner, repo, ref, path })
+    const {
+      data: { content },
+    } = await octokit.repos.getContent({ owner, repo, ref, path })
     const newContent = await updateUIBundleVer(content, tagName)
     const {
       data: { sha: newBlobSha },
@@ -401,23 +409,21 @@ module.exports = (dest, bundleName, owner, repo, token, secretKey, passphrase, u
     await createRelease(githubConfig, tagName, bundleName, bundlePath, branchName, updateBranch)
     await updateRelease(githubConfig, 'latest', bundleName, bundlePath)
     if (secretKey) {
-      await createPR(
-        {
-          octokit,
-          owner,
-          repo: 'docs-site-playbook',
-          tagName,
-          ref: defaultBranch,
-          sites: ['archive', 'en', 'jp'],
-          secretKey,
-          passphrase,
-        }
-      )
+      await createPR({
+        octokit,
+        owner,
+        repo: 'docs-site-playbook',
+        tagName,
+        ref: defaultBranch,
+        sites: ['archive', 'en', 'jp'],
+        secretKey,
+        passphrase,
+      })
     } else {
       console.log('Secret key is not found, skipping PRs creation in the playbook repo.')
     }
   } else if (isPR(branchName)) {
-    ; (await releaseExists(githubConfig, tagName))
+    ;(await releaseExists(githubConfig, tagName))
       ? await updateRelease(githubConfig, tagName, bundleName, bundlePath)
       : await createRelease(githubConfig, tagName, bundleName, bundlePath, branchName, updateBranch)
   } else {
