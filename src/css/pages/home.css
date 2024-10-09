@@ -1,7 +1,9 @@
 body.home {
-  & article.doc {
+  & article.doc:not(#archive-homepage article.doc) {
     padding: 0;
+  }
 
+  & article.doc {
     & a {
       text-decoration: none;
     }
