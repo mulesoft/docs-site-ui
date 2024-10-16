@@ -2,9 +2,9 @@
   {{> gtm-scripts }}
   {{> segment-script }}
 {{/if}}
-{{#if (or env.COVEO_API_KEY env.COVEO_API_KEY_JP)}}
-  {{> coveo-search-scripts org_id="org62salesforce"}}
-  {{> coveo-ua-script org_id="org62salesforce"}}
+{{#if (and env.COVEO_ORG_ID (or env.COVEO_API_KEY env.COVEO_API_KEY_JP))}}
+  {{> coveo-search-scripts }}
+  {{> coveo-ua-script }}
 {{/if}}
 {{#if (eq (site-profile) 'review' )}}
   {{> review-site-scripts }}
