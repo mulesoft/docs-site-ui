@@ -20,10 +20,9 @@
       }
     }
     
-    const organizationId = "{{ org_id }}";
     const searchToken = "{{#if (eq (site-profile) 'jp')}}{{env.COVEO_API_KEY_JP}}{{else}}{{env.COVEO_API_KEY}}{{/if}}";
 
-    initSearch(organizationId, searchToken);
+    initSearch("{{ env.COVEO_ORG_ID }}", searchToken);
   })();
 </script>
 
@@ -43,10 +42,7 @@
       }
     }
 
-    {{#if (or env.COVEO_CR_API_KEY env.COVEO_CR_API_KEY_JP)}}
-    const organizationId = "{{ org_id }}";
     const crToken = "{{#if (eq (site-profile) 'jp')}}{{env.COVEO_CR_API_KEY_JP}}{{else}}{{env.COVEO_CR_API_KEY}}{{/if}}"
-    initContentRecommendations(organizationId, crToken);
-    {{/if}}
+    initContentRecommendations("{{ env.COVEO_ORG_ID }}", crToken);
   })();
 </script>

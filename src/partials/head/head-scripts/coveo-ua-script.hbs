@@ -12,13 +12,12 @@
       });
     }
     
-    const organizationId = "{{ org_id }}";
     const accessToken = "{{#if env.COVEO_API_KEY_JP}}{{env.COVEO_API_KEY_JP}}{{else}}{{env.COVEO_API_KEY}}{{/if}}";
 
     const isProdSite = (hostname) => hostname === "docs.mulesoft.com";
 
     if (isProdSite(window.location.hostname)) {
-      if (accessToken) initCoveoUserAnalytics(organizationId, accessToken);
+      if (accessToken) initCoveoUserAnalytics("{{ env.COVEO_ORG_ID }}", accessToken);
     }
   })();
 </script>
