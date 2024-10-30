@@ -24,7 +24,11 @@
     return img
   }
 
-  const isExternalLink = (url) => !url.startsWith(window.location.origin) && url.startsWith('http')
+  const isExternalLink = (url) =>
+    !url.startsWith(window.location.origin) && url.startsWith('http') && !isLocalToProd(window.location.origin, url)
+
+  const isLocalToProd = (origin, url) =>
+    (origin.startsWith('http://localhost') || origin.startsWith('file://')) && url.includes('docs.mulesoft.com')
 
   const opensInNewWindow = (linkTarget) => linkTarget === '_blank'
 
