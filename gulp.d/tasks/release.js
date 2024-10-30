@@ -241,7 +241,10 @@ const getRef = async (githubConfig, tagName) => {
 }
 
 const headsify = (branchName) => `heads/${branchName}`
-const isPR = (branchName) => branchName.toLowerCase().startsWith('pr-')
+const isPR = (branchName) => {
+  console.log(branchName)
+  branchName.toLowerCase().startsWith('pr-')
+}
 
 const normalizeOffset = async (offset, offsetIsZero = true) => {
   if (offsetIsZero) return '+0000'
