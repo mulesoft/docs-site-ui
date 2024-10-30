@@ -1,29 +1,11 @@
 #!/usr/bin/env groovy
 
+@Library('dev-docs-jenkins-shared-library') _
+
 emoji = ':sadpanda:'
 
 def defaultBranch = 'main'
 def failureSlackChannel = '#dux-engineering-github-prs'
-def nodeVersion = '20'
-
-// the following keywords are used to capture the correct error lines from a failed build's log
-
-// excludedKeywords are in alphabetical order and are case-sensitive
-excludedKeywords = ['[Pipeline]', 'make: ***', 'No such container', 'No such image']
-
-// catchKeywords must be kept in order of priority and are case-sensitive
-catchKeywords = [
-    'failed build', // failed CorePaaS builds. Since we don't have the capability to get the failed downstream job, this will do
-    ' 503 ', // 503 service not available. Happens when services like Jenkins, GUS, Nexus are down
-    ' 400 ', // 400 bad request. Happens when services like Jenkins, GUS, Nexus are not acting correctly
-    'fatal', // fatal errors, especially ones from Antora builds
-    'process apparently never started', // Jenkins restarts and breaks the build
-    'unauthorized', // permission issue typically from GitHub or Docker. Usually temporary and will go away on its own
-    'HttpError', // http related errors like rate limiting
-    'non-zero', // generic errors for non-zero error codes
-    'ERROR', // generic errors
-    'Error', // generic errors
-]
 
 pipeline {
   agent any
@@ -45,7 +27,7 @@ pipeline {
     }
     stage('Install Dependencies') {
       steps {
-        installNode(nodeVersion)
+        installNode()
         installNodeDependencies()
       }
     }
@@ -102,29 +84,12 @@ pipeline {
   }
 }
 
-def getErrorLine(lines, catchKeywords, excludedKeywords) {
-  def linesWithoutExcludedKeywords = lines.findAll { line ->
-    !excludedKeywords.any { keyword -> line.contains(keyword) }
-  }
-
-  def errorLine
-  for (keyword in catchKeywords) {
-    def filteredLines = linesWithoutExcludedKeywords.findAll { it.contains(keyword) }
-    if (filteredLines.size() > 0) {
-      errorLine = filteredLines.last()
-      break
-    }
-  }
-
-  return errorLine ?: 'Unknown error, check the build logs'
-}
-
-def getErrorMsg() {
+String getErrorMsg() {
   def logLines = currentBuild.rawBuild.getLog(Integer.MAX_VALUE)
-  return " ```${getErrorLine(logLines, catchKeywords, excludedKeywords)}```"
+  return buildUtils.getErrorMsg(logLines, buildUtils.getCatchKeywords(), buildUtils.getExcludedKeywords())
 }
 
-void installNode(String nodeVersion) {
+void installNode() {
   withCredentials([string(credentialsId: 'NPM_TOKEN', variable: 'NPM_TOKEN')]) {
     sh 'curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.5/install.sh | bash'
     env.ECHO_CMD = 'echo $NVM_BIN'
@@ -151,7 +116,6 @@ void release() {
   withCredentials([
     string(credentialsId: 'GH_TOKEN', variable: 'GH_TOKEN'),
     string(credentialsId: 'ms-cx-engineering-gpg-private-key' , variable: 'SECRET_KEY')]) {
-    sh 'export GIT_BRANCH=env.GIT_BRANCH'
-    sh 'npm run release'
-    }
+    sh 'GIT_BRANCH=env.GIT_BRANCH npm run release'
+  }
 }
