@@ -11,7 +11,7 @@
   }
 
   const hasValidRecommendations = (recsListShadowRoot) => {
-    if (recsListShadowRoot.childElementCount === 0) return false
+    if (recsListShadowRoot.childElementCount === 0 || recsListShadowRoot.querySelector('h2') == null) return false
     const atomicRecsResult = recsListShadowRoot.querySelector('atomic-recs-result')
     if (atomicRecsResult) {
       const recsResultShadowRoot = atomicRecsResult.shadowRoot
