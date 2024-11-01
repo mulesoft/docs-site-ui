@@ -45,6 +45,8 @@
 }
 
 atomic-external {
+  height: 40px;
+
   @media (min-width: 1024px) {
     grid-area: atomic-external;
     width: 80%;
@@ -142,7 +144,7 @@ atomic-results-per-page::part(label) {
 }
 
 nav atomic-search-box {
-  &::part(input) {
+  &::part(textarea) {
     font-size: var(--atomic-text-sm);
     padding-left: 2.5em;
   }
@@ -155,35 +157,19 @@ nav atomic-search-box {
 }
 
 atomic-search-box {
+  &::part(textarea-spacer) {
+    height: 40px;
+  }
+
   &::part(wrapper) {
     border-color: #909aa3;
     border-radius: var(--radius);
     height: 40px;
     margin-left: -4px;
-
-    &:focus-within {
-      --tw-ring-color: none;
-    }
-
-    & div {
-      padding-left: 40px;
-    }
   }
 
-  &::part(input) {
-    &::placeholder,
-    &:-ms-input-placeholder, /* Internet Explorer 10-11 */
-    &::-ms-input-placeholder {
-      /* Microsoft Edge */
-      color: var(--eyebrow-gray);
-      opacity: 1; /* Firefox */
-    }
-
-    &:active,
-    &:focus {
-      border: 1px solid var(--sds-g-color-blue-30);
-      box-shadow: 0 0 0 3px #00a2df40;
-    }
+  &::part(textarea) {
+    padding: 8px;
   }
 
   &::part(suggestions-wrapper) {
@@ -193,21 +179,9 @@ atomic-search-box {
   }
 
   &::part(submit-button) {
-    border-radius: 0 var(--radius) var(--radius) 0;
-    display: inline-flex;
-    height: 40px;
-    width: fit-content;
-
-    &:active,
-    &:focus {
-      background-color: var(--sds-g-color-blue-30);
-      border: 1px solid var(--sds-g-color-blue-30);
-      box-shadow: 0 0 0 3px #00a2df40;
+    &:hover {
+      background-color: var(--atomic-primary-light) !important;
     }
-  }
-
-  &::part(submit-icon) {
-    margin: auto 12px;
   }
 }
 
