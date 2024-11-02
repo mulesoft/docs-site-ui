@@ -178,11 +178,30 @@ atomic-search-box {
     box-shadow: 0 2px 3px #00000029;
   }
 
-  &::part(submit-button) {
-    &:hover {
-      background-color: var(--atomic-primary-light) !important;
-    }
+  &::part(submit-button-wrapper) {
+    margin: 0;
   }
+
+  &::part(submit-button) {
+    background-color: var(--atomic-primary);
+    border-radius: 0 var(--radius) var(--radius) 0;
+    color: var(--atomic-on-primary);
+    display: inline-flex;
+    height: 40px;
+    width: 40px;
+  }
+}
+
+/* for some reason, the active/focus/hover states for this need to be stated separately from the atomic-search-box block for them to work. */
+atomic-search-box::part(submit-button):active,
+atomic-search-box::part(submit-button):focus {
+  background-color: var(--sds-g-color-blue-30);
+  border: 1px solid var(--sds-g-color-blue-30);
+  box-shadow: 0 0 0 3px #00a2df40;
+}
+
+atomic-search-box::part(submit-button):hover {
+  background-color: var(--atomic-primary-light);
 }
 
 atomic-smart-snippet::part(smart-snippet),
