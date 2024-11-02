@@ -13,7 +13,6 @@
         await searchInterface.initialize({
           accessToken,
           organizationId,
-          analytics: {analyticsMode: 'legacy'},
         });
         if (window.location.href.includes('/search')) searchInterface.executeFirstSearch();
       }
