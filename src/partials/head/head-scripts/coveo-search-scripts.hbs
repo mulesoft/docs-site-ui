@@ -1,7 +1,7 @@
 <script
   type="module"
-  src="https://static.cloud.coveo.com/atomic/v2.78.1/atomic.esm.js"
-  integrity="sha512-OgBW+DXnwraEnF880Ejou/WPdroRMyauAbnGwm7oqY0GClQELEm8XPMvwIo/lJsau610xPfaKTdhjyIBTr1jEA=="
+  src="https://static.cloud.coveo.com/atomic/v3.7.0/atomic.esm.js"
+  integrity="sha512-fLs7ot1PpQgZRoHpoVrxF2zWq6OZsKE7uaZYVmiTnmwTUIehgr/nvfNhqcbPP0PWfy81tEBxMcXJe8H67sA1Pg=="
   crossorigin="anonymous">
 </script>
 <script nonce="**CSP_NONCE**">
@@ -10,11 +10,9 @@
       await customElements.whenDefined("atomic-search-interface");
       const searchInterface = document.querySelector("#search");
       if (searchInterface) {
-        const organizationEndpoints = await searchInterface.getOrganizationEndpoints(organizationId)
         await searchInterface.initialize({
           accessToken,
           organizationId,
-          organizationEndpoints,
         });
         if (window.location.href.includes('/search')) searchInterface.executeFirstSearch();
       }
