@@ -182,8 +182,6 @@ use ${osMap[this.clientOS].secondaryKeyLabelLong} + ${shortcutKeyMap.keyLabel}`
           this.searchboxTextarea.placeholder = 'Search Docs'
           // .getAttribute('aria-label') is used here instead of .ariaLabel
           // because for some reason, it returned an error in firefox
-          console.log(this.searchboxTextarea)
-          console.log(this.searchboxTextarea.getAttribute('aria-label'))
           this.searchboxTextarea.ariaLabel = this.searchboxTextarea
             .getAttribute('aria-label')
             .replace('Search field', 'Search Doc field')
