@@ -2,6 +2,7 @@
 /node_modules/
 /public/
 /.vscode/
+/.codegenie/
 .DS_Store
 .orig
 .idea

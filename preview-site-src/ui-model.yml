@@ -422,17 +422,17 @@ site:
             url: /runtime-manager/runtime-manager-cli.html
       versions:
       - *runtime_manager_latest
-    hyperforce:
-      latest: &hyperforce_latest
+    munit:
+      latest: &munit_latest
         version: ~
-        title: Hyperforce
+        title: Munit
         url: '#'
         navigation:
         - items:
-          - content: About Hyperforce
+          - content: About Munit
             url: '#'
       versions:
-      - *hyperforce_latest
+      - *munit_latest
 nav:
   subcomponents:
   - parent: connectors
