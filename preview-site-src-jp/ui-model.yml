@@ -52,6 +52,17 @@ site:
             urlType: external
       versions:
       - *general_latest
+    elements:
+      latest: &elements_latest
+        version: ~
+        title: Elements
+        url: '#'
+        navigation:
+        - items:
+          - content: Admonition
+            url: /elements/admonition.html
+      versions:
+      - *elements_latest
     data-gateway:
       latest: &data_gateway_latest
         version: '1.x'
