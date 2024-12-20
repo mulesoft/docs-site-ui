@@ -4,6 +4,7 @@ module.exports = ({
   data: {
     root: {
       page: { attributes },
+      site,
     },
   },
 }) => {
@@ -36,7 +37,15 @@ module.exports = ({
     ...pill,
   }))
 
-  const pillsToDisplay = mergedPills.filter((pill) => {
+  const mergedPillsFixedLinks = mergedPills.map((pill) => {
+    if (!pill.link.startsWith('/')) return pill // Leave relative and full URLs as-is
+    if (site.keys.siteProfile === 'jp') {
+      pill.link = `/jp${pill.link}`
+    }
+    return pill
+  })
+
+  const pillsToDisplay = mergedPillsFixedLinks.filter((pill) => {
     return attributePillsArray.includes(pill.name)
   })
 
