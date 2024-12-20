@@ -8,7 +8,7 @@ module.exports = ({
     },
   },
 }) => {
-  const definedPills = [
+  const pillsConfig = [
     {
       name: 'anypoint-pricing-core',
       link: '/monitoring/#billing',
@@ -28,11 +28,11 @@ module.exports = ({
     icon: 'info.svg',
   }
 
-  const attributePills = attributes['info-pills']
-  if (!attributePills) return {}
-  const attributePillsArray = attributePills.split(',').map((item) => item.trim())
+  const pillsOnPage = attributes['info-pills']
+  if (!pillsOnPage) return {}
+  const pillsOnPageArray = pillsOnPage.split(',').map((item) => item.trim())
 
-  const mergedPills = definedPills.map((pill) => ({
+  const mergedPills = pillsConfig.map((pill) => ({
     ...fallbackPillValues,
     ...pill,
   }))
@@ -46,7 +46,7 @@ module.exports = ({
   })
 
   const pillsToDisplay = mergedPillsFixedLinks.filter((pill) => {
-    return attributePillsArray.includes(pill.name)
+    return pillsOnPageArray.includes(pill.name)
   })
 
   return pillsToDisplay
