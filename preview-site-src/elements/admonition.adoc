@@ -2,6 +2,7 @@
 :keywords: admonition, admonitions, warning, section, notes
 :page-component-name: elements
 :page-support-status: eolScheduledFeature
+:page-info-pills: anypoint-pricing-core, anypoint-pricing-titanium
 
 https://docs.antora.org/antora/latest/asciidoc/admonitions/[Antora docs reference]
 
