@@ -54,10 +54,10 @@
   const isMobileBrowser = () => /Android|iPhone|iPad/i.test(navigator.userAgent)
 
   class Searchbox {
-    constructor (atomicSearchbox, searchboxShadowRoot, searchboxInput) {
+    constructor (atomicSearchbox, searchboxShadowRoot, searchboxTextarea) {
       this.atomicSearchbox = atomicSearchbox
       this.searchboxShadowRoot = searchboxShadowRoot
-      this.searchboxInput = searchboxInput
+      this.searchboxTextarea = searchboxTextarea
       this.searchboxDiv = searchboxShadowRoot.querySelector('div')
       this.searchboxSubmitButton = searchboxShadowRoot.querySelector('button[part="submit-button"]')
 
@@ -67,7 +67,7 @@
     updateAriaLabelForInput () {
       // .getAttribute('aria-label') is used here instead of .ariaLabel
       // because for some reason, it returned an error in firefox
-      this.searchboxInput.ariaLabel = `${this.searchboxInput.getAttribute('aria-label')} For shortcut to search, \
+      this.searchboxTextarea.ariaLabel = `${this.searchboxTextarea.getAttribute('aria-label')} For shortcut to search, \
 use ${osMap[this.clientOS].secondaryKeyLabelLong} + ${shortcutKeyMap.keyLabel}`
     }
 
@@ -93,8 +93,8 @@ use ${osMap[this.clientOS].secondaryKeyLabelLong} + ${shortcutKeyMap.keyLabel}`
     }
 
     appendKeyboardShortcut () {
-      if (this.searchboxInput) {
-        this.searchboxInput.placeholder = `${this.searchboxInput.placeholder} (${
+      if (this.searchboxTextarea) {
+        this.searchboxTextarea.placeholder = `${this.searchboxTextarea.placeholder} (${
           osMap[this.clientOS].secondaryKeyLabel
         } + ${shortcutKeyMap.keyLabel})`
       }
@@ -106,7 +106,7 @@ use ${osMap[this.clientOS].secondaryKeyLabelLong} + ${shortcutKeyMap.keyLabel}`
       document.onkeyup = document.onkeydown = (e) => {
         const key = e.which || e.keyCode
         if (e[osMap[this.clientOS].secondaryKey] && key === shortcutKeyMap.keyCode) {
-          if (this.searchboxInput) this.searchboxInput.focus()
+          if (this.searchboxTextarea) this.searchboxTextarea.focus()
           e.preventDefault()
         }
       }
@@ -122,7 +122,7 @@ use ${osMap[this.clientOS].secondaryKeyLabelLong} + ${shortcutKeyMap.keyLabel}`
       this.searchboxDiv.insertBefore(img, this.searchboxDiv.firstChild)
     }
 
-    addSearchboxInputEventListeners () {
+    addsearchboxTextareaEventListeners () {
       //// save this block in case we need to add the kbd element back
       // const focusableElements = this.searchboxDiv.querySelectorAll('a, button, input')
       // focusableElements.forEach((focusableElement) => {
@@ -134,8 +134,8 @@ use ${osMap[this.clientOS].secondaryKeyLabelLong} + ${shortcutKeyMap.keyLabel}`
       //     e.preventDefault()
       //   })
       // })
-      this.searchboxInput.addEventListener('input', (e) => this.toggleSubmitText(e))
-      this.searchboxInput.addEventListener('blur', (e) => this.toggleSubmitText(e))
+      this.searchboxTextarea.addEventListener('input', (e) => this.toggleSubmitText(e))
+      this.searchboxTextarea.addEventListener('blur', (e) => this.toggleSubmitText(e))
       setTimeout(() => this.toggleSubmitText(), 500)
     }
 
@@ -145,11 +145,11 @@ use ${osMap[this.clientOS].secondaryKeyLabelLong} + ${shortcutKeyMap.keyLabel}`
     }
 
     toggleSubmitButtonDisabled (e, force) {
-      if (this.searchboxInput) {
+      if (this.searchboxTextarea) {
         if (force) {
           this.atomicSearchbox.setAttribute('disable-search', force)
         } else {
-          this.atomicSearchbox.setAttribute('disable-search', this.searchboxInput.value.length === 0)
+          this.atomicSearchbox.setAttribute('disable-search', this.searchboxTextarea.value.length === 0)
         }
       }
       if (e) e.preventDefault()
@@ -158,10 +158,10 @@ use ${osMap[this.clientOS].secondaryKeyLabelLong} + ${shortcutKeyMap.keyLabel}`
     toggleSubmitText (e) {
       const submitText = this.searchboxSubmitButton.querySelector('p')
       if (submitText) {
-        submitText.style.display = this.searchboxInput.value ? 'inherit' : 'none'
-        submitText.style.margin = this.searchboxInput.value ? 'auto 10px auto -5px' : 'auto 10px auto 0'
+        submitText.style.display = this.searchboxTextarea.value ? 'inherit' : 'none'
+        submitText.style.margin = this.searchboxTextarea.value ? 'auto 10px auto -5px' : 'auto 10px auto 0'
       }
-      if (this.searchboxInput.value) {
+      if (this.searchboxTextarea.value) {
         const clearButton = this.searchboxDiv.querySelector('button[part="clear-button"]')
         if (clearButton) {
           if (clearButton.getAttribute('listener') !== 'true') {
@@ -177,12 +177,12 @@ use ${osMap[this.clientOS].secondaryKeyLabelLong} + ${shortcutKeyMap.keyLabel}`
     }
 
     updateInput () {
-      if (this.searchboxInput) {
+      if (this.searchboxTextarea) {
         if (document.documentElement.lang === 'en') {
-          this.searchboxInput.placeholder = 'Search Docs'
+          this.searchboxTextarea.placeholder = 'Search Docs'
           // .getAttribute('aria-label') is used here instead of .ariaLabel
           // because for some reason, it returned an error in firefox
-          this.searchboxInput.ariaLabel = this.searchboxInput
+          this.searchboxTextarea.ariaLabel = this.searchboxTextarea
             .getAttribute('aria-label')
             .replace('Search field', 'Search Doc field')
           if (this.searchboxDiv) {
@@ -199,7 +199,7 @@ use ${osMap[this.clientOS].secondaryKeyLabelLong} + ${shortcutKeyMap.keyLabel}`
           }
         }
         this.addLeftSearchIcon()
-        this.addSearchboxInputEventListeners()
+        this.addsearchboxTextareaEventListeners()
       }
     }
 
@@ -224,9 +224,9 @@ use ${osMap[this.clientOS].secondaryKeyLabelLong} + ${shortcutKeyMap.keyLabel}`
       const atomicSearchbox = document.querySelector('atomic-search-box')
       const searchboxShadowRoot = atomicSearchbox && atomicSearchbox.shadowRoot
       if (searchboxShadowRoot) {
-        const searchboxInput = searchboxShadowRoot.querySelector('input')
-        if (searchboxInput) {
-          const searchbox = new Searchbox(atomicSearchbox, searchboxShadowRoot, searchboxInput)
+        const searchboxTextarea = searchboxShadowRoot.querySelector('textarea[part="textarea"]')
+        if (searchboxTextarea) {
+          const searchbox = new Searchbox(atomicSearchbox, searchboxShadowRoot, searchboxTextarea)
           try {
             searchbox.makeMoreAssistive()
             clearInterval(updateSearchbox)
