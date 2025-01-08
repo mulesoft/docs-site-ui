@@ -61,7 +61,7 @@
     "openpgp": "^6.0.0",
     "pad": "^3.2.0",
     "postcss": "8.4.49",
-    "postcss-calc": "10.0.2",
+    "postcss-calc": "10.1.0",
     "postcss-custom-media": "11.0.5",
     "postcss-custom-properties": "13.3.12",
     "postcss-import": "16.1.0",
