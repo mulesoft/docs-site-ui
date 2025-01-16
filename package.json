@@ -41,7 +41,7 @@
     "eslint-plugin-import": "2.31.0",
     "eslint-plugin-node": "11.1.0",
     "eslint-plugin-promise": "6.6.0",
-    "fs-extra": "11.2.0",
+    "fs-extra": "11.3.0",
     "gulp": "5.0.0",
     "gulp-concat": "2.6.1",
     "gulp-connect": "5.7.0",
