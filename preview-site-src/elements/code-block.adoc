@@ -9,7 +9,7 @@ The following are code blocks of different languages (they are highlighted diffe
 
 == Inline
 
-This is an inline code: `test 12345 !@&$*(#$(#)]`
+This is an inline code: `For more info, refer to \https://help.salesforce.com/`
 
 == No Highlights
 
