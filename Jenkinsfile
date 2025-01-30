@@ -114,9 +114,9 @@ def isPR() {
 
 void release() {
   withCredentials([
-    string(credentialsId: 'GH_TOKEN', variable: 'GH_TOKEN'),
+    string(credentialsId: 'github-automation-emu', variable: 'GH_TOKEN'),
     string(credentialsId: 'ms-cx-engineering-gpg-private-key' , variable: 'SECRET_KEY')]) {
     sh 'export GIT_BRANCH=env.GIT_BRANCH'
     sh 'npm run release'
-    }
+  }
 }
