@@ -43,5 +43,26 @@
     })
   }
 
+  const updateLearningMapLinks = () => {
+    const article = document.querySelector('article.learning-map')
+    if (!article) return
+
+    const links = article.querySelectorAll('.lm-table a, .lm-table-border a')
+
+    links.forEach((link) => {
+      const href = link.href
+
+      if (href.startsWith('https://www.youtube.com')) {
+        link.classList.add('lm-link-video')
+        console.log(href)
+      } else if (href.startsWith('https://trailhead.salesforce.com')) {
+        link.classList.add('lm-link-trailhead')
+      } else if (href.startsWith('https://docs.mulesoft.com') || href.startsWith('https://www.mulesoft.com')) {
+        link.classList.add('lm-link-docs')
+      }
+    })
+  }
+
   processExternalLinks(['.doc', '.nav'])
+  updateLearningMapLinks()
 })()
