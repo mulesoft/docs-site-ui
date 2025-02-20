@@ -60,7 +60,7 @@
     "node-html-parser": "7.0.1",
     "openpgp": "^6.0.0",
     "pad": "^3.2.0",
-    "postcss": "8.5.2",
+    "postcss": "8.5.3",
     "postcss-calc": "10.1.1",
     "postcss-custom-media": "11.0.5",
     "postcss-custom-properties": "13.3.12",
