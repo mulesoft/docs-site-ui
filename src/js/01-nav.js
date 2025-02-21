@@ -14,7 +14,7 @@
   const addCurrentVersionIndicator = (parentElement, className) => {
     if (!isArchiveSite()) {
       if (!isToolTipDot(parentElement.firstChild)) {
-        const tabIndex = parentElement.classList.contains('nav-version-button') ? 0 : -1
+        const tabIndex = parentElement.classList.contains('nav-version-wrapper') ? 0 : -1
         const currentVersionIndicator = createCurrentVersionIndicator(tabIndex, className)
         const versionElement = parentElement.querySelector('.nav-version-label')
           ? parentElement.firstChild.nextSibling
@@ -232,7 +232,7 @@
 
   function hideVersionMenu (menu, force) {
     if (force || menu.classList.contains('is-active')) {
-      menu.parentElement.querySelector('.nav-version-button').classList.remove('selector-active')
+      menu.parentElement.querySelector('.nav-version-wrapper').classList.remove('selector-active')
       menu.classList.add('is-clipped')
       menu.style.maxHeight = 0
       menu.classList.remove('is-active')
@@ -629,18 +629,17 @@
       navVersionMenu.id = `listbox-${componentData.name}`
       navVersionMenu.setAttribute('aria-labelledby', `combo-${componentData.name}-label`)
 
-      let navVersionButton
+      let navVersionWrapper
 
       if (versions.length === 1) {
-        navVersionButton = createElement('p.prev-flag')
-        navVersionButton.textContent = activeDisplayVersion
-        navVersionButton.title = currentAndOnlyVersion
+        navVersionWrapper = createElement('p.prev-flag')
+        navVersionWrapper.textContent = activeDisplayVersion
+        navVersionWrapper.title = currentAndOnlyVersion
       } else {
-        navVersionButton = createElement('button.nav-version-button')
-        navVersionButton.setAttribute('tabindex', '-1')
+        navVersionWrapper = createElement('div.nav-version-wrapper')
         const navVersionLabel = createElement('span.version-label', activeDisplayVersion)
         navVersionLabel.id = `combo-${componentData.name}-label`
-        navVersionButton.appendChild(navVersionLabel)
+        navVersionWrapper.appendChild(navVersionLabel)
 
         navVersion.setAttribute('tabindex', '0')
         navVersion.setAttribute('role', 'combobox')
@@ -650,10 +649,10 @@
         navVersion.setAttribute('aria-labelledby', `combo-${componentData.name}-label`)
         navVersion.setAttribute('aria-controls', `listbox-${componentData.name}`)
         if (activeVersion === currentVersionData.version) {
-          addCurrentVersionIndicator(navVersionButton, 'tooltip-dot-nav-version-menu')
+          addCurrentVersionIndicator(navVersionWrapper, 'tooltip-dot-nav-version-menu')
         }
         if (page.navVersionIconId) {
-          navVersionButton.appendChild(createSvgElement('.icon.nav-version-icon', '#' + page.navVersionIconId))
+          navVersionWrapper.appendChild(createSvgElement('.icon.nav-version-icon', '#' + page.navVersionIconId))
         }
         versions.reduce((lastVersionData, versionData) => {
           if (!isArchiveSite()) {
@@ -702,14 +701,14 @@
             .addEventListener('click', (e) => this.selectVersion(navVersionMenu, navItem, componentData, e))
           return versionData
         }, undefined)
-        navVersionButton.addEventListener('mousedown', (e) => {
+        navVersionWrapper.addEventListener('mousedown', (e) => {
           this.toggleVersionMenu(navVersionMenu)
           e.preventDefault()
         })
         navVersionDropdown.addEventListener('click', trapEvent)
       }
-      navVersionButton.appendChild(navVersion)
-      navVersionDropdown.appendChild(navVersionButton)
+      navVersionWrapper.appendChild(navVersion)
+      navVersionDropdown.appendChild(navVersionWrapper)
       navVersion.addEventListener('keydown', (e) => {
         if (isSpaceOrEnterKey(e.keyCode)) {
           this.toggleVersionMenu(navVersionMenu)
@@ -855,13 +854,13 @@
       this.toggleNav(navItem, componentData, e.target.dataset.version)
       clearSelected(navItem)
       e.target.classList.add('selected')
-      const navVersionButton = document.querySelector(
-        `[data-component="${navItem.getAttribute('data-component')}"] .nav-version-button`
+      const navVersionWrapper = document.querySelector(
+        `[data-component="${navItem.getAttribute('data-component')}"] .nav-version-wrapper`
       )
       if (e.target.dataset.version === getCurrentVersionData(Object.values(componentData.versions)).version) {
-        addCurrentVersionIndicator(navVersionButton, 'tooltip-dot-nav-version-menu')
+        addCurrentVersionIndicator(navVersionWrapper, 'tooltip-dot-nav-version-menu')
       } else {
-        removeCurrentVersionIndicator(navVersionButton)
+        removeCurrentVersionIndicator(navVersionWrapper)
       }
       hideVersionMenu(navVersionMenu)
       moveFocusOnFirstElement(navItem)
@@ -903,7 +902,7 @@
       navVersionMenu.style.maxHeight = height
       navVersionMenu.classList.add('is-active')
       setTabIndexForVersions()
-      navVersionMenu.parentElement.querySelector('.nav-version-button').classList.add('selector-active')
+      navVersionMenu.parentElement.querySelector('.nav-version-wrapper').classList.add('selector-active')
       navVersionMenu.parentElement.querySelector('.nav-version').ariaExpanded = true
     }
   }
