@@ -654,53 +654,25 @@
         if (page.navVersionIconId) {
           navVersionWrapper.appendChild(createSvgElement('.icon.nav-version-icon', '#' + page.navVersionIconId))
         }
-        versions.reduce((lastVersionData, versionData) => {
-          if (!isArchiveSite()) {
-            if (versionData === currentVersionData) {
-              navVersionMenu.appendChild(createElement('span.nav-version-label', currentVersion))
-            } else if (versionData.prerelease) {
-              if (!lastVersionData) {
-                navVersionMenu.appendChild(createElement('span.nav-version-label', 'Prerelease versions'))
-              }
-            } else if (lastVersionData === currentVersionData) {
-              navVersionMenu.appendChild(createElement('span.nav-version-label', previousVersions))
-            }
-          } else if (versionData === currentVersionData) {
-            navVersionMenu.appendChild(createElement('span.nav-version-label', 'Archived versions'))
-          }
-          const versionDataset = {
-            version: versionData.version,
-          }
-          const navVersionOption = createElement(
-            'button.nav-version-option',
-            { dataset: versionDataset },
-            versionData.displayVersion
-          )
-          navVersionOption.setAttribute('tabindex', '-1')
-          navVersionOption.id = `${componentData.name}-${versionData.displayVersion}`
-          navVersionOption.addEventListener('keydown', (e) => {
-            if (isSpaceOrEnterKey(e.keyCode)) {
-              setTabIndexForVersions()
+
+        const currentGroup = createElement('div', { role: 'group', 'aria-labelledby': 'current-version-heading' })
+        currentGroup.appendChild(createElement('div.nav-version-label', { role: 'presentation' }, currentVersion))
+        const currentOption = this.createVersionOption(currentVersionData, activeVersion, componentData)
+        currentGroup.appendChild(currentOption)
+        navVersionMenu.appendChild(currentGroup)
+
+        if (versions.length > 1) {
+          const previousGroup = createElement('div', { role: 'group', 'aria-labelledby': 'previous-versions-heading' })
+          previousGroup.appendChild(createElement('div.nav-version-label', { role: 'presentation' }, previousVersions))
+          versions.forEach((versionData) => {
+            if (versionData !== currentVersionData) {
+              const option = this.createVersionOption(versionData, activeVersion, componentData)
+              previousGroup.appendChild(option)
             }
           })
-          navVersionOption.addEventListener('focus', (e) => {
-            setAriaActiveDescendant(componentData.name, versionData.displayVersion, true)
-            e.stopPropagation()
-          })
-          navVersionOption.addEventListener('blur', () => {
-            setAriaActiveDescendant(componentData.name, versionData.displayVersion, false)
-          })
-          if (versionData === currentVersionData) {
-            addCurrentVersionIndicator(navVersionMenu, 'tooltip-dot-nav-version')
-          }
-          if (versionData.version === activeVersion) {
-            navVersionOption.classList.add('selected')
-          }
-          navVersionMenu
-            .appendChild(navVersionOption)
-            .addEventListener('click', (e) => this.selectVersion(navVersionMenu, navItem, componentData, e))
-          return versionData
-        }, undefined)
+          navVersionMenu.appendChild(previousGroup)
+        }
+
         navVersionWrapper.addEventListener('mousedown', (e) => {
           this.toggleVersionMenu(navVersionMenu)
           e.preventDefault()
@@ -725,6 +697,48 @@
       })
 
       return navVersionDropdown
+    }
+
+    createVersionOption (versionData, activeVersion, componentData) {
+      const option = createElement(
+        'div.nav-version-option',
+        {
+          role: 'option',
+          'data-version': versionData.version,
+          id: `${componentData.name}-${versionData.displayVersion}`,
+          tabindex: '-1',
+        },
+        versionData.displayVersion
+      )
+
+      if (versionData.version === activeVersion) {
+        option.classList.add('selected')
+        option.setAttribute('aria-selected', 'true')
+      }
+
+      option.addEventListener('keydown', (e) => {
+        if (isSpaceOrEnterKey(e.keyCode)) {
+          setTabIndexForVersions()
+        }
+      })
+      option.addEventListener('focus', (e) => {
+        setAriaActiveDescendant(componentData.name, versionData.displayVersion, true)
+        e.stopPropagation()
+      })
+      option.addEventListener('blur', () => {
+        setAriaActiveDescendant(componentData.name, versionData.displayVersion, false)
+      })
+      option.addEventListener('click', (e) => {
+        const menu = e.target.closest('.nav-version-menu')
+        const item = e.target.closest('.nav-item')
+        this.selectVersion(menu, item, componentData, e)
+      })
+
+      if (versionData === getCurrentVersionData(Object.values(componentData.versions))) {
+        addCurrentVersionIndicator(option, 'tooltip-dot-nav-version')
+      }
+
+      return option
     }
 
     ensureNavList (navItem, componentData, selectedVersion) {
