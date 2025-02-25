@@ -82,7 +82,7 @@
   --weight-bold: 700;
 
   /* dimensions */
-  --header-height: 93px; /* includes 28px of helmet */
+  --header-height: 135px;
   --banner-height: 50px;
   --breadcrumbs-drawer-height: var(--banner-height);
   --mobile-banner-height: 65px;

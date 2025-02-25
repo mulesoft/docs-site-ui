@@ -45,6 +45,10 @@ body {
       }
     }
   }
+
+  &.with-promo-banner.header-scrolled:not(.header-promo-closed):not(.promo-closed) {
+    padding-top: var(--header-height);
+  }
 }
 
 .help-text {
