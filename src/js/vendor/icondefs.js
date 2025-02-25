@@ -1117,6 +1117,25 @@
       ],
     },
     {
+      id: 'icon-nav-page-general-learning-map-api-management',
+      viewBox: '0 0 24 24',
+      paths: [
+        // lume-icons/utility/api-group
+        {
+          d: 'M11.514 1.126a1 1 0 0 1 .972 0l9 5A1 1 0 0 1 22 7v10a1 1 0 0 1-.514.874l-9 5a1 1 0 0 1-.972 0l-9-5A1 1 0 0 1 2 17V7a1 1 0 0 1 .514-.874l9-5ZM4 7.588v8.824l8 4.444 8-4.444V7.588l-8-4.444-8 4.444Z',
+          fill: 'var(--lume-c-icon-color-foreground-3)',
+        },
+        {
+          d: 'M11.514 5.626a1 1 0 0 1 .972 0l5 2.78A1 1 0 0 1 18 9.28V15a1 1 0 1 1-2 0V9.868l-4-2.224-4 2.224V15a1 1 0 1 1-2 0V9.28a1 1 0 0 1 .514-.874l5-2.78Z',
+          fill: 'var(--lume-c-icon-color-foreground-3)',
+        },
+        {
+          d: 'M12 9.5a1 1 0 0 1 1 1v1a1 1 0 1 1-2 0v-1a1 1 0 0 1 1-1ZM12 14a1 1 0 0 1 1 1v3a1 1 0 1 1-2 0v-3a1 1 0 0 1 1-1Z',
+          fill: 'var(--lume-c-icon-color-foreground-3)',
+        },
+      ],
+    },
+    {
       id: 'icon-nav-page-general-contribute',
       viewBox: '0 0 24 24',
       paths: [
