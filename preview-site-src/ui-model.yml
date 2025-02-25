@@ -30,6 +30,8 @@ site:
             url: /general/contributors.html
           - content: Maintenance
             url: /general/maintenance.html
+          - content: Getting Started with API Management
+            url: /general/learning-map-api-management.html
           - content: Build and Deploy an API
             url: /general/api-led-overview.html
             items:

@@ -1,6 +1,5 @@
 {{#if (and env.GOOGLE_ANALYTICS_KEY (not preview))}}
   {{> gtm-scripts }}
-  {{> segment-script }}
 {{/if}}
 {{#if (and env.COVEO_ORG_ID (or env.COVEO_API_KEY env.COVEO_API_KEY_JP))}}
   {{> coveo-search-scripts }}

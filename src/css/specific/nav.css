@@ -309,7 +309,7 @@ svg.nav-icon {
   }
 }
 
-.nav-version-button {
+.nav-version-wrapper {
   align-items: center;
   background: 0 0;
   border: 1px solid var(--aluminum-4);

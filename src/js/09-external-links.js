@@ -2,6 +2,7 @@
   'use strict'
 
   const uiRootPath = document.getElementById('site-script').dataset.uiRootPath
+  const learningMapSelector = 'article.learning-map'
 
   const appendExternalLinkIcon = (link) => {
     const isDataWeavePlaygroundLink = link?.classList.contains('dw-playground-link')
@@ -33,6 +34,8 @@
   const opensInNewWindow = (linkTarget) => linkTarget === '_blank'
 
   const processExternalLinks = (selectors) => {
+    if (document.querySelector(learningMapSelector)) return
+
     const selectorText = selectors.map((el) => `${el} :not(#trending-topics-fallback) > * > a`).join(', ')
     const externalLinks = document.querySelectorAll(selectorText)
     externalLinks.forEach((externalLink) => {
@@ -43,5 +46,27 @@
     })
   }
 
+  const updateLearningMapLinks = () => {
+    const article = document.querySelector(learningMapSelector)
+    if (!article) return
+
+    const links = article.querySelectorAll('.lm-table a, .lm-table-border a')
+
+    links.forEach((link) => {
+      const href = link.href
+
+      if (href.startsWith('https://www.youtube.com')) {
+        link.classList.add('lm-link-video')
+      } else if (href.startsWith('https://trailhead.salesforce.com')) {
+        link.classList.add('lm-link-trailhead')
+      } else if (link.classList.contains('xref') || href.startsWith('https://docs.mulesoft.com')) {
+        link.classList.add('lm-link-help')
+      } else if (href.startsWith('https://www.mulesoft.com')) {
+        link.classList.add('lm-link-marketing')
+      }
+    })
+  }
+
   processExternalLinks(['.doc', '.nav'])
+  updateLearningMapLinks()
 })()
