@@ -45,10 +45,6 @@ body {
       }
     }
   }
-
-  &.with-promo-banner.header-scrolled:not(.header-promo-closed, .promo-closed) {
-    padding-top: var(--header-height);
-  }
 }
 
 .help-text {
