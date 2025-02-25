@@ -46,8 +46,35 @@ body {
     }
   }
 
-  &.with-promo-banner.header-scrolled:not(.header-promo-closed):not(.promo-closed) {
-    padding-top: var(--header-height);
+  &.with-promo-banner {
+    @media (--lg) {  
+      &.header-scrolled {
+        & .top-banner {
+          top: 0 !important;
+        }
+      }
+
+      &:not(.header-promo-closed):not(.promo-closed) {
+        & > div.flex.container.wrapper {
+          padding-top: var(--promo-banner-height);
+        }
+
+        & .top-banner {
+          top: var(--header-height);
+        }
+      }
+  
+      &.header-promo-closed,
+      &.promo-closed {
+        & > div.flex.container.wrapper {
+          padding-top: 0;
+        }
+
+        & .top-banner {
+          top: 0;
+        }
+      }
+    }
   }
 }
 

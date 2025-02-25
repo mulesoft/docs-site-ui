@@ -82,8 +82,9 @@
   --weight-bold: 700;
 
   /* dimensions */
-  --header-height: 135px;
+  --header-height: 130px;
   --banner-height: 50px;
+  --promo-banner-height: 70px;
   --breadcrumbs-drawer-height: var(--banner-height);
   --mobile-banner-height: 65px;
   --footer-height: 361px;
