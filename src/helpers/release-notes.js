@@ -88,7 +88,7 @@ const isVersion = (versionText) => {
 const removeYear = (dateStr) => {
   if (isValidDate(dateStr)) {
     const dateObj = new Date(dateStr)
-    return `${dateObj.toLocaleString('default', {
+    return `${dateObj.toLocaleString('en-US', {
       month: 'short',
     })} ${dateObj.getDate()}`
   }
