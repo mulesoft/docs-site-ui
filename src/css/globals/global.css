@@ -60,7 +60,7 @@ body {
         }
       }
 
-      &:not(.header-promo-closed):not(.promo-closed) {
+      &:not(.header-promo-closed, .promo-closed) {
         & > div.flex.container.wrapper {
           padding-top: var(--promo-banner-height);
         }
