@@ -17,7 +17,7 @@ module.exports = (partialsDir) => async () => {
 async function updateContent (partialsDir, component, contentType) {
   try {
     const urlParams = await getUrlParams(contentType)
-    const content = await fetch(`https://www.mulesoft.com/api/${component}?${urlParams}&docs-site&no-helmet`)
+    const content = await fetch(`https://www.mulesoft.com/api/${component}?${urlParams}&docs-site&no-helmet&promotion-banner=true`)
     if (await isGoodStatus(content.status)) {
       const body = await content.json()
       if (await hasValidData(body)) {
