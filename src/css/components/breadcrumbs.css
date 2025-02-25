@@ -141,7 +141,7 @@
   overflow: auto hidden;
   padding: 10px 20px;
   position: sticky;
-  top: 50px;
+  top: var(--mobile-banner-height);
   z-index: var(--z-nav-toolbar);
 }
 

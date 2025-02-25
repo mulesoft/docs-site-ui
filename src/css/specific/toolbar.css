@@ -24,6 +24,14 @@
 
 body:has(.top-banner:not(.hide)) .toolbar {
   top: var(--mobile-banner-height);
+
+  @media (--md) {
+    top: var(--banner-height);
+  }
+  
+  @media (--lg) {
+    top: 0;
+  }
 }
 
 .search-toolbar {

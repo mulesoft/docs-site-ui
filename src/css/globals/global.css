@@ -52,6 +52,12 @@ body {
         & .top-banner {
           top: 0 !important;
         }
+
+        &:has(.top-banner:not(.hide)) {
+          & > div.flex.container.wrapper {
+            transform: translateY(50px);
+          }
+        }
       }
 
       &:not(.header-promo-closed):not(.promo-closed) {
