@@ -1,12 +1,15 @@
 .learning-map {
-  .lm-table {
+  /* Workaround: Increase specificity to override high specificity rules in table.css */
+  .lm-table.lm-table.lm-table {
     & ul {
       list-style-type: none;
+      margin-left: 24px;
       padding-left: 0;
     }
 
-    & li p {
-      padding-bottom: 0;
+    & p {
+      margin-bottom: 0;
+      margin-top: 0;
     }
 
     .lm-bold {
@@ -18,7 +21,8 @@
       content: "";
       display: inline-block;
       height: 24px;
-      margin-right: 5px; /* Adds spacing between icon and text */
+      margin-left: -28px;
+      margin-right: 4px;
       vertical-align: middle;
       width: 24px;
     }

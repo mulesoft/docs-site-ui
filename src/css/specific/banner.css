@@ -51,7 +51,7 @@
   background: var(--yellow-2);
   font-size: 12px;
   height: fit-content;
-  top: calc(var(--banner-height) + var(--toolbar-height));
+  top: calc(var(--mobile-banner-height) + var(--toolbar-height));
 
   & p {
     margin: 0 auto 0 40px;
@@ -60,6 +60,10 @@
   }
 
   @media (--md) {
+    top: calc(var(--banner-height) + var(--toolbar-height));
+  }
+
+  @media (--lg) {
     top: var(--banner-height);
   }
 }

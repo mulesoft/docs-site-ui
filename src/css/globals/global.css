@@ -45,6 +45,43 @@ body {
       }
     }
   }
+
+  &.with-promo-banner {
+    @media (--lg) {  
+      &.header-scrolled {
+        & .top-banner {
+          top: 0 !important;
+        }
+
+        &:has(.top-banner:not(.hide)) {
+          & > div.flex.container.wrapper {
+            transform: translateY(50px);
+          }
+        }
+      }
+
+      &:not(.header-promo-closed, .promo-closed) {
+        & > div.flex.container.wrapper {
+          padding-top: var(--promo-banner-height);
+        }
+
+        & .top-banner {
+          top: var(--header-height);
+        }
+      }
+  
+      &.header-promo-closed,
+      &.promo-closed {
+        & > div.flex.container.wrapper {
+          padding-top: 0;
+        }
+
+        & .top-banner {
+          top: 0;
+        }
+      }
+    }
+  }
 }
 
 .help-text {

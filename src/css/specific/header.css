@@ -5,4 +5,9 @@
   & > div.ms-com-helmet > div > a {
     line-height: initial;
   }
+
+  & button.cross {
+    background: transparent;
+    border: none;
+  }
 }
