@@ -34,14 +34,12 @@
   const opensInNewWindow = (linkTarget) => linkTarget === '_blank'
 
   const processExternalLinks = (selectors) => {
-    if (document.querySelector(learningMapSelector)) return
-
     const selectorText = selectors.map((el) => `${el} :not(#trending-topics-fallback) > * > a`).join(', ')
     const externalLinks = document.querySelectorAll(selectorText)
     externalLinks.forEach((externalLink) => {
       if (isExternalLink(externalLink.href)) {
         if (!opensInNewWindow(externalLink.target)) externalLink.target = '_blank'
-        appendExternalLinkIcon(externalLink)
+        if (!document.querySelector(learningMapSelector)) appendExternalLinkIcon(externalLink)
       }
     })
   }
