@@ -22,7 +22,7 @@
     <li class="flex align-center li">
       <p>{{{./content}}}{{#if (and (not (is-null @root.page.version)) (not (is-one-of @root.page.version 'default' 'latest' 'master' '~')) (or (eq ./url @root.page.breadcrumbs.0.url) (and (ends-with ./url "index.html"))))}} <span class="breadcrumbs-item-version">({{ @root.page.version }})</span>{{/if}}</p>
     </li>
-    {{else if (ne ./url @root.page.breadcrumbs.0.url)}}
+    {{else if (not ./root)}}
     <li class="flex align-center li"><a class="link" href="{{{relativize ./url}}}">{{{./content}}}</a></li>
     {{/if}}
   {{/if}}
