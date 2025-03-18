@@ -1,5 +1,5 @@
 <script src="https://static.cloud.coveo.com/coveo.analytics.js/2/coveoua.js"></script>
-<script nonce="**CSP_NONCE**">
+<script nonce="**CSP_NONCE**" type="text/plain" class="optanon-category-3">
   (async () => {
     async function initCoveoUserAnalytics (organizationId, accessToken) {
       coveoua("init", accessToken, `https://${organizationId}.analytics.org.coveo.com`);
@@ -11,7 +11,7 @@
         location: `${window.location.origin}${window.location.pathname}`
       });
     }
-    
+
     const accessToken = "{{#if env.COVEO_API_KEY_JP}}{{env.COVEO_API_KEY_JP}}{{else}}{{env.COVEO_API_KEY}}{{/if}}";
 
     const isProdSite = (hostname) => hostname === "docs.mulesoft.com";

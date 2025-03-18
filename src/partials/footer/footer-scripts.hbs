@@ -5,4 +5,8 @@
 <script src="{{uiRootPath}}/js/site.js" id="site-script" data-ui-root-path="{{uiRootPath}}"></script>
 <script async src="{{{uiRootPath}}}/js/vendor/coveo.js"></script>
 <script async src="{{uiRootPath}}/js/vendor/highlight.js"></script>
+{{#if (and env.COVEO_ORG_ID (or env.COVEO_API_KEY env.COVEO_API_KEY_JP))}}
+  {{> coveo-search-scripts }}
+  {{> coveo-ua-script }}
+{{/if}}
 {{> marketing-scripts}}

@@ -5,44 +5,47 @@
   crossorigin="anonymous">
 </script>
 <script nonce="**CSP_NONCE**">
-  (async () => {
-    async function initSearch (organizationId, accessToken) {
-      await customElements.whenDefined("atomic-search-interface");
-      const searchInterface = document.querySelector("#search");
-      if (searchInterface) {
-        const organizationEndpoints = await searchInterface.getOrganizationEndpoints(organizationId)
-        await searchInterface.initialize({
-          accessToken,
-          organizationId,
-          organizationEndpoints,
-        });
-        if (window.location.href.includes('/search')) searchInterface.executeFirstSearch();
-      }
-    }
-    
-    const searchToken = "{{#if (eq (site-profile) 'jp')}}{{env.COVEO_API_KEY_JP}}{{else}}{{env.COVEO_API_KEY}}{{/if}}";
+(async () => {
+  async function initSearch(organizationId, accessToken) {
+    await customElements.whenDefined("atomic-search-interface");
+    const searchInterface = document.querySelector("#search");
+    const analyticsAllowed = MSCX.cookieConsent.isGroupAllowed('functional');
 
+    if (searchInterface) {
+      const organizationEndpoints = await searchInterface.getOrganizationEndpoints(organizationId);
+      await searchInterface.initialize({
+        analytics: { enabled: analyticsAllowed },
+        accessToken,
+        organizationId,
+        organizationEndpoints,
+      });
+      if (window.location.href.includes('/search')) searchInterface.executeFirstSearch();
+    }
+  }
+
+  async function initContentRecommendations(organizationId, accessToken) {
+    await customElements.whenDefined('atomic-recs-interface');
+    const recommendInterface = document.querySelector('#recs');
+    const analyticsAllowed = MSCX.cookieConsent.isGroupAllowed('functional');
+
+    if (recommendInterface) {
+      const organizationEndpoints = await recommendInterface.getOrganizationEndpoints(organizationId);
+      await recommendInterface.initialize({
+        analytics: { enabled: analyticsAllowed },
+        accessToken,
+        organizationId,
+        organizationEndpoints,
+      });
+      recommendInterface.getRecommendations();
+    }
+  }
+
+  const searchToken = "{{#if (eq (site-profile) 'jp')}}{{env.COVEO_API_KEY_JP}}{{else}}{{env.COVEO_API_KEY}}{{/if}}";
+  const crToken = "{{#if (eq (site-profile) 'jp')}}{{env.COVEO_CR_API_KEY_JP}}{{else}}{{env.COVEO_CR_API_KEY}}{{/if}}";
+
+  window.addEventListener('cookiesUpdated', () => {
     initSearch("{{ env.COVEO_ORG_ID }}", searchToken);
-  })();
-</script>
-
-<script nonce="**CSP_NONCE**">
-  (async () => {
-    async function initContentRecommendations (organizationId, accessToken) {
-      await customElements.whenDefined('atomic-recs-interface');
-      const recommendInterface = document.querySelector('#recs');
-      if (recommendInterface) {
-        const organizationEndpoints = await recommendInterface.getOrganizationEndpoints(organizationId);
-        await recommendInterface.initialize({
-          accessToken,
-          organizationId,
-          organizationEndpoints,
-        });
-        recommendInterface.getRecommendations();
-      }
-    }
-
-    const crToken = "{{#if (eq (site-profile) 'jp')}}{{env.COVEO_CR_API_KEY_JP}}{{else}}{{env.COVEO_CR_API_KEY}}{{/if}}"
     initContentRecommendations("{{ env.COVEO_ORG_ID }}", crToken);
-  })();
+  });
+})();
 </script>
