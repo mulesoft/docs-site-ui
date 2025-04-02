@@ -24,7 +24,7 @@
     "reinstall": "npm run clean && npm install"
   },
   "devDependencies": {
-    "@asciidoctor/core": "~2.2",
+    "@asciidoctor/core": "~3.0.0",
     "@asciidoctor/tabs": "latest",
     "@mulesoft/lume-icon": "^0.1.47",
     "@mulesoft/lume-styling-hooks": "1.0.24",
