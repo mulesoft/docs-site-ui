@@ -391,13 +391,14 @@ svg.nav-icon {
       max-height 0s var(--transition-speed-sm);
   }
 
-  & button,
-  & span:not(.tooltip-dot-nav-version-menu, .tooltip-dot-nav-version) {
+  & .nav-version-option,
+  & .nav-version-label {
     display: list-item;
     padding: var(--xs) var(--input-md) var(--xs) var(--sm);
   }
 
   & .nav-version-label {
+    clear: both;
     font-weight: var(--weight-bold);
   }
 
@@ -421,6 +422,8 @@ svg.nav-icon {
     color: var(--steel-3);
     cursor: pointer;
     float: right;
+    font-size: 13px;
+    font-weight: normal;
     text-align: left;
     width: 90%;
 

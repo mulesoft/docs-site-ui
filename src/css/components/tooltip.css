@@ -48,7 +48,7 @@
   }
 
   &.tooltip-dot-nav-version {
-    margin-left: 6px;
+    margin-left: -12px;
     margin-top: 8px;
   }
 }
