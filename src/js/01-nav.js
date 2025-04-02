@@ -708,7 +708,7 @@
           if (versionData === currentVersionData) {
             addCurrentVersionIndicator(navVersionOption, 'tooltip-dot-nav-version')
           }
-          if (versionData === currentVersionData) {
+          if (!isArchiveSite() && versionData === currentVersionData) {
             currentNavGroup.appendChild(navVersionOption)
           } else {
             catchallNavGroup.appendChild(navVersionOption)
