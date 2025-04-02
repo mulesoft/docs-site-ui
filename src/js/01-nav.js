@@ -272,13 +272,6 @@
 
   const coerceToArray = (val) => (Array.isArray(val) ? val : [val])
 
-  const clearSelected = (parentElement) => {
-    const childrenElements = parentElement.querySelectorAll('button.selected')
-    childrenElements.forEach((child) => {
-      child.classList.remove('selected')
-    })
-  }
-
   const setTitle = (title) => (isArchiveSite() ? `Archive ${title}` : homeTitle)
 
   const isArchiveSite = () => window.location.host.includes('archive')
@@ -654,28 +647,47 @@
         if (page.navVersionIconId) {
           navVersionWrapper.appendChild(createSvgElement('.icon.nav-version-icon', '#' + page.navVersionIconId))
         }
+
+        const currentNavGroup = createElement('div')
+        currentNavGroup.setAttribute('role', 'group')
+        const currentNavLabel = createElement('div.nav-version-label')
+        currentNavLabel.setAttribute('role', 'presentation')
+        currentNavGroup.appendChild(currentNavLabel)
+
+        const catchallNavGroup = createElement('div')
+        catchallNavGroup.setAttribute('role', 'group')
+        const catchallNavLabel = createElement('div.nav-version-label')
+        catchallNavLabel.setAttribute('role', 'presentation')
+        catchallNavGroup.appendChild(catchallNavLabel)
+
         versions.reduce((lastVersionData, versionData) => {
           if (!isArchiveSite()) {
             if (versionData === currentVersionData) {
-              navVersionMenu.appendChild(createElement('span.nav-version-label', currentVersion))
+              currentNavLabel.textContent = currentVersion
+              navVersionMenu.appendChild(currentNavGroup)
             } else if (versionData.prerelease) {
               if (!lastVersionData) {
-                navVersionMenu.appendChild(createElement('span.nav-version-label', 'Prerelease versions'))
+                currentNavLabel.textContent = 'Prerelease versions'
+                navVersionMenu.appendChild(currentNavGroup)
               }
             } else if (lastVersionData === currentVersionData) {
-              navVersionMenu.appendChild(createElement('span.nav-version-label', previousVersions))
+              catchallNavLabel.textContent = previousVersions
+              navVersionMenu.appendChild(catchallNavGroup)
             }
           } else if (versionData === currentVersionData) {
-            navVersionMenu.appendChild(createElement('span.nav-version-label', 'Archived versions'))
+            catchallNavLabel.textContent = 'Archived versions'
+            navVersionMenu.appendChild(catchallNavGroup)
           }
+
           const versionDataset = {
             version: versionData.version,
           }
           const navVersionOption = createElement(
-            'button.nav-version-option',
+            'div.nav-version-option',
             { dataset: versionDataset },
             versionData.displayVersion
           )
+          navVersionOption.setAttribute('role', 'option')
           navVersionOption.setAttribute('tabindex', '-1')
           navVersionOption.id = `${componentData.name}-${versionData.displayVersion}`
           navVersionOption.addEventListener('keydown', (e) => {
@@ -690,15 +702,19 @@
           navVersionOption.addEventListener('blur', () => {
             setAriaActiveDescendant(componentData.name, versionData.displayVersion, false)
           })
-          if (versionData === currentVersionData) {
-            addCurrentVersionIndicator(navVersionMenu, 'tooltip-dot-nav-version')
-          }
           if (versionData.version === activeVersion) {
             navVersionOption.classList.add('selected')
           }
-          navVersionMenu
-            .appendChild(navVersionOption)
-            .addEventListener('click', (e) => this.selectVersion(navVersionMenu, navItem, componentData, e))
+          if (versionData === currentVersionData) {
+            addCurrentVersionIndicator(navVersionOption, 'tooltip-dot-nav-version')
+          }
+          if (versionData === currentVersionData) {
+            currentNavGroup.appendChild(navVersionOption)
+          } else {
+            catchallNavGroup.appendChild(navVersionOption)
+          }
+
+          navVersionMenu.addEventListener('click', (e) => this.selectVersion(navVersionMenu, navItem, componentData, e))
           return versionData
         }, undefined)
         navVersionWrapper.addEventListener('mousedown', (e) => {
@@ -720,7 +736,8 @@
         autoCloseVersionDropdown(navVersionMenu)
       })
       if (versions.length > 1) navVersionDropdown.appendChild(navVersionMenu)
-      navVersionMenu.lastChild?.addEventListener('blur', () => {
+      const navOptions = navVersionMenu.querySelectorAll('.nav-version-option')
+      navOptions[navOptions.length - 1]?.addEventListener('blur', () => {
         autoCloseVersionDropdown(navVersionMenu)
       })
 
@@ -851,9 +868,11 @@
     }
 
     selectVersion (navVersionMenu, navItem, componentData, e) {
-      this.toggleNav(navItem, componentData, e.target.dataset.version)
-      clearSelected(navItem)
+      const allVersionOptions = navVersionMenu.querySelectorAll('.nav-version-option')
+      allVersionOptions.forEach((option) => option.classList.remove('selected'))
       e.target.classList.add('selected')
+      this.toggleNav(navItem, componentData, e.target.dataset.version)
+
       const navVersionWrapper = document.querySelector(
         `[data-component="${navItem.getAttribute('data-component')}"] .nav-version-wrapper`
       )
