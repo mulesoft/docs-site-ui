@@ -1,8 +1,7 @@
 <script
   type="module"
-  src="https://static.cloud.coveo.com/atomic/v3.7.0/atomic.esm.js"
-  integrity="sha512-fLs7ot1PpQgZRoHpoVrxF2zWq6OZsKE7uaZYVmiTnmwTUIehgr/nvfNhqcbPP0PWfy81tEBxMcXJe8H67sA1Pg=="
-  crossorigin="anonymous">
+  src="https://static.cloud.coveo.com/atomic/v3.19.1/atomic.esm.js"
+>
 </script>
 <script nonce="**CSP_NONCE**">
   (async () => {
@@ -12,6 +11,7 @@
       if (searchInterface) {
         await searchInterface.initialize({
           accessToken,
+          analytics: {analyticsMode: 'legacy'},
           organizationId,
         });
         if (window.location.href.includes('/search')) searchInterface.executeFirstSearch();
