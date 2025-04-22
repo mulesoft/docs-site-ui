@@ -114,7 +114,8 @@ boolean isPR() {
 
 void release() {
   withCredentials([
-    string(credentialsId: 'GH_TOKEN_EMU', variable: 'GH_TOKEN'),
+    string(credentialsId: 'GH_TOKEN', variable: 'GH_TOKEN'),
+    string(credentialsId: 'GH_TOKEN_EMU', variable: 'GH_TOKEN_EMU'),
     string(credentialsId: 'ms-cx-engineering-gpg-private-key-emu' , variable: 'SECRET_KEY')]) {
     sh 'export GIT_BRANCH=env.GIT_BRANCH'
     sh 'npm run release'
