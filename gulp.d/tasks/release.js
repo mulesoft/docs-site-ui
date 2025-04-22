@@ -320,8 +320,8 @@ const updateContent = async ({ octokit, owner, repo, ref, newBranchName, tagName
     tree: newTreeSha,
     parents: [latestCommitSha],
     author: {
-      name: 'ms_cx_engineering (mule docs agent)',
-      email: 'ms_cx_engineering@mulesoft.com',
+      name: 'SVC_mes-bot',
+      email: 'SVC_mes-bot@salesforce.com',
       date: new Date().toISOString(),
     },
   }
