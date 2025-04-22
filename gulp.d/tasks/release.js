@@ -392,7 +392,7 @@ const versionBundle = async (bundleFile, tagName) => {
     .pipe(zip.dest(bundleFile))
 }
 
-module.exports = (dest, bundleName, owner, repo, token, secretKey, passphrase, updateBranch) => async () => {
+module.exports = (dest, bundleName, owner, repo, token, tokenEmu, secretKey, passphrase, updateBranch) => async () => {
   const octokit = new Octokit({ auth: `token ${token}` })
   const githubConfig = { octokit, owner, repo }
 
@@ -402,16 +402,17 @@ module.exports = (dest, bundleName, owner, repo, token, secretKey, passphrase, u
 
   const branchName = await setBranchName(process.env.GIT_BRANCH)
   const variant = branchName === defaultBranch ? 'prod' : branchName
+  const isProd = variant === 'prod'
   const tagName =
-    variant === 'prod' ? `${variant}-${(await getCurrentReleaseNumber(githubConfig, variant)) + 1}` : branchName
+    isProd ? `${variant}-${(await getCurrentReleaseNumber(githubConfig, variant)) + 1}` : branchName
 
-  if (variant === 'prod') {
+  if (isProd) {
     await createRelease(githubConfig, tagName, bundleName, bundlePath, branchName, updateBranch)
     await updateRelease(githubConfig, 'latest', bundleName, bundlePath)
     if (secretKey) {
       await createPR({
-        octokit,
-        owner,
+        octokit: new Octokit({ auth: `token ${tokenEmu}` }),
+        owner: 'mulesoft-emu',
         repo: 'docs-site-playbook',
         tagName,
         ref: defaultBranch,

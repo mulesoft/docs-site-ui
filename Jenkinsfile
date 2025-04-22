@@ -108,14 +108,14 @@ void installNodeDependencies() {
   sh 'npm ci --cache=.cache/npm --no-audit'
 }
 
-def isPR() {
+boolean isPR() {
   return env.GIT_BRANCH.startsWith('PR-')
 }
 
 void release() {
   withCredentials([
-    string(credentialsId: 'github-emu', variable: 'GH_TOKEN'),
-    string(credentialsId: 'ms-cx-engineering-gpg-private-key' , variable: 'SECRET_KEY')]) {
+    string(credentialsId: 'GH_TOKEN_EMU', variable: 'GH_TOKEN'),
+    string(credentialsId: 'ms-cx-engineering-gpg-private-key-emu' , variable: 'SECRET_KEY')]) {
     sh 'export GIT_BRANCH=env.GIT_BRANCH'
     sh 'npm run release'
   }
