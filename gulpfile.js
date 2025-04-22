@@ -101,6 +101,7 @@ const releasePublishTask = createTask({
     owner,
     repo,
     process.env.GH_TOKEN,
+    process.env.GH_TOKEN_EMU,
     process.env.SECRET_KEY,
     // this is not needed for CI/CD, but needed if you are testing with your local key that has a passphrase
     process.env.PASSPHRASE
