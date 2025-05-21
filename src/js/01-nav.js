@@ -274,8 +274,8 @@
 
   // Add ability to override site type with a query param for ease of testing
   // For JP, you also need to edit the siteProfile in ui-model.yml
-  const urlParams = new URLSearchParams(window.location.search);
-  const siteTypeOverride = urlParams.get('siteTypeOverride');
+  const urlParams = new URLSearchParams(window.location.search)
+  const siteTypeOverride = urlParams.get('siteTypeOverride')
 
   const setTitle = (title) => (isArchiveSite() ? `Archive ${title}` : homeTitle)
 
