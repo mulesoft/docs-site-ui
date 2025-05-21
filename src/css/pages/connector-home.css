@@ -110,8 +110,7 @@
     padding-left: var(--xl);
   }
 
-  & .select-wrapper,
-  & .select {
+  & .select-wrapper {
     width: 100%;
   }
 
@@ -120,6 +119,7 @@
     padding-left: var(--sm);
     padding-right: var(--lg);
     white-space: nowrap;
+    width: auto;
 
     &::before {
       right: 12px;

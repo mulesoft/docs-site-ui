@@ -9,11 +9,7 @@
   <td class="td">
     <img loading="lazy" src="" class="img js-connector-icon" width="30" alt="icon">
   </td>
-  <td class="td js-connector-title"></td>
-  <td class="td js-connector-link">
-    <a class="link js-connector-link-mule4" href="#">Mule 4</a><span class="js-connector-link-delim">,</span>
-    <a class="link js-connector-link-mule3" href="#">Mule 3</a>
-  </td>
+  <td class="td js-connector-title"><a class="link js-connector-link" href="#"></a></td>
   <td class="td js-connector-type"></td>
 </tr>
 </template>
@@ -42,17 +38,7 @@
     {{#with connector.latest as |latest|}}
     "latestVersion": {
       "version": "{{latest.version}}",
-      "runtimeVersion": "{{#if (is-mule3-version latest.version)}}3{{else}}4{{/if}}",
       "url": "{{relativize latest.url}}"
-    {{/with}}
-    {{#with (latest-mule3 connector.versions) as |latestMule3|}}
-    },
-    "latestMule3Version": {
-      "version": "{{latestMule3.version}}",
-      "runtimeVersion": "3",
-      "url": "{{relativize latestMule3.url}}"
-    }
-    {{else}}
     }
     {{/with}}
   }{{#unless @last}},{{/unless}}
@@ -60,7 +46,7 @@
   {{/each}}
 ]
 </script>
-<script nonce="**CSP_NONCE**">//<![CATA[
+<script nonce="**CSP_NONCE**">//<![CDATA[
 ;(function () {
   populateConnectorsTable()
 
@@ -69,18 +55,14 @@
     var search = table.querySelector('thead')
     var criteria = {
       title: search.querySelector('.js-connector-title'),
-      runtime: search.querySelector('.js-connector-runtime'),
       type: search.querySelector('.js-connector-type'),
     }
     if (e) {
       criteria.title = criteria.title.value.toLowerCase()
-      criteria.runtime = criteria.runtime.value
       criteria.type = criteria.type.value
     } else {
       criteria.title.value = ''
       criteria.title.addEventListener('keyup', debounce(populateConnectorsTable, 250))
-      criteria.runtime.value = ''
-      criteria.runtime.addEventListener('change', populateConnectorsTable)
       criteria.type.value = ''
       criteria.type.addEventListener('change', populateConnectorsTable)
       criteria = {}
@@ -89,30 +71,16 @@
     var tmpl = document.getElementById('connectors-row')
     var rows = JSON.parse(document.getElementById('connectors-data').textContent).reduce(function (accum, connector) {
       var connector_title = connector.title.replace(new RegExp(' ' + connector.type + '$'), '')
-      if ((criteria.title && !connector_title.toLowerCase().includes(criteria.title)) || (criteria.runtime &&
-          ((criteria.runtime === '3' && !connector.latestMule3Version) ||
-          (criteria.runtime === '4' && connector.latestVersion.runtimeVersion !== '4'))) ||
+      if ((criteria.title && !connector_title.toLowerCase().includes(criteria.title)) ||
           (criteria.type && !connector.type.includes(criteria.type))) return accum
       var row = document.importNode(tmpl.content.querySelector('tr'), true)
       row.dataset.href = connector.latestVersion.url
       row.querySelector('.js-connector-icon').src = connector.iconURL
       row.querySelector('.js-connector-icon').alt = '[icon]'
-      row.querySelector('.js-connector-title').textContent = connector_title
+      row.querySelector('.js-connector-link').textContent = connector_title
+      row.querySelector('.js-connector-link').href = connector.latestVersion.url
       row.querySelector('.js-connector-type').textContent = connector.type
-      if (connector.latestVersion.runtimeVersion === '3') {
-        row.querySelector('.js-connector-link').removeChild(row.querySelector('.js-connector-link-mule4'))
-        row.querySelector('.js-connector-link').removeChild(row.querySelector('.js-connector-link-delim'))
-      } else {
-        row.querySelector('.js-connector-link-mule4').href = connector.latestVersion.url
-      }
-      if (connector.latestMule3Version) {
-        row.querySelector('.js-connector-link-mule3').href = connector.latestMule3Version.url
-      } else {
-        if (connector.latestVersion.runtimeVersion !== '3') {
-          row.querySelector('.js-connector-link').removeChild(row.querySelector('.js-connector-link-delim'))
-        }
-        row.querySelector('.js-connector-link').removeChild(row.querySelector('.js-connector-link-mule3'))
-      }
+      
       return accum.concat(row)
     }, [])
     slot.innerHTML = ''
