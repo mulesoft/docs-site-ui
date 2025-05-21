@@ -272,15 +272,19 @@
 
   const coerceToArray = (val) => (Array.isArray(val) ? val : [val])
 
+  // Add ability to override site type with a query param for ease of testing
+  const urlParams = new URLSearchParams(window.location.search);
+  const siteTypeOverride = urlParams.get('siteTypeOverride');
+
   const setTitle = (title) => (isArchiveSite() ? `Archive ${title}` : homeTitle)
 
-  const isArchiveSite = () => window.location.host.includes('archive')
+  const isArchiveSite = () => siteTypeOverride === 'archive' || window.location.host.includes('archive')
   const isBetaSite = () => isExternalBetaSite() || isInternalBetaSite() || isReviewSite()
-  const isExternalBetaSite = () => window.location.host.includes('beta')
-  const isInternalBetaSite = () => window.location.host.includes('dev-docs-internal')
-  const isJapaneseSite = () => document.documentElement.lang === 'jp'
-  const isLocalBuild = () => window.location.href.startsWith('file://')
-  const isReviewSite = () => window.location.host.includes('review')
+  const isExternalBetaSite = () => siteTypeOverride === 'beta' || window.location.host.includes('beta')
+  const isInternalBetaSite = () => siteTypeOverride === 'internal' || window.location.host.includes('dev-docs-internal')
+  const isJapaneseSite = () => siteTypeOverride === 'jp' || document.documentElement.lang === 'jp'
+  const isLocalBuild = () => siteTypeOverride === 'file' || window.location.href.startsWith('file://')
+  const isReviewSite = () => siteTypeOverride === 'review' || window.location.host.includes('review')
 
   const getNavData = () => {
     const components = window.siteNavigationData
