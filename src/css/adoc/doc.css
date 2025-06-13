@@ -399,6 +399,10 @@
   margin-top: 24px !important;
 }
 
+p.badge {
+  margin-bottom: 8px;
+}
+
 p.badge,
 p.prev-flag {
   background: #e3066a;
@@ -409,7 +413,6 @@ p.prev-flag {
   font-size: 12px !important;
   letter-spacing: 0;
   line-height: 25px !important;
-  margin-bottom: 8px;
   padding: 0 18px;
 
   &.square {
