@@ -448,17 +448,17 @@ site:
             url: /runtime-manager/runtime-manager-cli.html
       versions:
       - *runtime_manager_latest
-    munit:
-      latest: &munit_latest
+    mulesoft-mcp-server:
+      latest: &mulesoft_mcp_server_latest
         version: ~
-        title: Munit
+        title: MuleSoft MCP Server
         url: '#'
         navigation:
         - items:
-          - content: About Munit
+          - content: About MuleSoft MCP Server
             url: '#'
       versions:
-      - *munit_latest
+      - *mulesoft_mcp_server_latest
 nav:
   subcomponents:
   - parent: connectors
