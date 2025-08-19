@@ -48,7 +48,7 @@ pipeline {
                 slackSend color: 'danger',
                 channel: failureSlackChannel,
                 message: "${emoji} <${env.BUILD_URL}|${currentBuild.displayName}> UI bundle test failed for ${env.GIT_BRANCH}, so the ${env.GIT_BRANCH} is not updated. \
-                Please run `npm run format:bundle` to see the errors, fix those errors, and then push the fix to retrigger this build. ${getErrorMsg()}"
+Please run `npm run format:bundle` to see the errors, fix those errors, and then push the fix to retrigger this build. ${getErrorMsg()}"
               }
             }
           }
@@ -77,7 +77,7 @@ pipeline {
           slackSend color: 'danger',
           channel: failureSlackChannel,
           message: "${emoji} <${env.BUILD_URL}|${currentBuild.displayName}> UI bundle release failed for ${env.GIT_BRANCH}. \
-          Please manually start a release on Jenkins if needed. ${getErrorMsg()}"
+Please manually start a release on Jenkins if needed. ${getErrorMsg()}"
         }
       }
     }
