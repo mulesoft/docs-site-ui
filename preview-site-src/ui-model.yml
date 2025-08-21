@@ -448,17 +448,17 @@ site:
             url: /runtime-manager/runtime-manager-cli.html
       versions:
       - *runtime_manager_latest
-    mulesoft-mcp-server:
-      latest: &mulesoft_mcp_server_latest
+    composer-salesforce:
+      latest: &composer_salesforce_latest
         version: ~
-        title: MuleSoft MCP Server
+        title: Composer for Salesforce
         url: '#'
         navigation:
         - items:
-          - content: About MuleSoft MCP Server
+          - content: About Composer for Salesforce
             url: '#'
       versions:
-      - *mulesoft_mcp_server_latest
+      - *composer_salesforce_latest
 nav:
   subcomponents:
   - parent: connectors

@@ -38,6 +38,25 @@
       fill: 'var(--lume-c-icon-color-foreground-3)',
     },
   ]
+  const composerPaths = [
+    // lume-icons/product/composer
+    {
+      d: 'M11.8 10.605c.11-.11.289-.11.399 0l1.196 1.196c.11.11.11.288 0 .398l-1.196 1.196a.281.281 0 0 1-.398 0l-1.196-1.196a.281.281 0 0 1 0-.398l1.196-1.196Z',
+      fill: 'var(--lume-c-icon-color-foreground-1)',
+    },
+    {
+      d: 'M15.79 21.724h-1.662a.938.938 0 0 1-.663-.275L4.68 12.665a.937.937 0 0 1 0-1.326l.928-.928L16.12 20.924c.296.295.087.8-.331.8Z',
+      fill: 'var(--lume-c-icon-color-foreground-2)',
+    },
+    {
+      d: 'M15.82 2.25c.417 0 .626.505.331.8L7.2 12.002 5.609 10.41l7.886-7.886a.938.938 0 0 1 .663-.275h1.662ZM10.403 18.386h3.182l4.797-4.797-1.591-1.591-6.388 6.388Z',
+      fill: 'var(--lume-c-icon-color-foreground-3)',
+    },
+    {
+      d: 'm10.406 5.613 7.976 7.976.928-.928a.937.937 0 0 0 0-1.326l-5.722-5.722h-3.181Z',
+      fill: 'var(--lume-c-icon-color-foreground-2)',
+    },
+  ]
   const hybridCloudPaths = [
     // lume-icons/product/hybrid-cloud
     {
@@ -387,25 +406,12 @@
     {
       id: 'icon-nav-component-composer',
       viewBox: '0 0 24 24',
-      paths: [
-        // lume-icons/product/composer
-        {
-          d: 'M11.8 10.605c.11-.11.289-.11.399 0l1.196 1.196c.11.11.11.288 0 .398l-1.196 1.196a.281.281 0 0 1-.398 0l-1.196-1.196a.281.281 0 0 1 0-.398l1.196-1.196Z',
-          fill: 'var(--lume-c-icon-color-foreground-1)',
-        },
-        {
-          d: 'M15.79 21.724h-1.662a.938.938 0 0 1-.663-.275L4.68 12.665a.937.937 0 0 1 0-1.326l.928-.928L16.12 20.924c.296.295.087.8-.331.8Z',
-          fill: 'var(--lume-c-icon-color-foreground-2)',
-        },
-        {
-          d: 'M15.82 2.25c.417 0 .626.505.331.8L7.2 12.002 5.609 10.41l7.886-7.886a.938.938 0 0 1 .663-.275h1.662ZM10.403 18.386h3.182l4.797-4.797-1.591-1.591-6.388 6.388Z',
-          fill: 'var(--lume-c-icon-color-foreground-3)',
-        },
-        {
-          d: 'm10.406 5.613 7.976 7.976.928-.928a.937.937 0 0 0 0-1.326l-5.722-5.722h-3.181Z',
-          fill: 'var(--lume-c-icon-color-foreground-2)',
-        },
-      ],
+      paths: composerPaths,
+    },
+    {
+      id: 'icon-nav-component-composer-salesforce',
+      viewBox: '0 0 24 24',
+      paths: composerPaths,
     },
     {
       id: 'icon-nav-component-connector-devkit',
