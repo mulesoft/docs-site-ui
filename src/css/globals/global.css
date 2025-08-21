@@ -53,17 +53,9 @@ body {
           top: 0 !important;
         }
 
-        & .search-toolbar {
-          padding-top: var(--sm) !important;
-        }
-
         &:has(.top-banner:not(.hide)) {
           & > div.flex.container.wrapper {
             transform: translateY(50px);
-          }
-
-          & .search-toolbar {
-            padding-top: 60px !important;
           }
         }
       }
@@ -75,10 +67,6 @@ body {
 
         & .top-banner {
           top: var(--header-height);
-        }
-
-        & .search-toolbar {
-          padding-top: 85px;
         }
       }
   
