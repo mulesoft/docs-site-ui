@@ -79,5 +79,8 @@
     "typeface-open-sans": "1.1.13",
     "vinyl-buffer": "1.0.1",
     "vinyl-fs": "3.0.3"
+  },
+  "volta": {
+    "node": "22.18.0"
   }
 }
