@@ -27,8 +27,6 @@ site:
           - content: API ビルドの最初から最後まで
             url: /jp/general/api-led-overview.html
             items:
-              - content: ドキュメントの検索
-                url: /jp/general/search.html
               - content: ステップ 1. 前提条件
                 url: /jp/general/api-led-prerequisites.html
               - content: ステップ 2. API 仕様の設計

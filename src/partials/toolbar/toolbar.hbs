@@ -1,19 +1,11 @@
 <nav class="flex align-center toolbar">
-  {{#if (ne page.title 'Search Docs')}}
   <button aria-label="Docs Menu" class="mule-button-br nav-toggle hide-until-l10n" data-l10n-text="mobile-menu-button">Menu</button>
-  {{/if}}
   {{> breadcrumbs mode='primary'}}
   <div class="mobile-toolbar-breadcrumbs-drawer-controls">
     {{#if (and page.breadcrumbs (ne page.layout 'home'))}}
     <button aria-expanded="false" aria-controls="secondary-breadcrumbs-drawer"
       aria-label="Click to toggle the breadcrumbs drawer" class="breadcrumbs-toggle">
       <img loading="lazy" src="{{@root.uiRootPath}}/img/icons/arrow-down.svg" alt="">
-    </button>
-    {{/if}}
-    {{#if (and (or env.COVEO_API_KEY env.COVEO_API_KEY_JP) (ne page.title 'Search Docs') (ne (site-profile) 'archive'))}}
-    <button data-l10n-label="search-toolbar-button" class="mule-button-br toolbar-search-button">
-      <img loading="lazy" class="toolbar-search-button-icon" src="{{@root.uiRootPath}}/img/icons/search.svg"
-        data-l10n-alt="search-toolbar-button">
     </button>
     {{/if}}
   </div>
