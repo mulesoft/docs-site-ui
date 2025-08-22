@@ -1,5 +1,8 @@
 <nav class="nav fit" aria-label="Docs">
   <span class="mobile-nav-focus-trapper"></span>
+  {{#if (or preview (is-one-of (site-profile) 'prod' 'jp'))}}
+  <div id="docsearch"></div>
+  {{/if}}
   <div>
     <button class="nav-close-button hide" title="close menu">
       <img loading="lazy" src="{{@root.uiRootPath}}/img/icons/arrow-down.svg" alt="">

@@ -97,6 +97,15 @@ module.exports = (src, dest, preview) => () => {
       )
       .pipe(concat('js/vendor/tippy.js')),
     vfs
+      .src([require.resolve('@docsearch/js/dist/umd/index.js')], opts)
+      .pipe(
+        map((file, _enc, next) => {
+          file.contents = Buffer.from(file.contents.toString().replace(/\n\/\/# sourceMappingURL=.*/, ''))
+          next(null, file)
+        })
+      )
+      .pipe(concat('js/vendor/docsearch.js')),
+    vfs
       .src('css/site.css', { ...opts, sourcemaps })
       .pipe(postcss(postcssPlugins))
       .pipe(

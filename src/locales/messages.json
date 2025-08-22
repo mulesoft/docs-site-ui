@@ -32,6 +32,7 @@
       "search-close-button": "Close",
       "search-results-filter-placeholder-text": "Search Products",
       "search-toolbar-button": "Search Docs",
+      "search-text": "Search",
       "version": "Version"
       },
     "jp": {
@@ -60,6 +61,7 @@
       "search-close-button": "閉じる",
       "search-results-filter-placeholder-text": "製品を検索",
       "search-toolbar-button": "ドキュメントの検索",
+      "search-text": "検索",
       "version": "バージョン"
     }
 }
