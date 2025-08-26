@@ -34,7 +34,7 @@
   const opensInNewWindow = (linkTarget) => linkTarget === '_blank'
 
   const processExternalLinks = (selectors) => {
-    const selectorText = selectors.map((el) => `${el} :not(#trending-topics-fallback) > * > a`).join(', ')
+    const selectorText = selectors.map((el) => `${el} :not(#trending-topics) > * > a`).join(', ')
     const externalLinks = document.querySelectorAll(selectorText)
     externalLinks.forEach((externalLink) => {
       if (isExternalLink(externalLink.href)) {

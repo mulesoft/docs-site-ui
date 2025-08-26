@@ -288,14 +288,10 @@
 
   const getNavData = () => {
     const components = window.siteNavigationData
-    /*
-      Normally, we would delete window.siteNavigationData here to clean up.
-      But this data is needed for the Coveo scripts later, so keep them and let the Coveo scripts delete.
-    */
-
     const groups = components.groups || [{ root: true, components: ['home', '*'] }]
     const homeUrl = components.homeUrl || document.querySelector('a.home-link')?.getAttribute('href') || '/'
     const subcomponents = components.subcomponents || []
+    delete window.siteNavigationData
 
     return { components, groups, homeUrl, subcomponents }
   }

@@ -88,6 +88,15 @@ body.home {
       }
     }
 
+    #trending-topics > * > a::before {
+      border: 3px solid black;
+      border-radius: 50%;
+      content: "";
+      display: inline-grid;
+      margin: 18px 14px 5px 8px;
+      vertical-align: super;
+    }
+
     & #contributor-signatures + table, 
     & #latest-releases + table {
       font-size: inherit;
@@ -314,7 +323,7 @@ body.home {
     font-weight: var(--weight-bold);
   }
 
-  & .toolbar:not(.search-toolbar) {
+  & .toolbar {
     @media (min-width: 768px) {
       display: none;
     }

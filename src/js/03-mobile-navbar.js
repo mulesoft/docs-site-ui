@@ -6,12 +6,11 @@
   const nav = document.querySelector('.nav.fit')
   const toolbarMenuButton = document.querySelector('.nav-toggle')
   const navCloseButton = document.querySelector('.nav-close-button')
-  const toolbarSearchButton = document.querySelector('.toolbar-search-button')
   const skipLinks = document.querySelectorAll('.skip-link')
   const mobileNavFocusTrapper = document.querySelector('.mobile-nav-focus-trapper')
   const tabindexStoreMap = {}
 
-  const addListeners = (backdrop, toolbarMenuButton, navCloseButton, toolbarSearchButton, skipLinks) => {
+  const addListeners = (backdrop, toolbarMenuButton, navCloseButton, skipLinks) => {
     const getElementByInnerHTML = (skipLinks, skipLinkLabel) =>
       Array.from(skipLinks).find((skipLink) => skipLink.innerHTML.includes(skipLinkLabel)) || null
 
@@ -26,33 +25,14 @@
       if (!isBigScreenSize()) toggleNav(e)
     }
 
-    const handleToolbarSearchButtonClick = (e) => {
-      toggleNav(e)
-      focusOnMobileNavSearchBox()
-    }
-
     if (backdrop) backdrop.addEventListener('click', hideNav)
     if (toolbarMenuButton) toolbarMenuButton.addEventListener('click', toggleNav)
     if (navCloseButton) navCloseButton.addEventListener('click', toggleNav)
-    if (toolbarSearchButton) toolbarSearchButton.addEventListener('click', handleToolbarSearchButtonClick)
     document.addEventListener('keydown', handleEscapeKeydown)
 
     // this takes precedence than the normal skip link listener in 15-skiplink-listeners.js
     const leftNavSkipLink = getElementByInnerHTML(skipLinks, 'left navigation')
     if (leftNavSkipLink) leftNavSkipLink.addEventListener('click', handleMobileLeftNavSkipLinkClick)
-  }
-
-  const focusOnMobileNavSearchBox = () => {
-    const getFocusableSearchBox = () => {
-      const atomicSearchbox = document.querySelector('atomic-search-box')
-      const searchboxShadowRoot = atomicSearchbox?.shadowRoot
-      return searchboxShadowRoot?.querySelector('input')
-    }
-
-    if (isActive(nav)) {
-      const searchBox = getFocusableSearchBox()
-      searchBox ? searchBox.focus() : toggleFocus()
-    }
   }
 
   const hideNav = (e) => toggleNav(e, false)
@@ -119,5 +99,5 @@
     links.forEach((link) => setTabindex(link))
   }
 
-  addListeners(backdrop, toolbarMenuButton, navCloseButton, toolbarSearchButton, skipLinks)
+  addListeners(backdrop, toolbarMenuButton, navCloseButton, skipLinks)
 })()

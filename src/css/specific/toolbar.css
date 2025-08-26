@@ -34,20 +34,6 @@ body:has(.top-banner:not(.hide)) .toolbar {
   }
 }
 
-.search-toolbar {
-  box-shadow: 0 6px 10px 0 rgb(0 0 0 / 10%);
-  display: grid;
-  min-height: var(--search-toolbar-height);
-
-  @media (min-width: 1024px) {
-    column-gap: var(--atomic-layout-spacing-x);
-    grid-template-areas: ". search-page-back-button atomic-external .";
-    grid-template-columns: 1fr minmax(17rem, 22rem) minmax(50%, 70rem) 1fr;
-    padding-left: 0;
-    padding-right: 0;
-  }
-}
-
 /* this is used by the toolbar on certain homepages - we want to keep it unmodified in small screen size to retain the layout */
 .toolbar-home {
   @media (--md) {

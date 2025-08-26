@@ -30,14 +30,6 @@
     -webkit-tap-highlight-color: transparent;
   }
 
-  & .search {
-    background: var(--lume-g-color-neutral-100);
-    display: block;
-    position: sticky;
-    top: 0;
-    z-index: inherit;
-  }
-
   & .nav-close-button {
     background-color: var(--sds-g-color-blue-30);
     border: none;

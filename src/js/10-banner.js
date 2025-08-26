@@ -23,17 +23,12 @@
         if (isSpaceOrEnterKey(e.keyCode)) {
           if (bannerDiv) {
             if (isTopBanner(bannerDiv)) {
-              const searchboxInput = getFocusableSearchBox()
-              if (searchboxInput && isBigScreenSize()) {
-                searchboxInput.focus()
+              const menuButton = document.querySelector('.nav-toggle')
+              if (menuButton && window.getComputedStyle(menuButton).display !== 'none') {
+                menuButton.focus()
               } else {
-                const menuButton = document.querySelector('.nav-toggle')
-                if (menuButton && window.getComputedStyle(menuButton).display !== 'none') {
-                  menuButton.focus()
-                } else {
-                  const nextFocusableElement = getNextFocusableElement()
-                  if (nextFocusableElement) nextFocusableElement.focus()
-                }
+                const nextFocusableElement = getNextFocusableElement()
+                if (nextFocusableElement) nextFocusableElement.focus()
               }
             } else {
               const nextFocusableElement = getNextFocusableElement()
@@ -49,12 +44,6 @@
 
   const enhanceNoticeBanner = (noticeBannerDiv) => addEventListeners(noticeBannerDiv)
   const enhanceTopBanner = (topBannerDiv) => addEventListeners(topBannerDiv, 'flex')
-
-  const getFocusableSearchBox = () => {
-    const atomicSearchbox = document.querySelector('atomic-search-box')
-    const searchboxShadowRoot = atomicSearchbox && atomicSearchbox.shadowRoot
-    if (searchboxShadowRoot) return searchboxShadowRoot.querySelector('input')
-  }
 
   const getNextFocusableElement = () => {
     const focusableElements = document.querySelectorAll(
@@ -85,7 +74,6 @@
     return false
   }
 
-  const isBigScreenSize = () => window.matchMedia(' (min-width: 768px)').matches
   const isSpaceOrEnterKey = (keyCode) => [13, 32].includes(keyCode)
   const isTopBanner = (element) => element.classList.contains('top-banner')
   const isVisible = (element) =>
