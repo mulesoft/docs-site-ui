@@ -77,7 +77,7 @@ const createPR = async ({ octokit, owner, repo, tagName, ref, sites, secretKey, 
   await octokit.pulls.create({
     owner,
     repo,
-    title: tagName,
+    title: `[W-18588974] ${tagName}`,
     head: newBranchName,
     base: ref,
     body: `ref: https://github.com/mulesoft/docs-site-ui/releases/tag/${tagName}
