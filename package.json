@@ -26,6 +26,8 @@
   "devDependencies": {
     "@asciidoctor/core": "~2.2",
     "@asciidoctor/tabs": "latest",
+    "@docsearch/css": "^4.0.0-beta.7",
+    "@docsearch/js": "^4.0.0-beta.7",
     "@mulesoft/lume-icon": "^0.1.47",
     "@mulesoft/lume-styling-hooks": "1.0.24",
     "@octokit/rest": "20.1.2",

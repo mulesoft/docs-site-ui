@@ -403,8 +403,7 @@ module.exports = (dest, bundleName, owner, repo, token, tokenEmu, secretKey, pas
   const branchName = await setBranchName(process.env.GIT_BRANCH)
   const variant = branchName === defaultBranch ? 'prod' : branchName
   const isProd = variant === 'prod'
-  const tagName =
-    isProd ? `${variant}-${(await getCurrentReleaseNumber(githubConfig, variant)) + 1}` : branchName
+  const tagName = isProd ? `${variant}-${(await getCurrentReleaseNumber(githubConfig, variant)) + 1}` : branchName
 
   if (isProd) {
     await createRelease(githubConfig, tagName, bundleName, bundlePath, branchName, updateBranch)
