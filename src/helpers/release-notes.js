@@ -8,6 +8,7 @@ const versionRegex = /([0-9])+\.([0-9a-z]{1,3})+(\.[0-9a-z]{1,3})*$/
 const getDatedReleaseNotesRawPages = (contentCatalog) => {
   return contentCatalog.getPages(({ asciidoc, out }) => {
     if (asciidoc && out) return getPagesWithDeploymentOptions(asciidoc)
+    return false
   })
 }
 
