@@ -52,23 +52,83 @@ const getResultList = (pageUIModels, maxNumberOfPages) => {
 }
 
 const getSelectedAttributes = (page) => {
-  const latestVersion = getLatestVersion(page.contents.toString())
+  const latestVersion = getLatestVersion(page.contents.toString(), page.attributes?.revdate)
   return {
     latestVersionAnchor: latestVersion?.anchor,
     latestVersionName: latestVersion?.innerText,
-    revdateWithoutYear: removeYear(page.attributes?.revdate),
+    revdateWithoutYear: removeYear(latestVersion?.releaseDate || page.attributes?.revdate),
     title: cleanTitle(page.title, latestVersion?.innerText),
     url: page.url,
   }
 }
 
-const getLatestVersion = (contentsStr) => {
+const getLatestVersion = (contentsStr, pageRevDate) => {
   const nodes = parseHTML(contentsStr)
-  const firstVersion = nodes.querySelector('h2')
-  if (firstVersion) {
-    const output = { anchor: firstVersion.id }
-    if (isVersion(firstVersion.innerText)) output.innerText = firstVersion.innerText
-    return output
+  const versionHeaders = nodes.querySelectorAll('h2')
+  
+  if (!versionHeaders || versionHeaders.length === 0) return null
+  
+  // First, try to find a version with a matching release date
+  for (let i = 0; i < versionHeaders.length; i++) {
+    const header = versionHeaders[i]
+    if (isVersion(header.innerText)) {
+      // Look for a release date in the next sibling elements
+      const releaseDate = findReleaseDateForVersion(header, pageRevDate)
+      if (releaseDate && datesMatch(releaseDate, pageRevDate)) {
+        return { 
+          anchor: header.id, 
+          innerText: header.innerText,
+          releaseDate: releaseDate
+        }
+      }
+    }
+  }
+  
+  // Fallback: return the first version if no date match found
+  const firstVersion = versionHeaders[0]
+  if (isVersion(firstVersion.innerText)) {
+    return { 
+      anchor: firstVersion.id, 
+      innerText: firstVersion.innerText,
+      releaseDate: null
+    }
+  }
+  
+  return null
+}
+
+const findReleaseDateForVersion = (versionHeader, pageRevDate) => {
+  // Look for release date in the next few sibling elements
+  let currentElement = versionHeader.nextElementSibling
+  
+  // Search through next few elements for a date
+  for (let i = 0; i < 5 && currentElement; i++) {
+    if (currentElement.tagName === 'P' || currentElement.tagName === 'DIV') {
+      const text = currentElement.innerText || currentElement.text
+      const dateMatch = text.match(/(\w+\s+\d{1,2},?\s+\d{4})|(\d{1,2}\/\d{1,2}\/\d{4})|(\d{4}-\d{2}-\d{2})/)
+      if (dateMatch) {
+        return dateMatch[0]
+      }
+    }
+    currentElement = currentElement.nextElementSibling
+  }
+  
+  return null
+}
+
+const datesMatch = (date1, date2) => {
+  if (!date1 || !date2) return false
+  
+  try {
+    const parsedDate1 = new Date(date1)
+    const parsedDate2 = new Date(date2)
+    
+    // Compare dates ignoring time
+    return parsedDate1.getFullYear() === parsedDate2.getFullYear() &&
+           parsedDate1.getMonth() === parsedDate2.getMonth() &&
+           parsedDate1.getDate() === parsedDate2.getDate()
+  } catch (e) {
+    return false
   }
 }
 
