@@ -7,7 +7,7 @@ on:
   workflow_dispatch:
 
 jobs:
-  hello-world:
+  test-and-release:
     runs-on: mulesoft-ubuntu
     
     steps:
@@ -19,6 +19,13 @@ jobs:
       with:
         node-version-file: '.nvmrc'
         cache: 'npm'
+
+    - name: Configure npm registry
+      env:
+        NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+      run: |
+        npm config set @mulesoft:registry=https://nexus3.build.msap.io/repository/npm-internal/
+        npm login --scope=@mulesoft --registry=https://nexus3.build.msap.io/repository/npm-internal/ --_authToken=${NPM_TOKEN}
     
     - name: Install dependencies for release
       run: npm ci
@@ -26,20 +33,37 @@ jobs:
     - name: Format and bundle
       run: npm run format:bundle
 
-    - name: Get next version
-      if: (github.event_name == 'push' && github.ref == 'refs/heads/main') || github.event_name == 'workflow_dispatch'
+    - name: Get next version (for PRs)
+      if: github.base_ref == 'main' && (github.event_name == 'pull_request' || github.event_name == 'workflow_dispatch')
+      id: pr_version
+      run: |
+        PR_TAG="pr-${{ github.event.number }}"
+        echo "pr_version=$PR_TAG" >> $GITHUB_OUTPUT
+        echo "PR version will be: $PR_TAG"
+
+    - name: Create Github Release (for PRs)
+      if: github.base_ref == 'main' && (github.event_name == 'pull_request' || github.event_name == 'workflow_dispatch')
+      uses: softprops/action-gh-release@v2
+      with:
+        generate_release_notes: true
+        name: v${{ steps.pr_version.outputs.tag_name }}
+        tag_name: v${{ steps.pr_version.outputs.tag_name }}
+        files: ./build/ui-bundle.zip
+    
+    - name: Get next version (for main)
+      if: github.ref == 'refs/heads/main' && (github.event_name == 'push' || github.event_name == 'workflow_dispatch')
       id: version
       run: |
         LATEST_TAG=$(curl -s https://api.github.com/repos/mulesoft/mulesoft-docs-writing-style/releases/latest | jq -r '.tag_name // "prod-0.0.0"')
         NEXT_VERSION=$(echo $LATEST_TAG | sed 's/prod-\([0-9]*\)/prod-$((\1+1))/')
-        echo "next_version=$NEXT_VERSION" >> $GITHUB_OUTPUT
+        echo "tag_name=$NEXT_VERSION" >> $GITHUB_OUTPUT
         echo "Next version will be: $NEXT_VERSION"
 
-    # - name: Create Github Release
-    #   if: (github.event_name == 'push' && github.ref == 'refs/heads/main') || github.event_name == 'workflow_dispatch'
-    #   uses: softprops/action-gh-release@v2
-    #   with:
-    #     generate_release_notes: true
-    #     name: v${{ steps.version.outputs.next_version }}
-    #     tag_name: v${{ steps.version.outputs.next_version }}
-    #     files: ./build/ui-bundle.zip
+    - name: Create Github Release (for main)
+      if: github.ref == 'refs/heads/main' && (github.event_name == 'push' || github.event_name == 'workflow_dispatch')
+      uses: softprops/action-gh-release@v2
+      with:
+        generate_release_notes: true
+        name: v${{ steps.version.outputs.tag_name }}
+        tag_name: v${{ steps.version.outputs.tag_name }}
+        files: ./build/ui-bundle.zip
