@@ -1,0 +1,45 @@
+name: CI
+
+on:
+  push:
+  pull_request:
+    branches: [ main ]
+  workflow_dispatch:
+
+jobs:
+  hello-world:
+    runs-on: mulesoft-ubuntu
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Setup Node.js for release
+      uses: actions/setup-node@v4
+      with:
+        node-version-file: '.nvmrc'
+        cache: 'npm'
+    
+    - name: Install dependencies for release
+      run: npm ci
+
+    - name: Format and bundle
+      run: npm run format:bundle
+
+    - name: Get next version
+      if: (github.event_name == 'push' && github.ref == 'refs/heads/main') || github.event_name == 'workflow_dispatch'
+      id: version
+      run: |
+        LATEST_TAG=$(curl -s https://api.github.com/repos/mulesoft/mulesoft-docs-writing-style/releases/latest | jq -r '.tag_name // "prod-0.0.0"')
+        NEXT_VERSION=$(echo $LATEST_TAG | sed 's/prod-\([0-9]*\)/prod-$((\1+1))/')
+        echo "next_version=$NEXT_VERSION" >> $GITHUB_OUTPUT
+        echo "Next version will be: $NEXT_VERSION"
+
+    # - name: Create Github Release
+    #   if: (github.event_name == 'push' && github.ref == 'refs/heads/main') || github.event_name == 'workflow_dispatch'
+    #   uses: softprops/action-gh-release@v2
+    #   with:
+    #     generate_release_notes: true
+    #     name: v${{ steps.version.outputs.next_version }}
+    #     tag_name: v${{ steps.version.outputs.next_version }}
+    #     files: ./build/ui-bundle.zip
