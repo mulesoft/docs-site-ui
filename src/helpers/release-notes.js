@@ -8,13 +8,12 @@ const versionRegex = /([0-9])+\.([0-9a-z]{1,3})+(\.[0-9a-z]{1,3})*$/
 const getDatedReleaseNotesRawPages = (contentCatalog) => {
   return contentCatalog.getPages(({ asciidoc, out }) => {
     if (asciidoc && out) return getPagesWithDeploymentOptions(asciidoc)
-    return false
   })
 }
 
 const getPagesWithDeploymentOptions = (asciidoc) => {
-  const attributes = asciidoc.attributes
-  return asciidoc.attributes && isReleaseNotes(attributes) && hasRevDate(attributes)
+  const { attributes } = asciidoc
+  return attributes && isReleaseNotes(attributes) && hasRevDate(attributes)
 }
 
 const hasRevDate = (attributes) => attributes['page-revdate']
@@ -33,8 +32,7 @@ const sortByRevDate = (a, b) => new Date(b.attributes.revdate) - new Date(a.attr
 
 const getMostRecentlyUpdatedPages = (pageUIModels, numOfItems) => {
   const maxNumberOfPages = pageUIModels.length > numOfItems ? numOfItems : pageUIModels.length
-  const resultList = getResultList(pageUIModels, maxNumberOfPages)
-  return resultList
+  return getResultList(pageUIModels, maxNumberOfPages)
 }
 
 const getResultList = (pageUIModels, maxNumberOfPages) => {
@@ -66,42 +64,42 @@ const getSelectedAttributes = (page) => {
 const getLatestVersion = (contentsStr, pageRevDate) => {
   const nodes = parseHTML(contentsStr)
   const versionHeaders = nodes.querySelectorAll('h2')
-  
+
   if (!versionHeaders || versionHeaders.length === 0) return null
-  
+
   // First, try to find a version with a matching release date
   for (let i = 0; i < versionHeaders.length; i++) {
     const header = versionHeaders[i]
     if (isVersion(header.innerText)) {
       // Look for a release date in the next sibling elements
-      const releaseDate = findReleaseDateForVersion(header, pageRevDate)
+      const releaseDate = findReleaseDateForVersion(header)
       if (releaseDate && datesMatch(releaseDate, pageRevDate)) {
-        return { 
-          anchor: header.id, 
+        return {
+          anchor: header.id,
           innerText: header.innerText,
-          releaseDate: releaseDate
+          releaseDate,
         }
       }
     }
   }
-  
+
   // Fallback: return the first version if no date match found
   const firstVersion = versionHeaders[0]
   if (isVersion(firstVersion.innerText)) {
-    return { 
-      anchor: firstVersion.id, 
+    return {
+      anchor: firstVersion.id,
       innerText: firstVersion.innerText,
-      releaseDate: null
+      releaseDate: null,
     }
   }
-  
+
   return null
 }
 
-const findReleaseDateForVersion = (versionHeader, pageRevDate) => {
+const findReleaseDateForVersion = (versionHeader) => {
   // Look for release date in the next few sibling elements
   let currentElement = versionHeader.nextElementSibling
-  
+
   // Search through next few elements for a date
   for (let i = 0; i < 5 && currentElement; i++) {
     if (currentElement.tagName === 'P' || currentElement.tagName === 'DIV') {
@@ -113,21 +111,23 @@ const findReleaseDateForVersion = (versionHeader, pageRevDate) => {
     }
     currentElement = currentElement.nextElementSibling
   }
-  
+
   return null
 }
 
 const datesMatch = (date1, date2) => {
   if (!date1 || !date2) return false
-  
+
   try {
     const parsedDate1 = new Date(date1)
     const parsedDate2 = new Date(date2)
-    
+
     // Compare dates ignoring time
-    return parsedDate1.getFullYear() === parsedDate2.getFullYear() &&
-           parsedDate1.getMonth() === parsedDate2.getMonth() &&
-           parsedDate1.getDate() === parsedDate2.getDate()
+    return (
+      parsedDate1.getFullYear() === parsedDate2.getFullYear() &&
+      parsedDate1.getMonth() === parsedDate2.getMonth() &&
+      parsedDate1.getDate() === parsedDate2.getDate()
+    )
   } catch (e) {
     return false
   }
@@ -149,9 +149,7 @@ const isVersion = (versionText) => {
 const removeYear = (dateStr) => {
   if (isValidDate(dateStr)) {
     const dateObj = new Date(dateStr)
-    return `${dateObj.toLocaleString('en-US', {
-      month: 'short',
-    })} ${dateObj.getDate()}`
+    return `${dateObj.toLocaleString('en-US', { month: 'short' })} ${dateObj.getDate()}`
   }
 }
 
