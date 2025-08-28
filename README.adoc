@@ -3,7 +3,7 @@
 :experimental:
 :hide-uri-scheme:
 // Variables:
-//:current-release: v0
+:current-release: prod-713
 // Project URIs:
 :uri-project: https://github.com/mulesoft/docs-site-ui
 // External URIs:
