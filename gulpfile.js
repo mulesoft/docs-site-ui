@@ -92,28 +92,6 @@ const bundleTask = createTask({
   call: series(bundleBuildTask, bundlePackTask),
 })
 
-const releasePublishTask = createTask({
-  desc: 'Publish the release to GitHub by attaching it to a new tag',
-  name: 'release:publish',
-  call: task.release(
-    buildDir,
-    bundleName,
-    owner,
-    repo,
-    process.env.GH_TOKEN,
-    process.env.GH_TOKEN_EMU,
-    process.env.SECRET_KEY,
-    // this is not needed for CI/CD, but needed if you are testing with your local key that has a passphrase
-    process.env.PASSPHRASE
-  ),
-})
-
-const releaseTask = createTask({
-  name: 'release',
-  desc: 'Bundle the UI and publish it to GitHub by attaching it to a new tag',
-  call: series(bundleTask, releasePublishTask),
-})
-
 const buildPreviewPagesTask = createTask({
   name: 'preview:build-pages',
   call: task.buildPreviewPages(srcDir, previewSrcDir, previewDestDir, livereload),
@@ -187,7 +165,5 @@ module.exports = exportTasks(
   previewServeJpTask,
   previewServeTask,
   previewTask,
-  releasePublishTask,
-  releaseTask,
   updateTask
 )
