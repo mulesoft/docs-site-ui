@@ -67,3 +67,11 @@ jobs:
         name: v${{ steps.version.outputs.tag_name }}
         tag_name: v${{ steps.version.outputs.tag_name }}
         files: ./build/ui-bundle.zip
+
+    - name: Create PR (for main)
+      if: github.ref == 'refs/heads/main' && (github.event_name == 'push' || github.event_name == 'workflow_dispatch')
+      run: npm run pr
+      env:
+        TAG_NAME: ${{ steps.version.outputs.tag_name }}
+        GH_TOKEN_EMU: ${{ secrets.GH_TOKEN_EMU }}
+        SECRET_KEY: ${{ secrets.SECRET_KEY }}        
