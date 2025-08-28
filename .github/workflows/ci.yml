@@ -45,10 +45,11 @@ jobs:
       if: github.base_ref == 'main' && (github.event_name == 'pull_request' || github.event_name == 'workflow_dispatch')
       uses: softprops/action-gh-release@v2
       with:
+        files: ./build/ui-bundle.zip
         generate_release_notes: true
         name: v${{ steps.pr_version.outputs.tag_name }}
+        prerelease: true
         tag_name: v${{ steps.pr_version.outputs.tag_name }}
-        files: ./build/ui-bundle.zip
     
     - name: Get next version (for main)
       if: github.ref == 'refs/heads/main' && (github.event_name == 'push' || github.event_name == 'workflow_dispatch')
@@ -63,10 +64,10 @@ jobs:
       if: github.ref == 'refs/heads/main' && (github.event_name == 'push' || github.event_name == 'workflow_dispatch')
       uses: softprops/action-gh-release@v2
       with:
+        files: ./build/ui-bundle.zip
         generate_release_notes: true
         name: v${{ steps.version.outputs.tag_name }}
         tag_name: v${{ steps.version.outputs.tag_name }}
-        files: ./build/ui-bundle.zip
 
     - name: Create PR (for main)
       if: github.ref == 'refs/heads/main' && (github.event_name == 'push' || github.event_name == 'workflow_dispatch')
