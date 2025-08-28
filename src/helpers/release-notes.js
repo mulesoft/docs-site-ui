@@ -67,11 +67,9 @@ const getLatestVersion = (contentsStr, pageRevDate) => {
 
   if (!versionHeaders || versionHeaders.length === 0) return null
 
-  // First, try to find a version with a matching release date
   for (let i = 0; i < versionHeaders.length; i++) {
     const header = versionHeaders[i]
     if (isVersion(header.innerText)) {
-      // Look for a release date in the next sibling elements
       const releaseDate = findReleaseDateForVersion(header)
       if (releaseDate && datesMatch(releaseDate, pageRevDate)) {
         return {
@@ -83,7 +81,10 @@ const getLatestVersion = (contentsStr, pageRevDate) => {
     }
   }
 
-  // Fallback: return the first version if no date match found
+  return getFirstVersionAsFallback(versionHeaders)
+}
+
+const getFirstVersionAsFallback = (versionHeaders) => {
   const firstVersion = versionHeaders[0]
   if (isVersion(firstVersion.innerText)) {
     return {
@@ -92,16 +93,14 @@ const getLatestVersion = (contentsStr, pageRevDate) => {
       releaseDate: null,
     }
   }
-
   return null
 }
 
 const findReleaseDateForVersion = (versionHeader) => {
-  // Look for release date in the next few sibling elements
+  const maxElementsToSearch = 5
   let currentElement = versionHeader.nextElementSibling
 
-  // Search through next few elements for a date
-  for (let i = 0; i < 5 && currentElement; i++) {
+  for (let i = 0; i < maxElementsToSearch && currentElement; i++) {
     if (currentElement.tagName === 'P' || currentElement.tagName === 'DIV') {
       const text = currentElement.innerText || currentElement.text
       const dateMatch = text.match(/(\w+\s+\d{1,2},?\s+\d{4})|(\d{1,2}\/\d{1,2}\/\d{4})|(\d{4}-\d{2}-\d{2})/)
@@ -122,7 +121,6 @@ const datesMatch = (date1, date2) => {
     const parsedDate1 = new Date(date1)
     const parsedDate2 = new Date(date2)
 
-    // Compare dates ignoring time
     return (
       parsedDate1.getFullYear() === parsedDate2.getFullYear() &&
       parsedDate1.getMonth() === parsedDate2.getMonth() &&
