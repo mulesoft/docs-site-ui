@@ -1,11 +1,6 @@
 'use strict'
 
-const File = require('vinyl')
-const { obj: map } = require('through2')
 const { Octokit } = require('@octokit/rest')
-const path = require('path')
-const vfs = require('vinyl-fs')
-const zip = require('gulp-vinyl-zip')
 const { createMessage, decryptKey, readPrivateKey, sign } = require('openpgp')
 
 const defaultBranch = 'main'
@@ -119,8 +114,6 @@ const createSignature = async (commit, secretKey, passphrase) => {
 
 const headsify = (branchName) => `heads/${branchName}`
 
-const normalizeOffset = async () => '+0000'
-
 const normalizeString = async (str) => str.replace(/\r\n/g, '\n').trim()
 
 
@@ -208,37 +201,13 @@ const updateUIBundleVer = async (content, tagName) => {
 const userToString = async (user) => {
   const date = new Date(user.date)
   const timestamp = Math.floor(date.getTime() / 1000)
-  const timezone = await normalizeOffset()
+  const timezone = '+0000'
 
   return `${user.name} <${user.email}> ${timestamp} ${timezone}`
 }
 
-const versionBundle = async (bundleFile, tagName) => {
-  vfs
-    .src(bundleFile)
-    .pipe(zip.src())
-    .pipe(
-      map(
-        (file, _enc, next) => next(null, file),
-        function (done) {
-          this.push(
-            new File({
-              path: 'ui.yml',
-              contents: Buffer.from(`version: ${tagName}\n`),
-            })
-          )
-          done()
-        }
-      )
-    )
-    .pipe(zip.dest(bundleFile))
-}
 
-module.exports = (dest, bundleName, tagName, tokenEmu, secretKey, passphrase) => async () => {
-  bundleName = `${bundleName}-bundle.zip`
-  const bundlePath = path.join(dest, bundleName)
-  await versionBundle(bundlePath)
-
+module.exports = (tagName, tokenEmu, secretKey, passphrase) => async () => {
   if (secretKey) {
     await createPR({
       octokit: new Octokit({ auth: `token ${tokenEmu}` }),
