@@ -1,10 +1,8 @@
 'use strict'
 
 const File = require('vinyl')
-const fs = require('fs-extra')
 const { obj: map } = require('through2')
 const { Octokit } = require('@octokit/rest')
-const pad = require('pad')
 const path = require('path')
 const vfs = require('vinyl-fs')
 const zip = require('gulp-vinyl-zip')
@@ -118,85 +116,13 @@ const createSignature = async (commit, secretKey, passphrase) => {
   return await normalizeString(signature)
 }
 
-const deleteFileIfExist = async ({ octokit, owner, repo }, release, fileName) => {
-  const uiBundleAsset = await getAsset({ octokit, owner, repo }, release, fileName)
-  if (uiBundleAsset) await octokit.rest.repos.deleteReleaseAsset({ owner, repo, asset_id: uiBundleAsset.id })
-}
-
-const getAsset = async ({ octokit, owner, repo }, release, fileName) => {
-  const { data: assets } = await octokit.rest.repos.listReleaseAssets({ owner, repo, release_id: release.id })
-  return assets.find((asset) => asset.name === fileName)
-}
-
-const getCurrentReleaseNumber = async ({ octokit, owner, repo }, variant) => {
-  const release = await getLastReleaseThatStartsWith({ octokit, owner, repo }, `${variant}-`)
-  if (release) return Number(release.name.slice(variant.length + 1))
-  return 1
-}
-
-const getHeadRef = async ({ octokit, owner, repo }, pullNumber) => {
-  const {
-    data: {
-      head: { ref: headBranch },
-    },
-  } = await octokit.rest.pulls.get({ owner, repo, pull_number: pullNumber })
-  return headsify(headBranch)
-}
-
-const getLastReleaseThatStartsWith = async ({ octokit, owner, repo }, prefix) => {
-  let release
-  let page = 1
-  do {
-    const { data: releases } = await octokit.rest.repos.listReleases({
-      owner,
-      repo,
-      per_page: 100,
-      page,
-    })
-    release = releases.find((release) => release.name.startsWith(prefix))
-    page++
-  } while (!release && page <= 2) // Limit to 200 releases
-  return release
-}
-
-const getLastClosedPRLink = async ({ octokit, owner, repo }) => {
-  const { data: pulls } = await octokit.rest.pulls.list({ owner, repo, state: 'closed', per_page: 1 })
-  if (pulls) return pulls[0].html_url
-}
-
-const getPullNumber = (prTagName) => prTagName.replace(/pr-/, '').trim()
-
-const getRef = async (githubConfig, tagName) => {
-  if (isPR(tagName)) {
-    const pullNumber = getPullNumber(tagName)
-    return await getHeadRef(githubConfig, pullNumber)
-  } else {
-    return headsify(tagName)
-  }
-}
 
 const headsify = (branchName) => `heads/${branchName}`
-const isPR = (branchName) => branchName.toLowerCase().startsWith('pr-')
 
-const normalizeOffset = async (offset, offsetIsZero = true) => {
-  if (offsetIsZero) return '+0000'
-
-  return (
-    (offset <= 0 ? '+' : '-') +
-    pad(2, `${parseInt(String(Math.abs(offset / 60)), 10)}`, '0') +
-    pad(2, `${Math.abs(offset % 60)}`, '0')
-  )
-}
+const normalizeOffset = async () => '+0000'
 
 const normalizeString = async (str) => str.replace(/\r\n/g, '\n').trim()
 
-const releaseExists = async (githubConfig, tag) => (await getLastReleaseThatStartsWith(githubConfig, tag)) !== undefined
-
-const setBranchName = async (gitBranch) => {
-  let branchName = gitBranch || 'main'
-  branchName = branchName.startsWith('origin/') ? branchName.substring(7) : branchName
-  return branchName.toLowerCase()
-}
 
 const updateContent = async ({ octokit, owner, repo, ref, newBranchName, tagName, sites, secretKey, passphrase }) => {
   const {
@@ -272,36 +198,17 @@ const updateContent = async ({ octokit, owner, repo, ref, newBranchName, tagName
   })
 }
 
-const updateRelease = async ({ octokit, owner, repo }, tag, bundleFile, bundlePath) => {
-  console.log(`Replacing ${bundleFile} in release ${tag}...`)
-
-  const { data: release } = await octokit.rest.repos.getReleaseByTag({ owner, repo, tag })
-  await deleteFileIfExist({ octokit, owner, repo }, release, bundleFile)
-  await uploadFile(octokit, release.upload_url, bundleFile, bundlePath)
-  console.log(`Successfully replaced ${bundleFile} in release ${tag}.`)
-}
 
 const updateUIBundleVer = async (content, tagName) => {
   const contentStr = Buffer.from(content, 'base64').toString('utf8')
   return contentStr.replace(/\/prod-.+?\//, `/${tagName}/`)
 }
 
-const uploadFile = async (octokit, url, fileName, filePath) => {
-  await octokit.repos.uploadReleaseAsset({
-    url,
-    data: fs.createReadStream(filePath),
-    name: fileName,
-    headers: {
-      'content-length': (await fs.stat(filePath)).size,
-      'content-type': 'application/zip',
-    },
-  })
-}
 
 const userToString = async (user) => {
   const date = new Date(user.date)
   const timestamp = Math.floor(date.getTime() / 1000)
-  const timezone = await normalizeOffset(date.getTimezoneOffset())
+  const timezone = await normalizeOffset()
 
   return `${user.name} <${user.email}> ${timestamp} ${timezone}`
 }
@@ -327,7 +234,7 @@ const versionBundle = async (bundleFile, tagName) => {
     .pipe(zip.dest(bundleFile))
 }
 
-module.exports = (dest, bundleName, tagName, tokenEmu, secretKey, passphrase, updateBranch) => async () => {
+module.exports = (dest, bundleName, tagName, tokenEmu, secretKey, passphrase) => async () => {
   bundleName = `${bundleName}-bundle.zip`
   const bundlePath = path.join(dest, bundleName)
   await versionBundle(bundlePath)
