@@ -124,6 +124,20 @@ const buildJpPreviewPagesTask = createTask({
   call: task.buildPreviewPages(srcDir, previewJpSrcDir, previewDestDir, livereload),
 })
 
+const prTask = createTask({
+  name: 'pr',
+  desc: 'Create a PR in docs-site-playbook',
+  call: task.pr(
+    buildDir,
+    bundleName,
+    process.env.TAG_NAME,
+    process.env.GH_TOKEN_EMU,
+    process.env.SECRET_KEY,
+    // this is not needed for CI/CD, but needed if you are testing with your local key that has a passphrase
+    process.env.PASSPHRASE
+  ),
+})
+
 const previewBuildTask = createTask({
   name: 'preview:build',
   desc: 'Process and stage the UI assets and generate pages for the preview',
@@ -159,17 +173,21 @@ const previewJpTask = createTask({
 })
 
 module.exports = exportTasks(
-  bundleTask,
-  cleanTask,
-  lintTask,
-  formatTask,
   buildTask,
   bundleTask,
   bundlePackTask,
-  releaseTask,
-  releasePublishTask,
-  previewTask,
-  previewJpTask,
+  bundleBuildTask,
+  cleanTask,
+  formatTask,
+  lintTask,
+  prTask,
+  previewBuildJpTask,
   previewBuildTask,
+  previewJpTask,
+  previewServeJpTask,
+  previewServeTask,
+  previewTask,
+  releasePublishTask,
+  releaseTask,
   updateTask
 )
