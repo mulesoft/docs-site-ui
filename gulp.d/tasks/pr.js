@@ -203,6 +203,7 @@ const userToString = async (user) => {
 }
 
 module.exports = (tagName, tokenEmu, secretKey, passphrase) => async () => {
+  console.log(tagName)
   if (secretKey) {
     await createPR({
       octokit: new Octokit({ auth: `token ${tokenEmu}` }),
