@@ -17,9 +17,9 @@
     "format": "npx gulp format",
     "format:bundle": "npm run format && npm run bundle",
     "lint": "npx gulp lint",
+    "pr": "npx gulp pr",
     "preview": "npx gulp preview",
     "preview-jp": "npx gulp preview-jp",
-    "release": "npx gulp release",
     "clean": "rm -rf node_modules/",
     "reinstall": "npm run clean && npm install"
   },
