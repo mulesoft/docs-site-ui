@@ -20,12 +20,12 @@ jobs:
         node-version-file: '.nvmrc'
         cache: 'npm'
 
-    - name: Configure npm registry
-      env:
-        NPM_TOKEN: ${{ secrets.NEXUS3_TEMP_RO }}
-      run: |
-        npm config set @mulesoft:registry=https://nexus3.build.msap.io/repository/npm-internal/
-        npm login --scope=@mulesoft --registry=https://nexus3.build.msap.io/repository/npm-internal/ --_authToken=${NPM_TOKEN}
+    # - name: Configure npm registry
+    #   env:
+    #     NPM_TOKEN: ${{ secrets.NEXUS3_TEMP_RO }}
+    #   run: |
+    #     npm config set @mulesoft:registry=https://nexus3.build.msap.io/repository/npm-internal/
+    #     npm login --scope=@mulesoft --registry=https://nexus3.build.msap.io/repository/npm-internal/ --_authToken=${NPM_TOKEN}
     
     - name: Install dependencies for release
       run: npm ci
