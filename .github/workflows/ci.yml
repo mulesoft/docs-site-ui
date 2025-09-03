@@ -38,6 +38,8 @@ jobs:
         if: github.base_ref == 'main' && (github.event_name == 'pull_request' || github.event_name == 'workflow_dispatch')
         uses: softprops/action-gh-release@v2
         with:
+          body: |
+            [${{ steps.pr_version.outputs.tag_name }}](${{ github.event.pull_request.html_url }})
           files: ./build/ui-bundle.zip
           name: ${{ steps.pr_version.outputs.tag_name }}
           prerelease: true
