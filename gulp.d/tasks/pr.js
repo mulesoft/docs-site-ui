@@ -111,11 +111,9 @@ const createSignature = async (commit, secretKey, passphrase) => {
   return await normalizeString(signature)
 }
 
-
 const headsify = (branchName) => `heads/${branchName}`
 
 const normalizeString = async (str) => str.replace(/\r\n/g, '\n').trim()
-
 
 const updateContent = async ({ octokit, owner, repo, ref, newBranchName, tagName, sites, secretKey, passphrase }) => {
   const {
@@ -191,12 +189,10 @@ const updateContent = async ({ octokit, owner, repo, ref, newBranchName, tagName
   })
 }
 
-
 const updateUIBundleVer = async (content, tagName) => {
   const contentStr = Buffer.from(content, 'base64').toString('utf8')
   return contentStr.replace(/\/prod-.+?\//, `/${tagName}/`)
 }
-
 
 const userToString = async (user) => {
   const date = new Date(user.date)
@@ -205,7 +201,6 @@ const userToString = async (user) => {
 
   return `${user.name} <${user.email}> ${timestamp} ${timezone}`
 }
-
 
 module.exports = (tagName, tokenEmu, secretKey, passphrase) => async () => {
   if (secretKey) {
