@@ -50,7 +50,7 @@ jobs:
         if: github.base_ref == 'main' && (github.event_name == 'pull_request' || github.event_name == 'workflow_dispatch')
         run: npm run pr
         env:
-          TAG_NAME: ${{ steps.pr_version.outputs.tag_name }}
+          TAG_NAME: prod-714
           GH_TOKEN_EMU: ${{ secrets.SVC_GH_TOKEN_EMU }}
           SECRET_KEY: ${{ secrets.MS_CX_ENGINEERING_GPG_PRIVATE_KEY_EMU }}
 
