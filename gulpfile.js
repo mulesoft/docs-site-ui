@@ -104,8 +104,8 @@ const prTask = createTask({
   desc: 'Create a PR in docs-site-playbook',
   call: task.pr(
     process.env.TAG_NAME,
-    process.env.SVC_GH_TOKEN_EMU,
-    process.env.MS_CX_ENGINEERING_GPG_PRIVATE_KEY_EMU,
+    process.env.GH_TOKEN_EMU,
+    process.env.SECRET_KEY,
     // this is not needed for CI/CD, but needed if you are testing with your local key that has a passphrase
     process.env.PASSPHRASE
   ),
