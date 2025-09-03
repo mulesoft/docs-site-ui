@@ -1,7 +1,7 @@
 'use strict'
 
 const pkg = require('./package.json')
-const [owner, repo] = new URL(pkg.repository.url).pathname.slice(1).split('/')
+// const [owner, repo] = new URL(pkg.repository.url).pathname.slice(1).split('/')
 
 const { parallel, series, watch } = require('gulp')
 const createTask = require('./gulp.d/lib/create-task')
