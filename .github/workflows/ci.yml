@@ -31,7 +31,7 @@ jobs:
         id: pr_version
         run: |
           PR_TAG="pr-${{ github.event.number }}"
-          echo "pr_version=$PR_TAG" >> $GITHUB_OUTPUT
+          echo "tag_name=$PR_TAG" >> $GITHUB_OUTPUT
           echo "PR version will be: $PR_TAG"
 
       - name: Create Github Release (for PRs)
@@ -40,9 +40,9 @@ jobs:
         with:
           files: ./build/ui-bundle.zip
           generate_release_notes: true
-          name: v${{ steps.pr_version.outputs.tag_name }}
+          name: ${{ steps.pr_version.outputs.tag_name }}
           prerelease: true
-          tag_name: v${{ steps.pr_version.outputs.tag_name }}
+          tag_name: ${{ steps.pr_version.outputs.tag_name }}
 
       - name: Get next version (for main)
         if: github.ref == 'refs/heads/main' && (github.event_name == 'push' || github.event_name == 'workflow_dispatch')
@@ -59,8 +59,8 @@ jobs:
         with:
           files: ./build/ui-bundle.zip
           generate_release_notes: true
-          name: v${{ steps.version.outputs.tag_name }}
-          tag_name: v${{ steps.version.outputs.tag_name }}
+          name: prod-${{ steps.version.outputs.tag_name }}
+          tag_name: prod-${{ steps.version.outputs.tag_name }}
 
       - name: Create PR (for main)
         if: github.ref == 'refs/heads/main' && (github.event_name == 'push' || github.event_name == 'workflow_dispatch')
