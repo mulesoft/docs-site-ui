@@ -104,7 +104,6 @@ const prTask = createTask({
   desc: 'Create a PR in docs-site-playbook',
   call: task.pr(
     buildDir,
-    bundleName,
     process.env.TAG_NAME,
     process.env.GH_TOKEN_EMU,
     process.env.SECRET_KEY,
