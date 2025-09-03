@@ -7,14 +7,14 @@ on:
   workflow_dispatch:
 
 jobs:
-  setup:
+  build-and-release:
     runs-on: mulesoft-ubuntu
 
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Setup Node.js for release
+      - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
           node-version-file: ".nvmrc"
@@ -23,17 +23,9 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
-  test:
-    runs-on: mulesoft-ubuntu
-
-    steps:
       - name: Format and bundle
         run: npm run format:bundle
 
-  release:
-    runs-on: mulesoft-ubuntu
-
-    steps:
       - name: Get next version (for PRs)
         if: github.base_ref == 'main' && (github.event_name == 'pull_request' || github.event_name == 'workflow_dispatch')
         id: pr_version
