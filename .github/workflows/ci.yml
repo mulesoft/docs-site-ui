@@ -39,7 +39,6 @@ jobs:
         uses: softprops/action-gh-release@v2
         with:
           files: ./build/ui-bundle.zip
-          generate_release_notes: true
           name: ${{ steps.pr_version.outputs.tag_name }}
           prerelease: true
           tag_name: ${{ steps.pr_version.outputs.tag_name }}
