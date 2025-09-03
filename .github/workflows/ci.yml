@@ -22,7 +22,7 @@ jobs:
 
     - name: Configure npm registry
       env:
-        NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+        NPM_TOKEN: ${{ secrets.NEXUS3_TEMP_RO }}
       run: |
         npm config set @mulesoft:registry=https://nexus3.build.msap.io/repository/npm-internal/
         npm login --scope=@mulesoft --registry=https://nexus3.build.msap.io/repository/npm-internal/ --_authToken=${NPM_TOKEN}
@@ -74,5 +74,5 @@ jobs:
       run: npm run pr
       env:
         TAG_NAME: ${{ steps.version.outputs.tag_name }}
-        GH_TOKEN_EMU: ${{ secrets.GH_TOKEN_EMU }}
-        SECRET_KEY: ${{ secrets.SECRET_KEY }}        
+        GH_TOKEN_EMU: ${{ secrets.SVC_GH_TOKEN_EMU }}
+        SECRET_KEY: ${{ secrets.MS_CX_ENGINEERING_GPG_PRIVATE_KEY_EMU }}        
