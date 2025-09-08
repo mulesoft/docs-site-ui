@@ -8,6 +8,12 @@
       <img loading="lazy" src="{{@root.uiRootPath}}/img/icons/arrow-down.svg" alt="">
     </button>
     {{/if}}
+    {{#if (or preview (is-one-of (site-profile) 'prod' 'jp'))}}
+    <button data-l10n-label="search-toolbar-button" class="mule-button-br docsearch-toolbar-button" data-action="open-docsearch-modal">
+      <img loading="lazy" class="docsearch-toolbar-button-icon" src="{{@root.uiRootPath}}/img/icons/search.svg"
+        data-l10n-alt="search-toolbar-button">
+    </button>
+    {{/if}}
   </div>
 </nav>
 {{#if (and page.breadcrumbs (ne page.layout 'home'))}}

@@ -50,6 +50,7 @@
 /* vendor */
 @import 'vendor/lume.css';
 @import "vendor/tabs.css";
+@import "vendor/docsearch.css";
 
 /* other */
 @import "highlight.css";
