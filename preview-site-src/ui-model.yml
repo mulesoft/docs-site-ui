@@ -446,17 +446,17 @@ site:
             url: /runtime-manager/runtime-manager-cli.html
       versions:
       - *runtime_manager_latest
-    composer-salesforce:
-      latest: &composer_salesforce_latest
+    agent-fabric:
+      latest: &agent_fabric_latest
         version: ~
-        title: Composer for Salesforce
+        title: Agent Fabric
         url: '#'
         navigation:
         - items:
-          - content: About Composer for Salesforce
+          - content: About Agent Fabric
             url: '#'
       versions:
-      - *composer_salesforce_latest
+      - *agent_fabric_latest
 nav:
   subcomponents:
   - parent: connectors
