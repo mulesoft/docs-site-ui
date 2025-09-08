@@ -15,6 +15,8 @@ API management helps ensure that APIs are reliable, secure, and easy to use, whi
 
 - https://www.mulesoft.com/api/management[Anypoint Platform API Management]
 - xref:api-led-deploy.adoc[Test Xref] (This only shows the help icon on full builds, not in preview.)
+- https://developer.salesforce.com/docs/einstein/genai/guide/models-api-build-lwc-flow.html[Link to Salesforce Developer Docs]
+- https://help.salesforce.com/s/articleView?id=ai.einstein_sales.htm&type=5[Link to Salesforce Help Docs]
 
 | image::../_/img/learning-map/lm_explore_1.png[]
 [.lm-bold]##Design and Build##
