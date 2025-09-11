@@ -446,17 +446,17 @@ site:
             url: /runtime-manager/runtime-manager-cli.html
       versions:
       - *runtime_manager_latest
-    agent-fabric:
-      latest: &agent_fabric_latest
+    agent-visualizer:
+      latest: &agent_visualizer_latest
         version: ~
-        title: Agent Fabric
+        title: Agent Visualizer
         url: '#'
         navigation:
         - items:
-          - content: About Agent Fabric
+          - content: About Agent Visualizer
             url: '#'
       versions:
-      - *agent_fabric_latest
+      - *agent_visualizer_latest
 nav:
   subcomponents:
   - parent: connectors
