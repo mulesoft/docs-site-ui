@@ -4,5 +4,7 @@
 <script src="{{uiRootPath}}/js/vendor/tippy.js"></script>
 <script src="{{uiRootPath}}/js/site.js" id="site-script" data-ui-root-path="{{uiRootPath}}"></script>
 <script async src="{{uiRootPath}}/js/vendor/highlight.js"></script>
+{{#if (or preview (is-one-of (site-profile) 'prod' 'jp'))}}
 {{> docsearch-scripts }}
+{{/if}}
 {{> marketing-scripts}}
