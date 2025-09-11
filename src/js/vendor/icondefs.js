@@ -180,7 +180,7 @@
       ],
     },
     {
-      id: 'icon-nav-component-agent-fabric',
+      id: 'icon-nav-component-agent-visualizer',
       viewBox: '0 0 24 24',
       paths: [
         // lume-icons/product/agent-visualizer
