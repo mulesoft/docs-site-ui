@@ -106,4 +106,61 @@ document.addEventListener('click', (e) => {
   const searchButton = document.querySelector(`${searchContainer} button`);
   if (searchButton) searchButton.click();
 });
+
+// Lightweight language badge for each DocSearch result based on URL
+;(function () {
+  const BADGE_CLASS = 'ms-lang-badge'
+  const STYLE_ID = 'ms-lang-badge-style'
+
+  function ensureBadgeStyles () {
+    if (document.getElementById(STYLE_ID)) return
+    const style = document.createElement('style')
+    style.id = STYLE_ID
+    style.textContent = `
+.${BADGE_CLASS}{
+  margin-left: 8px;
+  padding: 2px 6px;
+  font-size: 11px;
+  line-height: 1;
+  border: 1px solid #e0e0e0;
+  border-radius: 10px;
+  color: #555;
+  background: #f8f8f8;
+}
+`
+    document.head.appendChild(style)
+  }
+
+  function labelForHref (href) {
+    try {
+      return typeof href === 'string' && href.indexOf('/jp/') !== -1 ? 'Japanese' : 'English'
+    } catch (_e) {
+      return 'English'
+    }
+  }
+
+  function addBadgesOnce () {
+    ensureBadgeStyles()
+    const hits = document.querySelectorAll('.DocSearch-Hit')
+    if (!hits || !hits.length) return
+    hits.forEach((hit) => {
+      if (hit.querySelector(`.${BADGE_CLASS}`)) return
+      const link = hit.querySelector('a')
+      const href = link && link.getAttribute('href')
+      const badge = document.createElement('span')
+      badge.className = BADGE_CLASS
+      badge.textContent = labelForHref(href)
+      const container = hit.querySelector('.DocSearch-Hit-Container') || hit
+      container.appendChild(badge)
+    })
+  }
+
+  // Observe content updates in the DocSearch dropdown and add badges
+  const observer = new MutationObserver(() => {
+    addBadgesOnce()
+  })
+  observer.observe(document.body, { childList: true, subtree: true })
+  // Also try once on load in case results already exist
+  addBadgesOnce()
+})()
 </script>
