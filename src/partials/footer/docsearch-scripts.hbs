@@ -22,7 +22,69 @@ const docsearch = window.docsearch({
       },
     }
   },
+  transformSearchClient (searchClient) {
+    return {
+      ...searchClient,
+      search (requests, ...rest) {
+        try {
+          console.log('[DocSearch] transformSearchClient.search called', {
+            isArray: Array.isArray(requests),
+            hasRequestsArray: Boolean(requests && Array.isArray(requests.requests)),
+          })
+
+          const hasRequestsArray = requests && Array.isArray(requests.requests)
+          if (!Array.isArray(requests) && !hasRequestsArray) {
+            // Unknown shape; pass through untouched
+            return searchClient.search(requests, ...rest)
+          }
+
+          const reqArray = Array.isArray(requests) ? requests : requests.requests
+
+          const updated = reqArray.map((req) => {
+            const query = (typeof req?.query === 'string')
+              ? req.query
+              : (typeof req?.params?.query === 'string' ? req.params.query : '')
+            console.log(`query: ${query}`)
+            const desiredLang = query.toLowerCase().includes('japanese') ? 'jp' : 'en'
+
+            const topLevelFacetFilters = Array.isArray(req?.facetFilters) ? req.facetFilters : null
+            const nestedFacetFilters = Array.isArray(req?.params?.facetFilters) ? req.params.facetFilters : null
+            const existingFacetFilters = topLevelFacetFilters ?? nestedFacetFilters ?? []
+
+            const baseFacetFilters = existingFacetFilters.filter((facet) => {
+              if (Array.isArray(facet)) return !facet.some((f) => typeof f === 'string' && f.startsWith('lang:'))
+              return typeof facet !== 'string' || !facet.startsWith('lang:')
+            })
+
+            const nextFacetFilters = [...baseFacetFilters, `lang:${desiredLang}`]
+
+            if (topLevelFacetFilters) {
+              return { ...req, facetFilters: nextFacetFilters }
+            } else if (nestedFacetFilters || req?.params) {
+              return {
+                ...req,
+                params: {
+                  ...(req.params || {}),
+                  facetFilters: nextFacetFilters,
+                },
+              }
+            } else {
+              return { ...req, facetFilters: nextFacetFilters }
+            }
+          })
+
+          // Always call with an array; the Algolia client constructs the body
+          // shape internally as { requests: [...] }.
+          return searchClient.search(updated, ...rest)
+        } catch (err) {
+          console.error('[DocSearch] transformSearchClient.search error', err)
+          return searchClient.search(requests, ...rest)
+        }
+      },
+    }
+  },
   transformItems (items) {
+    console.log(items)
     // Deduplicate results to different sections of the same page
     const seen = new Set()
     return items.filter((item) => {
