@@ -3,6 +3,7 @@
 const searchContainer = '#docsearch'
 const searchText = MSCX.l10n.getMessage('search-toolbar-button')
 const langFilter = `lang:${MSCX.l10n.getLocale()}`
+const versionFilter = `version:latest`
 
 const docsearch = window.docsearch({
   container: searchContainer,
@@ -12,7 +13,7 @@ const docsearch = window.docsearch({
   disableUserPersonalization: true,
   maxResultsPerGroup: 10,
   searchParameters: {
-    facetFilters: [langFilter],
+    facetFilters: [langFilter, versionFilter],
   },
   translations: {
     button: { buttonText: searchText },
