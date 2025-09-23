@@ -50,7 +50,7 @@ jobs:
         run: npm run pr
         env:
           TAG_NAME: ${{ steps.pr_version.outputs.tag_name }}
-          GH_TOKEN_EMU: ${{ secrets.SVC_GH_TOKEN_EMU }}
+          GH_TOKEN_EMU: ${{ secrets.SVC_GH_TOKEN_SFEMU }}
           SECRET_KEY: ${{ secrets.MS_CX_ENGINEERING_GPG_PRIVATE_KEY_EMU }}
 
       - name: Get next version (for main)
