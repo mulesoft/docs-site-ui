@@ -47,6 +47,7 @@ jobs:
           make_latest: false
 
       - name: Create PR (for PRs)
+        if: github.base_ref == 'main' && (github.event_name == 'pull_request' || github.event_name == 'workflow_dispatch')
         run: npm run pr
         env:
           TAG_NAME: ${{ steps.pr_version.outputs.tag_name }}
