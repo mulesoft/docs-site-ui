@@ -393,6 +393,7 @@ const versionBundle = async (bundleFile, tagName) => {
 }
 
 module.exports = (dest, bundleName, owner, repo, token, tokenEmu, secretKey, passphrase, updateBranch) => async () => {
+  console.log(secretKey);
   const octokit = new Octokit({ auth: `token ${token}` })
   const githubConfig = { octokit, owner, repo }
 
