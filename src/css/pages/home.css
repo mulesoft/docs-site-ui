@@ -88,16 +88,12 @@ body.home {
       }
     }
 
-    #trending-topics > * > a::before {
-      border: 3px solid black;
-      border-radius: 50%;
-      content: "";
-      display: inline-grid;
-      margin: 18px 14px 5px 8px;
-      vertical-align: super;
+    #trending-topics ul {
+      list-style: disc;
+      padding-left: var(--lg);
     }
 
-    & #contributor-signatures + table, 
+    & #contributor-signatures + table,
     & #latest-releases + table {
       font-size: inherit;
       overflow: visible;
