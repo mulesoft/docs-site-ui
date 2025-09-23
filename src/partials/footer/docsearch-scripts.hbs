@@ -1,0 +1,48 @@
+<script src="{{@root.uiRootPath}}/js/vendor/docsearch.js"></script>
+<script type="text/javascript">
+const searchContainer = '#docsearch'
+const searchText = MSCX.l10n.getMessage('search-toolbar-button')
+const langFilter = `lang:${MSCX.l10n.getLocale()}`
+const versionFilter = `version:latest`
+
+const docsearch = window.docsearch({
+  container: searchContainer,
+  appId: '{{ env.DOCSEARCH_APP_ID }}',
+  apiKey: '{{ env.DOCSEARCH_API_KEY }}',
+  indexName: 'MuleSoft Documentation',
+  disableUserPersonalization: true,
+  maxResultsPerGroup: 10,
+  searchParameters: {
+    facetFilters: [langFilter, versionFilter],
+  },
+  translations: {
+    button: { buttonText: searchText },
+    modal: {
+      searchBox: {
+        placeholderText: searchText,
+      },
+    }
+  },
+  transformItems (items) {
+    // Deduplicate results to different sections of the same page
+    const seen = new Set()
+    return items.filter((item) => {
+      const url = (item && item.url) ? item.url : ''
+      const base = url.split('#')[0].replace(/\/$/, '')
+
+      if (seen.has(base)) return false
+      seen.add(base)
+      return true
+    })
+  },
+});
+
+document.addEventListener('click', (e) => {
+  const mobileButton = e.target.closest('[data-action="open-docsearch-modal"]');
+  if (!mobileButton) return;
+  e.preventDefault();
+
+  const searchButton = document.querySelector(`${searchContainer} button`);
+  if (searchButton) searchButton.click();
+});
+</script>

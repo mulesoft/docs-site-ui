@@ -1,0 +1,45 @@
+@import '@docsearch/css';
+
+/*
+ * DocSearch
+ * See: https://github.com/algolia/docsearch/blob/main/packages/docsearch-css/src/_variables.css
+ * Place vars here and not in globals/vars.css to override DocSearch defaults.
+ * Note: The CSS class names DocSearch uses are against our stylelint rules, so we need to ignore those lines.
+*/
+:root {
+    --docsearch-primary-color: var(--lume-c-icon-color-foreground-1);
+    --docsearch-highlight-color: var(--docsearch-primary-color);
+    --docsearch-muted-color: var(--steel-2);
+}
+
+#docsearch {
+    margin-top: var(--lg);
+    padding-inline: var(--lg) var(--xl);
+
+    /* stylelint-disable-next-line selector-class-pattern */
+    & .DocSearch-Button {
+        border: 1px solid var(--aluminum-4);
+        border-radius: var(--radius);
+        width: 100%;
+    }
+
+    /* stylelint-disable-next-line selector-class-pattern */
+    & .DocSearch-Button-Placeholder {
+        font-size: 12px;
+    }
+}
+
+#docsearch-input:focus {
+    box-shadow: none;
+}
+
+.docsearch-toolbar-button {
+    height: var(--lg);
+    margin: auto 0 auto 7px;
+    padding: 4px;
+    width: 30px;
+  
+    & .docsearch-toolbar-button-icon {
+      width: 20px;
+    }
+}

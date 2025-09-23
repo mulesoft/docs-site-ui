@@ -24,8 +24,6 @@ site:
           url: *index_url
           # NOTE: the url of each item maps 1-to-1 with an icon in src/js/vendor/icondefs.js
           items:
-          - content: Search
-            url: /general/search.html
           - content: Contributors
             url: /general/contributors.html
           - content: Maintenance
@@ -448,17 +446,17 @@ site:
             url: /runtime-manager/runtime-manager-cli.html
       versions:
       - *runtime_manager_latest
-    composer-salesforce:
-      latest: &composer_salesforce_latest
+    agent-visualizer:
+      latest: &agent_visualizer_latest
         version: ~
-        title: Composer for Salesforce
+        title: Agent Visualizer
         url: '#'
         navigation:
         - items:
-          - content: About Composer for Salesforce
+          - content: About Agent Visualizer
             url: '#'
       versions:
-      - *composer_salesforce_latest
+      - *agent_visualizer_latest
 nav:
   subcomponents:
   - parent: connectors

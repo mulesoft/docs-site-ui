@@ -11,3 +11,6 @@
 {{/unless}}
 <link rel="icon" href="{{@root.uiRootPath}}/img/favicon.ico" type="image/x-icon">
 <link rel="stylesheet" href="{{@root.uiRootPath}}/css/site.css">
+{{#if (or preview (is-one-of (site-profile) 'prod' 'jp'))}}
+<link rel="preconnect" href="https://{{env.DOCSEARCH_APP_ID}}-dsn.algolia.net" crossorigin />
+{{/if}}
