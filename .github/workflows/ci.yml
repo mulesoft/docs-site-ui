@@ -11,74 +11,70 @@ jobs:
     runs-on: mulesoft-ubuntu
 
     steps:
-      - name: Get GitHub Actions IP ranges
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version-file: ".nvmrc"
+          cache: "npm"
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Format and bundle
+        run: npm run format:bundle
+
+      - name: Get next version (for PRs)
+        if: github.base_ref == 'main' && (github.event_name == 'pull_request' || github.event_name == 'workflow_dispatch')
+        id: pr_version
         run: |
-          curl -s https://api.github.com/meta | jq '.actions'
+          PR_TAG="pr-${{ github.event.number }}"
+          echo "tag_name=$PR_TAG" >> $GITHUB_OUTPUT
+          echo "PR version will be: $PR_TAG"
 
-      # - name: Checkout code
-      #   uses: actions/checkout@v4
+      - name: Create Github Release (for PRs)
+        if: github.base_ref == 'main' && (github.event_name == 'pull_request' || github.event_name == 'workflow_dispatch')
+        uses: softprops/action-gh-release@v2
+        with:
+          body: |
+            [${{ steps.pr_version.outputs.tag_name }}](${{ github.event.pull_request.html_url }})
+          files: ./build/ui-bundle.zip
+          name: ${{ steps.pr_version.outputs.tag_name }}
+          prerelease: true
+          tag_name: ${{ steps.pr_version.outputs.tag_name }}
+          make_latest: false
 
-      # - name: Setup Node.js
-      #   uses: actions/setup-node@v4
-      #   with:
-      #     node-version-file: ".nvmrc"
-      #     cache: "npm"
+      - name: Create PR (for PRs)
+        run: npm run pr
+        env:
+          TAG_NAME: ${{ steps.pr_version.outputs.tag_name }}
+          GH_TOKEN_EMU: ${{ secrets.SVC_GH_TOKEN_SFEMU }}
+          SECRET_KEY: ${{ secrets.MS_CX_ENGINEERING_GPG_PRIVATE_KEY_EMU }}
 
-      # - name: Install dependencies
-      #   run: npm ci
+      - name: Get next version (for main)
+        if: github.ref == 'refs/heads/main' && (github.event_name == 'push' || github.event_name == 'workflow_dispatch')
+        id: version
+        run: |
+          LATEST_TAG=$(curl -s https://api.github.com/repos/mulesoft/mulesoft-docs-writing-style/releases/latest | jq -r '.tag_name // "prod-0.0.0"')
+          NEXT_VERSION=$(echo $LATEST_TAG | sed 's/prod-\([0-9]*\)/prod-$((\1+1))/')
+          echo "tag_name=$NEXT_VERSION" >> $GITHUB_OUTPUT
+          echo "Next version will be: $NEXT_VERSION"
 
-      # - name: Format and bundle
-      #   run: npm run format:bundle
+      - name: Create Github Release (for main)
+        if: github.ref == 'refs/heads/main' && (github.event_name == 'push' || github.event_name == 'workflow_dispatch')
+        uses: softprops/action-gh-release@v2
+        with:
+          files: ./build/ui-bundle.zip
+          generate_release_notes: true
+          name: prod-${{ steps.version.outputs.tag_name }}
+          tag_name: prod-${{ steps.version.outputs.tag_name }}
 
-      # - name: Get next version (for PRs)
-      #   if: github.base_ref == 'main' && (github.event_name == 'pull_request' || github.event_name == 'workflow_dispatch')
-      #   id: pr_version
-      #   run: |
-      #     PR_TAG="pr-${{ github.event.number }}"
-      #     echo "tag_name=$PR_TAG" >> $GITHUB_OUTPUT
-      #     echo "PR version will be: $PR_TAG"
-
-      # - name: Create Github Release (for PRs)
-      #   if: github.base_ref == 'main' && (github.event_name == 'pull_request' || github.event_name == 'workflow_dispatch')
-      #   uses: softprops/action-gh-release@v2
-      #   with:
-      #     body: |
-      #       [${{ steps.pr_version.outputs.tag_name }}](${{ github.event.pull_request.html_url }})
-      #     files: ./build/ui-bundle.zip
-      #     name: ${{ steps.pr_version.outputs.tag_name }}
-      #     prerelease: true
-      #     tag_name: ${{ steps.pr_version.outputs.tag_name }}
-      #     make_latest: false
-
-      # - name: Create PR (for PRs)
-      #   run: npm run pr
-      #   env:
-      #     TAG_NAME: ${{ steps.pr_version.outputs.tag_name }}
-      #     GH_TOKEN_EMU: ${{ secrets.SVC_GH_TOKEN_SFEMU }}
-      #     SECRET_KEY: ${{ secrets.MS_CX_ENGINEERING_GPG_PRIVATE_KEY_EMU }}
-
-      # - name: Get next version (for main)
-      #   if: github.ref == 'refs/heads/main' && (github.event_name == 'push' || github.event_name == 'workflow_dispatch')
-      #   id: version
-      #   run: |
-      #     LATEST_TAG=$(curl -s https://api.github.com/repos/mulesoft/mulesoft-docs-writing-style/releases/latest | jq -r '.tag_name // "prod-0.0.0"')
-      #     NEXT_VERSION=$(echo $LATEST_TAG | sed 's/prod-\([0-9]*\)/prod-$((\1+1))/')
-      #     echo "tag_name=$NEXT_VERSION" >> $GITHUB_OUTPUT
-      #     echo "Next version will be: $NEXT_VERSION"
-
-      # - name: Create Github Release (for main)
-      #   if: github.ref == 'refs/heads/main' && (github.event_name == 'push' || github.event_name == 'workflow_dispatch')
-      #   uses: softprops/action-gh-release@v2
-      #   with:
-      #     files: ./build/ui-bundle.zip
-      #     generate_release_notes: true
-      #     name: prod-${{ steps.version.outputs.tag_name }}
-      #     tag_name: prod-${{ steps.version.outputs.tag_name }}
-
-      # - name: Create PR (for main)
-      #   if: github.ref == 'refs/heads/main' && (github.event_name == 'push' || github.event_name == 'workflow_dispatch')
-      #   run: npm run pr
-      #   env:
-      #     TAG_NAME: ${{ steps.version.outputs.tag_name }}
-      #     GH_TOKEN_EMU: ${{ secrets.SVC_GH_TOKEN_SFEMU }}
-      #     SECRET_KEY: ${{ secrets.MS_CX_ENGINEERING_GPG_PRIVATE_KEY_EMU }}
+      - name: Create PR (for main)
+        if: github.ref == 'refs/heads/main' && (github.event_name == 'push' || github.event_name == 'workflow_dispatch')
+        run: npm run pr
+        env:
+          TAG_NAME: ${{ steps.version.outputs.tag_name }}
+          GH_TOKEN_EMU: ${{ secrets.SVC_GH_TOKEN_SFEMU }}
+          SECRET_KEY: ${{ secrets.MS_CX_ENGINEERING_GPG_PRIVATE_KEY_EMU }}
