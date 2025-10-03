@@ -18,16 +18,6 @@
 
   // Matches: 2.11, 1.13, 4.x
   // If version includes patch, remove: 2.5.3 -> returns 2.5
-  function parseVersionFromQuery (q) {
-    if (typeof q !== 'string' || !q) return null
-    const match = q.match(/(\d+)\.(\d+|x)(?:\.(\d+))?/i)
-    if (!match) return null
-    const major = match[1]
-    const minor = match[2]
-    if (typeof minor === 'string' && minor.toLowerCase() === 'x') return `${major}.x`
-    return `${major}.${minor}`
-  }
-
   function parseVersionsFromQuery (q) {
     if (typeof q !== 'string' || !q) return []
     const versions = new Set()
