@@ -30,7 +30,7 @@ Implement APIs with any system.
 - https://docs.mulesoft.com/anypoint-code-builder/des-publish-api-spec-to-exchange[Publish API Specs and Fragments to Exchange]
 - https://docs.mulesoft.com/anypoint-code-builder/start-acb[Implement an API]
 - https://www.youtube.com/watch?v=qkbEj2s14Lo[Design an API]
-- https://www.youtube.com/watch?v=GvsTSFjB4Gs[Build APIs]
+- https://videos.mulesoft.com/watch/wgZ5WuV6VgDbyK3bFKV2RJ[Watch a Demo: Orchestrate Your Agents]
 - https://trailhead.salesforce.com/content/learn/modules/mulesoft-anypoint-code-builder-quick-look[Anypoint Code Builder: Quick Look]
 
 | image::../images/learning-map.png[]
