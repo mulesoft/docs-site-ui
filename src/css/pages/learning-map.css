@@ -60,7 +60,7 @@
 
   .lm-table, .lm-table tr {
     border-top: none;
-    margin-top: unset;
+    margin-top: 24px;
   }
 
   /* Do not show mobile table controls for learning map */
