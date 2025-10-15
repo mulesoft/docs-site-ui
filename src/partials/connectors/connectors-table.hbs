@@ -24,12 +24,12 @@
     {{#if (and attributes.page-connector-icon-override attributes.page-connector-icon-url)}}
       "{{attributes.page-connector-icon-url}}"
     {{else if (and (not attributes.page-connector-icon-override) (and attributes.page-exchange-group-id attributes.page-exchange-asset-id))}}
-      "https://anypoint.mulesoft.com/exchange/organizations/68ef9520-24e9-4cf2-b2f5-620025690913/assets/{{attributes.page-exchange-group-id}}/{{attributes.page-exchange-asset-id}}/icon/{{#if (not (is-null attributes.page-icon-extension))}}{{attributes.page-icon-extension}}{{else}}svg{{/if}}/"
+      "https://www.mulesoft.com/exchange/organizations/68ef9520-24e9-4cf2-b2f5-620025690913/assets/{{attributes.page-exchange-group-id}}/{{attributes.page-exchange-asset-id}}/icon/{{#if (not (is-null attributes.page-icon-extension))}}{{attributes.page-icon-extension}}{{else}}svg{{/if}}/"
     {{else}}
       "{{@root.uiRootPath}}/img/icons/connectors.svg"
     {{/if}},
     {{#if attributes.page-exchange-asset-id}}
-    "exchangeURL": "https://www.anypoint.mulesoft.com/exchange/{{attributes.page-exchange-group-id}}/{{attributes.page-exchange-asset-id}}/",
+    "exchangeURL": "https://www.mulesoft.com/exchange/{{attributes.page-exchange-group-id}}/{{attributes.page-exchange-asset-id}}/",
     {{/if}}
     {{#with (resolvePageURL attributes.page-release-notes-page)}}
     "releaseNotesPageURL": "{{relativize this}}",
@@ -80,7 +80,7 @@
       row.querySelector('.js-connector-link').textContent = connector_title
       row.querySelector('.js-connector-link').href = connector.latestVersion.url
       row.querySelector('.js-connector-type').textContent = connector.type
-      
+
       return accum.concat(row)
     }, [])
     slot.innerHTML = ''
