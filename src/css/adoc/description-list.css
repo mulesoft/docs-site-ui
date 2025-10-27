@@ -1,7 +1,6 @@
 /* description lists */
 .doc {
   & dl {
-    display: inline-block;
     font-size: 13px;
     margin: var(--sm) 0 0 0;
     padding: 0;
