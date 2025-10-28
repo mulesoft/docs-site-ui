@@ -21,27 +21,40 @@ API management helps ensure that APIs are reliable, secure, and easy to use, whi
 - https://help.salesforce.com/s/articleView?id=ai.einstein_sales.htm&type=5[Link to Salesforce Help Docs]
 
 | image::../images/learning-map.png[]
-[.lm-bold]##Design and Build##
+[.lm-bold]##List headings##
 
-Implement APIs with any system.
+**Heading for first list**
 
-- https://docs.mulesoft.com/anypoint-code-builder/des-designing-api-specs[Design API Specs and Fragments]
-- https://docs.mulesoft.com/anypoint-code-builder/des-create-api-specs[Create and Import API Specs]
-- https://docs.mulesoft.com/anypoint-code-builder/des-publish-api-spec-to-exchange[Publish API Specs and Fragments to Exchange]
-- https://docs.mulesoft.com/anypoint-code-builder/start-acb[Implement an API]
-- https://www.youtube.com/watch?v=qkbEj2s14Lo[Design an API]
-- https://videos.mulesoft.com/watch/wgZ5WuV6VgDbyK3bFKV2RJ[Watch a Demo: Orchestrate Your Agents]
-- https://trailhead.salesforce.com/content/learn/modules/mulesoft-anypoint-code-builder-quick-look[Anypoint Code Builder: Quick Look]
+- https://docs.mulesoft.com/anypoint-code-builder/des-designing-api-specs[First item]
+- https://docs.mulesoft.com/anypoint-code-builder/des-create-api-specs[Second item]
+- https://docs.mulesoft.com/anypoint-code-builder/des-publish-api-spec-to-exchange[Third item]
+
+**Heading for second list**
+
+- https://docs.mulesoft.com/anypoint-code-builder/start-acb[Fourth item]
+- https://www.youtube.com/watch?v=qkbEj2s14Lo[Fifth item]
+- https://videos.mulesoft.com/watch/wgZ5WuV6VgDbyK3bFKV2RJ[Sixth item]
+- https://trailhead.salesforce.com/content/learn/modules/mulesoft-anypoint-code-builder-quick-look[Seventh item]
 
 | image::../images/learning-map.png[]
-[.lm-bold]##Discover##
+[.lm-bold]##Nested Lists##
 
-Enable your developer community to discover your APIs anywhere automatically along with relevant metadata and documentation.
+You can add nested lists with the `**` syntax:
 
-- https://docs.mulesoft.com/exchange/apicat-about-api-catalog-cli[Autocatalog APIs]
-- https://docs.mulesoft.com/exchange/to-find-info[Search for Assets]
-- https://docs.mulesoft.com/exchange/ex2-to-simulate-api-data#test-a-rest-api-with-simulated-data[Test an API Using Simulated Data]
-- https://www.youtube.com/watch?v=2zxthY_RNSI[Discover and Catalog Any API]
+- https://docs.mulesoft.com/exchange/apicat-about-api-catalog-cli[First item]
+- https://docs.mulesoft.com/exchange/to-find-info[Second item]
+** https://docs.mulesoft.com/exchange/to-find-info[First nested item]
+** https://docs.mulesoft.com/exchange/ex2-to-simulate-api-data#test-a-rest-api-with-simulated-data[Second nested item]
+- [.lm-link-help]#**List item, no link**#
+** https://docs.mulesoft.com/exchange/to-find-info[First nested item]
+** https://docs.mulesoft.com/exchange/ex2-to-simulate-api-data#test-a-rest-api-with-simulated-data[Second nested item]
+- [.lm-no-indent]#**List item, no indent**#
+** https://docs.mulesoft.com/exchange/to-find-info[First nested item]
+** https://docs.mulesoft.com/exchange/ex2-to-simulate-api-data#test-a-rest-api-with-simulated-data[Second nested item]
+*** https://docs.mulesoft.com/exchange/to-find-info[First nested item]
+*** https://docs.mulesoft.com/exchange/ex2-to-simulate-api-data#test-a-rest-api-with-simulated-data[Second nested item]
+
+
 |===
 
 [.lm-table, cols="1a,1a,1a", grid="none"]
