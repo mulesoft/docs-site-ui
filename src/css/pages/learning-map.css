@@ -16,7 +16,11 @@
       font-weight: var(--weight-bold);
     }
 
-    a:is(.lm-link-help, .lm-link-marketing, .lm-link-trailhead, .lm-link-video)::before {
+    .lm-no-indent {
+      margin-left: -24px;
+    }
+
+    :is(a, span):is(.lm-link-help, .lm-link-marketing, .lm-link-trailhead, .lm-link-video)::before {
       background-size: contain;
       content: "";
       display: inline-block;
