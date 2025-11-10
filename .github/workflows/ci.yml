@@ -20,7 +20,7 @@ jobs:
 
       - name: Debug
         run: |
-          echo "GH_TOKEN_EMU: $GH_TOKEN_EMU"
+          echo "SECRET_KEY: $SECRET_KEY"
         env:
           SECRET_KEY: ${{ secrets.MS_CX_ENGINEERING_GPG_PRIVATE_KEY_EMU }}
 
