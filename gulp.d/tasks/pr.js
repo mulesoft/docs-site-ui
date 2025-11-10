@@ -164,8 +164,8 @@ const updateContent = async ({ octokit, owner, repo, ref, newBranchName, tagName
     tree: newTreeSha,
     parents: [latestCommitSha],
     author: {
-      name: 'SVC_mes-bot',
-      email: 'SVC_mes-bot@salesforce.com',
+      name: 'svc_GH_Token',
+      email: 'svc_GH_Token@salesforce.com',
       date: new Date().toISOString(),
     },
   }
