@@ -1,7 +1,7 @@
 'use strict'
 
 const { Octokit } = require('@octokit/rest')
-const { createMessage, decryptKey, readPrivateKey, sign } = require('openpgp')
+const { createMessage, readPrivateKey, sign } = require('openpgp')
 
 const defaultBranch = 'main'
 
@@ -51,7 +51,7 @@ const createNewBranch = async ({ octokit, owner, repo, ref, newBranchName }) => 
   }
 }
 
-const createPR = async ({ octokit, owner, repo, tagName, ref, sites, secretKey, passphrase }) => {
+const createPR = async ({ octokit, owner, repo, tagName, ref, sites, secretKey }) => {
   console.log(`submitting PR to the ${repo} repo...`)
   const newBranchName = tagName
   await createNewBranch({ octokit, owner, repo, ref, newBranchName })
@@ -63,8 +63,7 @@ const createPR = async ({ octokit, owner, repo, tagName, ref, sites, secretKey, 
     newBranchName,
     tagName,
     sites,
-    secretKey,
-    passphrase,
+    secretKey
   })
 
   await octokit.pulls.create({
@@ -82,20 +81,13 @@ https://beta.docs.mulesoft.com/beta-ui-staging/general/ (deployed every 2 hours)
   console.log(`Successfully submitted PR to the ${ref} branch.`)
 }
 
-const createSignature = async (commit, secretKey, passphrase) => {
-  const decodedKey = await readPrivateKey({
+const createSignature = async (commit, secretKey) => {
+  const signingKeys = await readPrivateKey({
     armoredKey: await base64decode(secretKey),
   })
 
-  const decryptedKey = passphrase
-    ? await decryptKey({
-      privateKey: decodedKey,
-      passphrase,
-    })
-    : decodedKey
-
-  if (!decryptedKey.isDecrypted()) {
-    throw new Error('Failed to decrypt private key using given passphrase')
+  if (!signingKeys.isDecrypted()) {
+    throw new Error('the signing key is not decrypted')
   }
 
   const commitString = typeof commit === 'string' ? commit : await commitToString(commit)
@@ -104,7 +96,7 @@ const createSignature = async (commit, secretKey, passphrase) => {
     message: await createMessage({
       text: commitString,
     }),
-    signingKeys: decryptedKey,
+    signingKeys,
     detached: true,
   })
 
@@ -115,7 +107,7 @@ const headsify = (branchName) => `heads/${branchName}`
 
 const normalizeString = async (str) => str.replace(/\r\n/g, '\n').trim()
 
-const updateContent = async ({ octokit, owner, repo, ref, newBranchName, tagName, sites, secretKey, passphrase }) => {
+const updateContent = async ({ octokit, owner, repo, ref, newBranchName, tagName, sites, secretKey }) => {
   const {
     data: {
       object: { sha: latestCommitSha },
@@ -178,7 +170,7 @@ const updateContent = async ({ octokit, owner, repo, ref, newBranchName, tagName
     },
   }
 
-  const signature = await createSignature(commitPayload, secretKey, passphrase)
+  const signature = await createSignature(commitPayload, secretKey)
   const commit = await octokit.git.createCommit(Object.assign({}, { owner, repo, signature }, commitPayload))
 
   await octokit.git.updateRef({
@@ -202,7 +194,7 @@ const userToString = async (user) => {
   return `${user.name} <${user.email}> ${timestamp} ${timezone}`
 }
 
-module.exports = (tagName, tokenEmu, secretKey, passphrase) => async () => {
+module.exports = (tagName, tokenEmu, secretKey) => async () => {
   if (secretKey) {
     await createPR({
       octokit: new Octokit({ auth: `token ${tokenEmu}` }),
@@ -211,8 +203,7 @@ module.exports = (tagName, tokenEmu, secretKey, passphrase) => async () => {
       tagName,
       ref: defaultBranch,
       sites: ['archive', 'en', 'jp'],
-      secretKey,
-      passphrase,
+      secretKey
     })
   } else {
     console.log('Secret key is not found, skipping PRs creation in the playbook repo.')
