@@ -11,10 +11,6 @@ jobs:
     runs-on: mulesoft-ubuntu
 
     steps:
-      - name: Install dependencies
-        run: |
-          echo "The public IP of this runner is: $(curl -s https://ifconfig.me)"
-
       - name: Checkout code
         uses: actions/checkout@v4
 
