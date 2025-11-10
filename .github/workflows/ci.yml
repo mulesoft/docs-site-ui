@@ -20,7 +20,7 @@ jobs:
 
       - name: Debug
         run: |
-          echo "SECRET_KEY: $SECRET_KEY" | base64 -d
+          echo "$SECRET_KEY" | base64 -d
         env:
           SECRET_KEY: ${{ secrets.MS_CX_ENGINEERING_GPG_PRIVATE_KEY_EMU }}
 
