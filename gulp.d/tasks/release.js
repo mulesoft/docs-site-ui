@@ -8,7 +8,7 @@ const pad = require('pad')
 const path = require('path')
 const vfs = require('vinyl-fs')
 const zip = require('gulp-vinyl-zip')
-const { createMessage, decryptKey, readPrivateKey, sign } = require('openpgp')
+const { createMessage, readPrivateKey, sign } = require('openpgp')
 
 const defaultBranch = 'main'
 
