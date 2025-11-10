@@ -10,6 +10,8 @@
     --docsearch-primary-color: var(--lume-c-icon-color-foreground-1);
     --docsearch-highlight-color: var(--docsearch-primary-color);
     --docsearch-muted-color: var(--steel-2);
+    --docsearch-border-color: var(--aluminum-4);
+    --docsearch-version-badge-bg: var(--aluminum-1);
 }
 
 #docsearch {
@@ -18,7 +20,7 @@
 
     /* stylelint-disable-next-line selector-class-pattern */
     & .DocSearch-Button {
-        border: 1px solid var(--aluminum-4);
+        border: 1px solid var(--docsearch-border-color);
         border-radius: var(--radius);
         width: 100%;
     }
@@ -38,8 +40,27 @@
     margin: auto 0 auto 7px;
     padding: 4px;
     width: 30px;
-  
+
     & .docsearch-toolbar-button-icon {
       width: 20px;
+    }
+}
+
+/* stylelint-disable-next-line selector-class-pattern */
+.DocSearch-Hit {
+    & .docsearch-version-badge {
+        background-color: var(--docsearch-version-badge-bg);
+        border: 1px solid var(--docsearch-border-color);
+        border-radius: 9999px;
+        display: inline-block;
+        font-size: 11px;
+        line-height: 1.5;
+        padding: 1px 6px;
+        vertical-align: middle;
+        white-space: nowrap;
+    }
+
+    & .docsearch-version-container {
+        margin-left: var(--xs);
     }
 }

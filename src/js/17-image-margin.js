@@ -3,7 +3,7 @@
 
   const isHomePage = (pathname) => ['/general/', '/'].includes(pathname)
 
-  if (!isHomePage(window.location.pathname)) {
+  if (!isHomePage(window.location.pathname) && !document.querySelector('article.learning-map')) {
     const addTopAndBottomMargins = (element) => element.classList.add('page-images')
 
     const firstElementInTableCell = (imageElement) => {

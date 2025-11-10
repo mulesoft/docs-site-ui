@@ -1,48 +1,182 @@
 <script src="{{@root.uiRootPath}}/js/vendor/docsearch.js"></script>
 <script type="text/javascript">
-const searchContainer = '#docsearch'
-const searchText = MSCX.l10n.getMessage('search-toolbar-button')
-const langFilter = `lang:${MSCX.l10n.getLocale()}`
-const versionFilter = `version:latest`
+;(() => {
+  'use strict'
+  const searchContainer = '#docsearch'
+  const searchText = MSCX.l10n.getMessage('search-toolbar-button')
+  const versionLatest = 'latest'
+  const versionLatestText = MSCX.l10n.getMessage(versionLatest)
+  const langFilter = `lang:${MSCX.l10n.getLocale()}`
+  const defaultVersionFilter = `version:${versionLatest}`
 
-const docsearch = window.docsearch({
-  container: searchContainer,
-  appId: '{{ env.DOCSEARCH_APP_ID }}',
-  apiKey: '{{ env.DOCSEARCH_API_KEY }}',
-  indexName: 'MuleSoft Documentation',
-  disableUserPersonalization: true,
-  maxResultsPerGroup: 10,
-  searchParameters: {
-    facetFilters: [langFilter, versionFilter],
-  },
-  translations: {
-    button: { buttonText: searchText },
-    modal: {
-      searchBox: {
-        placeholderText: searchText,
-      },
+
+  function getQueryFromRequest (request) {
+    if (typeof request?.query === 'string') return request.query
+    if (typeof request?.params?.query === 'string') return request.params.query
+    return ''
+  }
+
+  // Matches: 2.11, 1.13, 4.x
+  // If version includes patch, remove: 2.5.3 -> returns 2.5
+  function parseVersionsFromQuery (q) {
+    if (typeof q !== 'string' || !q) return []
+    const versions = new Set()
+    const re = /\b[vV]?(\d+)\.(\d+|x)(?:\.(\d+))?\b/g
+    let matches
+    while ((matches = re.exec(q)) !== null) {
+      const major = matches[1]
+      const minor = matches[2]
+      const ver = (typeof minor === 'string' && minor.toLowerCase() === 'x') ? `${major}.x` : `${major}.${minor}`
+      versions.add(ver)
     }
-  },
-  transformItems (items) {
-    // Deduplicate results to different sections of the same page
-    const seen = new Set()
-    return items.filter((item) => {
-      const url = (item && item.url) ? item.url : ''
-      const base = url.split('#')[0].replace(/\/$/, '')
+    return Array.from(versions)
+  }
 
-      if (seen.has(base)) return false
-      seen.add(base)
-      return true
+  function stripVersionFromQuery (q) {
+    if (typeof q !== 'string' || !q) return ''
+    // If user is looking for release notes, keep the version in the query, as RNs are stored in latest
+    if (/release/i.test(q)) return q
+
+    // We're using the version in facet filters instead, so don't look for text that explicitly references the version
+    const withoutLatest = q.replace(/\blatest\b/ig, ' ')
+    const withoutVersions = withoutLatest.replace(/\b[vV]?(\d+)\.(\d+|x)(?:\.(\d+))?\b/g, ' ')
+    return withoutVersions.replace(/\s+/g, ' ').trim()
+  }
+
+
+  const docsearch = window.docsearch({
+    container: searchContainer,
+    appId: '{{ env.DOCSEARCH_APP_ID }}',
+    apiKey: '{{ env.DOCSEARCH_API_KEY }}',
+    indexName: 'MuleSoft Documentation',
+    disableUserPersonalization: true,
+    maxResultsPerGroup: 20,
+    searchParameters: {
+      attributesToRetrieve: [
+        'hierarchy.lvl0',
+        'hierarchy.lvl1',
+        'hierarchy.lvl2',
+        'hierarchy.lvl3',
+        'hierarchy.lvl4',
+        'hierarchy.lvl5',
+        'hierarchy.lvl6',
+        'content',
+        'type',
+        'url',
+        'version',
+      ],
+      distinct: 1,
+      facetFilters: [langFilter, [defaultVersionFilter]],
+    },
+    translations: {
+      button: { buttonText: searchText },
+      modal: {
+        searchBox: {
+          placeholderText: searchText,
+        },
+      }
+    },
+    transformSearchClient (searchClient) {
+      return {
+        ...searchClient,
+        search (requests, ...rest) {
+          const hasRequestsToTransform = requests && Array.isArray(requests.requests)
+          if (!hasRequestsToTransform) {
+            return searchClient.search(requests, ...rest)
+          }
+
+          const requestArray = requests.requests
+          const transformedRequest = requestArray.map((request, index) => {
+            const originalQuery = getQueryFromRequest(request)
+            const parsedVersions = parseVersionsFromQuery(originalQuery)
+            const cleanedQuery = stripVersionFromQuery(originalQuery)
+
+            const userVersionFilters = parsedVersions.map((v) => `version:${v}`)
+            const versionFilters = userVersionFilters.length ? [defaultVersionFilter, ...userVersionFilters] : [defaultVersionFilter]
+            const nextFacetFilters = [langFilter, versionFilters]
+            // Boost all explicit versions over latest (if any)
+            const nextOptionalFilters = userVersionFilters.length ? [...userVersionFilters] : [defaultVersionFilter]
+
+            return {
+              ...request,
+              facetFilters: nextFacetFilters,
+              optionalFilters: nextOptionalFilters,
+              params: { ...(request.params || {}), query: cleanedQuery },
+            }
+          })
+
+          return searchClient.search(transformedRequest, ...rest)
+        },
+      }
+    },
+    transformItems (items) {
+      if (!window.MSCX.__docsearchUrlVersionMap) window.MSCX.__docsearchUrlVersionMap = new Map()
+
+      return items.map((item) => {
+        let version = versionLatest
+        if (item?.version && Array.isArray(item.version)) {
+          version = String(item.version[0])
+        } else if (item?.version && typeof item.version === 'string') {
+          version = item.version
+        }
+
+        const urlKey = item.url || ''
+        window.MSCX.__docsearchUrlVersionMap.set(urlKey, version)
+
+        return item
+      })
+    },
+  });
+
+  function injectVersionBadges () {
+    const dropdown = document.querySelector('.DocSearch-Dropdown')
+    if (!dropdown || !window.MSCX.__docsearchUrlVersionMap) return
+
+    const hits = dropdown.querySelectorAll('.DocSearch-Hit')
+    hits.forEach((hit) => {
+      if (hit.__versionBadgeApplied) return
+
+      const link = hit.querySelector('a[href]')
+      const container = hit.querySelector('.DocSearch-Hit-Container')
+      const action = container ? container.querySelector('.DocSearch-Hit-action') : null
+      if (!link || !container) return
+
+      const href = link.getAttribute('href') || ''
+      const version = window.MSCX.__docsearchUrlVersionMap.get(href)
+      if (!version) return
+
+      if (!container.querySelector('.docsearch-version-container')) {
+        const versionContainer = document.createElement('div')
+        versionContainer.className = 'docsearch-version-container'
+        const badge = document.createElement('span')
+        badge.className = 'docsearch-version-badge'
+        badge.textContent = (version.toLowerCase() === versionLatest) ? versionLatestText : version
+        versionContainer.appendChild(badge)
+
+        if (action && action.parentNode === container) {
+          container.insertBefore(versionContainer, action.nextSibling)
+        } else {
+          container.appendChild(versionContainer)
+        }
+
+        hit.__versionBadgeApplied = true
+      }
     })
-  },
-});
+  }
 
-document.addEventListener('click', (e) => {
-  const mobileButton = e.target.closest('[data-action="open-docsearch-modal"]');
-  if (!mobileButton) return;
-  e.preventDefault();
+  const observer = new MutationObserver(() => {
+    injectVersionBadges()
+  })
 
-  const searchButton = document.querySelector(`${searchContainer} button`);
-  if (searchButton) searchButton.click();
-});
+  observer.observe(document.body, { childList: true, subtree: true })
+
+  document.addEventListener('click', (e) => {
+    const mobileButton = e.target.closest('[data-action="open-docsearch-modal"]');
+    if (!mobileButton) return;
+    e.preventDefault();
+
+    const searchButton = document.querySelector(`${searchContainer} button`);
+    if (searchButton) searchButton.click();
+  });
+})()
 </script>
