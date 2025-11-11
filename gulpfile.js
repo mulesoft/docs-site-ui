@@ -1,8 +1,5 @@
 'use strict'
 
-const pkg = require('./package.json')
-const [owner, repo] = new URL(pkg.repository.url).pathname.slice(1).split('/')
-
 const { parallel, series, watch } = require('gulp')
 const createTask = require('./gulp.d/lib/create-task')
 const exportTasks = require('./gulp.d/lib/export-tasks')
@@ -92,27 +89,6 @@ const bundleTask = createTask({
   call: series(bundleBuildTask, bundlePackTask),
 })
 
-const releasePublishTask = createTask({
-  desc: 'Publish the release to GitHub by attaching it to a new tag',
-  name: 'release:publish',
-  call: task.release(
-    buildDir,
-    bundleName,
-    owner,
-    repo,
-    process.env.GH_TOKEN,
-    process.env.SECRET_KEY,
-    // this is not needed for CI/CD, but needed if you are testing with your local key that has a passphrase
-    process.env.PASSPHRASE
-  ),
-})
-
-const releaseTask = createTask({
-  name: 'release',
-  desc: 'Bundle the UI and publish it to GitHub by attaching it to a new tag',
-  call: series(bundleTask, releasePublishTask),
-})
-
 const buildPreviewPagesTask = createTask({
   name: 'preview:build-pages',
   call: task.buildPreviewPages(srcDir, previewSrcDir, previewDestDir, livereload),
@@ -121,6 +97,16 @@ const buildPreviewPagesTask = createTask({
 const buildJpPreviewPagesTask = createTask({
   name: 'preview:build-pages-jp',
   call: task.buildPreviewPages(srcDir, previewJpSrcDir, previewDestDir, livereload),
+})
+
+const prTask = createTask({
+  name: 'pr',
+  desc: 'Create a PR in docs-site-playbook',
+  call: task.pr(
+    process.env.TAG_NAME,
+    process.env.GH_TOKEN_EMU,
+    process.env.SECRET_KEY
+  ),
 })
 
 const previewBuildTask = createTask({
@@ -158,17 +144,19 @@ const previewJpTask = createTask({
 })
 
 module.exports = exportTasks(
-  bundleTask,
-  cleanTask,
-  lintTask,
-  formatTask,
   buildTask,
   bundleTask,
   bundlePackTask,
-  releaseTask,
-  releasePublishTask,
-  previewTask,
-  previewJpTask,
+  bundleBuildTask,
+  cleanTask,
+  formatTask,
+  lintTask,
+  prTask,
+  previewBuildJpTask,
   previewBuildTask,
+  previewJpTask,
+  previewServeJpTask,
+  previewServeTask,
+  previewTask,
   updateTask
 )

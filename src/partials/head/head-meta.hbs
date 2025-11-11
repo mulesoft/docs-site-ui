@@ -25,9 +25,11 @@
     {{#if (eq page.component.latest.version page.version)}}
         <meta name="is-latest-version" content="true">
         <meta name="version-with-latest" content="{{or page.displayVersion page.version}} {{#if (eq (site-profile) 'jp' )}}[最新]{{else}}[latest]{{/if}}">
+        <meta name="docsearch:version" content="latest">
     {{else}}
         <meta name="version-with-latest" content="{{or page.displayVersion page.version}}">
         <meta name="latest-version" content="{{page.component.latest.version}}">
+        <meta name="docsearch:version" content="{{page.version}}">
     {{/if}}
 
     {{#with (get-semver page.version)}}
@@ -46,6 +48,7 @@
 
 {{else}}
     <meta name="version-with-latest" content="{{or page.displayVersion page.version}} {{#if (eq (site-profile) 'jp' )}}[最新]{{else}}[latest]{{/if}}">
+    <meta name="docsearch:version" content="latest">
 {{/if}}
 
 {{#if (is-one-of (site-profile) "jp" "prod")}}

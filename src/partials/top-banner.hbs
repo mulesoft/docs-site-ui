@@ -1,5 +1,5 @@
 {{#if
-(or preview (is-one-of (site-profile) 'archive' 'beta' 'review')
+(or preview (is-one-of (site-profile) 'archive' 'beta')
 page.componentVersion.asciidoc.attributes.announcementMessage)
 }}
 <div class="top-banner banner flex {{#if page.componentVersion.asciidoc.attributes.announcementMessage}}announcement{{/if}}">

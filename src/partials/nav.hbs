@@ -1,16 +1,7 @@
 <nav class="nav fit" aria-label="Docs">
   <span class="mobile-nav-focus-trapper"></span>
   {{#if (or preview (is-one-of (site-profile) 'prod' 'jp'))}}
-  <div class="search">
-    <atomic-search-interface id="search" localization-compatibility-version="v4" {{#if (eq (site-profile) 'jp' )}}search-hub="mulesoft-docs-jp" language="ja"{{else}}search-hub="mulesoft-docs"{{/if}}>
-      <atomic-search-layout>
-          <atomic-layout-section section="search">
-              <atomic-search-box redirection-url="{{relativize site.url}}/general/search{{#if preview}}.html{{/if}}">
-              </atomic-search-box>
-          </atomic-layout-section>
-      </atomic-search-layout>
-    </atomic-search-interface>
-  </div>
+  <div id="docsearch"></div>
   {{/if}}
   <div>
     <button class="nav-close-button hide" title="close menu">

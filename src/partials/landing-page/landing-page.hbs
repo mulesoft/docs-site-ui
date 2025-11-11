@@ -7,8 +7,7 @@
   </header>
   {{#if (eq (site-profile) 'jp' )}}
   <div class='panel single-panel'>
-    {{> trending-topics}}
-    {{> trending-topics-fallback-jp }}
+    {{> trending-topics }}
   </div>
   {{else}}
   <div class='panels'>
@@ -18,8 +17,7 @@
       {{> latest-releases}}
     {{/if}}
     <div class='panel'>
-      {{> trending-topics}}
-      {{> trending-topics-fallback-en }}
+      {{> trending-topics }}
     </div>
   </div>
   {{/if}}

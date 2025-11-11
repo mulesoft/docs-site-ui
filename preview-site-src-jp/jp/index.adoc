@@ -86,9 +86,9 @@ image::monitor.png[alt=""]
 == クイックリンク
 
 [#trending-topics]
-== 人気のあるトピック
+== トレンドトピック
+// Limit the number of links to 10 maximum
 
-//Date Range 5/01/2022 - 6/01/2022 (omits #1 ranking link to landing page, of course)
 * xref:dataweave::dataweave-cookbook-format-dates.adoc[日付と時刻の書式設定]
 * xref:dataweave::dw-operators.adoc[DataWeave の演算子]
 * xref:dataweave::dw-core-functions-filter.adoc[DataWeave 関数: filter]
@@ -96,18 +96,3 @@ image::monitor.png[alt=""]
 * xref:mule-runtime::batch-processing-concept.adoc[バッチ処理]
 * xref:dataweave::dataweave-functions.adoc[DataWeave リファレンス]
 * xref:connectors::index.adoc[コネクタ]
-// rank #8-10:
-// * xref:mule-runtime::mule-error-concept.adoc[Mule Errors]
-// * xref:mule-runtime::cloudhub-architecture.adoc[CloudHub Architecture]
-// * xref:dataweave::dw-core-functions-contains.adoc[DataWeave Function: contains]
-
-
-[#more-resources]
-== その他のリソース
-
-* https://developer.mulesoft.com/learn/dataweave/[DataWeave プレイグラウンド^]
-* https://help.mulesoft.com/s/[MuleSoft ヘルプセンター^]
-* https://developer.mulesoft.com/tutorials-and-howtos/getting-started/hello-mule[開発者チュートリアル^]
-* https://training.mulesoft.com/[Mulesoft トレーニング^]
-* https://trailhead.salesforce.com/content/learn/modules/mulesoft-basics[Trailhead: Anypoint Platform を使用した API ライフサイクル管理^]
-* https://archive.docs.mulesoft.com/[アーカイブ済みドキュメント^]

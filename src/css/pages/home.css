@@ -88,7 +88,12 @@ body.home {
       }
     }
 
-    & #contributor-signatures + table, 
+    #trending-topics ul {
+      list-style: disc;
+      padding-left: var(--lg);
+    }
+
+    & #contributor-signatures + table,
     & #latest-releases + table {
       font-size: inherit;
       overflow: visible;
@@ -314,7 +319,7 @@ body.home {
     font-weight: var(--weight-bold);
   }
 
-  & .toolbar:not(.search-toolbar) {
+  & .toolbar {
     @media (min-width: 768px) {
       display: none;
     }

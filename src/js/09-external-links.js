@@ -34,7 +34,7 @@
   const opensInNewWindow = (linkTarget) => linkTarget === '_blank'
 
   const processExternalLinks = (selectors) => {
-    const selectorText = selectors.map((el) => `${el} :not(#trending-topics-fallback) > * > a`).join(', ')
+    const selectorText = selectors.map((el) => `${el} :not(#trending-topics) > * > a`).join(', ')
     const externalLinks = document.querySelectorAll(selectorText)
     externalLinks.forEach((externalLink) => {
       if (isExternalLink(externalLink.href)) {
@@ -53,11 +53,16 @@
     links.forEach((link) => {
       const href = link.href
 
-      if (href.startsWith('https://www.youtube.com')) {
+      if (href.startsWith('https://www.youtube.com') || href.startsWith('https://videos.mulesoft.com')) {
         link.classList.add('lm-link-video')
       } else if (href.startsWith('https://trailhead.salesforce.com')) {
         link.classList.add('lm-link-trailhead')
-      } else if (link.classList.contains('xref') || href.startsWith('https://docs.mulesoft.com')) {
+      } else if (
+        link.classList.contains('xref') ||
+        href.startsWith('https://docs.mulesoft.com') ||
+        href.startsWith('https://help.salesforce.com/s/articleView') ||
+        href.startsWith('https://developer.salesforce.com/docs')
+      ) {
         link.classList.add('lm-link-help')
       } else if (href.startsWith('https://www.mulesoft.com')) {
         link.classList.add('lm-link-marketing')

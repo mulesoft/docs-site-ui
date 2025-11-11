@@ -272,26 +272,26 @@
 
   const coerceToArray = (val) => (Array.isArray(val) ? val : [val])
 
+  // Add ability to override site type with a query param for ease of testing
+  // For JP, you also need to edit the siteProfile in ui-model.yml
+  const urlParams = new URLSearchParams(window.location.search)
+  const siteTypeOverride = urlParams.get('siteTypeOverride')
+
   const setTitle = (title) => (isArchiveSite() ? `Archive ${title}` : homeTitle)
 
-  const isArchiveSite = () => window.location.host.includes('archive')
-  const isBetaSite = () => isExternalBetaSite() || isInternalBetaSite() || isReviewSite()
-  const isExternalBetaSite = () => window.location.host.includes('beta')
-  const isInternalBetaSite = () => window.location.host.includes('dev-docs-internal')
-  const isJapaneseSite = () => document.documentElement.lang === 'jp'
-  const isLocalBuild = () => window.location.href.startsWith('file://')
-  const isReviewSite = () => window.location.host.includes('review')
+  const isArchiveSite = () => siteTypeOverride === 'archive' || window.location.host.includes('archive')
+  const isBetaSite = () => isExternalBetaSite() || isInternalBetaSite()
+  const isExternalBetaSite = () => siteTypeOverride === 'beta' || window.location.host.includes('beta')
+  const isInternalBetaSite = () => siteTypeOverride === 'internal' || window.location.host.includes('dev-docs-internal')
+  const isJapaneseSite = () => siteTypeOverride === 'jp' || document.documentElement.lang === 'jp'
+  const isLocalBuild = () => siteTypeOverride === 'file' || window.location.href.startsWith('file://')
 
   const getNavData = () => {
     const components = window.siteNavigationData
-    /*
-      Normally, we would delete window.siteNavigationData here to clean up.
-      But this data is needed for the Coveo scripts later, so keep them and let the Coveo scripts delete.
-    */
-
     const groups = components.groups || [{ root: true, components: ['home', '*'] }]
     const homeUrl = components.homeUrl || document.querySelector('a.home-link')?.getAttribute('href') || '/'
     const subcomponents = components.subcomponents || []
+    delete window.siteNavigationData
 
     return { components, groups, homeUrl, subcomponents }
   }

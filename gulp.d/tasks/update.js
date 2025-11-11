@@ -18,6 +18,7 @@ async function updateContent (partialsDir, component, contentType) {
   try {
     const urlParams = await getUrlParams(contentType)
     const content = await fetch(
+      // https://salesforce.quip.com/lUuGAQD0svLd
       `https://www.mulesoft.com/api/${component}?${urlParams}&docs-site&no-helmet&promotion-banner=true`
     )
     if (await isGoodStatus(content.status)) {

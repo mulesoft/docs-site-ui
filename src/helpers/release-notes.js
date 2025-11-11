@@ -12,8 +12,8 @@ const getDatedReleaseNotesRawPages = (contentCatalog) => {
 }
 
 const getPagesWithDeploymentOptions = (asciidoc) => {
-  const attributes = asciidoc.attributes
-  return asciidoc.attributes && isReleaseNotes(attributes) && hasRevDate(attributes)
+  const { attributes } = asciidoc
+  return attributes && isReleaseNotes(attributes) && hasRevDate(attributes)
 }
 
 const hasRevDate = (attributes) => attributes['page-revdate']
@@ -32,8 +32,7 @@ const sortByRevDate = (a, b) => new Date(b.attributes.revdate) - new Date(a.attr
 
 const getMostRecentlyUpdatedPages = (pageUIModels, numOfItems) => {
   const maxNumberOfPages = pageUIModels.length > numOfItems ? numOfItems : pageUIModels.length
-  const resultList = getResultList(pageUIModels, maxNumberOfPages)
-  return resultList
+  return getResultList(pageUIModels, maxNumberOfPages)
 }
 
 const getResultList = (pageUIModels, maxNumberOfPages) => {
@@ -52,23 +51,83 @@ const getResultList = (pageUIModels, maxNumberOfPages) => {
 }
 
 const getSelectedAttributes = (page) => {
-  const latestVersion = getLatestVersion(page.contents.toString())
+  const latestVersion = getLatestVersion(page.contents.toString(), page.attributes?.revdate)
   return {
     latestVersionAnchor: latestVersion?.anchor,
     latestVersionName: latestVersion?.innerText,
-    revdateWithoutYear: removeYear(page.attributes?.revdate),
+    revdateWithoutYear: removeYear(latestVersion?.releaseDate || page.attributes?.revdate),
     title: cleanTitle(page.title, latestVersion?.innerText),
     url: page.url,
   }
 }
 
-const getLatestVersion = (contentsStr) => {
+const getLatestVersion = (contentsStr, pageRevDate) => {
   const nodes = parseHTML(contentsStr)
-  const firstVersion = nodes.querySelector('h2')
-  if (firstVersion) {
-    const output = { anchor: firstVersion.id }
-    if (isVersion(firstVersion.innerText)) output.innerText = firstVersion.innerText
-    return output
+  const versionHeaders = nodes.querySelectorAll('h2')
+
+  if (!versionHeaders || versionHeaders.length === 0) return null
+
+  for (let i = 0; i < versionHeaders.length; i++) {
+    const header = versionHeaders[i]
+    if (isVersion(header.innerText)) {
+      const releaseDate = findReleaseDateForVersion(header)
+      if (releaseDate && datesMatch(releaseDate, pageRevDate)) {
+        return {
+          anchor: header.id,
+          innerText: header.innerText,
+          releaseDate,
+        }
+      }
+    }
+  }
+
+  return getFirstVersionAsFallback(versionHeaders)
+}
+
+const getFirstVersionAsFallback = (versionHeaders) => {
+  const firstVersion = versionHeaders[0]
+  if (isVersion(firstVersion.innerText)) {
+    return {
+      anchor: firstVersion.id,
+      innerText: firstVersion.innerText,
+      releaseDate: null,
+    }
+  }
+  return null
+}
+
+const findReleaseDateForVersion = (versionHeader) => {
+  const maxElementsToSearch = 5
+  let currentElement = versionHeader.nextElementSibling
+
+  for (let i = 0; i < maxElementsToSearch && currentElement; i++) {
+    if (currentElement.tagName === 'P' || currentElement.tagName === 'DIV') {
+      const text = currentElement.innerText || currentElement.text
+      const dateMatch = text.match(/(\w+\s+\d{1,2},?\s+\d{4})|(\d{1,2}\/\d{1,2}\/\d{4})|(\d{4}-\d{2}-\d{2})/)
+      if (dateMatch) {
+        return dateMatch[0]
+      }
+    }
+    currentElement = currentElement.nextElementSibling
+  }
+
+  return null
+}
+
+const datesMatch = (date1, date2) => {
+  if (!date1 || !date2) return false
+
+  try {
+    const parsedDate1 = new Date(date1)
+    const parsedDate2 = new Date(date2)
+
+    return (
+      parsedDate1.getFullYear() === parsedDate2.getFullYear() &&
+      parsedDate1.getMonth() === parsedDate2.getMonth() &&
+      parsedDate1.getDate() === parsedDate2.getDate()
+    )
+  } catch (e) {
+    return false
   }
 }
 
@@ -88,9 +147,7 @@ const isVersion = (versionText) => {
 const removeYear = (dateStr) => {
   if (isValidDate(dateStr)) {
     const dateObj = new Date(dateStr)
-    return `${dateObj.toLocaleString('en-US', {
-      month: 'short',
-    })} ${dateObj.getDate()}`
+    return `${dateObj.toLocaleString('en-US', { month: 'short' })} ${dateObj.getDate()}`
   }
 }
 

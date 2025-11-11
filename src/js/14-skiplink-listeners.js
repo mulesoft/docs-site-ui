@@ -91,26 +91,17 @@
     return getAsideGithubButton(aside) || getAsideFirstTocLink(aside)
   }
 
-  const getFocusableSearchBox = () => {
-    const atomicSearchbox = document.querySelector('atomic-search-box')
-    const searchboxShadowRoot = atomicSearchbox?.shadowRoot
-    return searchboxShadowRoot?.querySelector('input')
-  }
-
   const getAsideFirstTocLink = (aside) => aside.querySelector('.aside-toc a')
   const getAsideGithubButton = (aside) => aside.querySelector('a.github')
 
   const getMainSelector = () => {
-    if (isSearchPage()) return getFocusableSearchBox()
     return isVisible(toolbar) ? '.toolbar a' : '.doc a'
   }
 
-  const getNavFirstFocusableItem = (element) => getFocusableSearchBox() || element.querySelector('a')
-
-  const isSearchPage = () => document.title.includes('Search Docs')
+  const getNavFirstFocusableItem = (element) => element.querySelector('a')
 
   const isVisible = (element) => {
-    return element?.querySelector('a') || isSearchPage()
+    return element?.querySelector('a')
       ? window.getComputedStyle(element).display !== 'none' && window.getComputedStyle(element).visibility !== 'hidden'
       : false
   }

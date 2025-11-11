@@ -17,17 +17,19 @@
     "format": "npx gulp format",
     "format:bundle": "npm run format && npm run bundle",
     "lint": "npx gulp lint",
+    "pr": "npx gulp pr",
     "preview": "npx gulp preview",
     "preview-jp": "npx gulp preview-jp",
-    "release": "npx gulp release",
     "clean": "rm -rf node_modules/",
     "reinstall": "npm run clean && npm install"
   },
   "devDependencies": {
     "@asciidoctor/core": "~2.2",
     "@asciidoctor/tabs": "latest",
-    "@mulesoft/lume-icon": "^0.1.47",
-    "@mulesoft/lume-styling-hooks": "1.0.24",
+    "@docsearch/css": "^4.0.0-beta.7",
+    "@docsearch/js": "^4.0.0-beta.7",
+    "@mulesoft/lume-icon": "file:vendor/mulesoft-lume-icon-0.1.47.tgz",
+    "@mulesoft/lume-styling-hooks": "file:vendor/mulesoft-lume-styling-hooks-1.0.32.tgz",
     "@octokit/rest": "20.1.2",
     "@ronilaukkarinen/gulp-stylelint": "^14.1.1",
     "asciidoctor": "3.0.4",
@@ -58,7 +60,7 @@
     "merge-stream": "2.0.0",
     "node-fetch": "3.3.2",
     "node-html-parser": "7.0.1",
-    "openpgp": "^6.0.0",
+    "openpgp": "^6.1.1",
     "pad": "^3.2.0",
     "postcss": "8.5.3",
     "postcss-calc": "10.1.1",
@@ -79,5 +81,8 @@
     "typeface-open-sans": "1.1.13",
     "vinyl-buffer": "1.0.1",
     "vinyl-fs": "3.0.3"
+  },
+  "volta": {
+    "node": "22.18.0"
   }
 }

@@ -9,7 +9,7 @@ module.exports = function ({
     const connectors = {}
 
     for (const component in components) {
-      if (component.endsWith('-connector')) {
+      if (component.endsWith('-connector') || component.endsWith('-module')) {
         const connector = components[component]
         // Filter out connector versions that are missing the page-connector-type attribute.
         // These are imported from the site manifest with the @antora/atlas-extension in the playbook,
