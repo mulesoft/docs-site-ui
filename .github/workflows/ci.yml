@@ -61,8 +61,17 @@ jobs:
         with:
           files: ./build/ui-bundle.zip
           generate_release_notes: true
-          name: prod-${{ steps.version.outputs.tag_name }}
-          tag_name: prod-${{ steps.version.outputs.tag_name }}
+          name: ${{ steps.version.outputs.tag_name }}
+          tag_name: ${{ steps.version.outputs.tag_name }}
+
+      - name: Update latest Github Release
+        if: github.ref == 'refs/heads/main' && (github.event_name == 'push' || github.event_name == 'workflow_dispatch')
+        uses: softprops/action-gh-release@v2
+        with:
+          files: ./build/ui-bundle.zip
+          generate_release_notes: false
+          name: latest
+          tag_name: latest
 
       - name: Create PR (for main)
         if: github.ref == 'refs/heads/main' && (github.event_name == 'push' || github.event_name == 'workflow_dispatch')
