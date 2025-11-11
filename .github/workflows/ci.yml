@@ -71,7 +71,7 @@ jobs:
           files: ./build/ui-bundle.zip
           generate_release_notes: false
           name: latest
-          tag_name: ${{ steps.version.outputs.tag_name }}
+          tag_name: latest
 
       - name: Create PR (for main)
         if: github.ref == 'refs/heads/main' && (github.event_name == 'push' || github.event_name == 'workflow_dispatch')
