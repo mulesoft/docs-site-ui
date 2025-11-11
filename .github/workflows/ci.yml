@@ -50,8 +50,8 @@ jobs:
         if: github.ref == 'refs/heads/main' && (github.event_name == 'push' || github.event_name == 'workflow_dispatch')
         id: version
         run: |
-          LATEST_TAG=$(curl -s https://api.github.com/repos/mulesoft/mulesoft-docs-writing-style/releases/latest | jq -r '.tag_name // "prod-0.0.0"')
-          NEXT_VERSION=$(echo $LATEST_TAG | sed 's/prod-\([0-9]*\)/prod-$((\1+1))/')
+          LATEST_TAG=$(curl -s https://api.github.com/repos/$GITHUB_REPOSITORY/releases/latest | jq -r '.tag_name')
+          NEXT_VERSION=$(echo $LATEST_TAG | awk -F- '{printf "%s-%d\n", $1, $2+1}')
           echo "tag_name=$NEXT_VERSION" >> $GITHUB_OUTPUT
           echo "Next version will be: $NEXT_VERSION"
 
