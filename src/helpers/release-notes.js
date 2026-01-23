@@ -69,7 +69,6 @@ const getLatestVersion = (contentsStr, pageRevDate, pageTitle) => {
 
   for (let i = 0; i < versionHeaders.length; i++) {
     const header = versionHeaders[i]
-    console.log(header.innerText, header.id)
     if (isVersion(header.innerText)) {
       const releaseDate = findReleaseDateForVersion(header)
       if (releaseDate && datesMatch(releaseDate, pageRevDate)) {
