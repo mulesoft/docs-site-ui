@@ -51,17 +51,17 @@ const getResultList = (pageUIModels, maxNumberOfPages) => {
 }
 
 const getSelectedAttributes = (page) => {
-  const latestVersion = getLatestVersion(page.contents.toString(), page.attributes?.revdate)
+  const latestVersion = getLatestVersion(page.contents.toString(), page.attributes?.revdate, page.title)
   return {
     latestVersionAnchor: latestVersion?.anchor,
-    latestVersionName: latestVersion?.innerText,
+    latestVersionName: latestVersion?.versionName,
     revdateWithoutYear: removeYear(latestVersion?.releaseDate || page.attributes?.revdate),
-    title: cleanTitle(page.title, latestVersion?.innerText),
+    title: latestVersion?.title,
     url: page.url,
   }
 }
 
-const getLatestVersion = (contentsStr, pageRevDate) => {
+const getLatestVersion = (contentsStr, pageRevDate, pageTitle) => {
   const nodes = parseHTML(contentsStr)
   const versionHeaders = nodes.querySelectorAll('h2')
 
@@ -69,14 +69,23 @@ const getLatestVersion = (contentsStr, pageRevDate) => {
 
   for (let i = 0; i < versionHeaders.length; i++) {
     const header = versionHeaders[i]
+    console.log(header.innerText, header.id)
     if (isVersion(header.innerText)) {
       const releaseDate = findReleaseDateForVersion(header)
       if (releaseDate && datesMatch(releaseDate, pageRevDate)) {
         return {
           anchor: header.id,
-          innerText: header.innerText,
           releaseDate,
+          title: cleanTitle(pageTitle, header.innerText),
+          versionName: header.innerText,
         }
+      }
+    }
+    if (isValidDate(header.innerText)) {
+      return {
+        anchor: header.id,
+        releaseDate: header.innerText,
+        title: cleanTitle(pageTitle),
       }
     }
   }
