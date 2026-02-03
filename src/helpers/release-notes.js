@@ -83,7 +83,7 @@ const getLatestVersion = (contentsStr, pageRevDate, pageTitle) => {
     if (isValidDate(header.innerText)) {
       return {
         anchor: header.id,
-        releaseDate: header.innerText,
+        releaseDate: pageRevDate,
         title: cleanTitle(pageTitle),
       }
     }
