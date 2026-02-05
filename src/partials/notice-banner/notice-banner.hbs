@@ -1,3 +1,4 @@
+{{#if (eq (site-profile) 'prod')}}
 {{#if page.attributes.notice-banner-message}}
 <div class="banner notice-banner flex">
   <p>{{{raw-html page.attributes.notice-banner-message}}}</p>
@@ -22,4 +23,5 @@
 {{/switch}}
 {{else if (and page.component.latest (ne page.version page.component.latest.version))}}
 {{> banner-for-old-version}}
+{{/if}}
 {{/if}}
