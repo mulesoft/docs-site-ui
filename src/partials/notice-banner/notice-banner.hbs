@@ -3,9 +3,9 @@
   <p>{{{raw-html page.attributes.notice-banner-message}}}</p>
   <button aria-label="Close notice banner" class="close-button" title="Close notice banner"><img loading="lazy" src="{{@root.uiRootPath}}/img/icons/close.svg" alt=""></button>
 </div>
-{{else if (or page.componentVersion.asciidoc.attributes.supportStatus page.attributes.support-status)}} 
+{{else if (or page.componentVersion.asciidoc.attributes.supportStatus page.attributes.support-status)}}
 {{#switch (or page.componentVersion.asciidoc.attributes.supportStatus page.attributes.support-status)}}
-{{#case 'oldVersion'}} {{> banner-for-old}} {{/case}}
+{{#case 'oldVersion'}} {{> banner-for-old-version}} {{/case}}
 {{#case 'noLongerUpdated'}} {{> banner-for-no-longer-updated}} {{/case}}
 {{#case 'extendedSupport'}} {{> banner-for-extended-support}} {{/case}}
 {{#case 'extendedSupportFeature'}} {{> banner-for-extended-support-feature}} {{/case}}
@@ -20,4 +20,6 @@
 {{#case 'eolReachedFeature'}} {{> banner-for-eol-reached-feature}} {{/case}}
 {{#case 'eolReachedVersion'}} {{> banner-for-eol-reached-version}} {{/case}}
 {{/switch}}
+{{else if (and page.component.latest (ne page.version page.component.latest.version))}}
+{{> banner-for-old-version}}
 {{/if}}
