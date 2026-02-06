@@ -1,4 +1,4 @@
-{{#if (and (eq (site-profile) 'prod') page.attributes.notice-banner-message)}}
+{{#if page.attributes.notice-banner-message}}
 <div class="banner notice-banner flex">
   <p>{{{raw-html page.attributes.notice-banner-message}}}</p>
   <button aria-label="Close notice banner" class="close-button" title="Close notice banner"><img loading="lazy" src="{{@root.uiRootPath}}/img/icons/close.svg" alt=""></button>
@@ -20,6 +20,6 @@
 {{#case 'eolReachedFeature'}} {{> banner-for-eol-reached-feature}} {{/case}}
 {{#case 'eolReachedVersion'}} {{> banner-for-eol-reached-version}} {{/case}}
 {{/switch}}
-{{else if (and page.component.latest (ne page.version page.component.latest.version))}}
+{{else if (and (eq (site-profile) 'prod') (and page.component.latest (ne page.version page.component.latest.version)))}}
 {{> banner-for-old-version}}
 {{/if}}
