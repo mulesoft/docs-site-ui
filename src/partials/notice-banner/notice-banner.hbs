@@ -20,6 +20,6 @@
 {{#case 'eolReachedFeature'}} {{> banner-for-eol-reached-feature}} {{/case}}
 {{#case 'eolReachedVersion'}} {{> banner-for-eol-reached-version}} {{/case}}
 {{/switch}}
-{{else if (and page.component.latest (ne page.version page.component.latest.version))}}
+{{else if (and (eq (site-profile) 'prod') (and page.component.latest (ne page.version page.component.latest.version)))}}
 {{> banner-for-old-version}}
 {{/if}}
