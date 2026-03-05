@@ -1,0 +1,54 @@
+<div class="openapi-endpoint" data-operation-id="{{operationId}}" data-method="{{methodLower}}" data-path="{{path}}">
+  <div class="openapi-endpoint-content">
+    {{#if summary}}
+      <h3 class="openapi-endpoint-summary" id="op-{{operationId}}">{{summary}}</h3>
+    {{/if}}
+    <div class="openapi-endpoint-method">
+      <span class="openapi-method openapi-method-{{methodLower}}">{{method}}</span>
+      <code class="openapi-path">{{path}}</code>
+      {{#if deprecated}}
+        <span class="openapi-deprecated-badge">Deprecated</span>
+      {{/if}}
+    </div>
+    {{#if description}}
+      <p class="openapi-endpoint-description">{{description}}</p>
+    {{/if}}
+    {{#if hasParameters}}
+      {{> openapi-parameters}}
+    {{/if}}
+    {{#if hasRequestBody}}
+      {{> openapi-request-body}}
+    {{/if}}
+    {{#if hasResponses}}
+      {{> openapi-responses}}
+    {{/if}}
+    {{#if hasExamples}}
+      {{> openapi-examples}}
+    {{/if}}
+  </div>
+  <div class="openapi-tryit-column">
+    <h4 class="openapi-tryit-heading">Try it!</h4>
+    <div class="openapi-tryit-panel">
+      <div class="openapi-tryit-server">
+        <label>Server</label>
+        <select class="openapi-tryit-server-select"></select>
+      </div>
+      <div class="openapi-tryit-params"></div>
+      <div class="openapi-tryit-body-section" style="display:none;">
+        <label>Request Body <span class="openapi-tryit-content-type">(application/json)</span></label>
+        <textarea class="openapi-tryit-body" rows="8" spellcheck="false"></textarea>
+      </div>
+      <div class="openapi-tryit-actions">
+        <button class="openapi-tryit-send" type="button">Send Request</button>
+        <button class="openapi-tryit-curl" type="button">Copy as cURL</button>
+      </div>
+      <div class="openapi-tryit-response" style="display:none;">
+        <div class="openapi-tryit-response-header">
+          <span class="openapi-tryit-response-status"></span>
+          <span class="openapi-tryit-response-time"></span>
+        </div>
+        <pre class="openapi-tryit-response-body"></pre>
+      </div>
+    </div>
+  </div>
+</div>

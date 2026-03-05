@@ -26,6 +26,8 @@ site:
           items:
           - content: Contributors
             url: /general/contributors.html
+          - content: API Reference
+            url: /general/api-reference.html
           - content: Maintenance
             url: /general/maintenance.html
           - content: Getting Started with API Management

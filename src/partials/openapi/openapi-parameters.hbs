@@ -1,0 +1,25 @@
+<div class="openapi-parameters">
+  <h4>Parameters</h4>
+  <table class="openapi-table openapi-params-table">
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>In</th>
+        <th>Type</th>
+        <th>Required</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      {{#each parameters}}
+        <tr{{#if deprecated}} class="openapi-deprecated"{{/if}}>
+          <td><code>{{name}}</code></td>
+          <td>{{in}}</td>
+          <td><code>{{type}}</code></td>
+          <td>{{#if required}}<span class="openapi-required">Yes</span>{{else}}No{{/if}}</td>
+          <td>{{description}}</td>
+        </tr>
+      {{/each}}
+    </tbody>
+  </table>
+</div>

@@ -182,6 +182,45 @@ module.exports =
           .pipe(sink())
       )
 
+function loadPreviewAttachments (previewSrc, uiModel) {
+  const attachments = []
+  const componentDirs = fs.readdirSync(previewSrc, { withFileTypes: true })
+    .filter((d) => d.isDirectory())
+    .map((d) => d.name)
+  for (const comp of componentDirs) {
+    const attachDir = ospath.join(previewSrc, comp, '_attachments')
+    if (!fs.existsSync(attachDir)) continue
+    const version = uiModel.site.components[comp]?.latest?.version ?? '~'
+    const files = fs.readdirSync(attachDir)
+    for (const name of files) {
+      const filePath = ospath.join(attachDir, name)
+      if (!fs.statSync(filePath).isFile()) continue
+      try {
+        const contents = fs.readFileSync(filePath)
+        attachments.push({
+          component: comp,
+          version,
+          module: 'ROOT',
+          family: 'attachment',
+          src: { basename: name },
+          contents,
+        })
+      } catch (_) { /* skip unreadable */ }
+    }
+  }
+  return {
+    findBy (criteria) {
+      if (criteria.family !== 'attachment') return []
+      return attachments.filter(
+        (f) =>
+          (criteria.component == null || f.component === criteria.component) &&
+          (criteria.version == null || f.version === criteria.version) &&
+          (criteria.module == null || f.module === criteria.module)
+      )
+    },
+  }
+}
+
 function loadSampleUiModel (src) {
   return fs.readFile(ospath.join(src, 'ui-model.yml'), 'utf8').then((contents) => {
     const uiModel = yaml.load(contents)
@@ -228,6 +267,7 @@ function loadSampleUiModel (src) {
         },
       })
     })
+    uiModel.contentCatalog = loadPreviewAttachments(src, uiModel)
     return uiModel
   })
 }

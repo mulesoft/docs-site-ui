@@ -1,0 +1,16 @@
+<div class="openapi-examples">
+  <h4>Examples</h4>
+  {{#each examples}}
+    <div class="openapi-example">
+      <div class="openapi-example-header">
+        <span class="openapi-example-name">{{name}}</span>
+        <span class="openapi-example-source">{{source}}</span>
+        <code class="openapi-content-type">{{mediaType}}</code>
+      </div>
+      {{#if summary}}
+        <p class="openapi-example-summary">{{summary}}</p>
+      {{/if}}
+      <pre><code>{{value}}</code></pre>
+    </div>
+  {{/each}}
+</div>

@@ -1,0 +1,34 @@
+<section class="openapi-overview" id="openapi-overview">
+  <h1 class="openapi-title">{{info.title}}</h1>
+  {{#if info.version}}
+    <span class="openapi-version-badge">v{{info.version}}</span>
+  {{/if}}
+  {{#if info.description}}
+    <p class="openapi-description">{{info.description}}</p>
+  {{/if}}
+  {{#if servers}}
+    <div class="openapi-servers">
+      <h3>Base URLs</h3>
+      <ul>
+        {{#each servers}}
+          <li>
+            <code class="openapi-server-url">{{url}}</code>
+            {{#if description}}<span class="openapi-server-description"> — {{description}}</span>{{/if}}
+          </li>
+        {{/each}}
+      </ul>
+    </div>
+  {{/if}}
+  {{#if info.contact}}
+    <div class="openapi-contact">
+      {{#if info.contact.name}}<span>Contact: {{info.contact.name}}</span>{{/if}}
+      {{#if info.contact.email}} — <a href="mailto:{{info.contact.email}}">{{info.contact.email}}</a>{{/if}}
+      {{#if info.contact.url}} — <a href="{{info.contact.url}}" target="_blank" rel="noopener noreferrer">{{info.contact.url}}</a>{{/if}}
+    </div>
+  {{/if}}
+  {{#if info.license}}
+    <div class="openapi-license">
+      License: {{#if info.license.url}}<a href="{{info.license.url}}" target="_blank" rel="noopener noreferrer">{{info.license.name}}</a>{{else}}{{info.license.name}}{{/if}}
+    </div>
+  {{/if}}
+</section>

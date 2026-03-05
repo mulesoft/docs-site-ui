@@ -1,0 +1,14 @@
+<section class="openapi-endpoints" id="openapi-endpoints">
+  <h2>Endpoints</h2>
+  {{#each tags}}
+    <div class="openapi-tag-group" id="tag-{{slug}}">
+      <h3 class="openapi-tag-name">{{name}}</h3>
+      {{#if description}}
+        <p class="openapi-tag-description">{{description}}</p>
+      {{/if}}
+      {{#each operations}}
+        {{> openapi-endpoint}}
+      {{/each}}
+    </div>
+  {{/each}}
+</section>

@@ -1,0 +1,43 @@
+{{#with (openapi)}}
+<div class="openapi-sidebar">
+  {{#if info.version}}
+    <div class="openapi-sidebar-section">
+      <div class="openapi-sidebar-label">Version</div>
+      <div class="openapi-sidebar-value">{{info.version}}</div>
+    </div>
+  {{/if}}
+  {{#if operationCount}}
+    <div class="openapi-sidebar-section">
+      <div class="openapi-sidebar-label">Endpoints</div>
+      <div class="openapi-sidebar-value">{{operationCount}}</div>
+    </div>
+  {{/if}}
+  <nav class="openapi-sidebar-nav">
+    <a class="openapi-sidebar-link" href="#openapi-overview">Overview</a>
+    {{#if hasSecurity}}
+      <a class="openapi-sidebar-link" href="#openapi-security">Authentication</a>
+    {{/if}}
+    {{#if hasTags}}
+      <div class="openapi-sidebar-group">
+        <span class="openapi-sidebar-group-label">Endpoints</span>
+        {{#each tags}}
+          {{#each operations}}
+            <a class="openapi-sidebar-link openapi-sidebar-link-nested openapi-sidebar-endpoint" href="#op-{{operationId}}">
+              <span class="openapi-sidebar-method openapi-method-{{methodLower}}">{{method}}</span>
+              <span class="openapi-sidebar-summary">{{#if summary}}{{summary}}{{else}}{{path}}{{/if}}</span>
+            </a>
+          {{/each}}
+        {{/each}}
+      </div>
+    {{/if}}
+    {{#if hasSchemas}}
+      <div class="openapi-sidebar-group">
+        <span class="openapi-sidebar-group-label">Schemas</span>
+        {{#each schemas}}
+          <a class="openapi-sidebar-link openapi-sidebar-link-nested" href="#schema-{{name}}">{{name}}</a>
+        {{/each}}
+      </div>
+    {{/if}}
+  </nav>
+</div>
+{{/with}}

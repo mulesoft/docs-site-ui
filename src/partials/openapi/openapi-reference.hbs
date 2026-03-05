@@ -1,0 +1,58 @@
+<div class="openapi-reference">
+{{#with (openapi)}}
+  {{> openapi-overview}}
+
+  <div class="openapi-auth-bar" id="openapi-auth-bar">
+    <div class="openapi-auth-bar-inner">
+      <div class="openapi-auth-status">
+        <span class="openapi-auth-label">Authentication</span>
+        <span class="openapi-auth-user" id="openapi-auth-user" style="display:none;"></span>
+      </div>
+      <div class="openapi-auth-actions">
+        <button class="openapi-auth-btn openapi-auth-signin" id="openapi-auth-signin">Sign In</button>
+        <button class="openapi-auth-btn openapi-auth-signout" id="openapi-auth-signout" style="display:none;">Sign Out</button>
+        <button class="openapi-auth-btn openapi-auth-toggle-manual" id="openapi-auth-toggle-manual">Use Token</button>
+      </div>
+    </div>
+    <div class="openapi-auth-manual" id="openapi-auth-manual" style="display:none;">
+      <input type="text" class="openapi-auth-token-input" id="openapi-auth-token-input" placeholder="Paste Bearer token here…" />
+      <button class="openapi-auth-btn openapi-auth-apply-token" id="openapi-auth-apply-token">Apply</button>
+    </div>
+  </div>
+
+  <div class="openapi-login-modal" id="openapi-login-modal" style="display:none;">
+    <div class="openapi-login-overlay" id="openapi-login-overlay"></div>
+    <div class="openapi-login-dialog">
+      <h3>Sign in to Anypoint Platform</h3>
+      <p class="openapi-login-cors-note">If sign-in is blocked by CORS, use <strong>Use Token</strong> in the auth bar to paste a token directly.</p>
+      <div class="openapi-login-error" id="openapi-login-error" style="display:none;"></div>
+      <form id="openapi-login-form">
+        <label for="openapi-login-username">Username</label>
+        <input type="text" id="openapi-login-username" autocomplete="username" required />
+        <label for="openapi-login-password">Password</label>
+        <input type="password" id="openapi-login-password" autocomplete="current-password" required />
+        <div class="openapi-login-actions">
+          <button type="submit" class="openapi-auth-btn openapi-login-submit">Sign In</button>
+          <button type="button" class="openapi-auth-btn openapi-login-cancel" id="openapi-login-cancel">Cancel</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  {{#if hasSecurity}}
+    {{> openapi-security}}
+  {{/if}}
+  {{#if hasTags}}
+    {{> openapi-endpoints}}
+  {{/if}}
+  {{#if hasSchemas}}
+    {{> openapi-schemas}}
+  {{/if}}
+
+  <script type="application/json" id="openapi-spec-data">{{{specJson}}}</script>
+{{else}}
+  <div class="openapi-error">
+    <p>Unable to load OpenAPI specification. Verify that the <code>page-openapi-spec</code> attribute points to a valid JSON file in the module's <code>_attachments/</code> directory.</p>
+  </div>
+{{/with}}
+</div>

@@ -1,0 +1,43 @@
+<section class="openapi-security" id="openapi-security">
+  <h2>Authentication</h2>
+  {{#each security}}
+    <div class="openapi-security-scheme">
+      <h3>{{name}}</h3>
+      <table class="openapi-table">
+        <tbody>
+          <tr>
+            <td class="openapi-table-label">Type</td>
+            <td>{{type}}</td>
+          </tr>
+          {{#if scheme}}
+            <tr>
+              <td class="openapi-table-label">Scheme</td>
+              <td>{{scheme}}</td>
+            </tr>
+          {{/if}}
+          {{#if bearerFormat}}
+            <tr>
+              <td class="openapi-table-label">Bearer Format</td>
+              <td>{{bearerFormat}}</td>
+            </tr>
+          {{/if}}
+          {{#if in}}
+            <tr>
+              <td class="openapi-table-label">In</td>
+              <td>{{in}}</td>
+            </tr>
+          {{/if}}
+          {{#if openIdConnectUrl}}
+            <tr>
+              <td class="openapi-table-label">OpenID Connect URL</td>
+              <td><a href="{{openIdConnectUrl}}" target="_blank" rel="noopener noreferrer">{{openIdConnectUrl}}</a></td>
+            </tr>
+          {{/if}}
+        </tbody>
+      </table>
+      {{#if description}}
+        <p class="openapi-security-description">{{description}}</p>
+      {{/if}}
+    </div>
+  {{/each}}
+</section>
