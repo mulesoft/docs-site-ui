@@ -2,20 +2,28 @@
   'use strict'
 
   const STORAGE_KEY = 'anypoint_session'
-  const LOGIN_URL = 'https://anypoint.mulesoft.com/accounts/login'
+  const LOGIN_URL = '/anypoint-proxy/accounts/login'
+  const SESSION_TTL_MS = 60 * 60 * 1000
 
   // ─── Helpers ────────────────────────────────────────────────────────────────
 
   function getSession () {
     try {
       const raw = localStorage.getItem(STORAGE_KEY)
-      return raw ? JSON.parse(raw) : null
+      if (!raw) return null
+      const session = JSON.parse(raw)
+      if (session.storedAt && Date.now() - session.storedAt > SESSION_TTL_MS) {
+        clearSession()
+        return null
+      }
+      return session
     } catch (_) {
       return null
     }
   }
 
   function setSession (data) {
+    data.storedAt = Date.now()
     localStorage.setItem(STORAGE_KEY, JSON.stringify(data))
   }
 
@@ -77,9 +85,14 @@
     }
   }
 
-  function showLoginModal () {
+  function showLoginModal (message) {
     const modal = document.getElementById('openapi-login-modal')
     if (modal) modal.style.display = ''
+    const errEl = document.getElementById('openapi-login-error')
+    if (errEl && message) {
+      errEl.textContent = message
+      errEl.style.display = ''
+    }
   }
 
   function hideLoginModal () {
@@ -332,6 +345,12 @@
   // ─── Request Execution ─────────────────────────────────────────────────────
 
   function sendRequest (panel, spec, operationId) {
+    if (!getToken()) {
+      updateAuthUI()
+      showLoginModal('Your session has expired. Please sign in again.')
+      return
+    }
+
     const endpoint = panel.closest('.openapi-endpoint')
     const method = (endpoint.dataset.method || 'get').toUpperCase()
     const url = buildRequestUrl(panel, spec, operationId)
