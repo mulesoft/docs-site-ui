@@ -184,7 +184,8 @@ module.exports =
 
 function loadPreviewAttachments (previewSrc, uiModel) {
   const attachments = []
-  const componentDirs = fs.readdirSync(previewSrc, { withFileTypes: true })
+  const componentDirs = fs
+    .readdirSync(previewSrc, { withFileTypes: true })
     .filter((d) => d.isDirectory())
     .map((d) => d.name)
   for (const comp of componentDirs) {
@@ -205,7 +206,9 @@ function loadPreviewAttachments (previewSrc, uiModel) {
           src: { basename: name },
           contents,
         })
-      } catch (_) { /* skip unreadable */ }
+      } catch (_) {
+        /* skip unreadable */
+      }
     }
   }
   return {

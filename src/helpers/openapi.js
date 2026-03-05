@@ -55,11 +55,7 @@ function resolveAllRefs (obj, root, seen) {
 
 function escapeHtml (str) {
   if (!str) return ''
-  return String(str)
-    .replace(/&/g, '&amp;')
-    .replace(/</g, '&lt;')
-    .replace(/>/g, '&gt;')
-    .replace(/"/g, '&quot;')
+  return String(str).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;')
 }
 
 function typeLabel (schema) {
@@ -140,8 +136,8 @@ function renderSchemaHtml (schema, depth) {
         if ((prop.type === 'object' || prop.properties) && depth < 8) {
           parts.push(renderSchemaHtml(prop, depth + 1))
         }
-        const isNestedArray = prop.type === 'array' && prop.items &&
-          (prop.items.type === 'object' || prop.items.properties) && depth < 8
+        const isNestedArray =
+          prop.type === 'array' && prop.items && (prop.items.type === 'object' || prop.items.properties) && depth < 8
         if (isNestedArray) {
           parts.push('<div class="openapi-schema-array-items">Items: ')
           parts.push(renderSchemaHtml(prop.items, depth + 1))
@@ -323,9 +319,7 @@ function buildExamples (op) {
 }
 
 function buildSecurity (spec) {
-  const schemes = (spec.components && spec.components.securitySchemes)
-    ? spec.components.securitySchemes
-    : {}
+  const schemes = spec.components && spec.components.securitySchemes ? spec.components.securitySchemes : {}
   return Object.keys(schemes).map((name) => {
     const scheme = schemes[name]
     return {
@@ -341,9 +335,7 @@ function buildSecurity (spec) {
 }
 
 function buildSchemas (spec) {
-  const schemas = (spec.components && spec.components.schemas)
-    ? spec.components.schemas
-    : {}
+  const schemas = spec.components && spec.components.schemas ? spec.components.schemas : {}
   return Object.keys(schemas).map((name) => ({
     name,
     schemaHtml: renderSchemaHtml(schemas[name]),
