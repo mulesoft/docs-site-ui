@@ -1,7 +1,7 @@
 <section class="api-catalog">
   <div class="api-catalog-toolbar">
     <div class="api-catalog-search">
-      <input class="input js-api-search" placeholder="Search APIs, methods, or endpoints..." type="search" autocomplete="off">
+      <input class="input js-api-search" placeholder="Ask a question or search endpoints..." type="search" autocomplete="off">
       <div class="api-suggest js-api-suggest hidden"></div>
     </div>
     <span class="api-catalog-count js-api-count"></span>
@@ -79,32 +79,75 @@
     endpointsTotalEl.textContent = totalEndpoints + (totalEndpoints === 1 ? ' endpoint' : ' endpoints')
   }
 
+  var VERB_TO_METHODS = {
+    create: ['POST'], add: ['POST'], insert: ['POST'], register: ['POST'], submit: ['POST'], send: ['POST'], upload: ['POST'], invite: ['POST'],
+    get: ['GET'], list: ['GET'], fetch: ['GET'], read: ['GET'], show: ['GET'], find: ['GET'], search: ['GET'], view: ['GET'], retrieve: ['GET'], check: ['GET'], look: ['GET'], query: ['GET'],
+    update: ['PUT', 'PATCH'], edit: ['PUT', 'PATCH'], modify: ['PUT', 'PATCH'], change: ['PUT', 'PATCH'], set: ['PUT', 'PATCH'], configure: ['PUT', 'PATCH'], rename: ['PUT', 'PATCH'],
+    delete: ['DELETE'], remove: ['DELETE'], revoke: ['DELETE'], disable: ['DELETE'], cancel: ['DELETE'], unassign: ['DELETE'],
+    authenticate: ['POST'], login: ['POST'], authorize: ['POST'],
+    deploy: ['POST'], start: ['POST'], stop: ['POST'], restart: ['PATCH', 'POST'], scale: ['PATCH']
+  }
+
+  var STOP_WORDS = ['how', 'do', 'i', 'can', 'to', 'the', 'a', 'an', 'my', 'all', 'of', 'in', 'on', 'for', 'with', 'is', 'it', 'this', 'that', 'what', 'which', 'using', 'use', 'want', 'need', 'would', 'like', 'me', 'api']
+
+  function tokenize (text) {
+    return text.toLowerCase().replace(/[^a-z0-9]/g, ' ').split(/\s+/).filter(function (w) { return w.length > 0 })
+  }
+
+  function scoreEndpoint (ep, tokens) {
+    var score = 0
+    var summaryLower = (ep.summary || '').toLowerCase()
+    var pathLower = ep.path.toLowerCase()
+    var pathSegments = pathLower.replace(/\{[^}]*\}/g, '').split('/').join(' ')
+    var methodLower = ep.method.toLowerCase()
+
+    for (var i = 0; i < tokens.length; i++) {
+      var token = tokens[i]
+      var mapped = VERB_TO_METHODS[token]
+      if (mapped) {
+        if (mapped.indexOf(ep.method) !== -1) score += 3
+      }
+      if (summaryLower.includes(token)) score += 2
+      if (pathSegments.includes(token)) score += 1
+      if (methodLower === token) score += 2
+    }
+    return score
+  }
+
   function updateSuggest () {
-    var q = search.value.toLowerCase().trim()
+    var raw = search.value.trim()
     suggest.innerHTML = ''
-    if (!q) {
+    if (!raw) {
       suggest.classList.add('hidden')
       return
     }
 
+    var allTokens = tokenize(raw)
+    var tokens = allTokens.filter(function (t) { return STOP_WORDS.indexOf(t) === -1 })
+    if (!tokens.length) tokens = allTokens
+
     var items = []
     apis.forEach(function (api) {
-      if (api.title.toLowerCase().includes(q) || api.description.toLowerCase().includes(q)) {
-        items.push({ type: 'api', title: api.title, url: api.url })
+      var titleLower = api.title.toLowerCase()
+      var descLower = api.description.toLowerCase()
+      var apiMatch = tokens.some(function (t) { return titleLower.includes(t) || descLower.includes(t) })
+      if (apiMatch) {
+        items.push({ type: 'api', title: api.title, url: api.url, score: 100 })
       }
       ;(api.endpoints || []).forEach(function (ep) {
-        if (ep.method.toLowerCase().includes(q) ||
-            ep.path.toLowerCase().includes(q) ||
-            (ep.summary && ep.summary.toLowerCase().includes(q))) {
-          items.push({ type: 'endpoint', method: ep.method, path: ep.path, summary: ep.summary, apiTitle: api.title, url: api.url })
+        var s = scoreEndpoint(ep, tokens)
+        if (s > 0) {
+          items.push({ type: 'endpoint', method: ep.method, path: ep.path, summary: ep.summary, apiTitle: api.title, url: api.url, score: s })
         }
       })
     })
 
+    items.sort(function (a, b) { return b.score - a.score })
+
     if (!items.length) {
       var empty = document.createElement('div')
       empty.className = 'api-suggest-empty'
-      empty.textContent = 'No results for \u201c' + search.value + '\u201d'
+      empty.textContent = 'No results for \u201c' + raw + '\u201d'
       suggest.appendChild(empty)
       suggest.classList.remove('hidden')
       return
