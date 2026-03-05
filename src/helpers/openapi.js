@@ -419,7 +419,7 @@ function fetchSpecForPage (page, contentCatalog) {
 
 // ─── List mode: return all API pages ────────────────────────────────────────
 
-function listApis (contentCatalog, page) {
+function listApis (contentCatalog, page, isPreview) {
   const allAttachments = contentCatalog.findBy({ family: 'attachment' })
   if (!allAttachments || !allAttachments.length) return []
 
@@ -440,11 +440,31 @@ function listApis (contentCatalog, page) {
 
     const stem = basename.replace(/\.ya?ml$/, '')
     const title = (spec.info && spec.info.title) || stem
-    const description = (spec.info && spec.info.description) || ''
+    const description = ((spec.info && spec.info.description) || '').replace(/\n/g, ' ')
+    const version = (spec.info && spec.info.version) || ''
     const fileComponent = file.component || (file.src && file.src.component) || componentName
-    const url = '/' + fileComponent + '/' + stem + '.html'
+    const url =
+      isPreview && fileComponent === componentName ? '/' + stem + '.html' : '/' + fileComponent + '/' + stem + '.html'
+    const paths = spec.paths || {}
+    const pathCount = Object.keys(paths).length
+    const methods = ['get', 'post', 'put', 'delete', 'patch', 'options', 'head']
+    const endpoints = []
+    for (const p of Object.keys(paths)) {
+      const pathItem = paths[p]
+      for (const m of methods) {
+        if (!pathItem[m]) continue
+        const op = pathItem[m]
+        endpoints.push({
+          method: m.toUpperCase(),
+          path: p,
+          summary: (op.summary || op.operationId || '').replace(/\n/g, ' '),
+        })
+      }
+    }
 
-    accum.push({ title, description, url })
+    const endpointsJson = JSON.stringify(endpoints)
+
+    accum.push({ title, description, version, url, pathCount, endpointsJson })
     return accum
   }, [])
 
@@ -463,7 +483,7 @@ module.exports = function (...args) {
   const { contentCatalog, page } = data.root
   if (!contentCatalog) return null
 
-  if (mode === 'list') return listApis(contentCatalog, page)
+  if (mode === 'list') return listApis(contentCatalog, page, !!data.root.preview)
 
   if (!page) return null
   const specFile = page.attributes && page.attributes['openapi-spec']

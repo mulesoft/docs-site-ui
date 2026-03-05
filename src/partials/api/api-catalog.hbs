@@ -1,0 +1,156 @@
+<section class="api-catalog">
+  <div class="api-catalog-toolbar">
+    <div class="api-catalog-search">
+      <input class="input js-api-search" placeholder="Search APIs, methods, or endpoints..." type="search" autocomplete="off">
+      <div class="api-suggest js-api-suggest hidden"></div>
+    </div>
+    <span class="api-catalog-count js-api-count"></span>
+    <span class="api-catalog-count js-api-endpoints-total"></span>
+  </div>
+  <div class="api-catalog-grid js-api-grid"></div>
+</section>
+<template id="api-card-tmpl">
+  <a class="api-card" href="#">
+    <div class="api-card-body">
+      <h3 class="api-card-title js-card-title"></h3>
+      <p class="api-card-description js-card-description"></p>
+    </div>
+    <div class="api-card-meta">
+      <span class="api-card-badge js-card-version"></span>
+      <span class="api-card-endpoints js-card-endpoints"></span>
+    </div>
+  </a>
+</template>
+<script nonce="**CSP_NONCE**" id="api-data" type="application/json">
+[
+  {{#each (openapi 'list') as |api|}}
+  {
+    "title": "{{api.title}}",
+    "description": "{{api.description}}",
+    "version": "{{api.version}}",
+    "url": "{{relativize api.url}}",
+    "pathCount": {{api.pathCount}},
+    "endpoints": {{{api.endpointsJson}}}
+  }{{#unless @last}},{{/unless}}
+  {{/each}}
+]
+</script>
+<script nonce="**CSP_NONCE**">//<![CDATA[
+;(function () {
+  var apis = JSON.parse(document.getElementById('api-data').textContent)
+  var grid = document.querySelector('.js-api-grid')
+  var countEl = document.querySelector('.js-api-count')
+  var endpointsTotalEl = document.querySelector('.js-api-endpoints-total')
+  var search = document.querySelector('.js-api-search')
+  var suggest = document.querySelector('.js-api-suggest')
+  var tmpl = document.getElementById('api-card-tmpl')
+  var MAX_SUGGESTIONS = 8
+
+  renderCards()
+  search.addEventListener('input', debounce(updateSuggest, 200))
+  search.addEventListener('focus', function () { if (search.value) updateSuggest() })
+  document.addEventListener('click', function (e) {
+    if (!e.target.closest('.api-catalog-search')) suggest.classList.add('hidden')
+  })
+
+  function renderCards () {
+    var totalEndpoints = 0
+    apis.forEach(function (api) {
+      var card = document.importNode(tmpl.content.querySelector('.api-card'), true)
+      card.href = api.url
+      card.querySelector('.js-card-title').textContent = api.title
+      card.querySelector('.js-card-description').textContent = api.description || ''
+      var versionEl = card.querySelector('.js-card-version')
+      if (api.version) {
+        versionEl.textContent = 'v' + api.version
+      } else {
+        versionEl.remove()
+      }
+      var endpointsEl = card.querySelector('.js-card-endpoints')
+      if (api.pathCount > 0) {
+        endpointsEl.textContent = api.pathCount + (api.pathCount === 1 ? ' endpoint' : ' endpoints')
+        totalEndpoints += api.pathCount
+      } else {
+        endpointsEl.remove()
+      }
+      grid.appendChild(card)
+    })
+    countEl.textContent = apis.length + (apis.length === 1 ? ' API' : ' APIs')
+    endpointsTotalEl.textContent = totalEndpoints + (totalEndpoints === 1 ? ' endpoint' : ' endpoints')
+  }
+
+  function updateSuggest () {
+    var q = search.value.toLowerCase().trim()
+    suggest.innerHTML = ''
+    if (!q) {
+      suggest.classList.add('hidden')
+      return
+    }
+
+    var items = []
+    apis.forEach(function (api) {
+      if (api.title.toLowerCase().includes(q) || api.description.toLowerCase().includes(q)) {
+        items.push({ type: 'api', title: api.title, url: api.url })
+      }
+      ;(api.endpoints || []).forEach(function (ep) {
+        if (ep.method.toLowerCase().includes(q) ||
+            ep.path.toLowerCase().includes(q) ||
+            (ep.summary && ep.summary.toLowerCase().includes(q))) {
+          items.push({ type: 'endpoint', method: ep.method, path: ep.path, summary: ep.summary, apiTitle: api.title, url: api.url })
+        }
+      })
+    })
+
+    if (!items.length) {
+      var empty = document.createElement('div')
+      empty.className = 'api-suggest-empty'
+      empty.textContent = 'No results for \u201c' + search.value + '\u201d'
+      suggest.appendChild(empty)
+      suggest.classList.remove('hidden')
+      return
+    }
+
+    var shown = items.slice(0, MAX_SUGGESTIONS)
+    shown.forEach(function (item) {
+      var row = document.createElement('a')
+      row.href = item.url
+      row.className = 'api-suggest-item'
+      if (item.type === 'api') {
+        row.innerHTML = '<span class="api-suggest-api-title">' + escapeHtml(item.title) + '</span>'
+      } else {
+        row.innerHTML =
+          '<span class="api-suggest-method api-suggest-method-' + item.method.toLowerCase() + '">' + item.method + '</span>' +
+          '<span class="api-suggest-summary">' + escapeHtml(item.summary || item.path) + '</span>' +
+          '<span class="api-suggest-from">' + escapeHtml(item.apiTitle) + '</span>'
+      }
+      suggest.appendChild(row)
+    })
+    if (items.length > MAX_SUGGESTIONS) {
+      var more = document.createElement('div')
+      more.className = 'api-suggest-more'
+      more.textContent = '+ ' + (items.length - MAX_SUGGESTIONS) + ' more results'
+      suggest.appendChild(more)
+    }
+    suggest.classList.remove('hidden')
+  }
+
+  function escapeHtml (str) {
+    var el = document.createElement('span')
+    el.textContent = str
+    return el.innerHTML
+  }
+
+  function debounce (fn, wait) {
+    var timeout
+    return function () {
+      if (timeout) clearTimeout(timeout)
+      var self = this
+      var args = arguments
+      timeout = setTimeout(function () {
+        timeout = undefined
+        fn.apply(self, args)
+      }, wait)
+    }
+  }
+})()
+//]]></script>

@@ -1,4 +1,8 @@
 <div class="page-apis">
-{{> api-table}}
+  <div class="api-home-header">
+    <h1 class="api-home-title">{{page.title}}</h1>
+    {{#if page.contents}}<div class="api-home-description">{{{page.contents}}}</div>{{/if}}
+  </div>
+{{> api-catalog}}
 {{> article-footer}}
 </div>
