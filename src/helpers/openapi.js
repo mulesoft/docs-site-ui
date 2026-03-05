@@ -1,14 +1,17 @@
 'use strict'
 
+const yaml = require('js-yaml')
+
 /**
- * OpenAPI 3.0 helper — fetches an OpenAPI JSON spec from Antora attachments,
+ * OpenAPI 3.0 helper — fetches an OpenAPI YAML spec from Antora attachments,
  * resolves $ref pointers, and returns a template-friendly data structure with
  * pre-rendered HTML for deeply nested schemas.
  *
  * Usage in a Handlebars template:
- *   {{#with (openapi)}} ... {{/with}}
+ *   {{#with (openapi)}} ... {{/with}}         — returns spec data for the current page
+ *   {{#each (openapi 'list')}} ... {{/each}}  — returns a sorted list of all API pages
  *
- * The current page must have:
+ * The current page must have (for single-spec mode):
  *   :page-openapi-spec: my-api.json   (file in the module's _attachments/)
  */
 
@@ -368,21 +371,15 @@ function groupByTags (operations, spec) {
   return Object.values(tagMap)
 }
 
-// ─── Main helper ────────────────────────────────────────────────────────────
+// ─── Spec fetching ──────────────────────────────────────────────────────────
 
-function fetchSpec (page, contentCatalog) {
-  const specFile = page.attributes['openapi-spec']
+function fetchSpec (specFile, component, version, moduleName, contentCatalog) {
   if (!specFile) return null
 
-  // Build the resource ID for the attachment
-  const component = page.component
-  const version = page.version
-  const module = page.module || 'ROOT'
-
   const files = contentCatalog.findBy({
-    component: component.name || component,
+    component,
     version,
-    module,
+    module: moduleName,
     family: 'attachment',
   })
 
@@ -390,7 +387,7 @@ function fetchSpec (page, contentCatalog) {
     const match = files.find((f) => f.src && f.src.basename === specFile)
     if (match) {
       try {
-        return JSON.parse(match.contents.toString())
+        return yaml.load(match.contents.toString())
       } catch (e) {
         return null
       }
@@ -403,7 +400,7 @@ function fetchSpec (page, contentCatalog) {
     const match = allFiles.find((f) => f.src && f.src.basename === specFile)
     if (match) {
       try {
-        return JSON.parse(match.contents.toString())
+        return yaml.load(match.contents.toString())
       } catch (e) {
         return null
       }
@@ -413,14 +410,66 @@ function fetchSpec (page, contentCatalog) {
   return null
 }
 
-module.exports = function ({ data }) {
-  const { contentCatalog, page } = data.root
-  if (!contentCatalog || !page) return null
+function fetchSpecForPage (page, contentCatalog) {
+  const specFile = page.attributes['openapi-spec']
+  if (!specFile) return null
+  const component = page.component
+  return fetchSpec(specFile, component.name || component, page.version, page.module || 'ROOT', contentCatalog)
+}
 
+// ─── List mode: return all API pages ────────────────────────────────────────
+
+function listApis (contentCatalog, page) {
+  const allAttachments = contentCatalog.findBy({ family: 'attachment' })
+  if (!allAttachments || !allAttachments.length) return []
+
+  const component = page.component
+  const componentName = component.name || component
+
+  const apis = allAttachments.reduce((accum, file) => {
+    if (!file.src || !file.src.basename) return accum
+    const basename = file.src.basename
+    if (!basename.endsWith('.yaml') && !basename.endsWith('.yml')) return accum
+    let spec
+    try {
+      spec = yaml.load(file.contents.toString())
+    } catch (_) {
+      return accum
+    }
+    if (!spec || (!spec.openapi && !spec.swagger)) return accum
+
+    const stem = basename.replace(/\.ya?ml$/, '')
+    const title = (spec.info && spec.info.title) || stem
+    const description = (spec.info && spec.info.description) || ''
+    const fileComponent = file.component || (file.src && file.src.component) || componentName
+    const url = '/' + fileComponent + '/' + stem + '.html'
+
+    accum.push({ title, description, url })
+    return accum
+  }, [])
+
+  apis.sort((a, b) => a.title.localeCompare(b.title))
+  return apis
+}
+
+// ─── Main helper ────────────────────────────────────────────────────────────
+
+module.exports = function (...args) {
+  // Support both (openapi) and (openapi 'list') calling conventions.
+  // When called without positional args, Handlebars passes the options hash as the only argument.
+  const options = args[args.length - 1]
+  const mode = args.length > 1 ? args[0] : undefined
+  const { data } = options
+  const { contentCatalog, page } = data.root
+  if (!contentCatalog) return null
+
+  if (mode === 'list') return listApis(contentCatalog, page)
+
+  if (!page) return null
   const specFile = page.attributes && page.attributes['openapi-spec']
   if (!specFile) return null
 
-  const rawSpec = fetchSpec(page, contentCatalog)
+  const rawSpec = fetchSpecForPage(page, contentCatalog)
   if (!rawSpec) return null
 
   // Resolve all $ref pointers
