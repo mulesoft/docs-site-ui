@@ -80,37 +80,236 @@
   }
 
   var VERB_TO_METHODS = {
-    create: ['POST'], add: ['POST'], insert: ['POST'], register: ['POST'], submit: ['POST'], send: ['POST'], upload: ['POST'], invite: ['POST'],
-    get: ['GET'], list: ['GET'], fetch: ['GET'], read: ['GET'], show: ['GET'], find: ['GET'], search: ['GET'], view: ['GET'], retrieve: ['GET'], check: ['GET'], look: ['GET'], query: ['GET'],
-    update: ['PUT', 'PATCH'], edit: ['PUT', 'PATCH'], modify: ['PUT', 'PATCH'], change: ['PUT', 'PATCH'], set: ['PUT', 'PATCH'], configure: ['PUT', 'PATCH'], rename: ['PUT', 'PATCH'],
-    delete: ['DELETE'], remove: ['DELETE'], revoke: ['DELETE'], disable: ['DELETE'], cancel: ['DELETE'], unassign: ['DELETE'],
-    authenticate: ['POST'], login: ['POST'], authorize: ['POST'],
-    deploy: ['POST'], start: ['POST'], stop: ['POST'], restart: ['PATCH', 'POST'], scale: ['PATCH']
+    create: ['POST'], add: ['POST'], insert: ['POST'], register: ['POST'], submit: ['POST'], send: ['POST'], upload: ['POST'], invite: ['POST'], provision: ['POST'], generate: ['POST'], initialize: ['POST'], init: ['POST'], new: ['POST'], make: ['POST'], build: ['POST'], compose: ['POST'], publish: ['POST'], post: ['POST'],
+    get: ['GET'], list: ['GET'], fetch: ['GET'], read: ['GET'], show: ['GET'], find: ['GET'], search: ['GET'], view: ['GET'], retrieve: ['GET'], check: ['GET'], look: ['GET'], query: ['GET'], browse: ['GET'], explore: ['GET'], see: ['GET'], display: ['GET'], obtain: ['GET'], pull: ['GET'], load: ['GET'], download: ['GET'], export: ['GET'],
+    update: ['PUT', 'PATCH'], edit: ['PUT', 'PATCH'], modify: ['PUT', 'PATCH'], change: ['PUT', 'PATCH'], set: ['PUT', 'PATCH'], configure: ['PUT', 'PATCH'], rename: ['PUT', 'PATCH'], replace: ['PUT'], patch: ['PATCH'], adjust: ['PATCH'], tweak: ['PATCH'], fix: ['PATCH'], correct: ['PATCH'], swap: ['PUT'],
+    delete: ['DELETE'], remove: ['DELETE'], revoke: ['DELETE'], disable: ['DELETE'], cancel: ['DELETE'], unassign: ['DELETE'], destroy: ['DELETE'], purge: ['DELETE'], erase: ['DELETE'], drop: ['DELETE'], clear: ['DELETE'], wipe: ['DELETE'], unlink: ['DELETE'], detach: ['DELETE'],
+    authenticate: ['POST'], login: ['POST'], authorize: ['POST'], signin: ['POST'], signup: ['POST'],
+    deploy: ['POST'], start: ['POST'], stop: ['POST'], restart: ['PATCH', 'POST'], scale: ['PATCH'], trigger: ['POST'], execute: ['POST'], run: ['POST'], launch: ['POST'], activate: ['POST'], enable: ['POST'], deactivate: ['PATCH'], pause: ['PATCH'], resume: ['PATCH']
   }
 
-  var STOP_WORDS = ['how', 'do', 'i', 'can', 'to', 'the', 'a', 'an', 'my', 'all', 'of', 'in', 'on', 'for', 'with', 'is', 'it', 'this', 'that', 'what', 'which', 'using', 'use', 'want', 'need', 'would', 'like', 'me', 'api']
+  // Synonym groups — words in the same group are treated as interchangeable
+  var SYNONYMS = {
+    user: ['user', 'account', 'profile', 'member', 'person', 'identity', 'participant'],
+    org: ['org', 'organization', 'organisation', 'company', 'tenant', 'workspace', 'team'],
+    app: ['app', 'application', 'service', 'client', 'project'],
+    permission: ['permission', 'role', 'access', 'privilege', 'scope', 'grant', 'entitlement', 'policy'],
+    token: ['token', 'key', 'secret', 'credential', 'apikey', 'certificate', 'cert'],
+    password: ['password', 'passwd', 'pass', 'secret', 'pin'],
+    group: ['group', 'team', 'collection', 'set', 'bundle', 'batch', 'cluster'],
+    message: ['message', 'notification', 'alert', 'email', 'sms', 'event', 'signal'],
+    file: ['file', 'document', 'attachment', 'blob', 'asset', 'artifact', 'upload', 'resource', 'media', 'image'],
+    config: ['config', 'configuration', 'setting', 'preference', 'option', 'parameter', 'property'],
+    log: ['log', 'audit', 'history', 'record', 'trace', 'event', 'activity'],
+    error: ['error', 'failure', 'fault', 'issue', 'problem', 'exception', 'incident'],
+    status: ['status', 'state', 'health', 'condition', 'info', 'detail'],
+    job: ['job', 'task', 'process', 'worker', 'queue', 'pipeline', 'workflow', 'batch'],
+    env: ['env', 'environment', 'deployment', 'instance', 'stage', 'region'],
+    connection: ['connection', 'connector', 'integration', 'link', 'endpoint', 'hook', 'webhook'],
+    data: ['data', 'record', 'entry', 'row', 'item', 'object', 'entity', 'payload'],
+    schema: ['schema', 'model', 'type', 'definition', 'spec', 'template', 'blueprint'],
+    limit: ['limit', 'quota', 'rate', 'throttle', 'cap', 'restriction', 'usage'],
+    tag: ['tag', 'label', 'category', 'metadata', 'annotation'],
+    version: ['version', 'release', 'revision', 'build', 'iteration']
+  }
+
+  // Build a reverse lookup: word → list of synonyms
+  var synonymMap = {}
+  Object.keys(SYNONYMS).forEach(function (key) {
+    SYNONYMS[key].forEach(function (word) {
+      synonymMap[word] = SYNONYMS[key]
+    })
+  })
+
+  var STOP_WORDS = ['how', 'do', 'i', 'can', 'to', 'the', 'a', 'an', 'my', 'all', 'of', 'in', 'on', 'for', 'with', 'is', 'it', 'this', 'that', 'what', 'which', 'using', 'use', 'want', 'need', 'would', 'like', 'me', 'api', 'please', 'should', 'could', 'where', 'when', 'there', 'are', 'was', 'were', 'been', 'being', 'does', 'did', 'has', 'have', 'had', 'about', 'from', 'into', 'through', 'way', 'able', 'endpoint', 'endpoints']
+
+  // Simple stemmer: strip common suffixes to normalize word forms
+  function stem (word) {
+    if (word.length < 4) return word
+    return word
+      .replace(/ies$/, 'y')
+      .replace(/tion$/, 't')
+      .replace(/sion$/, 's')
+      .replace(/ment$/, '')
+      .replace(/ness$/, '')
+      .replace(/ings$/, '')
+      .replace(/ing$/, '')
+      .replace(/ated$/, 'at')
+      .replace(/ised$/, 'is')
+      .replace(/ized$/, 'iz')
+      .replace(/ful$/, '')
+      .replace(/able$/, '')
+      .replace(/ible$/, '')
+      .replace(/ous$/, '')
+      .replace(/ive$/, '')
+      .replace(/ence$/, '')
+      .replace(/ance$/, '')
+      .replace(/ally$/, '')
+      .replace(/ly$/, '')
+      .replace(/ed$/, '')
+      .replace(/er$/, '')
+      .replace(/es$/, '')
+      .replace(/s$/, '')
+  }
 
   function tokenize (text) {
-    return text.toLowerCase().replace(/[^a-z0-9]/g, ' ').split(/\s+/).filter(function (w) { return w.length > 0 })
+    // Split on non-alphanumeric, camelCase boundaries, and hyphens
+    return text.toLowerCase()
+      .replace(/([a-z])([A-Z])/g, '$1 $2')
+      .replace(/[^a-z0-9]/g, ' ')
+      .split(/\s+/)
+      .filter(function (w) { return w.length > 0 })
   }
 
-  function scoreEndpoint (ep, tokens) {
+  // Expand a single token into all forms we should match: stem + synonyms (stemmed)
+  function expandToken (token) {
+    var stemmed = stem(token)
+    var forms = [token, stemmed]
+    var syns = synonymMap[token] || synonymMap[stemmed]
+    if (syns) {
+      syns.forEach(function (s) {
+        forms.push(s)
+        forms.push(stem(s))
+      })
+    }
+    // Deduplicate
+    var seen = {}
+    return forms.filter(function (f) {
+      if (seen[f]) return false
+      seen[f] = true
+      return true
+    })
+  }
+
+  // Fuzzy check: does `haystack` contain something close to `needle`?
+  // Uses substring match on stems plus a simple edit-distance-1 check for typos
+  function fuzzyMatch (haystack, needle) {
+    if (haystack.includes(needle)) return 1.0
+    var stemmedNeedle = stem(needle)
+    if (stemmedNeedle.length > 2 && haystack.includes(stemmedNeedle)) return 0.8
+    // Check if any word in haystack is within edit distance 1
+    if (needle.length >= 4) {
+      var words = haystack.split(/[\s/\-_{}]+/)
+      for (var i = 0; i < words.length; i++) {
+        if (words[i].length >= 3 && editDistance1(stem(words[i]), stemmedNeedle)) return 0.5
+      }
+    }
+    return 0
+  }
+
+  // Returns true if two strings differ by at most 1 edit (swap, insert, delete, replace)
+  function editDistance1 (a, b) {
+    var lenDiff = a.length - b.length
+    if (lenDiff < -1 || lenDiff > 1) return false
+    if (a === b) return true
+    var mismatches = 0
+    if (a.length === b.length) {
+      for (var i = 0; i < a.length; i++) {
+        if (a[i] !== b[i]) mismatches++
+        if (mismatches > 1) return false
+      }
+      return true
+    }
+    // Different lengths: check single insertion/deletion
+    var longer = a.length > b.length ? a : b
+    var shorter = a.length > b.length ? b : a
+    var j = 0
+    for (var k = 0; k < longer.length; k++) {
+      if (longer[k] !== shorter[j]) {
+        mismatches++
+        if (mismatches > 1) return false
+      } else {
+        j++
+      }
+    }
+    return true
+  }
+
+  // Extract intent: {verbs: [...], nouns: [...]} from the query tokens
+  function extractIntent (tokens) {
+    var verbs = []
+    var nouns = []
+    tokens.forEach(function (t) {
+      if (VERB_TO_METHODS[t] || VERB_TO_METHODS[stem(t)]) {
+        verbs.push(t)
+      } else {
+        nouns.push(t)
+      }
+    })
+    return { verbs: verbs, nouns: nouns }
+  }
+
+  function scoreEndpoint (ep, tokens, intent) {
     var score = 0
     var summaryLower = (ep.summary || '').toLowerCase()
     var pathLower = ep.path.toLowerCase()
-    var pathSegments = pathLower.replace(/\{[^}]*\}/g, '').split('/').join(' ')
+    var pathSegments = pathLower.replace(/\{[^}]*\}/g, '').replace(/[/_-]/g, ' ')
     var methodLower = ep.method.toLowerCase()
+    var searchable = summaryLower + ' ' + pathSegments
+
+    var nounHits = 0
+    var verbHit = false
 
     for (var i = 0; i < tokens.length; i++) {
       var token = tokens[i]
-      var mapped = VERB_TO_METHODS[token]
-      if (mapped) {
-        if (mapped.indexOf(ep.method) !== -1) score += 3
+      var expanded = expandToken(token)
+      var isVerb = VERB_TO_METHODS[token] || VERB_TO_METHODS[stem(token)]
+      var bestMatch = 0
+
+      // Check direct method match for verb tokens
+      if (isVerb) {
+        var methods = VERB_TO_METHODS[token] || VERB_TO_METHODS[stem(token)]
+        if (methods && methods.indexOf(ep.method) !== -1) {
+          score += 4
+          verbHit = true
+        }
       }
-      if (summaryLower.includes(token)) score += 2
-      if (pathSegments.includes(token)) score += 1
-      if (methodLower === token) score += 2
+
+      if (methodLower === token) {
+        score += 3
+        verbHit = true
+      }
+
+      // Match expanded forms against summary + path
+      for (var j = 0; j < expanded.length; j++) {
+        var form = expanded[j]
+        // Exact substring in summary (highest value)
+        var m = fuzzyMatch(summaryLower, form)
+        if (m > bestMatch) bestMatch = m
+        // Substring in path segments
+        var pm = fuzzyMatch(pathSegments, form)
+        if (pm > bestMatch) bestMatch = pm
+      }
+
+      if (bestMatch > 0) {
+        var points = bestMatch >= 1.0 ? 3 : bestMatch >= 0.8 ? 2 : 1
+        score += points
+        if (!isVerb) nounHits++
+      }
     }
+
+    // Bigram bonus: consecutive tokens appearing together in summary/path
+    for (var b = 0; b < tokens.length - 1; b++) {
+      var bigram = tokens[b] + ' ' + tokens[b + 1]
+      var bigramAlt = tokens[b] + tokens[b + 1]
+      if (searchable.includes(bigram) || searchable.includes(bigramAlt)) {
+        score += 3
+      }
+    }
+
+    // Intent bonus: if we detected verb+noun intent and both matched, boost
+    if (intent.verbs.length > 0 && intent.nouns.length > 0 && verbHit && nounHits > 0) {
+      score += 2
+    }
+
+    // Coverage bonus: reward endpoints that matched more of the query tokens
+    var tokenCount = tokens.length
+    if (tokenCount > 1) {
+      var coverage = (nounHits + (verbHit ? 1 : 0)) / tokenCount
+      if (coverage >= 1.0) score += 3
+      else if (coverage >= 0.5) score += 1
+    }
+
     return score
   }
 
@@ -126,16 +325,12 @@
     var tokens = allTokens.filter(function (t) { return STOP_WORDS.indexOf(t) === -1 })
     if (!tokens.length) tokens = allTokens
 
+    var intent = extractIntent(tokens)
+
     var items = []
     apis.forEach(function (api) {
-      var titleLower = api.title.toLowerCase()
-      var descLower = api.description.toLowerCase()
-      var apiMatch = tokens.some(function (t) { return titleLower.includes(t) || descLower.includes(t) })
-      if (apiMatch) {
-        items.push({ type: 'api', title: api.title, url: api.url, score: 100 })
-      }
       ;(api.endpoints || []).forEach(function (ep) {
-        var s = scoreEndpoint(ep, tokens)
+        var s = scoreEndpoint(ep, tokens, intent)
         if (s > 0) {
           items.push({ type: 'endpoint', method: ep.method, path: ep.path, summary: ep.summary, apiTitle: api.title, url: api.url, score: s })
         }
@@ -158,14 +353,10 @@
       var row = document.createElement('a')
       row.href = item.url
       row.className = 'api-suggest-item'
-      if (item.type === 'api') {
-        row.innerHTML = '<span class="api-suggest-api-title">' + escapeHtml(item.title) + '</span>'
-      } else {
-        row.innerHTML =
-          '<span class="api-suggest-method api-suggest-method-' + item.method.toLowerCase() + '">' + item.method + '</span>' +
-          '<span class="api-suggest-summary">' + escapeHtml(item.summary || item.path) + '</span>' +
-          '<span class="api-suggest-from">' + escapeHtml(item.apiTitle) + '</span>'
-      }
+      row.innerHTML =
+        '<span class="api-suggest-method api-suggest-method-' + item.method.toLowerCase() + '">' + item.method + '</span>' +
+        '<span class="api-suggest-summary">' + escapeHtml(item.summary || item.path) + '</span>' +
+        '<span class="api-suggest-from">' + escapeHtml(item.apiTitle) + '</span>'
       suggest.appendChild(row)
     })
     if (items.length > MAX_SUGGESTIONS) {
