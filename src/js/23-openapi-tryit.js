@@ -496,6 +496,41 @@
     document.body.removeChild(textarea)
   }
 
+  // ─── Schema Tooltips ───────────────────────────────────────────────────────
+
+  function initSchemaTooltips () {
+    const refs = document.querySelectorAll('.openapi-schema-ref')
+    for (let i = 0; i < refs.length; i++) {
+      const ref = refs[i]
+      const tooltip = ref.querySelector('.openapi-schema-tooltip')
+      if (!tooltip) continue
+
+      ref.addEventListener('mouseenter', function () {
+        const rect = ref.getBoundingClientRect()
+        let top = rect.bottom + 4
+        let left = rect.left
+
+        // Flip above if not enough room below
+        if (top + tooltip.offsetHeight > window.innerHeight) {
+          top = rect.top - tooltip.offsetHeight - 4
+        }
+        // Keep within right edge
+        if (left + 480 > window.innerWidth) {
+          left = window.innerWidth - 490
+        }
+        if (left < 0) left = 4
+
+        tooltip.style.top = top + 'px'
+        tooltip.style.left = left + 'px'
+        tooltip.classList.add('is-visible')
+      })
+
+      ref.addEventListener('mouseleave', function () {
+        tooltip.classList.remove('is-visible')
+      })
+    }
+  }
+
   // ─── Init ──────────────────────────────────────────────────────────────────
 
   function init () {
@@ -503,6 +538,7 @@
     if (!spec) return
 
     initAuth()
+    initSchemaTooltips()
     populateServerSelect(spec)
 
     // Populate all endpoint sections on load

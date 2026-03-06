@@ -457,19 +457,53 @@
   font-weight: var(--weight-medium);
 }
 
+.openapi-schema-ref {
+  display: inline-block;
+}
+
 .openapi-schema-link {
   color: var(--color-purple);
+  cursor: help;
   font-family: monospace;
   font-size: 13px;
   font-weight: var(--weight-medium);
   text-decoration: underline;
   text-decoration-style: dotted;
   text-underline-offset: 2px;
+}
 
-  &:hover {
-    color: var(--font-color-link-hover);
-    text-decoration-style: solid;
-  }
+.openapi-schema-ref:hover > .openapi-schema-link {
+  color: var(--font-color-link-hover);
+  text-decoration-style: solid;
+}
+
+.openapi-schema-tooltip {
+  background: #fff;
+  border: 1px solid var(--aluminum-4);
+  border-radius: var(--radius);
+  box-shadow: 0 8px 24px rgb(0 0 0 / 15%);
+  display: none;
+  font-size: 13px;
+  max-height: 400px;
+  max-width: 480px;
+  min-width: 280px;
+  overflow: auto;
+  padding: var(--sm);
+  position: fixed;
+  z-index: 1000;
+}
+
+.openapi-schema-tooltip.is-visible {
+  display: block;
+}
+
+.openapi-schema-tooltip-header {
+  border-bottom: 1px solid var(--aluminum-3);
+  color: var(--font-color-heading);
+  font-size: 14px;
+  font-weight: var(--weight-bold);
+  margin-bottom: var(--xs);
+  padding-bottom: var(--xs);
 }
 
 .openapi-format {

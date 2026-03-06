@@ -77,15 +77,27 @@ function typeLabel (schema) {
   return schema.type || 'any'
 }
 
+function renderSchemaTooltip (schema, depth) {
+  const saved = schema._schemaName
+  delete schema._schemaName
+  const html = renderSchemaHtml(schema, depth || 1)
+  schema._schemaName = saved
+  return html
+}
+
 function schemaTypeHtml (schema, label) {
   label = label || typeLabel(schema)
   if (schema && schema._schemaName) {
     return (
-      '<a class="openapi-schema-link" href="#schema-' +
-      escapeHtml(schema._schemaName) +
-      '">' +
+      '<span class="openapi-schema-ref">' +
+      '<span class="openapi-schema-link">' +
       escapeHtml(label) +
-      '</a>'
+      '</span>' +
+      '<div class="openapi-schema-tooltip">' +
+      '<div class="openapi-schema-tooltip-header">' + escapeHtml(schema._schemaName) + '</div>' +
+      renderSchemaTooltip(schema) +
+      '</div>' +
+      '</span>'
     )
   }
   return '<span class="openapi-type">' + escapeHtml(label) + '</span>'
@@ -154,11 +166,7 @@ function renderSchemaHtml (schema, depth) {
         parts.push(
           '<span class="openapi-property-type">' +
             (prop._schemaName
-              ? '<a class="openapi-schema-link" href="#schema-' +
-                escapeHtml(prop._schemaName) +
-                '">' +
-                escapeHtml(typeLabel(prop)) +
-                '</a>'
+              ? schemaTypeHtml(prop)
               : escapeHtml(typeLabel(prop))) +
             '</span>'
         )
@@ -172,16 +180,18 @@ function renderSchemaHtml (schema, depth) {
           const enumValues = prop.enum.map(escapeHtml).join('</code>, <code>')
           parts.push('<div class="openapi-property-enum">Enum: <code>' + enumValues + '</code></div>')
         }
-        // Recurse for nested object/array
-        if ((prop.type === 'object' || prop.properties) && depth < 8) {
-          parts.push(renderSchemaHtml(prop, depth + 1))
-        }
-        const isNestedArray =
-          prop.type === 'array' && prop.items && (prop.items.type === 'object' || prop.items.properties) && depth < 8
-        if (isNestedArray) {
-          parts.push('<div class="openapi-schema-array-items">Items: ')
-          parts.push(renderSchemaHtml(prop.items, depth + 1))
-          parts.push('</div>')
+        // Recurse for nested object/array (skip if already rendered as a tooltip via _schemaName)
+        if (!prop._schemaName) {
+          if ((prop.type === 'object' || prop.properties) && depth < 8) {
+            parts.push(renderSchemaHtml(prop, depth + 1))
+          }
+          const isNestedArray =
+            prop.type === 'array' && prop.items && (prop.items.type === 'object' || prop.items.properties) && depth < 8
+          if (isNestedArray) {
+            parts.push('<div class="openapi-schema-array-items">Items: ')
+            parts.push(renderSchemaHtml(prop.items, depth + 1))
+            parts.push('</div>')
+          }
         }
         parts.push('</div>')
       }
