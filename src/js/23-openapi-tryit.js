@@ -2,8 +2,9 @@
   'use strict'
 
   const STORAGE_KEY = 'anypoint_session'
-  const LOGIN_URL = '/anypoint-proxy/accounts/login'
   const PROXY_PREFIX = '/anypoint-proxy'
+  const CSRF_URL = PROXY_PREFIX + '/accounts/api/v2/csrf'
+  const LOGIN_URL = PROXY_PREFIX + '/accounts/login'
   const SESSION_TTL_MS = 60 * 60 * 1000
 
   // ─── Helpers ────────────────────────────────────────────────────────────────
@@ -116,11 +117,24 @@
     submitBtn.disabled = true
     submitBtn.textContent = 'Signing in…'
 
-    fetch(LOGIN_URL, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ username, password }),
-    })
+    // Step 1: fetch a CSRF token (this also sets the session cookie via the proxy)
+    fetch(CSRF_URL, { credentials: 'same-origin' })
+      .then(function (resp) {
+        if (!resp.ok) throw new Error('Failed to get CSRF token (HTTP ' + resp.status + ')')
+        return resp.json()
+      })
+      .then(function (csrf) {
+        // Step 2: POST login with the CSRF token
+        return fetch(LOGIN_URL, {
+          method: 'POST',
+          credentials: 'same-origin',
+          headers: {
+            'Content-Type': 'application/json',
+            'X-CSRF-Token': csrf.token,
+          },
+          body: JSON.stringify({ username, password }),
+        })
+      })
       .then(function (resp) {
         if (!resp.ok) throw new Error('Login failed (HTTP ' + resp.status + ')')
         return resp.json()
