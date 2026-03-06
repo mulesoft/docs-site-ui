@@ -94,7 +94,9 @@ function schemaTypeHtml (schema, label) {
       escapeHtml(label) +
       '</span>' +
       '<div class="openapi-schema-tooltip">' +
-      '<div class="openapi-schema-tooltip-header">' + escapeHtml(schema._schemaName) + '</div>' +
+      '<div class="openapi-schema-tooltip-header">' +
+      escapeHtml(schema._schemaName) +
+      '</div>' +
       renderSchemaTooltip(schema) +
       '</div>' +
       '</span>'
@@ -165,9 +167,7 @@ function renderSchemaHtml (schema, depth) {
         parts.push('<span class="openapi-property-name">' + escapeHtml(name) + '</span>')
         parts.push(
           '<span class="openapi-property-type">' +
-            (prop._schemaName
-              ? schemaTypeHtml(prop)
-              : escapeHtml(typeLabel(prop))) +
+            (prop._schemaName ? schemaTypeHtml(prop) : escapeHtml(typeLabel(prop))) +
             '</span>'
         )
         if (isRequired) {
