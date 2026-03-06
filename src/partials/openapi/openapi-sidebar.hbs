@@ -18,17 +18,31 @@
       <a class="openapi-sidebar-link" href="#openapi-security">Authentication</a>
     {{/if}}
     {{#if hasTags}}
-      <div class="openapi-sidebar-group">
-        <span class="openapi-sidebar-group-label">Endpoints</span>
-        {{#each tags}}
-          {{#each operations}}
-            <a class="openapi-sidebar-link openapi-sidebar-link-nested openapi-sidebar-endpoint" href="#op-{{operationId}}">
-              <span class="openapi-sidebar-method openapi-method-{{methodLower}}">{{method}}</span>
-              <span class="openapi-sidebar-summary">{{#if summary}}{{summary}}{{else}}{{path}}{{/if}}</span>
-            </a>
-          {{/each}}
+      {{#if hasMultipleVersions}}
+        {{#each versionGroups}}
+          <div class="openapi-sidebar-group">
+            <span class="openapi-sidebar-group-label">{{version}}</span>
+            {{#each operations}}
+              <a class="openapi-sidebar-link openapi-sidebar-link-nested openapi-sidebar-endpoint" href="#op-{{operationId}}">
+                <span class="openapi-sidebar-method openapi-method-{{methodLower}}">{{method}}</span>
+                <span class="openapi-sidebar-summary">{{#if summary}}{{summary}}{{else}}{{path}}{{/if}}</span>
+              </a>
+            {{/each}}
+          </div>
         {{/each}}
-      </div>
+      {{else}}
+        <div class="openapi-sidebar-group">
+          <span class="openapi-sidebar-group-label">Endpoints</span>
+          {{#each tags}}
+            {{#each operations}}
+              <a class="openapi-sidebar-link openapi-sidebar-link-nested openapi-sidebar-endpoint" href="#op-{{operationId}}">
+                <span class="openapi-sidebar-method openapi-method-{{methodLower}}">{{method}}</span>
+                <span class="openapi-sidebar-summary">{{#if summary}}{{summary}}{{else}}{{path}}{{/if}}</span>
+              </a>
+            {{/each}}
+          {{/each}}
+        </div>
+      {{/if}}
     {{/if}}
     {{#if hasSchemas}}
       <div class="openapi-sidebar-group">

@@ -208,6 +208,10 @@ function buildOperations (spec) {
       const responses = buildResponses(op.responses)
       const examples = buildExamples(op)
 
+      // Extract API version from path prefix (e.g. /v2/... → v2, otherwise v1)
+      const versionMatch = path.match(/^\/(v\d+)\//)
+      const apiVersion = versionMatch ? versionMatch[1] : 'v1'
+
       operations.push({
         operationId: op.operationId || method + '-' + path.replace(/[^a-zA-Z0-9]/g, '-'),
         method: method.toUpperCase(),
@@ -226,6 +230,7 @@ function buildOperations (spec) {
         examples,
         hasExamples: examples.length > 0,
         security: op.security || null,
+        apiVersion,
       })
     }
   }
@@ -371,6 +376,25 @@ function groupByTags (operations, spec) {
   return Object.values(tagMap)
 }
 
+function groupByVersion (operations) {
+  const versionMap = {}
+  for (const op of operations) {
+    const ver = op.apiVersion
+    if (!versionMap[ver]) {
+      versionMap[ver] = { version: ver, operations: [] }
+    }
+    versionMap[ver].operations.push(op)
+  }
+  // Sort version keys naturally: v1, v2, v3, etc.
+  return Object.keys(versionMap)
+    .sort((a, b) => {
+      const numA = parseInt(a.replace(/\D/g, ''), 10) || 0
+      const numB = parseInt(b.replace(/\D/g, ''), 10) || 0
+      return numA - numB
+    })
+    .map((key) => versionMap[key])
+}
+
 // ─── Spec fetching ──────────────────────────────────────────────────────────
 
 function fetchSpec (specFile, component, version, moduleName, contentCatalog) {
@@ -497,6 +521,7 @@ module.exports = function (...args) {
 
   const operations = buildOperations(spec)
   const tags = groupByTags(operations, spec)
+  const versionGroups = groupByVersion(operations)
   const security = buildSecurity(spec)
   const schemas = buildSchemas(spec)
 
@@ -517,6 +542,8 @@ module.exports = function (...args) {
     hasSecurity: security.length > 0,
     tags,
     hasTags: tags.length > 0,
+    versionGroups,
+    hasMultipleVersions: versionGroups.length > 1,
     schemas,
     hasSchemas: schemas.length > 0,
     operationCount: operations.length,
