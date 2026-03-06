@@ -11,31 +11,42 @@
       <div class="openapi-auth-actions">
         <button class="openapi-auth-btn openapi-auth-signin" id="openapi-auth-signin">Sign In</button>
         <button class="openapi-auth-btn openapi-auth-signout" id="openapi-auth-signout" style="display:none;">Sign Out</button>
-        <button class="openapi-auth-btn openapi-auth-toggle-manual" id="openapi-auth-toggle-manual">Use Token</button>
       </div>
-    </div>
-    <div class="openapi-auth-manual" id="openapi-auth-manual" style="display:none;">
-      <input type="text" class="openapi-auth-token-input" id="openapi-auth-token-input" placeholder="Paste Bearer token here…" />
-      <button class="openapi-auth-btn openapi-auth-apply-token" id="openapi-auth-apply-token">Apply</button>
     </div>
   </div>
 
   <div class="openapi-login-modal" id="openapi-login-modal" style="display:none;">
     <div class="openapi-login-overlay" id="openapi-login-overlay"></div>
     <div class="openapi-login-dialog">
-      <h3>Sign in to Anypoint Platform</h3>
-      <p class="openapi-login-cors-note">If sign-in is blocked by CORS, use <strong>Use Token</strong> in the auth bar to paste a token directly.</p>
-      <div class="openapi-login-error" id="openapi-login-error" style="display:none;"></div>
-      <form id="openapi-login-form">
-        <label for="openapi-login-username">Username</label>
-        <input type="text" id="openapi-login-username" autocomplete="username" required />
-        <label for="openapi-login-password">Password</label>
-        <input type="password" id="openapi-login-password" autocomplete="current-password" required />
+      <div id="openapi-login-step-credentials">
+        <h3>Sign in to Anypoint Platform</h3>
+        <div class="openapi-login-error" id="openapi-login-error" style="display:none;"></div>
+        <form id="openapi-login-form">
+          <label for="openapi-login-username">Username</label>
+          <input type="text" id="openapi-login-username" autocomplete="username" required />
+          <label for="openapi-login-password">Password</label>
+          <input type="password" id="openapi-login-password" autocomplete="current-password" required />
+          <div class="openapi-login-actions">
+            <button type="submit" class="openapi-auth-btn openapi-login-submit">Sign In</button>
+            <button type="button" class="openapi-auth-btn openapi-login-cancel" id="openapi-login-cancel">Cancel</button>
+          </div>
+        </form>
+      </div>
+      <div id="openapi-login-step-token" style="display:none;">
+        <h3>Sign in with token</h3>
+        <p class="openapi-login-token-instructions">Sign-in was unsuccessful. Run the following command in your terminal to retrieve a token:</p>
+        <pre class="openapi-login-curl-snippet">curl -s -X POST https://anypoint.mulesoft.com/accounts/login \
+  -H "Content-Type: application/json" \
+  -d '{"username":"YOUR_USERNAME","password":"YOUR_PASSWORD"}' \
+  | python3 -c "import sys,json; print(json.load(sys.stdin)['access_token'])"</pre>
+        <label for="openapi-login-token-input">Paste your access token below</label>
+        <input type="text" id="openapi-login-token-input" class="openapi-auth-token-input" placeholder="Paste access_token value here…" />
         <div class="openapi-login-actions">
-          <button type="submit" class="openapi-auth-btn openapi-login-submit">Sign In</button>
-          <button type="button" class="openapi-auth-btn openapi-login-cancel" id="openapi-login-cancel">Cancel</button>
+          <button type="button" class="openapi-auth-btn openapi-login-submit" id="openapi-login-apply-token">Apply Token</button>
+          <button type="button" class="openapi-auth-btn" id="openapi-login-back">Back</button>
+          <button type="button" class="openapi-auth-btn openapi-login-cancel" id="openapi-login-token-cancel">Cancel</button>
         </div>
-      </form>
+      </div>
     </div>
   </div>
 

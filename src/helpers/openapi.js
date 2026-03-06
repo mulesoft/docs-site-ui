@@ -43,6 +43,9 @@ function resolveAllRefs (obj, root, seen) {
     if (resolved) {
       const merged = Object.assign({}, resolved, obj)
       delete merged.$ref
+      // Preserve the schema name from $ref for linking (e.g. #/components/schemas/Foo → "Foo")
+      const refMatch = obj.$ref.match(/^#\/components\/schemas\/(.+)$/)
+      if (refMatch) merged._schemaName = decodeURIComponent(refMatch[1])
       return resolveAllRefs(merged, root, seen)
     }
   }
@@ -63,6 +66,7 @@ function escapeHtml (str) {
 
 function typeLabel (schema) {
   if (!schema) return 'any'
+  if (schema._schemaName) return schema._schemaName
   if (schema.type === 'array' && schema.items) {
     return typeLabel(schema.items) + '[]'
   }
@@ -73,10 +77,29 @@ function typeLabel (schema) {
   return schema.type || 'any'
 }
 
+function schemaTypeHtml (schema, label) {
+  label = label || typeLabel(schema)
+  if (schema && schema._schemaName) {
+    return (
+      '<a class="openapi-schema-link" href="#schema-' +
+      escapeHtml(schema._schemaName) +
+      '">' +
+      escapeHtml(label) +
+      '</a>'
+    )
+  }
+  return '<span class="openapi-type">' + escapeHtml(label) + '</span>'
+}
+
 function renderSchemaHtml (schema, depth) {
   if (!schema) return '<span class="openapi-type">any</span>'
   depth = depth || 0
   if (depth > 8) return '<span class="openapi-type">…</span>'
+
+  // If this schema is a named $ref, render as a link instead of expanding inline
+  if (schema._schemaName && depth > 0) {
+    return schemaTypeHtml(schema)
+  }
 
   const parts = []
 
@@ -103,7 +126,11 @@ function renderSchemaHtml (schema, depth) {
   // Array
   if (schema.type === 'array' && schema.items) {
     parts.push('<span class="openapi-type">array</span> of ')
-    parts.push(renderSchemaHtml(schema.items, depth + 1))
+    if (schema.items._schemaName) {
+      parts.push(schemaTypeHtml(schema.items))
+    } else {
+      parts.push(renderSchemaHtml(schema.items, depth + 1))
+    }
     return parts.join('')
   }
 
@@ -124,7 +151,17 @@ function renderSchemaHtml (schema, depth) {
         const isRequired = required.includes(name)
         parts.push('<div class="openapi-schema-property">')
         parts.push('<span class="openapi-property-name">' + escapeHtml(name) + '</span>')
-        parts.push('<span class="openapi-property-type">' + escapeHtml(typeLabel(prop)) + '</span>')
+        parts.push(
+          '<span class="openapi-property-type">' +
+            (prop._schemaName
+              ? '<a class="openapi-schema-link" href="#schema-' +
+                escapeHtml(prop._schemaName) +
+                '">' +
+                escapeHtml(typeLabel(prop)) +
+                '</a>'
+              : escapeHtml(typeLabel(prop))) +
+            '</span>'
+        )
         if (isRequired) {
           parts.push('<span class="openapi-required">required</span>')
         }

@@ -76,6 +76,7 @@
     if (session && session.accessToken) {
       signinBtn.style.display = 'none'
       signoutBtn.style.display = ''
+      signoutBtn.textContent = session.user === 'Token' ? 'Revoke Token' : 'Sign Out'
       userEl.style.display = ''
       userEl.textContent = session.user || 'Authenticated'
     } else {
@@ -88,12 +89,27 @@
 
   function showLoginModal (message) {
     const modal = document.getElementById('openapi-login-modal')
-    if (modal) modal.style.display = ''
+    if (!modal) return
+    modal.style.display = ''
+    // Always start on credentials step
+    const stepCreds = document.getElementById('openapi-login-step-credentials')
+    const stepToken = document.getElementById('openapi-login-step-token')
+    if (stepCreds) stepCreds.style.display = ''
+    if (stepToken) stepToken.style.display = 'none'
     const errEl = document.getElementById('openapi-login-error')
     if (errEl && typeof message === 'string') {
       errEl.textContent = message
       errEl.style.display = ''
     }
+  }
+
+  function showTokenStep () {
+    const stepCreds = document.getElementById('openapi-login-step-credentials')
+    const stepToken = document.getElementById('openapi-login-step-token')
+    if (stepCreds) stepCreds.style.display = 'none'
+    if (stepToken) stepToken.style.display = ''
+    const tokenInput = document.getElementById('openapi-login-token-input')
+    if (tokenInput) tokenInput.focus()
   }
 
   function hideLoginModal () {
@@ -104,13 +120,14 @@
       errEl.style.display = 'none'
       errEl.textContent = ''
     }
+    const tokenInput = document.getElementById('openapi-login-token-input')
+    if (tokenInput) tokenInput.value = ''
   }
 
   function handleLogin (e) {
     e.preventDefault()
     const username = document.getElementById('openapi-login-username').value
     const password = document.getElementById('openapi-login-password').value
-    const errEl = document.getElementById('openapi-login-error')
     const submitBtn = e.target.querySelector('.openapi-login-submit')
 
     submitBtn.disabled = true
@@ -135,21 +152,8 @@
         updateAuthUI()
         e.target.reset()
       })
-      .catch(function (err) {
-        const isCors = err instanceof TypeError && /fetch|network/i.test(err.message)
-        if (isCors) {
-          hideLoginModal()
-          const manualSection = document.getElementById('openapi-auth-manual')
-          if (manualSection) manualSection.style.display = ''
-          const tokenInput = document.getElementById('openapi-auth-token-input')
-          if (tokenInput) {
-            tokenInput.placeholder = 'CORS blocked login — paste a Bearer token here'
-            tokenInput.focus()
-          }
-        } else {
-          errEl.textContent = err.message || 'Login failed'
-          errEl.style.display = ''
-        }
+      .catch(function () {
+        showTokenStep()
       })
       .finally(function () {
         submitBtn.disabled = false
@@ -160,12 +164,12 @@
   function initAuth () {
     const signinBtn = document.getElementById('openapi-auth-signin')
     const signoutBtn = document.getElementById('openapi-auth-signout')
-    const toggleManualBtn = document.getElementById('openapi-auth-toggle-manual')
-    const manualSection = document.getElementById('openapi-auth-manual')
-    const applyTokenBtn = document.getElementById('openapi-auth-apply-token')
     const loginForm = document.getElementById('openapi-login-form')
     const cancelBtn = document.getElementById('openapi-login-cancel')
     const overlay = document.getElementById('openapi-login-overlay')
+    const backBtn = document.getElementById('openapi-login-back')
+    const tokenCancelBtn = document.getElementById('openapi-login-token-cancel')
+    const applyTokenBtn = document.getElementById('openapi-login-apply-token')
 
     if (!signinBtn) return
 
@@ -176,24 +180,30 @@
       updateAuthUI()
     })
 
-    toggleManualBtn.addEventListener('click', function () {
-      const isHidden = manualSection.style.display === 'none'
-      manualSection.style.display = isHidden ? '' : 'none'
-    })
+    if (applyTokenBtn) {
+      applyTokenBtn.addEventListener('click', function () {
+        const tokenInput = document.getElementById('openapi-login-token-input')
+        const token = tokenInput ? tokenInput.value.trim() : ''
+        if (token) {
+          setSession({ accessToken: token, user: 'Token' })
+          hideLoginModal()
+          updateAuthUI()
+        }
+      })
+    }
 
-    applyTokenBtn.addEventListener('click', function () {
-      const tokenInput = document.getElementById('openapi-auth-token-input')
-      const token = tokenInput.value.trim()
-      if (token) {
-        setSession({ accessToken: token, user: 'Manual token' })
-        updateAuthUI()
-        manualSection.style.display = 'none'
-        tokenInput.value = ''
-      }
-    })
+    if (backBtn) {
+      backBtn.addEventListener('click', function () {
+        const stepCreds = document.getElementById('openapi-login-step-credentials')
+        const stepToken = document.getElementById('openapi-login-step-token')
+        if (stepCreds) stepCreds.style.display = ''
+        if (stepToken) stepToken.style.display = 'none'
+      })
+    }
 
     if (loginForm) loginForm.addEventListener('submit', handleLogin)
     if (cancelBtn) cancelBtn.addEventListener('click', hideLoginModal)
+    if (tokenCancelBtn) tokenCancelBtn.addEventListener('click', hideLoginModal)
     if (overlay) overlay.addEventListener('click', hideLoginModal)
 
     updateAuthUI()
@@ -201,15 +211,9 @@
 
   // ─── Try It Panel ──────────────────────────────────────────────────────────
 
-  function populatePanel (panel, spec, operationId) {
-    const found = findOperation(spec, operationId)
-    if (!found) return
-
-    const op = found.operation
-    const allParams = (found.pathParams || []).concat(op.parameters || [])
-
-    // Server dropdown
-    const serverSelect = panel.querySelector('.openapi-tryit-server-select')
+  function populateServerSelect (spec) {
+    const serverSelect = document.getElementById('openapi-sidebar-server-select')
+    if (!serverSelect) return
     serverSelect.innerHTML = ''
     const servers = spec.servers || [{ url: '', description: 'No servers defined' }]
     for (let i = 0; i < servers.length; i++) {
@@ -218,51 +222,36 @@
       opt.textContent = servers[i].url + (servers[i].description ? ' — ' + servers[i].description : '')
       serverSelect.appendChild(opt)
     }
+  }
 
-    // Parameter inputs
-    const paramsContainer = panel.querySelector('.openapi-tryit-params')
-    paramsContainer.innerHTML = ''
-    if (allParams.length > 0) {
-      for (let j = 0; j < allParams.length; j++) {
-        const param = allParams[j]
-        const row = document.createElement('div')
-        row.className = 'openapi-tryit-param-row'
+  function getSelectedServer () {
+    const serverSelect = document.getElementById('openapi-sidebar-server-select')
+    return serverSelect ? serverSelect.value || '' : ''
+  }
 
-        const label = document.createElement('label')
-        label.textContent = param.name
-        if (param.required) {
-          const reqSpan = document.createElement('span')
-          reqSpan.className = 'openapi-required'
-          reqSpan.textContent = ' *'
-          label.appendChild(reqSpan)
-        }
-        const sublabel = document.createElement('span')
-        sublabel.className = 'openapi-tryit-param-meta'
-        sublabel.textContent = ' (' + (param.in || '') + ')'
-        label.appendChild(sublabel)
+  function populatePanel (endpoint, spec, operationId) {
+    const found = findOperation(spec, operationId)
+    if (!found) return
 
-        const input = document.createElement('input')
-        input.type = 'text'
-        input.className = 'openapi-tryit-param-input'
-        input.name = param.name
-        input.dataset.in = param.in || ''
-        input.placeholder = param.description || param.name
-        if (param.schema && param.schema.default !== undefined) {
-          input.value = String(param.schema.default)
-        }
+    const op = found.operation
+    const allParams = (found.pathParams || []).concat(op.parameters || [])
 
-        // Auto-fill known param names from session
-        autoFillParam(input, param.name)
-
-        row.appendChild(label)
-        row.appendChild(input)
-        paramsContainer.appendChild(row)
+    // Auto-fill parameter inputs already rendered in the table
+    const inputs = endpoint.querySelectorAll('.openapi-tryit-param-input')
+    for (let j = 0; j < inputs.length; j++) {
+      const input = inputs[j]
+      const param = allParams.find(function (p) {
+        return p.name === input.name
+      })
+      if (param && param.schema && param.schema.default !== undefined) {
+        input.value = String(param.schema.default)
       }
+      autoFillParam(input, input.name)
     }
 
     // Request body
-    const bodySection = panel.querySelector('.openapi-tryit-body-section')
-    const bodyTextarea = panel.querySelector('.openapi-tryit-body')
+    const bodySection = endpoint.querySelector('.openapi-tryit-body-section')
+    const bodyTextarea = endpoint.querySelector('.openapi-tryit-body')
     const method = found.method.toLowerCase()
     if ((method === 'post' || method === 'put' || method === 'patch') && op.requestBody) {
       bodySection.style.display = ''
@@ -273,22 +262,71 @@
       if (ctLabel) ctLabel.textContent = '(' + primaryMedia + ')'
 
       const mediaObj = content[primaryMedia]
+      let templateBody = ''
       if (mediaObj && mediaObj.example) {
-        bodyTextarea.value =
+        templateBody =
           typeof mediaObj.example === 'string' ? mediaObj.example : JSON.stringify(mediaObj.example, null, 2)
       } else if (mediaObj && mediaObj.examples) {
         const firstEx = Object.values(mediaObj.examples)[0]
         if (firstEx && firstEx.value) {
-          bodyTextarea.value =
-            typeof firstEx.value === 'string' ? firstEx.value : JSON.stringify(firstEx.value, null, 2)
+          templateBody = typeof firstEx.value === 'string' ? firstEx.value : JSON.stringify(firstEx.value, null, 2)
         }
-      } else {
-        bodyTextarea.value = ''
+      } else if (mediaObj && mediaObj.schema) {
+        const skeleton = generateSkeleton(mediaObj.schema, 0)
+        templateBody = skeleton !== undefined ? JSON.stringify(skeleton, null, 2) : ''
+      }
+      bodyTextarea.value = templateBody
+      bodyTextarea.dataset.template = templateBody
+
+      const resetBtn = bodySection.querySelector('.openapi-tryit-reset')
+      if (resetBtn) {
+        resetBtn.addEventListener('click', function () {
+          bodyTextarea.value = bodyTextarea.dataset.template || ''
+        })
       }
     } else {
       bodySection.style.display = 'none'
       bodyTextarea.value = ''
     }
+  }
+
+  function generateSkeleton (schema, depth) {
+    if (!schema || depth > 4) return undefined
+    if (schema.example !== undefined) return schema.example
+    if (schema.default !== undefined) return schema.default
+    if (schema.enum && schema.enum.length > 0) return schema.enum[0]
+
+    let type = schema.type
+    if (!type) {
+      if (schema.properties) type = 'object'
+      else if (schema.items) type = 'array'
+    }
+
+    if (type === 'object') {
+      const obj = {}
+      const props = schema.properties || {}
+      for (const key in props) {
+        if (!Object.prototype.hasOwnProperty.call(props, key)) continue
+        const val = generateSkeleton(props[key], depth + 1)
+        if (val !== undefined) obj[key] = val
+      }
+      return Object.keys(obj).length > 0 ? obj : {}
+    }
+    if (type === 'array') {
+      const itemVal = schema.items ? generateSkeleton(schema.items, depth + 1) : null
+      return itemVal !== undefined ? [itemVal] : []
+    }
+    if (type === 'string') {
+      if (schema.format === 'date') return '2024-01-01'
+      if (schema.format === 'date-time') return '2024-01-01T00:00:00Z'
+      if (schema.format === 'email') return 'user@example.com'
+      if (schema.format === 'uri' || schema.format === 'url') return 'https://example.com'
+      if (schema.format === 'uuid') return '00000000-0000-0000-0000-000000000000'
+      return ''
+    }
+    if (type === 'integer' || type === 'number') return 0
+    if (type === 'boolean') return false
+    return null
   }
 
   function autoFillParam (input, paramName) {
@@ -302,16 +340,15 @@
     }
   }
 
-  function buildRequestUrl (panel, spec, operationId) {
+  function buildRequestUrl (endpoint, spec, operationId) {
     const found = findOperation(spec, operationId)
     if (!found) return ''
 
-    const serverSelect = panel.querySelector('.openapi-tryit-server-select')
-    const baseUrl = serverSelect.value || ''
+    const baseUrl = getSelectedServer()
 
     let path = found.path
     const queryParts = []
-    const inputs = panel.querySelectorAll('.openapi-tryit-param-input')
+    const inputs = endpoint.querySelectorAll('.openapi-tryit-param-input')
     for (let i = 0; i < inputs.length; i++) {
       const input = inputs[i]
       const val = input.value.trim()
@@ -335,12 +372,12 @@
     return url.replace(/^https?:\/\/[^/]+/, PROXY_PREFIX)
   }
 
-  function buildHeaders (panel) {
+  function buildHeaders (endpoint) {
     const headers = {}
     const token = getToken()
     if (token) headers.Authorization = 'Bearer ' + token
 
-    const inputs = panel.querySelectorAll('.openapi-tryit-param-input')
+    const inputs = endpoint.querySelectorAll('.openapi-tryit-param-input')
     for (let i = 0; i < inputs.length; i++) {
       const input = inputs[i]
       if (input.dataset.in === 'header' && input.value.trim()) {
@@ -352,30 +389,29 @@
 
   // ─── Request Execution ─────────────────────────────────────────────────────
 
-  function sendRequest (panel, spec, operationId) {
+  function sendRequest (endpoint, spec, operationId) {
     if (!getToken()) {
       updateAuthUI()
       showLoginModal('Your session has expired. Please sign in again.')
       return
     }
 
-    const endpoint = panel.closest('.openapi-endpoint')
     const method = (endpoint.dataset.method || 'get').toUpperCase()
-    const url = proxyUrl(buildRequestUrl(panel, spec, operationId))
-    const headers = buildHeaders(panel)
+    const url = proxyUrl(buildRequestUrl(endpoint, spec, operationId))
+    const headers = buildHeaders(endpoint)
 
-    const bodyTextarea = panel.querySelector('.openapi-tryit-body')
-    const bodySection = panel.querySelector('.openapi-tryit-body-section')
+    const bodyTextarea = endpoint.querySelector('.openapi-tryit-body')
+    const bodySection = endpoint.querySelector('.openapi-tryit-body-section')
     let body = null
     if (bodySection.style.display !== 'none' && bodyTextarea.value.trim()) {
       body = bodyTextarea.value.trim()
       headers['Content-Type'] = 'application/json'
     }
 
-    const responseArea = panel.querySelector('.openapi-tryit-response')
-    const statusEl = panel.querySelector('.openapi-tryit-response-status')
-    const timeEl = panel.querySelector('.openapi-tryit-response-time')
-    const bodyEl = panel.querySelector('.openapi-tryit-response-body')
+    const responseArea = endpoint.querySelector('.openapi-tryit-response')
+    const statusEl = endpoint.querySelector('.openapi-tryit-response-status')
+    const timeEl = endpoint.querySelector('.openapi-tryit-response-time')
+    const bodyEl = endpoint.querySelector('.openapi-tryit-response-body')
 
     responseArea.style.display = ''
     statusEl.textContent = 'Sending…'
@@ -423,11 +459,10 @@
 
   // ─── cURL Generation ───────────────────────────────────────────────────────
 
-  function generateCurl (panel, spec, operationId) {
-    const endpoint = panel.closest('.openapi-endpoint')
+  function generateCurl (endpoint, spec, operationId) {
     const method = (endpoint.dataset.method || 'get').toUpperCase()
-    const url = buildRequestUrl(panel, spec, operationId)
-    const headers = buildHeaders(panel)
+    const url = buildRequestUrl(endpoint, spec, operationId)
+    const headers = buildHeaders(endpoint)
 
     const parts = ['curl -X ' + method + " '" + url + "'"]
     for (const key in headers) {
@@ -436,8 +471,8 @@
       }
     }
 
-    const bodyTextarea = panel.querySelector('.openapi-tryit-body')
-    const bodySection = panel.querySelector('.openapi-tryit-body-section')
+    const bodyTextarea = endpoint.querySelector('.openapi-tryit-body')
+    const bodySection = endpoint.querySelector('.openapi-tryit-body-section')
     if (bodySection.style.display !== 'none' && bodyTextarea.value.trim()) {
       parts.push("  -H 'Content-Type: application/json'")
       parts.push("  -d '" + bodyTextarea.value.trim().replace(/'/g, "'\\''") + "'")
@@ -468,37 +503,28 @@
     if (!spec) return
 
     initAuth()
+    populateServerSelect(spec)
 
-    // Populate all Try It panels on load
+    // Populate all endpoint sections on load
     const endpoints = document.querySelectorAll('.openapi-endpoint')
     for (let i = 0; i < endpoints.length; i++) {
       ;(function (endpoint) {
         const operationId = endpoint.dataset.operationId
         if (!operationId) return
 
-        const panel = endpoint.querySelector('.openapi-tryit-panel')
-        if (!panel) return
+        const tryitInline = endpoint.querySelector('.openapi-tryit-inline')
+        if (!tryitInline) return
 
-        populatePanel(panel, spec, operationId)
+        populatePanel(endpoint, spec, operationId)
 
-        // Toggle panel on small screens
-        const heading = endpoint.querySelector('.openapi-tryit-heading')
-        if (heading) {
-          heading.addEventListener('click', function () {
-            if (window.innerWidth >= 1100) return
-            heading.classList.toggle('is-open')
-            panel.classList.toggle('is-open')
-          })
-        }
-
-        const sendBtn = panel.querySelector('.openapi-tryit-send')
+        const sendBtn = endpoint.querySelector('.openapi-tryit-send')
         sendBtn.addEventListener('click', function () {
-          sendRequest(panel, spec, operationId)
+          sendRequest(endpoint, spec, operationId)
         })
 
-        const curlBtn = panel.querySelector('.openapi-tryit-curl')
+        const curlBtn = endpoint.querySelector('.openapi-tryit-curl')
         curlBtn.addEventListener('click', function () {
-          const curl = generateCurl(panel, spec, operationId)
+          const curl = generateCurl(endpoint, spec, operationId)
           copyToClipboard(curl)
           const originalText = curlBtn.textContent
           curlBtn.textContent = 'Copied!'

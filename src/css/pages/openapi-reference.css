@@ -187,29 +187,6 @@
   &:hover {
     box-shadow: var(--oa-hover-shadow);
   }
-
-  @media (min-width: 1100px) {
-    & {
-      align-items: start;
-      display: grid;
-      gap: var(--lg);
-      grid-template-columns: 1fr 260px;
-    }
-  }
-}
-
-.openapi-endpoint-content,
-.openapi-tryit-column {
-  min-width: 0;
-}
-
-@media (min-width: 1100px) {
-  .openapi-tryit-column {
-    max-height: calc(100vh - 2 * var(--lg));
-    overflow-y: auto;
-    position: sticky;
-    top: var(--lg);
-  }
 }
 
 .openapi-endpoint-method {
@@ -480,6 +457,21 @@
   font-weight: var(--weight-medium);
 }
 
+.openapi-schema-link {
+  color: var(--color-purple);
+  font-family: monospace;
+  font-size: 13px;
+  font-weight: var(--weight-medium);
+  text-decoration: underline;
+  text-decoration-style: dotted;
+  text-underline-offset: 2px;
+
+  &:hover {
+    color: var(--font-color-link-hover);
+    text-decoration-style: solid;
+  }
+}
+
 .openapi-format {
   color: var(--steel-1);
   font-size: 12px;
@@ -539,6 +531,16 @@
 
 .openapi-sidebar-value {
   color: var(--steel-3);
+}
+
+.openapi-sidebar-server {
+  margin-top: var(--sm);
+}
+
+.openapi-sidebar-server .openapi-tryit-server-select {
+  font-size: 12px;
+  margin-top: 4px;
+  padding: 4px 6px;
 }
 
 .openapi-sidebar-nav {
@@ -672,20 +674,15 @@
   }
 }
 
-.openapi-auth-manual {
-  align-items: center;
-  display: flex;
-  gap: var(--xs);
-  margin-top: var(--sm);
-}
-
 .openapi-auth-token-input {
   border: 1px solid var(--aluminum-4);
   border-radius: var(--radius);
-  flex: 1;
+  box-sizing: border-box;
   font-family: monospace;
   font-size: 13px;
-  padding: 5px 10px;
+  margin-bottom: var(--sm);
+  padding: 8px 10px;
+  width: 100%;
 }
 
 /* ─── Login Modal ─────────────────────────────────────────────────────────── */
@@ -757,11 +754,25 @@
   }
 }
 
-.openapi-login-cors-note {
-  color: var(--steel-1);
+.openapi-login-token-instructions {
+  color: var(--steel-2);
   font-size: 13px;
-  line-height: 1.4;
+  line-height: 1.5;
   margin: 0 0 var(--sm);
+}
+
+.openapi-login-curl-snippet {
+  background: var(--oa-dark-bg);
+  border: 1px solid var(--oa-dark-border);
+  border-radius: var(--radius);
+  color: var(--oa-dark-text);
+  font-size: 12px;
+  line-height: 1.5;
+  margin-bottom: var(--sm);
+  overflow-x: auto;
+  padding: var(--sm);
+  white-space: pre-wrap;
+  word-break: break-all;
 }
 
 .openapi-login-error {
@@ -787,51 +798,15 @@
   }
 }
 
-/* ─── Try It heading ──────────────────────────────────────────────────────── */
+/* ─── Try It Inline ──────────────────────────────────────────────────────── */
 
-.openapi-tryit-heading {
-  color: var(--font-color-heading);
-  font-size: 15px;
-  font-weight: var(--weight-bold);
-  margin: 0 0 var(--sm);
-}
-
-@media (max-width: 1099px) {
-  .openapi-tryit-heading {
-    cursor: pointer;
-
-    &::before {
-      content: "\25B6\00a0";
-      font-size: 10px;
-    }
-
-    &.is-open::before {
-      content: "\25BC\00a0";
-    }
-  }
-
-  .openapi-tryit-panel {
-    display: none;
-
-    &.is-open {
-      display: block;
-    }
-  }
-}
-
-/* ─── Try It Panel ────────────────────────────────────────────────────────── */
-
-.openapi-tryit-panel {
-  background: var(--aluminum-1);
-  border: 1px solid var(--aluminum-3);
-  border-radius: var(--radius);
-  margin-top: var(--sm);
-  padding: var(--md);
+.openapi-tryit-inline {
+  border-top: 1px solid var(--aluminum-3);
+  margin-top: var(--md);
+  padding-top: var(--md);
 }
 
 /* Shared label style for tryit form fields */
-.openapi-tryit-server label,
-.openapi-tryit-param-row label,
 .openapi-tryit-body-section label {
   color: var(--steel-2);
   display: block;
@@ -841,8 +816,8 @@
 }
 
 /* Shared input style for tryit form fields */
-.openapi-tryit-server-select,
-.openapi-tryit-param-input {
+.openapi-tryit-server-select {
+  background: #fff;
   border: 1px solid var(--aluminum-4);
   border-radius: var(--radius);
   box-sizing: border-box;
@@ -852,21 +827,51 @@
   width: 100%;
 }
 
-.openapi-tryit-server-select {
-  background: #fff;
+.openapi-tryit-param-input {
+  border: 1px solid var(--aluminum-4);
+  border-radius: var(--radius);
+  box-sizing: border-box;
+  font-family: monospace;
+  font-size: 13px;
+  min-width: 120px;
+  padding: 6px 10px;
 }
 
-.openapi-tryit-server,
-.openapi-tryit-param-row,
 .openapi-tryit-body-section {
   margin-bottom: var(--sm);
 }
 
-.openapi-tryit-param-meta,
 .openapi-tryit-content-type {
   color: var(--steel-1);
   font-size: 12px;
   font-weight: normal;
+}
+
+.openapi-tryit-body-header {
+  align-items: center;
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 4px;
+}
+
+.openapi-tryit-body-header label {
+  margin-bottom: 0;
+}
+
+.openapi-tryit-reset {
+  background: none;
+  border: 1px solid var(--aluminum-4);
+  border-radius: var(--radius);
+  color: var(--steel-1);
+  cursor: pointer;
+  font-size: 12px;
+  padding: 2px 10px;
+  transition: background var(--transition-speed-sm), color var(--transition-speed-sm);
+
+  &:hover {
+    background: var(--aluminum-2);
+    color: var(--steel-3);
+  }
 }
 
 .openapi-tryit-body {
@@ -986,18 +991,6 @@
   .openapi-auth-bar-inner {
     align-items: flex-start;
     flex-direction: column;
-  }
-
-  .openapi-tryit-column {
-    border: 2px solid var(--aluminum-4);
-    border-radius: var(--radius);
-    margin-top: var(--sm);
-    padding: var(--md);
-    transition: border-color var(--transition-speed-sm), box-shadow var(--transition-speed-sm);
-
-    &:hover {
-      box-shadow: var(--oa-hover-shadow);
-    }
   }
 
   .openapi-tryit-actions {

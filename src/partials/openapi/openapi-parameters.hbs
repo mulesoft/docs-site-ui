@@ -8,6 +8,7 @@
         <th>Type</th>
         <th>Required</th>
         <th>Description</th>
+        <th>Value</th>
       </tr>
     </thead>
     <tbody>
@@ -18,6 +19,7 @@
           <td><code>{{type}}</code></td>
           <td>{{#if required}}<span class="openapi-required">Yes</span>{{else}}No{{/if}}</td>
           <td>{{description}}</td>
+          <td><input type="text" class="openapi-tryit-param-input" name="{{name}}" data-in="{{in}}" placeholder="{{name}}" /></td>
         </tr>
       {{/each}}
     </tbody>

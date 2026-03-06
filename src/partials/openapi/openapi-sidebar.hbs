@@ -12,6 +12,10 @@
       <div class="openapi-sidebar-value">{{operationCount}}</div>
     </div>
   {{/if}}
+  <div class="openapi-sidebar-server">
+    <label class="openapi-sidebar-label">Server</label>
+    <select id="openapi-sidebar-server-select" class="openapi-tryit-server-select"></select>
+  </div>
   <nav class="openapi-sidebar-nav">
     <a class="openapi-sidebar-link" href="#openapi-overview">Overview</a>
     {{#if hasSecurity}}
@@ -79,7 +83,7 @@
     return offset + 20
   }
 
-  sidebar.addEventListener('click', function (e) {
+  function scrollToAnchor (e) {
     var link = e.target.closest('a[href^="#"]')
     if (!link) return
     var id = link.getAttribute('href').slice(1)
@@ -89,7 +93,17 @@
     var top = target.getBoundingClientRect().top + window.scrollY - getStickyOffset()
     window.scrollTo({ top: top, behavior: 'smooth' })
     history.replaceState(null, '', '#' + id)
-  })
+  }
+
+  sidebar.addEventListener('click', scrollToAnchor)
+
+  // Also handle schema links inside endpoint cards
+  var reference = document.querySelector('.openapi-reference')
+  if (reference) {
+    reference.addEventListener('click', function (e) {
+      if (e.target.closest('.openapi-schema-link')) scrollToAnchor(e)
+    })
+  }
 })()
 //]]></script>
 {{/with}}
