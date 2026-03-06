@@ -478,10 +478,12 @@ function listApis (contentCatalog, page, isPreview) {
       for (const m of methods) {
         if (!pathItem[m]) continue
         const op = pathItem[m]
+        const operationId = op.operationId || m + '-' + p.replace(/[^a-zA-Z0-9]/g, '-')
         endpoints.push({
           method: m.toUpperCase(),
           path: p,
           summary: (op.summary || op.operationId || '').replace(/\n/g, ' '),
+          operationId,
         })
       }
     }

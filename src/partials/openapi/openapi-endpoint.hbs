@@ -1,7 +1,7 @@
-<div class="openapi-endpoint" data-operation-id="{{operationId}}" data-method="{{methodLower}}" data-path="{{path}}">
+<div class="openapi-endpoint" id="op-{{operationId}}" data-operation-id="{{operationId}}" data-method="{{methodLower}}" data-path="{{path}}">
   <div class="openapi-endpoint-content">
     {{#if summary}}
-      <h3 class="openapi-endpoint-summary" id="op-{{operationId}}">{{summary}}</h3>
+      <h3 class="openapi-endpoint-summary">{{summary}}</h3>
     {{/if}}
     <div class="openapi-endpoint-method">
       <span class="openapi-method openapi-method-{{methodLower}}">{{method}}</span>

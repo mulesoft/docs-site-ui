@@ -54,4 +54,42 @@
     {{/if}}
   </nav>
 </div>
+<script nonce="**CSP_NONCE**">//<![CDATA[
+;(function () {
+  var sidebar = document.querySelector('.openapi-sidebar-nav')
+  if (!sidebar) return
+
+  function getStickyOffset () {
+    var offset = 0
+    var toolbar = document.querySelector('.toolbar')
+    var topBanner = document.querySelector('.top-banner:not(.hide)')
+    var noticeBanner = document.querySelector('.notice-banner')
+    if (topBanner) {
+      var bannerRect = topBanner.getBoundingClientRect()
+      if (bannerRect.bottom > 0) offset += bannerRect.height
+    }
+    if (toolbar) {
+      var toolbarRect = toolbar.getBoundingClientRect()
+      if (toolbarRect.bottom > 0) offset += toolbarRect.height
+    }
+    if (noticeBanner) {
+      var noticeRect = noticeBanner.getBoundingClientRect()
+      if (noticeRect.bottom > 0) offset += noticeRect.height
+    }
+    return offset + 20
+  }
+
+  sidebar.addEventListener('click', function (e) {
+    var link = e.target.closest('a[href^="#"]')
+    if (!link) return
+    var id = link.getAttribute('href').slice(1)
+    var target = document.getElementById(id)
+    if (!target) return
+    e.preventDefault()
+    var top = target.getBoundingClientRect().top + window.scrollY - getStickyOffset()
+    window.scrollTo({ top: top, behavior: 'smooth' })
+    history.replaceState(null, '', '#' + id)
+  })
+})()
+//]]></script>
 {{/with}}

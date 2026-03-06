@@ -332,7 +332,7 @@
       ;(api.endpoints || []).forEach(function (ep) {
         var s = scoreEndpoint(ep, tokens, intent)
         if (s > 0) {
-          items.push({ type: 'endpoint', method: ep.method, path: ep.path, summary: ep.summary, apiTitle: api.title, url: api.url, score: s })
+          items.push({ type: 'endpoint', method: ep.method, path: ep.path, summary: ep.summary, apiTitle: api.title, url: api.url, operationId: ep.operationId, score: s })
         }
       })
     })
@@ -351,7 +351,7 @@
     var shown = items.slice(0, MAX_SUGGESTIONS)
     shown.forEach(function (item) {
       var row = document.createElement('a')
-      row.href = item.url
+      row.href = item.url + (item.operationId ? '#op-' + item.operationId : '')
       row.className = 'api-suggest-item'
       row.innerHTML =
         '<span class="api-suggest-method api-suggest-method-' + item.method.toLowerCase() + '">' + item.method + '</span>' +
