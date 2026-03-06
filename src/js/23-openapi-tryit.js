@@ -3,6 +3,7 @@
 
   const STORAGE_KEY = 'anypoint_session'
   const LOGIN_URL = '/anypoint-proxy/accounts/login'
+  const PROXY_PREFIX = '/anypoint-proxy'
   const SESSION_TTL_MS = 60 * 60 * 1000
 
   // ─── Helpers ────────────────────────────────────────────────────────────────
@@ -89,7 +90,7 @@
     const modal = document.getElementById('openapi-login-modal')
     if (modal) modal.style.display = ''
     const errEl = document.getElementById('openapi-login-error')
-    if (errEl && message) {
+    if (errEl && typeof message === 'string') {
       errEl.textContent = message
       errEl.style.display = ''
     }
@@ -327,6 +328,12 @@
     return url
   }
 
+  // Rewrite an absolute API URL to go through the nginx reverse proxy
+  function proxyUrl (url) {
+    // Strip the scheme + host, keep path and query string intact
+    return url.replace(/^https?:\/\/[^/]+/, PROXY_PREFIX)
+  }
+
   function buildHeaders (panel) {
     const headers = {}
     const token = getToken()
@@ -353,7 +360,7 @@
 
     const endpoint = panel.closest('.openapi-endpoint')
     const method = (endpoint.dataset.method || 'get').toUpperCase()
-    const url = buildRequestUrl(panel, spec, operationId)
+    const url = proxyUrl(buildRequestUrl(panel, spec, operationId))
     const headers = buildHeaders(panel)
 
     const bodyTextarea = panel.querySelector('.openapi-tryit-body')
