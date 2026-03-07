@@ -1245,92 +1245,104 @@ select.openapi-tryit-param-select {
   to { transform: rotate(360deg); }
 }
 
-/* ─── Copy snippet split button ──────────────────────────────────────────── */
+/* ─── Code Snippet Preview ───────────────────────────────────────────────── */
 
-.openapi-tryit-copy-group {
-  display: inline-flex;
-  position: relative;
+.openapi-tryit-snippet {
+  border: 1px solid var(--oa-dark-border);
+  border-radius: var(--radius);
+  margin: 0 16px 16px;
+  overflow: hidden;
 }
 
-.openapi-tryit-copy-btn {
+.openapi-tryit-snippet-bar {
   align-items: center;
-  background: #fff;
-  border: 1px solid var(--aluminum-4);
-  border-radius: var(--radius) 0 0 var(--radius);
-  color: var(--steel-2);
+  background: #252538;
+  display: flex;
+  gap: var(--xs);
+  justify-content: space-between;
+  padding: 0 8px;
+}
+
+.openapi-tryit-snippet-tabs {
+  display: flex;
+  gap: 2px;
+  overflow-x: auto;
+  scrollbar-width: none;
+
+  &::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+.openapi-tryit-snippet-tab {
+  background: none;
+  border: none;
+  border-bottom: 2px solid transparent;
+  color: var(--oa-dark-text);
   cursor: pointer;
-  display: inline-flex;
-  font-size: 13px;
+  font-size: 12px;
   font-weight: var(--weight-medium);
-  gap: 5px;
-  padding: 9px 14px;
-  transition: background var(--transition-speed-sm), color var(--transition-speed-sm),
-    border-color var(--transition-speed-sm);
+  opacity: 0.6;
+  padding: 8px 10px;
+  transition: opacity var(--transition-speed-sm), border-color var(--transition-speed-sm);
+  white-space: nowrap;
 
   &:hover {
-    background: var(--aluminum-2);
-    border-color: var(--steel-1);
-    color: var(--steel-3);
+    opacity: 0.85;
+  }
+
+  &.is-active {
+    border-bottom-color: var(--color-ms-blue);
+    opacity: 1;
+  }
+}
+
+.openapi-tryit-snippet-copy {
+  align-items: center;
+  background: none;
+  border: 1px solid rgb(255 255 255 / 15%);
+  border-radius: var(--radius);
+  color: var(--oa-dark-text);
+  cursor: pointer;
+  display: inline-flex;
+  flex-shrink: 0;
+  font-size: 11px;
+  gap: 4px;
+  opacity: 0.7;
+  padding: 3px 8px;
+  transition: opacity var(--transition-speed-sm), background var(--transition-speed-sm);
+
+  &:hover {
+    background: rgb(255 255 255 / 8%);
+    opacity: 1;
   }
 
   &.is-copied {
     background: var(--oa-color-success);
     border-color: var(--oa-color-success);
-    color: #fff;
+    opacity: 1;
   }
 }
 
-.openapi-tryit-copy-icon {
-  flex-shrink: 0;
-}
-
-.openapi-tryit-copy-toggle {
-  align-items: center;
-  background: #fff;
-  border: 1px solid var(--aluminum-4);
-  border-left: none;
-  border-radius: 0 var(--radius) var(--radius) 0;
-  color: var(--steel-2);
-  cursor: pointer;
-  display: inline-flex;
-  padding: 9px 8px;
-  transition: background var(--transition-speed-sm), color var(--transition-speed-sm);
-
-  &:hover {
-    background: var(--aluminum-2);
-    color: var(--steel-3);
-  }
-}
-
-.openapi-tryit-copy-menu {
-  background: #fff;
-  border: 1px solid var(--aluminum-4);
-  border-radius: var(--radius);
-  bottom: 100%;
-  box-shadow: 0 4px 16px rgb(0 0 0 / 12%);
-  margin-bottom: 4px;
-  min-width: 140px;
-  overflow: hidden;
-  position: absolute;
-  right: 0;
-  z-index: 50;
-}
-
-.openapi-tryit-copy-option {
-  background: none;
-  border: none;
-  color: var(--steel-3);
-  cursor: pointer;
-  display: block;
+.openapi-tryit-snippet-code {
+  background: var(--oa-dark-bg);
+  color: var(--oa-dark-text);
   font-size: 13px;
-  padding: 8px 14px;
-  text-align: left;
-  width: 100%;
+  line-height: 1.5;
+  margin: 0;
+  max-height: 260px;
+  overflow: auto;
+  padding: 12px 16px;
+  white-space: pre-wrap;
+  word-break: break-all;
+}
 
-  &:hover {
-    background: var(--aluminum-2);
-    color: var(--font-color-heading);
-  }
+.openapi-snippet-placeholder {
+  background: rgb(255 180 50 / 18%);
+  border: 1px dashed rgb(255 180 50 / 50%);
+  border-radius: 3px;
+  color: #f0b050;
+  padding: 0 2px;
 }
 
 /* ─── Response ───────────────────────────────────────────────────────────── */
@@ -1434,14 +1446,6 @@ select.openapi-tryit-param-select {
     width: 100%;
   }
 
-  .openapi-tryit-copy-group {
-    width: 100%;
-  }
-
-  .openapi-tryit-copy-btn {
-    flex: 1;
-    justify-content: center;
-  }
 }
 
 @media (max-width: 576px) {

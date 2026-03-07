@@ -228,11 +228,21 @@
     return serverSelect ? serverSelect.value || '' : ''
   }
 
-  function updateUrlPreview (endpoint, spec, operationId) {
-    const urlEl = endpoint.querySelector('.openapi-tryit-url-path')
-    if (!urlEl) return
-    const url = buildRequestUrl(endpoint, spec, operationId)
-    urlEl.textContent = url
+  function escapeHtml (str) {
+    return str.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;')
+  }
+
+  function highlightPlaceholders (code) {
+    const escaped = escapeHtml(code)
+    return escaped.replace(/\{([a-zA-Z_][a-zA-Z0-9_]*)\}/g, '<span class="openapi-snippet-placeholder">{$1}</span>')
+  }
+
+  function updateSnippet (endpoint, spec, operationId) {
+    const codeEl = endpoint.querySelector('.openapi-tryit-snippet-code code')
+    if (!codeEl) return
+    const lang = endpoint.dataset.snippetLang || 'curl'
+    const r = getRequestParts(endpoint, spec, operationId)
+    codeEl.innerHTML = highlightPlaceholders(GENERATORS[lang](r))
   }
 
   function populatePanel (endpoint, spec, operationId) {
@@ -256,7 +266,7 @@
 
       // Update URL preview when params change
       input.addEventListener('input', function () {
-        updateUrlPreview(endpoint, spec, operationId)
+        updateSnippet(endpoint, spec, operationId)
       })
     }
 
@@ -301,7 +311,7 @@
     }
 
     // Initial URL preview
-    updateUrlPreview(endpoint, spec, operationId)
+    updateSnippet(endpoint, spec, operationId)
   }
 
   function generateSkeleton (schema, depth) {
@@ -658,15 +668,6 @@
     php: generatePhp,
   }
 
-  const LANG_LABELS = {
-    curl: 'cURL',
-    python: 'Python',
-    javascript: 'JavaScript',
-    java: 'Java',
-    go: 'Go',
-    php: 'PHP',
-  }
-
   function copyToClipboard (text) {
     if (navigator.clipboard) {
       navigator.clipboard.writeText(text)
@@ -685,16 +686,16 @@
   // ─── Example Copy Buttons ─────────────────────────────────────────────────
 
   function initExampleCopyButtons () {
-    var buttons = document.querySelectorAll('.openapi-example-copy')
-    for (var i = 0; i < buttons.length; i++) {
+    const buttons = document.querySelectorAll('.openapi-example-copy')
+    for (let i = 0; i < buttons.length; i++) {
       buttons[i].addEventListener('click', function (e) {
         e.preventDefault()
         e.stopPropagation()
-        var details = this.closest('.openapi-example-details')
-        var code = details && details.querySelector('pre code')
+        const details = this.closest('.openapi-example-details')
+        const code = details && details.querySelector('pre code')
         if (!code) return
         copyToClipboard(code.textContent)
-        var btn = this
+        const btn = this
         btn.textContent = 'Copied!'
         btn.classList.add('is-copied')
         setTimeout(function () {
@@ -760,11 +761,19 @@
 
         populatePanel(endpoint, spec, operationId)
 
-        // Update URL preview when server changes
+        // Update snippet when server changes
         const serverSelect = document.getElementById('openapi-sidebar-server-select')
         if (serverSelect) {
           serverSelect.addEventListener('change', function () {
-            updateUrlPreview(endpoint, spec, operationId)
+            updateSnippet(endpoint, spec, operationId)
+          })
+        }
+
+        // Update snippet when body changes
+        const bodyTextarea = endpoint.querySelector('.openapi-tryit-body')
+        if (bodyTextarea) {
+          bodyTextarea.addEventListener('input', function () {
+            updateSnippet(endpoint, spec, operationId)
           })
         }
 
@@ -773,52 +782,38 @@
           sendRequest(endpoint, spec, operationId)
         })
 
-        // Copy snippet group
-        const copyGroup = endpoint.querySelector('.openapi-tryit-copy-group')
-        const copyBtn = copyGroup.querySelector('.openapi-tryit-copy-btn')
-        const copyToggle = copyGroup.querySelector('.openapi-tryit-copy-toggle')
-        const copyMenu = copyGroup.querySelector('.openapi-tryit-copy-menu')
-        const copyLabel = copyGroup.querySelector('.openapi-tryit-copy-label')
-        let currentLang = 'curl'
-
-        function doCopy () {
-          const r = getRequestParts(endpoint, spec, operationId)
-          const snippet = GENERATORS[currentLang](r)
-          copyToClipboard(snippet)
-          const origText = copyLabel.textContent
-          copyLabel.textContent = 'Copied!'
-          copyBtn.classList.add('is-copied')
-          setTimeout(function () {
-            copyLabel.textContent = origText
-            copyBtn.classList.remove('is-copied')
-          }, 1500)
+        // Snippet language tabs
+        endpoint.dataset.snippetLang = 'curl'
+        const tabs = endpoint.querySelectorAll('.openapi-tryit-snippet-tab')
+        for (let t = 0; t < tabs.length; t++) {
+          tabs[t].addEventListener('click', function () {
+            for (let s = 0; s < tabs.length; s++) {
+              tabs[s].classList.remove('is-active')
+              tabs[s].setAttribute('aria-selected', 'false')
+            }
+            this.classList.add('is-active')
+            this.setAttribute('aria-selected', 'true')
+            endpoint.dataset.snippetLang = this.dataset.lang
+            updateSnippet(endpoint, spec, operationId)
+          })
         }
 
-        copyBtn.addEventListener('click', doCopy)
-
-        copyToggle.addEventListener('click', function () {
-          const open = copyMenu.style.display !== 'none'
-          copyMenu.style.display = open ? 'none' : ''
-          copyToggle.setAttribute('aria-expanded', String(!open))
-        })
-
-        copyMenu.addEventListener('click', function (e) {
-          const option = e.target.closest('.openapi-tryit-copy-option')
-          if (!option) return
-          currentLang = option.dataset.lang
-          copyLabel.textContent = LANG_LABELS[currentLang]
-          copyMenu.style.display = 'none'
-          copyToggle.setAttribute('aria-expanded', 'false')
-          doCopy()
-        })
-
-        // Close menu on outside click
-        document.addEventListener('click', function (e) {
-          if (!copyGroup.contains(e.target)) {
-            copyMenu.style.display = 'none'
-            copyToggle.setAttribute('aria-expanded', 'false')
-          }
-        })
+        // Copy snippet button
+        const snippetCopyBtn = endpoint.querySelector('.openapi-tryit-snippet-copy')
+        if (snippetCopyBtn) {
+          snippetCopyBtn.addEventListener('click', function () {
+            const codeEl = endpoint.querySelector('.openapi-tryit-snippet-code code')
+            if (!codeEl) return
+            copyToClipboard(codeEl.textContent)
+            const label = snippetCopyBtn.querySelector('.openapi-tryit-snippet-copy-label')
+            label.textContent = 'Copied!'
+            snippetCopyBtn.classList.add('is-copied')
+            setTimeout(function () {
+              label.textContent = 'Copy'
+              snippetCopyBtn.classList.remove('is-copied')
+            }, 1500)
+          })
+        }
       })(endpoints[i])
     }
   }
