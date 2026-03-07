@@ -5,19 +5,72 @@ info:
   version: '1.0'
 servers:
 - url: https://anypoint.mulesoft.com/accounts/api
+tags:
+- name: Authorization
+  description: Authorize actions on resources.
+- name: Clients
+  description: Manage OAuth clients and their role assignments.
+- name: Client Providers
+  description: Manage client management providers and their clients.
+- name: Connected Applications
+  description: Manage connected applications, scopes, authorizations, and settings.
+- name: Environments
+  description: Manage environments within organizations.
+- name: Entitlements
+  description: Manage organization entitlements.
+- name: Feature Flags
+  description: Manage feature flags for organizations.
+- name: Identity Providers
+  description: Manage identity providers, SAML, LDAP, and provider settings.
+- name: Invites
+  description: Invite users to join organizations.
+- name: Members
+  description: Manage organization membership.
+- name: OAuth 2.0
+  description: OAuth 2.0 authorization, token, and OpenID Connect endpoints.
+- name: Organizations
+  description: Manage organizations, hierarchy, ownership, and SMTP settings.
+- name: Profile
+  description: Retrieve information about the current user.
+- name: Role Groups
+  description: Manage role groups and their role and user assignments.
+- name: Roles
+  description: Query roles, permissions, and search by role assignments.
+- name: Session
+  description: Manage user sessions and authentication.
+- name: Signup
+  description: User registration and username availability.
+- name: Teams
+  description: Manage teams, members, roles, and group mappings.
+- name: Tenant Relationships
+  description: Manage tenant relationships between organizations.
+- name: Users
+  description: Manage users, properties, roles, and verifiers.
+- name: Account Recovery
+  description: Password and username recovery.
+- name: Einstein
+  description: Manage Einstein AI settings and terms.
+- name: Notifications
+  description: Send platform notifications.
+- name: System
+  description: Application health, version, subscriptions, and support.
+- name: Deleted Resources
+  description: Query deleted organizations and environments.
 paths:
   /authorize:
     post:
       summary: Authorize multiple resources
       description: Authorize for many resources
+      tags:
+      - Authorization
       requestBody:
         content:
           application/json:
             example:
               resources:
-                - namespace: org
-                  action: read
-                  resource: "/organizations/a1b2c3d4-e5f6-7890-abcd-ef1234567890"
+              - namespace: org
+                action: read
+                resource: /organizations/a1b2c3d4-e5f6-7890-abcd-ef1234567890
       responses:
         '200':
           description: '200'
@@ -42,10 +95,11 @@ paths:
               description: The time at which the current rate limit window resets in UTC epoch seconds.
               schema:
                 type: number
-
     get:
       summary: Authorize single resource
       description: Authorize for a single resource
+      tags:
+      - Authorization
       parameters:
       - name: namespace
         in: query
@@ -86,10 +140,11 @@ paths:
               description: The time at which the current rate limit window resets in UTC epoch seconds.
               schema:
                 type: number
-
   /authorize/client:
     get:
       summary: Authorize client
+      tags:
+      - Authorization
       parameters:
       - name: client_id
         in: query
@@ -140,24 +195,26 @@ paths:
               description: The time at which the current rate limit window resets in UTC epoch seconds.
               schema:
                 type: number
-
   /authorize/context:
     post:
       summary: Authorize by context
       description: Get the set of contexts in which the caller can perform an action on resources that match a template
+      tags:
+      - Authorization
       requestBody:
         content:
           application/json:
             example:
               namespace: org
               action: read
-              resource_template: "/organizations/{orgId}"
-
+              resource_template: /organizations/{orgId}
   /clients:
     x-amf-description: Access to clients
     post:
       summary: Create client
       description: Create a new client
+      tags:
+      - Clients
       requestBody:
         content:
           application/json:
@@ -165,30 +222,30 @@ paths:
               name: My API Client
               description: Production client for API access
               redirect_uris:
-                - https://example.com/callback
+              - https://example.com/callback
               grant_types:
-                - authorization_code
+              - authorization_code
               scopes:
-                - read
-                - write
+              - read
+              - write
       responses:
         '200':
           description: '200'
           content:
             application/json:
               example:
-                id: "a1b2c3d4-e5f6-7890-abcd-ef1234567890"
+                id: a1b2c3d4-e5f6-7890-abcd-ef1234567890
                 name: My API Client
                 description: Production client for API access
                 client_id: a1b2c3d4e5f67890abcdef1234567890
-                client_secret: "********"
+                client_secret: '********'
                 redirect_uris:
-                  - https://example.com/callback
+                - https://example.com/callback
                 grant_types:
-                  - authorization_code
+                - authorization_code
                 scopes:
-                  - read
-                  - write
+                - read
+                - write
         '429':
           description: Too many requests
           headers:
@@ -204,10 +261,11 @@ paths:
               description: The time at which the current rate limit window resets in UTC epoch seconds.
               schema:
                 type: number
-
     get:
       summary: List clients
       description: Get all clients
+      tags:
+      - Clients
       responses:
         '200':
           description: '200'
@@ -215,12 +273,12 @@ paths:
             application/json:
               example:
                 data:
-                  - id: "a1b2c3d4-e5f6-7890-abcd-ef1234567890"
-                    name: My API Client
-                    client_id: a1b2c3d4e5f67890abcdef1234567890
-                  - id: "b2c3d4e5-f6a7-8901-bcde-f12345678901"
-                    name: Analytics Service
-                    client_id: b2c3d4e5f6a78901bcdef12345678901
+                - id: a1b2c3d4-e5f6-7890-abcd-ef1234567890
+                  name: My API Client
+                  client_id: a1b2c3d4e5f67890abcdef1234567890
+                - id: b2c3d4e5-f6a7-8901-bcde-f12345678901
+                  name: Analytics Service
+                  client_id: b2c3d4e5f6a78901bcdef12345678901
                 total: 2
         '429':
           description: Too many requests
@@ -237,12 +295,13 @@ paths:
               description: The time at which the current rate limit window resets in UTC epoch seconds.
               schema:
                 type: number
-
   /clients/{clientId}:
     x-amf-description: Access to a client
     delete:
       summary: Delete client
       description: Deletes a single client
+      tags:
+      - Clients
       parameters:
       - name: clientId
         in: path
@@ -273,10 +332,11 @@ paths:
               description: The time at which the current rate limit window resets in UTC epoch seconds.
               schema:
                 type: number
-
     patch:
       summary: Update client
       description: Patches a single client
+      tags:
+      - Clients
       parameters:
       - name: clientId
         in: path
@@ -317,10 +377,11 @@ paths:
               description: The time at which the current rate limit window resets in UTC epoch seconds.
               schema:
                 type: number
-
     get:
       summary: Get client
       description: Get a single client
+      tags:
+      - Clients
       parameters:
       - name: clientId
         in: path
@@ -333,18 +394,18 @@ paths:
           content:
             application/json:
               example:
-                id: "a1b2c3d4-e5f6-7890-abcd-ef1234567890"
+                id: a1b2c3d4-e5f6-7890-abcd-ef1234567890
                 name: My API Client
                 description: Production client for API access
                 client_id: a1b2c3d4e5f67890abcdef1234567890
-                client_secret: "********"
+                client_secret: '********'
                 redirect_uris:
-                  - https://example.com/callback
+                - https://example.com/callback
                 grant_types:
-                  - authorization_code
+                - authorization_code
                 scopes:
-                  - read
-                  - write
+                - read
+                - write
         '429':
           description: Too many requests
           headers:
@@ -360,12 +421,13 @@ paths:
               description: The time at which the current rate limit window resets in UTC epoch seconds.
               schema:
                 type: number
-
   /clients/{clientId}/roles:
     x-amf-description: Access to a client's roles
     delete:
       summary: Unassign roles from client
       description: Unassign a list of roles from a client
+      tags:
+      - Clients
       parameters:
       - name: clientId
         in: path
@@ -377,8 +439,8 @@ paths:
           application/json:
             example:
               role_ids:
-                - "a1b2c3d4-e5f6-7890-abcd-ef1234567890"
-                - "b2c3d4e5-f6a7-8901-bcde-f12345678901"
+              - a1b2c3d4-e5f6-7890-abcd-ef1234567890
+              - b2c3d4e5-f6a7-8901-bcde-f12345678901
       responses:
         '200':
           description: '200'
@@ -399,10 +461,11 @@ paths:
               description: The time at which the current rate limit window resets in UTC epoch seconds.
               schema:
                 type: number
-
     post:
       summary: Assign roles to client
       description: Assign a list of roles to a client
+      tags:
+      - Clients
       parameters:
       - name: clientId
         in: path
@@ -414,8 +477,8 @@ paths:
           application/json:
             example:
               role_ids:
-                - "a1b2c3d4-e5f6-7890-abcd-ef1234567890"
-                - "b2c3d4e5-f6a7-8901-bcde-f12345678901"
+              - a1b2c3d4-e5f6-7890-abcd-ef1234567890
+              - b2c3d4e5-f6a7-8901-bcde-f12345678901
       responses:
         '200':
           description: '200'
@@ -436,10 +499,11 @@ paths:
               description: The time at which the current rate limit window resets in UTC epoch seconds.
               schema:
                 type: number
-
     get:
       summary: List client roles
       description: Return a list of roles that are assigned to a client
+      tags:
+      - Clients
       parameters:
       - name: clientId
         in: path
@@ -453,12 +517,12 @@ paths:
             application/json:
               example:
                 data:
-                  - role_id: "a1b2c3d4-e5f6-7890-abcd-ef1234567890"
-                    name: Organization Administrator
-                    description: Full access to the organization
-                  - role_id: "b2c3d4e5-f6a7-8901-bcde-f12345678901"
-                    name: API Creator
-                    description: Can create and manage APIs
+                - role_id: a1b2c3d4-e5f6-7890-abcd-ef1234567890
+                  name: Organization Administrator
+                  description: Full access to the organization
+                - role_id: b2c3d4e5-f6a7-8901-bcde-f12345678901
+                  name: API Creator
+                  description: Can create and manage APIs
         '400':
           description: '400'
         '429':
@@ -476,11 +540,12 @@ paths:
               description: The time at which the current rate limit window resets in UTC epoch seconds.
               schema:
                 type: number
-
   /clients/{clientId}/roles/{roleId}:
     delete:
       summary: Unassign role from client
       description: Unassign a role from a client
+      tags:
+      - Clients
       parameters:
       - name: clientId
         in: path
@@ -512,10 +577,11 @@ paths:
               description: The time at which the current rate limit window resets in UTC epoch seconds.
               schema:
                 type: number
-
     post:
       summary: Assign role to client
       description: Assign a role to a client
+      tags:
+      - Clients
       parameters:
       - name: clientId
         in: path
@@ -531,7 +597,7 @@ paths:
         content:
           application/json:
             example:
-              role_id: "a1b2c3d4-e5f6-7890-abcd-ef1234567890"
+              role_id: a1b2c3d4-e5f6-7890-abcd-ef1234567890
       responses:
         '200':
           description: '200'
@@ -552,10 +618,11 @@ paths:
               description: The time at which the current rate limit window resets in UTC epoch seconds.
               schema:
                 type: number
-
     get:
       summary: Get client role
       description: Return a role is assigned to a client
+      tags:
+      - Clients
       parameters:
       - name: clientId
         in: path
@@ -573,7 +640,7 @@ paths:
           content:
             application/json:
               example:
-                role_id: "a1b2c3d4-e5f6-7890-abcd-ef1234567890"
+                role_id: a1b2c3d4-e5f6-7890-abcd-ef1234567890
                 name: Organization Administrator
                 description: Full access to the organization
         '400':
@@ -593,16 +660,17 @@ paths:
               description: The time at which the current rate limit window resets in UTC epoch seconds.
               schema:
                 type: number
-
   /clients/search:
     post:
       summary: Search clients
       description: Search clients
+      tags:
+      - Clients
       requestBody:
         content:
           application/json:
             example:
-              query: "API Client"
+              query: API Client
               limit: 25
               offset: 0
       responses:
@@ -612,9 +680,9 @@ paths:
             application/json:
               example:
                 data:
-                  - id: "a1b2c3d4-e5f6-7890-abcd-ef1234567890"
-                    name: My API Client
-                    client_id: a1b2c3d4e5f67890abcdef1234567890
+                - id: a1b2c3d4-e5f6-7890-abcd-ef1234567890
+                  name: My API Client
+                  client_id: a1b2c3d4e5f67890abcdef1234567890
                 total: 1
         '429':
           description: Too many requests
@@ -631,22 +699,23 @@ paths:
               description: The time at which the current rate limit window resets in UTC epoch seconds.
               schema:
                 type: number
-
   /connectedApplications:
     x-amf-description: Access to connected applications
     post:
       summary: Create connected application
       description: Create a new connected application
+      tags:
+      - Connected Applications
       requestBody:
         content:
           application/json:
             example:
               client_name: My Connected App
               grant_types:
-                - client_credentials
+              - client_credentials
               redirect_uris: []
               scopes:
-                - read:full
+              - read:full
               enabled: true
       responses:
         '200':
@@ -656,12 +725,12 @@ paths:
               example:
                 client_id: a1b2c3d4e5f67890abcdef1234567890
                 client_name: My Connected App
-                owner_org_id: "a1b2c3d4-e5f6-7890-abcd-ef1234567890"
+                owner_org_id: a1b2c3d4-e5f6-7890-abcd-ef1234567890
                 grant_types:
-                  - client_credentials
+                - client_credentials
                 redirect_uris: []
                 scopes:
-                  - read:full
+                - read:full
                 enabled: true
         '429':
           description: Too many requests
@@ -678,10 +747,11 @@ paths:
               description: The time at which the current rate limit window resets in UTC epoch seconds.
               schema:
                 type: number
-
     get:
       summary: List connected applications
       description: Get all connected applications for the organization
+      tags:
+      - Connected Applications
       parameters:
       - name: includeUsage
         in: query
@@ -708,10 +778,10 @@ paths:
             application/json:
               example:
                 data:
-                  - client_id: a1b2c3d4e5f67890abcdef1234567890
-                    client_name: My Connected App
-                    owner_org_id: "a1b2c3d4-e5f6-7890-abcd-ef1234567890"
-                    enabled: true
+                - client_id: a1b2c3d4e5f67890abcdef1234567890
+                  client_name: My Connected App
+                  owner_org_id: a1b2c3d4-e5f6-7890-abcd-ef1234567890
+                  enabled: true
                 total: 1
                 offset: 0
                 limit: 25
@@ -730,12 +800,13 @@ paths:
               description: The time at which the current rate limit window resets in UTC epoch seconds.
               schema:
                 type: number
-
   /connectedApplications/{clientId}:
     x-amf-description: Access to individual connected application
     delete:
       summary: Delete connected application
       description: Deletes a single connected application
+      tags:
+      - Connected Applications
       parameters:
       - name: clientId
         in: path
@@ -760,10 +831,11 @@ paths:
               description: The time at which the current rate limit window resets in UTC epoch seconds.
               schema:
                 type: number
-
     patch:
       summary: Update connected application
       description: Patches a single connected application
+      tags:
+      - Connected Applications
       parameters:
       - name: clientId
         in: path
@@ -790,7 +862,7 @@ paths:
               example:
                 client_id: a1b2c3d4e5f67890abcdef1234567890
                 client_name: Updated Connected App
-                owner_org_id: "a1b2c3d4-e5f6-7890-abcd-ef1234567890"
+                owner_org_id: a1b2c3d4-e5f6-7890-abcd-ef1234567890
                 enabled: false
         '404':
           description: Connected application with that clientId could not be found
@@ -809,10 +881,11 @@ paths:
               description: The time at which the current rate limit window resets in UTC epoch seconds.
               schema:
                 type: number
-
     get:
       summary: Get connected application
       description: Get a single connected application
+      tags:
+      - Connected Applications
       parameters:
       - name: clientId
         in: path
@@ -834,12 +907,12 @@ paths:
               example:
                 client_id: a1b2c3d4e5f67890abcdef1234567890
                 client_name: My Connected App
-                owner_org_id: "a1b2c3d4-e5f6-7890-abcd-ef1234567890"
+                owner_org_id: a1b2c3d4-e5f6-7890-abcd-ef1234567890
                 grant_types:
-                  - client_credentials
+                - client_credentials
                 redirect_uris: []
                 scopes:
-                  - read:full
+                - read:full
                 enabled: true
         '404':
           description: Connected application with that clientId could not be found
@@ -858,7 +931,6 @@ paths:
               description: The time at which the current rate limit window resets in UTC epoch seconds.
               schema:
                 type: number
-
   /connectedApplications/{clientId}/scopes:
     x-amf-description: 'Routes for operationg upon context-aware scopes assigned directly to the client''s identity,
 
@@ -870,6 +942,8 @@ paths:
       description: 'Unassigns context-aware scopes from the connected application.
 
         Scopes must exactly match in order to be removed.'
+      tags:
+      - Connected Applications
       parameters:
       - name: clientId
         in: path
@@ -881,8 +955,8 @@ paths:
           application/json:
             example:
               scopes:
-                - read:full
-                - write:full
+              - read:full
+              - write:full
       responses:
         '204':
           description: Connected application scopes were successfully unassigned
@@ -901,7 +975,6 @@ paths:
               description: The time at which the current rate limit window resets in UTC epoch seconds.
               schema:
                 type: number
-
     patch:
       summary: Update connected application scopes
       description: 'Assigns additional context-aware scopes to the connected application.
@@ -909,6 +982,8 @@ paths:
         Does not unassign any existing scopes.
 
         Duplicate entries are ignored.'
+      tags:
+      - Connected Applications
       parameters:
       - name: clientId
         in: path
@@ -920,8 +995,8 @@ paths:
           application/json:
             example:
               scopes:
-                - read:full
-                - write:full
+              - read:full
+              - write:full
       responses:
         '204':
           description: Connected application scopes were successfully assigned
@@ -940,10 +1015,11 @@ paths:
               description: The time at which the current rate limit window resets in UTC epoch seconds.
               schema:
                 type: number
-
     put:
       summary: Replace connected application scopes
       description: Replaces the entire list of context-aware scopes assigned to the connected application
+      tags:
+      - Connected Applications
       parameters:
       - name: clientId
         in: path
@@ -955,8 +1031,8 @@ paths:
           application/json:
             example:
               scopes:
-                - read:full
-                - write:full
+              - read:full
+              - write:full
       responses:
         '204':
           description: Connected application scopes were successfully replaced
@@ -975,10 +1051,11 @@ paths:
               description: The time at which the current rate limit window resets in UTC epoch seconds.
               schema:
                 type: number
-
     get:
       summary: List connected application scopes
       description: Retrieves context-aware scopes assigned to the connected application
+      tags:
+      - Connected Applications
       parameters:
       - name: clientId
         in: path
@@ -992,8 +1069,8 @@ paths:
             application/json:
               example:
                 scopes:
-                  - read:full
-                  - write:full
+                - read:full
+                - write:full
         '429':
           description: Too many requests
           headers:
@@ -1009,11 +1086,12 @@ paths:
               description: The time at which the current rate limit window resets in UTC epoch seconds.
               schema:
                 type: number
-
   /connectedApplications/{clientId}/revoke:
     delete:
       summary: Revoke connected application tokens
       description: Revoke all access tokens and refresh tokens issued to the connected application
+      tags:
+      - Connected Applications
       parameters:
       - name: clientId
         in: path
@@ -1038,13 +1116,14 @@ paths:
               description: The time at which the current rate limit window resets in UTC epoch seconds.
               schema:
                 type: number
-
   /deletedResources:
     x-amf-description: find deleted resources
   /deletedResources/organizations:
     get:
       summary: List deleted organizations
       description: returns the deleted organizations
+      tags:
+      - Deleted Resources
       parameters:
       - name: deletedBefore
         in: query
@@ -1079,9 +1158,9 @@ paths:
             application/json:
               example:
                 data:
-                  - id: "a1b2c3d4-e5f6-7890-abcd-ef1234567890"
-                    name: Deleted Organization
-                    deleted_at: "2024-06-20T14:15:00Z"
+                - id: a1b2c3d4-e5f6-7890-abcd-ef1234567890
+                  name: Deleted Organization
+                  deleted_at: '2024-06-20T14:15:00Z'
                 total: 1
         '429':
           description: Too many requests
@@ -1098,11 +1177,12 @@ paths:
               description: The time at which the current rate limit window resets in UTC epoch seconds.
               schema:
                 type: number
-
   /deletedResources/environments:
     get:
       summary: List deleted environments
       description: returns the deleted environments
+      tags:
+      - Deleted Resources
       parameters:
       - name: deletedBefore
         in: query
@@ -1137,10 +1217,10 @@ paths:
             application/json:
               example:
                 data:
-                  - id: "a1b2c3d4-e5f6-7890-abcd-ef1234567890"
-                    name: Deleted Environment
-                    organization_id: "b2c3d4e5-f6a7-8901-bcde-f12345678901"
-                    deleted_at: "2024-06-20T14:15:00Z"
+                - id: a1b2c3d4-e5f6-7890-abcd-ef1234567890
+                  name: Deleted Environment
+                  organization_id: b2c3d4e5-f6a7-8901-bcde-f12345678901
+                  deleted_at: '2024-06-20T14:15:00Z'
                 total: 1
         '429':
           description: Too many requests
@@ -1157,7 +1237,6 @@ paths:
               description: The time at which the current rate limit window resets in UTC epoch seconds.
               schema:
                 type: number
-
   /environments:
     x-amf-description: Environments resource
   /environments/{environmentId}:
@@ -1166,6 +1245,8 @@ paths:
       summary: Update environment
       description: Update an environment, implemented as a patch. Note that only the name is allowed to be updated, isProduction
         and type can not.
+      tags:
+      - Environments
       parameters:
       - name: environmentId
         in: path
@@ -1186,9 +1267,9 @@ paths:
           content:
             application/json:
               example:
-                id: "a1b2c3d4-e5f6-7890-abcd-ef1234567890"
+                id: a1b2c3d4-e5f6-7890-abcd-ef1234567890
                 name: Production
-                organizationId: "b2c3d4e5-f6a7-8901-bcde-f12345678901"
+                organizationId: b2c3d4e5-f6a7-8901-bcde-f12345678901
                 type: production
                 isProduction: true
                 clientId: client-a1b2c3d4
@@ -1209,10 +1290,11 @@ paths:
               description: The time at which the current rate limit window resets in UTC epoch seconds.
               schema:
                 type: number
-
     get:
       summary: Get environment
       description: Retrieves an environment by id
+      tags:
+      - Environments
       parameters:
       - name: environmentId
         in: path
@@ -1226,9 +1308,9 @@ paths:
           content:
             application/json:
               example:
-                id: "a1b2c3d4-e5f6-7890-abcd-ef1234567890"
+                id: a1b2c3d4-e5f6-7890-abcd-ef1234567890
                 name: Production
-                organizationId: "b2c3d4e5-f6a7-8901-bcde-f12345678901"
+                organizationId: b2c3d4e5-f6a7-8901-bcde-f12345678901
                 type: production
                 isProduction: true
                 clientId: client-a1b2c3d4
@@ -1249,11 +1331,12 @@ paths:
               description: The time at which the current rate limit window resets in UTC epoch seconds.
               schema:
                 type: number
-
   /featureFlags/{featureFlagName}/check:
     post:
       summary: Check feature flag for organizations
       description: check a feature for a list or organizations
+      tags:
+      - Feature Flags
       parameters:
       - name: featureFlagName
         in: path
@@ -1265,7 +1348,7 @@ paths:
           application/json:
             example:
               org_ids:
-                - "a1b2c3d4-e5f6-7890-abcd-ef1234567890"
+              - a1b2c3d4-e5f6-7890-abcd-ef1234567890
       responses:
         '429':
           description: Too many requests
@@ -1282,11 +1365,12 @@ paths:
               description: The time at which the current rate limit window resets in UTC epoch seconds.
               schema:
                 type: number
-
   /featureFlags/{featureFlagName}/enabled:
     get:
       summary: List enabled feature flags
       description: get all enabled featureFlags includes organizations and additional context
+      tags:
+      - Feature Flags
       parameters:
       - name: featureFlagName
         in: path
@@ -1309,18 +1393,19 @@ paths:
               description: The time at which the current rate limit window resets in UTC epoch seconds.
               schema:
                 type: number
-
   /invites:
     x-amf-description: Invite people to join the organization
     delete:
       summary: Delete invites
       description: Invite a person to join your organization
+      tags:
+      - Invites
       requestBody:
         content:
           application/json:
             example:
               invite_ids:
-                - "a1b2c3d4-e5f6-7890-abcd-ef1234567890"
+              - a1b2c3d4-e5f6-7890-abcd-ef1234567890
       responses:
         '204':
           description: Success
@@ -1341,27 +1426,28 @@ paths:
               description: The time at which the current rate limit window resets in UTC epoch seconds.
               schema:
                 type: number
-
     post:
       summary: Create invite
       description: Invite a person to join the organization
+      tags:
+      - Invites
       requestBody:
         content:
           application/json:
             example:
               email: jane.doe@example.com
               role_group_ids:
-                - "a1b2c3d4-e5f6-7890-abcd-ef1234567890"
+              - a1b2c3d4-e5f6-7890-abcd-ef1234567890
       responses:
         '200':
           description: Success
           content:
             application/json:
               example:
-                id: "a1b2c3d4-e5f6-7890-abcd-ef1234567890"
+                id: a1b2c3d4-e5f6-7890-abcd-ef1234567890
                 email: jane.doe@example.com
                 status: pending
-                created_at: "2024-01-15T10:30:00Z"
+                created_at: '2024-01-15T10:30:00Z'
         '400':
           description: Bad request; unknown organization, bad parameter or other failure
         '429':
@@ -1379,10 +1465,11 @@ paths:
               description: The time at which the current rate limit window resets in UTC epoch seconds.
               schema:
                 type: number
-
     get:
       summary: List invites
       description: get outstanding or expired invites that match the criteria
+      tags:
+      - Invites
       parameters:
       - name: orgId
         in: query
@@ -1408,12 +1495,13 @@ paths:
               description: The time at which the current rate limit window resets in UTC epoch seconds.
               schema:
                 type: number
-
   /invites/{inviteId}:
     x-amf-description: Invite resource
     get:
       summary: Get invite
       description: get an invite
+      tags:
+      - Invites
       parameters:
       - name: inviteId
         in: path
@@ -1427,12 +1515,12 @@ paths:
           content:
             application/json:
               example:
-                id: "a1b2c3d4-e5f6-7890-abcd-ef1234567890"
+                id: a1b2c3d4-e5f6-7890-abcd-ef1234567890
                 email: jane.doe@example.com
                 status: pending
-                created_at: "2024-01-15T10:30:00Z"
+                created_at: '2024-01-15T10:30:00Z'
                 role_group_ids:
-                  - "b2c3d4e5-f6a7-8901-bcde-f12345678901"
+                - b2c3d4e5-f6a7-8901-bcde-f12345678901
         '400':
           description: Bad request; bad parameter or other failure
         '404':
@@ -1452,11 +1540,12 @@ paths:
               description: The time at which the current rate limit window resets in UTC epoch seconds.
               schema:
                 type: number
-
   /invites/accept:
     get:
       summary: Accept invite
       description: Redirect to anypoint signin to accept an invite
+      tags:
+      - Invites
       responses:
         '429':
           description: Too many requests
@@ -1473,18 +1562,19 @@ paths:
               description: The time at which the current rate limit window resets in UTC epoch seconds.
               schema:
                 type: number
-
   /invites/resend:
     x-amf-description: Resend invites
     post:
       summary: Resend invites
       description: Resend a list of invites
+      tags:
+      - Invites
       requestBody:
         content:
           application/json:
             example:
               invite_ids:
-                - "a1b2c3d4-e5f6-7890-abcd-ef1234567890"
+              - a1b2c3d4-e5f6-7890-abcd-ef1234567890
       responses:
         '200':
           description: Success
@@ -1509,18 +1599,19 @@ paths:
               description: The time at which the current rate limit window resets in UTC epoch seconds.
               schema:
                 type: number
-
   /login:
     x-amf-description: login to the Anypoint Platform
     post:
       summary: Log in
       description: login to the Anypoint Platform
+      tags:
+      - Session
       requestBody:
         content:
           application/json:
             example:
               username: jane.doe@example.com
-              password: "********"
+              password: '********'
       responses:
         '200':
           description: Returns the bearer token for the user's session
@@ -1558,12 +1649,13 @@ paths:
               description: The time at which the current rate limit window resets in UTC epoch seconds.
               schema:
                 type: number
-
   /logout:
     x-amf-description: logout of the Anypoint Platform
     get:
       summary: Log out
       description: destroy the user's session and logout from the Anypoint Platform
+      tags:
+      - Session
       responses:
         '200':
           description: Success; logout was called via ajax so no redirect
@@ -1584,26 +1676,27 @@ paths:
               description: The time at which the current rate limit window resets in UTC epoch seconds.
               schema:
                 type: number
-
   /me:
     x-amf-description: all about the caller
     get:
       summary: Get current user
       description: Retrieve information about the caller
+      tags:
+      - Profile
       responses:
         '200':
           description: Success
           content:
             application/json:
               example:
-                id: "a1b2c3d4-e5f6-7890-abcd-ef1234567890"
+                id: a1b2c3d4-e5f6-7890-abcd-ef1234567890
                 username: jane.doe
                 firstName: Jane
                 lastName: Doe
                 email: jane.doe@example.com
-                organizationId: "b2c3d4e5-f6a7-8901-bcde-f12345678901"
-                created_at: "2024-01-15T10:30:00Z"
-                updated_at: "2024-06-20T14:15:00Z"
+                organizationId: b2c3d4e5-f6a7-8901-bcde-f12345678901
+                created_at: '2024-01-15T10:30:00Z'
+                updated_at: '2024-06-20T14:15:00Z'
                 enabled: true
         '400':
           description: An unknown error occurred
@@ -1622,12 +1715,13 @@ paths:
               description: The time at which the current rate limit window resets in UTC epoch seconds.
               schema:
                 type: number
-
   /notifications:
     x-amf-description: Make Anypoint Platform activity known to subscribers; think webhooks.
     post:
       summary: Send notification
       description: Send
+      tags:
+      - Notifications
       requestBody:
         content:
           application/json:
@@ -1635,7 +1729,7 @@ paths:
               subject: Account update notification
               message: Your organization settings have been updated.
               recipients:
-                - jane.doe@example.com
+              - jane.doe@example.com
       responses:
         '200':
           description: Success
@@ -1660,7 +1754,6 @@ paths:
               description: The time at which the current rate limit window resets in UTC epoch seconds.
               schema:
                 type: number
-
   /oauth2:
     x-amf-description: oauth 2 routes
   /oauth2/authorize:
@@ -1668,6 +1761,8 @@ paths:
     get:
       summary: Start OAuth2 authorization
       description: OAuth2 authorization route to have the user authorize an application defined in our system
+      tags:
+      - OAuth 2.0
       parameters:
       - name: redirect_uri
         in: query
@@ -1717,13 +1812,14 @@ paths:
               description: The time at which the current rate limit window resets in UTC epoch seconds.
               schema:
                 type: number
-
   /oauth2/authorize/{domain}:
     x-amf-description: OAuth2 authorization route for federated or non-federated users
     get:
       summary: Start OAuth2 authorization by domain
       description: OAuth2 authorization route that will route federated users to their authentication system and non-federated
         users to ours
+      tags:
+      - OAuth 2.0
       parameters:
       - name: domain
         in: path
@@ -1785,6 +1881,8 @@ paths:
     get:
       summary: Start OAuth2 authorization by provider
       description: OAuth2 authorization route that will route federated users to their authentication system
+      tags:
+      - OAuth 2.0
       parameters:
       - name: domain
         in: path
@@ -1837,6 +1935,8 @@ paths:
     post:
       summary: Submit OAuth2 consent decision
       description: Confirms whether a user grants consent to add his user to an external organization
+      tags:
+      - OAuth 2.0
       parameters:
       - name: domain
         in: path
@@ -1848,7 +1948,6 @@ paths:
       responses:
         '302':
           description: Redirects the user to domain authorization flow
-
   /oauth2/introspect:
     x-amf-description: Look up caller information from an access token
     post:
@@ -1856,6 +1955,8 @@ paths:
       description: 'Look up caller information from an access token
 
         This implements RFC-7662: OAuth 2.0 Token Introspection'
+      tags:
+      - OAuth 2.0
       requestBody:
         content:
           application/json:
@@ -1893,19 +1994,20 @@ paths:
               description: The time at which the current rate limit window resets in UTC epoch seconds.
               schema:
                 type: number
-
   /oauth2/token:
     x-amf-description: OAuth2 token resource
     post:
       summary: Create or retrieve OAuth2 token
       description: create or retrieve an OAuth2 token
+      tags:
+      - OAuth 2.0
       requestBody:
         content:
           application/json:
             example:
               grant_type: client_credentials
               client_id: a1b2c3d4e5f67890abcdef1234567890
-              client_secret: "********"
+              client_secret: '********'
       responses:
         '200':
           description: success
@@ -1924,11 +2026,12 @@ paths:
               description: The time at which the current rate limit window resets in UTC epoch seconds.
               schema:
                 type: number
-
   /organizationname/{organizationName}:
     get:
       summary: Check organization name availability
       description: Check if organization name is being used
+      tags:
+      - Organizations
       parameters:
       - name: organizationName
         in: path
@@ -1963,6 +2066,8 @@ paths:
     delete:
       summary: Delete organization
       description: Deletes the referenced organization
+      tags:
+      - Organizations
       parameters:
       - name: orgId
         in: path
@@ -1990,10 +2095,11 @@ paths:
               description: The time at which the current rate limit window resets in UTC epoch seconds.
               schema:
                 type: number
-
     put:
       summary: Update organization
       description: Updates the referenced organization
+      tags:
+      - Organizations
       parameters:
       - name: orgId
         in: path
@@ -2014,11 +2120,11 @@ paths:
           content:
             application/json:
               example:
-                id: "a1b2c3d4-e5f6-7890-abcd-ef1234567890"
+                id: a1b2c3d4-e5f6-7890-abcd-ef1234567890
                 name: My Organization
-                owner_id: "b2c3d4e5-f6a7-8901-bcde-f12345678901"
-                created_at: "2024-01-15T10:30:00Z"
-                updated_at: "2024-06-20T14:15:00Z"
+                owner_id: b2c3d4e5-f6a7-8901-bcde-f12345678901
+                created_at: '2024-01-15T10:30:00Z'
+                updated_at: '2024-06-20T14:15:00Z'
                 is_federated: false
                 domain: myorg
                 session_timeout: 60
@@ -2039,10 +2145,11 @@ paths:
               description: The time at which the current rate limit window resets in UTC epoch seconds.
               schema:
                 type: number
-
     get:
       summary: Get organization
       description: Returns the referenced organization
+      tags:
+      - Organizations
       parameters:
       - name: orgId
         in: path
@@ -2056,11 +2163,11 @@ paths:
           content:
             application/json:
               example:
-                id: "a1b2c3d4-e5f6-7890-abcd-ef1234567890"
+                id: a1b2c3d4-e5f6-7890-abcd-ef1234567890
                 name: My Organization
-                owner_id: "b2c3d4e5-f6a7-8901-bcde-f12345678901"
-                created_at: "2024-01-15T10:30:00Z"
-                updated_at: "2024-06-20T14:15:00Z"
+                owner_id: b2c3d4e5-f6a7-8901-bcde-f12345678901
+                created_at: '2024-01-15T10:30:00Z'
+                updated_at: '2024-06-20T14:15:00Z'
                 is_federated: false
                 domain: myorg
                 session_timeout: 60
@@ -2079,11 +2186,12 @@ paths:
               description: The time at which the current rate limit window resets in UTC epoch seconds.
               schema:
                 type: number
-
   /organizations/{orgId}/clientProviders:
     post:
       summary: Create client provider
       description: Adds a new client management provider for the organization. This can be called only on Root Organizations
+      tags:
+      - Client Providers
       parameters:
       - name: orgId
         in: path
@@ -2127,11 +2235,12 @@ paths:
               description: The time at which the current rate limit window resets in UTC epoch seconds.
               schema:
                 type: number
-
     get:
       summary: List client providers
       description: Returns list of client management providers for the root organization with a subset of values (providerId,
         organizationId, name, type (name, description, version))
+      tags:
+      - Client Providers
       parameters:
       - name: orgId
         in: path
@@ -2169,11 +2278,12 @@ paths:
               description: The time at which the current rate limit window resets in UTC epoch seconds.
               schema:
                 type: number
-
   /organizations/{orgId}/clientProviders/{clientProviderId}:
     delete:
       summary: Delete client provider
       description: Deletes the associated client management provider
+      tags:
+      - Client Providers
       parameters:
       - name: orgId
         in: path
@@ -2210,10 +2320,11 @@ paths:
               description: The time at which the current rate limit window resets in UTC epoch seconds.
               schema:
                 type: number
-
     patch:
       summary: Update client provider
       description: Updates the associated client management provider config
+      tags:
+      - Client Providers
       parameters:
       - name: orgId
         in: path
@@ -2266,10 +2377,11 @@ paths:
               description: The time at which the current rate limit window resets in UTC epoch seconds.
               schema:
                 type: number
-
     put:
       summary: Replace client provider
       description: Replaces the associated client management provider config
+      tags:
+      - Client Providers
       parameters:
       - name: orgId
         in: path
@@ -2316,11 +2428,12 @@ paths:
               description: The time at which the current rate limit window resets in UTC epoch seconds.
               schema:
                 type: number
-
     get:
       summary: Get client provider
       description: Returns the associated client management provider config for the root organization and a subset of values
         (providerId, organizationId, name, type (name, description, version)) for Business Groups
+      tags:
+      - Client Providers
       parameters:
       - name: orgId
         in: path
@@ -2346,10 +2459,10 @@ paths:
           content:
             application/json:
               example:
-                id: "a1b2c3d4-e5f6-7890-abcd-ef1234567890"
+                id: a1b2c3d4-e5f6-7890-abcd-ef1234567890
                 name: External Client Provider
                 type: openid_connect
-                org_id: "b2c3d4e5-f6a7-8901-bcde-f12345678901"
+                org_id: b2c3d4e5-f6a7-8901-bcde-f12345678901
                 configuration:
                   issuer: https://idp.example.com
                   authorization_endpoint: https://idp.example.com/authorize
@@ -2373,11 +2486,12 @@ paths:
               description: The time at which the current rate limit window resets in UTC epoch seconds.
               schema:
                 type: number
-
   /organizations/{orgId}/clientProviders/{clientProviderId}/grantTypes:
     get:
       summary: List client provider grant types
       description: Returns the associated client management provider type and grant types it suppports.
+      tags:
+      - Client Providers
       parameters:
       - name: orgId
         in: path
@@ -2397,9 +2511,9 @@ paths:
             application/json:
               example:
                 grant_types:
-                  - authorization_code
-                  - client_credentials
-                  - implicit
+                - authorization_code
+                - client_credentials
+                - implicit
         '429':
           description: Too many requests
           headers:
@@ -2415,11 +2529,12 @@ paths:
               description: The time at which the current rate limit window resets in UTC epoch seconds.
               schema:
                 type: number
-
   /organizations/{orgId}/clientProviders/{clientProviderId}/clients:
     post:
       summary: Create client via provider
       description: Adds a new client using the Client Management Provider
+      tags:
+      - Client Providers
       parameters:
       - name: orgId
         in: path
@@ -2439,7 +2554,7 @@ paths:
               name: Provider Client
               description: Client for external provider
               redirect_uris:
-                - https://example.com/callback
+              - https://example.com/callback
       responses:
         '201':
           description: Success
@@ -2466,10 +2581,11 @@ paths:
               description: The time at which the current rate limit window resets in UTC epoch seconds.
               schema:
                 type: number
-
     get:
       summary: List client provider clients
       description: Returns the clients created using this specific Client Management Provider
+      tags:
+      - Client Providers
       parameters:
       - name: orgId
         in: path
@@ -2496,9 +2612,9 @@ paths:
             application/json:
               example:
                 data:
-                  - id: "a1b2c3d4-e5f6-7890-abcd-ef1234567890"
-                    name: Provider Client
-                    client_id: a1b2c3d4e5f67890abcdef1234567890
+                - id: a1b2c3d4-e5f6-7890-abcd-ef1234567890
+                  name: Provider Client
+                  client_id: a1b2c3d4e5f67890abcdef1234567890
                 total: 1
         '401':
           description: Unauthorized
@@ -2519,11 +2635,12 @@ paths:
               description: The time at which the current rate limit window resets in UTC epoch seconds.
               schema:
                 type: number
-
   /organizations/{orgId}/clientProviders/{clientProviderId}/clients/{clientId}:
     delete:
       summary: Delete client provider client
       description: Deletes the associated client
+      tags:
+      - Client Providers
       parameters:
       - name: orgId
         in: path
@@ -2574,10 +2691,11 @@ paths:
               description: The time at which the current rate limit window resets in UTC epoch seconds.
               schema:
                 type: number
-
     patch:
       summary: Update client provider client
       description: Updates the associated client
+      tags:
+      - Client Providers
       parameters:
       - name: orgId
         in: path
@@ -2642,10 +2760,11 @@ paths:
               description: The time at which the current rate limit window resets in UTC epoch seconds.
               schema:
                 type: number
-
     get:
       summary: Get client provider client
       description: Returns the associated clients info
+      tags:
+      - Client Providers
       parameters:
       - name: orgId
         in: path
@@ -2669,12 +2788,12 @@ paths:
           content:
             application/json:
               example:
-                id: "a1b2c3d4-e5f6-7890-abcd-ef1234567890"
+                id: a1b2c3d4-e5f6-7890-abcd-ef1234567890
                 name: Provider Client
                 description: Client for external provider
                 client_id: a1b2c3d4e5f67890abcdef1234567890
                 redirect_uris:
-                  - https://example.com/callback
+                - https://example.com/callback
         '401':
           description: Unauthorized
         '404':
@@ -2694,12 +2813,13 @@ paths:
               description: The time at which the current rate limit window resets in UTC epoch seconds.
               schema:
                 type: number
-
   /organizations/{orgId}/clients:
     x-amf-description: Access to clients
     post:
       summary: Create organization client
       description: Create a new client
+      tags:
+      - Clients
       parameters:
       - name: orgId
         in: path
@@ -2714,22 +2834,22 @@ paths:
               name: My API Client
               description: Production client for API access
               redirect_uris:
-                - https://example.com/callback
+              - https://example.com/callback
               grant_types:
-                - authorization_code
+              - authorization_code
               scopes:
-                - read
-                - write
+              - read
+              - write
       responses:
         '200':
           description: '200'
           content:
             application/json:
               example:
-                id: "a1b2c3d4-e5f6-7890-abcd-ef1234567890"
+                id: a1b2c3d4-e5f6-7890-abcd-ef1234567890
                 name: My API Client
                 client_id: a1b2c3d4e5f67890abcdef1234567890
-                client_secret: "********"
+                client_secret: '********'
         '429':
           description: Too many requests
           headers:
@@ -2745,10 +2865,11 @@ paths:
               description: The time at which the current rate limit window resets in UTC epoch seconds.
               schema:
                 type: number
-
     get:
       summary: List organization clients
       description: Get all clients
+      tags:
+      - Clients
       parameters:
       - name: orgId
         in: path
@@ -2763,9 +2884,9 @@ paths:
             application/json:
               example:
                 data:
-                  - id: "a1b2c3d4-e5f6-7890-abcd-ef1234567890"
-                    name: My API Client
-                    client_id: a1b2c3d4e5f67890abcdef1234567890
+                - id: a1b2c3d4-e5f6-7890-abcd-ef1234567890
+                  name: My API Client
+                  client_id: a1b2c3d4e5f67890abcdef1234567890
                 total: 2
         '429':
           description: Too many requests
@@ -2782,12 +2903,13 @@ paths:
               description: The time at which the current rate limit window resets in UTC epoch seconds.
               schema:
                 type: number
-
   /organizations/{orgId}/clients/{clientId}:
     x-amf-description: Access to a client
     delete:
       summary: Delete organization client
       description: Deletes a single client
+      tags:
+      - Clients
       parameters:
       - name: orgId
         in: path
@@ -2824,10 +2946,11 @@ paths:
               description: The time at which the current rate limit window resets in UTC epoch seconds.
               schema:
                 type: number
-
     patch:
       summary: Update organization client
       description: Patches a single client
+      tags:
+      - Clients
       parameters:
       - name: orgId
         in: path
@@ -2874,10 +2997,11 @@ paths:
               description: The time at which the current rate limit window resets in UTC epoch seconds.
               schema:
                 type: number
-
     get:
       summary: Get organization client
       description: Get a single client
+      tags:
+      - Clients
       parameters:
       - name: orgId
         in: path
@@ -2896,10 +3020,10 @@ paths:
           content:
             application/json:
               example:
-                id: "a1b2c3d4-e5f6-7890-abcd-ef1234567890"
+                id: a1b2c3d4-e5f6-7890-abcd-ef1234567890
                 name: My API Client
                 client_id: a1b2c3d4e5f67890abcdef1234567890
-                client_secret: "********"
+                client_secret: '********'
         '429':
           description: Too many requests
           headers:
@@ -2915,12 +3039,13 @@ paths:
               description: The time at which the current rate limit window resets in UTC epoch seconds.
               schema:
                 type: number
-
   /organizations/{orgId}/clients/{clientId}/roles:
     x-amf-description: Access to a client's roles
     delete:
       summary: Unassign roles from organization client
       description: Unassign a list of roles from a client
+      tags:
+      - Clients
       parameters:
       - name: orgId
         in: path
@@ -2938,7 +3063,7 @@ paths:
           application/json:
             example:
               role_ids:
-                - "a1b2c3d4-e5f6-7890-abcd-ef1234567890"
+              - a1b2c3d4-e5f6-7890-abcd-ef1234567890
       responses:
         '200':
           description: '200'
@@ -2959,10 +3084,11 @@ paths:
               description: The time at which the current rate limit window resets in UTC epoch seconds.
               schema:
                 type: number
-
     post:
       summary: Assign roles to organization client
       description: Assign a list of roles to a client
+      tags:
+      - Clients
       parameters:
       - name: orgId
         in: path
@@ -2980,7 +3106,7 @@ paths:
           application/json:
             example:
               role_ids:
-                - "a1b2c3d4-e5f6-7890-abcd-ef1234567890"
+              - a1b2c3d4-e5f6-7890-abcd-ef1234567890
       responses:
         '200':
           description: '200'
@@ -3001,11 +3127,12 @@ paths:
               description: The time at which the current rate limit window resets in UTC epoch seconds.
               schema:
                 type: number
-
   /organizations/{orgId}/clients/{clientId}/roles/{roleId}:
     delete:
       summary: Unassign role from organization client
       description: Unassign a role from a client
+      tags:
+      - Clients
       parameters:
       - name: orgId
         in: path
@@ -3043,10 +3170,11 @@ paths:
               description: The time at which the current rate limit window resets in UTC epoch seconds.
               schema:
                 type: number
-
     post:
       summary: Assign role to organization client
       description: Assign a role to a client
+      tags:
+      - Clients
       parameters:
       - name: orgId
         in: path
@@ -3068,7 +3196,7 @@ paths:
         content:
           application/json:
             example:
-              role_id: "a1b2c3d4-e5f6-7890-abcd-ef1234567890"
+              role_id: a1b2c3d4-e5f6-7890-abcd-ef1234567890
       responses:
         '200':
           description: '200'
@@ -3089,11 +3217,12 @@ paths:
               description: The time at which the current rate limit window resets in UTC epoch seconds.
               schema:
                 type: number
-
   /organizations/{orgId}/clients/search:
     post:
       summary: Search organization clients
       description: Search clients
+      tags:
+      - Clients
       parameters:
       - name: orgId
         in: path
@@ -3105,7 +3234,7 @@ paths:
         content:
           application/json:
             example:
-              query: "API Client"
+              query: API Client
               limit: 25
               offset: 0
       responses:
@@ -3115,9 +3244,9 @@ paths:
             application/json:
               example:
                 data:
-                  - id: "a1b2c3d4-e5f6-7890-abcd-ef1234567890"
-                    name: My API Client
-                    client_id: a1b2c3d4e5f67890abcdef1234567890
+                - id: a1b2c3d4-e5f6-7890-abcd-ef1234567890
+                  name: My API Client
+                  client_id: a1b2c3d4e5f67890abcdef1234567890
                 total: 1
         '429':
           description: Too many requests
@@ -3134,11 +3263,12 @@ paths:
               description: The time at which the current rate limit window resets in UTC epoch seconds.
               schema:
                 type: number
-
   /organizations/{orgId}/clients/validate:
     post:
       summary: Validate organization clients
       description: Validate clients
+      tags:
+      - Clients
       parameters:
       - name: orgId
         in: path
@@ -3173,12 +3303,13 @@ paths:
               description: The time at which the current rate limit window resets in UTC epoch seconds.
               schema:
                 type: number
-
   /organizations/{orgId}/connectedApplications:
     x-amf-description: Access to connected applications
     post:
       summary: Create organization connected application
       description: Create a new connected application
+      tags:
+      - Connected Applications
       parameters:
       - name: orgId
         in: path
@@ -3192,9 +3323,9 @@ paths:
             example:
               client_name: My Connected App
               grant_types:
-                - client_credentials
+              - client_credentials
               scopes:
-                - read:full
+              - read:full
               enabled: true
       responses:
         '200':
@@ -3204,7 +3335,7 @@ paths:
               example:
                 client_id: a1b2c3d4e5f67890abcdef1234567890
                 client_name: My Connected App
-                owner_org_id: "a1b2c3d4-e5f6-7890-abcd-ef1234567890"
+                owner_org_id: a1b2c3d4-e5f6-7890-abcd-ef1234567890
                 enabled: true
         '429':
           description: Too many requests
@@ -3221,10 +3352,11 @@ paths:
               description: The time at which the current rate limit window resets in UTC epoch seconds.
               schema:
                 type: number
-
     get:
       summary: List organization connected applications
       description: Get all connected applications for the organization
+      tags:
+      - Connected Applications
       parameters:
       - name: orgId
         in: path
@@ -3257,9 +3389,9 @@ paths:
             application/json:
               example:
                 data:
-                  - client_id: a1b2c3d4e5f67890abcdef1234567890
-                    client_name: My Connected App
-                    enabled: true
+                - client_id: a1b2c3d4e5f67890abcdef1234567890
+                  client_name: My Connected App
+                  enabled: true
                 total: 1
                 offset: 0
                 limit: 25
@@ -3278,12 +3410,13 @@ paths:
               description: The time at which the current rate limit window resets in UTC epoch seconds.
               schema:
                 type: number
-
   /organizations/{orgId}/connectedApplications/{clientId}:
     x-amf-description: Access to individual connected application
     delete:
       summary: Delete organization connected application
       description: Deletes a single connected application
+      tags:
+      - Connected Applications
       parameters:
       - name: orgId
         in: path
@@ -3314,10 +3447,11 @@ paths:
               description: The time at which the current rate limit window resets in UTC epoch seconds.
               schema:
                 type: number
-
     patch:
       summary: Update organization connected application
       description: Patches a single connected application
+      tags:
+      - Connected Applications
       parameters:
       - name: orgId
         in: path
@@ -3368,10 +3502,11 @@ paths:
               description: The time at which the current rate limit window resets in UTC epoch seconds.
               schema:
                 type: number
-
     get:
       summary: Get organization connected application
       description: Get a single connected application
+      tags:
+      - Connected Applications
       parameters:
       - name: orgId
         in: path
@@ -3399,7 +3534,7 @@ paths:
               example:
                 client_id: a1b2c3d4e5f67890abcdef1234567890
                 client_name: My Connected App
-                owner_org_id: "a1b2c3d4-e5f6-7890-abcd-ef1234567890"
+                owner_org_id: a1b2c3d4-e5f6-7890-abcd-ef1234567890
                 enabled: true
         '404':
           description: Connected application with that clientId could not be found
@@ -3418,7 +3553,6 @@ paths:
               description: The time at which the current rate limit window resets in UTC epoch seconds.
               schema:
                 type: number
-
   /organizations/{orgId}/connectedApplications/{clientId}/scopes:
     x-amf-description: 'Routes for operationg upon context-aware scopes assigned directly to the client''s identity,
 
@@ -3430,6 +3564,8 @@ paths:
       description: 'Unassigns context-aware scopes from the connected application.
 
         Scopes must exactly match in order to be removed.'
+      tags:
+      - Connected Applications
       parameters:
       - name: orgId
         in: path
@@ -3447,8 +3583,8 @@ paths:
           application/json:
             example:
               scopes:
-                - read:full
-                - write:full
+              - read:full
+              - write:full
       responses:
         '204':
           description: Connected application scopes were successfully unassigned
@@ -3467,7 +3603,6 @@ paths:
               description: The time at which the current rate limit window resets in UTC epoch seconds.
               schema:
                 type: number
-
     patch:
       summary: Update organization connected application scopes
       description: 'Assigns additional context-aware scopes to the connected application.
@@ -3475,6 +3610,8 @@ paths:
         Does not unassign any existing scopes.
 
         Duplicate entries are ignored.'
+      tags:
+      - Connected Applications
       parameters:
       - name: orgId
         in: path
@@ -3492,8 +3629,8 @@ paths:
           application/json:
             example:
               scopes:
-                - read:full
-                - write:full
+              - read:full
+              - write:full
       responses:
         '204':
           description: Connected application scopes were successfully assigned
@@ -3512,10 +3649,11 @@ paths:
               description: The time at which the current rate limit window resets in UTC epoch seconds.
               schema:
                 type: number
-
     put:
       summary: Replace organization connected application scopes
       description: Replaces the entire list of context-aware scopes assigned to the connected application
+      tags:
+      - Connected Applications
       parameters:
       - name: orgId
         in: path
@@ -3533,8 +3671,8 @@ paths:
           application/json:
             example:
               scopes:
-                - read:full
-                - write:full
+              - read:full
+              - write:full
       responses:
         '204':
           description: Connected application scopes were successfully replaced
@@ -3553,10 +3691,11 @@ paths:
               description: The time at which the current rate limit window resets in UTC epoch seconds.
               schema:
                 type: number
-
     get:
       summary: List organization connected application scopes
       description: Retrieves context-aware scopes assigned to the connected application
+      tags:
+      - Connected Applications
       parameters:
       - name: orgId
         in: path
@@ -3576,8 +3715,8 @@ paths:
             application/json:
               example:
                 scopes:
-                  - read:full
-                  - write:full
+                - read:full
+                - write:full
         '429':
           description: Too many requests
           headers:
@@ -3593,11 +3732,12 @@ paths:
               description: The time at which the current rate limit window resets in UTC epoch seconds.
               schema:
                 type: number
-
   /organizations/{orgId}/connectedApplications/{clientId}/revoke:
     delete:
       summary: Revoke organization connected application tokens
       description: Revoke all access tokens and refresh tokens issued to the connected application
+      tags:
+      - Connected Applications
       parameters:
       - name: orgId
         in: path
@@ -3628,13 +3768,14 @@ paths:
               description: The time at which the current rate limit window resets in UTC epoch seconds.
               schema:
                 type: number
-
   /organizations/{orgId}/connectedApplications/authorizations:
     x-amf-description: Permissions granted to connected applications by users within the organization
     delete:
       summary: Revoke all connected application authorizations
       description: Revoke all authorizations that grant rights to accessing resources in the business group. Only available
         on the root organization.
+      tags:
+      - Connected Applications
       parameters:
       - name: orgId
         in: path
@@ -3668,10 +3809,11 @@ paths:
               description: The time at which the current rate limit window resets in UTC epoch seconds.
               schema:
                 type: number
-
     get:
       summary: List connected application authorizations
       description: Returns all the authorizations that grant access to resources in the organization.
+      tags:
+      - Connected Applications
       parameters:
       - name: orgId
         in: path
@@ -3700,11 +3842,12 @@ paths:
               description: The time at which the current rate limit window resets in UTC epoch seconds.
               schema:
                 type: number
-
   /organizations/{orgId}/connectedApplications/authorizations/{authorizationId}:
     delete:
       summary: Revoke connected application authorization
       description: Revokes an authorization. Only available on the root organization.
+      tags:
+      - Connected Applications
       parameters:
       - name: orgId
         in: path
@@ -3738,10 +3881,11 @@ paths:
               description: The time at which the current rate limit window resets in UTC epoch seconds.
               schema:
                 type: number
-
     get:
       summary: Get connected application authorization
       description: Returns a single authorization
+      tags:
+      - Connected Applications
       parameters:
       - name: orgId
         in: path
@@ -3761,12 +3905,12 @@ paths:
           content:
             application/json:
               example:
-                id: "a1b2c3d4-e5f6-7890-abcd-ef1234567890"
+                id: a1b2c3d4-e5f6-7890-abcd-ef1234567890
                 client_id: a1b2c3d4e5f67890abcdef1234567890
                 client_name: My Connected App
-                authorized_at: "2024-01-15T10:30:00Z"
+                authorized_at: '2024-01-15T10:30:00Z'
                 scopes:
-                  - read:full
+                - read:full
         '429':
           description: Too many requests
           headers:
@@ -3782,11 +3926,12 @@ paths:
               description: The time at which the current rate limit window resets in UTC epoch seconds.
               schema:
                 type: number
-
   /organizations/{orgId}/connectedApplications/settings:
     patch:
       summary: Update connected application settings
       description: Updates the organization's connected application settings
+      tags:
+      - Connected Applications
       parameters:
       - name: orgId
         in: path
@@ -3827,11 +3972,12 @@ paths:
               description: The time at which the current rate limit window resets in UTC epoch seconds.
               schema:
                 type: number
-
     get:
       summary: Get connected application settings
       description: Returns the organization's Connected Application settings. For business groups, this will return the root
         organization's settings.
+      tags:
+      - Connected Applications
       parameters:
       - name: orgId
         in: path
@@ -3864,11 +4010,12 @@ paths:
               description: The time at which the current rate limit window resets in UTC epoch seconds.
               schema:
                 type: number
-
   /organizations/{orgId}/connectedApplications/allowlist:
     delete:
       summary: Remove connected application allowlist entries
       description: Deletes the entries from the organization's Connected Application allowlist
+      tags:
+      - Connected Applications
       parameters:
       - name: orgId
         in: path
@@ -3881,7 +4028,7 @@ paths:
           application/json:
             example:
               client_ids:
-                - a1b2c3d4e5f67890abcdef1234567890
+              - a1b2c3d4e5f67890abcdef1234567890
       responses:
         '204':
           description: Success
@@ -3904,10 +4051,11 @@ paths:
               description: The time at which the current rate limit window resets in UTC epoch seconds.
               schema:
                 type: number
-
     patch:
       summary: Update connected application allowlist
       description: Inserts the entries into the organization's Connected Application allowlist
+      tags:
+      - Connected Applications
       parameters:
       - name: orgId
         in: path
@@ -3920,7 +4068,7 @@ paths:
           application/json:
             example:
               client_ids:
-                - a1b2c3d4e5f67890abcdef1234567890
+              - a1b2c3d4e5f67890abcdef1234567890
       responses:
         '204':
           description: Success
@@ -3943,10 +4091,11 @@ paths:
               description: The time at which the current rate limit window resets in UTC epoch seconds.
               schema:
                 type: number
-
     put:
       summary: Replace connected application allowlist
       description: Replaces the organization's Connected Application allowlist with a new one
+      tags:
+      - Connected Applications
       parameters:
       - name: orgId
         in: path
@@ -3959,7 +4108,7 @@ paths:
           application/json:
             example:
               client_ids:
-                - a1b2c3d4e5f67890abcdef1234567890
+              - a1b2c3d4e5f67890abcdef1234567890
       responses:
         '204':
           description: Success
@@ -3982,10 +4131,11 @@ paths:
               description: The time at which the current rate limit window resets in UTC epoch seconds.
               schema:
                 type: number
-
     get:
       summary: List connected application allowlist
       description: Returns the entries on the organization's Connected Application allowlist
+      tags:
+      - Connected Applications
       parameters:
       - name: orgId
         in: path
@@ -4018,11 +4168,12 @@ paths:
               description: The time at which the current rate limit window resets in UTC epoch seconds.
               schema:
                 type: number
-
   /organizations/{orgId}/connectedApplications/whitelist:
     delete:
       summary: Remove connected application whitelist entries
       description: Deletes the entries from the organization's Connected Application allowlist
+      tags:
+      - Connected Applications
       parameters:
       - name: orgId
         in: path
@@ -4035,7 +4186,7 @@ paths:
           application/json:
             example:
               client_ids:
-                - a1b2c3d4e5f67890abcdef1234567890
+              - a1b2c3d4e5f67890abcdef1234567890
       responses:
         '204':
           description: Success
@@ -4058,10 +4209,11 @@ paths:
               description: The time at which the current rate limit window resets in UTC epoch seconds.
               schema:
                 type: number
-
     patch:
       summary: Update connected application whitelist
       description: Inserts the entries into the organization's Connected Application allowlist
+      tags:
+      - Connected Applications
       parameters:
       - name: orgId
         in: path
@@ -4074,7 +4226,7 @@ paths:
           application/json:
             example:
               client_ids:
-                - a1b2c3d4e5f67890abcdef1234567890
+              - a1b2c3d4e5f67890abcdef1234567890
       responses:
         '204':
           description: Success
@@ -4097,10 +4249,11 @@ paths:
               description: The time at which the current rate limit window resets in UTC epoch seconds.
               schema:
                 type: number
-
     put:
       summary: Replace connected application whitelist
       description: Replaces the organization's Connected Application allowlist with a new one
+      tags:
+      - Connected Applications
       parameters:
       - name: orgId
         in: path
@@ -4113,7 +4266,7 @@ paths:
           application/json:
             example:
               client_ids:
-                - a1b2c3d4e5f67890abcdef1234567890
+              - a1b2c3d4e5f67890abcdef1234567890
       responses:
         '204':
           description: Success
@@ -4136,10 +4289,11 @@ paths:
               description: The time at which the current rate limit window resets in UTC epoch seconds.
               schema:
                 type: number
-
     get:
       summary: List connected application whitelist
       description: Returns the entries on the organization's Connected Application allowlist
+      tags:
+      - Connected Applications
       parameters:
       - name: orgId
         in: path
@@ -4172,12 +4326,13 @@ paths:
               description: The time at which the current rate limit window resets in UTC epoch seconds.
               schema:
                 type: number
-
   /organizations/{orgId}/entitlements:
     x-amf-description: Entitlements for a given organization
     get:
       summary: List organization entitlements
       description: Returns the entitlements for the organization
+      tags:
+      - Entitlements
       parameters:
       - name: orgId
         in: path
@@ -4203,7 +4358,6 @@ paths:
               description: The time at which the current rate limit window resets in UTC epoch seconds.
               schema:
                 type: number
-
   /organizations/{orgId}/entitlements/{entitlementName}:
     x-amf-description: Entitlement by name
     put:
@@ -4211,6 +4365,8 @@ paths:
       description: 'Update an entitlement.
 
         Note: Connected apps cannot perform this action and is reserved only for org admins.'
+      tags:
+      - Entitlements
       parameters:
       - name: orgId
         in: path
@@ -4250,10 +4406,11 @@ paths:
               description: The time at which the current rate limit window resets in UTC epoch seconds.
               schema:
                 type: number
-
     get:
       summary: Get organization entitlement
       description: Get an entitlement by name
+      tags:
+      - Entitlements
       parameters:
       - name: orgId
         in: path
@@ -4287,12 +4444,13 @@ paths:
               description: The time at which the current rate limit window resets in UTC epoch seconds.
               schema:
                 type: number
-
   /organizations/{orgId}/environments:
     x-amf-description: Environments from an organization
     post:
       summary: Create organization environment
       description: Creates an environment
+      tags:
+      - Environments
       parameters:
       - name: orgId
         in: path
@@ -4313,9 +4471,9 @@ paths:
           content:
             application/json:
               example:
-                id: "a1b2c3d4-e5f6-7890-abcd-ef1234567890"
+                id: a1b2c3d4-e5f6-7890-abcd-ef1234567890
                 name: Production
-                organizationId: "b2c3d4e5-f6a7-8901-bcde-f12345678901"
+                organizationId: b2c3d4e5-f6a7-8901-bcde-f12345678901
                 type: production
                 isProduction: true
                 clientId: client-a1b2c3d4
@@ -4339,10 +4497,11 @@ paths:
               description: The time at which the current rate limit window resets in UTC epoch seconds.
               schema:
                 type: number
-
     get:
       summary: List organization environments
       description: Returns all matching environments
+      tags:
+      - Environments
       parameters:
       - name: orgId
         in: path
@@ -4378,16 +4537,16 @@ paths:
             application/json:
               example:
                 data:
-                  - id: "a1b2c3d4-e5f6-7890-abcd-ef1234567890"
-                    name: Production
-                    organizationId: "b2c3d4e5-f6a7-8901-bcde-f12345678901"
-                    type: production
-                    isProduction: true
-                  - id: "c3d4e5f6-a7b8-9012-cdef-123456789012"
-                    name: Sandbox
-                    organizationId: "b2c3d4e5-f6a7-8901-bcde-f12345678901"
-                    type: sandbox
-                    isProduction: false
+                - id: a1b2c3d4-e5f6-7890-abcd-ef1234567890
+                  name: Production
+                  organizationId: b2c3d4e5-f6a7-8901-bcde-f12345678901
+                  type: production
+                  isProduction: true
+                - id: c3d4e5f6-a7b8-9012-cdef-123456789012
+                  name: Sandbox
+                  organizationId: b2c3d4e5-f6a7-8901-bcde-f12345678901
+                  type: sandbox
+                  isProduction: false
                 total: 2
         '429':
           description: Too many requests
@@ -4404,12 +4563,13 @@ paths:
               description: The time at which the current rate limit window resets in UTC epoch seconds.
               schema:
                 type: number
-
   /organizations/{orgId}/environments/{environmentId}:
     x-amf-description: Environment by id
     delete:
       summary: Delete organization environment
       description: Delete an environment
+      tags:
+      - Environments
       parameters:
       - name: orgId
         in: path
@@ -4443,11 +4603,12 @@ paths:
               description: The time at which the current rate limit window resets in UTC epoch seconds.
               schema:
                 type: number
-
     put:
       summary: Update organization environment
       description: Update an environment, implemented as a patch. Note that only the name is allowed to be updated, isProduction
         and type can not.
+      tags:
+      - Environments
       parameters:
       - name: orgId
         in: path
@@ -4474,9 +4635,9 @@ paths:
           content:
             application/json:
               example:
-                id: "a1b2c3d4-e5f6-7890-abcd-ef1234567890"
+                id: a1b2c3d4-e5f6-7890-abcd-ef1234567890
                 name: Production
-                organizationId: "b2c3d4e5-f6a7-8901-bcde-f12345678901"
+                organizationId: b2c3d4e5-f6a7-8901-bcde-f12345678901
                 type: production
                 isProduction: true
                 clientId: client-a1b2c3d4
@@ -4497,10 +4658,11 @@ paths:
               description: The time at which the current rate limit window resets in UTC epoch seconds.
               schema:
                 type: number
-
     get:
       summary: Get organization environment
       description: Retrieves an environment by id
+      tags:
+      - Environments
       parameters:
       - name: orgId
         in: path
@@ -4520,9 +4682,9 @@ paths:
           content:
             application/json:
               example:
-                id: "a1b2c3d4-e5f6-7890-abcd-ef1234567890"
+                id: a1b2c3d4-e5f6-7890-abcd-ef1234567890
                 name: Production
-                organizationId: "b2c3d4e5-f6a7-8901-bcde-f12345678901"
+                organizationId: b2c3d4e5-f6a7-8901-bcde-f12345678901
                 type: production
                 isProduction: true
                 clientId: client-a1b2c3d4
@@ -4543,11 +4705,12 @@ paths:
               description: The time at which the current rate limit window resets in UTC epoch seconds.
               schema:
                 type: number
-
   /organizations/{orgId}/environments/{environmentId}/clientManagementProviders:
     put:
       summary: Update environment client management providers
       description: Upsert client providers for the environment
+      tags:
+      - Environments
       parameters:
       - name: orgId
         in: path
@@ -4565,7 +4728,7 @@ paths:
         content:
           application/json:
             example:
-              provider_id: "a1b2c3d4-e5f6-7890-abcd-ef1234567890"
+              provider_id: a1b2c3d4-e5f6-7890-abcd-ef1234567890
               type: external
       responses:
         '200':
@@ -4573,7 +4736,7 @@ paths:
           content:
             application/json:
               example:
-                provider_id: "a1b2c3d4-e5f6-7890-abcd-ef1234567890"
+                provider_id: a1b2c3d4-e5f6-7890-abcd-ef1234567890
                 type: external
                 name: External Provider
         '404':
@@ -4593,10 +4756,11 @@ paths:
               description: The time at which the current rate limit window resets in UTC epoch seconds.
               schema:
                 type: number
-
     get:
       summary: List environment client management providers
       description: Retrieves client management providers for the environment
+      tags:
+      - Environments
       parameters:
       - name: orgId
         in: path
@@ -4616,7 +4780,7 @@ paths:
           content:
             application/json:
               example:
-                provider_id: "a1b2c3d4-e5f6-7890-abcd-ef1234567890"
+                provider_id: a1b2c3d4-e5f6-7890-abcd-ef1234567890
                 type: external
                 name: External Provider
         '404':
@@ -4636,11 +4800,12 @@ paths:
               description: The time at which the current rate limit window resets in UTC epoch seconds.
               schema:
                 type: number
-
   /organizations/{orgId}/featureFlags:
     get:
       summary: List organization feature flags
       description: get all feature flags of an given organization
+      tags:
+      - Feature Flags
       parameters:
       - name: orgId
         in: path
@@ -4668,11 +4833,12 @@ paths:
               description: The time at which the current rate limit window resets in UTC epoch seconds.
               schema:
                 type: number
-
   /organizations/{orgId}/featureFlags/{featureFlagName}:
     post:
       summary: Update organization feature flag
       description: API to upsert a feature flag.
+      tags:
+      - Feature Flags
       parameters:
       - name: orgId
         in: path
@@ -4710,10 +4876,11 @@ paths:
               description: The time at which the current rate limit window resets in UTC epoch seconds.
               schema:
                 type: number
-
     get:
       summary: Get organization feature flag
       description: API to get a feature flag for a given org.
+      tags:
+      - Feature Flags
       parameters:
       - name: orgId
         in: path
@@ -4742,12 +4909,13 @@ paths:
               description: The time at which the current rate limit window resets in UTC epoch seconds.
               schema:
                 type: number
-
   /organizations/{orgId}/hierarchy:
     x-amf-description: get related organizations in hierarchical structure
     get:
       summary: Get organization hierarchy
       description: get Business Groups (down to the leaves) of this organization.
+      tags:
+      - Organizations
       parameters:
       - name: orgId
         in: path
@@ -4761,12 +4929,12 @@ paths:
           content:
             application/json:
               example:
-                id: "a1b2c3d4-e5f6-7890-abcd-ef1234567890"
+                id: a1b2c3d4-e5f6-7890-abcd-ef1234567890
                 name: My Organization
                 subOrganizations:
-                  - id: "b2c3d4e5-f6a7-8901-bcde-f12345678901"
-                    name: Sub Organization
-                    subOrganizations: []
+                - id: b2c3d4e5-f6a7-8901-bcde-f12345678901
+                  name: Sub Organization
+                  subOrganizations: []
         '400':
           description: Bad request; unknown organization.
         '429':
@@ -4784,11 +4952,12 @@ paths:
               description: The time at which the current rate limit window resets in UTC epoch seconds.
               schema:
                 type: number
-
   /organizations/{orgId}/identityProviders:
     post:
       summary: Create identity provider
       description: Add a new identity management provider to the root organization.
+      tags:
+      - Identity Providers
       parameters:
       - name: orgId
         in: path
@@ -4812,12 +4981,12 @@ paths:
           content:
             application/json:
               example:
-                id: "a1b2c3d4-e5f6-7890-abcd-ef1234567890"
+                id: a1b2c3d4-e5f6-7890-abcd-ef1234567890
                 name: Corporate SAML
-                org_id: "b2c3d4e5-f6a7-8901-bcde-f12345678901"
+                org_id: b2c3d4e5-f6a7-8901-bcde-f12345678901
                 type:
                   name: saml
-                created_at: "2024-01-15T10:30:00Z"
+                created_at: '2024-01-15T10:30:00Z'
         '400':
           description: Invalid data in body
         '405':
@@ -4837,10 +5006,11 @@ paths:
               description: The time at which the current rate limit window resets in UTC epoch seconds.
               schema:
                 type: number
-
     get:
       summary: List identity providers
       description: Returns list of identity management providers for the root organization with a subset of values.
+      tags:
+      - Identity Providers
       parameters:
       - name: orgId
         in: path
@@ -4892,11 +5062,12 @@ paths:
               description: The time at which the current rate limit window resets in UTC epoch seconds.
               schema:
                 type: number
-
   /organizations/{orgId}/identityProviders/saml-sp-metadata:
     get:
       summary: Get SAML service provider metadata
       description: Download the SAML SP metadata of the associated SAML identity management provider
+      tags:
+      - Identity Providers
       parameters:
       - name: orgId
         in: path
@@ -4932,11 +5103,12 @@ paths:
               description: The time at which the current rate limit window resets in UTC epoch seconds.
               schema:
                 type: number
-
   /organizations/{orgId}/identityProviders/ldap-test:
     post:
       summary: Test LDAP connection
       description: Test the LDAP config before saving the configuration
+      tags:
+      - Identity Providers
       parameters:
       - name: orgId
         in: path
@@ -4955,9 +5127,9 @@ paths:
             example:
               host: ldap.example.com
               port: 389
-              bind_dn: "cn=admin,dc=example,dc=com"
-              bind_password: "********"
-              base_dn: "dc=example,dc=com"
+              bind_dn: cn=admin,dc=example,dc=com
+              bind_password: '********'
+              base_dn: dc=example,dc=com
       responses:
         '200':
           description: Success
@@ -4980,11 +5152,12 @@ paths:
               description: The time at which the current rate limit window resets in UTC epoch seconds.
               schema:
                 type: number
-
   /organizations/{orgId}/identityProviders/{identityProviderId}:
     delete:
       summary: Delete identity provider
       description: Deletes the associated identity management provider
+      tags:
+      - Identity Providers
       parameters:
       - name: orgId
         in: path
@@ -5017,10 +5190,11 @@ paths:
               description: The time at which the current rate limit window resets in UTC epoch seconds.
               schema:
                 type: number
-
     patch:
       summary: Update identity provider
       description: Updates the associated identity management provider config
+      tags:
+      - Identity Providers
       parameters:
       - name: orgId
         in: path
@@ -5060,10 +5234,11 @@ paths:
               description: The time at which the current rate limit window resets in UTC epoch seconds.
               schema:
                 type: number
-
     get:
       summary: Get identity provider
       description: Returns the associated identity management provider config.
+      tags:
+      - Identity Providers
       parameters:
       - name: orgId
         in: path
@@ -5089,9 +5264,9 @@ paths:
           content:
             application/json:
               example:
-                id: "a1b2c3d4-e5f6-7890-abcd-ef1234567890"
+                id: a1b2c3d4-e5f6-7890-abcd-ef1234567890
                 name: Corporate SAML
-                org_id: "b2c3d4e5-f6a7-8901-bcde-f12345678901"
+                org_id: b2c3d4e5-f6a7-8901-bcde-f12345678901
                 type:
                   name: saml
                 saml:
@@ -5113,11 +5288,12 @@ paths:
               description: The time at which the current rate limit window resets in UTC epoch seconds.
               schema:
                 type: number
-
   /organizations/{orgId}/identityProviders/{identityProviderId}/saml-sp-keys:
     post:
       summary: Create SAML SP key
       description: Add or generate a new SAML SP key pair
+      tags:
+      - Identity Providers
       parameters:
       - name: orgId
         in: path
@@ -5134,17 +5310,21 @@ paths:
         content:
           application/json:
             example:
-              certificate: "-----BEGIN CERTIFICATE-----\nMIIC...\n-----END CERTIFICATE-----"
+              certificate: '-----BEGIN CERTIFICATE-----
+
+                MIIC...
+
+                -----END CERTIFICATE-----'
       responses:
         '201':
           description: Success
           content:
             application/json:
               example:
-                id: "a1b2c3d4-e5f6-7890-abcd-ef1234567890"
+                id: a1b2c3d4-e5f6-7890-abcd-ef1234567890
                 is_primary: false
-                created_at: "2024-01-15T10:30:00Z"
-                expiration_date: "2025-01-15T10:30:00Z"
+                created_at: '2024-01-15T10:30:00Z'
+                expiration_date: '2025-01-15T10:30:00Z'
         '404':
           description: The identity provider does not exist or is not a SAML provider
         '405':
@@ -5164,10 +5344,11 @@ paths:
               description: The time at which the current rate limit window resets in UTC epoch seconds.
               schema:
                 type: number
-
     get:
       summary: List SAML SP keys
       description: Returns the list of SAML SP keys associated to the identity management provider config
+      tags:
+      - Identity Providers
       parameters:
       - name: orgId
         in: path
@@ -5193,10 +5374,10 @@ paths:
             application/json:
               example:
                 data:
-                  - id: "a1b2c3d4-e5f6-7890-abcd-ef1234567890"
-                    is_primary: true
-                    created_at: "2024-01-15T10:30:00Z"
-                    expiration_date: "2025-01-15T10:30:00Z"
+                - id: a1b2c3d4-e5f6-7890-abcd-ef1234567890
+                  is_primary: true
+                  created_at: '2024-01-15T10:30:00Z'
+                  expiration_date: '2025-01-15T10:30:00Z'
         '404':
           description: The identity provider does not exist or is not a SAML provider
         '405':
@@ -5216,11 +5397,12 @@ paths:
               description: The time at which the current rate limit window resets in UTC epoch seconds.
               schema:
                 type: number
-
   /organizations/{orgId}/identityProviders/{identityProviderId}/saml-sp-keys/{samlSpKeyId}:
     delete:
       summary: Delete SAML SP key
       description: Delete the SAML SP key
+      tags:
+      - Identity Providers
       parameters:
       - name: orgId
         in: path
@@ -5260,10 +5442,11 @@ paths:
               description: The time at which the current rate limit window resets in UTC epoch seconds.
               schema:
                 type: number
-
     get:
       summary: Get SAML SP key
       description: Returns the SAML SP certificate in .pem format
+      tags:
+      - Identity Providers
       parameters:
       - name: orgId
         in: path
@@ -5305,11 +5488,12 @@ paths:
               description: The time at which the current rate limit window resets in UTC epoch seconds.
               schema:
                 type: number
-
   /organizations/{orgId}/identityProviders/{identityProviderId}/saml-sp-keys/{samlSpKeyId}/setPrimary:
     post:
       summary: Set primary SAML SP key
       description: Make the key the primary SAML SP key for the identity management provider config
+      tags:
+      - Identity Providers
       parameters:
       - name: orgId
         in: path
@@ -5333,7 +5517,7 @@ paths:
           content:
             application/json:
               example:
-                id: "a1b2c3d4-e5f6-7890-abcd-ef1234567890"
+                id: a1b2c3d4-e5f6-7890-abcd-ef1234567890
                 is_primary: true
         '404':
           description: The key or identity provider does not exist, or it is not a SAML provider
@@ -5354,11 +5538,12 @@ paths:
               description: The time at which the current rate limit window resets in UTC epoch seconds.
               schema:
                 type: number
-
   /organizations/{orgId}/identityProviderSettings:
     patch:
       summary: Update identity provider settings
       description: Update the identity provider settings for the org
+      tags:
+      - Identity Providers
       parameters:
       - name: orgId
         in: path
@@ -5378,10 +5563,11 @@ paths:
           description: Invalid data in body
         '405':
           description: The organization is not a root organization
-
     get:
       summary: Get identity provider settings
       description: Get the identity provider settings for the org
+      tags:
+      - Identity Providers
       parameters:
       - name: orgId
         in: path
@@ -5398,12 +5584,13 @@ paths:
                 allow_untrusted_certificates: false
         '405':
           description: The organization is not a root organization
-
   /organizations/{orgId}/invites:
     x-amf-description: Invite people to join the organization
     delete:
       summary: Delete organization invites
       description: Invite a person to join your organization
+      tags:
+      - Invites
       parameters:
       - name: orgId
         in: path
@@ -5415,8 +5602,8 @@ paths:
         content:
           application/json:
             example:
-              - 42
-              - 43
+            - 42
+            - 43
       responses:
         '204':
           description: Success
@@ -5437,10 +5624,11 @@ paths:
               description: The time at which the current rate limit window resets in UTC epoch seconds.
               schema:
                 type: number
-
     post:
       summary: Create organization invite
       description: Invite a person to join the organization
+      tags:
+      - Invites
       parameters:
       - name: orgId
         in: path
@@ -5454,7 +5642,7 @@ paths:
             example:
               email: jane.doe@example.com
               rolegroup_assignments:
-                - rolegroup_id: b1c2d3e4-f5a6-7890-abcd-ef1234567890
+              - rolegroup_id: b1c2d3e4-f5a6-7890-abcd-ef1234567890
       responses:
         '200':
           description: Success
@@ -5483,10 +5671,11 @@ paths:
               description: The time at which the current rate limit window resets in UTC epoch seconds.
               schema:
                 type: number
-
     get:
       summary: List organization invites
       description: get outstanding or expired invites that match the criteria
+      tags:
+      - Invites
       parameters:
       - name: orgId
         in: path
@@ -5512,12 +5701,13 @@ paths:
               description: The time at which the current rate limit window resets in UTC epoch seconds.
               schema:
                 type: number
-
   /organizations/{orgId}/invites/{inviteId}:
     x-amf-description: Invite resource
     get:
       summary: Get organization invite
       description: get an invite
+      tags:
+      - Invites
       parameters:
       - name: orgId
         in: path
@@ -5562,12 +5752,13 @@ paths:
               description: The time at which the current rate limit window resets in UTC epoch seconds.
               schema:
                 type: number
-
   /organizations/{orgId}/invites/resend:
     x-amf-description: Resend invites
     post:
       summary: Resend organization invites
       description: Resend a list of invites
+      tags:
+      - Invites
       parameters:
       - name: orgId
         in: path
@@ -5579,9 +5770,9 @@ paths:
         content:
           application/json:
             example:
-              - 42
-              - 43
-              - 44
+            - 42
+            - 43
+            - 44
       responses:
         '200':
           description: Success
@@ -5607,12 +5798,13 @@ paths:
               description: The time at which the current rate limit window resets in UTC epoch seconds.
               schema:
                 type: number
-
   /organizations/{orgId}/members:
     x-amf-description: Organization membership
     delete:
       summary: Remove organization members
       description: Remove a group of users from the organization by their IDs
+      tags:
+      - Members
       parameters:
       - name: orgId
         in: path
@@ -5624,8 +5816,8 @@ paths:
         content:
           application/json:
             example:
-              - a1b2c3d4-e5f6-7890-abcd-ef1234567890
-              - b2c3d4e5-f6a7-8901-bcde-f12345678901
+            - a1b2c3d4-e5f6-7890-abcd-ef1234567890
+            - b2c3d4e5-f6a7-8901-bcde-f12345678901
       responses:
         '204':
           description: Success
@@ -5648,10 +5840,11 @@ paths:
               description: The time at which the current rate limit window resets in UTC epoch seconds.
               schema:
                 type: number
-
     put:
       summary: Update organization members
       description: Add a group of users to the organization by their IDs
+      tags:
+      - Members
       parameters:
       - name: orgId
         in: path
@@ -5663,8 +5856,8 @@ paths:
         content:
           application/json:
             example:
-              - a1b2c3d4-e5f6-7890-abcd-ef1234567890
-              - b2c3d4e5-f6a7-8901-bcde-f12345678901
+            - a1b2c3d4-e5f6-7890-abcd-ef1234567890
+            - b2c3d4e5-f6a7-8901-bcde-f12345678901
       responses:
         '204':
           description: Success
@@ -5687,10 +5880,11 @@ paths:
               description: The time at which the current rate limit window resets in UTC epoch seconds.
               schema:
                 type: number
-
     get:
       summary: List organization members
       description: Get members from an organization
+      tags:
+      - Members
       parameters:
       - name: orgId
         in: path
@@ -5735,13 +5929,13 @@ paths:
             application/json:
               example:
                 data:
-                  - id: a1b2c3d4-e5f6-7890-abcd-ef1234567890
-                    username: janedoe
-                    firstName: Jane
-                    lastName: Doe
-                    email: jane.doe@example.com
-                    organizationId: c1d2e3f4-a5b6-7890-cdef-ab1234567890
-                    createdAt: '2024-01-15T10:30:00.000Z'
+                - id: a1b2c3d4-e5f6-7890-abcd-ef1234567890
+                  username: janedoe
+                  firstName: Jane
+                  lastName: Doe
+                  email: jane.doe@example.com
+                  organizationId: c1d2e3f4-a5b6-7890-cdef-ab1234567890
+                  createdAt: '2024-01-15T10:30:00.000Z'
                 total: 1
         '404':
           description: The organization does not exist
@@ -5760,11 +5954,12 @@ paths:
               description: The time at which the current rate limit window resets in UTC epoch seconds.
               schema:
                 type: number
-
   /organizations/{orgId}/members/{userId}:
     delete:
       summary: Remove organization member
       description: Remove the user from the organization
+      tags:
+      - Members
       parameters:
       - name: orgId
         in: path
@@ -5804,10 +5999,11 @@ paths:
               description: The time at which the current rate limit window resets in UTC epoch seconds.
               schema:
                 type: number
-
     put:
       summary: Update organization member
       description: Add the user to the organization
+      tags:
+      - Members
       parameters:
       - name: orgId
         in: path
@@ -5847,12 +6043,13 @@ paths:
               description: The time at which the current rate limit window resets in UTC epoch seconds.
               schema:
                 type: number
-
   /organizations/{orgId}/owner:
     x-amf-description: Resource for owner of an organization
     get:
       summary: Get organization owner
       description: get owner for an organization
+      tags:
+      - Organizations
       parameters:
       - name: orgId
         in: path
@@ -5890,12 +6087,13 @@ paths:
               description: The time at which the current rate limit window resets in UTC epoch seconds.
               schema:
                 type: number
-
   /organizations/{orgId}/owner/{userId}:
     x-amf-description: Endpoint to switch organization owner to the one specified by userId
     put:
       summary: Set organization owner
       description: Switch out organization's owner to the one specified by userId
+      tags:
+      - Organizations
       parameters:
       - name: orgId
         in: path
@@ -5938,12 +6136,13 @@ paths:
               description: The time at which the current rate limit window resets in UTC epoch seconds.
               schema:
                 type: number
-
   /organizations/{orgId}/provider/users:
     x-amf-description: Identity provider information for the organization
     delete:
       summary: Delete provider users
       description: Revert to using the default identity provider
+      tags:
+      - Identity Providers
       parameters:
       - name: orgId
         in: path
@@ -5969,10 +6168,11 @@ paths:
               description: The time at which the current rate limit window resets in UTC epoch seconds.
               schema:
                 type: number
-
     put:
       summary: Update provider users
       description: Updates the identity provider for the organization
+      tags:
+      - Identity Providers
       parameters:
       - name: orgId
         in: path
@@ -6005,10 +6205,11 @@ paths:
               description: The time at which the current rate limit window resets in UTC epoch seconds.
               schema:
                 type: number
-
     get:
       summary: List provider users
       description: Returns the identity provider details
+      tags:
+      - Identity Providers
       parameters:
       - name: orgId
         in: path
@@ -6042,11 +6243,12 @@ paths:
               description: The time at which the current rate limit window resets in UTC epoch seconds.
               schema:
                 type: number
-
   /organizations/{orgId}/provider/users/ldap/test:
     post:
       summary: Test LDAP user connection
       description: To test the ldap identity provider configuration before persisting
+      tags:
+      - Identity Providers
       parameters:
       - name: orgId
         in: path
@@ -6061,12 +6263,12 @@ paths:
               connection:
                 host: ldap.example.com
                 port: 636
-                bindDn: 'cn=admin,dc=example,dc=com'
+                bindDn: cn=admin,dc=example,dc=com
                 password: securepassword123
                 connectTimeoutSeconds: 10
               search_bases:
-                user: 'ou=people,dc=example,dc=com'
-                group: 'ou=groups,dc=example,dc=com'
+                user: ou=people,dc=example,dc=com
+                group: ou=groups,dc=example,dc=com
       responses:
         '200':
           description: Success
@@ -6085,11 +6287,12 @@ paths:
               description: The time at which the current rate limit window resets in UTC epoch seconds.
               schema:
                 type: number
-
   /organizations/{orgId}/provider/users/saml-sp-metadata:
     get:
       summary: Get provider SAML SP metadata
       description: Download the SAML SP metadata
+      tags:
+      - Identity Providers
       parameters:
       - name: orgId
         in: path
@@ -6117,12 +6320,13 @@ paths:
               description: The time at which the current rate limit window resets in UTC epoch seconds.
               schema:
                 type: number
-
   /organizations/{orgId}/proxyusers/{userId}:
     x-amf-description: Creates a proxy user in an organization
     post:
       summary: Create proxy user
       description: Creates a proxy user in an organization
+      tags:
+      - Users
       parameters:
       - name: orgId
         in: path
@@ -6161,12 +6365,13 @@ paths:
               description: The time at which the current rate limit window resets in UTC epoch seconds.
               schema:
                 type: number
-
   /organizations/{orgId}/rolegroups:
     x-amf-description: Role groups that belong to this organization
     delete:
       summary: Delete role groups
       description: Deletes role groups that belong to this organization
+      tags:
+      - Role Groups
       parameters:
       - name: orgId
         in: path
@@ -6178,7 +6383,7 @@ paths:
         content:
           application/json:
             example:
-              - b1c2d3e4-f5a6-7890-abcd-ef1234567890
+            - b1c2d3e4-f5a6-7890-abcd-ef1234567890
       responses:
         '200':
           description: Success
@@ -6197,10 +6402,11 @@ paths:
               description: The time at which the current rate limit window resets in UTC epoch seconds.
               schema:
                 type: number
-
     post:
       summary: Create role group
       description: Creates a role group for this org
+      tags:
+      - Role Groups
       parameters:
       - name: orgId
         in: path
@@ -6215,7 +6421,7 @@ paths:
               name: API Developers
               description: Team responsible for API development
               external_names:
-                - API-Developers-SSO-Group
+              - API-Developers-SSO-Group
       responses:
         '201':
           description: Success
@@ -6244,10 +6450,11 @@ paths:
               description: The time at which the current rate limit window resets in UTC epoch seconds.
               schema:
                 type: number
-
     get:
       summary: List role groups
       description: Returns all role groups that belong to this organization
+      tags:
+      - Role Groups
       parameters:
       - name: orgId
         in: path
@@ -6267,13 +6474,13 @@ paths:
             application/json:
               example:
                 data:
-                  - role_group_id: b1c2d3e4-f5a6-7890-abcd-ef1234567890
-                    name: API Developers
-                    description: Team responsible for API development
-                    org_id: c1d2e3f4-a5b6-7890-cdef-ab1234567890
-                    editable: true
-                    created_at: '2024-01-15T10:30:00.000Z'
-                    updated_at: '2024-06-20T14:00:00.000Z'
+                - role_group_id: b1c2d3e4-f5a6-7890-abcd-ef1234567890
+                  name: API Developers
+                  description: Team responsible for API development
+                  org_id: c1d2e3f4-a5b6-7890-cdef-ab1234567890
+                  editable: true
+                  created_at: '2024-01-15T10:30:00.000Z'
+                  updated_at: '2024-06-20T14:00:00.000Z'
                 total: 1
         '404':
           description: The organization does not exist
@@ -6292,11 +6499,12 @@ paths:
               description: The time at which the current rate limit window resets in UTC epoch seconds.
               schema:
                 type: number
-
   /organizations/{orgId}/rolegroups/{roleGroupId}:
     delete:
       summary: Delete role group
       description: Deletes a role group
+      tags:
+      - Role Groups
       parameters:
       - name: orgId
         in: path
@@ -6328,10 +6536,11 @@ paths:
               description: The time at which the current rate limit window resets in UTC epoch seconds.
               schema:
                 type: number
-
     put:
       summary: Replace role group
       description: Updates a role group
+      tags:
+      - Role Groups
       parameters:
       - name: orgId
         in: path
@@ -6352,7 +6561,7 @@ paths:
               name: API Developers
               description: Team responsible for API development
               external_names:
-                - API-Developers-SSO-Group
+              - API-Developers-SSO-Group
       responses:
         '200':
           description: Success
@@ -6381,10 +6590,11 @@ paths:
               description: The time at which the current rate limit window resets in UTC epoch seconds.
               schema:
                 type: number
-
     get:
       summary: Get role group
       description: Returns a role group
+      tags:
+      - Role Groups
       parameters:
       - name: orgId
         in: path
@@ -6431,12 +6641,13 @@ paths:
               description: The time at which the current rate limit window resets in UTC epoch seconds.
               schema:
                 type: number
-
   /organizations/{orgId}/rolegroups/{roleGroupId}/roles:
     x-amf-description: Roles assigned to this role group
     delete:
       summary: Unassign roles from role group
       description: Removes roles from this role group
+      tags:
+      - Role Groups
       parameters:
       - name: orgId
         in: path
@@ -6454,9 +6665,9 @@ paths:
         content:
           application/json:
             example:
-              - role_id: d1e2f3a4-b5c6-7890-abcd-ef1234567890
-                context_params:
-                  org: c1d2e3f4-a5b6-7890-cdef-ab1234567890
+            - role_id: d1e2f3a4-b5c6-7890-abcd-ef1234567890
+              context_params:
+                org: c1d2e3f4-a5b6-7890-cdef-ab1234567890
       responses:
         '200':
           description: Success
@@ -6475,10 +6686,11 @@ paths:
               description: The time at which the current rate limit window resets in UTC epoch seconds.
               schema:
                 type: number
-
     post:
       summary: Assign roles to role group
       description: Assigns roles to this role group
+      tags:
+      - Role Groups
       parameters:
       - name: orgId
         in: path
@@ -6496,9 +6708,9 @@ paths:
         content:
           application/json:
             example:
-              - role_id: d1e2f3a4-b5c6-7890-abcd-ef1234567890
-                context_params:
-                  org: c1d2e3f4-a5b6-7890-cdef-ab1234567890
+            - role_id: d1e2f3a4-b5c6-7890-abcd-ef1234567890
+              context_params:
+                org: c1d2e3f4-a5b6-7890-cdef-ab1234567890
       responses:
         '200':
           description: Success
@@ -6517,10 +6729,11 @@ paths:
               description: The time at which the current rate limit window resets in UTC epoch seconds.
               schema:
                 type: number
-
     get:
       summary: List role group roles
       description: Returns all roles assigned to this role group
+      tags:
+      - Role Groups
       parameters:
       - name: orgId
         in: path
@@ -6556,10 +6769,10 @@ paths:
             application/json:
               example:
                 data:
-                  - role_id: d1e2f3a4-b5c6-7890-abcd-ef1234567890
-                    name: API Manager Environment Administrator
-                    context_params:
-                      org: c1d2e3f4-a5b6-7890-cdef-ab1234567890
+                - role_id: d1e2f3a4-b5c6-7890-abcd-ef1234567890
+                  name: API Manager Environment Administrator
+                  context_params:
+                    org: c1d2e3f4-a5b6-7890-cdef-ab1234567890
                 total: 1
         '429':
           description: Too many requests
@@ -6576,12 +6789,13 @@ paths:
               description: The time at which the current rate limit window resets in UTC epoch seconds.
               schema:
                 type: number
-
   /organizations/{orgId}/rolegroups/{roleGroupId}/users:
     x-amf-description: Users assigned to this role group
     delete:
       summary: Unassign users from role group
       description: Unassigns a group of users from this role group
+      tags:
+      - Role Groups
       parameters:
       - name: orgId
         in: path
@@ -6599,7 +6813,7 @@ paths:
         content:
           application/json:
             example:
-              - a1b2c3d4-e5f6-7890-abcd-ef1234567890
+            - a1b2c3d4-e5f6-7890-abcd-ef1234567890
       responses:
         '200':
           description: Success
@@ -6620,10 +6834,11 @@ paths:
               description: The time at which the current rate limit window resets in UTC epoch seconds.
               schema:
                 type: number
-
     post:
       summary: Assign users to role group
       description: Assigns a group of users to this role group
+      tags:
+      - Role Groups
       parameters:
       - name: orgId
         in: path
@@ -6641,7 +6856,7 @@ paths:
         content:
           application/json:
             example:
-              - a1b2c3d4-e5f6-7890-abcd-ef1234567890
+            - a1b2c3d4-e5f6-7890-abcd-ef1234567890
       responses:
         '200':
           description: Success
@@ -6660,10 +6875,11 @@ paths:
               description: The time at which the current rate limit window resets in UTC epoch seconds.
               schema:
                 type: number
-
     get:
       summary: List role group users
       description: Returns users assigned to this role group
+      tags:
+      - Role Groups
       parameters:
       - name: orgId
         in: path
@@ -6684,11 +6900,11 @@ paths:
             application/json:
               example:
                 data:
-                  - id: a1b2c3d4-e5f6-7890-abcd-ef1234567890
-                    username: janedoe
-                    firstName: Jane
-                    lastName: Doe
-                    email: jane.doe@example.com
+                - id: a1b2c3d4-e5f6-7890-abcd-ef1234567890
+                  username: janedoe
+                  firstName: Jane
+                  lastName: Doe
+                  email: jane.doe@example.com
                 total: 1
         '429':
           description: Too many requests
@@ -6705,11 +6921,12 @@ paths:
               description: The time at which the current rate limit window resets in UTC epoch seconds.
               schema:
                 type: number
-
   /organizations/{orgId}/rolegroups/{roleGroupId}/users/{userId}:
     delete:
       summary: Unassign user from role group
       description: Removes this user from the role group
+      tags:
+      - Role Groups
       parameters:
       - name: orgId
         in: path
@@ -6747,10 +6964,11 @@ paths:
               description: The time at which the current rate limit window resets in UTC epoch seconds.
               schema:
                 type: number
-
     post:
       summary: Assign user to role group
       description: Assigns this user to the role group
+      tags:
+      - Role Groups
       parameters:
       - name: orgId
         in: path
@@ -6788,13 +7006,14 @@ paths:
               description: The time at which the current rate limit window resets in UTC epoch seconds.
               schema:
                 type: number
-
   /organizations/{orgId}/roles:
     x-amf-description: Roles by organization
     delete:
       summary: Remove role assignments by context
       description: Remove assignments for a given context, the context for the roles being deleted should be sent on the query
         string
+      tags:
+      - Roles
       parameters:
       - name: orgId
         in: path
@@ -6838,12 +7057,13 @@ paths:
               description: The time at which the current rate limit window resets in UTC epoch seconds.
               schema:
                 type: number
-
   /organizations/{orgId}/smtp:
     x-amf-description: SMTP information for the organization
     put:
       summary: Update SMTP settings
       description: Updates the SMTP details
+      tags:
+      - Organizations
       parameters:
       - name: orgId
         in: path
@@ -6878,10 +7098,11 @@ paths:
               description: The time at which the current rate limit window resets in UTC epoch seconds.
               schema:
                 type: number
-
     get:
       summary: Get SMTP settings
       description: Returns the SMTP details
+      tags:
+      - Organizations
       parameters:
       - name: orgId
         in: path
@@ -6914,12 +7135,13 @@ paths:
               description: The time at which the current rate limit window resets in UTC epoch seconds.
               schema:
                 type: number
-
   /organizations/{orgId}/teams:
     x-amf-description: Teams are groups of users and/or other teams
     post:
       summary: Create team
       description: Creates a new team.
+      tags:
+      - Teams
       parameters:
       - name: orgId
         in: path
@@ -6962,10 +7184,11 @@ paths:
               description: The time at which the current rate limit window resets in UTC epoch seconds.
               schema:
                 type: number
-
     get:
       summary: List teams
       description: Returns all teams or search for teams or get a list of teams by ids
+      tags:
+      - Teams
       parameters:
       - name: orgId
         in: path
@@ -7021,11 +7244,12 @@ paths:
               description: The time at which the current rate limit window resets in UTC epoch seconds.
               schema:
                 type: number
-
   /organizations/{orgId}/teams/{teamId}:
     delete:
       summary: Delete team
       description: Delete the team, including all child teams.
+      tags:
+      - Teams
       parameters:
       - name: orgId
         in: path
@@ -7057,10 +7281,11 @@ paths:
               description: The time at which the current rate limit window resets in UTC epoch seconds.
               schema:
                 type: number
-
     patch:
       summary: Update team
       description: Update or move the team
+      tags:
+      - Teams
       parameters:
       - name: orgId
         in: path
@@ -7091,7 +7316,7 @@ paths:
                 team_type: internal
                 org_id: c1d2e3f4-a5b6-7890-cdef-ab1234567890
                 ancestor_team_ids:
-                  - e5f6a7b8-c9d0-1234-abcd-ef5678901234
+                - e5f6a7b8-c9d0-1234-abcd-ef5678901234
                 created_at: '2024-01-15T10:30:00.000Z'
                 updated_at: '2024-06-20T14:00:00.000Z'
         '401':
@@ -7115,10 +7340,11 @@ paths:
               description: The time at which the current rate limit window resets in UTC epoch seconds.
               schema:
                 type: number
-
     get:
       summary: Get team
       description: Returns the team
+      tags:
+      - Teams
       parameters:
       - name: orgId
         in: path
@@ -7143,7 +7369,7 @@ paths:
                 team_type: internal
                 org_id: c1d2e3f4-a5b6-7890-cdef-ab1234567890
                 ancestor_team_ids:
-                  - e5f6a7b8-c9d0-1234-abcd-ef5678901234
+                - e5f6a7b8-c9d0-1234-abcd-ef5678901234
                 created_at: '2024-01-15T10:30:00.000Z'
                 updated_at: '2024-06-20T14:00:00.000Z'
         '429':
@@ -7161,11 +7387,12 @@ paths:
               description: The time at which the current rate limit window resets in UTC epoch seconds.
               schema:
                 type: number
-
   /organizations/{orgId}/teams/{teamId}/parent:
     put:
       summary: Move team to new parent
       description: Move the team and its child teams under a new parent team
+      tags:
+      - Teams
       parameters:
       - name: orgId
         in: path
@@ -7215,7 +7442,6 @@ paths:
               description: The time at which the current rate limit window resets in UTC epoch seconds.
               schema:
                 type: number
-
   /organizations/{orgId}/teams/{teamId}/groupmappings:
     x-amf-description: 'group access mappings configure how memberships in external groups
 
@@ -7223,6 +7449,8 @@ paths:
     delete:
       summary: Remove team group mappings
       description: bulk remove mappings from the team
+      tags:
+      - Teams
       parameters:
       - name: orgId
         in: path
@@ -7240,8 +7468,8 @@ paths:
         content:
           application/json:
             example:
-              - external_group_name: engineering-team
-                provider_id: a1b2c3d4-e5f6-7890-abcd-ef1234567890
+            - external_group_name: engineering-team
+              provider_id: a1b2c3d4-e5f6-7890-abcd-ef1234567890
       responses:
         '204':
           description: Success.
@@ -7260,11 +7488,12 @@ paths:
               description: The time at which the current rate limit window resets in UTC epoch seconds.
               schema:
                 type: number
-
     patch:
       summary: Update team group mappings
       description: bulk add mappings and/or modify mappings' membership_type to the team. Removing mappings is not supported
         by this method.
+      tags:
+      - Teams
       parameters:
       - name: orgId
         in: path
@@ -7282,9 +7511,9 @@ paths:
         content:
           application/json:
             example:
-              - external_group_name: engineering-team
-                provider_id: a1b2c3d4-e5f6-7890-abcd-ef1234567890
-                membership_type: member
+            - external_group_name: engineering-team
+              provider_id: a1b2c3d4-e5f6-7890-abcd-ef1234567890
+              membership_type: member
       responses:
         '204':
           description: Success
@@ -7303,10 +7532,11 @@ paths:
               description: The time at which the current rate limit window resets in UTC epoch seconds.
               schema:
                 type: number
-
     put:
       summary: Replace team group mappings
       description: Replace the entire list of group mappings associated with this team
+      tags:
+      - Teams
       parameters:
       - name: orgId
         in: path
@@ -7324,9 +7554,9 @@ paths:
         content:
           application/json:
             example:
-              - external_group_name: engineering-team
-                provider_id: a1b2c3d4-e5f6-7890-abcd-ef1234567890
-                membership_type: member
+            - external_group_name: engineering-team
+              provider_id: a1b2c3d4-e5f6-7890-abcd-ef1234567890
+              membership_type: member
       responses:
         '204':
           description: Success
@@ -7345,10 +7575,11 @@ paths:
               description: The time at which the current rate limit window resets in UTC epoch seconds.
               schema:
                 type: number
-
     get:
       summary: List team group mappings
       description: get all group access mappings configured for the team
+      tags:
+      - Teams
       parameters:
       - name: orgId
         in: path
@@ -7395,12 +7626,13 @@ paths:
               description: The time at which the current rate limit window resets in UTC epoch seconds.
               schema:
                 type: number
-
   /organizations/{orgId}/teams/{teamId}/roles:
     x-amf-description: roles assigned to the team. All members of the team receive these access control grants.
     delete:
       summary: Unassign roles from team
       description: bulk unassign roles from the team
+      tags:
+      - Teams
       parameters:
       - name: orgId
         in: path
@@ -7418,10 +7650,10 @@ paths:
         content:
           application/json:
             example:
-              - role_id: d1e2f3a4-b5c6-7890-abcd-ef1234567890
-                context_params:
-                  org: c1d2e3f4-a5b6-7890-cdef-ab1234567890
-                  envId: e1f2a3b4-c5d6-7890-abcd-ef1234567890
+            - role_id: d1e2f3a4-b5c6-7890-abcd-ef1234567890
+              context_params:
+                org: c1d2e3f4-a5b6-7890-cdef-ab1234567890
+                envId: e1f2a3b4-c5d6-7890-abcd-ef1234567890
       responses:
         '204':
           description: Success
@@ -7442,10 +7674,11 @@ paths:
               description: The time at which the current rate limit window resets in UTC epoch seconds.
               schema:
                 type: number
-
     post:
       summary: Assign roles to team
       description: bulk assign roles to the team
+      tags:
+      - Teams
       parameters:
       - name: orgId
         in: path
@@ -7463,10 +7696,10 @@ paths:
         content:
           application/json:
             example:
-              - role_id: d1e2f3a4-b5c6-7890-abcd-ef1234567890
-                context_params:
-                  org: c1d2e3f4-a5b6-7890-cdef-ab1234567890
-                  envId: e1f2a3b4-c5d6-7890-abcd-ef1234567890
+            - role_id: d1e2f3a4-b5c6-7890-abcd-ef1234567890
+              context_params:
+                org: c1d2e3f4-a5b6-7890-cdef-ab1234567890
+                envId: e1f2a3b4-c5d6-7890-abcd-ef1234567890
       responses:
         '204':
           description: Success
@@ -7487,10 +7720,11 @@ paths:
               description: The time at which the current rate limit window resets in UTC epoch seconds.
               schema:
                 type: number
-
     get:
       summary: List team roles
       description: get all role assignments or search for role assignments
+      tags:
+      - Teams
       parameters:
       - name: orgId
         in: path
@@ -7527,12 +7761,13 @@ paths:
               description: The time at which the current rate limit window resets in UTC epoch seconds.
               schema:
                 type: number
-
   /organizations/{orgId}/teams/{teamId}/members:
     x-amf-description: members of teams can be users or other teams
     delete:
       summary: Remove team members
       description: bulk remove user members from the team
+      tags:
+      - Teams
       parameters:
       - name: orgId
         in: path
@@ -7550,7 +7785,7 @@ paths:
         content:
           application/json:
             example:
-              - id: a1b2c3d4-e5f6-7890-abcd-ef1234567890
+            - id: a1b2c3d4-e5f6-7890-abcd-ef1234567890
       responses:
         '204':
           description: Success.
@@ -7572,11 +7807,12 @@ paths:
               description: The time at which the current rate limit window resets in UTC epoch seconds.
               schema:
                 type: number
-
     patch:
       summary: Update team members
       description: bulk add users and/or modify users' membership_type to the team. Removing members is not supported by this
         method.
+      tags:
+      - Teams
       parameters:
       - name: orgId
         in: path
@@ -7594,8 +7830,8 @@ paths:
         content:
           application/json:
             example:
-              - id: a1b2c3d4-e5f6-7890-abcd-ef1234567890
-                membership_type: member
+            - id: a1b2c3d4-e5f6-7890-abcd-ef1234567890
+              membership_type: member
       responses:
         '204':
           description: Success
@@ -7617,10 +7853,11 @@ paths:
               description: The time at which the current rate limit window resets in UTC epoch seconds.
               schema:
                 type: number
-
     get:
       summary: List team members
       description: get all members or search for members of this team or get a list of members by ids
+      tags:
+      - Teams
       parameters:
       - name: orgId
         in: path
@@ -7681,11 +7918,12 @@ paths:
               description: The time at which the current rate limit window resets in UTC epoch seconds.
               schema:
                 type: number
-
   /organizations/{orgId}/teams/{teamId}/members/{userId}:
     delete:
       summary: Remove team member
       description: remove the user from the team.
+      tags:
+      - Teams
       parameters:
       - name: orgId
         in: path
@@ -7726,10 +7964,11 @@ paths:
               description: The time at which the current rate limit window resets in UTC epoch seconds.
               schema:
                 type: number
-
     put:
       summary: Add team member
       description: add the user as a member of the team.
+      tags:
+      - Teams
       parameters:
       - name: orgId
         in: path
@@ -7775,11 +8014,12 @@ paths:
               description: The time at which the current rate limit window resets in UTC epoch seconds.
               schema:
                 type: number
-
   /organizations/{orgId}/tenantRelationships:
     post:
       summary: Create tenant relationship
       description: Establish manual tenant relationships
+      tags:
+      - Tenant Relationships
       parameters:
       - name: orgId
         in: path
@@ -7821,10 +8061,11 @@ paths:
               description: The time at which the current rate limit window resets in UTC epoch seconds.
               schema:
                 type: number
-
     get:
       summary: List tenant relationships
       description: List Tenant Relationships by Root Organization
+      tags:
+      - Tenant Relationships
       parameters:
       - name: orgId
         in: path
@@ -7877,11 +8118,12 @@ paths:
               description: The time at which the current rate limit window resets in UTC epoch seconds.
               schema:
                 type: number
-
   /organizations/{orgId}/tenantRelationships/{relationshipId}:
     delete:
       summary: Delete tenant relationship
       description: Delete a particular Tenant Relationship by ID
+      tags:
+      - Tenant Relationships
       parameters:
       - name: orgId
         in: path
@@ -7904,10 +8146,11 @@ paths:
           description: Not Authorized
         '404':
           description: No such Tenant Relationship
-
     patch:
       summary: Update tenant relationship
       description: Patch update a particular Tenant Relationship by ID
+      tags:
+      - Tenant Relationships
       parameters:
       - name: orgId
         in: path
@@ -7948,10 +8191,11 @@ paths:
           description: Not Authorized
         '404':
           description: No such Tenant Relationship
-
     get:
       summary: Get tenant relationship
       description: Get a particular Tenant Relationship by ID
+      tags:
+      - Tenant Relationships
       parameters:
       - name: orgId
         in: path
@@ -7985,11 +8229,12 @@ paths:
           description: Not Authorized
         '404':
           description: No such Tenant Relationship
-
   /organizations/{orgId}/tenantRelationships/{relationshipId}/repair:
     patch:
       summary: Repair tenant relationship
       description: Repairs certain types of connection errors between the MuleSoft org and the remote Tenant
+      tags:
+      - Tenant Relationships
       parameters:
       - name: orgId
         in: path
@@ -8014,11 +8259,12 @@ paths:
           description: Not Authorized
         '404':
           description: No such Tenant Relationship
-
   /organizations/{orgId}/myTenantRelationship/{statusKey}/status:
     put:
       summary: Update tenant relationship feature status
       description: Update the status of a specific SFDC organization feature for tenant relationships
+      tags:
+      - Tenant Relationships
       parameters:
       - name: orgId
         in: path
@@ -8067,11 +8313,12 @@ paths:
               description: The time at which the current rate limit window resets in UTC epoch seconds.
               schema:
                 type: number
-
   /organizations/{orgId}/myTenantRelationship/assignments:
     get:
       summary: List tenant relationship assignments
       description: Get business group assignments for the Tenant Relationship for the caller utilizing a C2C token
+      tags:
+      - Tenant Relationships
       parameters:
       - name: orgId
         in: path
@@ -8086,8 +8333,8 @@ paths:
             application/json:
               example:
                 data:
-                  - org_id: c1d2e3f4-a5b6-7890-cdef-ab1234567890
-                    org_name: Engineering BG
+                - org_id: c1d2e3f4-a5b6-7890-cdef-ab1234567890
+                  org_name: Engineering BG
         '401':
           description: Authentication Required
         '403':
@@ -8107,12 +8354,13 @@ paths:
               description: The time at which the current rate limit window resets in UTC epoch seconds.
               schema:
                 type: number
-
   /organizations/{orgId}/users:
     x-amf-description: Users that belong to the organization
     delete:
       summary: Delete organization users
       description: Deletes a group of users
+      tags:
+      - Users
       parameters:
       - name: orgId
         in: path
@@ -8124,7 +8372,7 @@ paths:
         content:
           application/json:
             example:
-              - a1b2c3d4-e5f6-7890-abcd-ef1234567890
+            - a1b2c3d4-e5f6-7890-abcd-ef1234567890
       responses:
         '204':
           description: Success
@@ -8145,10 +8393,11 @@ paths:
               description: The time at which the current rate limit window resets in UTC epoch seconds.
               schema:
                 type: number
-
     post:
       summary: Create organization user
       description: Create a single user under the organization
+      tags:
+      - Users
       parameters:
       - name: orgId
         in: path
@@ -8164,7 +8413,7 @@ paths:
               firstName: Jane
               lastName: Doe
               email: jane.doe@example.com
-              password: 'SecureP@ss123!'
+              password: SecureP@ss123!
       responses:
         '201':
           description: Success
@@ -8187,10 +8436,11 @@ paths:
               description: The time at which the current rate limit window resets in UTC epoch seconds.
               schema:
                 type: number
-
     put:
       summary: Update organization users
       description: Update a group of users
+      tags:
+      - Users
       parameters:
       - name: orgId
         in: path
@@ -8202,10 +8452,10 @@ paths:
         content:
           application/json:
             example:
-              - id: a1b2c3d4-e5f6-7890-abcd-ef1234567890
-                firstName: Jane
-                lastName: Doe
-                email: jane.doe@example.com
+            - id: a1b2c3d4-e5f6-7890-abcd-ef1234567890
+              firstName: Jane
+              lastName: Doe
+              email: jane.doe@example.com
       responses:
         '204':
           description: Success
@@ -8228,10 +8478,11 @@ paths:
               description: The time at which the current rate limit window resets in UTC epoch seconds.
               schema:
                 type: number
-
     get:
       summary: List organization users
       description: Returns a group of users that belong to the organization
+      tags:
+      - Users
       parameters:
       - name: orgId
         in: path
@@ -8275,13 +8526,13 @@ paths:
             application/json:
               example:
                 data:
-                  - id: a1b2c3d4-e5f6-7890-abcd-ef1234567890
-                    username: janedoe
-                    firstName: Jane
-                    lastName: Doe
-                    email: jane.doe@example.com
-                    organizationId: c1d2e3f4-a5b6-7890-cdef-ab1234567890
-                    createdAt: '2024-01-15T10:30:00.000Z'
+                - id: a1b2c3d4-e5f6-7890-abcd-ef1234567890
+                  username: janedoe
+                  firstName: Jane
+                  lastName: Doe
+                  email: jane.doe@example.com
+                  organizationId: c1d2e3f4-a5b6-7890-cdef-ab1234567890
+                  createdAt: '2024-01-15T10:30:00.000Z'
                 total: 1
         '404':
           description: Organization does not exist
@@ -8300,12 +8551,13 @@ paths:
               description: The time at which the current rate limit window resets in UTC epoch seconds.
               schema:
                 type: number
-
   /organizations/{orgId}/users/{userId}:
     x-amf-description: A single user that belongs to the organization
     delete:
       summary: Delete organization user
       description: Deletes a user
+      tags:
+      - Users
       parameters:
       - name: orgId
         in: path
@@ -8339,10 +8591,11 @@ paths:
               description: The time at which the current rate limit window resets in UTC epoch seconds.
               schema:
                 type: number
-
     put:
       summary: Update organization user
       description: Updates a single user. Modifying email may require reauthentication.
+      tags:
+      - Users
       parameters:
       - name: orgId
         in: path
@@ -8364,7 +8617,7 @@ paths:
               firstName: Jane
               lastName: Doe
               email: jane.doe@example.com
-              phoneNumber: '555-123-4567'
+              phoneNumber: 555-123-4567
       responses:
         '200':
           description: Success
@@ -8376,7 +8629,7 @@ paths:
                 firstName: Jane
                 lastName: Doe
                 email: jane.doe@example.com
-                phoneNumber: '555-123-4567'
+                phoneNumber: 555-123-4567
                 organizationId: c1d2e3f4-a5b6-7890-cdef-ab1234567890
                 createdAt: '2024-01-15T10:30:00.000Z'
                 updatedAt: '2024-06-20T14:00:00.000Z'
@@ -8391,7 +8644,7 @@ paths:
               example:
                 error: reauthentication_required
                 message: Email change requires reauthentication
-                location: 'https://anypoint.mulesoft.com/accounts/reauth'
+                location: https://anypoint.mulesoft.com/accounts/reauth
         '404':
           description: User does not exist
         '429':
@@ -8409,10 +8662,11 @@ paths:
               description: The time at which the current rate limit window resets in UTC epoch seconds.
               schema:
                 type: number
-
     get:
       summary: Get organization user
       description: Returns a single user
+      tags:
+      - Users
       parameters:
       - name: orgId
         in: path
@@ -8437,7 +8691,7 @@ paths:
                 firstName: Jane
                 lastName: Doe
                 email: jane.doe@example.com
-                phoneNumber: '555-123-4567'
+                phoneNumber: 555-123-4567
                 organizationId: c1d2e3f4-a5b6-7890-cdef-ab1234567890
                 createdAt: '2024-01-15T10:30:00.000Z'
                 updatedAt: '2024-06-20T14:00:00.000Z'
@@ -8458,13 +8712,14 @@ paths:
               description: The time at which the current rate limit window resets in UTC epoch seconds.
               schema:
                 type: number
-
   /organizations/{orgId}/users/{userId}/manage_verifiers:
     get:
       summary: Get user verifier management info
       description: 'Returns information about how to initiate a redirect to the
 
         VaaS Verifier Management UI.'
+      tags:
+      - Users
       parameters:
       - name: orgId
         in: path
@@ -8483,11 +8738,12 @@ paths:
           description: Success
         '405':
           description: MethodNotAllowed - user is exempt from MFA requirements
-
   /organizations/{orgId}/users/{userId}/properties:
     x-amf-description: A user's properties.
     put:
       summary: Update organization user properties
+      tags:
+      - Users
       parameters:
       - name: orgId
         in: path
@@ -8532,12 +8788,13 @@ paths:
               description: The time at which the current rate limit window resets in UTC epoch seconds.
               schema:
                 type: number
-
   /organizations/{orgId}/users/{userId}/rolegroups:
     x-amf-description: Role groups assigned to the user
     get:
       summary: List user role groups
       description: Returns the role groups assigned to the user
+      tags:
+      - Users
       parameters:
       - name: orgId
         in: path
@@ -8558,9 +8815,9 @@ paths:
             application/json:
               example:
                 data:
-                  - role_group_id: b1c2d3e4-f5a6-7890-abcd-ef1234567890
-                    name: API Developers
-                    org_id: c1d2e3f4-a5b6-7890-cdef-ab1234567890
+                - role_group_id: b1c2d3e4-f5a6-7890-abcd-ef1234567890
+                  name: API Developers
+                  org_id: c1d2e3f4-a5b6-7890-cdef-ab1234567890
                 total: 1
         '429':
           description: Too many requests
@@ -8577,12 +8834,13 @@ paths:
               description: The time at which the current rate limit window resets in UTC epoch seconds.
               schema:
                 type: number
-
   /organizations/{orgId}/users/{userId}/rolegroups/{roleGroupId}:
     x-amf-description: A single role group assigned to the user
     delete:
       summary: Unassign role group from user
       description: Unassigns the role group from the user
+      tags:
+      - Users
       parameters:
       - name: orgId
         in: path
@@ -8620,10 +8878,11 @@ paths:
               description: The time at which the current rate limit window resets in UTC epoch seconds.
               schema:
                 type: number
-
     post:
       summary: Assign role group to user
       description: Assigns the role group to the user
+      tags:
+      - Users
       parameters:
       - name: orgId
         in: path
@@ -8661,12 +8920,13 @@ paths:
               description: The time at which the current rate limit window resets in UTC epoch seconds.
               schema:
                 type: number
-
   /organizations/{orgId}/users/{userId}/roles:
     x-amf-description: Roles/permissions assigned to the user
     post:
       summary: Assign roles to user
       description: Bulk assign roles to the user
+      tags:
+      - Users
       parameters:
       - name: orgId
         in: path
@@ -8684,9 +8944,9 @@ paths:
         content:
           application/json:
             example:
-              - role_id: d1e2f3a4-b5c6-7890-abcd-ef1234567890
-                context_params:
-                  org: c1d2e3f4-a5b6-7890-cdef-ab1234567890
+            - role_id: d1e2f3a4-b5c6-7890-abcd-ef1234567890
+              context_params:
+                org: c1d2e3f4-a5b6-7890-cdef-ab1234567890
       responses:
         '200':
           description: Success
@@ -8705,12 +8965,13 @@ paths:
               description: The time at which the current rate limit window resets in UTC epoch seconds.
               schema:
                 type: number
-
     get:
       summary: List user roles
       description: 'Returns a list of roles/permissions assigned to the user, excluding inherited roles/permissions.
 
         Note: the `/authorize` API is more appropriate for checking authorization against assigned permissions.'
+      tags:
+      - Users
       parameters:
       - name: orgId
         in: path
@@ -8757,10 +9018,10 @@ paths:
             application/json:
               example:
                 data:
-                  - role_id: d1e2f3a4-b5c6-7890-abcd-ef1234567890
-                    name: API Manager Environment Administrator
-                    context_params:
-                      org: c1d2e3f4-a5b6-7890-cdef-ab1234567890
+                - role_id: d1e2f3a4-b5c6-7890-abcd-ef1234567890
+                  name: API Manager Environment Administrator
+                  context_params:
+                    org: c1d2e3f4-a5b6-7890-cdef-ab1234567890
                 total: 1
         '429':
           description: Too many requests
@@ -8777,11 +9038,12 @@ paths:
               description: The time at which the current rate limit window resets in UTC epoch seconds.
               schema:
                 type: number
-
   /organizations/{orgId}/users/{userId}/roles/{roleId}:
     delete:
       summary: Unassign role from user
       description: Unassign a role from the user
+      tags:
+      - Users
       parameters:
       - name: orgId
         in: path
@@ -8826,10 +9088,11 @@ paths:
               description: The time at which the current rate limit window resets in UTC epoch seconds.
               schema:
                 type: number
-
     post:
       summary: Assign role to user
       description: Assign a role to the user
+      tags:
+      - Users
       parameters:
       - name: orgId
         in: path
@@ -8874,11 +9137,12 @@ paths:
               description: The time at which the current rate limit window resets in UTC epoch seconds.
               schema:
                 type: number
-
   /organizations/{orgId}/users/{userId}/teams:
     get:
       summary: List user teams
       description: Returns a list of teams the user is a member of
+      tags:
+      - Users
       parameters:
       - name: orgId
         in: path
@@ -8936,11 +9200,12 @@ paths:
               description: The time at which the current rate limit window resets in UTC epoch seconds.
               schema:
                 type: number
-
   /organizations/{orgId}/users/{userId}/verifiers:
     delete:
       summary: Revoke user MFA verifiers
       description: Revokes all mfa verifiers associated with the user
+      tags:
+      - Users
       parameters:
       - name: orgId
         in: path
@@ -8959,11 +9224,12 @@ paths:
           description: Success
         '405':
           description: MethodNotAllowed - user is exempt from MFA requirements
-
   /organizations/{orgId}/users/{userId}/identityProviderProfiles:
     delete:
       summary: Remove user identity provider profile
       description: Removes an identity provider profile from a user
+      tags:
+      - Users
       parameters:
       - name: orgId
         in: path
@@ -9001,10 +9267,11 @@ paths:
               description: The time at which the current rate limit window resets in UTC epoch seconds.
               schema:
                 type: number
-
     get:
       summary: List user identity provider profiles
       description: Returns the list of the identity provider profiles of the user
+      tags:
+      - Users
       parameters:
       - name: orgId
         in: path
@@ -9024,9 +9291,9 @@ paths:
           content:
             application/json:
               example:
-                - provider_id: a1b2c3d4-e5f6-7890-abcd-ef1234567890
-                  provider_name: Corporate SSO
-                  profile_id: jane.doe@example.com
+              - provider_id: a1b2c3d4-e5f6-7890-abcd-ef1234567890
+                provider_name: Corporate SSO
+                profile_id: jane.doe@example.com
         '429':
           description: Too many requests
           headers:
@@ -9042,11 +9309,12 @@ paths:
               description: The time at which the current rate limit window resets in UTC epoch seconds.
               schema:
                 type: number
-
   /profile:
     get:
       summary: Get current user profile
       description: Returns the user bound to the provided access token
+      tags:
+      - Profile
       responses:
         '200':
           description: Success
@@ -9077,13 +9345,14 @@ paths:
               description: The time at which the current rate limit window resets in UTC epoch seconds.
               schema:
                 type: number
-
   /recover:
     x-amf-description: recover user's account
   /recover/password:
     post:
       summary: Request password reset
       description: sends a 'forgot password' email with password reset link to the email associated with the given username
+      tags:
+      - Account Recovery
       requestBody:
         content:
           application/json:
@@ -9118,6 +9387,8 @@ paths:
     post:
       summary: Reset password
       description: Sets a new password for the user associated with the password reset code
+      tags:
+      - Account Recovery
       parameters:
       - name: recoverCode
         in: path
@@ -9129,8 +9400,8 @@ paths:
         content:
           application/json:
             example:
-              password: 'NewSecureP@ss123!'
-              confirmPassword: 'NewSecureP@ss123!'
+              password: NewSecureP@ss123!
+              confirmPassword: NewSecureP@ss123!
       responses:
         '200':
           description: the password was successfully reset
@@ -9160,6 +9431,8 @@ paths:
     get:
       summary: Validate password reset code
       description: Checks the validity of the password reset code
+      tags:
+      - Account Recovery
       parameters:
       - name: recoverCode
         in: path
@@ -9195,6 +9468,8 @@ paths:
     post:
       summary: Recover username
       description: sends email with list of usernames associated with the given email
+      tags:
+      - Account Recovery
       requestBody:
         content:
           application/json:
@@ -9225,6 +9500,8 @@ paths:
     get:
       summary: List roles
       description: Retrieves a list of roles
+      tags:
+      - Roles
       parameters:
       - name: name
         in: query
@@ -9254,12 +9531,12 @@ paths:
             application/json:
               example:
                 data:
-                  - role_id: d1e2f3a4-b5c6-7890-abcd-ef1234567890
-                    name: Organization Administrator
-                    description: Full administrative access to the organization
-                    internal: false
-                    namespaces:
-                      - general
+                - role_id: d1e2f3a4-b5c6-7890-abcd-ef1234567890
+                  name: Organization Administrator
+                  description: Full administrative access to the organization
+                  internal: false
+                  namespaces:
+                  - general
                 total: 1
         '429':
           description: Too many requests
@@ -9276,12 +9553,13 @@ paths:
               description: The time at which the current rate limit window resets in UTC epoch seconds.
               schema:
                 type: number
-
   /roles/{roleId}:
     x-amf-description: A single role
     get:
       summary: Get role
       description: Returns a single role by ID
+      tags:
+      - Roles
       parameters:
       - name: roleId
         in: path
@@ -9307,12 +9585,13 @@ paths:
               description: The time at which the current rate limit window resets in UTC epoch seconds.
               schema:
                 type: number
-
   /roles/{roleId}/users:
     x-amf-description: Users by role
     get:
       summary: List role users
       description: Returns users for a single role. This endpoint is rate lmited.
+      tags:
+      - Roles
       parameters:
       - name: roleId
         in: path
@@ -9351,12 +9630,13 @@ paths:
               description: The time at which the current rate limit window resets in UTC epoch seconds.
               schema:
                 type: number
-
   /roles/{roleId}/permissions:
     x-amf-description: Permissions by a single role
     get:
       summary: List role permissions
       description: List permissions assigned to a given role
+      tags:
+      - Roles
       parameters:
       - name: roleId
         in: path
@@ -9370,10 +9650,10 @@ paths:
           content:
             application/json:
               example:
-                - permission_id: p1q2r3s4-t5u6-7890-abcd-ef1234567890
-                  resource_name: organizations
-                  action_name: admin
-                  namespace: general
+              - permission_id: p1q2r3s4-t5u6-7890-abcd-ef1234567890
+                resource_name: organizations
+                action_name: admin
+                namespace: general
         '429':
           description: Too many requests
           headers:
@@ -9389,18 +9669,19 @@ paths:
               description: The time at which the current rate limit window resets in UTC epoch seconds.
               schema:
                 type: number
-
   /roles/rolegroups/search:
     x-amf-description: Search rolegroups by role assignments
     post:
       summary: Search role groups by role
       description: Search rolegroups by role assignments
+      tags:
+      - Roles
       requestBody:
         content:
           application/json:
             example:
               role_id:
-                - d1e2f3a4-b5c6-7890-abcd-ef1234567890
+              - d1e2f3a4-b5c6-7890-abcd-ef1234567890
               org_id: c1d2e3f4-a5b6-7890-cdef-ab1234567890
       responses:
         '200':
@@ -9409,9 +9690,9 @@ paths:
             application/json:
               example:
                 data:
-                  - role_group_id: b1c2d3e4-f5a6-7890-abcd-ef1234567890
-                    name: API Developers
-                    org_id: c1d2e3f4-a5b6-7890-cdef-ab1234567890
+                - role_group_id: b1c2d3e4-f5a6-7890-abcd-ef1234567890
+                  name: API Developers
+                  org_id: c1d2e3f4-a5b6-7890-cdef-ab1234567890
         '429':
           description: Too many requests
           headers:
@@ -9427,7 +9708,6 @@ paths:
               description: The time at which the current rate limit window resets in UTC epoch seconds.
               schema:
                 type: number
-
   /roles/teams:
     x-amf-description: Teams by role
   /roles/teams/search:
@@ -9435,6 +9715,8 @@ paths:
     post:
       summary: Search teams by role
       description: Search teams by role assignments
+      tags:
+      - Roles
       parameters:
       - name: include_inherited
         in: query
@@ -9446,7 +9728,7 @@ paths:
           application/json:
             example:
               role_id:
-                - d1e2f3a4-b5c6-7890-abcd-ef1234567890
+              - d1e2f3a4-b5c6-7890-abcd-ef1234567890
               org_id: c1d2e3f4-a5b6-7890-cdef-ab1234567890
       responses:
         '429':
@@ -9464,12 +9746,13 @@ paths:
               description: The time at which the current rate limit window resets in UTC epoch seconds.
               schema:
                 type: number
-
   /roles/users:
     x-amf-description: Users by role
     get:
       summary: List users by role
       description: Retrieve users by roles
+      tags:
+      - Roles
       parameters:
       - name: role_groups
         in: query
@@ -9492,11 +9775,11 @@ paths:
             application/json:
               example:
                 data:
-                  - id: a1b2c3d4-e5f6-7890-abcd-ef1234567890
-                    username: janedoe
-                    firstName: Jane
-                    lastName: Doe
-                    email: jane.doe@example.com
+                - id: a1b2c3d4-e5f6-7890-abcd-ef1234567890
+                  username: janedoe
+                  firstName: Jane
+                  lastName: Doe
+                  email: jane.doe@example.com
         '429':
           description: Too many requests
           headers:
@@ -9512,18 +9795,19 @@ paths:
               description: The time at which the current rate limit window resets in UTC epoch seconds.
               schema:
                 type: number
-
   /roles/users/search:
     x-amf-description: Search users by role assignments
     post:
       summary: Search users by role
       description: Seach users by role assignments
+      tags:
+      - Roles
       requestBody:
         content:
           application/json:
             example:
               role_id:
-                - d1e2f3a4-b5c6-7890-abcd-ef1234567890
+              - d1e2f3a4-b5c6-7890-abcd-ef1234567890
               org_id: c1d2e3f4-a5b6-7890-cdef-ab1234567890
       responses:
         '200':
@@ -9532,11 +9816,11 @@ paths:
             application/json:
               example:
                 data:
-                  - id: a1b2c3d4-e5f6-7890-abcd-ef1234567890
-                    username: janedoe
-                    firstName: Jane
-                    lastName: Doe
-                    email: jane.doe@example.com
+                - id: a1b2c3d4-e5f6-7890-abcd-ef1234567890
+                  username: janedoe
+                  firstName: Jane
+                  lastName: Doe
+                  email: jane.doe@example.com
         '429':
           description: Too many requests
           headers:
@@ -9552,12 +9836,13 @@ paths:
               description: The time at which the current rate limit window resets in UTC epoch seconds.
               schema:
                 type: number
-
   /session:
     x-amf-description: The session associated with the caller
     post:
       summary: Extend session
       description: Extend the session timeout time
+      tags:
+      - Session
       responses:
         '204':
           description: Success
@@ -9576,10 +9861,11 @@ paths:
               description: The time at which the current rate limit window resets in UTC epoch seconds.
               schema:
                 type: number
-
     get:
       summary: Get session info
       description: Retrieves session timeout meta data
+      tags:
+      - Session
       responses:
         '200':
           description: Success
@@ -9604,7 +9890,6 @@ paths:
               description: The time at which the current rate limit window resets in UTC epoch seconds.
               schema:
                 type: number
-
   /signup:
     x-amf-description: Signup for the Anypoint Platform
     post:
@@ -9614,6 +9899,8 @@ paths:
         Supports two modes: full signup or accepting an invite via code.
 
         Authentication: For full signup, either provide captchaCode or Authorization header.'
+      tags:
+      - Signup
       requestBody:
         content:
           application/json:
@@ -9622,7 +9909,7 @@ paths:
               firstName: Jane
               lastName: Doe
               email: jane.doe@example.com
-              password: 'SecureP@ss123!'
+              password: SecureP@ss123!
               organizationName: Acme Corp
       responses:
         '200':
@@ -9630,9 +9917,9 @@ paths:
           content:
             application/json:
               example:
-                access_token: 'eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9...'
+                access_token: eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9...
                 token_type: bearer
-                redirectUrl: 'https://anypoint.mulesoft.com/'
+                redirectUrl: https://anypoint.mulesoft.com/
         '400':
           description: Bad request; invalid or missing fields; username, password, email, firstName, lastName or user already
             exists, etc.
@@ -9658,6 +9945,8 @@ paths:
     get:
       summary: Get signup info
       description: Retrieves data about joining an organization via invite code
+      tags:
+      - Signup
       parameters:
       - name: code
         in: query
@@ -9696,6 +9985,8 @@ paths:
     post:
       summary: Sign up with existing user
       description: Get information about signing up (accepting an invite) with an existing user
+      tags:
+      - Signup
       requestBody:
         content:
           application/json:
@@ -9724,12 +10015,13 @@ paths:
               description: The time at which the current rate limit window resets in UTC epoch seconds.
               schema:
                 type: number
-
   /status:
     x-amf-description: Application healthcheck, used by the load balancer to detect the instance status.
     get:
       summary: Get application health
       description: Retrieves the health of the application.
+      tags:
+      - System
       parameters:
       - name: db
         in: query
@@ -9809,6 +10101,8 @@ paths:
     get:
       summary: List subscriptions
       description: Retrieve the subscriptions supported
+      tags:
+      - System
       responses:
         '200':
           description: Success
@@ -9816,11 +10110,11 @@ paths:
             application/json:
               example:
                 data:
-                  - name: Gold
-                    type: paid
-                    features:
-                      maxEnvironments: 25
-                      maxVcores: 20.0
+                - name: Gold
+                  type: paid
+                  features:
+                    maxEnvironments: 25
+                    maxVcores: 20.0
         '429':
           description: Too many requests
           headers:
@@ -9836,12 +10130,13 @@ paths:
               description: The time at which the current rate limit window resets in UTC epoch seconds.
               schema:
                 type: number
-
   /support:
     x-amf-description: Support portal
     get:
       summary: Get support link
       description: Redirect to the support portal or the getting help documentation
+      tags:
+      - System
       responses:
         '302':
           description: Location header contains the link to sso into the support portal, the link to the getting help documentation
@@ -9863,11 +10158,12 @@ paths:
               description: The time at which the current rate limit window resets in UTC epoch seconds.
               schema:
                 type: number
-
   /username/{username}:
     get:
       summary: Check username availability
       description: Check if the username is already taken
+      tags:
+      - Signup
       parameters:
       - name: username
         in: path
@@ -9900,11 +10196,13 @@ paths:
     delete:
       summary: Delete users
       description: Delete a group of users
+      tags:
+      - Users
       requestBody:
         content:
           application/json:
             example:
-              - a1b2c3d4-e5f6-7890-abcd-ef1234567890
+            - a1b2c3d4-e5f6-7890-abcd-ef1234567890
       responses:
         '204':
           description: Success
@@ -9923,10 +10221,11 @@ paths:
               description: The time at which the current rate limit window resets in UTC epoch seconds.
               schema:
                 type: number
-
     post:
       summary: Create users
       description: Creates new users
+      tags:
+      - Users
       responses:
         '201':
           description: Success
@@ -9945,18 +10244,19 @@ paths:
               description: The time at which the current rate limit window resets in UTC epoch seconds.
               schema:
                 type: number
-
     put:
       summary: Update users
       description: Update a group of users
+      tags:
+      - Users
       requestBody:
         content:
           application/json:
             example:
-              - id: a1b2c3d4-e5f6-7890-abcd-ef1234567890
-                firstName: Jane
-                lastName: Doe
-                email: jane.doe@example.com
+            - id: a1b2c3d4-e5f6-7890-abcd-ef1234567890
+              firstName: Jane
+              lastName: Doe
+              email: jane.doe@example.com
       responses:
         '204':
           description: Success
@@ -9977,10 +10277,11 @@ paths:
               description: The time at which the current rate limit window resets in UTC epoch seconds.
               schema:
                 type: number
-
     get:
       summary: List users
       description: Returns a group of users
+      tags:
+      - Users
       parameters:
       - name: deleted
         in: query
@@ -10013,13 +10314,13 @@ paths:
             application/json:
               example:
                 data:
-                  - id: a1b2c3d4-e5f6-7890-abcd-ef1234567890
-                    username: janedoe
-                    firstName: Jane
-                    lastName: Doe
-                    email: jane.doe@example.com
-                    organizationId: c1d2e3f4-a5b6-7890-cdef-ab1234567890
-                    createdAt: '2024-01-15T10:30:00.000Z'
+                - id: a1b2c3d4-e5f6-7890-abcd-ef1234567890
+                  username: janedoe
+                  firstName: Jane
+                  lastName: Doe
+                  email: jane.doe@example.com
+                  organizationId: c1d2e3f4-a5b6-7890-cdef-ab1234567890
+                  createdAt: '2024-01-15T10:30:00.000Z'
                 total: 1
         '429':
           description: Too many requests
@@ -10036,12 +10337,13 @@ paths:
               description: The time at which the current rate limit window resets in UTC epoch seconds.
               schema:
                 type: number
-
   /users/{userId}:
     x-amf-description: A single user
     delete:
       summary: Delete user
       description: Deletes a user
+      tags:
+      - Users
       parameters:
       - name: userId
         in: path
@@ -10067,10 +10369,11 @@ paths:
               description: The time at which the current rate limit window resets in UTC epoch seconds.
               schema:
                 type: number
-
     put:
       summary: Update user
       description: Updates a single user. Modifying email may require reauthentication.
+      tags:
+      - Users
       parameters:
       - name: userId
         in: path
@@ -10086,7 +10389,7 @@ paths:
               firstName: Jane
               lastName: Doe
               email: jane.doe@example.com
-              phoneNumber: '555-123-4567'
+              phoneNumber: 555-123-4567
       responses:
         '200':
           description: Success
@@ -10101,7 +10404,7 @@ paths:
               example:
                 error: reauthentication_required
                 message: Email change requires reauthentication
-                location: 'https://anypoint.mulesoft.com/accounts/reauth'
+                location: https://anypoint.mulesoft.com/accounts/reauth
         '404':
           description: User does not exist
         '429':
@@ -10119,10 +10422,11 @@ paths:
               description: The time at which the current rate limit window resets in UTC epoch seconds.
               schema:
                 type: number
-
     get:
       summary: Get user
       description: Returns a single user
+      tags:
+      - Users
       parameters:
       - name: userId
         in: path
@@ -10160,13 +10464,14 @@ paths:
               description: The time at which the current rate limit window resets in UTC epoch seconds.
               schema:
                 type: number
-
   /users/{userId}/banpassword:
     x-amf-description: Ban a user's current password
     post:
       summary: Ban user password
       description: Ban a user's password such that no new users can set that as their password ever again. When the user logs
         in with the banned password, they will be taken through the reset password flow
+      tags:
+      - Users
       parameters:
       - name: userId
         in: path
@@ -10192,12 +10497,13 @@ paths:
               description: The time at which the current rate limit window resets in UTC epoch seconds.
               schema:
                 type: number
-
   /users/{userId}/properties:
     x-amf-description: Properties of a user
     put:
       summary: Update user properties
       description: Update the properties of a user
+      tags:
+      - Users
       parameters:
       - name: userId
         in: path
@@ -10236,12 +10542,13 @@ paths:
               description: The time at which the current rate limit window resets in UTC epoch seconds.
               schema:
                 type: number
-
   /users/{userId}/roles:
     x-amf-description: Roles assigned to the user
     get:
       summary: List user roles
       description: Returns a list of roles assigned to the user
+      tags:
+      - Users
       parameters:
       - name: userId
         in: path
@@ -10281,10 +10588,10 @@ paths:
             application/json:
               example:
                 data:
-                  - role_id: d1e2f3a4-b5c6-7890-abcd-ef1234567890
-                    name: Organization Administrator
-                    context_params:
-                      org: c1d2e3f4-a5b6-7890-cdef-ab1234567890
+                - role_id: d1e2f3a4-b5c6-7890-abcd-ef1234567890
+                  name: Organization Administrator
+                  context_params:
+                    org: c1d2e3f4-a5b6-7890-cdef-ab1234567890
                 total: 1
         '429':
           description: Too many requests
@@ -10301,12 +10608,13 @@ paths:
               description: The time at which the current rate limit window resets in UTC epoch seconds.
               schema:
                 type: number
-
   /users/{userId}/roles/{roleId}:
     x-amf-description: A role assigned to the user
     delete:
       summary: Unassign role from user
       description: Unassign a role from the user
+      tags:
+      - Users
       parameters:
       - name: userId
         in: path
@@ -10338,10 +10646,11 @@ paths:
               description: The time at which the current rate limit window resets in UTC epoch seconds.
               schema:
                 type: number
-
     post:
       summary: Assign role to user
       description: Assign a role to the user
+      tags:
+      - Users
       parameters:
       - name: userId
         in: path
@@ -10373,11 +10682,12 @@ paths:
               description: The time at which the current rate limit window resets in UTC epoch seconds.
               schema:
                 type: number
-
   /users/me:
     get:
       summary: Get current user
       description: Returns the user bound to the provided access token
+      tags:
+      - Users
       responses:
         '200':
           description: Success
@@ -10408,12 +10718,13 @@ paths:
               description: The time at which the current rate limit window resets in UTC epoch seconds.
               schema:
                 type: number
-
   /version:
     x-amf-description: Application version
     get:
       summary: Get application version
       description: Retrieve the version info for the application
+      tags:
+      - System
       responses:
         '200':
           description: Success
@@ -10444,6 +10755,8 @@ paths:
     post:
       summary: Submit OAuth2 authorization (v2)
       description: Starts an OAuth2 authorization flow; allows the logged-in user to authorize 3rd-party access to their data
+      tags:
+      - OAuth 2.0
       requestBody:
         content:
           application/x-www-form-urlencoded:
@@ -10491,10 +10804,11 @@ paths:
               description: The time at which the current rate limit window resets in UTC epoch seconds.
               schema:
                 type: number
-
     get:
       summary: Start OAuth2 authorization (v2)
       description: Starts an OAuth2 authorization flow; allows the logged-in user to authorize 3rd-party access to their data
+      tags:
+      - OAuth 2.0
       parameters:
       - name: client_id
         in: query
@@ -10548,12 +10862,13 @@ paths:
               description: The time at which the current rate limit window resets in UTC epoch seconds.
               schema:
                 type: number
-
   /v2/oauth2/authorize/{domain}:
     x-amf-description: OAuth2 authorization route for federated or non-federated users
     post:
       summary: Submit OAuth2 authorization by domain (v2)
       description: Starts an OAuth2 authorization flow; allows the logged-in user to authorize 3rd-party access to their data
+      tags:
+      - OAuth 2.0
       parameters:
       - name: domain
         in: path
@@ -10609,10 +10924,11 @@ paths:
               description: The time at which the current rate limit window resets in UTC epoch seconds.
               schema:
                 type: number
-
     get:
       summary: Start OAuth2 authorization by domain (v2)
       description: Starts an OAuth2 authorization flow; allows the logged-in user to authorize 3rd-party access to their data
+      tags:
+      - OAuth 2.0
       parameters:
       - name: domain
         in: path
@@ -10673,24 +10989,27 @@ paths:
               description: The time at which the current rate limit window resets in UTC epoch seconds.
               schema:
                 type: number
-
   /v2/oauth2/decision:
     post:
       summary: Submit OAuth2 consent decision (v2)
       description: Confirms whether a user grants consent to a 3rd-party application
+      tags:
+      - OAuth 2.0
       responses:
         '302':
           description: Redirects the user to the application's callback URI
-
   /v2/oauth2/token:
     post:
       summary: Create OAuth2 token (v2)
       description: Allows 3rd-party applications to receive tokens via a variety of supported grant types
-
+      tags:
+      - OAuth 2.0
   /v2/oauth2/keys:
     get:
       summary: Get OAuth2 public keys
       description: Public JWK Set used to sign OpenID Connect id_tokens
+      tags:
+      - OAuth 2.0
       responses:
         '200':
           description: 'A JWK Set containing one or more JWK-formatted keys.
@@ -10713,11 +11032,12 @@ paths:
               description: The time at which the current rate limit window resets in UTC epoch seconds.
               schema:
                 type: number
-
   /v2/oauth2/.well-known/openid-configuration:
     get:
       summary: Get OpenID Connect configuration
       description: OpenID Connect Discovery Configuration
+      tags:
+      - OAuth 2.0
       responses:
         '200':
           description: 'The service''s OpenID Provider Configuration Information metadata document.
@@ -10738,11 +11058,12 @@ paths:
               description: The time at which the current rate limit window resets in UTC epoch seconds.
               schema:
                 type: number
-
   /v2/oauth2/userinfo:
     post:
       summary: Get OpenID Connect user info (POST)
       description: OpenID Connect Userinfo endpoint.
+      tags:
+      - OAuth 2.0
       responses:
         '200':
           description: 'A set of claims about the authenticated End-User.
@@ -10764,10 +11085,11 @@ paths:
               description: The time at which the current rate limit window resets in UTC epoch seconds.
               schema:
                 type: number
-
     get:
       summary: Get OpenID Connect user info
       description: OpenID Connect Userinfo endpoint.
+      tags:
+      - OAuth 2.0
       responses:
         '200':
           description: 'A set of claims about the authenticated End-User.
@@ -10789,11 +11111,12 @@ paths:
               description: The time at which the current rate limit window resets in UTC epoch seconds.
               schema:
                 type: number
-
   /v2/oauth2/introspect:
     post:
       summary: Introspect token (v2)
       description: Introspect an access token or refresh token
+      tags:
+      - OAuth 2.0
       requestBody:
         content:
           application/x-www-form-urlencoded:
@@ -10812,11 +11135,12 @@ paths:
                   default: access_token
               required:
               - token
-
   /v2/oauth2/revoke:
     post:
       summary: Revoke token (v2)
       description: Revoke an access token or a refresh token
+      tags:
+      - OAuth 2.0
       requestBody:
         content:
           application/x-www-form-urlencoded:
@@ -10853,13 +11177,14 @@ paths:
               description: The time at which the current rate limit window resets in UTC epoch seconds.
               schema:
                 type: number
-
   /v2/organizations:
     x-amf-description: Organizations
   /v2/organizations/{orgId}:
     x-amf-description: A single organization
     delete:
       summary: Delete organization (v2)
+      tags:
+      - Organizations
       parameters:
       - name: orgId
         in: path
@@ -10891,9 +11216,10 @@ paths:
               description: The time at which the current rate limit window resets in UTC epoch seconds.
               schema:
                 type: number
-
     get:
       summary: Get organization (v2)
+      tags:
+      - Organizations
       parameters:
       - name: orgId
         in: path
@@ -10924,11 +11250,12 @@ paths:
               description: The time at which the current rate limit window resets in UTC epoch seconds.
               schema:
                 type: number
-
   /v2/organizations/{orgId}/einstein/status:
     put:
       summary: Update Einstein status
       description: Set the org-wide Einstein status
+      tags:
+      - Einstein
       parameters:
       - name: orgId
         in: path
@@ -10960,10 +11287,11 @@ paths:
               description: The time at which the current rate limit window resets in UTC epoch seconds.
               schema:
                 type: number
-
     get:
       summary: Get Einstein status
       description: Get the org-wide Einstein status
+      tags:
+      - Einstein
       parameters:
       - name: orgId
         in: path
@@ -10994,11 +11322,12 @@ paths:
               description: The time at which the current rate limit window resets in UTC epoch seconds.
               schema:
                 type: number
-
   /v2/organizations/{orgId}/einstein/termsAndConditions:
     put:
       summary: Update Einstein terms and conditions
       description: Toggle the agreement status for einstein terms and conditions
+      tags:
+      - Einstein
       parameters:
       - name: orgId
         in: path
@@ -11030,10 +11359,11 @@ paths:
               description: The time at which the current rate limit window resets in UTC epoch seconds.
               schema:
                 type: number
-
     get:
       summary: Get Einstein terms and conditions
       description: Get the agreement status for einstein terms and conditions
+      tags:
+      - Einstein
       parameters:
       - name: orgId
         in: path
@@ -11064,11 +11394,12 @@ paths:
               description: The time at which the current rate limit window resets in UTC epoch seconds.
               schema:
                 type: number
-
   /v2/organizations/{orgId}/entitlements:
     put:
       summary: Update organization entitlements (v2)
       description: Sets one or more values for entitlements
+      tags:
+      - Entitlements
       parameters:
       - name: orgId
         in: path
@@ -11110,9 +11441,10 @@ paths:
               description: The time at which the current rate limit window resets in UTC epoch seconds.
               schema:
                 type: number
-
     get:
       summary: List organization entitlements (v2)
+      tags:
+      - Entitlements
       parameters:
       - name: orgId
         in: path
@@ -11127,11 +11459,12 @@ paths:
             application/json:
               schema:
                 type: object
-
   /v2/organizations/{orgId}/entitlements/{entitlementName}:
     get:
       summary: Get organization entitlement (v2)
       description: Returns the name and value of the specified entitlement
+      tags:
+      - Entitlements
       parameters:
       - name: orgId
         in: path
@@ -11169,11 +11502,12 @@ paths:
               description: The time at which the current rate limit window resets in UTC epoch seconds.
               schema:
                 type: number
-
   /v2/organizations/{orgId}/environments/{environmentId}:
     delete:
       summary: Delete organization environment (v2)
       description: Delete an environment
+      tags:
+      - Environments
       parameters:
       - name: orgId
         in: path
@@ -11204,12 +11538,13 @@ paths:
               description: The time at which the current rate limit window resets in UTC epoch seconds.
               schema:
                 type: number
-
   /v2/roles/users:
     x-amf-description: Users by role V2
     get:
       summary: List users by role (v2)
       description: Retrieve users by roles
+      tags:
+      - Roles
       parameters:
       - name: role_groups
         in: query
@@ -11232,11 +11567,11 @@ paths:
             application/json:
               example:
                 data:
-                  - id: a1b2c3d4-e5f6-7890-abcd-ef1234567890
-                    username: janedoe
-                    firstName: Jane
-                    lastName: Doe
-                    email: jane.doe@example.com
+                - id: a1b2c3d4-e5f6-7890-abcd-ef1234567890
+                  username: janedoe
+                  firstName: Jane
+                  lastName: Doe
+                  email: jane.doe@example.com
         '429':
           description: Too many requests
           headers:
@@ -11252,7 +11587,6 @@ paths:
               description: The time at which the current rate limit window resets in UTC epoch seconds.
               schema:
                 type: number
-
 components:
   securitySchemes:
     oauth_2_0_raml_1_0:
