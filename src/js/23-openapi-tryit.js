@@ -552,6 +552,7 @@
       if (resetBtn) {
         resetBtn.addEventListener('click', function () {
           bodyTextarea.value = bodyTextarea.dataset.template || ''
+          updateSnippet(endpoint, spec, operationId)
         })
       }
     } else {
