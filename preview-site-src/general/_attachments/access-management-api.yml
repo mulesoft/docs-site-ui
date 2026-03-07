@@ -5622,7 +5622,10 @@ paths:
           type: string
       requestBody:
         content:
-          application/json: {}
+          application/json:
+            example:
+              - a1b2c3d4-e5f6-7890-abcd-ef1234567890
+              - b2c3d4e5-f6a7-8901-bcde-f12345678901
       responses:
         '204':
           description: Success
@@ -5658,7 +5661,10 @@ paths:
           type: string
       requestBody:
         content:
-          application/json: {}
+          application/json:
+            example:
+              - a1b2c3d4-e5f6-7890-abcd-ef1234567890
+              - b2c3d4e5-f6a7-8901-bcde-f12345678901
       responses:
         '204':
           description: Success
@@ -5726,7 +5732,17 @@ paths:
         '200':
           description: Success
           content:
-            application/json: {}
+            application/json:
+              example:
+                data:
+                  - id: a1b2c3d4-e5f6-7890-abcd-ef1234567890
+                    username: janedoe
+                    firstName: Jane
+                    lastName: Doe
+                    email: jane.doe@example.com
+                    organizationId: c1d2e3f4-a5b6-7890-cdef-ab1234567890
+                    createdAt: '2024-01-15T10:30:00.000Z'
+                total: 1
         '404':
           description: The organization does not exist
         '429':
@@ -5764,7 +5780,8 @@ paths:
           type: string
       requestBody:
         content:
-          application/json: {}
+          application/json:
+            example: {}
       responses:
         '204':
           description: Success
@@ -5806,7 +5823,8 @@ paths:
           type: string
       requestBody:
         content:
-          application/json: {}
+          application/json:
+            example: {}
       responses:
         '204':
           description: Success
@@ -5846,7 +5864,13 @@ paths:
         '200':
           description: Success
           content:
-            application/json: {}
+            application/json:
+              example:
+                id: a1b2c3d4-e5f6-7890-abcd-ef1234567890
+                username: orgowner
+                firstName: Jane
+                lastName: Doe
+                email: jane.doe@example.com
         '400':
           description: Bad request; bad parameter or other failure
         '403':
@@ -5888,7 +5912,13 @@ paths:
         '200':
           description: Success
           content:
-            application/json: {}
+            application/json:
+              example:
+                id: a1b2c3d4-e5f6-7890-abcd-ef1234567890
+                username: orgowner
+                firstName: Jane
+                lastName: Doe
+                email: jane.doe@example.com
         '400':
           description: Bad request; bad parameter or other failure
         '403':
@@ -5952,7 +5982,11 @@ paths:
           type: string
       requestBody:
         content:
-          application/json: {}
+          application/json:
+            example:
+              provider_id: a1b2c3d4-e5f6-7890-abcd-ef1234567890
+              type:
+                name: saml
       responses:
         '200':
           description: Success
@@ -5986,7 +6020,13 @@ paths:
         '200':
           description: Success
           content:
-            application/json: {}
+            application/json:
+              example:
+                provider_id: a1b2c3d4-e5f6-7890-abcd-ef1234567890
+                org_id: c1d2e3f4-a5b6-7890-cdef-ab1234567890
+                type:
+                  name: saml
+                name: Corporate SSO
         '429':
           description: Too many requests
           headers:
@@ -6016,7 +6056,17 @@ paths:
           type: string
       requestBody:
         content:
-          application/json: {}
+          application/json:
+            example:
+              connection:
+                host: ldap.example.com
+                port: 636
+                bindDn: 'cn=admin,dc=example,dc=com'
+                password: securepassword123
+                connectTimeoutSeconds: 10
+              search_bases:
+                user: 'ou=people,dc=example,dc=com'
+                group: 'ou=groups,dc=example,dc=com'
       responses:
         '200':
           description: Success
@@ -6089,7 +6139,13 @@ paths:
         '201':
           description: Success
           content:
-            application/json: {}
+            application/json:
+              example:
+                id: a1b2c3d4-e5f6-7890-abcd-ef1234567890
+                username: proxy-user-1
+                type: proxy
+                organizationId: c1d2e3f4-a5b6-7890-cdef-ab1234567890
+                createdAt: '2024-01-15T10:30:00.000Z'
         '429':
           description: Too many requests
           headers:
@@ -6120,7 +6176,9 @@ paths:
           type: string
       requestBody:
         content:
-          application/json: {}
+          application/json:
+            example:
+              - b1c2d3e4-f5a6-7890-abcd-ef1234567890
       responses:
         '200':
           description: Success
@@ -6152,12 +6210,25 @@ paths:
           type: string
       requestBody:
         content:
-          application/json: {}
+          application/json:
+            example:
+              name: API Developers
+              description: Team responsible for API development
+              external_names:
+                - API-Developers-SSO-Group
       responses:
         '201':
           description: Success
           content:
-            application/json: {}
+            application/json:
+              example:
+                role_group_id: b1c2d3e4-f5a6-7890-abcd-ef1234567890
+                name: API Developers
+                description: Team responsible for API development
+                org_id: c1d2e3f4-a5b6-7890-cdef-ab1234567890
+                editable: true
+                created_at: '2024-01-15T10:30:00.000Z'
+                updated_at: '2024-06-20T14:00:00.000Z'
         '429':
           description: Too many requests
           headers:
@@ -6193,7 +6264,17 @@ paths:
         '200':
           description: Success
           content:
-            application/json: {}
+            application/json:
+              example:
+                data:
+                  - role_group_id: b1c2d3e4-f5a6-7890-abcd-ef1234567890
+                    name: API Developers
+                    description: Team responsible for API development
+                    org_id: c1d2e3f4-a5b6-7890-cdef-ab1234567890
+                    editable: true
+                    created_at: '2024-01-15T10:30:00.000Z'
+                    updated_at: '2024-06-20T14:00:00.000Z'
+                total: 1
         '404':
           description: The organization does not exist
         '429':
@@ -6266,12 +6347,25 @@ paths:
           type: string
       requestBody:
         content:
-          application/json: {}
+          application/json:
+            example:
+              name: API Developers
+              description: Team responsible for API development
+              external_names:
+                - API-Developers-SSO-Group
       responses:
         '200':
           description: Success
           content:
-            application/json: {}
+            application/json:
+              example:
+                role_group_id: b1c2d3e4-f5a6-7890-abcd-ef1234567890
+                name: API Developers
+                description: Team responsible for API development
+                org_id: c1d2e3f4-a5b6-7890-cdef-ab1234567890
+                editable: true
+                created_at: '2024-01-15T10:30:00.000Z'
+                updated_at: '2024-06-20T14:00:00.000Z'
         '429':
           description: Too many requests
           headers:
@@ -6313,7 +6407,15 @@ paths:
         '200':
           description: Success
           content:
-            application/json: {}
+            application/json:
+              example:
+                role_group_id: b1c2d3e4-f5a6-7890-abcd-ef1234567890
+                name: API Developers
+                description: Team responsible for API development
+                org_id: c1d2e3f4-a5b6-7890-cdef-ab1234567890
+                editable: true
+                created_at: '2024-01-15T10:30:00.000Z'
+                updated_at: '2024-06-20T14:00:00.000Z'
         '429':
           description: Too many requests
           headers:
@@ -6350,7 +6452,11 @@ paths:
           type: string
       requestBody:
         content:
-          application/json: {}
+          application/json:
+            example:
+              - role_id: d1e2f3a4-b5c6-7890-abcd-ef1234567890
+                context_params:
+                  org: c1d2e3f4-a5b6-7890-cdef-ab1234567890
       responses:
         '200':
           description: Success
@@ -6388,7 +6494,11 @@ paths:
           type: string
       requestBody:
         content:
-          application/json: {}
+          application/json:
+            example:
+              - role_id: d1e2f3a4-b5c6-7890-abcd-ef1234567890
+                context_params:
+                  org: c1d2e3f4-a5b6-7890-cdef-ab1234567890
       responses:
         '200':
           description: Success
@@ -6443,7 +6553,14 @@ paths:
         '200':
           description: Success
           content:
-            application/json: {}
+            application/json:
+              example:
+                data:
+                  - role_id: d1e2f3a4-b5c6-7890-abcd-ef1234567890
+                    name: API Manager Environment Administrator
+                    context_params:
+                      org: c1d2e3f4-a5b6-7890-cdef-ab1234567890
+                total: 1
         '429':
           description: Too many requests
           headers:
@@ -6480,7 +6597,9 @@ paths:
           type: string
       requestBody:
         content:
-          application/json: {}
+          application/json:
+            example:
+              - a1b2c3d4-e5f6-7890-abcd-ef1234567890
       responses:
         '200':
           description: Success
@@ -6520,7 +6639,9 @@ paths:
           type: string
       requestBody:
         content:
-          application/json: {}
+          application/json:
+            example:
+              - a1b2c3d4-e5f6-7890-abcd-ef1234567890
       responses:
         '200':
           description: Success
@@ -6560,7 +6681,15 @@ paths:
         '200':
           description: Success
           content:
-            application/json: {}
+            application/json:
+              example:
+                data:
+                  - id: a1b2c3d4-e5f6-7890-abcd-ef1234567890
+                    username: janedoe
+                    firstName: Jane
+                    lastName: Doe
+                    email: jane.doe@example.com
+                total: 1
         '429':
           description: Too many requests
           headers:
@@ -6724,7 +6853,13 @@ paths:
           type: string
       requestBody:
         content:
-          application/json: {}
+          application/json:
+            example:
+              host: smtp.example.com
+              port: 587
+              username: noreply@example.com
+              password: securepassword123
+              security: tls
       responses:
         '200':
           description: Success
@@ -6758,7 +6893,12 @@ paths:
         '200':
           description: Success
           content:
-            application/json: {}
+            application/json:
+              example:
+                host: smtp.example.com
+                port: 587
+                username: noreply@example.com
+                security: tls
         '429':
           description: Too many requests
           headers:
@@ -6789,12 +6929,22 @@ paths:
           type: string
       requestBody:
         content:
-          application/json: {}
+          application/json:
+            example:
+              team_name: Engineering
+              team_type: internal
+              parent_team_id: e5f6a7b8-c9d0-1234-abcd-ef5678901234
       responses:
         '201':
           description: Success
           content:
-            application/json: {}
+            application/json:
+              example:
+                team_id: f1a2b3c4-d5e6-7890-abcd-ef1234567890
+                team_name: Engineering
+                team_type: internal
+                org_id: c1d2e3f4-a5b6-7890-cdef-ab1234567890
+                created_at: '2024-01-15T10:30:00.000Z'
         '409':
           description: No team for the parent_team_id or the type of the parent_team_id is incompatible with this team's type.
         '429':
@@ -6926,12 +7076,24 @@ paths:
           type: string
       requestBody:
         content:
-          application/json: {}
+          application/json:
+            example:
+              team_name: Engineering
+              team_type: internal
       responses:
         '201':
           description: Success
           content:
-            application/json: {}
+            application/json:
+              example:
+                team_id: f1a2b3c4-d5e6-7890-abcd-ef1234567890
+                team_name: Engineering
+                team_type: internal
+                org_id: c1d2e3f4-a5b6-7890-cdef-ab1234567890
+                ancestor_team_ids:
+                  - e5f6a7b8-c9d0-1234-abcd-ef5678901234
+                created_at: '2024-01-15T10:30:00.000Z'
+                updated_at: '2024-06-20T14:00:00.000Z'
         '401':
           description: Not Authorized to either update the properties on the team.
         '409':
@@ -6974,7 +7136,16 @@ paths:
         '200':
           description: Success
           content:
-            application/json: {}
+            application/json:
+              example:
+                team_id: f1a2b3c4-d5e6-7890-abcd-ef1234567890
+                team_name: Engineering
+                team_type: internal
+                org_id: c1d2e3f4-a5b6-7890-cdef-ab1234567890
+                ancestor_team_ids:
+                  - e5f6a7b8-c9d0-1234-abcd-ef5678901234
+                created_at: '2024-01-15T10:30:00.000Z'
+                updated_at: '2024-06-20T14:00:00.000Z'
         '429':
           description: Too many requests
           headers:
@@ -7010,12 +7181,20 @@ paths:
           type: string
       requestBody:
         content:
-          application/json: {}
+          application/json:
+            example:
+              parent_team_id: e5f6a7b8-c9d0-1234-abcd-ef5678901234
       responses:
         '201':
           description: Success
           content:
-            application/json: {}
+            application/json:
+              example:
+                team_id: f1a2b3c4-d5e6-7890-abcd-ef1234567890
+                team_name: Engineering
+                team_type: internal
+                parent_team_id: e5f6a7b8-c9d0-1234-abcd-ef5678901234
+                org_id: c1d2e3f4-a5b6-7890-cdef-ab1234567890
         '401':
           description: Not Authorized to move the team or move the team under the new parent_team_id
         '409':
@@ -7059,7 +7238,10 @@ paths:
           type: string
       requestBody:
         content:
-          application/json: {}
+          application/json:
+            example:
+              - external_group_name: engineering-team
+                provider_id: a1b2c3d4-e5f6-7890-abcd-ef1234567890
       responses:
         '204':
           description: Success.
@@ -7098,7 +7280,11 @@ paths:
           type: string
       requestBody:
         content:
-          application/json: {}
+          application/json:
+            example:
+              - external_group_name: engineering-team
+                provider_id: a1b2c3d4-e5f6-7890-abcd-ef1234567890
+                membership_type: member
       responses:
         '204':
           description: Success
@@ -7136,7 +7322,11 @@ paths:
           type: string
       requestBody:
         content:
-          application/json: {}
+          application/json:
+            example:
+              - external_group_name: engineering-team
+                provider_id: a1b2c3d4-e5f6-7890-abcd-ef1234567890
+                membership_type: member
       responses:
         '204':
           description: Success
@@ -7226,7 +7416,12 @@ paths:
           type: string
       requestBody:
         content:
-          application/json: {}
+          application/json:
+            example:
+              - role_id: d1e2f3a4-b5c6-7890-abcd-ef1234567890
+                context_params:
+                  org: c1d2e3f4-a5b6-7890-cdef-ab1234567890
+                  envId: e1f2a3b4-c5d6-7890-abcd-ef1234567890
       responses:
         '204':
           description: Success
@@ -7266,7 +7461,12 @@ paths:
           type: string
       requestBody:
         content:
-          application/json: {}
+          application/json:
+            example:
+              - role_id: d1e2f3a4-b5c6-7890-abcd-ef1234567890
+                context_params:
+                  org: c1d2e3f4-a5b6-7890-cdef-ab1234567890
+                  envId: e1f2a3b4-c5d6-7890-abcd-ef1234567890
       responses:
         '204':
           description: Success
@@ -7348,7 +7548,9 @@ paths:
           type: string
       requestBody:
         content:
-          application/json: {}
+          application/json:
+            example:
+              - id: a1b2c3d4-e5f6-7890-abcd-ef1234567890
       responses:
         '204':
           description: Success.
@@ -7390,7 +7592,10 @@ paths:
           type: string
       requestBody:
         content:
-          application/json: {}
+          application/json:
+            example:
+              - id: a1b2c3d4-e5f6-7890-abcd-ef1234567890
+                membership_type: member
       responses:
         '204':
           description: Success
@@ -7546,7 +7751,9 @@ paths:
           type: string
       requestBody:
         content:
-          application/json: {}
+          application/json:
+            example:
+              membership_type: member
       responses:
         '204':
           description: Success.
@@ -7582,12 +7789,23 @@ paths:
           type: string
       requestBody:
         content:
-          application/json: {}
+          application/json:
+            example:
+              rel_type: salesforce
+              tenant_key: SF-12345
+              enabled: true
       responses:
         '200':
           description: Success
           content:
-            application/json: {}
+            application/json:
+              example:
+                id: a1b2c3d4-e5f6-7890-abcd-ef1234567890
+                org_id: c1d2e3f4-a5b6-7890-cdef-ab1234567890
+                rel_type: salesforce
+                tenant_key: SF-12345
+                enabled: true
+                created_at: '2024-01-15T10:30:00.000Z'
         '429':
           description: Too many requests
           headers:
@@ -7705,12 +7923,25 @@ paths:
           type: string
       requestBody:
         content:
-          application/json: {}
+          application/json:
+            example:
+              enabled: true
+              incoming_trust: full
+              outgoing_trust: full
       responses:
         '200':
           description: Success
           content:
-            application/json: {}
+            application/json:
+              example:
+                id: a1b2c3d4-e5f6-7890-abcd-ef1234567890
+                org_id: c1d2e3f4-a5b6-7890-cdef-ab1234567890
+                rel_type: salesforce
+                tenant_key: SF-12345
+                enabled: true
+                incoming_trust: full
+                outgoing_trust: full
+                created_at: '2024-01-15T10:30:00.000Z'
         '401':
           description: Authentication Required
         '403':
@@ -7738,7 +7969,16 @@ paths:
         '200':
           description: Success
           content:
-            application/json: {}
+            application/json:
+              example:
+                id: a1b2c3d4-e5f6-7890-abcd-ef1234567890
+                org_id: c1d2e3f4-a5b6-7890-cdef-ab1234567890
+                rel_type: salesforce
+                tenant_key: SF-12345
+                enabled: true
+                incoming_trust: full
+                outgoing_trust: full
+                created_at: '2024-01-15T10:30:00.000Z'
         '401':
           description: Authentication Required
         '403':
@@ -7801,7 +8041,11 @@ paths:
         '200':
           description: Success
           content:
-            application/json: {}
+            application/json:
+              example:
+                enabled: true
+                status_key: feature_x
+                updated_at: '2024-06-20T14:00:00.000Z'
         '400':
           description: Bad Request
         '401':
@@ -7839,7 +8083,11 @@ paths:
         '200':
           description: Success
           content:
-            application/json: {}
+            application/json:
+              example:
+                data:
+                  - org_id: c1d2e3f4-a5b6-7890-cdef-ab1234567890
+                    org_name: Engineering BG
         '401':
           description: Authentication Required
         '403':
@@ -7874,7 +8122,9 @@ paths:
           type: string
       requestBody:
         content:
-          application/json: {}
+          application/json:
+            example:
+              - a1b2c3d4-e5f6-7890-abcd-ef1234567890
       responses:
         '204':
           description: Success
@@ -7908,7 +8158,13 @@ paths:
           type: string
       requestBody:
         content:
-          application/json: {}
+          application/json:
+            example:
+              username: janedoe
+              firstName: Jane
+              lastName: Doe
+              email: jane.doe@example.com
+              password: 'SecureP@ss123!'
       responses:
         '201':
           description: Success
@@ -7944,7 +8200,12 @@ paths:
           type: string
       requestBody:
         content:
-          application/json: {}
+          application/json:
+            example:
+              - id: a1b2c3d4-e5f6-7890-abcd-ef1234567890
+                firstName: Jane
+                lastName: Doe
+                email: jane.doe@example.com
       responses:
         '204':
           description: Success
@@ -8011,7 +8272,17 @@ paths:
         '200':
           description: Success
           content:
-            application/json: {}
+            application/json:
+              example:
+                data:
+                  - id: a1b2c3d4-e5f6-7890-abcd-ef1234567890
+                    username: janedoe
+                    firstName: Jane
+                    lastName: Doe
+                    email: jane.doe@example.com
+                    organizationId: c1d2e3f4-a5b6-7890-cdef-ab1234567890
+                    createdAt: '2024-01-15T10:30:00.000Z'
+                total: 1
         '404':
           description: Organization does not exist
         '429':
@@ -8087,12 +8358,28 @@ paths:
           type: string
       requestBody:
         content:
-          application/json: {}
+          application/json:
+            example:
+              username: janedoe
+              firstName: Jane
+              lastName: Doe
+              email: jane.doe@example.com
+              phoneNumber: '555-123-4567'
       responses:
         '200':
           description: Success
           content:
-            application/json: {}
+            application/json:
+              example:
+                id: a1b2c3d4-e5f6-7890-abcd-ef1234567890
+                username: janedoe
+                firstName: Jane
+                lastName: Doe
+                email: jane.doe@example.com
+                phoneNumber: '555-123-4567'
+                organizationId: c1d2e3f4-a5b6-7890-cdef-ab1234567890
+                createdAt: '2024-01-15T10:30:00.000Z'
+                updatedAt: '2024-06-20T14:00:00.000Z'
         '302':
           description: Reauthentication required.
         '400':
@@ -8100,7 +8387,11 @@ paths:
         '403':
           description: Reauthentication required. See location link
           content:
-            application/json: {}
+            application/json:
+              example:
+                error: reauthentication_required
+                message: Email change requires reauthentication
+                location: 'https://anypoint.mulesoft.com/accounts/reauth'
         '404':
           description: User does not exist
         '429':
@@ -8139,7 +8430,17 @@ paths:
         '200':
           description: Success
           content:
-            application/json: {}
+            application/json:
+              example:
+                id: a1b2c3d4-e5f6-7890-abcd-ef1234567890
+                username: janedoe
+                firstName: Jane
+                lastName: Doe
+                email: jane.doe@example.com
+                phoneNumber: '555-123-4567'
+                organizationId: c1d2e3f4-a5b6-7890-cdef-ab1234567890
+                createdAt: '2024-01-15T10:30:00.000Z'
+                updatedAt: '2024-06-20T14:00:00.000Z'
         '404':
           description: User does not exist
         '429':
@@ -8202,12 +8503,20 @@ paths:
           type: string
       requestBody:
         content:
-          application/json: {}
+          application/json:
+            example:
+              cs_auth:
+                darkTheme: true
+                locale: en-US
       responses:
         '200':
           description: Success
           content:
-            application/json: {}
+            application/json:
+              example:
+                cs_auth:
+                  darkTheme: true
+                  locale: en-US
         '429':
           description: Too many requests
           headers:
@@ -8246,7 +8555,13 @@ paths:
         '200':
           description: Success
           content:
-            application/json: {}
+            application/json:
+              example:
+                data:
+                  - role_group_id: b1c2d3e4-f5a6-7890-abcd-ef1234567890
+                    name: API Developers
+                    org_id: c1d2e3f4-a5b6-7890-cdef-ab1234567890
+                total: 1
         '429':
           description: Too many requests
           headers:
@@ -8367,7 +8682,11 @@ paths:
           type: string
       requestBody:
         content:
-          application/json: {}
+          application/json:
+            example:
+              - role_id: d1e2f3a4-b5c6-7890-abcd-ef1234567890
+                context_params:
+                  org: c1d2e3f4-a5b6-7890-cdef-ab1234567890
       responses:
         '200':
           description: Success
@@ -8435,7 +8754,14 @@ paths:
         '200':
           description: Success
           content:
-            application/json: {}
+            application/json:
+              example:
+                data:
+                  - role_id: d1e2f3a4-b5c6-7890-abcd-ef1234567890
+                    name: API Manager Environment Administrator
+                    context_params:
+                      org: c1d2e3f4-a5b6-7890-cdef-ab1234567890
+                total: 1
         '429':
           description: Too many requests
           headers:
@@ -8477,7 +8803,11 @@ paths:
           type: string
       requestBody:
         content:
-          application/json: {}
+          application/json:
+            example:
+              context_params:
+                org: c1d2e3f4-a5b6-7890-cdef-ab1234567890
+                envId: e1f2a3b4-c5d6-7890-abcd-ef1234567890
       responses:
         '200':
           description: Success
@@ -8521,7 +8851,11 @@ paths:
           type: string
       requestBody:
         content:
-          application/json: {}
+          application/json:
+            example:
+              context_params:
+                org: c1d2e3f4-a5b6-7890-cdef-ab1234567890
+                envId: e1f2a3b4-c5d6-7890-abcd-ef1234567890
       responses:
         '200':
           description: Success
@@ -8645,7 +8979,10 @@ paths:
           type: string
       requestBody:
         content:
-          application/json: {}
+          application/json:
+            example:
+              provider_id: a1b2c3d4-e5f6-7890-abcd-ef1234567890
+              profile_id: jane.doe@example.com
       responses:
         '200':
           description: Success.
@@ -8685,7 +9022,11 @@ paths:
         '200':
           description: '200'
           content:
-            application/json: {}
+            application/json:
+              example:
+                - provider_id: a1b2c3d4-e5f6-7890-abcd-ef1234567890
+                  provider_name: Corporate SSO
+                  profile_id: jane.doe@example.com
         '429':
           description: Too many requests
           headers:
@@ -8710,7 +9051,15 @@ paths:
         '200':
           description: Success
           content:
-            application/json: {}
+            application/json:
+              example:
+                id: a1b2c3d4-e5f6-7890-abcd-ef1234567890
+                username: janedoe
+                firstName: Jane
+                lastName: Doe
+                email: jane.doe@example.com
+                organizationId: c1d2e3f4-a5b6-7890-cdef-ab1234567890
+                createdAt: '2024-01-15T10:30:00.000Z'
         '401':
           description: Unauthorized. There is no user attached to the token
         '429':
@@ -8737,7 +9086,9 @@ paths:
       description: sends a 'forgot password' email with password reset link to the email associated with the given username
       requestBody:
         content:
-          application/json: {}
+          application/json:
+            example:
+              username: janedoe
       responses:
         '200':
           description: email was sent or user with username does not exist
@@ -8776,7 +9127,10 @@ paths:
           type: string
       requestBody:
         content:
-          application/json: {}
+          application/json:
+            example:
+              password: 'NewSecureP@ss123!'
+              confirmPassword: 'NewSecureP@ss123!'
       responses:
         '200':
           description: the password was successfully reset
@@ -8843,7 +9197,9 @@ paths:
       description: sends email with list of usernames associated with the given email
       requestBody:
         content:
-          application/json: {}
+          application/json:
+            example:
+              email: jane.doe@example.com
       responses:
         '200':
           description: email was sent or no users are associated with the given email
@@ -8895,7 +9251,16 @@ paths:
         '200':
           description: Success
           content:
-            application/json: {}
+            application/json:
+              example:
+                data:
+                  - role_id: d1e2f3a4-b5c6-7890-abcd-ef1234567890
+                    name: Organization Administrator
+                    description: Full administrative access to the organization
+                    internal: false
+                    namespaces:
+                      - general
+                total: 1
         '429':
           description: Too many requests
           headers:
@@ -9003,7 +9368,12 @@ paths:
         '200':
           description: Success
           content:
-            application/json: {}
+            application/json:
+              example:
+                - permission_id: p1q2r3s4-t5u6-7890-abcd-ef1234567890
+                  resource_name: organizations
+                  action_name: admin
+                  namespace: general
         '429':
           description: Too many requests
           headers:
@@ -9027,12 +9397,21 @@ paths:
       description: Search rolegroups by role assignments
       requestBody:
         content:
-          application/json: {}
+          application/json:
+            example:
+              role_id:
+                - d1e2f3a4-b5c6-7890-abcd-ef1234567890
+              org_id: c1d2e3f4-a5b6-7890-cdef-ab1234567890
       responses:
         '200':
           description: Success
           content:
-            application/json: {}
+            application/json:
+              example:
+                data:
+                  - role_group_id: b1c2d3e4-f5a6-7890-abcd-ef1234567890
+                    name: API Developers
+                    org_id: c1d2e3f4-a5b6-7890-cdef-ab1234567890
         '429':
           description: Too many requests
           headers:
@@ -9064,7 +9443,11 @@ paths:
           type: string
       requestBody:
         content:
-          application/json: {}
+          application/json:
+            example:
+              role_id:
+                - d1e2f3a4-b5c6-7890-abcd-ef1234567890
+              org_id: c1d2e3f4-a5b6-7890-cdef-ab1234567890
       responses:
         '429':
           description: Too many requests
@@ -9106,7 +9489,14 @@ paths:
         '200':
           description: Success
           content:
-            application/json: {}
+            application/json:
+              example:
+                data:
+                  - id: a1b2c3d4-e5f6-7890-abcd-ef1234567890
+                    username: janedoe
+                    firstName: Jane
+                    lastName: Doe
+                    email: jane.doe@example.com
         '429':
           description: Too many requests
           headers:
@@ -9130,12 +9520,23 @@ paths:
       description: Seach users by role assignments
       requestBody:
         content:
-          application/json: {}
+          application/json:
+            example:
+              role_id:
+                - d1e2f3a4-b5c6-7890-abcd-ef1234567890
+              org_id: c1d2e3f4-a5b6-7890-cdef-ab1234567890
       responses:
         '200':
           description: Success
           content:
-            application/json: {}
+            application/json:
+              example:
+                data:
+                  - id: a1b2c3d4-e5f6-7890-abcd-ef1234567890
+                    username: janedoe
+                    firstName: Jane
+                    lastName: Doe
+                    email: jane.doe@example.com
         '429':
           description: Too many requests
           headers:
@@ -9183,7 +9584,11 @@ paths:
         '200':
           description: Success
           content:
-            application/json: {}
+            application/json:
+              example:
+                session_timeout: 1800
+                remaining: 1500
+                created_at: '2024-06-20T14:00:00.000Z'
         '429':
           description: Too many requests
           headers:
@@ -9211,12 +9616,23 @@ paths:
         Authentication: For full signup, either provide captchaCode or Authorization header.'
       requestBody:
         content:
-          application/json: {}
+          application/json:
+            example:
+              username: janedoe
+              firstName: Jane
+              lastName: Doe
+              email: jane.doe@example.com
+              password: 'SecureP@ss123!'
+              organizationName: Acme Corp
       responses:
         '200':
           description: Success
           content:
-            application/json: {}
+            application/json:
+              example:
+                access_token: 'eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9...'
+                token_type: bearer
+                redirectUrl: 'https://anypoint.mulesoft.com/'
         '400':
           description: Bad request; invalid or missing fields; username, password, email, firstName, lastName or user already
             exists, etc.
@@ -9253,7 +9669,11 @@ paths:
         '200':
           description: Success
           content:
-            application/json: {}
+            application/json:
+              example:
+                organizationName: Acme Corp
+                email: jane.doe@example.com
+                invited: true
         '400':
           description: Missing or invalid invite code
         '429':
@@ -9278,12 +9698,17 @@ paths:
       description: Get information about signing up (accepting an invite) with an existing user
       requestBody:
         content:
-          application/json: {}
+          application/json:
+            example:
+              code: invite-code-abc123
       responses:
         '200':
           description: Success
           content:
-            application/json: {}
+            application/json:
+              example:
+                organizationName: Acme Corp
+                email: jane.doe@example.com
         '429':
           description: Too many requests
           headers:
@@ -9388,7 +9813,14 @@ paths:
         '200':
           description: Success
           content:
-            application/json: {}
+            application/json:
+              example:
+                data:
+                  - name: Gold
+                    type: paid
+                    features:
+                      maxEnvironments: 25
+                      maxVcores: 20.0
         '429':
           description: Too many requests
           headers:
@@ -9470,7 +9902,9 @@ paths:
       description: Delete a group of users
       requestBody:
         content:
-          application/json: {}
+          application/json:
+            example:
+              - a1b2c3d4-e5f6-7890-abcd-ef1234567890
       responses:
         '204':
           description: Success
@@ -9517,7 +9951,12 @@ paths:
       description: Update a group of users
       requestBody:
         content:
-          application/json: {}
+          application/json:
+            example:
+              - id: a1b2c3d4-e5f6-7890-abcd-ef1234567890
+                firstName: Jane
+                lastName: Doe
+                email: jane.doe@example.com
       responses:
         '204':
           description: Success
@@ -9571,7 +10010,17 @@ paths:
         '200':
           description: Success
           content:
-            application/json: {}
+            application/json:
+              example:
+                data:
+                  - id: a1b2c3d4-e5f6-7890-abcd-ef1234567890
+                    username: janedoe
+                    firstName: Jane
+                    lastName: Doe
+                    email: jane.doe@example.com
+                    organizationId: c1d2e3f4-a5b6-7890-cdef-ab1234567890
+                    createdAt: '2024-01-15T10:30:00.000Z'
+                total: 1
         '429':
           description: Too many requests
           headers:
@@ -9631,7 +10080,13 @@ paths:
           type: string
       requestBody:
         content:
-          application/json: {}
+          application/json:
+            example:
+              username: janedoe
+              firstName: Jane
+              lastName: Doe
+              email: jane.doe@example.com
+              phoneNumber: '555-123-4567'
       responses:
         '200':
           description: Success
@@ -9642,7 +10097,11 @@ paths:
         '403':
           description: Reauthentication required. See location link
           content:
-            application/json: {}
+            application/json:
+              example:
+                error: reauthentication_required
+                message: Email change requires reauthentication
+                location: 'https://anypoint.mulesoft.com/accounts/reauth'
         '404':
           description: User does not exist
         '429':
@@ -9675,7 +10134,15 @@ paths:
         '200':
           description: Success
           content:
-            application/json: {}
+            application/json:
+              example:
+                id: a1b2c3d4-e5f6-7890-abcd-ef1234567890
+                username: janedoe
+                firstName: Jane
+                lastName: Doe
+                email: jane.doe@example.com
+                organizationId: c1d2e3f4-a5b6-7890-cdef-ab1234567890
+                createdAt: '2024-01-15T10:30:00.000Z'
         '404':
           description: User does not exist
         '429':
@@ -9740,12 +10207,20 @@ paths:
           type: string
       requestBody:
         content:
-          application/json: {}
+          application/json:
+            example:
+              cs_auth:
+                darkTheme: true
+                locale: en-US
       responses:
         '200':
           description: Success
           content:
-            application/json: {}
+            application/json:
+              example:
+                cs_auth:
+                  darkTheme: true
+                  locale: en-US
         '429':
           description: Too many requests
           headers:
@@ -9803,7 +10278,14 @@ paths:
         '200':
           description: Success
           content:
-            application/json: {}
+            application/json:
+              example:
+                data:
+                  - role_id: d1e2f3a4-b5c6-7890-abcd-ef1234567890
+                    name: Organization Administrator
+                    context_params:
+                      org: c1d2e3f4-a5b6-7890-cdef-ab1234567890
+                total: 1
         '429':
           description: Too many requests
           headers:
@@ -9900,7 +10382,15 @@ paths:
         '200':
           description: Success
           content:
-            application/json: {}
+            application/json:
+              example:
+                id: a1b2c3d4-e5f6-7890-abcd-ef1234567890
+                username: janedoe
+                firstName: Jane
+                lastName: Doe
+                email: jane.doe@example.com
+                organizationId: c1d2e3f4-a5b6-7890-cdef-ab1234567890
+                createdAt: '2024-01-15T10:30:00.000Z'
         '401':
           description: Unauthorized. There is no user attached to the token
         '429':
@@ -9928,7 +10418,11 @@ paths:
         '200':
           description: Success
           content:
-            application/json: {}
+            application/json:
+              example:
+                version: 3.45.0
+                buildNumber: '12345'
+                buildDate: '2024-06-20T14:00:00.000Z'
         '404':
           description: Version information could not be gathered (likely a filesystem error). See logs for details.
         '429':
@@ -10584,7 +11078,14 @@ paths:
           type: string
       requestBody:
         content:
-          application/json: {}
+          application/json:
+            example:
+              vCoresProduction:
+                assigned: 2.0
+              vCoresSandbox:
+                assigned: 2.0
+              staticIps:
+                assigned: 2
       responses:
         '200':
           description: Entitlement has been modified
@@ -10728,7 +11229,14 @@ paths:
         '200':
           description: Success
           content:
-            application/json: {}
+            application/json:
+              example:
+                data:
+                  - id: a1b2c3d4-e5f6-7890-abcd-ef1234567890
+                    username: janedoe
+                    firstName: Jane
+                    lastName: Doe
+                    email: jane.doe@example.com
         '429':
           description: Too many requests
           headers:
