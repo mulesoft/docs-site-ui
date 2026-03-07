@@ -56,6 +56,14 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/SchedulerRequest'
+            example:
+              timeUnit: MINUTES
+              frequency: '15'
+              startDelay: '5'
+              expression: null
+              timeZone: null
+              enabled: true
+              fixedFrequencyScehduler: true
         required: true
       responses:
         '200':
@@ -70,6 +78,17 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/SchedulerResponsePaged'
+              example:
+                total: 1
+                items:
+                  - flowName: flow-name-1
+                    enabled: true
+                    type: FixedFrequencyScheduler
+                    startDelay: '5'
+                    frequency: '15'
+                    timeUnit: MINUTES
+                    expression: null
+                    timeZone: null
         '401':
           description: Unauthorized
           headers:
@@ -131,6 +150,17 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/SchedulerResponsePaged'
+              example:
+                total: 1
+                items:
+                  - flowName: flow-name-1
+                    enabled: true
+                    type: FixedFrequencyScheduler
+                    startDelay: '5'
+                    frequency: '15'
+                    timeUnit: MINUTES
+                    expression: null
+                    timeZone: null
         '401':
           description: Unauthorized
           headers:
@@ -184,6 +214,19 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/DeploymentResponsePaged'
+              example:
+                total: 1
+                items:
+                  - id: e4899eda-22c9-4546-8ad2-ffde5a3d466d
+                    name: app-name
+                    creationDate: '2024-01-15T10:30:00Z'
+                    lastModifiedDate: '2024-01-16T14:20:00Z'
+                    target:
+                      provider: MC
+                      targetId: 9c237504-4796-401b-9dbd-689f1857edcf
+                    status: STARTED
+                    application:
+                      status: RUNNING
         '401':
           description: Unauthorized
           headers:
@@ -220,6 +263,32 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/PostDeploymentRequest'
+            example:
+              name: app-name
+              target:
+                provider: MC
+                targetId: 9c237504-4796-401b-9dbd-689f1857edcf
+                deploymentSettings:
+                  clustered: false
+                  enforceDeployingReplicasAcrossNodes: false
+                  http:
+                    inbound:
+                      publicUrl: https://app-name.us-e2.cloudhub.io
+                      lastMileSecurity: false
+                  runtimeVersion: 4.3.0:20220523-3
+                  lastMileSecurity: false
+                  generateDefaultPublicUrl: true
+                replicas: 1
+              application:
+                desiredState: STARTED
+                ref:
+                  groupId: com.mulesoft.arm
+                  artifactId: app-noports-mule4-only
+                  version: 1.0.31
+                  packaging: jar
+                vCores: 0.1
+                objectStoreV2Enabled: true
+              desiredVersion: 1.0.0
         required: true
       responses:
         '202':
@@ -234,6 +303,32 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/DeploymentDetailResponse'
+              example:
+                id: e4899eda-22c9-4546-8ad2-ffde5a3d466d
+                name: app-name
+                creationDate: '2024-01-15T10:30:00Z'
+                lastModifiedDate: '2024-01-15T10:30:00Z'
+                target:
+                  provider: MC
+                  targetId: 9c237504-4796-401b-9dbd-689f1857edcf
+                  deploymentSettings:
+                    clustered: false
+                    runtimeVersion: 4.3.0:20220523-3
+                    lastMileSecurity: false
+                  replicas: 1
+                status: STARTING
+                application:
+                  status: NOT_RUNNING
+                  desiredState: STARTED
+                  ref:
+                    groupId: com.mulesoft.arm
+                    artifactId: app-noports-mule4-only
+                    version: 1.0.31
+                    packaging: jar
+                  vCores: 0.1
+                desiredVersion: 0ef171b6-aad1-459b-8720-10c405b05ed1
+                replicas: []
+                lastSuccessfulVersion: null
         '401':
           description: Unauthorized
           headers:
@@ -353,6 +448,28 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/AlertsResponse'
+              example:
+                data:
+                  - id: a1b2c3d4-e5f6-7890-abcd-ef1234567890
+                    name: Deployment Failed Alert
+                    severity: CRITICAL
+                    enabled: true
+                    organizationId: e4899eda-22c9-4546-8ad2-ffde5a3d466d
+                    environmentId: 9c237504-4796-401b-9dbd-689f1857edcf
+                    lastModified: 1705312800000
+                    createdAt: 1705312800000
+                    isSystem: false
+                    productName: mc-application
+                    condition:
+                      resources:
+                        - e4899eda-22c9-4546-8ad2-ffde5a3d466d
+                      resourceType: mc-application
+                      type: deployment-failed
+                    actions:
+                      - type: email
+                        userIds:
+                          - user-id-1
+                    conditionType: deployment-failed
     post:
       summary: Create alert
       tags:
@@ -378,6 +495,22 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/CreateAlertRequest'
+            example:
+              name: Deployment Failed Alert
+              severity: CRITICAL
+              condition:
+                resourceType: mc-application
+                type: deployment-failed
+                resources:
+                  - e4899eda-22c9-4546-8ad2-ffde5a3d466d
+              actions:
+                - type: email
+                  userIds:
+                    - user-id-1
+                  subject: Deployment Failed
+                  content: The deployment has failed.
+                  emails:
+                    - admin@example.com
         required: true
       responses:
         '200':
@@ -392,6 +525,27 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/AlertResponse'
+              example:
+                id: a1b2c3d4-e5f6-7890-abcd-ef1234567890
+                name: Deployment Failed Alert
+                severity: CRITICAL
+                enabled: true
+                organizationId: e4899eda-22c9-4546-8ad2-ffde5a3d466d
+                environmentId: 9c237504-4796-401b-9dbd-689f1857edcf
+                lastModified: 1705312800000
+                createdAt: 1705312800000
+                isSystem: false
+                productName: mc-application
+                condition:
+                  resources:
+                    - e4899eda-22c9-4546-8ad2-ffde5a3d466d
+                  resourceType: mc-application
+                  type: deployment-failed
+                actions:
+                  - type: email
+                    userIds:
+                      - user-id-1
+                conditionType: deployment-failed
         '400':
           description: Bad Request
           headers:
@@ -455,6 +609,37 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/DeploymentDetailResponse'
+              example:
+                id: e4899eda-22c9-4546-8ad2-ffde5a3d466d
+                name: app-name
+                creationDate: '2024-01-15T10:30:00Z'
+                lastModifiedDate: '2024-01-16T14:20:00Z'
+                target:
+                  provider: MC
+                  targetId: 9c237504-4796-401b-9dbd-689f1857edcf
+                  deploymentSettings:
+                    clustered: false
+                    runtimeVersion: 4.3.0:20220523-3
+                    lastMileSecurity: false
+                  replicas: 1
+                status: STARTED
+                application:
+                  status: RUNNING
+                  desiredState: STARTED
+                  ref:
+                    groupId: com.mulesoft.arm
+                    artifactId: app-noports-mule4-only
+                    version: 1.0.31
+                    packaging: jar
+                  vCores: 0.1
+                desiredVersion: 0ef171b6-aad1-459b-8720-10c405b05ed1
+                replicas:
+                  - id: app-replicas-55585bd94c-tl4g6
+                    state: STARTED
+                    deploymentLocation: rtfc
+                    currentDeploymentVersion: 0ef171b6-aad1-459b-8720-10c405b05ed1
+                    reason: null
+                lastSuccessfulVersion: 0ef171b6-aad1-459b-8720-10c405b05ed1
         '401':
           description: Unauthorized
           headers:
@@ -620,6 +805,37 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/DeploymentDetailResponse'
+              example:
+                id: e4899eda-22c9-4546-8ad2-ffde5a3d466d
+                name: app-name
+                creationDate: '2024-01-15T10:30:00Z'
+                lastModifiedDate: '2024-01-16T14:20:00Z'
+                target:
+                  provider: MC
+                  targetId: 9c237504-4796-401b-9dbd-689f1857edcf
+                  deploymentSettings:
+                    clustered: false
+                    runtimeVersion: 4.3.0:20220523-3
+                    lastMileSecurity: false
+                  replicas: 1
+                status: STARTED
+                application:
+                  status: RUNNING
+                  desiredState: STARTED
+                  ref:
+                    groupId: com.mulesoft.arm
+                    artifactId: app-noports-mule4-only
+                    version: 1.0.31
+                    packaging: jar
+                  vCores: 0.1
+                desiredVersion: 0ef171b6-aad1-459b-8720-10c405b05ed1
+                replicas:
+                  - id: app-replicas-55585bd94c-tl4g6
+                    state: STARTED
+                    deploymentLocation: rtfc
+                    currentDeploymentVersion: 0ef171b6-aad1-459b-8720-10c405b05ed1
+                    reason: null
+                lastSuccessfulVersion: 0ef171b6-aad1-459b-8720-10c405b05ed1
         '401':
           description: Unauthorized
           headers:
@@ -681,6 +897,25 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/SchedulerResponsePaged'
+              example:
+                total: 2
+                items:
+                  - flowName: flow-name-1
+                    enabled: true
+                    type: FixedFrequencyScheduler
+                    startDelay: '5'
+                    frequency: '15'
+                    timeUnit: MINUTES
+                    expression: null
+                    timeZone: null
+                  - flowName: flow-name-2
+                    enabled: true
+                    type: CronScheduler
+                    startDelay: null
+                    frequency: null
+                    timeUnit: null
+                    expression: 0 0/5 14 * * ?
+                    timeZone: America/Argentina/Buenos_Aires
         '401':
           description: Unauthorized
           headers:
@@ -730,6 +965,11 @@ paths:
               type: array
               items:
                 $ref: '#/components/schemas/SchedulerStatusRequest'
+            example:
+              - flowName: flow-name-1
+                enabled: false
+              - flowName: flow-name-2
+                enabled: true
         required: true
       responses:
         '204':
@@ -744,6 +984,25 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/SchedulerResponsePaged'
+              example:
+                total: 2
+                items:
+                  - flowName: flow-name-1
+                    enabled: false
+                    type: FixedFrequencyScheduler
+                    startDelay: '5'
+                    frequency: '15'
+                    timeUnit: MINUTES
+                    expression: null
+                    timeZone: null
+                  - flowName: flow-name-2
+                    enabled: true
+                    type: CronScheduler
+                    startDelay: null
+                    frequency: null
+                    timeUnit: null
+                    expression: 0 0/5 14 * * ?
+                    timeZone: America/Argentina/Buenos_Aires
         '401':
           description: Unauthorized
           headers:
@@ -799,6 +1058,27 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/AlertResponse'
+              example:
+                id: a1b2c3d4-e5f6-7890-abcd-ef1234567890
+                name: Deployment Failed Alert
+                severity: CRITICAL
+                enabled: true
+                organizationId: e4899eda-22c9-4546-8ad2-ffde5a3d466d
+                environmentId: 9c237504-4796-401b-9dbd-689f1857edcf
+                lastModified: 1705312800000
+                createdAt: 1705312800000
+                isSystem: false
+                productName: mc-application
+                condition:
+                  resources:
+                    - e4899eda-22c9-4546-8ad2-ffde5a3d466d
+                  resourceType: mc-application
+                  type: deployment-failed
+                actions:
+                  - type: email
+                    userIds:
+                      - user-id-1
+                conditionType: deployment-failed
         '401':
           description: Unauthorized
           headers:
@@ -915,6 +1195,26 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/UpdateAlertRequest'
+            example:
+              id: a1b2c3d4-e5f6-7890-abcd-ef1234567890
+              name: Deployment Success Alert
+              enabled: true
+              severity: INFO
+              condition:
+                resourceType: mc-application
+                type: deployment-success
+                resources:
+                  - e4899eda-22c9-4546-8ad2-ffde5a3d466d
+              actions:
+                - type: email
+                  userIds:
+                    - user-id-1
+                  subject: Deployment Succeeded
+                  content: The deployment completed successfully.
+                  emails:
+                    - admin@example.com
+              organizationId: e4899eda-22c9-4546-8ad2-ffde5a3d466d
+              environmentId: 9c237504-4796-401b-9dbd-689f1857edcf
         required: true
       responses:
         '200':
@@ -929,6 +1229,27 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/AlertResponse'
+              example:
+                id: a1b2c3d4-e5f6-7890-abcd-ef1234567890
+                name: Deployment Success Alert
+                severity: INFO
+                enabled: true
+                organizationId: e4899eda-22c9-4546-8ad2-ffde5a3d466d
+                environmentId: 9c237504-4796-401b-9dbd-689f1857edcf
+                lastModified: 1705399200000
+                createdAt: 1705312800000
+                isSystem: false
+                productName: mc-application
+                condition:
+                  resources:
+                    - e4899eda-22c9-4546-8ad2-ffde5a3d466d
+                  resourceType: mc-application
+                  type: deployment-success
+                actions:
+                  - type: email
+                    userIds:
+                      - user-id-1
+                conditionType: deployment-success
         '400':
           description: Bad Request
           headers:
@@ -1008,6 +1329,43 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/DeploymentSpecVersionResponse'
+              example:
+                - version: 729fcd1e-11f3-487d-ba2b-cadf5a8e3815
+                  createdAt: '2024-01-15T10:30:00Z'
+                  target:
+                    provider: MC
+                    targetId: 9c237504-4796-401b-9dbd-689f1857edcf
+                    deploymentSettings:
+                      clustered: false
+                      runtimeVersion: 4.3.0:20220523-3
+                    replicas: 1
+                  application:
+                    status: RUNNING
+                    desiredState: STARTED
+                    ref:
+                      groupId: com.mulesoft.arm
+                      artifactId: app-noports-mule4-only
+                      version: 1.0.31
+                      packaging: jar
+                    vCores: 0.1
+                - version: 0ef171b6-aad1-459b-8720-10c405b05ed1
+                  createdAt: '2024-01-14T08:15:00Z'
+                  target:
+                    provider: MC
+                    targetId: 9c237504-4796-401b-9dbd-689f1857edcf
+                    deploymentSettings:
+                      clustered: false
+                      runtimeVersion: 4.3.0:20220523-3
+                    replicas: 1
+                  application:
+                    status: NOT_RUNNING
+                    desiredState: STOPPED
+                    ref:
+                      groupId: com.mulesoft.arm
+                      artifactId: app-noports-mule4-only
+                      version: 1.0.30
+                      packaging: jar
+                    vCores: 0.1
         '401':
           description: Unauthorized
           headers:
@@ -1055,6 +1413,20 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/AlertHistoryResponse'
+              example:
+                data:
+                  - triggeredAt: 1705312800000
+                    context:
+                      deploymentId: e4899eda-22c9-4546-8ad2-ffde5a3d466d
+                      applicationName: app-name
+                    severity: CRITICAL
+                    condition:
+                      type: deployment-failed
+                      resourceType: mc-application
+                    actions:
+                      - type: email
+                        status: sent
+                total: 1
         '401':
           description: Unauthorized
           headers:
@@ -1239,6 +1611,17 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/DiagnosticResponse'
+              example:
+                - actionId: b7c8d9e0-f1a2-3456-b789-0abcdef12345
+                  timestamp: 1660446000000
+                  specVersion: 1d6fa65c-b899-4982-8ad6-c066c2dac8f3
+                  replicaId: my-mule-app-5b56d6d79d-gb6lr
+                  status: SUCCESSFUL
+                - actionId: c8d9e0f1-a2b3-4567-c890-1bcdef234567
+                  timestamp: 1660432000000
+                  specVersion: 1d6fa65c-b899-4982-8ad6-c066c2dac8f3
+                  replicaId: my-mule-app-5b56d6d79d-gb6lr
+                  status: PENDING
         '400':
           description: Bad Request
           content:
@@ -1323,6 +1706,8 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/TrafficSwitchingRequest'
+            example:
+              switchedTraffic: 50
         required: true
       responses:
         '200':
@@ -1337,6 +1722,12 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/TrafficSwitchingResponse'
+              example:
+                isSwitched: true
+                switchedTrafficPercent: 50
+                ch1AppName: cloudhub app
+                ch2AppName: ch2 app
+                deploymentId: e4899eda-22c9-4546-8ad2-ffde5a3d466d
         '404':
           description: Deployment not found
           headers:

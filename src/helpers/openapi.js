@@ -242,14 +242,22 @@ function buildOperations (spec) {
     for (const method of methods) {
       if (!pathItem[method]) continue
       const op = pathItem[method]
-      const parameters = (pathItem.parameters || []).concat(op.parameters || []).map((param) => ({
-        name: param.name,
-        in: param.in,
-        description: param.description || '',
-        required: !!param.required,
-        type: typeLabel(param.schema),
-        deprecated: !!param.deprecated,
-      }))
+      const parameters = (pathItem.parameters || []).concat(op.parameters || []).map((param) => {
+        const schema = param.schema || {}
+        const isBoolean = schema.type === 'boolean'
+        const enumValues = schema.enum || (isBoolean ? ['true', 'false'] : null)
+        return {
+          name: param.name,
+          in: param.in,
+          description: param.description || '',
+          required: !!param.required,
+          type: typeLabel(schema),
+          deprecated: !!param.deprecated,
+          isBoolean,
+          hasEnum: !!enumValues,
+          enumValues: enumValues ? enumValues.map(String) : [],
+        }
+      })
 
       const requestBody = buildRequestBody(op.requestBody)
       const responses = buildResponses(op.responses)

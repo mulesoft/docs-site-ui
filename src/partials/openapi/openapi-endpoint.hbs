@@ -12,32 +12,70 @@
   {{#if description}}
     <p class="openapi-endpoint-description">{{description}}</p>
   {{/if}}
-  {{#if hasParameters}}
-    {{> openapi-parameters}}
-  {{/if}}
-  {{#if hasRequestBody}}
-    {{> openapi-request-body}}
-  {{/if}}
-  <div class="openapi-tryit-inline">
+
+  <div class="openapi-tryit-panel">
+    <div class="openapi-tryit-panel-header">
+      <span class="openapi-tryit-panel-title">Try it</span>
+      <span class="openapi-tryit-panel-url">
+        <span class="openapi-tryit-url-method openapi-method-{{methodLower}}">{{method}}</span>
+        <code class="openapi-tryit-url-path"></code>
+      </span>
+    </div>
+
+    {{#if hasParameters}}
+      {{> openapi-parameters}}
+    {{/if}}
+
     <div class="openapi-tryit-body-section" style="display:none;">
       <div class="openapi-tryit-body-header">
-        <label>Request Body <span class="openapi-tryit-content-type">(application/json)</span></label>
-        <button class="openapi-tryit-reset" type="button">Reset</button>
+        <label for="body-{{operationId}}">Request Body <span class="openapi-tryit-content-type">(application/json)</span></label>
+        <button class="openapi-tryit-reset" type="button" aria-label="Reset request body to default">Reset</button>
       </div>
-      <textarea class="openapi-tryit-body" rows="6" spellcheck="false"></textarea>
+      <textarea class="openapi-tryit-body" id="body-{{operationId}}" rows="8" spellcheck="false" aria-label="Request body JSON"></textarea>
     </div>
+
     <div class="openapi-tryit-actions">
-      <button class="openapi-tryit-send" type="button">Send Request</button>
-      <button class="openapi-tryit-curl" type="button">Copy as cURL</button>
+      <button class="openapi-tryit-send" type="button">
+        <span class="openapi-tryit-send-label">Send Request</span>
+        <span class="openapi-tryit-send-spinner" style="display:none;" aria-hidden="true"></span>
+      </button>
+      <div class="openapi-tryit-copy-group">
+        <button class="openapi-tryit-copy-btn" type="button" aria-label="Copy code snippet">
+          <svg class="openapi-tryit-copy-icon" width="14" height="14" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+            <rect x="5" y="1" width="10" height="12" rx="1.5" stroke="currentColor" stroke-width="1.5" fill="none"/>
+            <path d="M3 4H1.5A1.5 1.5 0 0 0 0 5.5v9A1.5 1.5 0 0 0 1.5 16h7a1.5 1.5 0 0 0 1.5-1.5V13" stroke="currentColor" stroke-width="1.5" fill="none"/>
+          </svg>
+          <span class="openapi-tryit-copy-label">cURL</span>
+        </button>
+        <button class="openapi-tryit-copy-toggle" type="button" aria-label="Choose language" aria-expanded="false">
+          <svg width="8" height="8" viewBox="0 0 8 8" aria-hidden="true"><path d="M1.5 3L4 5.5L6.5 3" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linecap="round"/></svg>
+        </button>
+        <div class="openapi-tryit-copy-menu" role="menu" style="display:none;">
+          <button class="openapi-tryit-copy-option" role="menuitem" data-lang="curl">cURL</button>
+          <button class="openapi-tryit-copy-option" role="menuitem" data-lang="python">Python</button>
+          <button class="openapi-tryit-copy-option" role="menuitem" data-lang="javascript">JavaScript</button>
+          <button class="openapi-tryit-copy-option" role="menuitem" data-lang="java">Java</button>
+          <button class="openapi-tryit-copy-option" role="menuitem" data-lang="go">Go</button>
+          <button class="openapi-tryit-copy-option" role="menuitem" data-lang="php">PHP</button>
+        </div>
+      </div>
     </div>
+
     <div class="openapi-tryit-response" style="display:none;">
-      <div class="openapi-tryit-response-header">
-        <span class="openapi-tryit-response-status"></span>
-        <span class="openapi-tryit-response-time"></span>
+      <div class="openapi-tryit-response-bar">
+        <span class="openapi-tryit-response-label">Response</span>
+        <div class="openapi-tryit-response-meta">
+          <span class="openapi-tryit-response-status"></span>
+          <span class="openapi-tryit-response-time"></span>
+        </div>
       </div>
       <pre class="openapi-tryit-response-body"></pre>
     </div>
   </div>
+
+  {{#if hasRequestBody}}
+    {{> openapi-request-body}}
+  {{/if}}
   {{#if hasResponses}}
     {{> openapi-responses}}
   {{/if}}

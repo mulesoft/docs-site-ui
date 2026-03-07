@@ -12,12 +12,19 @@ paths:
       description: Authorize for many resources
       requestBody:
         content:
-          application/json: {}
+          application/json:
+            example:
+              resources:
+                - namespace: org
+                  action: read
+                  resource: "/organizations/a1b2c3d4-e5f6-7890-abcd-ef1234567890"
       responses:
         '200':
           description: '200'
           content:
-            application/json: {}
+            application/json:
+              example:
+                authorized: true
         '400':
           description: '400'
         '429':
@@ -57,7 +64,8 @@ paths:
           type: string
       requestBody:
         content:
-          application/json: {}
+          application/json:
+            example: {}
       responses:
         '200':
           description: '200'
@@ -110,7 +118,8 @@ paths:
           type: string
       requestBody:
         content:
-          application/json: {}
+          application/json:
+            example: {}
       responses:
         '200':
           description: '200'
@@ -138,7 +147,11 @@ paths:
       description: Get the set of contexts in which the caller can perform an action on resources that match a template
       requestBody:
         content:
-          application/json: {}
+          application/json:
+            example:
+              namespace: org
+              action: read
+              resource_template: "/organizations/{orgId}"
 
   /clients:
     x-amf-description: Access to clients
@@ -147,12 +160,35 @@ paths:
       description: Create a new client
       requestBody:
         content:
-          application/json: {}
+          application/json:
+            example:
+              name: My API Client
+              description: Production client for API access
+              redirect_uris:
+                - https://example.com/callback
+              grant_types:
+                - authorization_code
+              scopes:
+                - read
+                - write
       responses:
         '200':
           description: '200'
           content:
-            application/json: {}
+            application/json:
+              example:
+                id: "a1b2c3d4-e5f6-7890-abcd-ef1234567890"
+                name: My API Client
+                description: Production client for API access
+                client_id: a1b2c3d4e5f67890abcdef1234567890
+                client_secret: "********"
+                redirect_uris:
+                  - https://example.com/callback
+                grant_types:
+                  - authorization_code
+                scopes:
+                  - read
+                  - write
         '429':
           description: Too many requests
           headers:
@@ -176,7 +212,16 @@ paths:
         '200':
           description: '200'
           content:
-            application/json: {}
+            application/json:
+              example:
+                data:
+                  - id: "a1b2c3d4-e5f6-7890-abcd-ef1234567890"
+                    name: My API Client
+                    client_id: a1b2c3d4e5f67890abcdef1234567890
+                  - id: "b2c3d4e5-f6a7-8901-bcde-f12345678901"
+                    name: Analytics Service
+                    client_id: b2c3d4e5f6a78901bcdef12345678901
+                total: 2
         '429':
           description: Too many requests
           headers:
@@ -246,7 +291,10 @@ paths:
           type: boolean
       requestBody:
         content:
-          application/json: {}
+          application/json:
+            example:
+              name: Updated API Client
+              description: Updated production client
       responses:
         '200':
           description: '200'
@@ -283,7 +331,20 @@ paths:
         '200':
           description: '200'
           content:
-            application/json: {}
+            application/json:
+              example:
+                id: "a1b2c3d4-e5f6-7890-abcd-ef1234567890"
+                name: My API Client
+                description: Production client for API access
+                client_id: a1b2c3d4e5f67890abcdef1234567890
+                client_secret: "********"
+                redirect_uris:
+                  - https://example.com/callback
+                grant_types:
+                  - authorization_code
+                scopes:
+                  - read
+                  - write
         '429':
           description: Too many requests
           headers:
@@ -313,7 +374,11 @@ paths:
           type: string
       requestBody:
         content:
-          application/json: {}
+          application/json:
+            example:
+              role_ids:
+                - "a1b2c3d4-e5f6-7890-abcd-ef1234567890"
+                - "b2c3d4e5-f6a7-8901-bcde-f12345678901"
       responses:
         '200':
           description: '200'
@@ -346,7 +411,11 @@ paths:
           type: string
       requestBody:
         content:
-          application/json: {}
+          application/json:
+            example:
+              role_ids:
+                - "a1b2c3d4-e5f6-7890-abcd-ef1234567890"
+                - "b2c3d4e5-f6a7-8901-bcde-f12345678901"
       responses:
         '200':
           description: '200'
@@ -381,7 +450,15 @@ paths:
         '200':
           description: '200'
           content:
-            application/json: {}
+            application/json:
+              example:
+                data:
+                  - role_id: "a1b2c3d4-e5f6-7890-abcd-ef1234567890"
+                    name: Organization Administrator
+                    description: Full access to the organization
+                  - role_id: "b2c3d4e5-f6a7-8901-bcde-f12345678901"
+                    name: API Creator
+                    description: Can create and manage APIs
         '400':
           description: '400'
         '429':
@@ -452,7 +529,9 @@ paths:
           type: string
       requestBody:
         content:
-          application/json: {}
+          application/json:
+            example:
+              role_id: "a1b2c3d4-e5f6-7890-abcd-ef1234567890"
       responses:
         '200':
           description: '200'
@@ -492,7 +571,11 @@ paths:
         '200':
           description: '200'
           content:
-            application/json: {}
+            application/json:
+              example:
+                role_id: "a1b2c3d4-e5f6-7890-abcd-ef1234567890"
+                name: Organization Administrator
+                description: Full access to the organization
         '400':
           description: '400'
         '429':
@@ -517,12 +600,22 @@ paths:
       description: Search clients
       requestBody:
         content:
-          application/json: {}
+          application/json:
+            example:
+              query: "API Client"
+              limit: 25
+              offset: 0
       responses:
         '200':
           description: Success
           content:
-            application/json: {}
+            application/json:
+              example:
+                data:
+                  - id: "a1b2c3d4-e5f6-7890-abcd-ef1234567890"
+                    name: My API Client
+                    client_id: a1b2c3d4e5f67890abcdef1234567890
+                total: 1
         '429':
           description: Too many requests
           headers:
@@ -546,12 +639,30 @@ paths:
       description: Create a new connected application
       requestBody:
         content:
-          application/json: {}
+          application/json:
+            example:
+              client_name: My Connected App
+              grant_types:
+                - client_credentials
+              redirect_uris: []
+              scopes:
+                - read:full
+              enabled: true
       responses:
         '200':
           description: '200'
           content:
-            application/json: {}
+            application/json:
+              example:
+                client_id: a1b2c3d4e5f67890abcdef1234567890
+                client_name: My Connected App
+                owner_org_id: "a1b2c3d4-e5f6-7890-abcd-ef1234567890"
+                grant_types:
+                  - client_credentials
+                redirect_uris: []
+                scopes:
+                  - read:full
+                enabled: true
         '429':
           description: Too many requests
           headers:
@@ -594,7 +705,16 @@ paths:
         '200':
           description: '200'
           content:
-            application/json: {}
+            application/json:
+              example:
+                data:
+                  - client_id: a1b2c3d4e5f67890abcdef1234567890
+                    client_name: My Connected App
+                    owner_org_id: "a1b2c3d4-e5f6-7890-abcd-ef1234567890"
+                    enabled: true
+                total: 1
+                offset: 0
+                limit: 25
         '429':
           description: Too many requests
           headers:
@@ -658,12 +778,20 @@ paths:
           default: false
       requestBody:
         content:
-          application/json: {}
+          application/json:
+            example:
+              client_name: Updated Connected App
+              enabled: false
       responses:
         '200':
           description: Connected application was successfully updated
           content:
-            application/json: {}
+            application/json:
+              example:
+                client_id: a1b2c3d4e5f67890abcdef1234567890
+                client_name: Updated Connected App
+                owner_org_id: "a1b2c3d4-e5f6-7890-abcd-ef1234567890"
+                enabled: false
         '404':
           description: Connected application with that clientId could not be found
         '429':
@@ -702,7 +830,17 @@ paths:
         '200':
           description: '200'
           content:
-            application/json: {}
+            application/json:
+              example:
+                client_id: a1b2c3d4e5f67890abcdef1234567890
+                client_name: My Connected App
+                owner_org_id: "a1b2c3d4-e5f6-7890-abcd-ef1234567890"
+                grant_types:
+                  - client_credentials
+                redirect_uris: []
+                scopes:
+                  - read:full
+                enabled: true
         '404':
           description: Connected application with that clientId could not be found
         '429':
@@ -740,7 +878,11 @@ paths:
           type: string
       requestBody:
         content:
-          application/json: {}
+          application/json:
+            example:
+              scopes:
+                - read:full
+                - write:full
       responses:
         '204':
           description: Connected application scopes were successfully unassigned
@@ -775,7 +917,11 @@ paths:
           type: string
       requestBody:
         content:
-          application/json: {}
+          application/json:
+            example:
+              scopes:
+                - read:full
+                - write:full
       responses:
         '204':
           description: Connected application scopes were successfully assigned
@@ -806,7 +952,11 @@ paths:
           type: string
       requestBody:
         content:
-          application/json: {}
+          application/json:
+            example:
+              scopes:
+                - read:full
+                - write:full
       responses:
         '204':
           description: Connected application scopes were successfully replaced
@@ -839,7 +989,11 @@ paths:
         '200':
           description: '200'
           content:
-            application/json: {}
+            application/json:
+              example:
+                scopes:
+                  - read:full
+                  - write:full
         '429':
           description: Too many requests
           headers:
@@ -922,7 +1076,13 @@ paths:
         '200':
           description: Success
           content:
-            application/json: {}
+            application/json:
+              example:
+                data:
+                  - id: "a1b2c3d4-e5f6-7890-abcd-ef1234567890"
+                    name: Deleted Organization
+                    deleted_at: "2024-06-20T14:15:00Z"
+                total: 1
         '429':
           description: Too many requests
           headers:
@@ -974,7 +1134,14 @@ paths:
         '200':
           description: Success
           content:
-            application/json: {}
+            application/json:
+              example:
+                data:
+                  - id: "a1b2c3d4-e5f6-7890-abcd-ef1234567890"
+                    name: Deleted Environment
+                    organization_id: "b2c3d4e5-f6a7-8901-bcde-f12345678901"
+                    deleted_at: "2024-06-20T14:15:00Z"
+                total: 1
         '429':
           description: Too many requests
           headers:
@@ -1008,12 +1175,23 @@ paths:
           type: string
       requestBody:
         content:
-          application/json: {}
+          application/json:
+            example:
+              name: Production
+              type: production
+              isProduction: true
       responses:
         '200':
           description: Returns the updated environment
           content:
-            application/json: {}
+            application/json:
+              example:
+                id: "a1b2c3d4-e5f6-7890-abcd-ef1234567890"
+                name: Production
+                organizationId: "b2c3d4e5-f6a7-8901-bcde-f12345678901"
+                type: production
+                isProduction: true
+                clientId: client-a1b2c3d4
         '404':
           description: No environment exists with that id
         '429':
@@ -1046,7 +1224,14 @@ paths:
         '200':
           description: Returns the environment
           content:
-            application/json: {}
+            application/json:
+              example:
+                id: "a1b2c3d4-e5f6-7890-abcd-ef1234567890"
+                name: Production
+                organizationId: "b2c3d4e5-f6a7-8901-bcde-f12345678901"
+                type: production
+                isProduction: true
+                clientId: client-a1b2c3d4
         '404':
           description: No environment exists with that id
         '429':
@@ -1077,7 +1262,10 @@ paths:
           type: string
       requestBody:
         content:
-          application/json: {}
+          application/json:
+            example:
+              org_ids:
+                - "a1b2c3d4-e5f6-7890-abcd-ef1234567890"
       responses:
         '429':
           description: Too many requests
@@ -1129,7 +1317,10 @@ paths:
       description: Invite a person to join your organization
       requestBody:
         content:
-          application/json: {}
+          application/json:
+            example:
+              invite_ids:
+                - "a1b2c3d4-e5f6-7890-abcd-ef1234567890"
       responses:
         '204':
           description: Success
@@ -1156,12 +1347,21 @@ paths:
       description: Invite a person to join the organization
       requestBody:
         content:
-          application/json: {}
+          application/json:
+            example:
+              email: jane.doe@example.com
+              role_group_ids:
+                - "a1b2c3d4-e5f6-7890-abcd-ef1234567890"
       responses:
         '200':
           description: Success
           content:
-            application/json: {}
+            application/json:
+              example:
+                id: "a1b2c3d4-e5f6-7890-abcd-ef1234567890"
+                email: jane.doe@example.com
+                status: pending
+                created_at: "2024-01-15T10:30:00Z"
         '400':
           description: Bad request; unknown organization, bad parameter or other failure
         '429':
@@ -1225,7 +1425,14 @@ paths:
         '200':
           description: Success
           content:
-            application/json: {}
+            application/json:
+              example:
+                id: "a1b2c3d4-e5f6-7890-abcd-ef1234567890"
+                email: jane.doe@example.com
+                status: pending
+                created_at: "2024-01-15T10:30:00Z"
+                role_group_ids:
+                  - "b2c3d4e5-f6a7-8901-bcde-f12345678901"
         '400':
           description: Bad request; bad parameter or other failure
         '404':
@@ -1274,12 +1481,17 @@ paths:
       description: Resend a list of invites
       requestBody:
         content:
-          application/json: {}
+          application/json:
+            example:
+              invite_ids:
+                - "a1b2c3d4-e5f6-7890-abcd-ef1234567890"
       responses:
         '200':
           description: Success
           content:
-            application/json: {}
+            application/json:
+              example:
+                message: Invites resent successfully
         '400':
           description: One or more of the invites are not in the organization or no invites were sent
         '429':
@@ -1305,12 +1517,19 @@ paths:
       description: login to the Anypoint Platform
       requestBody:
         content:
-          application/json: {}
+          application/json:
+            example:
+              username: jane.doe@example.com
+              password: "********"
       responses:
         '200':
           description: Returns the bearer token for the user's session
           content:
-            application/json: {}
+            application/json:
+              example:
+                access_token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...
+                token_type: bearer
+                redirectUrl: /home
         '302':
           description: Success; redirect the user to the application they were trying to visit
         '401':
@@ -1320,7 +1539,10 @@ paths:
         '418':
           description: The user belongs to the other platform
           content:
-            application/json: {}
+            application/json:
+              example:
+                error: wrong_platform
+                message: The user belongs to the other platform
         '429':
           description: Too many requests
           headers:
@@ -1372,7 +1594,17 @@ paths:
         '200':
           description: Success
           content:
-            application/json: {}
+            application/json:
+              example:
+                id: "a1b2c3d4-e5f6-7890-abcd-ef1234567890"
+                username: jane.doe
+                firstName: Jane
+                lastName: Doe
+                email: jane.doe@example.com
+                organizationId: "b2c3d4e5-f6a7-8901-bcde-f12345678901"
+                created_at: "2024-01-15T10:30:00Z"
+                updated_at: "2024-06-20T14:15:00Z"
+                enabled: true
         '400':
           description: An unknown error occurred
         '429':
@@ -1398,7 +1630,12 @@ paths:
       description: Send
       requestBody:
         content:
-          application/json: {}
+          application/json:
+            example:
+              subject: Account update notification
+              message: Your organization settings have been updated.
+              recipients:
+                - jane.doe@example.com
       responses:
         '200':
           description: Success
@@ -1621,7 +1858,9 @@ paths:
         This implements RFC-7662: OAuth 2.0 Token Introspection'
       requestBody:
         content:
-          application/json: {}
+          application/json:
+            example:
+              token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...
           application/x-www-form-urlencoded:
             schema:
               type: object
@@ -1662,7 +1901,11 @@ paths:
       description: create or retrieve an OAuth2 token
       requestBody:
         content:
-          application/json: {}
+          application/json:
+            example:
+              grant_type: client_credentials
+              client_id: a1b2c3d4e5f67890abcdef1234567890
+              client_secret: "********"
       responses:
         '200':
           description: success
@@ -1760,12 +2003,25 @@ paths:
           type: string
       requestBody:
         content:
-          application/json: {}
+          application/json:
+            example:
+              name: My Organization
+              domain: myorg
+              session_timeout: 60
       responses:
         '200':
           description: Success
           content:
-            application/json: {}
+            application/json:
+              example:
+                id: "a1b2c3d4-e5f6-7890-abcd-ef1234567890"
+                name: My Organization
+                owner_id: "b2c3d4e5-f6a7-8901-bcde-f12345678901"
+                created_at: "2024-01-15T10:30:00Z"
+                updated_at: "2024-06-20T14:15:00Z"
+                is_federated: false
+                domain: myorg
+                session_timeout: 60
         '400':
           description: Invalid or incomplete body
         '429':
@@ -1798,7 +2054,16 @@ paths:
         '200':
           description: Success
           content:
-            application/json: {}
+            application/json:
+              example:
+                id: "a1b2c3d4-e5f6-7890-abcd-ef1234567890"
+                name: My Organization
+                owner_id: "b2c3d4e5-f6a7-8901-bcde-f12345678901"
+                created_at: "2024-01-15T10:30:00Z"
+                updated_at: "2024-06-20T14:15:00Z"
+                is_federated: false
+                domain: myorg
+                session_timeout: 60
         '429':
           description: Too many requests
           headers:
@@ -1828,7 +2093,14 @@ paths:
           type: string
       requestBody:
         content:
-          application/json: {}
+          application/json:
+            example:
+              name: External Client Provider
+              type: openid_connect
+              configuration:
+                issuer: https://idp.example.com
+                authorization_endpoint: https://idp.example.com/authorize
+                token_endpoint: https://idp.example.com/token
       responses:
         '201':
           description: Success
@@ -1963,7 +2235,11 @@ paths:
           default: false
       requestBody:
         content:
-          application/json: {}
+          application/json:
+            example:
+              name: Updated Client Provider
+              configuration:
+                issuer: https://idp.example.com
       responses:
         '200':
           description: Success
@@ -2008,7 +2284,12 @@ paths:
           type: string
       requestBody:
         content:
-          application/json: {}
+          application/json:
+            example:
+              name: Updated Client Provider
+              type: openid_connect
+              configuration:
+                issuer: https://idp.example.com
       responses:
         '200':
           description: Success
@@ -2063,7 +2344,16 @@ paths:
         '200':
           description: Success
           content:
-            application/json: {}
+            application/json:
+              example:
+                id: "a1b2c3d4-e5f6-7890-abcd-ef1234567890"
+                name: External Client Provider
+                type: openid_connect
+                org_id: "b2c3d4e5-f6a7-8901-bcde-f12345678901"
+                configuration:
+                  issuer: https://idp.example.com
+                  authorization_endpoint: https://idp.example.com/authorize
+                  token_endpoint: https://idp.example.com/token
         '401':
           description: Unauthorized
         '404':
@@ -2104,7 +2394,12 @@ paths:
         '200':
           description: Success
           content:
-            application/json: {}
+            application/json:
+              example:
+                grant_types:
+                  - authorization_code
+                  - client_credentials
+                  - implicit
         '429':
           description: Too many requests
           headers:
@@ -2139,7 +2434,12 @@ paths:
           type: string
       requestBody:
         content:
-          application/json: {}
+          application/json:
+            example:
+              name: Provider Client
+              description: Client for external provider
+              redirect_uris:
+                - https://example.com/callback
       responses:
         '201':
           description: Success
@@ -2193,7 +2493,13 @@ paths:
         '200':
           description: Sucess
           content:
-            application/json: {}
+            application/json:
+              example:
+                data:
+                  - id: "a1b2c3d4-e5f6-7890-abcd-ef1234567890"
+                    name: Provider Client
+                    client_id: a1b2c3d4e5f67890abcdef1234567890
+                total: 1
         '401':
           description: Unauthorized
         '404':
@@ -2306,7 +2612,10 @@ paths:
           default: false
       requestBody:
         content:
-          application/json: {}
+          application/json:
+            example:
+              name: Updated Provider Client
+              description: Updated client description
       responses:
         '200':
           description: Success
@@ -2358,7 +2667,14 @@ paths:
         '200':
           description: Success
           content:
-            application/json: {}
+            application/json:
+              example:
+                id: "a1b2c3d4-e5f6-7890-abcd-ef1234567890"
+                name: Provider Client
+                description: Client for external provider
+                client_id: a1b2c3d4e5f67890abcdef1234567890
+                redirect_uris:
+                  - https://example.com/callback
         '401':
           description: Unauthorized
         '404':
@@ -2393,12 +2709,27 @@ paths:
           type: string
       requestBody:
         content:
-          application/json: {}
+          application/json:
+            example:
+              name: My API Client
+              description: Production client for API access
+              redirect_uris:
+                - https://example.com/callback
+              grant_types:
+                - authorization_code
+              scopes:
+                - read
+                - write
       responses:
         '200':
           description: '200'
           content:
-            application/json: {}
+            application/json:
+              example:
+                id: "a1b2c3d4-e5f6-7890-abcd-ef1234567890"
+                name: My API Client
+                client_id: a1b2c3d4e5f67890abcdef1234567890
+                client_secret: "********"
         '429':
           description: Too many requests
           headers:
@@ -2429,7 +2760,13 @@ paths:
         '200':
           description: '200'
           content:
-            application/json: {}
+            application/json:
+              example:
+                data:
+                  - id: "a1b2c3d4-e5f6-7890-abcd-ef1234567890"
+                    name: My API Client
+                    client_id: a1b2c3d4e5f67890abcdef1234567890
+                total: 2
         '429':
           description: Too many requests
           headers:
@@ -2511,7 +2848,10 @@ paths:
           type: boolean
       requestBody:
         content:
-          application/json: {}
+          application/json:
+            example:
+              name: Updated API Client
+              description: Updated production client
       responses:
         '200':
           description: '200'
@@ -2554,7 +2894,12 @@ paths:
         '200':
           description: '200'
           content:
-            application/json: {}
+            application/json:
+              example:
+                id: "a1b2c3d4-e5f6-7890-abcd-ef1234567890"
+                name: My API Client
+                client_id: a1b2c3d4e5f67890abcdef1234567890
+                client_secret: "********"
         '429':
           description: Too many requests
           headers:
@@ -2590,7 +2935,10 @@ paths:
           type: string
       requestBody:
         content:
-          application/json: {}
+          application/json:
+            example:
+              role_ids:
+                - "a1b2c3d4-e5f6-7890-abcd-ef1234567890"
       responses:
         '200':
           description: '200'
@@ -2629,7 +2977,10 @@ paths:
           type: string
       requestBody:
         content:
-          application/json: {}
+          application/json:
+            example:
+              role_ids:
+                - "a1b2c3d4-e5f6-7890-abcd-ef1234567890"
       responses:
         '200':
           description: '200'
@@ -2715,7 +3066,9 @@ paths:
           type: string
       requestBody:
         content:
-          application/json: {}
+          application/json:
+            example:
+              role_id: "a1b2c3d4-e5f6-7890-abcd-ef1234567890"
       responses:
         '200':
           description: '200'
@@ -2750,12 +3103,22 @@ paths:
           type: string
       requestBody:
         content:
-          application/json: {}
+          application/json:
+            example:
+              query: "API Client"
+              limit: 25
+              offset: 0
       responses:
         '200':
           description: Success
           content:
-            application/json: {}
+            application/json:
+              example:
+                data:
+                  - id: "a1b2c3d4-e5f6-7890-abcd-ef1234567890"
+                    name: My API Client
+                    client_id: a1b2c3d4e5f67890abcdef1234567890
+                total: 1
         '429':
           description: Too many requests
           headers:
@@ -2785,12 +3148,16 @@ paths:
           type: string
       requestBody:
         content:
-          application/json: {}
+          application/json:
+            example:
+              name: My API Client
       responses:
         '200':
           description: Success
           content:
-            application/json: {}
+            application/json:
+              example:
+                valid: true
         '429':
           description: Too many requests
           headers:
@@ -2821,12 +3188,24 @@ paths:
           type: string
       requestBody:
         content:
-          application/json: {}
+          application/json:
+            example:
+              client_name: My Connected App
+              grant_types:
+                - client_credentials
+              scopes:
+                - read:full
+              enabled: true
       responses:
         '200':
           description: '200'
           content:
-            application/json: {}
+            application/json:
+              example:
+                client_id: a1b2c3d4e5f67890abcdef1234567890
+                client_name: My Connected App
+                owner_org_id: "a1b2c3d4-e5f6-7890-abcd-ef1234567890"
+                enabled: true
         '429':
           description: Too many requests
           headers:
@@ -2875,7 +3254,15 @@ paths:
         '200':
           description: '200'
           content:
-            application/json: {}
+            application/json:
+              example:
+                data:
+                  - client_id: a1b2c3d4e5f67890abcdef1234567890
+                    client_name: My Connected App
+                    enabled: true
+                total: 1
+                offset: 0
+                limit: 25
         '429':
           description: Too many requests
           headers:
@@ -2951,12 +3338,19 @@ paths:
           default: false
       requestBody:
         content:
-          application/json: {}
+          application/json:
+            example:
+              client_name: Updated Connected App
+              enabled: false
       responses:
         '200':
           description: Connected Application was successfully updated
           content:
-            application/json: {}
+            application/json:
+              example:
+                client_id: a1b2c3d4e5f67890abcdef1234567890
+                client_name: Updated Connected App
+                enabled: false
         '404':
           description: Connected Application with that orgId and clientId could not be found
         '429':
@@ -3001,7 +3395,12 @@ paths:
         '200':
           description: '200'
           content:
-            application/json: {}
+            application/json:
+              example:
+                client_id: a1b2c3d4e5f67890abcdef1234567890
+                client_name: My Connected App
+                owner_org_id: "a1b2c3d4-e5f6-7890-abcd-ef1234567890"
+                enabled: true
         '404':
           description: Connected application with that clientId could not be found
         '429':
@@ -3045,7 +3444,11 @@ paths:
           type: string
       requestBody:
         content:
-          application/json: {}
+          application/json:
+            example:
+              scopes:
+                - read:full
+                - write:full
       responses:
         '204':
           description: Connected application scopes were successfully unassigned
@@ -3086,7 +3489,11 @@ paths:
           type: string
       requestBody:
         content:
-          application/json: {}
+          application/json:
+            example:
+              scopes:
+                - read:full
+                - write:full
       responses:
         '204':
           description: Connected application scopes were successfully assigned
@@ -3123,7 +3530,11 @@ paths:
           type: string
       requestBody:
         content:
-          application/json: {}
+          application/json:
+            example:
+              scopes:
+                - read:full
+                - write:full
       responses:
         '204':
           description: Connected application scopes were successfully replaced
@@ -3162,7 +3573,11 @@ paths:
         '200':
           description: '200'
           content:
-            application/json: {}
+            application/json:
+              example:
+                scopes:
+                  - read:full
+                  - write:full
         '429':
           description: Too many requests
           headers:
@@ -3344,7 +3759,14 @@ paths:
         '200':
           description: Success
           content:
-            application/json: {}
+            application/json:
+              example:
+                id: "a1b2c3d4-e5f6-7890-abcd-ef1234567890"
+                client_id: a1b2c3d4e5f67890abcdef1234567890
+                client_name: My Connected App
+                authorized_at: "2024-01-15T10:30:00Z"
+                scopes:
+                  - read:full
         '429':
           description: Too many requests
           headers:
@@ -3374,12 +3796,18 @@ paths:
           type: string
       requestBody:
         content:
-          application/json: {}
+          application/json:
+            example:
+              allow_all: false
+              require_admin_approval: true
       responses:
         '200':
           description: Success
           content:
-            application/json: {}
+            application/json:
+              example:
+                allow_all: false
+                require_admin_approval: true
         '404':
           description: The organization does not exist
         '405':
@@ -3415,7 +3843,10 @@ paths:
         '200':
           description: Success
           content:
-            application/json: {}
+            application/json:
+              example:
+                allow_all: false
+                require_admin_approval: true
         '404':
           description: The organization does not exist
         '429':
@@ -3447,7 +3878,10 @@ paths:
           type: string
       requestBody:
         content:
-          application/json: {}
+          application/json:
+            example:
+              client_ids:
+                - a1b2c3d4e5f67890abcdef1234567890
       responses:
         '204':
           description: Success
@@ -3483,7 +3917,10 @@ paths:
           type: string
       requestBody:
         content:
-          application/json: {}
+          application/json:
+            example:
+              client_ids:
+                - a1b2c3d4e5f67890abcdef1234567890
       responses:
         '204':
           description: Success
@@ -3519,7 +3956,10 @@ paths:
           type: string
       requestBody:
         content:
-          application/json: {}
+          application/json:
+            example:
+              client_ids:
+                - a1b2c3d4e5f67890abcdef1234567890
       responses:
         '204':
           description: Success
@@ -3592,7 +4032,10 @@ paths:
           type: string
       requestBody:
         content:
-          application/json: {}
+          application/json:
+            example:
+              client_ids:
+                - a1b2c3d4e5f67890abcdef1234567890
       responses:
         '204':
           description: Success
@@ -3628,7 +4071,10 @@ paths:
           type: string
       requestBody:
         content:
-          application/json: {}
+          application/json:
+            example:
+              client_ids:
+                - a1b2c3d4e5f67890abcdef1234567890
       responses:
         '204':
           description: Success
@@ -3664,7 +4110,10 @@ paths:
           type: string
       requestBody:
         content:
-          application/json: {}
+          application/json:
+            example:
+              client_ids:
+                - a1b2c3d4e5f67890abcdef1234567890
       responses:
         '204':
           description: Success
@@ -3777,7 +4226,10 @@ paths:
           type: string
       requestBody:
         content:
-          application/json: {}
+          application/json:
+            example:
+              assigned: 2.0
+              reassigned: 0.0
       responses:
         '200':
           description: Success
@@ -3850,12 +4302,23 @@ paths:
           type: string
       requestBody:
         content:
-          application/json: {}
+          application/json:
+            example:
+              name: Production
+              type: production
+              isProduction: true
       responses:
         '201':
           description: Environment created. Returns the newly created environment
           content:
-            application/json: {}
+            application/json:
+              example:
+                id: "a1b2c3d4-e5f6-7890-abcd-ef1234567890"
+                name: Production
+                organizationId: "b2c3d4e5-f6a7-8901-bcde-f12345678901"
+                type: production
+                isProduction: true
+                clientId: client-a1b2c3d4
         '400':
           description: Failed to create the environment because of invalid input. Often times it is the name containing invalid
             characters (names must be alpha-numeric and between 2 & 65 characters long).
@@ -3912,7 +4375,20 @@ paths:
         '200':
           description: Returns environments
           content:
-            application/json: {}
+            application/json:
+              example:
+                data:
+                  - id: "a1b2c3d4-e5f6-7890-abcd-ef1234567890"
+                    name: Production
+                    organizationId: "b2c3d4e5-f6a7-8901-bcde-f12345678901"
+                    type: production
+                    isProduction: true
+                  - id: "c3d4e5f6-a7b8-9012-cdef-123456789012"
+                    name: Sandbox
+                    organizationId: "b2c3d4e5-f6a7-8901-bcde-f12345678901"
+                    type: sandbox
+                    isProduction: false
+                total: 2
         '429':
           description: Too many requests
           headers:
@@ -3987,12 +4463,23 @@ paths:
           type: string
       requestBody:
         content:
-          application/json: {}
+          application/json:
+            example:
+              name: Production
+              type: production
+              isProduction: true
       responses:
         '200':
           description: Returns the updated environment
           content:
-            application/json: {}
+            application/json:
+              example:
+                id: "a1b2c3d4-e5f6-7890-abcd-ef1234567890"
+                name: Production
+                organizationId: "b2c3d4e5-f6a7-8901-bcde-f12345678901"
+                type: production
+                isProduction: true
+                clientId: client-a1b2c3d4
         '404':
           description: No environment exists with that id
         '429':
@@ -4031,7 +4518,14 @@ paths:
         '200':
           description: Returns the environment
           content:
-            application/json: {}
+            application/json:
+              example:
+                id: "a1b2c3d4-e5f6-7890-abcd-ef1234567890"
+                name: Production
+                organizationId: "b2c3d4e5-f6a7-8901-bcde-f12345678901"
+                type: production
+                isProduction: true
+                clientId: client-a1b2c3d4
         '404':
           description: No environment exists with that id
         '429':
@@ -4069,12 +4563,19 @@ paths:
           type: string
       requestBody:
         content:
-          application/json: {}
+          application/json:
+            example:
+              provider_id: "a1b2c3d4-e5f6-7890-abcd-ef1234567890"
+              type: external
       responses:
         '200':
           description: returns client management providerIds for the environment
           content:
-            application/json: {}
+            application/json:
+              example:
+                provider_id: "a1b2c3d4-e5f6-7890-abcd-ef1234567890"
+                type: external
+                name: External Provider
         '404':
           description: No environment exists with that id
         '429':
@@ -4113,7 +4614,11 @@ paths:
         '200':
           description: returns client management providerIds for the environment
           content:
-            application/json: {}
+            application/json:
+              example:
+                provider_id: "a1b2c3d4-e5f6-7890-abcd-ef1234567890"
+                type: external
+                name: External Provider
         '404':
           description: No environment exists with that id
         '429':
@@ -4182,7 +4687,9 @@ paths:
           type: string
       requestBody:
         content:
-          application/json: {}
+          application/json:
+            example:
+              enabled: true
       responses:
         '200':
           description: Success
@@ -4252,7 +4759,14 @@ paths:
         '200':
           description: Success
           content:
-            application/json: {}
+            application/json:
+              example:
+                id: "a1b2c3d4-e5f6-7890-abcd-ef1234567890"
+                name: My Organization
+                subOrganizations:
+                  - id: "b2c3d4e5-f6a7-8901-bcde-f12345678901"
+                    name: Sub Organization
+                    subOrganizations: []
         '400':
           description: Bad request; unknown organization.
         '429':
@@ -4284,12 +4798,26 @@ paths:
           type: string
       requestBody:
         content:
-          application/json: {}
+          application/json:
+            example:
+              name: Corporate SAML
+              type:
+                name: saml
+              saml:
+                issuer: https://idp.example.com
+                audience: https://anypoint.mulesoft.com
       responses:
         '201':
           description: Success
           content:
-            application/json: {}
+            application/json:
+              example:
+                id: "a1b2c3d4-e5f6-7890-abcd-ef1234567890"
+                name: Corporate SAML
+                org_id: "b2c3d4e5-f6a7-8901-bcde-f12345678901"
+                type:
+                  name: saml
+                created_at: "2024-01-15T10:30:00Z"
         '400':
           description: Invalid data in body
         '405':
@@ -4423,7 +4951,13 @@ paths:
           type: string
       requestBody:
         content:
-          application/json: {}
+          application/json:
+            example:
+              host: ldap.example.com
+              port: 389
+              bind_dn: "cn=admin,dc=example,dc=com"
+              bind_password: "********"
+              base_dn: "dc=example,dc=com"
       responses:
         '200':
           description: Success
@@ -4501,7 +5035,9 @@ paths:
           type: string
       requestBody:
         content:
-          application/json: {}
+          application/json:
+            example:
+              name: Updated SAML Provider
       responses:
         '200':
           description: Success
@@ -4551,7 +5087,15 @@ paths:
         '200':
           description: Success
           content:
-            application/json: {}
+            application/json:
+              example:
+                id: "a1b2c3d4-e5f6-7890-abcd-ef1234567890"
+                name: Corporate SAML
+                org_id: "b2c3d4e5-f6a7-8901-bcde-f12345678901"
+                type:
+                  name: saml
+                saml:
+                  issuer: https://idp.example.com
         '405':
           description: The organization is not a root organization
         '429':
@@ -4588,12 +5132,19 @@ paths:
           type: string
       requestBody:
         content:
-          application/json: {}
+          application/json:
+            example:
+              certificate: "-----BEGIN CERTIFICATE-----\nMIIC...\n-----END CERTIFICATE-----"
       responses:
         '201':
           description: Success
           content:
-            application/json: {}
+            application/json:
+              example:
+                id: "a1b2c3d4-e5f6-7890-abcd-ef1234567890"
+                is_primary: false
+                created_at: "2024-01-15T10:30:00Z"
+                expiration_date: "2025-01-15T10:30:00Z"
         '404':
           description: The identity provider does not exist or is not a SAML provider
         '405':
@@ -4639,7 +5190,13 @@ paths:
         '200':
           description: Success
           content:
-            application/json: {}
+            application/json:
+              example:
+                data:
+                  - id: "a1b2c3d4-e5f6-7890-abcd-ef1234567890"
+                    is_primary: true
+                    created_at: "2024-01-15T10:30:00Z"
+                    expiration_date: "2025-01-15T10:30:00Z"
         '404':
           description: The identity provider does not exist or is not a SAML provider
         '405':
@@ -4774,7 +5331,10 @@ paths:
         '200':
           description: Success
           content:
-            application/json: {}
+            application/json:
+              example:
+                id: "a1b2c3d4-e5f6-7890-abcd-ef1234567890"
+                is_primary: true
         '404':
           description: The key or identity provider does not exist, or it is not a SAML provider
         '405':
@@ -4808,7 +5368,9 @@ paths:
           type: string
       requestBody:
         content:
-          application/json: {}
+          application/json:
+            example:
+              allow_untrusted_certificates: false
       responses:
         '204':
           description: Success
@@ -4831,7 +5393,9 @@ paths:
         '200':
           description: Success
           content:
-            application/json: {}
+            application/json:
+              example:
+                allow_untrusted_certificates: false
         '405':
           description: The organization is not a root organization
 
@@ -4849,7 +5413,10 @@ paths:
           type: string
       requestBody:
         content:
-          application/json: {}
+          application/json:
+            example:
+              - 42
+              - 43
       responses:
         '204':
           description: Success
@@ -4883,12 +5450,22 @@ paths:
           type: string
       requestBody:
         content:
-          application/json: {}
+          application/json:
+            example:
+              email: jane.doe@example.com
+              rolegroup_assignments:
+                - rolegroup_id: b1c2d3e4-f5a6-7890-abcd-ef1234567890
       responses:
         '200':
           description: Success
           content:
-            application/json: {}
+            application/json:
+              example:
+                id: 42
+                email: jane.doe@example.com
+                status: PENDING
+                created_at: '2024-01-15T10:30:00.000Z'
+                expires_at: '2024-02-15T10:30:00.000Z'
         '400':
           description: Bad request; unknown organization, bad parameter or other failure
         '429':
@@ -4958,7 +5535,14 @@ paths:
         '200':
           description: Success
           content:
-            application/json: {}
+            application/json:
+              example:
+                id: 42
+                email: jane.doe@example.com
+                status: PENDING
+                created_at: '2024-01-15T10:30:00.000Z'
+                expires_at: '2024-02-15T10:30:00.000Z'
+                invited_by: admin@example.com
         '400':
           description: Bad request; bad parameter or other failure
         '404':
@@ -4993,12 +5577,19 @@ paths:
           type: string
       requestBody:
         content:
-          application/json: {}
+          application/json:
+            example:
+              - 42
+              - 43
+              - 44
       responses:
         '200':
           description: Success
           content:
-            application/json: {}
+            application/json:
+              example:
+                status: success
+                resent: 3
         '400':
           description: One or more of the invites are not in the organization or no invites were sent
         '429':

@@ -64,7 +64,7 @@
     return null
   }
 
-  // ─── Auth UI ────────────────────────────────────────────────────────────────
+  // ─── Auth UI ──────────────────────────────────────────────────────────────────
 
   function updateAuthUI () {
     const session = getSession()
@@ -91,7 +91,6 @@
     const modal = document.getElementById('openapi-login-modal')
     if (!modal) return
     modal.style.display = ''
-    // Always start on credentials step
     const stepCreds = document.getElementById('openapi-login-step-credentials')
     const stepToken = document.getElementById('openapi-login-step-token')
     if (stepCreds) stepCreds.style.display = ''
@@ -229,6 +228,13 @@
     return serverSelect ? serverSelect.value || '' : ''
   }
 
+  function updateUrlPreview (endpoint, spec, operationId) {
+    const urlEl = endpoint.querySelector('.openapi-tryit-url-path')
+    if (!urlEl) return
+    const url = buildRequestUrl(endpoint, spec, operationId)
+    urlEl.textContent = url
+  }
+
   function populatePanel (endpoint, spec, operationId) {
     const found = findOperation(spec, operationId)
     if (!found) return
@@ -236,7 +242,7 @@
     const op = found.operation
     const allParams = (found.pathParams || []).concat(op.parameters || [])
 
-    // Auto-fill parameter inputs already rendered in the table
+    // Auto-fill parameter inputs
     const inputs = endpoint.querySelectorAll('.openapi-tryit-param-input')
     for (let j = 0; j < inputs.length; j++) {
       const input = inputs[j]
@@ -247,6 +253,11 @@
         input.value = String(param.schema.default)
       }
       autoFillParam(input, input.name)
+
+      // Update URL preview when params change
+      input.addEventListener('input', function () {
+        updateUrlPreview(endpoint, spec, operationId)
+      })
     }
 
     // Request body
@@ -288,6 +299,9 @@
       bodySection.style.display = 'none'
       bodyTextarea.value = ''
     }
+
+    // Initial URL preview
+    updateUrlPreview(endpoint, spec, operationId)
   }
 
   function generateSkeleton (schema, depth) {
@@ -368,7 +382,6 @@
 
   // Rewrite an absolute API URL to go through the nginx reverse proxy
   function proxyUrl (url) {
-    // Strip the scheme + host, keep path and query string intact
     return url.replace(/^https?:\/\/[^/]+/, PROXY_PREFIX)
   }
 
@@ -388,6 +401,15 @@
   }
 
   // ─── Request Execution ─────────────────────────────────────────────────────
+
+  function setLoading (endpoint, loading) {
+    const sendBtn = endpoint.querySelector('.openapi-tryit-send')
+    const label = sendBtn.querySelector('.openapi-tryit-send-label')
+    const spinner = sendBtn.querySelector('.openapi-tryit-send-spinner')
+    sendBtn.disabled = loading
+    label.textContent = loading ? 'Sending…' : 'Send Request'
+    spinner.style.display = loading ? '' : 'none'
+  }
 
   function sendRequest (endpoint, spec, operationId) {
     if (!getToken()) {
@@ -414,10 +436,11 @@
     const bodyEl = endpoint.querySelector('.openapi-tryit-response-body')
 
     responseArea.style.display = ''
-    statusEl.textContent = 'Sending…'
+    statusEl.textContent = ''
     statusEl.className = 'openapi-tryit-response-status'
     timeEl.textContent = ''
     bodyEl.textContent = ''
+    setLoading(endpoint, true)
 
     const startTime = Date.now()
 
@@ -450,35 +473,198 @@
           bodyEl.textContent =
             'Request failed — this is likely a CORS error.\n' +
             'The API server does not allow requests from this origin.\n\n' +
-            'Use "Copy as cURL" to run this request from your terminal instead.'
+            'Use the cURL button to copy this request and run it from your terminal.'
         } else {
           bodyEl.textContent = err.message || 'Request failed'
         }
       })
+      .finally(function () {
+        setLoading(endpoint, false)
+      })
   }
 
-  // ─── cURL Generation ───────────────────────────────────────────────────────
+  // ─── Code Snippet Generation ────────────────────────────────────────────────
 
-  function generateCurl (endpoint, spec, operationId) {
+  function getRequestParts (endpoint, spec, operationId) {
     const method = (endpoint.dataset.method || 'get').toUpperCase()
     const url = buildRequestUrl(endpoint, spec, operationId)
     const headers = buildHeaders(endpoint)
-
-    const parts = ['curl -X ' + method + " '" + url + "'"]
-    for (const key in headers) {
-      if (Object.prototype.hasOwnProperty.call(headers, key)) {
-        parts.push("  -H '" + key + ': ' + headers[key] + "'")
-      }
-    }
-
     const bodyTextarea = endpoint.querySelector('.openapi-tryit-body')
     const bodySection = endpoint.querySelector('.openapi-tryit-body-section')
+    let body = null
     if (bodySection.style.display !== 'none' && bodyTextarea.value.trim()) {
-      parts.push("  -H 'Content-Type: application/json'")
-      parts.push("  -d '" + bodyTextarea.value.trim().replace(/'/g, "'\\''") + "'")
+      body = bodyTextarea.value.trim()
+      headers['Content-Type'] = 'application/json'
     }
+    return { method, url, headers, body }
+  }
 
+  function generateCurl (r) {
+    const parts = ['curl -X ' + r.method + " '" + r.url + "'"]
+    for (const key in r.headers) {
+      if (Object.prototype.hasOwnProperty.call(r.headers, key)) {
+        parts.push("  -H '" + key + ': ' + r.headers[key] + "'")
+      }
+    }
+    if (r.body) {
+      parts.push("  -d '" + r.body.replace(/'/g, "'\\''") + "'")
+    }
     return parts.join(' \\\n')
+  }
+
+  function generatePython (r) {
+    const lines = ['import requests', '']
+    const headerEntries = Object.keys(r.headers)
+    if (headerEntries.length > 0) {
+      lines.push('headers = {')
+      for (const key of headerEntries) {
+        lines.push('    "' + key + '": "' + r.headers[key] + '",')
+      }
+      lines.push('}')
+      lines.push('')
+    }
+    if (r.body) {
+      lines.push('payload = ' + r.body)
+      lines.push('')
+    }
+    const args = ['"' + r.url + '"']
+    if (headerEntries.length > 0) args.push('headers=headers')
+    if (r.body) args.push('json=payload')
+    lines.push('response = requests.' + r.method.toLowerCase() + '(')
+    lines.push('    ' + args.join(',\n    '))
+    lines.push(')')
+    lines.push('')
+    lines.push('print(response.status_code)')
+    lines.push('print(response.json())')
+    return lines.join('\n')
+  }
+
+  function generateJavascript (r) {
+    const lines = []
+    const opts = ['  method: "' + r.method + '"']
+    if (Object.keys(r.headers).length > 0) {
+      opts.push('  headers: {')
+      for (const key in r.headers) {
+        if (Object.prototype.hasOwnProperty.call(r.headers, key)) {
+          opts.push('    "' + key + '": "' + r.headers[key] + '",')
+        }
+      }
+      opts.push('  }')
+    }
+    if (r.body) {
+      opts.push('  body: JSON.stringify(' + r.body + ')')
+    }
+    lines.push('const response = await fetch("' + r.url + '", {')
+    lines.push(opts.join(',\n'))
+    lines.push('});')
+    lines.push('')
+    lines.push('const data = await response.json();')
+    lines.push('console.log(data);')
+    return lines.join('\n')
+  }
+
+  function generateJava (r) {
+    const lines = ['HttpClient client = HttpClient.newHttpClient();', '']
+    const builderLines = ['HttpRequest request = HttpRequest.newBuilder()']
+    builderLines.push('    .uri(URI.create("' + r.url + '"))')
+    for (const key in r.headers) {
+      if (Object.prototype.hasOwnProperty.call(r.headers, key)) {
+        builderLines.push('    .header("' + key + '", "' + r.headers[key] + '")')
+      }
+    }
+    if (r.body) {
+      const escaped = r.body.replace(/\\/g, '\\\\').replace(/"/g, '\\"').replace(/\n/g, '\\n')
+      builderLines.push('    .method("' + r.method + '", HttpRequest.BodyPublishers.ofString("' + escaped + '"))')
+    } else {
+      if (r.method === 'GET') {
+        builderLines.push('    .GET()')
+      } else if (r.method === 'DELETE') {
+        builderLines.push('    .DELETE()')
+      } else {
+        builderLines.push('    .method("' + r.method + '", HttpRequest.BodyPublishers.noBody())')
+      }
+    }
+    builderLines.push('    .build();')
+    lines.push(builderLines.join('\n'))
+    lines.push('')
+    lines.push('HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());')
+    lines.push('System.out.println(response.statusCode());')
+    lines.push('System.out.println(response.body());')
+    return lines.join('\n')
+  }
+
+  function generateGo (r) {
+    const lines = []
+    if (r.body) {
+      const escaped = r.body.replace(/\\/g, '\\\\').replace(/`/g, '` + "`" + `')
+      lines.push('body := strings.NewReader(`' + escaped + '`)')
+      lines.push('req, err := http.NewRequest("' + r.method + '", "' + r.url + '", body)')
+    } else {
+      lines.push('req, err := http.NewRequest("' + r.method + '", "' + r.url + '", nil)')
+    }
+    lines.push('if err != nil {')
+    lines.push('    log.Fatal(err)')
+    lines.push('}')
+    for (const key in r.headers) {
+      if (Object.prototype.hasOwnProperty.call(r.headers, key)) {
+        lines.push('req.Header.Set("' + key + '", "' + r.headers[key] + '")')
+      }
+    }
+    lines.push('')
+    lines.push('resp, err := http.DefaultClient.Do(req)')
+    lines.push('if err != nil {')
+    lines.push('    log.Fatal(err)')
+    lines.push('}')
+    lines.push('defer resp.Body.Close()')
+    lines.push('')
+    lines.push('fmt.Println(resp.StatusCode)')
+    return lines.join('\n')
+  }
+
+  function generatePhp (r) {
+    const lines = ['$ch = curl_init();', '']
+    lines.push('curl_setopt($ch, CURLOPT_URL, "' + r.url + '");')
+    lines.push('curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);')
+    lines.push('curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "' + r.method + '");')
+    const headerList = []
+    for (const key in r.headers) {
+      if (Object.prototype.hasOwnProperty.call(r.headers, key)) {
+        headerList.push('"' + key + ': ' + r.headers[key] + '"')
+      }
+    }
+    if (headerList.length > 0) {
+      lines.push('curl_setopt($ch, CURLOPT_HTTPHEADER, [')
+      lines.push('    ' + headerList.join(',\n    '))
+      lines.push(']);')
+    }
+    if (r.body) {
+      const escaped = r.body.replace(/\\/g, '\\\\').replace(/'/g, "\\'")
+      lines.push("curl_setopt($ch, CURLOPT_POSTFIELDS, '" + escaped + "');")
+    }
+    lines.push('')
+    lines.push('$response = curl_exec($ch);')
+    lines.push('curl_close($ch);')
+    lines.push('')
+    lines.push('echo $response;')
+    return lines.join('\n')
+  }
+
+  const GENERATORS = {
+    curl: generateCurl,
+    python: generatePython,
+    javascript: generateJavascript,
+    java: generateJava,
+    go: generateGo,
+    php: generatePhp,
+  }
+
+  const LANG_LABELS = {
+    curl: 'cURL',
+    python: 'Python',
+    javascript: 'JavaScript',
+    java: 'Java',
+    go: 'Go',
+    php: 'PHP',
   }
 
   function copyToClipboard (text) {
@@ -510,11 +696,9 @@
         let top = rect.bottom + 4
         let left = rect.left
 
-        // Flip above if not enough room below
         if (top + tooltip.offsetHeight > window.innerHeight) {
           top = rect.top - tooltip.offsetHeight - 4
         }
-        // Keep within right edge
         if (left + 480 > window.innerWidth) {
           left = window.innerWidth - 490
         }
@@ -541,32 +725,75 @@
     initSchemaTooltips()
     populateServerSelect(spec)
 
-    // Populate all endpoint sections on load
     const endpoints = document.querySelectorAll('.openapi-endpoint')
     for (let i = 0; i < endpoints.length; i++) {
       ;(function (endpoint) {
         const operationId = endpoint.dataset.operationId
         if (!operationId) return
 
-        const tryitInline = endpoint.querySelector('.openapi-tryit-inline')
-        if (!tryitInline) return
+        const panel = endpoint.querySelector('.openapi-tryit-panel')
+        if (!panel) return
 
         populatePanel(endpoint, spec, operationId)
+
+        // Update URL preview when server changes
+        const serverSelect = document.getElementById('openapi-sidebar-server-select')
+        if (serverSelect) {
+          serverSelect.addEventListener('change', function () {
+            updateUrlPreview(endpoint, spec, operationId)
+          })
+        }
 
         const sendBtn = endpoint.querySelector('.openapi-tryit-send')
         sendBtn.addEventListener('click', function () {
           sendRequest(endpoint, spec, operationId)
         })
 
-        const curlBtn = endpoint.querySelector('.openapi-tryit-curl')
-        curlBtn.addEventListener('click', function () {
-          const curl = generateCurl(endpoint, spec, operationId)
-          copyToClipboard(curl)
-          const originalText = curlBtn.textContent
-          curlBtn.textContent = 'Copied!'
+        // Copy snippet group
+        const copyGroup = endpoint.querySelector('.openapi-tryit-copy-group')
+        const copyBtn = copyGroup.querySelector('.openapi-tryit-copy-btn')
+        const copyToggle = copyGroup.querySelector('.openapi-tryit-copy-toggle')
+        const copyMenu = copyGroup.querySelector('.openapi-tryit-copy-menu')
+        const copyLabel = copyGroup.querySelector('.openapi-tryit-copy-label')
+        let currentLang = 'curl'
+
+        function doCopy () {
+          const r = getRequestParts(endpoint, spec, operationId)
+          const snippet = GENERATORS[currentLang](r)
+          copyToClipboard(snippet)
+          const origText = copyLabel.textContent
+          copyLabel.textContent = 'Copied!'
+          copyBtn.classList.add('is-copied')
           setTimeout(function () {
-            curlBtn.textContent = originalText
-          }, 2000)
+            copyLabel.textContent = origText
+            copyBtn.classList.remove('is-copied')
+          }, 1500)
+        }
+
+        copyBtn.addEventListener('click', doCopy)
+
+        copyToggle.addEventListener('click', function () {
+          const open = copyMenu.style.display !== 'none'
+          copyMenu.style.display = open ? 'none' : ''
+          copyToggle.setAttribute('aria-expanded', String(!open))
+        })
+
+        copyMenu.addEventListener('click', function (e) {
+          const option = e.target.closest('.openapi-tryit-copy-option')
+          if (!option) return
+          currentLang = option.dataset.lang
+          copyLabel.textContent = LANG_LABELS[currentLang]
+          copyMenu.style.display = 'none'
+          copyToggle.setAttribute('aria-expanded', 'false')
+          doCopy()
+        })
+
+        // Close menu on outside click
+        document.addEventListener('click', function (e) {
+          if (!copyGroup.contains(e.target)) {
+            copyMenu.style.display = 'none'
+            copyToggle.setAttribute('aria-expanded', 'false')
+          }
         })
       })(endpoints[i])
     }

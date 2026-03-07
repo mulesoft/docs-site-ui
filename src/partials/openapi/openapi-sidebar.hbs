@@ -16,16 +16,23 @@
     <label class="openapi-sidebar-label">Server</label>
     <select id="openapi-sidebar-server-select" class="openapi-tryit-server-select"></select>
   </div>
+  <div class="openapi-sidebar-search">
+    <input type="search" id="openapi-sidebar-search" class="openapi-sidebar-search-input" placeholder="Search endpoints…" aria-label="Search endpoints" />
+  </div>
   <nav class="openapi-sidebar-nav">
     <a class="openapi-sidebar-link" href="#openapi-overview">Overview</a>
     {{#if hasSecurity}}
       <a class="openapi-sidebar-link" href="#openapi-security">Authentication</a>
     {{/if}}
     {{#if hasTags}}
-      {{#if hasMultipleVersions}}
-        {{#each versionGroups}}
-          <div class="openapi-sidebar-group">
-            <span class="openapi-sidebar-group-label">{{version}}</span>
+      {{#each tags}}
+        <div class="openapi-sidebar-group">
+          <button class="openapi-sidebar-group-toggle" aria-expanded="true" type="button">
+            <span class="openapi-sidebar-group-label">{{name}}</span>
+            <span class="openapi-sidebar-group-count">{{operations.length}}</span>
+            <svg class="openapi-sidebar-group-chevron" width="10" height="10" viewBox="0 0 10 10" aria-hidden="true"><path d="M2.5 3.5L5 6l2.5-2.5" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linecap="round"/></svg>
+          </button>
+          <div class="openapi-sidebar-group-items">
             {{#each operations}}
               <a class="openapi-sidebar-link openapi-sidebar-link-nested openapi-sidebar-endpoint" href="#op-{{operationId}}">
                 <span class="openapi-sidebar-method openapi-method-{{methodLower}}">{{method}}</span>
@@ -33,20 +40,8 @@
               </a>
             {{/each}}
           </div>
-        {{/each}}
-      {{else}}
-        <div class="openapi-sidebar-group">
-          <span class="openapi-sidebar-group-label">Endpoints</span>
-          {{#each tags}}
-            {{#each operations}}
-              <a class="openapi-sidebar-link openapi-sidebar-link-nested openapi-sidebar-endpoint" href="#op-{{operationId}}">
-                <span class="openapi-sidebar-method openapi-method-{{methodLower}}">{{method}}</span>
-                <span class="openapi-sidebar-summary">{{#if summary}}{{summary}}{{else}}{{path}}{{/if}}</span>
-              </a>
-            {{/each}}
-          {{/each}}
         </div>
-      {{/if}}
+      {{/each}}
     {{/if}}
     {{#if hasSchemas}}
       <div class="openapi-sidebar-group">
@@ -95,7 +90,56 @@
     history.replaceState(null, '', '#' + id)
   }
 
-  sidebar.addEventListener('click', scrollToAnchor)
+  sidebar.addEventListener('click', function (e) {
+    // Handle anchor clicks
+    if (e.target.closest('a[href^="#"]')) {
+      scrollToAnchor(e)
+      return
+    }
+    // Handle group toggle clicks
+    var toggle = e.target.closest('.openapi-sidebar-group-toggle')
+    if (toggle) {
+      var expanded = toggle.getAttribute('aria-expanded') === 'true'
+      toggle.setAttribute('aria-expanded', String(!expanded))
+      var items = toggle.nextElementSibling
+      if (items) items.style.display = expanded ? 'none' : ''
+    }
+  })
+
+  // Endpoint search filtering
+  var searchInput = document.getElementById('openapi-sidebar-search')
+  if (searchInput) {
+    searchInput.addEventListener('input', function () {
+      var query = searchInput.value.toLowerCase().trim()
+      var endpoints = sidebar.querySelectorAll('.openapi-sidebar-endpoint')
+      var groups = sidebar.querySelectorAll('.openapi-sidebar-group')
+
+      for (var i = 0; i < endpoints.length; i++) {
+        var el = endpoints[i]
+        var summary = (el.querySelector('.openapi-sidebar-summary') || {}).textContent || ''
+        var method = (el.querySelector('.openapi-sidebar-method') || {}).textContent || ''
+        var matches = !query || summary.toLowerCase().indexOf(query) !== -1 || method.toLowerCase().indexOf(query) !== -1
+        el.style.display = matches ? '' : 'none'
+      }
+
+      for (var g = 0; g < groups.length; g++) {
+        var group = groups[g]
+        var visibleEndpoints = group.querySelectorAll('.openapi-sidebar-endpoint:not([style*="display: none"])')
+        var toggleBtn = group.querySelector('.openapi-sidebar-group-toggle')
+        var itemsEl = group.querySelector('.openapi-sidebar-group-items')
+        if (visibleEndpoints.length === 0) {
+          group.style.display = 'none'
+        } else {
+          group.style.display = ''
+          // Expand groups when searching so matches are visible
+          if (query && toggleBtn && itemsEl) {
+            toggleBtn.setAttribute('aria-expanded', 'true')
+            itemsEl.style.display = ''
+          }
+        }
+      }
+    })
+  }
 
   // Also handle schema links inside endpoint cards
   var reference = document.querySelector('.openapi-reference')

@@ -1,27 +1,47 @@
 <div class="openapi-parameters">
   <h4>Parameters</h4>
-  <table class="openapi-table openapi-params-table">
-    <thead>
-      <tr>
-        <th>Name</th>
-        <th>In</th>
-        <th>Type</th>
-        <th>Required</th>
-        <th>Description</th>
-        <th>Value</th>
-      </tr>
-    </thead>
-    <tbody>
-      {{#each parameters}}
-        <tr{{#if deprecated}} class="openapi-deprecated"{{/if}}>
-          <td><code>{{name}}</code></td>
-          <td>{{in}}</td>
-          <td><code>{{type}}</code></td>
-          <td>{{#if required}}<span class="openapi-required">Yes</span>{{else}}No{{/if}}</td>
-          <td>{{description}}</td>
-          <td><input type="text" class="openapi-tryit-param-input" name="{{name}}" data-in="{{in}}" placeholder="{{name}}" /></td>
-        </tr>
-      {{/each}}
-    </tbody>
-  </table>
+  <div class="openapi-params-list">
+    {{#each parameters}}
+      <div class="openapi-param{{#if deprecated}} openapi-deprecated{{/if}}">
+        <div class="openapi-param-header">
+          <code class="openapi-param-name">{{name}}</code>
+          <span class="openapi-param-meta">
+            <span class="openapi-param-location">{{in}}</span>
+            <code class="openapi-param-type">{{type}}</code>
+            {{#if required}}<span class="openapi-required">required</span>{{/if}}
+          </span>
+        </div>
+        {{#if description}}
+          <div class="openapi-param-description">{{description}}</div>
+        {{/if}}
+        <div class="openapi-param-input-row">
+          <label class="openapi-sr-only" for="param-{{../operationId}}-{{name}}">{{name}}</label>
+          {{#if hasEnum}}
+            <select
+              id="param-{{../operationId}}-{{name}}"
+              class="openapi-tryit-param-input openapi-tryit-param-select"
+              name="{{name}}"
+              data-in="{{in}}"
+              {{#if required}}aria-required="true"{{/if}}
+            >
+              {{#unless required}}<option value="">— select —</option>{{/unless}}
+              {{#each enumValues}}
+                <option value="{{this}}">{{this}}</option>
+              {{/each}}
+            </select>
+          {{else}}
+            <input
+              type="text"
+              id="param-{{../operationId}}-{{name}}"
+              class="openapi-tryit-param-input"
+              name="{{name}}"
+              data-in="{{in}}"
+              placeholder="Enter {{name}}{{#if required}} (required){{/if}}"
+              {{#if required}}aria-required="true"{{/if}}
+            />
+          {{/if}}
+        </div>
+      </div>
+    {{/each}}
+  </div>
 </div>
