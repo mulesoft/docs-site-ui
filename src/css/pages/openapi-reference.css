@@ -256,6 +256,7 @@
 .openapi-responses,
 .openapi-examples {
   margin-bottom: var(--md);
+  margin-top: var(--md);
 }
 
 .openapi-parameters h4,
@@ -1124,18 +1125,18 @@
 /* ─── Try It Panel ───────────────────────────────────────────────────────── */
 
 .openapi-tryit-panel {
-  background: var(--aluminum-1);
-  border: 1px solid var(--aluminum-3);
+  background: #f0f5fa;
+  border: 2px solid var(--color-ms-blue);
   border-radius: var(--radius);
   margin-top: var(--md);
-  padding: 0;
+  padding: 0 0 16px;
 }
 
 .openapi-tryit-panel-header {
   align-items: center;
-  background: var(--aluminum-2);
-  border-bottom: 1px solid var(--aluminum-3);
-  border-radius: var(--radius) var(--radius) 0 0;
+  background: var(--color-ms-blue);
+  border-bottom: none;
+  border-radius: calc(var(--radius) - 2px) calc(var(--radius) - 2px) 0 0;
   display: flex;
   flex-wrap: wrap;
   gap: var(--sm);
@@ -1143,7 +1144,7 @@
 }
 
 .openapi-tryit-panel-title {
-  color: var(--font-color-heading);
+  color: #fff;
   font-size: 13px;
   font-weight: var(--weight-bold);
   letter-spacing: 0.3px;
@@ -1380,49 +1381,48 @@ select.openapi-tryit-param-select {
   background: none;
   border: none;
   border-bottom: 2px solid transparent;
-  color: var(--oa-dark-text);
+  color: #9399b2;
   cursor: pointer;
   font-size: 12px;
   font-weight: var(--weight-medium);
-  opacity: 0.6;
   padding: 8px 10px;
-  transition: opacity var(--transition-speed-sm), border-color var(--transition-speed-sm);
+  transition: color var(--transition-speed-sm), border-color var(--transition-speed-sm);
   white-space: nowrap;
 
   &:hover {
-    opacity: 0.85;
+    color: #bac2de;
   }
 
   &.is-active {
     border-bottom-color: var(--color-ms-blue);
-    opacity: 1;
+    color: var(--oa-dark-text);
   }
 }
 
 .openapi-tryit-snippet-copy {
   align-items: center;
   background: none;
-  border: 1px solid rgb(255 255 255 / 15%);
+  border: 1px solid rgb(255 255 255 / 20%);
   border-radius: var(--radius);
-  color: var(--oa-dark-text);
+  color: #9399b2;
   cursor: pointer;
   display: inline-flex;
   flex-shrink: 0;
   font-size: 11px;
   gap: 4px;
-  opacity: 0.7;
   padding: 3px 8px;
-  transition: opacity var(--transition-speed-sm), background var(--transition-speed-sm);
+  transition: color var(--transition-speed-sm), background var(--transition-speed-sm), border-color var(--transition-speed-sm);
 
   &:hover {
     background: rgb(255 255 255 / 8%);
-    opacity: 1;
+    border-color: rgb(255 255 255 / 30%);
+    color: var(--oa-dark-text);
   }
 
   &.is-copied {
     background: var(--oa-color-success);
     border-color: var(--oa-color-success);
-    opacity: 1;
+    color: #fff;
   }
 }
 
@@ -1445,6 +1445,175 @@ select.openapi-tryit-param-select {
   border-radius: 3px;
   color: #f0b050;
   padding: 0 2px;
+}
+
+.openapi-snippet-param-value {
+  color: #a6e3a1;
+  text-decoration: underline;
+  text-decoration-color: rgb(166 227 161 / 40%);
+  text-decoration-style: dotted;
+  text-underline-offset: 3px;
+}
+
+/* Dark theme syntax colors (on #1e1e2e) — all ≥ 4.5:1 contrast */
+.openapi-tryit-snippet-code .hljs-comment,
+.openapi-tryit-snippet-code .hljs-meta {
+  color: #9399b2;
+  font-style: italic;
+}
+
+.openapi-tryit-snippet-code .hljs-keyword {
+  color: #cba6f7;
+  font-weight: var(--weight-bold);
+}
+
+.openapi-tryit-snippet-code .hljs-string {
+  color: #f38ba8;
+}
+
+.openapi-tryit-snippet-code .hljs-number {
+  color: #fab387;
+}
+
+/* stylelint-disable-next-line selector-class-pattern */
+.openapi-tryit-snippet-code .hljs-built_in {
+  color: #89dceb;
+}
+
+.openapi-tryit-snippet-code .hljs-variable {
+  color: #f5c2e7;
+}
+
+.openapi-tryit-snippet-code .hljs-operator {
+  color: #94e2d5;
+}
+
+/* Light theme syntax colors (on #fff) — all ≥ 4.5:1 contrast */
+.openapi-tryit-panel.is-light .openapi-tryit-snippet-code .hljs-comment,
+.openapi-tryit-panel.is-light .openapi-tryit-snippet-code .hljs-meta {
+  color: #6e7781;
+  font-style: italic;
+}
+
+.openapi-tryit-panel.is-light .openapi-tryit-snippet-code .hljs-keyword {
+  color: #8250df;
+  font-weight: var(--weight-bold);
+}
+
+.openapi-tryit-panel.is-light .openapi-tryit-snippet-code .hljs-string {
+  color: #0a3069;
+}
+
+.openapi-tryit-panel.is-light .openapi-tryit-snippet-code .hljs-number {
+  color: #953800;
+}
+
+/* stylelint-disable-next-line selector-class-pattern */
+.openapi-tryit-panel.is-light .openapi-tryit-snippet-code .hljs-built_in {
+  color: #0550ae;
+}
+
+.openapi-tryit-panel.is-light .openapi-tryit-snippet-code .hljs-variable {
+  color: #953800;
+}
+
+.openapi-tryit-panel.is-light .openapi-tryit-snippet-code .hljs-operator {
+  color: #0550ae;
+}
+
+/* ─── Snippet actions (copy + theme toggle) ──────────────────────────────── */
+
+.openapi-tryit-snippet-actions {
+  align-items: center;
+  display: flex;
+  flex-shrink: 0;
+  gap: 4px;
+}
+
+.openapi-tryit-snippet-theme {
+  align-items: center;
+  background: none;
+  border: 1px solid rgb(255 255 255 / 20%);
+  border-radius: var(--radius);
+  color: #9399b2;
+  cursor: pointer;
+  display: inline-flex;
+  height: 24px;
+  justify-content: center;
+  padding: 0;
+  transition: color var(--transition-speed-sm), background var(--transition-speed-sm), border-color var(--transition-speed-sm);
+  width: 24px;
+
+  &:hover {
+    background: rgb(255 255 255 / 8%);
+    border-color: rgb(255 255 255 / 30%);
+    color: var(--oa-dark-text);
+  }
+}
+
+/* ─── Light theme ────────────────────────────────────────────────────────── */
+
+.openapi-tryit-panel.is-light .openapi-tryit-body {
+  background: #fff;
+  border-color: var(--aluminum-4);
+  color: var(--steel-3);
+}
+
+.openapi-tryit-panel.is-light .openapi-tryit-snippet {
+  border-color: var(--aluminum-4);
+}
+
+.openapi-tryit-panel.is-light .openapi-tryit-snippet-bar {
+  background: var(--aluminum-2);
+}
+
+.openapi-tryit-panel.is-light .openapi-tryit-snippet-tab {
+  color: var(--steel-1);
+
+  &:hover {
+    color: var(--steel-2);
+  }
+
+  &.is-active {
+    color: var(--steel-3);
+  }
+}
+
+.openapi-tryit-panel.is-light .openapi-tryit-snippet-theme {
+  border-color: var(--aluminum-4);
+  color: var(--steel-1);
+
+  &:hover {
+    background: var(--aluminum-3);
+    color: var(--steel-3);
+  }
+}
+
+.openapi-tryit-panel.is-light .openapi-tryit-snippet-copy {
+  border-color: var(--aluminum-4);
+  color: var(--steel-1);
+
+  &:hover {
+    background: var(--aluminum-3);
+    border-color: var(--aluminum-4);
+    color: var(--steel-3);
+  }
+}
+
+.openapi-tryit-panel.is-light .openapi-tryit-snippet-code {
+  background: #fff;
+  color: var(--steel-3);
+}
+
+.openapi-tryit-panel.is-light .openapi-snippet-placeholder {
+  background: rgb(200 120 0 / 10%);
+  border-color: rgb(200 120 0 / 40%);
+  color: #b07800;
+}
+
+.openapi-tryit-panel.is-light .openapi-snippet-param-value {
+  color: #1a7f37;
+  text-decoration-color: rgb(26 127 55 / 40%);
 }
 
 /* ─── Response ───────────────────────────────────────────────────────────── */

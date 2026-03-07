@@ -228,21 +228,270 @@
     return serverSelect ? serverSelect.value || '' : ''
   }
 
+  const PARAM_START = '\x01'
+  const PARAM_END = '\x02'
+
   function escapeHtml (str) {
     return str.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;')
   }
 
-  function highlightPlaceholders (code) {
+  const PARAM_RE = new RegExp(PARAM_START + '([^' + PARAM_END + ']*)' + PARAM_END, 'g')
+
+  // ─── Lightweight Syntax Highlighting ──────────────────────────────────────
+
+  const LANG_KEYWORDS = {
+    curl: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'HEAD', 'OPTIONS'],
+    python: [
+      'import',
+      'from',
+      'as',
+      'def',
+      'return',
+      'if',
+      'else',
+      'elif',
+      'for',
+      'in',
+      'while',
+      'True',
+      'False',
+      'None',
+      'and',
+      'or',
+      'not',
+      'with',
+      'class',
+      'try',
+      'except',
+      'finally',
+      'raise',
+      'pass',
+      'lambda',
+      'yield',
+    ],
+    javascript: [
+      'const',
+      'let',
+      'var',
+      'function',
+      'return',
+      'if',
+      'else',
+      'for',
+      'while',
+      'new',
+      'this',
+      'class',
+      'import',
+      'from',
+      'export',
+      'default',
+      'async',
+      'await',
+      'try',
+      'catch',
+      'throw',
+      'typeof',
+      'instanceof',
+      'true',
+      'false',
+      'null',
+      'undefined',
+    ],
+    java: [
+      'public',
+      'private',
+      'protected',
+      'static',
+      'final',
+      'class',
+      'interface',
+      'extends',
+      'implements',
+      'import',
+      'package',
+      'return',
+      'if',
+      'else',
+      'for',
+      'while',
+      'new',
+      'this',
+      'void',
+      'int',
+      'long',
+      'double',
+      'float',
+      'boolean',
+      'char',
+      'String',
+      'try',
+      'catch',
+      'throw',
+      'throws',
+      'true',
+      'false',
+      'null',
+      'var',
+    ],
+    go: [
+      'package',
+      'import',
+      'func',
+      'return',
+      'if',
+      'else',
+      'for',
+      'range',
+      'var',
+      'const',
+      'type',
+      'struct',
+      'interface',
+      'map',
+      'chan',
+      'go',
+      'defer',
+      'select',
+      'case',
+      'switch',
+      'break',
+      'continue',
+      'nil',
+      'true',
+      'false',
+      'err',
+    ],
+    php: [
+      'function',
+      'return',
+      'if',
+      'else',
+      'elseif',
+      'for',
+      'foreach',
+      'while',
+      'class',
+      'new',
+      'echo',
+      'print',
+      'public',
+      'private',
+      'protected',
+      'static',
+      'true',
+      'false',
+      'null',
+      'try',
+      'catch',
+      'throw',
+      'use',
+      'namespace',
+      'array',
+    ],
+  }
+
+  const LANG_BUILTINS = {
+    curl: ['curl'],
+    python: ['requests', 'print', 'json', 'str', 'int', 'list', 'dict', 'len', 'range', 'open', 'type'],
+    javascript: ['console', 'fetch', 'JSON', 'Promise', 'Object', 'Array', 'Math', 'Date', 'Error', 'Response'],
+    java: ['System', 'HttpClient', 'HttpRequest', 'HttpResponse', 'URI', 'BodyPublishers', 'BodyHandlers'],
+    go: ['fmt', 'http', 'log', 'strings', 'json', 'ioutil', 'os', 'io'],
+    php: ['curl_init', 'curl_setopt', 'curl_exec', 'curl_close', 'json_decode', 'json_encode', 'var_dump', 'print_r'],
+  }
+
+  // Tokenize escaped HTML code into syntax tokens
+  function syntaxHighlight (escaped, lang) {
+    const keywords = LANG_KEYWORDS[lang] || []
+    const builtins = LANG_BUILTINS[lang] || []
+    const kwSet = {}
+    const biSet = {}
+    for (let i = 0; i < keywords.length; i++) kwSet[keywords[i]] = true
+    for (let i = 0; i < builtins.length; i++) biSet[builtins[i]] = true
+
+    // Build tokenizer regex from parts (strings, comments, numbers, identifiers, markers)
+    const marker = PARAM_START + '[^' + PARAM_END + ']*' + PARAM_END
+    const tail = ['\\b\\d+\\.?\\d*\\b', '[a-zA-Z_]\\w*', marker, '[^\\s]', '\\s+']
+    let parts
+    if (lang === 'curl') {
+      // cURL uses single-quoted strings — match them first to avoid
+      // &quot; inside body JSON fragmenting the single-quoted string
+      parts = ["'(?:\\\\.|[^'\\\\])*'", '-[a-zA-Z]\\b', '--[a-zA-Z][-a-zA-Z]*'].concat(tail)
+    } else if (lang === 'php') {
+      parts = [
+        '&quot;(?:[^&]|&(?!quot;))*?&quot;',
+        '&#39;(?:[^&]|&(?!#39;))*?&#39;',
+        "'(?:\\\\.|[^'\\\\])*'",
+        '"(?:\\\\.|[^"\\\\])*"',
+        '\\/\\/[^\\n]*',
+        '#[^\\n]*',
+        '\\$[a-zA-Z_]\\w*',
+      ].concat(tail)
+    } else {
+      parts = [
+        '&quot;(?:[^&]|&(?!quot;))*?&quot;',
+        '&#39;(?:[^&]|&(?!#39;))*?&#39;',
+        "'(?:\\\\.|[^'\\\\])*'",
+        '"(?:\\\\.|[^"\\\\])*"',
+        '`(?:\\\\.|[^`\\\\])*`',
+        '\\/\\/[^\\n]*',
+        '#[^\\n]*',
+      ]
+        .concat(tail)
+        .concat(['\\$[a-zA-Z_]\\w*'])
+    }
+    const tokenRe = new RegExp('(' + parts.join('|') + ')', 'g')
+
+    let result = ''
+    let match
+    tokenRe.lastIndex = 0
+    while ((match = tokenRe.exec(escaped)) !== null) {
+      const tok = match[0]
+      // Param markers - pass through untouched
+      if (tok.charAt(0) === PARAM_START) {
+        result += tok
+        // Strings (quoted)
+      } else if (/^(&quot;|&#39;|'|"|`)/.test(tok)) {
+        result += '<span class="hljs-string">' + tok + '</span>'
+        // Comments
+      } else if (/^(\/\/|#)/.test(tok) && lang !== 'curl') {
+        result += '<span class="hljs-comment">' + tok + '</span>'
+        // PHP variables
+      } else if (tok.charAt(0) === '$' && lang === 'php') {
+        result += '<span class="hljs-variable">' + tok + '</span>'
+        // curl flags
+      } else if (tok.charAt(0) === '-' && lang === 'curl') {
+        result += '<span class="hljs-keyword">' + tok + '</span>'
+        // Numbers
+      } else if (/^\d/.test(tok)) {
+        result += '<span class="hljs-number">' + tok + '</span>'
+        // Keywords
+      } else if (kwSet[tok]) {
+        result += '<span class="hljs-keyword">' + tok + '</span>'
+        // Built-ins
+      } else if (biSet[tok]) {
+        result += '<span class="hljs-built_in">' + tok + '</span>'
+      } else {
+        result += tok
+      }
+    }
+    return result
+  }
+
+  function highlightSnippet (code, lang) {
     const escaped = escapeHtml(code)
-    return escaped.replace(/\{([a-zA-Z_][a-zA-Z0-9_]*)\}/g, '<span class="openapi-snippet-placeholder">{$1}</span>')
+    const highlighted = syntaxHighlight(escaped, lang)
+    return highlighted
+      .replace(PARAM_RE, '<span class="openapi-snippet-param-value">$1</span>')
+      .replace(/\{([a-zA-Z_][a-zA-Z0-9_]*)\}/g, '<span class="openapi-snippet-placeholder">{$1}</span>')
   }
 
   function updateSnippet (endpoint, spec, operationId) {
     const codeEl = endpoint.querySelector('.openapi-tryit-snippet-code code')
     if (!codeEl) return
     const lang = endpoint.dataset.snippetLang || 'curl'
-    const r = getRequestParts(endpoint, spec, operationId)
-    codeEl.innerHTML = highlightPlaceholders(GENERATORS[lang](r))
+    const r = getRequestParts(endpoint, spec, operationId, true)
+    codeEl.innerHTML = highlightSnippet(GENERATORS[lang](r), lang)
   }
 
   function populatePanel (endpoint, spec, operationId) {
@@ -364,7 +613,7 @@
     }
   }
 
-  function buildRequestUrl (endpoint, spec, operationId) {
+  function buildRequestUrl (endpoint, spec, operationId, mark) {
     const found = findOperation(spec, operationId)
     if (!found) return ''
 
@@ -378,10 +627,12 @@
       const val = input.value.trim()
       if (!val) continue
       const paramIn = input.dataset.in
+      const encoded = encodeURIComponent(val)
+      const wrapped = mark ? PARAM_START + encoded + PARAM_END : encoded
       if (paramIn === 'path') {
-        path = path.replace('{' + input.name + '}', encodeURIComponent(val))
+        path = path.replace('{' + input.name + '}', wrapped)
       } else if (paramIn === 'query') {
-        queryParts.push(encodeURIComponent(input.name) + '=' + encodeURIComponent(val))
+        queryParts.push(encodeURIComponent(input.name) + '=' + wrapped)
       }
     }
 
@@ -395,7 +646,7 @@
     return url.replace(/^https?:\/\/[^/]+/, PROXY_PREFIX)
   }
 
-  function buildHeaders (endpoint) {
+  function buildHeaders (endpoint, mark) {
     const headers = {}
     const token = getToken()
     if (token) headers.Authorization = 'Bearer ' + token
@@ -404,7 +655,8 @@
     for (let i = 0; i < inputs.length; i++) {
       const input = inputs[i]
       if (input.dataset.in === 'header' && input.value.trim()) {
-        headers[input.name] = input.value.trim()
+        const val = input.value.trim()
+        headers[input.name] = mark ? PARAM_START + val + PARAM_END : val
       }
     }
     return headers
@@ -495,10 +747,10 @@
 
   // ─── Code Snippet Generation ────────────────────────────────────────────────
 
-  function getRequestParts (endpoint, spec, operationId) {
+  function getRequestParts (endpoint, spec, operationId, mark) {
     const method = (endpoint.dataset.method || 'get').toUpperCase()
-    const url = buildRequestUrl(endpoint, spec, operationId)
-    const headers = buildHeaders(endpoint)
+    const url = buildRequestUrl(endpoint, spec, operationId, mark)
+    const headers = buildHeaders(endpoint, mark)
     const bodyTextarea = endpoint.querySelector('.openapi-tryit-body')
     const bodySection = endpoint.querySelector('.openapi-tryit-body-section')
     let body = null
@@ -815,6 +1067,48 @@
           })
         }
       })(endpoints[i])
+    }
+
+    // Universal snippet theme toggle (persisted via localStorage)
+    applySnippetTheme()
+    const themeBtns = document.querySelectorAll('.openapi-tryit-snippet-theme')
+    for (let t = 0; t < themeBtns.length; t++) {
+      themeBtns[t].addEventListener('click', function () {
+        const isLight = getSnippetTheme() !== 'light'
+        try {
+          localStorage.setItem('openapi-snippet-theme', isLight ? 'light' : 'dark')
+        } catch (e) {
+          /* noop */
+        }
+        applySnippetTheme()
+      })
+    }
+  }
+
+  function getSnippetTheme () {
+    try {
+      return localStorage.getItem('openapi-snippet-theme') || 'dark'
+    } catch (e) {
+      return 'dark'
+    }
+  }
+
+  function applySnippetTheme () {
+    const isLight = getSnippetTheme() === 'light'
+    const panels = document.querySelectorAll('.openapi-tryit-panel')
+    const themeBtns = document.querySelectorAll('.openapi-tryit-snippet-theme')
+    for (let i = 0; i < panels.length; i++) {
+      if (isLight) {
+        panels[i].classList.add('is-light')
+      } else {
+        panels[i].classList.remove('is-light')
+      }
+    }
+    for (let j = 0; j < themeBtns.length; j++) {
+      const darkIcon = themeBtns[j].querySelector('.openapi-tryit-snippet-theme-dark')
+      const lightIcon = themeBtns[j].querySelector('.openapi-tryit-snippet-theme-light')
+      if (darkIcon) darkIcon.style.display = isLight ? 'none' : ''
+      if (lightIcon) lightIcon.style.display = isLight ? '' : 'none'
     }
   }
 

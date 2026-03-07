@@ -156,6 +156,17 @@
     })
   }
 
+  // Adjust sidebar sticky top to account for banners/toolbar
+  var tocSidebar = document.querySelector('.toc-sidebar')
+  function updateSidebarTop () {
+    if (!tocSidebar) return
+    tocSidebar.style.top = getStickyOffset() + 'px'
+    tocSidebar.style.maxHeight = 'calc(100vh - ' + getStickyOffset() + 'px)'
+  }
+  updateSidebarTop()
+  window.addEventListener('scroll', updateSidebarTop, { passive: true })
+  window.addEventListener('resize', updateSidebarTop, { passive: true })
+
   // Mobile sidebar toggle
   var sidebarPanel = document.getElementById('openapi-sidebar-panel')
   var sidebarOverlay = document.getElementById('openapi-sidebar-overlay')
