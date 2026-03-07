@@ -1,0 +1,82 @@
+<div class="openapi-endpoint" id="op-{{operationId}}" data-operation-id="{{operationId}}" data-method="{{methodLower}}" data-path="{{path}}">
+  {{#if summary}}
+    <h3 class="openapi-endpoint-summary">{{summary}}</h3>
+  {{/if}}
+  <div class="openapi-endpoint-method">
+    <span class="openapi-method openapi-method-{{methodLower}}">{{method}}</span>
+    <code class="openapi-path">{{path}}</code>
+    {{#if deprecated}}
+      <span class="openapi-deprecated-badge">Deprecated</span>
+    {{/if}}
+  </div>
+  {{#if description}}
+    <p class="openapi-endpoint-description">{{description}}</p>
+  {{/if}}
+
+  <div class="openapi-tryit-panel">
+    <div class="openapi-tryit-panel-header">
+      <span class="openapi-tryit-panel-title">Try it</span>
+    </div>
+
+    {{#if hasParameters}}
+      {{> openapi-parameters}}
+    {{/if}}
+
+    <div class="openapi-tryit-body-section" style="display:none;">
+      <div class="openapi-tryit-body-header">
+        <label for="body-{{operationId}}">Request Body <span class="openapi-tryit-content-type">(application/json)</span></label>
+        <button class="openapi-tryit-reset" type="button" aria-label="Reset request body to default">Reset</button>
+      </div>
+      <textarea class="openapi-tryit-body" id="body-{{operationId}}" rows="8" spellcheck="false" aria-label="Request body JSON"></textarea>
+    </div>
+
+    <div class="openapi-tryit-snippet">
+      <div class="openapi-tryit-snippet-bar">
+        <div class="openapi-tryit-snippet-tabs" role="tablist">
+          <button class="openapi-tryit-snippet-tab is-active" role="tab" data-lang="curl" aria-selected="true">cURL</button>
+          <button class="openapi-tryit-snippet-tab" role="tab" data-lang="python" aria-selected="false">Python</button>
+          <button class="openapi-tryit-snippet-tab" role="tab" data-lang="javascript" aria-selected="false">JavaScript</button>
+          <button class="openapi-tryit-snippet-tab" role="tab" data-lang="java" aria-selected="false">Java</button>
+          <button class="openapi-tryit-snippet-tab" role="tab" data-lang="go" aria-selected="false">Go</button>
+          <button class="openapi-tryit-snippet-tab" role="tab" data-lang="php" aria-selected="false">PHP</button>
+        </div>
+        <button class="openapi-tryit-snippet-copy" type="button" aria-label="Copy code snippet">
+          <svg width="14" height="14" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+            <rect x="5" y="1" width="10" height="12" rx="1.5" stroke="currentColor" stroke-width="1.5" fill="none"/>
+            <path d="M3 4H1.5A1.5 1.5 0 0 0 0 5.5v9A1.5 1.5 0 0 0 1.5 16h7a1.5 1.5 0 0 0 1.5-1.5V13" stroke="currentColor" stroke-width="1.5" fill="none"/>
+          </svg>
+          <span class="openapi-tryit-snippet-copy-label">Copy</span>
+        </button>
+      </div>
+      <pre class="openapi-tryit-snippet-code"><code></code></pre>
+    </div>
+
+    <div class="openapi-tryit-actions">
+      <button class="openapi-tryit-send" type="button">
+        <span class="openapi-tryit-send-label">Send Request</span>
+        <span class="openapi-tryit-send-spinner" style="display:none;" aria-hidden="true"></span>
+      </button>
+    </div>
+
+    <div class="openapi-tryit-response" style="display:none;">
+      <div class="openapi-tryit-response-bar">
+        <span class="openapi-tryit-response-label">Response</span>
+        <div class="openapi-tryit-response-meta">
+          <span class="openapi-tryit-response-status"></span>
+          <span class="openapi-tryit-response-time"></span>
+        </div>
+      </div>
+      <pre class="openapi-tryit-response-body"></pre>
+    </div>
+  </div>
+
+  {{#if hasRequestBody}}
+    {{> openapi-request-body}}
+  {{/if}}
+  {{#if hasResponses}}
+    {{> openapi-responses}}
+  {{/if}}
+  {{#if hasExamples}}
+    {{> openapi-examples}}
+  {{/if}}
+</div>

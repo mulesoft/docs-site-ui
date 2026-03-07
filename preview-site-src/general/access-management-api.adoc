@@ -1,0 +1,5 @@
+= Pet Store API Reference
+:page-layout: api-reference
+:page-openapi-spec: access-management-api.yml
+
+This page renders an OpenAPI 3.0 specification.

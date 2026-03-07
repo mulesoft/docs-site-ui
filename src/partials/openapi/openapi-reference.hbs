@@ -1,0 +1,78 @@
+<div class="openapi-reference">
+{{#with (openapi)}}
+  <button class="openapi-sidebar-toggle" id="openapi-sidebar-toggle" type="button" aria-label="Toggle endpoint navigation" aria-expanded="false">
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+      <line x1="3" y1="12" x2="21" y2="12"/>
+      <line x1="3" y1="6" x2="21" y2="6"/>
+      <line x1="3" y1="18" x2="21" y2="18"/>
+    </svg>
+    <span>Endpoints</span>
+  </button>
+  {{> openapi-overview}}
+
+  <div class="openapi-auth-bar" id="openapi-auth-bar">
+    <div class="openapi-auth-bar-inner">
+      <div class="openapi-auth-status">
+        <span class="openapi-auth-label">Authentication</span>
+        <span class="openapi-auth-user" id="openapi-auth-user" style="display:none;"></span>
+      </div>
+      <div class="openapi-auth-actions">
+        <button class="openapi-auth-btn openapi-auth-signin" id="openapi-auth-signin">Sign In</button>
+        <button class="openapi-auth-btn openapi-auth-signout" id="openapi-auth-signout" style="display:none;">Sign Out</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="openapi-login-modal" id="openapi-login-modal" style="display:none;">
+    <div class="openapi-login-overlay" id="openapi-login-overlay"></div>
+    <div class="openapi-login-dialog">
+      <div id="openapi-login-step-credentials">
+        <h3>Sign in to Anypoint Platform</h3>
+        <div class="openapi-login-error" id="openapi-login-error" style="display:none;"></div>
+        <form id="openapi-login-form">
+          <label for="openapi-login-username">Username</label>
+          <input type="text" id="openapi-login-username" autocomplete="username" required />
+          <label for="openapi-login-password">Password</label>
+          <input type="password" id="openapi-login-password" autocomplete="current-password" required />
+          <div class="openapi-login-actions">
+            <button type="submit" class="openapi-auth-btn openapi-login-submit">Sign In</button>
+            <button type="button" class="openapi-auth-btn openapi-login-cancel" id="openapi-login-cancel">Cancel</button>
+          </div>
+        </form>
+      </div>
+      <div id="openapi-login-step-token" style="display:none;">
+        <h3>Sign in with token</h3>
+        <p class="openapi-login-token-instructions">Sign-in was unsuccessful. Run the following command in your terminal to retrieve a token:</p>
+        <pre class="openapi-login-curl-snippet">curl -s -X POST https://anypoint.mulesoft.com/accounts/login \
+  -H "Content-Type: application/json" \
+  -d '{"username":"YOUR_USERNAME","password":"YOUR_PASSWORD"}' \
+  | python3 -c "import sys,json; print(json.load(sys.stdin)['access_token'])"</pre>
+        <label for="openapi-login-token-input">Paste your access token below</label>
+        <input type="text" id="openapi-login-token-input" class="openapi-auth-token-input" placeholder="Paste access_token value here…" />
+        <div class="openapi-login-actions">
+          <button type="button" class="openapi-auth-btn openapi-login-submit" id="openapi-login-apply-token">Apply Token</button>
+          <button type="button" class="openapi-auth-btn" id="openapi-login-back">Back</button>
+          <button type="button" class="openapi-auth-btn openapi-login-cancel" id="openapi-login-token-cancel">Cancel</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  {{#if hasSecurity}}
+    {{> openapi-security}}
+  {{/if}}
+  {{#if hasTags}}
+    {{> openapi-endpoints}}
+  {{/if}}
+  {{#if hasSchemas}}
+    {{> openapi-schemas}}
+  {{/if}}
+
+  <script type="application/json" id="openapi-spec-data">{{{specJson}}}</script>
+{{else}}
+  <div class="openapi-error">
+    <p>Unable to load OpenAPI specification. Verify that the <code>page-openapi-spec</code> attribute points to a valid YAML file in the module's <code>_attachments/</code> directory.</p>
+  </div>
+{{/with}}
+{{> article-footer}}
+</div>

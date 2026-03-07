@@ -26,6 +26,13 @@ site:
           items:
           - content: Contributors
             url: /general/contributors.html
+          - content: API Home
+            url: /general/api-home.html
+            items:
+              - content: Access Management API
+                url: /general/access-management-api.html
+              - content: AMC Application Manager API
+                url: /general/amc-application-manager.html
           - content: Maintenance
             url: /general/maintenance.html
           - content: Getting Started with API Management

@@ -1,0 +1,3214 @@
+openapi: 3.1.0
+info:
+  title: AMC Application Manager API
+  version: 2.1.3
+servers:
+- url: https://anypoint.mulesoft.com/amc/application-manager/api/v2
+  description: AMC Application Manager API
+tags:
+- name: Schedulers
+  description: Manage RTF and Cloudhub 2.0 schedulers.
+- name: Alerts
+  description: Manage RTF and Cloudhub 2.0 alerts.
+- name: Deployments
+  description: Deploy and manage RTF and Cloudhub 2.0 Applications.
+- name: TrafficSwitching
+  description: Switch application traffic from Cloudhub 1.0 to Cloudhub 2.0
+- name: Diagnostics
+  description: Provides diagnostic capabilities for Cloudhub 2.0 applications.
+- name: Logs
+  description: Provides log querying capabilities Cloudhub 2.0 applications.
+paths:
+  /organizations/{organizationId}/environments/{environmentId}/deployments/{deploymentId}/schedulers/{flowName}:
+    put:
+      summary: Update scheduler
+      description: Updates the scheduler configuration for the specified flow name.
+      tags:
+      - Schedulers
+      parameters:
+      - name: Authorization
+        in: header
+        required: true
+        schema:
+          type: string
+      - name: organizationId
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: environmentId
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: deploymentId
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: flowName
+        in: path
+        required: true
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SchedulerRequest'
+            example:
+              timeUnit: MINUTES
+              frequency: '15'
+              startDelay: '5'
+              expression: null
+              timeZone: null
+              enabled: true
+              fixedFrequencyScehduler: true
+        required: true
+      responses:
+        '200':
+          description: Success
+          headers:
+            X-ANYPNT-TRX-ID:
+              description: The transaction id of the request.
+              style: simple
+              schema:
+                type: string
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SchedulerResponsePaged'
+              example:
+                total: 1
+                items:
+                  - flowName: flow-name-1
+                    enabled: true
+                    type: FixedFrequencyScheduler
+                    startDelay: '5'
+                    frequency: '15'
+                    timeUnit: MINUTES
+                    expression: null
+                    timeZone: null
+        '401':
+          description: Unauthorized
+          headers:
+            X-ANYPNT-TRX-ID:
+              description: The transaction id of the request.
+              style: simple
+              schema:
+                type: string
+        '404':
+          description: Deployment not found
+          headers:
+            X-ANYPNT-TRX-ID:
+              description: The transaction id of the request.
+              style: simple
+              schema:
+                type: string
+    delete:
+      summary: Reset scheduler
+      description: Removes the custom scheduler configuration for the given flow name in the deployment and restores the default
+        configuration.
+      tags:
+      - Schedulers
+      parameters:
+      - name: Authorization
+        in: header
+        required: true
+        schema:
+          type: string
+      - name: organizationId
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: environmentId
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: deploymentId
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: flowName
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Success
+          headers:
+            X-ANYPNT-TRX-ID:
+              description: The transaction id of the request.
+              style: simple
+              schema:
+                type: string
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SchedulerResponsePaged'
+              example:
+                total: 1
+                items:
+                  - flowName: flow-name-1
+                    enabled: true
+                    type: FixedFrequencyScheduler
+                    startDelay: '5'
+                    frequency: '15'
+                    timeUnit: MINUTES
+                    expression: null
+                    timeZone: null
+        '401':
+          description: Unauthorized
+          headers:
+            X-ANYPNT-TRX-ID:
+              description: The transaction id of the request.
+              style: simple
+              schema:
+                type: string
+        '404':
+          description: Deployment not found
+          headers:
+            X-ANYPNT-TRX-ID:
+              description: The transaction id of the request.
+              style: simple
+              schema:
+                type: string
+  /organizations/{organizationId}/environments/{environmentId}/deployments:
+    get:
+      summary: List deployments
+      description: Retrieves a list of deployments for the specified query. If the query returns no results, then an empty
+        list is returned.
+      tags:
+      - Deployments
+      parameters:
+      - name: Authorization
+        in: header
+        required: true
+        schema:
+          type: string
+      - name: organizationId
+        in: path
+        description: The id of the organization.
+        required: true
+        schema:
+          type: string
+      - name: environmentId
+        in: path
+        description: The id of the environment.
+        required: true
+        schema:
+          type: string
+      - name: deploymentQuery
+        in: query
+        required: false
+        schema:
+          $ref: '#/components/schemas/DeploymentQuery'
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DeploymentResponsePaged'
+              example:
+                total: 1
+                items:
+                  - id: e4899eda-22c9-4546-8ad2-ffde5a3d466d
+                    name: app-name
+                    creationDate: '2024-01-15T10:30:00Z'
+                    lastModifiedDate: '2024-01-16T14:20:00Z'
+                    target:
+                      provider: MC
+                      targetId: 9c237504-4796-401b-9dbd-689f1857edcf
+                    status: STARTED
+                    application:
+                      status: RUNNING
+        '401':
+          description: Unauthorized
+          headers:
+            X-ANYPNT-TRX-ID:
+              description: The transaction id of the request.
+              style: simple
+              schema:
+                type: string
+    post:
+      summary: Create deployment
+      description: Deploys a new application with the provided data.
+      tags:
+      - Deployments
+      parameters:
+      - name: Authorization
+        in: header
+        required: true
+        schema:
+          type: string
+      - name: organizationId
+        in: path
+        description: The id of the organization.
+        required: true
+        schema:
+          type: string
+      - name: environmentId
+        in: path
+        description: The id of the environment.
+        required: true
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PostDeploymentRequest'
+            example:
+              name: app-name
+              target:
+                provider: MC
+                targetId: 9c237504-4796-401b-9dbd-689f1857edcf
+                deploymentSettings:
+                  clustered: false
+                  enforceDeployingReplicasAcrossNodes: false
+                  http:
+                    inbound:
+                      publicUrl: https://app-name.us-e2.cloudhub.io
+                      lastMileSecurity: false
+                  runtimeVersion: 4.3.0:20220523-3
+                  lastMileSecurity: false
+                  generateDefaultPublicUrl: true
+                replicas: 1
+              application:
+                desiredState: STARTED
+                ref:
+                  groupId: com.mulesoft.arm
+                  artifactId: app-noports-mule4-only
+                  version: 1.0.31
+                  packaging: jar
+                vCores: 0.1
+                objectStoreV2Enabled: true
+              desiredVersion: 1.0.0
+        required: true
+      responses:
+        '202':
+          description: Accepted
+          headers:
+            X-ANYPNT-TRX-ID:
+              description: The transaction id of the request.
+              style: simple
+              schema:
+                type: string
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DeploymentDetailResponse'
+              example:
+                id: e4899eda-22c9-4546-8ad2-ffde5a3d466d
+                name: app-name
+                creationDate: '2024-01-15T10:30:00Z'
+                lastModifiedDate: '2024-01-15T10:30:00Z'
+                target:
+                  provider: MC
+                  targetId: 9c237504-4796-401b-9dbd-689f1857edcf
+                  deploymentSettings:
+                    clustered: false
+                    runtimeVersion: 4.3.0:20220523-3
+                    lastMileSecurity: false
+                  replicas: 1
+                status: STARTING
+                application:
+                  status: NOT_RUNNING
+                  desiredState: STARTED
+                  ref:
+                    groupId: com.mulesoft.arm
+                    artifactId: app-noports-mule4-only
+                    version: 1.0.31
+                    packaging: jar
+                  vCores: 0.1
+                desiredVersion: 0ef171b6-aad1-459b-8720-10c405b05ed1
+                replicas: []
+                lastSuccessfulVersion: null
+        '401':
+          description: Unauthorized
+          headers:
+            X-ANYPNT-TRX-ID:
+              description: The transaction id of the request.
+              style: simple
+              schema:
+                type: string
+  /organizations/{organizationId}/environments/{environmentId}/deployments/{deploymentId}/schedulers/{flowName}/run:
+    post:
+      summary: Run scheduler
+      description: Triggers a request to executes immediately the scheduler for the given flow name.
+      tags:
+      - Schedulers
+      parameters:
+      - name: Authorization
+        in: header
+        required: true
+        schema:
+          type: string
+      - name: organizationId
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: environmentId
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: deploymentId
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: flowName
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '204':
+          description: Success
+          headers:
+            X-ANYPNT-TRX-ID:
+              description: The transaction id of the request.
+              style: simple
+              schema:
+                type: string
+        '401':
+          description: Unauthorized
+          headers:
+            X-ANYPNT-TRX-ID:
+              description: The transaction id of the request.
+              style: simple
+              schema:
+                type: string
+        '404':
+          description: Deployment not found
+          headers:
+            X-ANYPNT-TRX-ID:
+              description: The transaction id of the request.
+              style: simple
+              schema:
+                type: string
+        '409':
+          description: Deployment not ready
+          headers:
+            X-ANYPNT-TRX-ID:
+              description: The transaction id of the request.
+              style: simple
+              schema:
+                type: string
+  /organizations/{organizationId}/environments/{environmentId}/alerts:
+    get:
+      summary: List alerts
+      tags:
+      - Alerts
+      parameters:
+      - name: Authorization
+        in: header
+        required: true
+        schema:
+          type: string
+      - name: organizationId
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: environmentId
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: offset
+        in: query
+        required: false
+        schema:
+          type: integer
+          format: int32
+      - name: limit
+        in: query
+        required: false
+        schema:
+          type: integer
+          format: int32
+      responses:
+        '200':
+          description: Success
+          headers:
+            X-ANYPNT-TRX-ID:
+              description: The transaction id of the request.
+              style: simple
+              schema:
+                type: string
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AlertsResponse'
+              example:
+                data:
+                  - id: a1b2c3d4-e5f6-7890-abcd-ef1234567890
+                    name: Deployment Failed Alert
+                    severity: CRITICAL
+                    enabled: true
+                    organizationId: e4899eda-22c9-4546-8ad2-ffde5a3d466d
+                    environmentId: 9c237504-4796-401b-9dbd-689f1857edcf
+                    lastModified: 1705312800000
+                    createdAt: 1705312800000
+                    isSystem: false
+                    productName: mc-application
+                    condition:
+                      resources:
+                        - e4899eda-22c9-4546-8ad2-ffde5a3d466d
+                      resourceType: mc-application
+                      type: deployment-failed
+                    actions:
+                      - type: email
+                        userIds:
+                          - user-id-1
+                    conditionType: deployment-failed
+    post:
+      summary: Create alert
+      tags:
+      - Alerts
+      parameters:
+      - name: Authorization
+        in: header
+        required: true
+        schema:
+          type: string
+      - name: organizationId
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: environmentId
+        in: path
+        required: true
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateAlertRequest'
+            example:
+              name: Deployment Failed Alert
+              severity: CRITICAL
+              condition:
+                resourceType: mc-application
+                type: deployment-failed
+                resources:
+                  - e4899eda-22c9-4546-8ad2-ffde5a3d466d
+              actions:
+                - type: email
+                  userIds:
+                    - user-id-1
+                  subject: Deployment Failed
+                  content: The deployment has failed.
+                  emails:
+                    - admin@example.com
+        required: true
+      responses:
+        '200':
+          description: Success
+          headers:
+            X-ANYPNT-TRX-ID:
+              description: The transaction id of the request.
+              style: simple
+              schema:
+                type: string
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AlertResponse'
+              example:
+                id: a1b2c3d4-e5f6-7890-abcd-ef1234567890
+                name: Deployment Failed Alert
+                severity: CRITICAL
+                enabled: true
+                organizationId: e4899eda-22c9-4546-8ad2-ffde5a3d466d
+                environmentId: 9c237504-4796-401b-9dbd-689f1857edcf
+                lastModified: 1705312800000
+                createdAt: 1705312800000
+                isSystem: false
+                productName: mc-application
+                condition:
+                  resources:
+                    - e4899eda-22c9-4546-8ad2-ffde5a3d466d
+                  resourceType: mc-application
+                  type: deployment-failed
+                actions:
+                  - type: email
+                    userIds:
+                      - user-id-1
+                conditionType: deployment-failed
+        '400':
+          description: Bad Request
+          headers:
+            X-ANYPNT-TRX-ID:
+              description: The transaction id of the request.
+              style: simple
+              schema:
+                type: string
+        '401':
+          description: Unauthorized
+          headers:
+            X-ANYPNT-TRX-ID:
+              description: The transaction id of the request.
+              style: simple
+              schema:
+                type: string
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AlertResponse'
+  /organizations/{organizationId}/environments/{environmentId}/deployments/{deploymentId}:
+    get:
+      summary: Get deployment
+      description: Retrieves a single deployment with the provided id.
+      tags:
+      - Deployments
+      parameters:
+      - name: Authorization
+        in: header
+        required: true
+        schema:
+          type: string
+      - name: organizationId
+        in: path
+        description: The id of the organization.
+        required: true
+        schema:
+          type: string
+      - name: environmentId
+        in: path
+        description: The id of the environment.
+        required: true
+        schema:
+          type: string
+      - name: deploymentId
+        in: path
+        description: The id of the deployment.
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Success
+          headers:
+            X-ANYPNT-TRX-ID:
+              description: The transaction id of the request.
+              style: simple
+              schema:
+                type: string
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DeploymentDetailResponse'
+              example:
+                id: e4899eda-22c9-4546-8ad2-ffde5a3d466d
+                name: app-name
+                creationDate: '2024-01-15T10:30:00Z'
+                lastModifiedDate: '2024-01-16T14:20:00Z'
+                target:
+                  provider: MC
+                  targetId: 9c237504-4796-401b-9dbd-689f1857edcf
+                  deploymentSettings:
+                    clustered: false
+                    runtimeVersion: 4.3.0:20220523-3
+                    lastMileSecurity: false
+                  replicas: 1
+                status: STARTED
+                application:
+                  status: RUNNING
+                  desiredState: STARTED
+                  ref:
+                    groupId: com.mulesoft.arm
+                    artifactId: app-noports-mule4-only
+                    version: 1.0.31
+                    packaging: jar
+                  vCores: 0.1
+                desiredVersion: 0ef171b6-aad1-459b-8720-10c405b05ed1
+                replicas:
+                  - id: app-replicas-55585bd94c-tl4g6
+                    state: STARTED
+                    deploymentLocation: rtfc
+                    currentDeploymentVersion: 0ef171b6-aad1-459b-8720-10c405b05ed1
+                    reason: null
+                lastSuccessfulVersion: 0ef171b6-aad1-459b-8720-10c405b05ed1
+        '401':
+          description: Unauthorized
+          headers:
+            X-ANYPNT-TRX-ID:
+              description: The transaction id of the request.
+              style: simple
+              schema:
+                type: string
+        '404':
+          description: Deployment not found
+          headers:
+            X-ANYPNT-TRX-ID:
+              description: The transaction id of the request.
+              style: simple
+              schema:
+                type: string
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DeploymentDetailResponse2'
+    delete:
+      summary: Delete deployment
+      description: Deletes the specified deploymentId.
+      tags:
+      - Deployments
+      parameters:
+      - name: Authorization
+        in: header
+        required: true
+        schema:
+          type: string
+      - name: organizationId
+        in: path
+        description: The id of the organization.
+        required: true
+        schema:
+          type: string
+      - name: environmentId
+        in: path
+        description: The id of the environment.
+        required: true
+        schema:
+          type: string
+      - name: deploymentId
+        in: path
+        description: The id of the deployment.
+        required: true
+        schema:
+          type: string
+      responses:
+        '204':
+          description: Success
+          headers:
+            X-ANYPNT-TRX-ID:
+              description: The transaction id of the request.
+              style: simple
+              schema:
+                type: string
+        '401':
+          description: Unauthorized
+          headers:
+            X-ANYPNT-TRX-ID:
+              description: The transaction id of the request.
+              style: simple
+              schema:
+                type: string
+        '404':
+          description: Deployment not found
+          headers:
+            X-ANYPNT-TRX-ID:
+              description: The transaction id of the request.
+              style: simple
+              schema:
+                type: string
+    patch:
+      summary: Update deployment
+      description: Updates an existing deployment with the provided details.
+      tags:
+      - Deployments
+      parameters:
+      - name: Authorization
+        in: header
+        required: true
+        schema:
+          type: string
+      - name: organizationId
+        in: path
+        description: The id of the organization.
+        required: true
+        schema:
+          type: string
+      - name: environmentId
+        in: path
+        description: The id of the environment.
+        required: true
+        schema:
+          type: string
+      - name: deploymentId
+        in: path
+        description: The id of the deployment.
+        required: true
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatchDeploymentRequest'
+            examples:
+              Update vCores:
+                description: Update vCores
+                value:
+                  application:
+                    vCores: '0.07'
+              Update replicas:
+                description: Update replicas
+                value:
+                  target:
+                    replicas: 3
+              Update runtime version:
+                description: Update runtime version
+                value:
+                  target:
+                    deploymentSettings:
+                      runtimeVersion: 4.3.0:20220523-3
+              Update application ref:
+                description: Update application ref
+                value:
+                  application:
+                    ref:
+                      groupId: 66310c16-bce5-43c4-b978-5945ed2f99c5
+                      artifactId: app-with-44-schedulers
+                      version: 1.0.44
+                      packaging: jar
+              Update JVM arguments:
+                description: Update JVM arguments
+                value:
+                  target:
+                    deploymentSettings:
+                      jvm:
+                        args: -XX:MaxRAMPercentage=60.0
+              Start application:
+                description: Start application
+                value:
+                  application:
+                    desiredState: STARTED
+              Stop application:
+                description: Stop application
+                value:
+                  application:
+                    desiredState: STOPPED
+        required: true
+      responses:
+        '200':
+          description: Success
+          headers:
+            X-ANYPNT-TRX-ID:
+              description: The transaction id of the request.
+              style: simple
+              schema:
+                type: string
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DeploymentDetailResponse'
+              example:
+                id: e4899eda-22c9-4546-8ad2-ffde5a3d466d
+                name: app-name
+                creationDate: '2024-01-15T10:30:00Z'
+                lastModifiedDate: '2024-01-16T14:20:00Z'
+                target:
+                  provider: MC
+                  targetId: 9c237504-4796-401b-9dbd-689f1857edcf
+                  deploymentSettings:
+                    clustered: false
+                    runtimeVersion: 4.3.0:20220523-3
+                    lastMileSecurity: false
+                  replicas: 1
+                status: STARTED
+                application:
+                  status: RUNNING
+                  desiredState: STARTED
+                  ref:
+                    groupId: com.mulesoft.arm
+                    artifactId: app-noports-mule4-only
+                    version: 1.0.31
+                    packaging: jar
+                  vCores: 0.1
+                desiredVersion: 0ef171b6-aad1-459b-8720-10c405b05ed1
+                replicas:
+                  - id: app-replicas-55585bd94c-tl4g6
+                    state: STARTED
+                    deploymentLocation: rtfc
+                    currentDeploymentVersion: 0ef171b6-aad1-459b-8720-10c405b05ed1
+                    reason: null
+                lastSuccessfulVersion: 0ef171b6-aad1-459b-8720-10c405b05ed1
+        '401':
+          description: Unauthorized
+          headers:
+            X-ANYPNT-TRX-ID:
+              description: The transaction id of the request.
+              style: simple
+              schema:
+                type: string
+        '404':
+          description: Deployment not found
+          headers:
+            X-ANYPNT-TRX-ID:
+              description: The transaction id of the request.
+              style: simple
+              schema:
+                type: string
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Deployment2'
+  /organizations/{organizationId}/environments/{environmentId}/deployments/{deploymentId}/schedulers:
+    get:
+      summary: List schedulers
+      description: Retrieves a list of schedulers for the specified deployment. If this path contains no data, then an empty
+        list is returned.
+      tags:
+      - Schedulers
+      parameters:
+      - name: Authorization
+        in: header
+        required: true
+        schema:
+          type: string
+      - name: organizationId
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: environmentId
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: deploymentId
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Success
+          headers:
+            X-ANYPNT-TRX-ID:
+              description: The transaction id of the request.
+              style: simple
+              schema:
+                type: string
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SchedulerResponsePaged'
+              example:
+                total: 2
+                items:
+                  - flowName: flow-name-1
+                    enabled: true
+                    type: FixedFrequencyScheduler
+                    startDelay: '5'
+                    frequency: '15'
+                    timeUnit: MINUTES
+                    expression: null
+                    timeZone: null
+                  - flowName: flow-name-2
+                    enabled: true
+                    type: CronScheduler
+                    startDelay: null
+                    frequency: null
+                    timeUnit: null
+                    expression: 0 0/5 14 * * ?
+                    timeZone: America/Argentina/Buenos_Aires
+        '401':
+          description: Unauthorized
+          headers:
+            X-ANYPNT-TRX-ID:
+              description: The transaction id of the request.
+              style: simple
+              schema:
+                type: string
+        '404':
+          description: Deployment not found
+          headers:
+            X-ANYPNT-TRX-ID:
+              description: The transaction id of the request.
+              style: simple
+              schema:
+                type: string
+    patch:
+      summary: Toggle schedulers
+      description: Disables or enables a list of schedulers in a deployment.
+      tags:
+      - Schedulers
+      parameters:
+      - name: Authorization
+        in: header
+        required: true
+        schema:
+          type: string
+      - name: organizationId
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: environmentId
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: deploymentId
+        in: path
+        required: true
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                $ref: '#/components/schemas/SchedulerStatusRequest'
+            example:
+              - flowName: flow-name-1
+                enabled: false
+              - flowName: flow-name-2
+                enabled: true
+        required: true
+      responses:
+        '204':
+          description: Success
+          headers:
+            X-ANYPNT-TRX-ID:
+              description: The transaction id of the request.
+              style: simple
+              schema:
+                type: string
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SchedulerResponsePaged'
+              example:
+                total: 2
+                items:
+                  - flowName: flow-name-1
+                    enabled: false
+                    type: FixedFrequencyScheduler
+                    startDelay: '5'
+                    frequency: '15'
+                    timeUnit: MINUTES
+                    expression: null
+                    timeZone: null
+                  - flowName: flow-name-2
+                    enabled: true
+                    type: CronScheduler
+                    startDelay: null
+                    frequency: null
+                    timeUnit: null
+                    expression: 0 0/5 14 * * ?
+                    timeZone: America/Argentina/Buenos_Aires
+        '401':
+          description: Unauthorized
+          headers:
+            X-ANYPNT-TRX-ID:
+              description: The transaction id of the request.
+              style: simple
+              schema:
+                type: string
+        '404':
+          description: Deployment not found
+          headers:
+            X-ANYPNT-TRX-ID:
+              description: The transaction id of the request.
+              style: simple
+              schema:
+                type: string
+  /organizations/{organizationId}/environments/{environmentId}/alerts/{alertId}:
+    get:
+      summary: Get alert
+      tags:
+      - Alerts
+      parameters:
+      - name: Authorization
+        in: header
+        required: true
+        schema:
+          type: string
+      - name: organizationId
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: environmentId
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: alertId
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Success
+          headers:
+            X-ANYPNT-TRX-ID:
+              description: The transaction id of the request.
+              style: simple
+              schema:
+                type: string
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AlertResponse'
+              example:
+                id: a1b2c3d4-e5f6-7890-abcd-ef1234567890
+                name: Deployment Failed Alert
+                severity: CRITICAL
+                enabled: true
+                organizationId: e4899eda-22c9-4546-8ad2-ffde5a3d466d
+                environmentId: 9c237504-4796-401b-9dbd-689f1857edcf
+                lastModified: 1705312800000
+                createdAt: 1705312800000
+                isSystem: false
+                productName: mc-application
+                condition:
+                  resources:
+                    - e4899eda-22c9-4546-8ad2-ffde5a3d466d
+                  resourceType: mc-application
+                  type: deployment-failed
+                actions:
+                  - type: email
+                    userIds:
+                      - user-id-1
+                conditionType: deployment-failed
+        '401':
+          description: Unauthorized
+          headers:
+            X-ANYPNT-TRX-ID:
+              description: The transaction id of the request.
+              style: simple
+              schema:
+                type: string
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AlertResponse'
+        '404':
+          description: Not Found
+          headers:
+            X-ANYPNT-TRX-ID:
+              description: The transaction id of the request.
+              style: simple
+              schema:
+                type: string
+        '500':
+          description: Bad Request
+          headers:
+            X-ANYPNT-TRX-ID:
+              description: The transaction id of the request.
+              style: simple
+              schema:
+                type: string
+    delete:
+      summary: Delete alert
+      tags:
+      - Alerts
+      parameters:
+      - name: Authorization
+        in: header
+        required: true
+        schema:
+          type: string
+      - name: organizationId
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: environmentId
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: alertId
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Success
+          headers:
+            X-ANYPNT-TRX-ID:
+              description: The transaction id of the request.
+              style: simple
+              schema:
+                type: string
+        '401':
+          description: Unauthorized
+          headers:
+            X-ANYPNT-TRX-ID:
+              description: The transaction id of the request.
+              style: simple
+              schema:
+                type: string
+        '404':
+          description: Not Found
+          headers:
+            X-ANYPNT-TRX-ID:
+              description: The transaction id of the request.
+              style: simple
+              schema:
+                type: string
+        '500':
+          description: Bad Request
+          headers:
+            X-ANYPNT-TRX-ID:
+              description: The transaction id of the request.
+              style: simple
+              schema:
+                type: string
+    patch:
+      summary: Update alert
+      tags:
+      - Alerts
+      parameters:
+      - name: Authorization
+        in: header
+        required: true
+        schema:
+          type: string
+      - name: organizationId
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: environmentId
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: alertId
+        in: path
+        required: true
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateAlertRequest'
+            example:
+              id: a1b2c3d4-e5f6-7890-abcd-ef1234567890
+              name: Deployment Success Alert
+              enabled: true
+              severity: INFO
+              condition:
+                resourceType: mc-application
+                type: deployment-success
+                resources:
+                  - e4899eda-22c9-4546-8ad2-ffde5a3d466d
+              actions:
+                - type: email
+                  userIds:
+                    - user-id-1
+                  subject: Deployment Succeeded
+                  content: The deployment completed successfully.
+                  emails:
+                    - admin@example.com
+              organizationId: e4899eda-22c9-4546-8ad2-ffde5a3d466d
+              environmentId: 9c237504-4796-401b-9dbd-689f1857edcf
+        required: true
+      responses:
+        '200':
+          description: Success
+          headers:
+            X-ANYPNT-TRX-ID:
+              description: The transaction id of the request.
+              style: simple
+              schema:
+                type: string
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AlertResponse'
+              example:
+                id: a1b2c3d4-e5f6-7890-abcd-ef1234567890
+                name: Deployment Success Alert
+                severity: INFO
+                enabled: true
+                organizationId: e4899eda-22c9-4546-8ad2-ffde5a3d466d
+                environmentId: 9c237504-4796-401b-9dbd-689f1857edcf
+                lastModified: 1705399200000
+                createdAt: 1705312800000
+                isSystem: false
+                productName: mc-application
+                condition:
+                  resources:
+                    - e4899eda-22c9-4546-8ad2-ffde5a3d466d
+                  resourceType: mc-application
+                  type: deployment-success
+                actions:
+                  - type: email
+                    userIds:
+                      - user-id-1
+                conditionType: deployment-success
+        '400':
+          description: Bad Request
+          headers:
+            X-ANYPNT-TRX-ID:
+              description: The transaction id of the request.
+              style: simple
+              schema:
+                type: string
+        '401':
+          description: Unauthorized
+          headers:
+            X-ANYPNT-TRX-ID:
+              description: The transaction id of the request.
+              style: simple
+              schema:
+                type: string
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AlertResponse'
+        '500':
+          description: Internal Server Error
+          headers:
+            X-ANYPNT-TRX-ID:
+              description: The transaction id of the request.
+              style: simple
+              schema:
+                type: string
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AlertResponse'
+  /organizations/{organizationId}/environments/{environmentId}/deployments/{deploymentId}/specs:
+    get:
+      summary: List deployment specs
+      description: Retrieves a list of deployment version specs for the specified deploymentId.
+      tags:
+      - Deployments
+      parameters:
+      - name: Authorization
+        in: header
+        required: true
+        schema:
+          type: string
+      - name: organizationId
+        in: path
+        description: The id of the organization.
+        required: true
+        schema:
+          type: string
+      - name: environmentId
+        in: path
+        description: The id of the environment.
+        required: true
+        schema:
+          type: string
+      - name: deploymentId
+        in: path
+        description: The id of the deployment.
+        required: true
+        schema:
+          type: string
+      - name: limit
+        in: query
+        description: The number of specs the service can retrieve.
+        required: false
+        schema:
+          type: integer
+          format: int32
+          default: 10
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/DeploymentSpecVersionResponse'
+              example:
+                - version: 729fcd1e-11f3-487d-ba2b-cadf5a8e3815
+                  createdAt: '2024-01-15T10:30:00Z'
+                  target:
+                    provider: MC
+                    targetId: 9c237504-4796-401b-9dbd-689f1857edcf
+                    deploymentSettings:
+                      clustered: false
+                      runtimeVersion: 4.3.0:20220523-3
+                    replicas: 1
+                  application:
+                    status: RUNNING
+                    desiredState: STARTED
+                    ref:
+                      groupId: com.mulesoft.arm
+                      artifactId: app-noports-mule4-only
+                      version: 1.0.31
+                      packaging: jar
+                    vCores: 0.1
+                - version: 0ef171b6-aad1-459b-8720-10c405b05ed1
+                  createdAt: '2024-01-14T08:15:00Z'
+                  target:
+                    provider: MC
+                    targetId: 9c237504-4796-401b-9dbd-689f1857edcf
+                    deploymentSettings:
+                      clustered: false
+                      runtimeVersion: 4.3.0:20220523-3
+                    replicas: 1
+                  application:
+                    status: NOT_RUNNING
+                    desiredState: STOPPED
+                    ref:
+                      groupId: com.mulesoft.arm
+                      artifactId: app-noports-mule4-only
+                      version: 1.0.30
+                      packaging: jar
+                    vCores: 0.1
+        '401':
+          description: Unauthorized
+          headers:
+            X-ANYPNT-TRX-ID:
+              description: The transaction id of the request.
+              style: simple
+              schema:
+                type: string
+  /organizations/{organizationId}/environments/{environmentId}/alerts/{alertId}/history:
+    get:
+      summary: Get alert history
+      tags:
+      - Alerts
+      parameters:
+      - name: Authorization
+        in: header
+        required: true
+        schema:
+          type: string
+      - name: organizationId
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: environmentId
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: alertId
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Success
+          headers:
+            X-ANYPNT-TRX-ID:
+              description: The transaction id of the request.
+              style: simple
+              schema:
+                type: string
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AlertHistoryResponse'
+              example:
+                data:
+                  - triggeredAt: 1705312800000
+                    context:
+                      deploymentId: e4899eda-22c9-4546-8ad2-ffde5a3d466d
+                      applicationName: app-name
+                    severity: CRITICAL
+                    condition:
+                      type: deployment-failed
+                      resourceType: mc-application
+                    actions:
+                      - type: email
+                        status: sent
+                total: 1
+        '401':
+          description: Unauthorized
+          headers:
+            X-ANYPNT-TRX-ID:
+              description: The transaction id of the request.
+              style: simple
+              schema:
+                type: string
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AlertHistoryResponse'
+        '500':
+          description: Bad Request
+          headers:
+            X-ANYPNT-TRX-ID:
+              description: The transaction id of the request.
+              style: simple
+              schema:
+                type: string
+  /organizations/{organizationId}/environments/{environmentId}/deployments/{deploymentId}/replicas/{replicaId}/diagnostics:
+    post:
+      summary: Trigger replica diagnostics
+      description: Trigger a thread dump diagnosis for a specific replica of a deployment
+      tags:
+      - Diagnostics
+      parameters:
+      - name: organizationId
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: environmentId
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: replicaId
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: deploymentId
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '204':
+          description: No Content
+        '400':
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/Problem'
+  /organizations/{organizationId}/environments/{environmentId}/deployments/{deploymentId}/specs/{specificationId}/logs:
+    get:
+      summary: Fetch deployment logs
+      tags:
+      - Logs
+      parameters:
+      - name: organizationId
+        in: path
+        description: Organization Id
+        required: true
+        schema:
+          type: string
+      - name: environmentId
+        in: path
+        description: Environment Id
+        required: true
+        schema:
+          type: string
+      - name: deploymentId
+        in: path
+        description: Deployment Id
+        required: true
+        schema:
+          type: string
+      - name: specificationId
+        in: path
+        description: Specification Id
+        required: true
+        schema:
+          type: string
+      - name: search
+        in: query
+        required: true
+        schema:
+          $ref: '#/components/schemas/LogFetchingRequest'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: string
+        '400':
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/Problem'
+  /organizations/{organizationId}/environments/{environmentId}/deployments/{deploymentId}/specs/{specificationId}/logs/file:
+    get:
+      summary: Download deployment logs
+      tags:
+      - Logs
+      parameters:
+      - name: organizationId
+        in: path
+        description: Organization Id
+        required: true
+        schema:
+          type: string
+      - name: environmentId
+        in: path
+        description: Environment Id
+        required: true
+        schema:
+          type: string
+      - name: deploymentId
+        in: path
+        description: Deployment Id
+        required: true
+        schema:
+          type: string
+      - name: specificationId
+        in: path
+        description: Specification Id
+        required: true
+        schema:
+          type: string
+      - name: search
+        in: query
+        required: true
+        schema:
+          $ref: '#/components/schemas/LogFetchingRequest'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/StreamingResponseBody'
+        '400':
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/Problem'
+  /organizations/{organizationId}/environments/{environmentId}/deployments/{deploymentId}/diagnostics:
+    get:
+      summary: List diagnostics
+      description: Retrieve a list of all executed actions related to the specified organization id, environment id and deployment
+        id.
+      tags:
+      - Diagnostics
+      parameters:
+      - name: organizationId
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: environmentId
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: deploymentId
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/DiagnosticResponse'
+              example:
+                - actionId: b7c8d9e0-f1a2-3456-b789-0abcdef12345
+                  timestamp: 1660446000000
+                  specVersion: 1d6fa65c-b899-4982-8ad6-c066c2dac8f3
+                  replicaId: my-mule-app-5b56d6d79d-gb6lr
+                  status: SUCCESSFUL
+                - actionId: c8d9e0f1-a2b3-4567-c890-1bcdef234567
+                  timestamp: 1660432000000
+                  specVersion: 1d6fa65c-b899-4982-8ad6-c066c2dac8f3
+                  replicaId: my-mule-app-5b56d6d79d-gb6lr
+                  status: PENDING
+        '400':
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/Problem'
+  /organizations/{organizationId}/environments/{environmentId}/deployments/{deploymentId}/diagnostics/{actionId}/file:
+    get:
+      summary: Download diagnostic report
+      description: Fetch the thread dump report of a specific diagnosis action.
+      tags:
+      - Diagnostics
+      parameters:
+      - name: organizationId
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: environmentId
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: deploymentId
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: actionId
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/StreamingResponseBody'
+        '400':
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/Problem'
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/StreamingResponseBody'
+  /organizations/{organizationId}/environments/{environmentId}/deployments/{deploymentId}/upgradedata/trafficswitching:
+    put:
+      summary: Update traffic switching
+      description: upsert the percentage in which the traffic is switched to the CH2 deployment.
+      tags:
+      - TrafficSwitching
+      parameters:
+      - name: Authorization
+        in: header
+        required: true
+        schema:
+          type: string
+      - name: organizationId
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: environmentId
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: deploymentId
+        in: path
+        required: true
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TrafficSwitchingRequest'
+            example:
+              switchedTraffic: 50
+        required: true
+      responses:
+        '200':
+          description: Success
+          headers:
+            X-ANYPNT-TRX-ID:
+              description: The transaction id of the request.
+              style: simple
+              schema:
+                type: string
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TrafficSwitchingResponse'
+              example:
+                isSwitched: true
+                switchedTrafficPercent: 50
+                ch1AppName: cloudhub app
+                ch2AppName: ch2 app
+                deploymentId: e4899eda-22c9-4546-8ad2-ffde5a3d466d
+        '404':
+          description: Deployment not found
+          headers:
+            X-ANYPNT-TRX-ID:
+              description: The transaction id of the request.
+              style: simple
+              schema:
+                type: string
+        '401':
+          description: Unauthorized
+          headers:
+            X-ANYPNT-TRX-ID:
+              description: The transaction id of the request.
+              style: simple
+              schema:
+                type: string
+components:
+  schemas:
+    TrafficSwitchingResponse:
+      type: object
+      properties:
+        isSwitched:
+          type: boolean
+          description: is the app traffic switched from CloudHub to CH2
+          example: true
+        switchedTrafficPercent:
+          type: integer
+          description: number mapped to an integer between 0 and 100
+          format: int32
+          example: 50
+        ch1AppName:
+          type: string
+          description: cloudhub app name
+          example: cloudhub app
+        ch2AppName:
+          type: string
+          description: CH2 app name
+          example: ch2 app
+        deploymentId:
+          type: string
+          description: CH2 deployment id
+          example: deployment id
+    TrafficSwitchingRequest:
+      type: object
+      properties:
+        switchedTraffic:
+          type: integer
+          description: number mapped to an integer between 0 and 100
+          format: int32
+          example: 50
+    SchedulerResponse:
+      type: object
+      properties:
+        flowName:
+          type: string
+          description: The name of the flow where the scheduler component resides.
+          example: flow-name-1
+        enabled:
+          type: boolean
+          description: 'Enables or disables the scheduler.<br/> The possible values are: true, false'
+          example: true
+        type:
+          type: string
+          description: 'Use FixedFrequencyScheduler to trigger a flow at a regular intervals or CronScheduler to trigger a
+            flow using a date-time expression.<br/>The possible values are: FixedFrequencyScheduler, CronScheduler'
+          example: FixedFrequencyScheduler
+        startDelay:
+          type: string
+          description: Only for FixedFrequencyScheduler or null otherwise.<br/>The amount of time to wait before triggering
+            the flow for the first time after the application is started.
+          example: '5'
+        frequency:
+          type: string
+          description: Only for FixedFrequencyScheduler or null otherwise.<br/>The frequency at which the Scheduler triggers
+            the flow.
+          example: '15'
+        timeUnit:
+          type: string
+          description: 'Only for FixedFrequencyScheduler or null otherwise.<br/>The time unit for the values of Frequency
+            and Start Delay.<br/>The possible values are: MILLISECONDS, SECONDS, MINUTES, HOURS, DAYS'
+          example: MINUTES
+          enum:
+          - NANOSECONDS
+          - MICROSECONDS
+          - MILLISECONDS
+          - SECONDS
+          - MINUTES
+          - HOURS
+          - DAYS
+        expression:
+          type: string
+          description: Only for CronScheduler or null otherwise.<br/>A date-time expression.
+          example: 0 0/5 14 * * ?
+        timeZone:
+          type: string
+          description: Only for CronScheduler or null otherwise.<br/>Java timeZone values are supported.
+          example: America/Argentina/Buenos_Aires
+    SchedulerResponsePaged:
+      type: object
+      properties:
+        total:
+          type: integer
+          description: The items list size.
+          format: int64
+          example: 1
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/SchedulerResponse'
+    SchedulerRequest:
+      type: object
+      properties:
+        timeUnit:
+          type: string
+          description: 'Only for FixedFrequencyScheduler or null otherwise.<br/>The time unit for the values of Frequency
+            and Start Delay.<br/>The possible values are: MILLISECONDS, SECONDS, MINUTES, HOURS, DAYS'
+          example: MINUTES
+          enum:
+          - NANOSECONDS
+          - MICROSECONDS
+          - MILLISECONDS
+          - SECONDS
+          - MINUTES
+          - HOURS
+          - DAYS
+        frequency:
+          type: string
+          description: Only for FixedFrequencyScheduler or null otherwise.<br/>The frequency at which the Scheduler triggers
+            the flow.
+          example: '15'
+        startDelay:
+          type: string
+          description: Only for FixedFrequencyScheduler or null otherwise.<br/>The amount of time to wait before triggering
+            the flow for the first time after the application is started.
+          example: '5'
+        expression:
+          type: string
+          description: Only for CronScheduler or null otherwise.<br/>A date-time expression.
+          example: 0 0/5 14 * * ?
+        timeZone:
+          type: string
+          description: Only for CronScheduler or null otherwise.<br/>Java timeZone values are supported.
+          example: America/Argentina/Buenos_Aires
+        enabled:
+          type: boolean
+          description: True to enable the scheduler or false otherwise.
+          example: true
+        fixedFrequencyScehduler:
+          type: boolean
+    ApplicationDetailResponse:
+      type: object
+      properties:
+        status:
+          type: string
+          description: The status of the application.
+          example: NOT_RUNNING
+          enum:
+          - RUNNING
+          - NOT_RUNNING
+          - SCALING
+        desiredState:
+          type: string
+          description: The desired state of the application.
+          example: STOPPED
+          enum:
+          - PARTIALLY_STARTED
+          - DEPLOYMENT_FAILED
+          - STARTING
+          - STARTED
+          - STOPPING
+          - STOPPED
+          - UNDEPLOYING
+          - UNDEPLOYED
+          - UPDATED
+          - APPLIED
+          - APPLYING
+          - FAILED
+          - DELETED
+        ref:
+          $ref: '#/components/schemas/ApplicationExchangeIdentifier'
+        configuration:
+          type: object
+          additionalProperties:
+            type: object
+            additionalProperties:
+              type: object
+              description: The configuration of the application.
+            description: The configuration of the application.
+          description: The configuration of the application.
+        vCores:
+          type: number
+          description: The vCores configured for this application. Applies to cloud-only.
+        integrations:
+          $ref: '#/components/schemas/Integrations'
+      description: The application of the deployment.
+    ApplicationExchangeIdentifier:
+      type: object
+      properties:
+        groupId:
+          type: string
+          description: The groupId of the application.
+          example: com.mulesoft.arm
+        artifactId:
+          type: string
+          description: The artifactId of the application.
+          example: app-noports-mule4-only
+        version:
+          type: string
+          description: The version of the application.
+          example: 1.0.31
+        packaging:
+          type: string
+          description: The packaging of the application
+          example: jar
+      description: The source where the application is stored.
+    DeploymentDetailResponse:
+      type: object
+      properties:
+        id:
+          type: string
+          description: The id of the deployment.
+          example: e4899eda-22c9-4546-8ad2-ffde5a3d466d
+        name:
+          type: string
+          description: The name of the deployment.
+          example: app-name
+        creationDate:
+          type: string
+          description: The date when the deployment was created.
+          format: date-time
+        lastModifiedDate:
+          type: string
+          description: The date when the deployment was last modified.
+          format: date-time
+        target:
+          $ref: '#/components/schemas/DeploymentDetailTargetResponse'
+        status:
+          type: string
+          description: The status of the deployment.
+          example: FAILED
+          enum:
+          - PARTIALLY_STARTED
+          - DEPLOYMENT_FAILED
+          - STARTING
+          - STARTED
+          - STOPPING
+          - STOPPED
+          - UNDEPLOYING
+          - UNDEPLOYED
+          - UPDATED
+          - APPLIED
+          - APPLYING
+          - FAILED
+          - DELETED
+        application:
+          $ref: '#/components/schemas/ApplicationDetailResponse'
+        desiredVersion:
+          type: string
+          description: The desired version of the deployment.
+          example: 0ef171b6-aad1-459b-8720-10c405b05ed1
+        replicas:
+          type: array
+          description: The list of replicas for the specified deployment.
+          items:
+            $ref: '#/components/schemas/DeploymentReplicaResponse'
+        lastSuccessfulVersion:
+          type: string
+          description: The last version of the deployment that applied correctly.
+          example: 0ef171b6-aad1-459b-8720-10c405b05ed1
+    DeploymentDetailTargetResponse:
+      type: object
+      properties:
+        provider:
+          type: string
+          description: The cloud provider the target belongs to.
+          example: MC
+          enum:
+          - MC
+        targetId:
+          type: string
+          description: The unique identifier of the target.
+          example: 9c237504-4796-401b-9dbd-689f1857edcf
+        deploymentSettings:
+          type: object
+          additionalProperties:
+            type: object
+            description: The settings of the target for the deployment.
+          description: The settings of the target for the deployment.
+        replicas:
+          type: integer
+          description: The number of replicas of the deployment.
+          format: int32
+          example: 1
+      description: The target of the deployment.
+    DeploymentReplicaResponse:
+      type: object
+      properties:
+        id:
+          type: string
+          description: The id of the replica in RTF
+          example: app-replicas-55585bd94c-tl4g6
+        state:
+          type: string
+          description: The current state of the replica
+          example: STOPPED
+        deploymentLocation:
+          type: string
+          description: The node id in which the replica is deployed.
+          example: rtfc
+        currentDeploymentVersion:
+          type: string
+          description: The version deployed in the replica.
+          example: 0ef171b6-aad1-459b-8720-10c405b05ed1
+        reason:
+          type: string
+          description: In case of an error, it should provide information about the root cause.
+      description: The list of replicas for the specified deployment.
+    Integrations:
+      type: object
+      properties:
+        services:
+          $ref: '#/components/schemas/Services'
+    Outbound:
+      type: object
+      properties:
+        ruleset:
+          type: string
+    PatchDeploymentRequest:
+      type: object
+      properties:
+        target:
+          $ref: '#/components/schemas/Target'
+        application:
+          $ref: '#/components/schemas/ApplicationSpecRequest'
+        desiredVersion:
+          type: string
+          description: The desired spec version to deploy
+          example: 1.0.0
+        name:
+          type: string
+          description: The name of the application.
+          example: app-name
+    PostDeploymentRequest:
+      type: object
+      properties:
+        name:
+          type: string
+          description: The name of the application.
+          example: app-name
+        target:
+          $ref: '#/components/schemas/Target'
+        application:
+          $ref: '#/components/schemas/ApplicationSpecRequest'
+        desiredVersion:
+          type: string
+          description: The desired spec version to deploy
+          example: 1.0.0
+        upgradeData:
+          $ref: '#/components/schemas/UpgradeData'
+    ObjectStoreV2:
+      type: object
+      properties:
+        enabled:
+          type: boolean
+    Services:
+      type: object
+      properties:
+        objectStoreV2:
+          $ref: '#/components/schemas/ObjectStoreV2'
+    Runtime:
+      type: object
+      properties:
+        version:
+          type: string
+        releaseChannel:
+          type: string
+        java:
+          type: string
+    Tcp:
+      type: object
+      properties:
+        inbound:
+          $ref: '#/components/schemas/TcpInbound'
+    TcpInbound:
+      type: object
+      properties:
+        portMappings:
+          type: array
+          items:
+            $ref: '#/components/schemas/TcpPortMapping'
+    TcpPortMapping:
+      type: object
+      properties:
+        name:
+          type: string
+        port:
+          type: integer
+          format: int32
+    UpgradeData:
+      type: object
+      properties:
+        linkedCloudhubDeployment:
+          $ref: '#/components/schemas/LinkedCloudhubDeployment'
+    AnypointMonitoring:
+      type: object
+      properties:
+        image:
+          type: string
+        resources:
+          $ref: '#/components/schemas/Resources'
+    ApplicationRef:
+      type: object
+      properties:
+        classifier:
+          type: string
+        type:
+          type: string
+        groupId:
+          type: string
+        artifactId:
+          type: string
+        version:
+          type: string
+        packaging:
+          type: string
+      description: The source where the application is stored.
+    ApplicationSpecConfiguration:
+      type: object
+      properties:
+        mule.agent.application.properties.service:
+          $ref: '#/components/schemas/MuleAgentApplicationPropertiesService'
+        mule.agent.logging.service:
+          $ref: '#/components/schemas/MuleAgentLoggingService'
+        mule.agent.scheduling.service:
+          $ref: '#/components/schemas/MuleAgentSchedulingService'
+      description: The configuration of the application.
+    ApplicationSpecRequest:
+      type: object
+      properties:
+        desiredState:
+          type: string
+          description: The desired state of the application.
+          example: STARTED
+          enum:
+          - PARTIALLY_STARTED
+          - DEPLOYMENT_FAILED
+          - STARTING
+          - STARTED
+          - STOPPING
+          - STOPPED
+          - UNDEPLOYING
+          - UNDEPLOYED
+          - UPDATED
+          - APPLIED
+          - APPLYING
+          - FAILED
+          - DELETED
+        ref:
+          $ref: '#/components/schemas/ApplicationRef'
+        configuration:
+          $ref: '#/components/schemas/ApplicationSpecConfiguration'
+        resourceAssets:
+          type: object
+          additionalProperties:
+            $ref: '#/components/schemas/ResourceAssetData'
+          description: The resource Assets.
+        vCores:
+          type: number
+          description: The configuration of the application.
+        integrations:
+          $ref: '#/components/schemas/Integrations'
+        objectStoreV2Enabled:
+          type: boolean
+      description: The details of the application to deploy.
+    Asset:
+      type: object
+    Autoscaling:
+      type: object
+      properties:
+        enabled:
+          type: boolean
+        minReplicas:
+          type: integer
+          format: int32
+        maxReplicas:
+          type: integer
+          format: int32
+    CSMAsset:
+      type: object
+      allOf:
+      - $ref: '#/components/schemas/Asset'
+      - type: object
+        properties:
+          version:
+            type: string
+          secretGroup:
+            type: string
+          secretType:
+            type: string
+          secretId:
+            type: string
+          packaging:
+            type: string
+          environment:
+            type: string
+    DeploymentRequest2:
+      type: object
+      properties:
+        name:
+          type: string
+          description: The name of the application.
+          example: app-name
+        target:
+          $ref: '#/components/schemas/TargetSpec'
+        application:
+          $ref: '#/components/schemas/ApplicationSpecRequest'
+        desiredVersion:
+          type: string
+          description: The desired spec version to deploy
+          example: 1.0.0
+    DeploymentSettings:
+      type: object
+      properties:
+        clustered:
+          type: boolean
+        enforceDeployingReplicasAcrossNodes:
+          type: boolean
+        http:
+          $ref: '#/components/schemas/Http'
+        tcp:
+          $ref: '#/components/schemas/Tcp'
+        outbound:
+          $ref: '#/components/schemas/Outbound'
+        jvm:
+          $ref: '#/components/schemas/Jvm'
+        runtimeVersion:
+          type: string
+        runtimeReleaseChannel:
+          type: string
+        updateStrategy:
+          type: string
+        resources:
+          $ref: '#/components/schemas/Resources'
+        lastMileSecurity:
+          type: boolean
+        disableAmLogForwarding:
+          type: boolean
+        persistentObjectStore:
+          type: boolean
+        anypointMonitoringScope:
+          type: string
+        sidecars:
+          $ref: '#/components/schemas/Sidecars'
+        forwardSslSession:
+          type: boolean
+        disableExternalLogForwarding:
+          type: boolean
+        tracingEnabled:
+          type: boolean
+        otelSamplingRate:
+          type: integer
+          format: int32
+        generateDefaultPublicUrl:
+          type: boolean
+        cpuMax:
+          type: string
+        cpuReserved:
+          type: string
+        memoryMax:
+          type: string
+        memoryReserved:
+          type: string
+        replicationFactor:
+          type: integer
+          format: int32
+        environmentVariables:
+          type: object
+          additionalProperties:
+            type: string
+        clusteringEnabled:
+          type: boolean
+        publicUrl:
+          type: string
+        jvmProperties:
+          type: string
+        instanceType:
+          type: string
+          description: The instance type of the target
+          example: mule.c1
+        autoscaling:
+          $ref: '#/components/schemas/Autoscaling'
+        runtime:
+          $ref: '#/components/schemas/Runtime'
+      description: The settings of the target for the deployment to perform.
+    EndpointRequest:
+      type: object
+      properties:
+        url:
+          type: string
+        pathRewrite:
+          type: string
+        access:
+          type: string
+          example: external
+          enum:
+          - internal
+          - external
+    ExchangeAsset:
+      type: object
+      allOf:
+      - $ref: '#/components/schemas/Asset'
+      - type: object
+        properties:
+          groupId:
+            type: string
+          artifactId:
+            type: string
+          version:
+            type: string
+          classifier:
+            type: string
+          packaging:
+            type: string
+          exchangeType:
+            type: string
+    Http:
+      type: object
+      properties:
+        inbound:
+          $ref: '#/components/schemas/Inbound'
+    Inbound:
+      type: object
+      properties:
+        publicUrl:
+          type: string
+        pathRewrite:
+          type: string
+        lastMileSecurity:
+          type: boolean
+        forwardSslSession:
+          type: boolean
+        internalUrl:
+          type: string
+        uniqueId:
+          type: string
+        endpoints:
+          type: array
+          items:
+            $ref: '#/components/schemas/EndpointRequest'
+    Jvm:
+      type: object
+      properties:
+        args:
+          type: string
+    LinkedCloudhubDeployment:
+      type: object
+      properties:
+        linkedCloudhubAppName:
+          type: string
+    MuleAgentApplicationPropertiesService:
+      type: object
+      properties:
+        applicationName:
+          type: string
+        properties:
+          type: object
+          additionalProperties:
+            type: string
+        secureProperties:
+          type: object
+          additionalProperties:
+            type: string
+        secureproperties:
+          type: object
+          additionalProperties:
+            type: object
+            additionalProperties:
+              type: object
+    MuleAgentLoggingService:
+      type: object
+      properties:
+        artifactName:
+          type: string
+        scopeLoggingConfigurations:
+          type: array
+          items:
+            $ref: '#/components/schemas/ScopeLoggingConfiguration'
+    MuleAgentSchedulingService:
+      type: object
+      properties:
+        applicationName:
+          type: string
+        schedulers:
+          type: array
+          items:
+            $ref: '#/components/schemas/Scheduler'
+    NonValidAsset:
+      type: object
+      allOf:
+      - $ref: '#/components/schemas/Asset'
+    Resource:
+      type: object
+      properties:
+        limit:
+          type: string
+        reserved:
+          type: string
+    ResourceAssetData:
+      type: object
+      properties:
+        ref:
+          oneOf:
+          - $ref: '#/components/schemas/CSMAsset'
+          - $ref: '#/components/schemas/ExchangeAsset'
+          - $ref: '#/components/schemas/NonValidAsset'
+        mappings:
+          type: object
+          additionalProperties:
+            type: string
+      description: The resource Assets.
+    Resources:
+      type: object
+      properties:
+        cpu:
+          $ref: '#/components/schemas/Resource'
+        memory:
+          $ref: '#/components/schemas/Resource'
+        storage:
+          $ref: '#/components/schemas/Resource'
+    Scheduler:
+      type: object
+      properties:
+        name:
+          type: string
+        type:
+          type: string
+        flowName:
+          type: string
+        enabled:
+          type: boolean
+        timeUnit:
+          type: string
+          enum:
+          - NANOSECONDS
+          - MICROSECONDS
+          - MILLISECONDS
+          - SECONDS
+          - MINUTES
+          - HOURS
+          - DAYS
+        frequency:
+          type: string
+        startDelay:
+          type: string
+        expression:
+          type: string
+        timeZone:
+          type: string
+    ScopeLoggingConfiguration:
+      type: object
+      properties:
+        scope:
+          type: string
+        logLevel:
+          type: string
+    Sidecars:
+      type: object
+      properties:
+        anypoint-monitoring:
+          $ref: '#/components/schemas/AnypointMonitoring'
+    TargetSpec:
+      type: object
+      properties:
+        provider:
+          type: string
+          description: The cloud provider the target belongs to.
+          example: MC
+          enum:
+          - MC
+        targetId:
+          type: string
+          description: The unique identifier of the target.
+          example: 9c237504-4796-401b-9dbd-689f1857edcf
+        deploymentSettings:
+          $ref: '#/components/schemas/DeploymentSettings'
+        replicas:
+          type: integer
+          description: The number of replicas of the deployment.
+          format: int32
+          example: 1
+      description: The details of the target to perform the deployment on.
+    Action:
+      required:
+      - type
+      - userIds
+      type: object
+      properties:
+        type:
+          type: string
+          enum:
+          - email
+        userIds:
+          type: array
+          items:
+            type: string
+      discriminator:
+        propertyName: type
+    Condition:
+      required:
+      - resourceType
+      - resources
+      - type
+      type: object
+      properties:
+        resourceType:
+          type: string
+          enum:
+          - mc-application
+        type:
+          type: string
+          enum:
+          - deployment-success
+          - deployment-failed
+        resources:
+          type: array
+          items:
+            type: string
+    CreateAlertRequest:
+      required:
+      - actions
+      - condition
+      - name
+      - severity
+      type: object
+      properties:
+        name:
+          type: string
+        severity:
+          type: string
+          enum:
+          - INFO
+          - WARNING
+          - CRITICAL
+        condition:
+          $ref: '#/components/schemas/Condition'
+        actions:
+          type: array
+          items:
+            oneOf:
+            - $ref: '#/components/schemas/Action'
+            - $ref: '#/components/schemas/EmailAction'
+    EmailAction:
+      required:
+      - content
+      - emails
+      - subject
+      - type
+      - userIds
+      type: object
+      allOf:
+      - $ref: '#/components/schemas/Action'
+      - type: object
+        properties:
+          subject:
+            type: string
+          content:
+            type: string
+          emails:
+            type: array
+            items:
+              type: string
+    ActionResponse:
+      type: object
+      properties:
+        type:
+          type: string
+          enum:
+          - email
+        userIds:
+          type: array
+          items:
+            type: string
+    AlertResponse:
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        severity:
+          type: string
+          enum:
+          - INFO
+          - WARNING
+          - CRITICAL
+        enabled:
+          type: boolean
+        organizationId:
+          type: string
+        environmentId:
+          type: string
+        lastModified:
+          type: integer
+          format: int64
+        createdAt:
+          type: integer
+          format: int64
+        isSystem:
+          type: boolean
+        productName:
+          type: string
+        condition:
+          $ref: '#/components/schemas/ConditionResponse'
+        actions:
+          type: array
+          items:
+            $ref: '#/components/schemas/ActionResponse'
+        conditionType:
+          type: string
+          enum:
+          - deployment-success
+          - deployment-failed
+    ConditionResponse:
+      type: object
+      properties:
+        resources:
+          type: array
+          items:
+            type: string
+        resourceType:
+          type: string
+          enum:
+          - mc-application
+        type:
+          type: string
+          enum:
+          - deployment-success
+          - deployment-failed
+    Application:
+      type: object
+      properties:
+        status:
+          type: string
+          enum:
+          - RUNNING
+          - NOT_RUNNING
+        desiredState:
+          type: string
+          enum:
+          - PARTIALLY_STARTED
+          - DEPLOYMENT_FAILED
+          - STARTING
+          - STARTED
+          - STOPPING
+          - STOPPED
+          - UNDEPLOYING
+          - UNDEPLOYED
+          - UPDATED
+          - APPLIED
+          - APPLYING
+          - FAILED
+          - DELETED
+        ref:
+          $ref: '#/components/schemas/ApplicationRef'
+        configuration:
+          $ref: '#/components/schemas/ApplicationSpecConfiguration'
+        resourceAssets:
+          type: object
+          additionalProperties:
+            $ref: '#/components/schemas/ResourceAssetData'
+        vCores:
+          type: number
+        integrations:
+          $ref: '#/components/schemas/Integrations'
+    Deployment2:
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        creationDate:
+          type: string
+          description: The date when the deployment was created.
+          format: date-time
+        lastModifiedDate:
+          type: string
+          description: The date when the deployment was last modified.
+          format: date-time
+        target:
+          $ref: '#/components/schemas/Target'
+        status:
+          type: string
+          enum:
+          - PARTIALLY_STARTED
+          - DEPLOYMENT_FAILED
+          - STARTING
+          - STARTED
+          - STOPPING
+          - STOPPED
+          - UNDEPLOYING
+          - UNDEPLOYED
+          - UPDATED
+          - APPLIED
+          - APPLYING
+          - FAILED
+          - DELETED
+        application:
+          $ref: '#/components/schemas/Application'
+        desiredVersion:
+          type: string
+        replicas:
+          type: array
+          items:
+            $ref: '#/components/schemas/Replica'
+        lastSuccessfulVersion:
+          type: string
+    Replica:
+      type: object
+      properties:
+        desiredStatus:
+          type: string
+          enum:
+          - INITIALISING
+          - INITIALISED
+          - STARTING
+          - STARTED
+          - STOPPING
+          - STOPPED
+          - DISPOSING
+          - DISPOSED
+          - DEPLOYING
+          - UNDEPLOYING
+          - UNDEPLOYED
+          - DEPLOYMENT_FAILED
+          - UNDEPLOYMENT_FAILED
+          - UPDATED
+          - DELETED
+          - DELETING
+          - TERMINATED
+          - RECOVERING
+          - UNHEALTHY
+          - FAILED
+          - NOT_DEPLOYED
+          - PENDING
+        id:
+          type: string
+        state:
+          type: string
+          enum:
+          - INITIALISING
+          - INITIALISED
+          - STARTING
+          - STARTED
+          - STOPPING
+          - STOPPED
+          - DISPOSING
+          - DISPOSED
+          - DEPLOYING
+          - UNDEPLOYING
+          - UNDEPLOYED
+          - DEPLOYMENT_FAILED
+          - UNDEPLOYMENT_FAILED
+          - UPDATED
+          - DELETED
+          - DELETING
+          - TERMINATED
+          - RECOVERING
+          - UNHEALTHY
+          - FAILED
+          - NOT_DEPLOYED
+          - PENDING
+        deploymentLocation:
+          type: string
+        currentDeploymentVersion:
+          type: string
+        reason:
+          type: string
+    Target:
+      type: object
+      properties:
+        provider:
+          type: string
+          enum:
+          - MC
+        targetId:
+          type: string
+        deploymentSettings:
+          $ref: '#/components/schemas/DeploymentSettings'
+        replicas:
+          type: integer
+          format: int32
+    SchedulerStatusRequest:
+      type: object
+      properties:
+        flowName:
+          type: string
+          description: The name of the flow.
+          example: flow-name-1
+        enabled:
+          type: boolean
+          description: True to enable the scheduler or false otherwise.
+          example: true
+    UpdateAlertRequest:
+      required:
+      - actions
+      - condition
+      - name
+      - severity
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        enabled:
+          type: boolean
+        productName:
+          type: string
+        severity:
+          type: string
+          enum:
+          - INFO
+          - WARNING
+          - CRITICAL
+        condition:
+          $ref: '#/components/schemas/Condition'
+        actions:
+          type: array
+          items:
+            $ref: '#/components/schemas/EmailAction'
+        organizationId:
+          type: string
+        environmentId:
+          type: string
+        lastModified:
+          type: integer
+          format: int64
+        isSystem:
+          type: boolean
+          writeOnly: true
+        createdAt:
+          type: integer
+          format: int64
+        system:
+          type: boolean
+    ApplicationResponse:
+      type: object
+      properties:
+        status:
+          type: string
+          description: The status of the application.
+          example: NOT_RUNNING
+          enum:
+          - RUNNING
+          - NOT_RUNNING
+      description: The status of the application.
+    DeploymentResponse:
+      type: object
+      properties:
+        id:
+          type: string
+          description: The id of the deployment.
+          example: e4899eda-22c9-4546-8ad2-ffde5a3d466d
+        name:
+          type: string
+          description: The name of the deployment.
+          example: app-name
+        creationDate:
+          type: string
+          description: The date when the deployment was created.
+          format: date-time
+        lastModifiedDate:
+          type: string
+          description: The date when the deployment was last modified.
+          format: date-time
+        target:
+          $ref: '#/components/schemas/DeploymentTargetResponse'
+        status:
+          type: string
+          description: The status of the deployment.
+          example: FAILED
+          enum:
+          - PARTIALLY_STARTED
+          - DEPLOYMENT_FAILED
+          - STARTING
+          - STARTED
+          - STOPPING
+          - STOPPED
+          - UNDEPLOYING
+          - UNDEPLOYED
+          - UPDATED
+          - APPLIED
+          - APPLYING
+          - FAILED
+          - DELETED
+        application:
+          $ref: '#/components/schemas/ApplicationResponse'
+    DeploymentResponsePaged:
+      type: object
+      properties:
+        total:
+          type: integer
+          description: The items list size.
+          format: int64
+          example: 1
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/DeploymentResponse'
+    DeploymentTargetResponse:
+      type: object
+      properties:
+        provider:
+          type: string
+          description: The provider of the target the deployments are deployed to.
+          example: MC
+          enum:
+          - MC
+        targetId:
+          type: string
+          description: The id of the target the deployments are deployed to.
+          example: 9c237504-4796-401b-9dbd-689f1857edcf
+      description: The target of the deployment.
+    DeploymentQuery:
+      type: object
+      properties:
+        provider:
+          type: string
+          description: The provider of the target the deployments are deployed to.
+          example: MC
+          enum:
+          - MC
+        targetId:
+          maxLength: 255
+          minLength: 0
+          type: string
+          description: The id of the target the deployments are deployed to.
+          example: 9c237504-4796-401b-9dbd-689f1857edcf
+        offset:
+          type: integer
+          description: Offset used to retrieve the results.
+          format: int32
+          example: 0
+        limit:
+          type: integer
+          description: Maximum records to retrieve.
+          format: int32
+          example: 10
+    DeploymentDetailResponse2:
+      type: object
+      properties:
+        id:
+          type: string
+          description: The id of the deployment.
+          example: e4899eda-22c9-4546-8ad2-ffde5a3d466d
+        name:
+          type: string
+          description: The name of the deployment.
+          example: app-name
+        creationDate:
+          type: string
+          description: The date when the deployment was created.
+          format: date-time
+        lastModifiedDate:
+          type: string
+          description: The date when the deployment was last modified.
+          format: date-time
+        target:
+          $ref: '#/components/schemas/DeploymentDetailTargetResponse2'
+        status:
+          type: string
+          description: The status of the deployment.
+          example: FAILED
+          enum:
+          - PARTIALLY_STARTED
+          - DEPLOYMENT_FAILED
+          - STARTING
+          - STARTED
+          - STOPPING
+          - STOPPED
+          - UNDEPLOYING
+          - UNDEPLOYED
+          - UPDATED
+          - APPLIED
+          - APPLYING
+          - FAILED
+          - DELETED
+        application:
+          $ref: '#/components/schemas/Application'
+        desiredVersion:
+          type: string
+          description: The desired version of the deployment.
+          example: 0ef171b6-aad1-459b-8720-10c405b05ed1
+        replicas:
+          type: array
+          description: The list of replicas for the specified deployment.
+          items:
+            $ref: '#/components/schemas/Replica'
+        lastSuccessfulVersion:
+          type: string
+          description: The last version of the deployment that applied correctly.
+          example: 0ef171b6-aad1-459b-8720-10c405b05ed1
+    DeploymentDetailTargetResponse2:
+      type: object
+      properties:
+        provider:
+          type: string
+          description: The cloud provider the target belongs to.
+          example: MC
+          enum:
+          - MC
+        targetId:
+          type: string
+          description: The unique identifier of the target.
+          example: 9c237504-4796-401b-9dbd-689f1857edcf
+        deploymentSettings:
+          $ref: '#/components/schemas/DeploymentSettings'
+        replicas:
+          type: integer
+          description: The number of replicas of the deployment.
+          format: int32
+          example: 1
+      description: The target of the deployment.
+    DeploymentSpecVersionResponse:
+      type: object
+      properties:
+        version:
+          type: string
+          description: The date on which the spec was created.
+          example: 729fcd1e-11f3-487d-ba2b-cadf5a8e3815
+        createdAt:
+          type: string
+          description: The date on which the spec was created.
+          format: date-time
+        target:
+          $ref: '#/components/schemas/DeploymentDetailTargetResponse'
+        application:
+          $ref: '#/components/schemas/ApplicationDetailResponse'
+    AlertsResponse:
+      type: object
+      properties:
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/AlertResponse'
+    AlertHistoryRecordResponse:
+      type: object
+      properties:
+        triggeredAt:
+          type: integer
+          format: int64
+        context:
+          type: object
+          additionalProperties:
+            type: string
+        severity:
+          type: string
+        condition:
+          type: object
+          additionalProperties:
+            type: string
+        actions:
+          type: array
+          items:
+            type: object
+            additionalProperties:
+              type: string
+    AlertHistoryResponse:
+      type: object
+      properties:
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/AlertHistoryRecordResponse'
+        total:
+          type: integer
+          format: int32
+    Problem:
+      type: object
+      properties:
+        title:
+          type: string
+        instance:
+          type: string
+          format: uri
+        type:
+          type: string
+          format: uri
+        parameters:
+          type: object
+          additionalProperties:
+            type: object
+        status:
+          $ref: '#/components/schemas/StatusType'
+        detail:
+          type: string
+    StatusType:
+      type: object
+      properties:
+        statusCode:
+          type: integer
+          format: int32
+        reasonPhrase:
+          type: string
+    LogFetchingRequest:
+      type: object
+      properties:
+        afterDocId:
+          maxLength: 50
+          minLength: 0
+          type: string
+          description: Log entry ID to start reading from
+          example: '695566660906301544'
+        length:
+          maximum: 1000
+          minimum: 0
+          type: integer
+          description: Maximum amount of entries to fetch
+          format: int32
+        startTime:
+          type: integer
+          description: Initial epoch date of entries, in milliseconds
+          format: int64
+          example: 1660446000000
+        endTime:
+          type: integer
+          description: Final epoch date of entries, in milliseconds
+          format: int64
+          example: 1660446000000
+        regexp:
+          maxLength: 240
+          minLength: 0
+          type: string
+          description: Regular expression to search entries for by filtering the message content
+        descending:
+          type: boolean
+          description: Enabling descending mode will reverse order, showing earlier entries first. This affects afterDocId.
+        replicaId:
+          maxItems: 10
+          minItems: 0
+          type: array
+          description: List of replica IDs to filter entries by.
+          items:
+            type: string
+            description: Replica ID to filter entries by
+            example: my-mule-app-5b56d6d79d-gb6lr
+        logLevel:
+          maxItems: 10
+          minItems: 0
+          type: array
+          description: List of log levels to filter by
+          items:
+            type: string
+            description: Log level
+            example: ERROR
+    StreamingResponseBody:
+      type: object
+    DiagnosticResponse:
+      type: object
+      properties:
+        actionId:
+          type: string
+          description: The ID of the action
+        timestamp:
+          type: integer
+          description: Epoch milliseconds timestamp in which the diagnostic was triggered
+          format: int64
+          example: 1660446000000
+        specVersion:
+          type: string
+          description: Specification version ID against which this diagnostic was triggered
+          example: 1d6fa65c-b899-4982-8ad6-c066c2dac8f3
+        replicaId:
+          type: string
+          description: ID of the replica against which this diagnostic was triggered
+          example: my-mule-app-5b56d6d79d-gb6lr
+        status:
+          type: string
+          description: Current status of this diagnostic
+          enum:
+          - SUCCESSFUL
+          - PENDING
+          - FAILURE
