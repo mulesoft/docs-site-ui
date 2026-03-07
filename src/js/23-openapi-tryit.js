@@ -682,6 +682,29 @@
     document.body.removeChild(textarea)
   }
 
+  // ─── Example Copy Buttons ─────────────────────────────────────────────────
+
+  function initExampleCopyButtons () {
+    var buttons = document.querySelectorAll('.openapi-example-copy')
+    for (var i = 0; i < buttons.length; i++) {
+      buttons[i].addEventListener('click', function (e) {
+        e.preventDefault()
+        e.stopPropagation()
+        var details = this.closest('.openapi-example-details')
+        var code = details && details.querySelector('pre code')
+        if (!code) return
+        copyToClipboard(code.textContent)
+        var btn = this
+        btn.textContent = 'Copied!'
+        btn.classList.add('is-copied')
+        setTimeout(function () {
+          btn.textContent = 'Copy'
+          btn.classList.remove('is-copied')
+        }, 1500)
+      })
+    }
+  }
+
   // ─── Schema Tooltips ───────────────────────────────────────────────────────
 
   function initSchemaTooltips () {
@@ -723,6 +746,7 @@
 
     initAuth()
     initSchemaTooltips()
+    initExampleCopyButtons()
     populateServerSelect(spec)
 
     const endpoints = document.querySelectorAll('.openapi-endpoint')

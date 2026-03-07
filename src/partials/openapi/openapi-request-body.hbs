@@ -11,7 +11,10 @@
       </div>
       {{#if example}}
         <details class="openapi-example-details">
-          <summary>Example</summary>
+          <summary>
+            <span>Example request body</span>
+            <button type="button" class="openapi-example-copy" aria-label="Copy example request body">Copy</button>
+          </summary>
           <pre><code>{{example}}</code></pre>
         </details>
       {{/if}}
