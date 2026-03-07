@@ -1,5 +1,12 @@
 {{#with (openapi)}}
-<div class="openapi-sidebar">
+<div class="openapi-sidebar-overlay" id="openapi-sidebar-overlay"></div>
+<div class="openapi-sidebar" id="openapi-sidebar-panel">
+  <button class="openapi-sidebar-close" id="openapi-sidebar-close" type="button" aria-label="Close endpoint navigation">
+    <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true">
+      <line x1="3" y1="3" x2="13" y2="13"/>
+      <line x1="13" y1="3" x2="3" y2="13"/>
+    </svg>
+  </button>
   {{#if info.version}}
     <div class="openapi-sidebar-section">
       <div class="openapi-sidebar-label">Version</div>
@@ -148,6 +155,39 @@
       if (e.target.closest('.openapi-schema-link')) scrollToAnchor(e)
     })
   }
+
+  // Mobile sidebar toggle
+  var sidebarPanel = document.getElementById('openapi-sidebar-panel')
+  var sidebarOverlay = document.getElementById('openapi-sidebar-overlay')
+  var sidebarToggle = document.getElementById('openapi-sidebar-toggle')
+  var sidebarClose = document.getElementById('openapi-sidebar-close')
+
+  function openSidebar () {
+    if (!sidebarPanel) return
+    sidebarPanel.classList.add('is-open')
+    sidebarOverlay.classList.add('is-open')
+    if (sidebarToggle) sidebarToggle.setAttribute('aria-expanded', 'true')
+    document.body.style.overflow = 'hidden'
+  }
+
+  function closeSidebar () {
+    if (!sidebarPanel) return
+    sidebarPanel.classList.remove('is-open')
+    sidebarOverlay.classList.remove('is-open')
+    if (sidebarToggle) sidebarToggle.setAttribute('aria-expanded', 'false')
+    document.body.style.overflow = ''
+  }
+
+  if (sidebarToggle) sidebarToggle.addEventListener('click', openSidebar)
+  if (sidebarClose) sidebarClose.addEventListener('click', closeSidebar)
+  if (sidebarOverlay) sidebarOverlay.addEventListener('click', closeSidebar)
+
+  // Close sidebar when a nav link is clicked on mobile
+  sidebar.addEventListener('click', function (e) {
+    if (e.target.closest('a[href^="#"]') && sidebarPanel.classList.contains('is-open')) {
+      closeSidebar()
+    }
+  })
 })()
 //]]></script>
 {{/with}}

@@ -661,6 +661,108 @@
   }
 }
 
+/* ─── Sidebar toggle (mobile) ────────────────────────────────────────────── */
+
+.openapi-sidebar-toggle {
+  align-items: center;
+  background: var(--aluminum-1);
+  border: 1px solid var(--aluminum-4);
+  border-radius: var(--radius);
+  bottom: 20px;
+  box-shadow: 0 4px 16px rgb(0 0 0 / 15%);
+  color: var(--steel-2);
+  cursor: pointer;
+  display: none;
+  font-size: 13px;
+  font-weight: var(--weight-medium);
+  gap: 6px;
+  padding: 8px 14px;
+  position: fixed;
+  right: 20px;
+  transition: background var(--transition-speed-sm), box-shadow var(--transition-speed-sm);
+  z-index: 100;
+
+  &:hover {
+    background: var(--aluminum-2);
+    box-shadow: 0 6px 20px rgb(0 0 0 / 20%);
+  }
+}
+
+@media (max-width: 991px) {
+  .openapi-sidebar-toggle {
+    display: inline-flex;
+  }
+}
+
+.openapi-sidebar-overlay {
+  background: rgb(0 0 0 / 40%);
+  display: none;
+  inset: 0;
+  position: fixed;
+  z-index: 200;
+
+  &.is-open {
+    display: block;
+  }
+}
+
+.openapi-sidebar-close {
+  align-items: center;
+  background: none;
+  border: none;
+  border-radius: var(--radius);
+  color: var(--steel-2);
+  cursor: pointer;
+  display: none;
+  height: 32px;
+  justify-content: center;
+  padding: 0;
+  position: absolute;
+  right: 12px;
+  top: 12px;
+  width: 32px;
+
+  &:hover {
+    background: var(--aluminum-3);
+    color: var(--steel-3);
+  }
+}
+
+@media (max-width: 991px) {
+  .toc-sidebar:has(.openapi-sidebar) {
+    display: block;
+    height: 0;
+    max-width: none;
+    overflow: visible;
+    padding: 0;
+    position: static;
+    width: 0;
+  }
+
+  .openapi-sidebar-close {
+    display: inline-flex;
+  }
+
+  .openapi-sidebar {
+    background: #fff;
+    bottom: 0;
+    box-shadow: -4px 0 24px rgb(0 0 0 / 15%);
+    max-width: 320px;
+    overflow-y: auto;
+    position: fixed;
+    right: 0;
+    top: 0;
+    transform: translateX(100%);
+    transition: transform 0.25s ease;
+    width: 85vw;
+    z-index: 201;
+
+    &.is-open {
+      transform: translateX(0);
+    }
+  }
+}
+
 /* ─── Sidebar ─────────────────────────────────────────────────────────────── */
 
 .openapi-sidebar {
