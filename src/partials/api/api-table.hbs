@@ -1,0 +1,84 @@
+<section class="api-table-wrapper">
+  <table id="api-table" class="api-table">
+{{> api-search}}
+    <tbody></tbody>
+  </table>
+</section>
+<template id="api-row" class="hidden">
+<tr class="tr">
+  <td class="td js-api-title"><a class="link js-api-link" href="#"></a></td>
+  <td class="td js-api-description"></td>
+</tr>
+</template>
+<script nonce="**CSP_NONCE**" id="api-data" type="application/json">
+[
+  {{#each (openapi 'list') as |api|}}
+  {
+    "title": "{{api.title}}",
+    "description": "{{api.description}}",
+    "url": "{{relativize api.url}}"
+  }{{#unless @last}},{{/unless}}
+  {{/each}}
+]
+</script>
+<script nonce="**CSP_NONCE**">//<![CDATA[
+;(function () {
+  populateApiTable()
+
+  function populateApiTable (e) {
+    var table = document.getElementById('api-table')
+    var search = table.querySelector('thead')
+    var criteria = {
+      title: search.querySelector('.js-api-title'),
+    }
+    if (e) {
+      criteria.title = criteria.title.value.toLowerCase()
+    } else {
+      criteria.title.value = ''
+      criteria.title.addEventListener('keyup', debounce(populateApiTable, 250))
+      criteria = {}
+    }
+    var slot = table.querySelector('tbody')
+    var tmpl = document.getElementById('api-row')
+    var rows = JSON.parse(document.getElementById('api-data').textContent).reduce(function (accum, api) {
+      if (criteria.title && !api.title.toLowerCase().includes(criteria.title)) return accum
+      var row = document.importNode(tmpl.content.querySelector('tr'), true)
+      row.dataset.href = api.url
+      row.querySelector('.js-api-link').textContent = api.title
+      row.querySelector('.js-api-link').href = api.url
+      row.querySelector('.js-api-description').textContent = api.description || ''
+      return accum.concat(row)
+    }, [])
+    slot.innerHTML = ''
+    if (!rows.length) return
+    rows.forEach(function (row) {
+      slot.appendChild(row)
+      row.addEventListener('click', function (clickEvent) {
+        var currentNode = clickEvent.target
+        var currentTagName = undefined
+        while (currentNode && (currentTagName = currentNode.tagName) !== 'TR') {
+          if (currentTagName === 'A' || currentTagName === 'BUTTON') {
+            currentNode = undefined
+            break
+          }
+          currentNode = currentNode.parentNode
+        }
+        if (currentNode) window.location.href = currentNode.dataset.href
+      })
+    })
+  }
+
+  function debounce (fn, wait) {
+    var timeout
+    return function () {
+      if (timeout) clearTimeout(timeout)
+      var self = this
+      var args = arguments
+      timeout = setTimeout(function () {
+        timeout = undefined
+        fn.apply(self, args)
+      }, wait)
+    }
+  }
+})()
+//]]></script>

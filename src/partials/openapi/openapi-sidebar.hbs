@@ -1,0 +1,206 @@
+{{#with (openapi)}}
+<div class="openapi-sidebar-overlay" id="openapi-sidebar-overlay"></div>
+<div class="openapi-sidebar" id="openapi-sidebar-panel">
+  <div class="openapi-sidebar-header">
+    <button class="openapi-sidebar-close" id="openapi-sidebar-close" type="button" aria-label="Close endpoint navigation">
+      <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true">
+        <line x1="3" y1="3" x2="13" y2="13"/>
+        <line x1="13" y1="3" x2="3" y2="13"/>
+      </svg>
+    </button>
+    {{#if info.version}}
+      <div class="openapi-sidebar-section">
+        <div class="openapi-sidebar-label">Version</div>
+        <div class="openapi-sidebar-value">{{info.version}}</div>
+      </div>
+    {{/if}}
+    {{#if operationCount}}
+      <div class="openapi-sidebar-section">
+        <div class="openapi-sidebar-label">Endpoints</div>
+        <div class="openapi-sidebar-value">{{operationCount}}</div>
+      </div>
+    {{/if}}
+    <div class="openapi-sidebar-server">
+      <label class="openapi-sidebar-label">Server</label>
+      <select id="openapi-sidebar-server-select" class="openapi-tryit-server-select"></select>
+    </div>
+    <div class="openapi-sidebar-search">
+      <input type="search" id="openapi-sidebar-search" class="openapi-sidebar-search-input" placeholder="Search endpoints…" aria-label="Search endpoints" />
+    </div>
+  </div>
+  <nav class="openapi-sidebar-nav">
+    <a class="openapi-sidebar-link" href="#openapi-overview">Overview</a>
+    {{#if hasSecurity}}
+      <a class="openapi-sidebar-link" href="#openapi-security">Authentication</a>
+    {{/if}}
+    {{#if hasTags}}
+      {{#each tags}}
+        <div class="openapi-sidebar-group">
+          <button class="openapi-sidebar-group-toggle" aria-expanded="true" type="button">
+            <span class="openapi-sidebar-group-label">{{name}}</span>
+            <span class="openapi-sidebar-group-count">{{operations.length}}</span>
+            <svg class="openapi-sidebar-group-chevron" width="10" height="10" viewBox="0 0 10 10" aria-hidden="true"><path d="M2.5 3.5L5 6l2.5-2.5" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linecap="round"/></svg>
+          </button>
+          <div class="openapi-sidebar-group-items">
+            {{#each operations}}
+              <a class="openapi-sidebar-link openapi-sidebar-link-nested openapi-sidebar-endpoint" href="#op-{{operationId}}">
+                <span class="openapi-sidebar-method openapi-method-{{methodLower}}">{{method}}</span>
+                <span class="openapi-sidebar-summary">{{#if summary}}{{summary}}{{else}}{{path}}{{/if}}</span>
+              </a>
+            {{/each}}
+          </div>
+        </div>
+      {{/each}}
+    {{/if}}
+    {{#if hasSchemas}}
+      <div class="openapi-sidebar-group">
+        <span class="openapi-sidebar-group-label">Schemas</span>
+        {{#each schemas}}
+          <a class="openapi-sidebar-link openapi-sidebar-link-nested" href="#schema-{{name}}">{{name}}</a>
+        {{/each}}
+      </div>
+    {{/if}}
+  </nav>
+</div>
+<script nonce="**CSP_NONCE**">//<![CDATA[
+;(function () {
+  var sidebar = document.querySelector('.openapi-sidebar-nav')
+  if (!sidebar) return
+
+  function getStickyOffset () {
+    var offset = 0
+    var toolbar = document.querySelector('.toolbar')
+    var topBanner = document.querySelector('.top-banner:not(.hide)')
+    var noticeBanner = document.querySelector('.notice-banner')
+    if (topBanner) {
+      var bannerRect = topBanner.getBoundingClientRect()
+      if (bannerRect.bottom > 0) offset += bannerRect.height
+    }
+    if (toolbar) {
+      var toolbarRect = toolbar.getBoundingClientRect()
+      if (toolbarRect.bottom > 0) offset += toolbarRect.height
+    }
+    if (noticeBanner) {
+      var noticeRect = noticeBanner.getBoundingClientRect()
+      if (noticeRect.bottom > 0) offset += noticeRect.height
+    }
+    return offset + 20
+  }
+
+  function scrollToAnchor (e) {
+    var link = e.target.closest('a[href^="#"]')
+    if (!link) return
+    var id = link.getAttribute('href').slice(1)
+    var target = document.getElementById(id)
+    if (!target) return
+    e.preventDefault()
+    var top = target.getBoundingClientRect().top + window.scrollY - getStickyOffset()
+    window.scrollTo({ top: top, behavior: 'smooth' })
+    history.replaceState(null, '', '#' + id)
+  }
+
+  sidebar.addEventListener('click', function (e) {
+    // Handle anchor clicks
+    if (e.target.closest('a[href^="#"]')) {
+      scrollToAnchor(e)
+      return
+    }
+    // Handle group toggle clicks
+    var toggle = e.target.closest('.openapi-sidebar-group-toggle')
+    if (toggle) {
+      var expanded = toggle.getAttribute('aria-expanded') === 'true'
+      toggle.setAttribute('aria-expanded', String(!expanded))
+      var items = toggle.nextElementSibling
+      if (items) items.style.display = expanded ? 'none' : ''
+    }
+  })
+
+  // Endpoint search filtering
+  var searchInput = document.getElementById('openapi-sidebar-search')
+  if (searchInput) {
+    searchInput.addEventListener('input', function () {
+      var query = searchInput.value.toLowerCase().trim()
+      var endpoints = sidebar.querySelectorAll('.openapi-sidebar-endpoint')
+      var groups = sidebar.querySelectorAll('.openapi-sidebar-group')
+
+      for (var i = 0; i < endpoints.length; i++) {
+        var el = endpoints[i]
+        var summary = (el.querySelector('.openapi-sidebar-summary') || {}).textContent || ''
+        var method = (el.querySelector('.openapi-sidebar-method') || {}).textContent || ''
+        var matches = !query || summary.toLowerCase().indexOf(query) !== -1 || method.toLowerCase().indexOf(query) !== -1
+        el.style.display = matches ? '' : 'none'
+      }
+
+      for (var g = 0; g < groups.length; g++) {
+        var group = groups[g]
+        var visibleEndpoints = group.querySelectorAll('.openapi-sidebar-endpoint:not([style*="display: none"])')
+        var toggleBtn = group.querySelector('.openapi-sidebar-group-toggle')
+        var itemsEl = group.querySelector('.openapi-sidebar-group-items')
+        if (visibleEndpoints.length === 0) {
+          group.style.display = 'none'
+        } else {
+          group.style.display = ''
+          // Expand groups when searching so matches are visible
+          if (query && toggleBtn && itemsEl) {
+            toggleBtn.setAttribute('aria-expanded', 'true')
+            itemsEl.style.display = ''
+          }
+        }
+      }
+    })
+  }
+
+  // Also handle schema links inside endpoint cards
+  var reference = document.querySelector('.openapi-reference')
+  if (reference) {
+    reference.addEventListener('click', function (e) {
+      if (e.target.closest('.openapi-schema-link')) scrollToAnchor(e)
+    })
+  }
+
+  // Adjust sidebar sticky top to account for banners/toolbar
+  var tocSidebar = document.querySelector('.toc-sidebar')
+  function updateSidebarTop () {
+    if (!tocSidebar) return
+    tocSidebar.style.top = getStickyOffset() + 'px'
+    tocSidebar.style.maxHeight = 'calc(100vh - ' + getStickyOffset() + 'px)'
+  }
+  updateSidebarTop()
+  window.addEventListener('scroll', updateSidebarTop, { passive: true })
+  window.addEventListener('resize', updateSidebarTop, { passive: true })
+
+  // Mobile sidebar toggle
+  var sidebarPanel = document.getElementById('openapi-sidebar-panel')
+  var sidebarOverlay = document.getElementById('openapi-sidebar-overlay')
+  var sidebarToggle = document.getElementById('openapi-sidebar-toggle')
+  var sidebarClose = document.getElementById('openapi-sidebar-close')
+
+  function openSidebar () {
+    if (!sidebarPanel) return
+    sidebarPanel.classList.add('is-open')
+    sidebarOverlay.classList.add('is-open')
+    if (sidebarToggle) sidebarToggle.setAttribute('aria-expanded', 'true')
+    document.body.style.overflow = 'hidden'
+  }
+
+  function closeSidebar () {
+    if (!sidebarPanel) return
+    sidebarPanel.classList.remove('is-open')
+    sidebarOverlay.classList.remove('is-open')
+    if (sidebarToggle) sidebarToggle.setAttribute('aria-expanded', 'false')
+    document.body.style.overflow = ''
+  }
+
+  if (sidebarToggle) sidebarToggle.addEventListener('click', openSidebar)
+  if (sidebarClose) sidebarClose.addEventListener('click', closeSidebar)
+  if (sidebarOverlay) sidebarOverlay.addEventListener('click', closeSidebar)
+
+  // Close sidebar when a nav link is clicked on mobile
+  sidebar.addEventListener('click', function (e) {
+    if (e.target.closest('a[href^="#"]') && sidebarPanel.classList.contains('is-open')) {
+      closeSidebar()
+    }
+  })
+})()
+//]]></script>
+{{/with}}

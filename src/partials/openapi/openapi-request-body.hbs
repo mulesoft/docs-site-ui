@@ -1,0 +1,23 @@
+<div class="openapi-request-body">
+  <h4>Request Body{{#if requestBody.required}} <span class="openapi-required">required</span>{{/if}}</h4>
+  {{#if requestBody.description}}
+    <p>{{requestBody.description}}</p>
+  {{/if}}
+  {{#each requestBody.mediaTypes}}
+    <div class="openapi-media-type">
+      <code class="openapi-content-type">{{mediaType}}</code>
+      <div class="openapi-schema-block">
+        {{{schemaHtml}}}
+      </div>
+      {{#if example}}
+        <details class="openapi-example-details">
+          <summary>
+            <span>Example request body</span>
+            <button type="button" class="openapi-example-copy" aria-label="Copy example request body">Copy</button>
+          </summary>
+          <pre><code>{{example}}</code></pre>
+        </details>
+      {{/if}}
+    </div>
+  {{/each}}
+</div>

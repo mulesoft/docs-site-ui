@@ -1,0 +1,30 @@
+<div class="openapi-responses">
+  <h4>Responses</h4>
+  {{#each responses}}
+    <div class="openapi-response">
+      <div class="openapi-response-header">
+        <span class="openapi-status openapi-status-{{statusClass}}">{{statusCode}}</span>
+        <span class="openapi-response-description">{{description}}</span>
+      </div>
+      {{#if hasContent}}
+        {{#each mediaTypes}}
+          <div class="openapi-media-type">
+            <code class="openapi-content-type">{{mediaType}}</code>
+            <div class="openapi-schema-block">
+              {{{schemaHtml}}}
+            </div>
+            {{#if example}}
+              <details class="openapi-example-details">
+                <summary>
+                  <span>Example response ({{../statusCode}})</span>
+                  <button type="button" class="openapi-example-copy" aria-label="Copy example response">Copy</button>
+                </summary>
+                <pre><code>{{example}}</code></pre>
+              </details>
+            {{/if}}
+          </div>
+        {{/each}}
+      {{/if}}
+    </div>
+  {{/each}}
+</div>

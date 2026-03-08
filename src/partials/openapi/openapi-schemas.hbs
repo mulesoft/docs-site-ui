@@ -1,0 +1,11 @@
+<section class="openapi-schemas" id="openapi-schemas">
+  <h2>Schemas</h2>
+  {{#each schemas}}
+    <div class="openapi-schema-definition" id="schema-{{name}}">
+      <h3><code>{{name}}</code></h3>
+      <div class="openapi-schema-block">
+        {{{schemaHtml}}}
+      </div>
+    </div>
+  {{/each}}
+</section>
