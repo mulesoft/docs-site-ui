@@ -522,6 +522,7 @@
     // Request body
     const bodySection = endpoint.querySelector('.openapi-tryit-body-section')
     const bodyTextarea = endpoint.querySelector('.openapi-tryit-body')
+    const bodyFieldsContainer = endpoint.querySelector('.openapi-tryit-body-fields')
     const method = found.method.toLowerCase()
     if ((method === 'post' || method === 'put' || method === 'patch') && op.requestBody) {
       bodySection.style.display = ''
@@ -532,26 +533,40 @@
       if (ctLabel) ctLabel.textContent = '(' + primaryMedia + ')'
 
       const mediaObj = content[primaryMedia]
-      let templateBody = ''
-      if (mediaObj && mediaObj.example) {
-        templateBody =
-          typeof mediaObj.example === 'string' ? mediaObj.example : JSON.stringify(mediaObj.example, null, 2)
+      const schema = mediaObj && mediaObj.schema
+
+      // Build example value for the inline editor
+      let exampleValue = null
+      if (mediaObj && mediaObj.example && typeof mediaObj.example === 'object') {
+        exampleValue = mediaObj.example
       } else if (mediaObj && mediaObj.examples) {
         const firstEx = Object.values(mediaObj.examples)[0]
-        if (firstEx && firstEx.value) {
-          templateBody = typeof firstEx.value === 'string' ? firstEx.value : JSON.stringify(firstEx.value, null, 2)
+        if (firstEx && firstEx.value && typeof firstEx.value === 'object') {
+          exampleValue = firstEx.value
         }
-      } else if (mediaObj && mediaObj.schema) {
-        const skeleton = generateSkeleton(mediaObj.schema, 0)
-        templateBody = skeleton !== undefined ? JSON.stringify(skeleton, null, 2) : ''
       }
-      bodyTextarea.value = templateBody
-      bodyTextarea.dataset.template = templateBody
+      if (!exampleValue && schema) {
+        const skeleton = generateSkeleton(schema, 0)
+        if (skeleton && typeof skeleton === 'object') exampleValue = skeleton
+      }
+
+      // Always use the inline JSON editor, hide the textarea
+      bodyTextarea.style.display = 'none'
+      if (bodyFieldsContainer && exampleValue) {
+        buildBodyEditor(bodyFieldsContainer, exampleValue, schema, endpoint, spec, operationId)
+      }
 
       const resetBtn = bodySection.querySelector('.openapi-tryit-reset')
       if (resetBtn) {
         resetBtn.addEventListener('click', function () {
-          bodyTextarea.value = bodyTextarea.dataset.template || ''
+          const fields = endpoint.querySelectorAll('.openapi-tryit-body-field-value')
+          if (fields.length > 0) {
+            for (let f = 0; f < fields.length; f++) {
+              fields[f].value = fields[f].dataset.default || ''
+            }
+          } else {
+            bodyTextarea.value = bodyTextarea.dataset.template || ''
+          }
           updateSnippet(endpoint, spec, operationId)
         })
       }
@@ -601,6 +616,238 @@
     if (type === 'integer' || type === 'number') return 0
     if (type === 'boolean') return false
     return null
+  }
+
+  // ─── Inline JSON Body Editor (recursive) ──────────────────────────────────
+
+  function inferValueType (value, schema) {
+    if (schema && schema.type) return schema.type
+    if (value === null) return 'string'
+    if (typeof value === 'boolean') return 'boolean'
+    if (typeof value === 'number') return 'number'
+    return 'string'
+  }
+
+  function addJsonLine (wrapper, indent) {
+    const line = document.createElement('div')
+    line.className = 'openapi-body-json-row'
+    line.style.paddingLeft = indent * 20 + 'px'
+    wrapper.appendChild(line)
+    return line
+  }
+
+  function addJsonText (parent, text, cls) {
+    const span = document.createElement('span')
+    span.className = cls
+    span.textContent = text
+    parent.appendChild(span)
+  }
+
+  function addJsonInput (parent, value, type, tooltip, endpoint, spec, operationId) {
+    const valStr = value === null || value === undefined ? 'null' : String(value)
+    const input = document.createElement('input')
+    input.type = 'text'
+    input.className = 'openapi-body-json-value openapi-tryit-body-field-value'
+    input.dataset.bodyType = type
+    input.dataset.default = valStr
+    input.value = valStr
+    if (tooltip) input.title = tooltip
+    input.size = Math.max(valStr.length, 8)
+    parent.appendChild(input)
+    input.addEventListener('input', function () {
+      this.size = Math.max(this.value.length, 8)
+      updateSnippet(endpoint, spec, operationId)
+    })
+  }
+
+  function renderJsonObject (wrapper, obj, schema, indent, endpoint, spec, operationId) {
+    const keys = Object.keys(obj)
+    for (let i = 0; i < keys.length; i++) {
+      const key = keys[i]
+      const value = obj[key]
+      const propSchema = schema && schema.properties ? schema.properties[key] : null
+      const isLast = i === keys.length - 1
+
+      if (Array.isArray(value)) {
+        const line = addJsonLine(wrapper, indent)
+        addJsonText(line, '"' + key + '"', 'openapi-body-json-key')
+        addJsonText(line, ': [', 'openapi-body-json-syntax')
+        renderJsonArray(wrapper, value, propSchema, indent + 1, endpoint, spec, operationId)
+        const closeLine = addJsonLine(wrapper, indent)
+        addJsonText(closeLine, ']' + (isLast ? '' : ','), 'openapi-body-json-syntax')
+      } else if (value !== null && typeof value === 'object') {
+        const line = addJsonLine(wrapper, indent)
+        addJsonText(line, '"' + key + '"', 'openapi-body-json-key')
+        addJsonText(line, ': {', 'openapi-body-json-syntax')
+        renderJsonObject(wrapper, value, propSchema, indent + 1, endpoint, spec, operationId)
+        const closeLine = addJsonLine(wrapper, indent)
+        addJsonText(closeLine, '}' + (isLast ? '' : ','), 'openapi-body-json-syntax')
+      } else {
+        const type = inferValueType(value, propSchema)
+        const line = addJsonLine(wrapper, indent)
+        addJsonText(line, '"' + key + '"', 'openapi-body-json-key')
+        addJsonText(line, ': ', 'openapi-body-json-syntax')
+        if (type === 'string') addJsonText(line, '"', 'openapi-body-json-syntax')
+        addJsonInput(line, value, type, propSchema && propSchema.description, endpoint, spec, operationId)
+        if (type === 'string') addJsonText(line, '"', 'openapi-body-json-syntax')
+        if (!isLast) addJsonText(line, ',', 'openapi-body-json-syntax')
+      }
+    }
+  }
+
+  function renderJsonArray (wrapper, arr, schema, indent, endpoint, spec, operationId) {
+    const itemSchema = schema && schema.items ? schema.items : null
+    for (let i = 0; i < arr.length; i++) {
+      const elem = arr[i]
+      const isLast = i === arr.length - 1
+
+      if (Array.isArray(elem)) {
+        const line = addJsonLine(wrapper, indent)
+        addJsonText(line, '[', 'openapi-body-json-syntax')
+        renderJsonArray(wrapper, elem, itemSchema, indent + 1, endpoint, spec, operationId)
+        const closeLine = addJsonLine(wrapper, indent)
+        addJsonText(closeLine, ']' + (isLast ? '' : ','), 'openapi-body-json-syntax')
+      } else if (elem !== null && typeof elem === 'object') {
+        const openLine = addJsonLine(wrapper, indent)
+        addJsonText(openLine, '{', 'openapi-body-json-syntax')
+        renderJsonObject(wrapper, elem, itemSchema, indent + 1, endpoint, spec, operationId)
+        const closeLine = addJsonLine(wrapper, indent)
+        addJsonText(closeLine, '}' + (isLast ? '' : ','), 'openapi-body-json-syntax')
+      } else {
+        const type = inferValueType(elem, itemSchema)
+        const line = addJsonLine(wrapper, indent)
+        if (type === 'string') addJsonText(line, '"', 'openapi-body-json-syntax')
+        addJsonInput(line, elem, type, null, endpoint, spec, operationId)
+        if (type === 'string') addJsonText(line, '"', 'openapi-body-json-syntax')
+        if (!isLast) addJsonText(line, ',', 'openapi-body-json-syntax')
+      }
+    }
+  }
+
+  function buildBodyEditor (container, value, schema, endpoint, spec, operationId) {
+    container.innerHTML = ''
+    if (!value || typeof value !== 'object') return false
+
+    container.dataset.bodyTemplate = JSON.stringify(value)
+
+    const wrapper = document.createElement('div')
+    wrapper.className = 'openapi-body-json'
+
+    const openLine = document.createElement('div')
+    openLine.className = 'openapi-body-json-syntax'
+    openLine.textContent = Array.isArray(value) ? '[' : '{'
+    wrapper.appendChild(openLine)
+
+    if (Array.isArray(value)) {
+      renderJsonArray(wrapper, value, schema, 1, endpoint, spec, operationId)
+    } else {
+      renderJsonObject(wrapper, value, schema, 1, endpoint, spec, operationId)
+    }
+
+    const closeLine = document.createElement('div')
+    closeLine.className = 'openapi-body-json-syntax'
+    closeLine.textContent = Array.isArray(value) ? ']' : '}'
+    wrapper.appendChild(closeLine)
+
+    container.appendChild(wrapper)
+    return true
+  }
+
+  // ─── Collect body JSON from inline editor ─────────────────────────────────
+
+  function collectBodyJson (endpoint, mark) {
+    const container = endpoint.querySelector('.openapi-tryit-body-fields')
+    const fields = endpoint.querySelectorAll('.openapi-tryit-body-field-value')
+    if (fields.length === 0) {
+      const textarea = endpoint.querySelector('.openapi-tryit-body')
+      if (!textarea || !textarea.value.trim()) return null
+      return textarea.value.trim()
+    }
+
+    const templateStr = container && container.dataset.bodyTemplate
+    if (!templateStr) return null
+    const template = JSON.parse(templateStr)
+    let fieldIdx = 0
+    const SKIP = { __skip__: true }
+
+    function parseLeaf (type, val) {
+      if (val === '') return SKIP
+      if (val === 'null') return null
+      if (type === 'integer') return parseInt(val, 10)
+      if (type === 'number') return parseFloat(val)
+      if (type === 'boolean') return val === 'true'
+      return val
+    }
+
+    function replaceLeaves (value) {
+      if (Array.isArray(value)) {
+        return value.map(replaceLeaves).filter(function (v) {
+          return v !== SKIP
+        })
+      }
+      if (value !== null && typeof value === 'object') {
+        const result = {}
+        for (const key of Object.keys(value)) {
+          const v = replaceLeaves(value[key])
+          if (v !== SKIP) result[key] = v
+        }
+        return result
+      }
+      if (fieldIdx >= fields.length) return value
+      const f = fields[fieldIdx++]
+      return parseLeaf(f.dataset.bodyType, f.value)
+    }
+
+    const result = replaceLeaves(template)
+    if (!mark) {
+      const json = JSON.stringify(result, null, 2)
+      return json === '{}' ? null : json
+    }
+
+    // Build marked JSON with param highlighting — skip empty fields
+    fieldIdx = 0
+
+    function serializeMarked (value, indent) {
+      const pad = '  '.repeat(indent)
+      const inner = '  '.repeat(indent + 1)
+
+      if (Array.isArray(value)) {
+        if (value.length === 0) return '[]'
+        const items = []
+        for (let i = 0; i < value.length; i++) {
+          const s = serializeMarked(value[i], indent + 1)
+          if (s !== null) items.push(inner + s)
+        }
+        if (items.length === 0) return '[]'
+        return '[\n' + items.join(',\n') + '\n' + pad + ']'
+      }
+      if (value !== null && typeof value === 'object') {
+        const keys = Object.keys(value)
+        if (keys.length === 0) return '{}'
+        const entries = []
+        for (let i = 0; i < keys.length; i++) {
+          const k = keys[i]
+          const s = serializeMarked(value[k], indent + 1)
+          if (s !== null) entries.push(inner + '"' + k + '": ' + s)
+        }
+        if (entries.length === 0) return '{}'
+        return '{\n' + entries.join(',\n') + '\n' + pad + '}'
+      }
+      if (fieldIdx >= fields.length) return JSON.stringify(value)
+      const f = fields[fieldIdx++]
+      const type = f.dataset.bodyType
+      const val = f.value
+      if (val === '') return null
+      if (val === 'null') return PARAM_START + 'null' + PARAM_END
+      if (type === 'string') {
+        const escaped = val.replace(/\\/g, '\\\\').replace(/"/g, '\\"')
+        return PARAM_START + '"' + escaped + '"' + PARAM_END
+      }
+      return PARAM_START + (val || (type === 'boolean' ? 'false' : '0')) + PARAM_END
+    }
+
+    const marked = serializeMarked(template, 0)
+    return marked === '{}' ? null : marked
   }
 
   function autoFillParam (input, paramName) {
@@ -685,12 +932,11 @@
     const url = proxyUrl(buildRequestUrl(endpoint, spec, operationId))
     const headers = buildHeaders(endpoint)
 
-    const bodyTextarea = endpoint.querySelector('.openapi-tryit-body')
     const bodySection = endpoint.querySelector('.openapi-tryit-body-section')
     let body = null
-    if (bodySection.style.display !== 'none' && bodyTextarea.value.trim()) {
-      body = bodyTextarea.value.trim()
-      headers['Content-Type'] = 'application/json'
+    if (bodySection.style.display !== 'none') {
+      body = collectBodyJson(endpoint, false)
+      if (body) headers['Content-Type'] = 'application/json'
     }
 
     const responseArea = endpoint.querySelector('.openapi-tryit-response')
@@ -752,12 +998,11 @@
     const method = (endpoint.dataset.method || 'get').toUpperCase()
     const url = buildRequestUrl(endpoint, spec, operationId, mark)
     const headers = buildHeaders(endpoint, mark)
-    const bodyTextarea = endpoint.querySelector('.openapi-tryit-body')
     const bodySection = endpoint.querySelector('.openapi-tryit-body-section')
     let body = null
-    if (bodySection.style.display !== 'none' && bodyTextarea.value.trim()) {
-      body = bodyTextarea.value.trim()
-      headers['Content-Type'] = 'application/json'
+    if (bodySection.style.display !== 'none') {
+      body = collectBodyJson(endpoint, mark)
+      if (body) headers['Content-Type'] = 'application/json'
     }
     return { method, url, headers, body }
   }

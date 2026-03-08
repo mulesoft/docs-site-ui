@@ -1255,6 +1255,50 @@ select.openapi-tryit-param-select {
   padding-right: 28px;
 }
 
+/* ─── Request body fields (inline JSON editor) ──────────────────────────── */
+
+.openapi-tryit-body-fields {
+  margin-bottom: var(--sm);
+}
+
+.openapi-body-json {
+  background: var(--aluminum-1);
+  border: 1px solid var(--aluminum-3);
+  border-radius: var(--radius);
+  font-family: monospace;
+  font-size: 13px;
+  line-height: 2;
+  padding: 8px 14px;
+}
+
+.openapi-body-json-row {
+  white-space: nowrap;
+}
+
+.openapi-body-json-key {
+  color: var(--sds-g-color-blue-30);
+}
+
+.openapi-body-json-syntax {
+  color: var(--steel-2);
+}
+
+.openapi-body-json-value {
+  background: #fff;
+  border: 1px solid var(--aluminum-4);
+  border-radius: 3px;
+  color: var(--steel-3);
+  font-family: inherit;
+  font-size: inherit;
+  padding: 1px 6px;
+
+  &:focus {
+    border-color: var(--color-ms-blue);
+    box-shadow: 0 0 0 2px rgb(0 112 210 / 15%);
+    outline: none;
+  }
+}
+
 /* ─── Request body ───────────────────────────────────────────────────────── */
 
 .openapi-tryit-body-section {
@@ -1299,19 +1343,19 @@ select.openapi-tryit-param-select {
 }
 
 .openapi-tryit-body {
-  background: var(--oa-dark-bg);
-  border: 1px solid var(--oa-dark-border);
+  background: #fff;
+  border: 1px solid var(--aluminum-4);
   border-radius: var(--radius);
   box-sizing: border-box;
-  color: var(--oa-dark-text);
-  font-family: monospace;
+  color: var(--steel-3);
   font-size: 13px;
   line-height: 1.5;
-  padding: 12px;
+  padding: 10px;
   resize: vertical;
   width: 100%;
 
   &:focus {
+    border-color: var(--color-ms-blue);
     box-shadow: 0 0 0 3px rgb(0 112 210 / 15%);
     outline: none;
   }
@@ -1573,11 +1617,6 @@ select.openapi-tryit-param-select {
 
 /* ─── Light theme ────────────────────────────────────────────────────────── */
 
-.openapi-tryit-panel.is-light .openapi-tryit-body {
-  background: #fff;
-  border-color: var(--aluminum-4);
-  color: var(--steel-3);
-}
 
 .openapi-tryit-panel.is-light .openapi-tryit-snippet {
   border-color: var(--aluminum-4);
