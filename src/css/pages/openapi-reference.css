@@ -1299,6 +1299,49 @@ select.openapi-tryit-param-select {
   }
 }
 
+.openapi-body-json-extra-row {
+  align-items: center;
+  display: flex;
+  gap: 0;
+}
+
+.openapi-body-json-extra-key {
+  color: var(--sds-g-color-blue-30);
+}
+
+.openapi-body-json-extra-remove {
+  background: none;
+  border: none;
+  color: var(--steel-2);
+  cursor: pointer;
+  font-size: 16px;
+  line-height: 1;
+  margin-left: 6px;
+  padding: 0 4px;
+
+  &:hover {
+    color: var(--color-red);
+  }
+}
+
+.openapi-body-json-add-row {
+  margin-top: 2px;
+}
+
+.openapi-body-json-add-btn {
+  background: none;
+  border: none;
+  color: var(--color-ms-blue);
+  cursor: pointer;
+  font-family: monospace;
+  font-size: 12px;
+  padding: 2px 0;
+
+  &:hover {
+    text-decoration: underline;
+  }
+}
+
 /* ─── Request body ───────────────────────────────────────────────────────── */
 
 .openapi-tryit-body-section {

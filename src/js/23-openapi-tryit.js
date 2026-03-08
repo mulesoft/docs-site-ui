@@ -724,6 +724,55 @@
     }
   }
 
+  function addExtraFieldRow (extrasContainer, indent, endpoint, spec, operationId) {
+    const row = document.createElement('div')
+    row.className = 'openapi-body-json-row openapi-body-json-extra-row'
+    row.style.paddingLeft = indent * 20 + 'px'
+
+    const keyInput = document.createElement('input')
+    keyInput.type = 'text'
+    keyInput.className = 'openapi-body-json-value openapi-body-json-extra-key'
+    keyInput.placeholder = 'key'
+    keyInput.size = 8
+    keyInput.addEventListener('input', function () {
+      this.size = Math.max(this.value.length, 8)
+      updateSnippet(endpoint, spec, operationId)
+    })
+
+    const valInput = document.createElement('input')
+    valInput.type = 'text'
+    valInput.className = 'openapi-body-json-value openapi-body-json-extra-value'
+    valInput.dataset.bodyType = 'string'
+    valInput.placeholder = 'value'
+    valInput.size = 8
+    valInput.addEventListener('input', function () {
+      this.size = Math.max(this.value.length, 8)
+      updateSnippet(endpoint, spec, operationId)
+    })
+
+    const removeBtn = document.createElement('button')
+    removeBtn.type = 'button'
+    removeBtn.className = 'openapi-body-json-extra-remove'
+    removeBtn.setAttribute('aria-label', 'Remove property')
+    removeBtn.textContent = '\u00d7'
+    removeBtn.addEventListener('click', function () {
+      row.remove()
+      updateSnippet(endpoint, spec, operationId)
+    })
+
+    addJsonText(row, '"', 'openapi-body-json-syntax')
+    row.appendChild(keyInput)
+    addJsonText(row, '"', 'openapi-body-json-syntax')
+    addJsonText(row, ': ', 'openapi-body-json-syntax')
+    addJsonText(row, '"', 'openapi-body-json-syntax')
+    row.appendChild(valInput)
+    addJsonText(row, '"', 'openapi-body-json-syntax')
+    row.appendChild(removeBtn)
+
+    extrasContainer.appendChild(row)
+    return row
+  }
+
   function buildBodyEditor (container, value, schema, endpoint, spec, operationId) {
     container.innerHTML = ''
     if (!value || typeof value !== 'object') return false
@@ -742,6 +791,27 @@
       renderJsonArray(wrapper, value, schema, 1, endpoint, spec, operationId)
     } else {
       renderJsonObject(wrapper, value, schema, 1, endpoint, spec, operationId)
+    }
+
+    if (!Array.isArray(value)) {
+      const extrasContainer = document.createElement('div')
+      extrasContainer.className = 'openapi-body-json-extras'
+      wrapper.appendChild(extrasContainer)
+
+      addExtraFieldRow(extrasContainer, 1, endpoint, spec, operationId)
+
+      const addRow = document.createElement('div')
+      addRow.className = 'openapi-body-json-row openapi-body-json-add-row'
+      addRow.style.paddingLeft = 1 * 20 + 'px'
+      const addBtn = document.createElement('button')
+      addBtn.type = 'button'
+      addBtn.className = 'openapi-body-json-add-btn'
+      addBtn.textContent = '+ Add property'
+      addBtn.addEventListener('click', function () {
+        addExtraFieldRow(extrasContainer, 1, endpoint, spec, operationId)
+      })
+      addRow.appendChild(addBtn)
+      wrapper.appendChild(addRow)
     }
 
     const closeLine = document.createElement('div')
@@ -799,14 +869,25 @@
     }
 
     const result = replaceLeaves(template)
+
+    // Merge extra key-value fields
+    const extraRows = container.querySelectorAll('.openapi-body-json-extra-row')
+    if (!Array.isArray(result) && typeof result === 'object' && result !== null) {
+      for (let i = 0; i < extraRows.length; i++) {
+        const keyInput = extraRows[i].querySelector('.openapi-body-json-extra-key')
+        const valInput = extraRows[i].querySelector('.openapi-body-json-extra-value')
+        if (keyInput && valInput && keyInput.value.trim() && valInput.value.trim()) {
+          result[keyInput.value.trim()] = valInput.value.trim()
+        }
+      }
+    }
+
     if (!mark) {
       const json = JSON.stringify(result, null, 2)
       return json === '{}' ? null : json
     }
 
-    // Build marked JSON with param highlighting — skip empty fields
-    fieldIdx = 0
-
+    // Build marked JSON with param highlighting from collected result
     function serializeMarked (value, indent) {
       const pad = '  '.repeat(indent)
       const inner = '  '.repeat(indent + 1)
@@ -833,20 +914,15 @@
         if (entries.length === 0) return '{}'
         return '{\n' + entries.join(',\n') + '\n' + pad + '}'
       }
-      if (fieldIdx >= fields.length) return JSON.stringify(value)
-      const f = fields[fieldIdx++]
-      const type = f.dataset.bodyType
-      const val = f.value
-      if (val === '') return null
-      if (val === 'null') return PARAM_START + 'null' + PARAM_END
-      if (type === 'string') {
-        const escaped = val.replace(/\\/g, '\\\\').replace(/"/g, '\\"')
+      if (value === null) return PARAM_START + 'null' + PARAM_END
+      if (typeof value === 'string') {
+        const escaped = value.replace(/\\/g, '\\\\').replace(/"/g, '\\"')
         return PARAM_START + '"' + escaped + '"' + PARAM_END
       }
-      return PARAM_START + (val || (type === 'boolean' ? 'false' : '0')) + PARAM_END
+      return PARAM_START + String(value) + PARAM_END
     }
 
-    const marked = serializeMarked(template, 0)
+    const marked = serializeMarked(result, 0)
     return marked === '{}' ? null : marked
   }
 
