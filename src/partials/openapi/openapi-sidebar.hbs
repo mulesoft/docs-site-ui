@@ -1,30 +1,32 @@
 {{#with (openapi)}}
 <div class="openapi-sidebar-overlay" id="openapi-sidebar-overlay"></div>
 <div class="openapi-sidebar" id="openapi-sidebar-panel">
-  <button class="openapi-sidebar-close" id="openapi-sidebar-close" type="button" aria-label="Close endpoint navigation">
-    <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true">
-      <line x1="3" y1="3" x2="13" y2="13"/>
-      <line x1="13" y1="3" x2="3" y2="13"/>
-    </svg>
-  </button>
-  {{#if info.version}}
-    <div class="openapi-sidebar-section">
-      <div class="openapi-sidebar-label">Version</div>
-      <div class="openapi-sidebar-value">{{info.version}}</div>
+  <div class="openapi-sidebar-header">
+    <button class="openapi-sidebar-close" id="openapi-sidebar-close" type="button" aria-label="Close endpoint navigation">
+      <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true">
+        <line x1="3" y1="3" x2="13" y2="13"/>
+        <line x1="13" y1="3" x2="3" y2="13"/>
+      </svg>
+    </button>
+    {{#if info.version}}
+      <div class="openapi-sidebar-section">
+        <div class="openapi-sidebar-label">Version</div>
+        <div class="openapi-sidebar-value">{{info.version}}</div>
+      </div>
+    {{/if}}
+    {{#if operationCount}}
+      <div class="openapi-sidebar-section">
+        <div class="openapi-sidebar-label">Endpoints</div>
+        <div class="openapi-sidebar-value">{{operationCount}}</div>
+      </div>
+    {{/if}}
+    <div class="openapi-sidebar-server">
+      <label class="openapi-sidebar-label">Server</label>
+      <select id="openapi-sidebar-server-select" class="openapi-tryit-server-select"></select>
     </div>
-  {{/if}}
-  {{#if operationCount}}
-    <div class="openapi-sidebar-section">
-      <div class="openapi-sidebar-label">Endpoints</div>
-      <div class="openapi-sidebar-value">{{operationCount}}</div>
+    <div class="openapi-sidebar-search">
+      <input type="search" id="openapi-sidebar-search" class="openapi-sidebar-search-input" placeholder="Search endpoints…" aria-label="Search endpoints" />
     </div>
-  {{/if}}
-  <div class="openapi-sidebar-server">
-    <label class="openapi-sidebar-label">Server</label>
-    <select id="openapi-sidebar-server-select" class="openapi-tryit-server-select"></select>
-  </div>
-  <div class="openapi-sidebar-search">
-    <input type="search" id="openapi-sidebar-search" class="openapi-sidebar-search-input" placeholder="Search endpoints…" aria-label="Search endpoints" />
   </div>
   <nav class="openapi-sidebar-nav">
     <a class="openapi-sidebar-link" href="#openapi-overview">Overview</a>

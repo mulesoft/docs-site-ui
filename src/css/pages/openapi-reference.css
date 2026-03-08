@@ -742,14 +742,17 @@
 
   .openapi-sidebar-close {
     display: inline-flex;
+    margin-left: auto;
+    position: static;
   }
 
   .openapi-sidebar {
     background: #fff;
     bottom: 0;
     box-shadow: -4px 0 24px rgb(0 0 0 / 15%);
+    height: 100%;
+    max-height: none;
     max-width: 320px;
-    overflow-y: auto;
     position: fixed;
     right: 0;
     top: 0;
@@ -767,7 +770,26 @@
 /* ─── Sidebar ─────────────────────────────────────────────────────────────── */
 
 .openapi-sidebar {
-  padding: var(--lg) var(--sm);
+  display: flex;
+  flex-direction: column;
+  padding: 0;
+}
+
+.openapi-sidebar-header {
+  background: #fff;
+  display: flex;
+  flex-direction: column;
+  flex-shrink: 0;
+  margin-top: -20px;
+  padding: var(--sm) var(--sm) 0;
+  position: sticky;
+  z-index: 1;
+}
+
+@media (max-width: 991px) {
+  .openapi-sidebar-header {
+    margin-top: 0;
+  }
 }
 
 .openapi-sidebar-section {
@@ -826,7 +848,10 @@
 }
 
 .openapi-sidebar-nav {
+  flex: 1;
   margin-top: var(--lg);
+  overflow-y: auto;
+  padding: 0 var(--sm) var(--lg);
 }
 
 .openapi-sidebar-link {
