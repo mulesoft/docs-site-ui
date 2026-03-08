@@ -772,6 +772,7 @@
 .openapi-sidebar {
   display: flex;
   flex-direction: column;
+  max-height: inherit;
   padding: 0;
 }
 
@@ -780,16 +781,10 @@
   display: flex;
   flex-direction: column;
   flex-shrink: 0;
-  margin-top: -20px;
-  padding: var(--sm) var(--sm) 0;
+  padding: 0 var(--sm);
   position: sticky;
+  top: 0;
   z-index: 1;
-}
-
-@media (max-width: 991px) {
-  .openapi-sidebar-header {
-    margin-top: 0;
-  }
 }
 
 .openapi-sidebar-section {
