@@ -64,7 +64,7 @@
         href.startsWith('https://developer.salesforce.com/docs')
       ) {
         link.classList.add('lm-link-help')
-      } else if (href.startsWith('https://www.mulesoft.com')) {
+      } else if (href.startsWith('https://www.mulesoft.com') || href.startsWith('https://blogs.mulesoft.com')) {
         link.classList.add('lm-link-marketing')
       }
     })
