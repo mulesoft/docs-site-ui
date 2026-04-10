@@ -3,7 +3,21 @@
     {{> 404-content}}
     {{else}}
     {{#if page.title}}
-    <h1 class="page">{{{page.title}}}</h1>
+    <div class="page-title-row">
+      <h1 class="page">{{{page.title}}}</h1>
+      <div class="ai-context-menu">
+        <button type="button" class="ai-context-copy" data-action="copy-md" aria-label="Copy as Markdown">Copy as Markdown</button>
+        <button type="button" class="ai-context-toggle" aria-expanded="false" aria-haspopup="menu" aria-label="More AI context options"></button>
+        <div class="ai-context-options" role="menu" aria-label="AI context options">
+          <button type="button" role="menuitem" data-action="copy-md">Copy as Markdown</button>
+          <button type="button" role="menuitem" data-action="view-md">View as Markdown <img class="external-link-image" src="{{@root.uiRootPath}}/img/icons/external-link.svg" alt="Opens in new tab"></button>
+          <button type="button" role="menuitem" data-action="open-chatgpt">Open in ChatGPT <img class="external-link-image" src="{{@root.uiRootPath}}/img/icons/external-link.svg" alt="Opens in new tab"></button>
+          <button type="button" role="menuitem" data-action="open-claude">Open in Claude <img class="external-link-image" src="{{@root.uiRootPath}}/img/icons/external-link.svg" alt="Opens in new tab"></button>
+          <button type="button" role="menuitem" data-action="open-gemini">Open in Gemini <img class="external-link-image" src="{{@root.uiRootPath}}/img/icons/external-link.svg" alt="Opens in new tab"></button>
+        </div>
+        <span class="ai-context-status" role="status" aria-live="polite"></span>
+      </div>
+    </div>
     {{/if}}
     {{> subheading}}
     {{> info-pills}}

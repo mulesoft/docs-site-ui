@@ -6,7 +6,7 @@
   const doc = document.querySelector('.doc')
   const sidebar = document.querySelector('.toc-sidebar')
   const main = document.querySelector('.main')
-  const startOfContent = doc?.querySelector('h1.page + *')
+  const startOfContent = doc?.querySelector('.page-title-row + *') || doc?.querySelector('h1.page + *')
   const noticeBanner = document.querySelector('.notice-banner')
   const topBanner = document.querySelector('.top-banner')
 
