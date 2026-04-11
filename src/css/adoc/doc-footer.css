@@ -1,7 +1,7 @@
 .doc-footer {
   padding: 300px var(--xl) var(--xl);
 
-  & button {
+  & .feedback-section button {
     border-width: 2px;
     column-gap: 4px;
     display: flex;
@@ -19,6 +19,14 @@
   & .github {
     margin-top: var(--md);
     max-width: fit-content;
+
+    @media (--lg) {
+      display: none;
+    }
+  }
+
+  & .page-options-footer {
+    margin-top: var(--md);
 
     @media (--lg) {
       display: none;

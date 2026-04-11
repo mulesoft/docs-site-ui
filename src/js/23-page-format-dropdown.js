@@ -1,154 +1,158 @@
 ;(function () {
   'use strict'
 
-  const menu = document.querySelector('article.doc .ai-context-menu')
-  if (!menu) return
+  var dropdowns = document.querySelectorAll('.page-options-dropdown')
+  if (!dropdowns.length) return
 
-  const copyBtn = menu.querySelector('.ai-context-copy')
-  const toggle = menu.querySelector('.ai-context-toggle')
-  const optionsPanel = menu.querySelector('.ai-context-options')
-  const statusEl = menu.querySelector('.ai-context-status')
-  const menuItems = optionsPanel.querySelectorAll('[role="menuitem"]')
-  const mdUrl = window.location.href.replace(/(?:\.html)?(?=#|$)/, '.md')
+  var mdUrl = window.location.href.replace(/(?:\.html)?(?=#|$)/, '.md')
+  var prompt = 'Read from ' + window.location.href + ' so I can ask questions about it.'
 
   // Skip markdown check on localhost (local testing)
-  const isLocalhost = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1'
+  var isLocalhost = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1'
   if (!isLocalhost) {
-    // Check if the markdown file exists; if not, remove the dropdown
     fetch(mdUrl, { method: 'HEAD' })
       .then(function (res) {
-        if (!res.ok) removeMenu()
+        if (!res.ok) {
+          dropdowns.forEach(function (d) { d.remove() })
+        }
       })
       .catch(function () {
-        removeMenu()
+        dropdowns.forEach(function (d) { d.remove() })
       })
   }
 
-  function removeMenu () {
-    menu.remove()
-    const doc = document.querySelector('article.doc')
-    if (doc) doc.classList.add('no-ai-context')
-  }
+  dropdowns.forEach(function (dropdown) {
+    var toggle = dropdown.querySelector('.page-options-toggle')
+    var optionsPanel = dropdown.querySelector('.page-options-menu')
+    var statusEl = dropdown.querySelector('.page-options-status')
+    if (!toggle || !optionsPanel) return
 
-  function openMenu () {
-    toggle.setAttribute('aria-expanded', 'true')
-    optionsPanel.classList.add('is-open')
-    menuItems[0].focus()
-  }
+    var menuItems = optionsPanel.querySelectorAll('[role="menuitem"]')
+    if (!menuItems.length) return
 
-  function closeMenu (restoreFocus) {
-    toggle.setAttribute('aria-expanded', 'false')
-    optionsPanel.classList.remove('is-open')
-    if (restoreFocus) toggle.focus()
-  }
+    // Set href for link items
+    var viewMd = optionsPanel.querySelector('[data-action="view-md"]')
+    var openChatgpt = optionsPanel.querySelector('[data-action="open-chatgpt"]')
+    var openClaude = optionsPanel.querySelector('[data-action="open-claude"]')
+    var openGemini = optionsPanel.querySelector('[data-action="open-gemini"]')
 
-  function showStatus (message) {
-    statusEl.textContent = message
-    setTimeout(function () {
-      statusEl.textContent = ''
-    }, 3000)
-  }
+    if (viewMd) viewMd.href = mdUrl
+    if (openChatgpt) openChatgpt.href = 'https://chatgpt.com/?q=' + encodeURIComponent(prompt)
+    if (openClaude) openClaude.href = 'https://claude.ai/new?q=' + encodeURIComponent(prompt)
+    if (openGemini) openGemini.href = 'https://gemini.google.com/app?q=' + encodeURIComponent(prompt)
 
-  // Tooltip on the copy button for feedback
-  const copyTooltip = tippy(copyBtn, {
-    arrow: tippy.roundArrow,
-    animation: 'shift-away',
-    content: 'Copied!',
-    delay: 200,
-    maxWidth: 240,
-    placement: 'bottom',
-    trigger: 'manual',
-    theme: 'copy-link-popover',
-    zIndex: 'var(--z-nav-mobile)',
-  })
-
-  function doCopy () {
-    fetch(mdUrl)
-      .then(function (res) {
-        return res.text()
+    // Copy button with tooltip
+    var copyBtn = optionsPanel.querySelector('[data-action="copy-md"]')
+    var copyTooltip
+    if (copyBtn && typeof tippy === 'function') {
+      var isFooter = dropdown.classList.contains('page-options-footer')
+      copyTooltip = tippy(isFooter ? toggle : copyBtn, {
+        arrow: tippy.roundArrow,
+        animation: 'shift-away',
+        content: 'Copied!',
+        delay: 200,
+        maxWidth: 240,
+        placement: isFooter ? 'top' : 'bottom',
+        trigger: 'manual',
+        theme: 'copy-link-popover',
+        zIndex: 'var(--z-nav-mobile)',
       })
-      .then(function (text) {
-        return navigator.clipboard.writeText(text).then(function () {
-          showStatus('Copied to clipboard')
-          copyTooltip.show()
-          setTimeout(function () {
-            copyTooltip.hide()
-          }, 2000)
-        })
+
+      copyBtn.addEventListener('click', function () {
+        fetch(mdUrl)
+          .then(function (res) { return res.text() })
+          .then(function (text) {
+            return navigator.clipboard.writeText(text).then(function () {
+              if (statusEl) {
+                statusEl.textContent = 'Copied to clipboard'
+                setTimeout(function () { statusEl.textContent = '' }, 3000)
+              }
+              if (copyTooltip) {
+                copyTooltip.show()
+                setTimeout(function () { copyTooltip.hide() }, 2000)
+              }
+            })
+          })
+          .catch(function () {
+            window.open(mdUrl, '_blank')
+          })
+        closeMenu(true)
       })
-      .catch(function () {
-        window.open(mdUrl, '_blank')
+    }
+
+    // Lock the toggle and container width so the menu doesn't stretch them
+    var toggleWidth = toggle.offsetWidth
+    if (toggleWidth) {
+      toggle.style.width = toggleWidth + 'px'
+      dropdown.style.width = dropdown.offsetWidth + 'px'
+    }
+
+    // Find scrollable ancestor that may clip the menu
+    var scrollParent = dropdown.closest('.scrollbar')
+
+    function openMenu () {
+      if (scrollParent) scrollParent.style.overflow = 'visible'
+      toggle.setAttribute('aria-expanded', 'true')
+      optionsPanel.removeAttribute('hidden')
+      optionsPanel.classList.add('is-open')
+      menuItems[0].focus()
+    }
+
+    function closeMenu (restoreFocus) {
+      if (scrollParent) scrollParent.style.overflow = ''
+      toggle.setAttribute('aria-expanded', 'false')
+      optionsPanel.classList.remove('is-open')
+      optionsPanel.setAttribute('hidden', '')
+      if (restoreFocus) toggle.focus()
+    }
+
+    toggle.addEventListener('click', function () {
+      var expanded = toggle.getAttribute('aria-expanded') === 'true'
+      if (expanded) {
+        closeMenu(false)
+      } else {
+        openMenu()
+      }
+    })
+
+    toggle.addEventListener('keydown', function (e) {
+      if (e.key === 'ArrowDown' || e.key === 'Down') {
+        e.preventDefault()
+        openMenu()
+      }
+    })
+
+    optionsPanel.addEventListener('keydown', function (e) {
+      var currentIndex = [].indexOf.call(menuItems, document.activeElement)
+
+      if (e.key === 'ArrowDown' || e.key === 'Down') {
+        e.preventDefault()
+        var next = (currentIndex + 1) % menuItems.length
+        menuItems[next].focus()
+      } else if (e.key === 'ArrowUp' || e.key === 'Up') {
+        e.preventDefault()
+        var prev = (currentIndex - 1 + menuItems.length) % menuItems.length
+        menuItems[prev].focus()
+      } else if (e.key === 'Escape' || e.key === 'Esc') {
+        e.preventDefault()
+        closeMenu(true)
+      } else if (e.key === 'Tab') {
+        closeMenu(false)
+      }
+    })
+
+    // Close on click outside
+    document.addEventListener('click', function (e) {
+      if (!dropdown.contains(e.target)) {
+        closeMenu(false)
+      }
+    })
+
+    // Close after clicking a link item
+    optionsPanel.querySelectorAll('a[role="menuitem"]').forEach(function (link) {
+      link.addEventListener('click', function () {
+        closeMenu(false)
       })
-  }
-
-  copyBtn.addEventListener('click', function () {
-    doCopy()
-  })
-
-  toggle.addEventListener('click', function () {
-    const expanded = toggle.getAttribute('aria-expanded') === 'true'
-    if (expanded) {
-      closeMenu(false)
-    } else {
-      openMenu()
-    }
-  })
-
-  toggle.addEventListener('keydown', function (e) {
-    if (e.key === 'ArrowDown' || e.key === 'Down') {
-      e.preventDefault()
-      openMenu()
-    }
-  })
-
-  optionsPanel.addEventListener('keydown', function (e) {
-    const currentIndex = [].indexOf.call(menuItems, document.activeElement)
-
-    if (e.key === 'ArrowDown' || e.key === 'Down') {
-      e.preventDefault()
-      const next = (currentIndex + 1) % menuItems.length
-      menuItems[next].focus()
-    } else if (e.key === 'ArrowUp' || e.key === 'Up') {
-      e.preventDefault()
-      const prev = (currentIndex - 1 + menuItems.length) % menuItems.length
-      menuItems[prev].focus()
-    } else if (e.key === 'Escape' || e.key === 'Esc') {
-      e.preventDefault()
-      closeMenu(true)
-    } else if (e.key === 'Tab') {
-      closeMenu(false)
-    }
-  })
-
-  optionsPanel.addEventListener('click', function (e) {
-    const button = e.target.closest('[data-action]')
-    if (!button) return
-
-    const action = button.getAttribute('data-action')
-    if (action === 'copy-md') {
-      doCopy()
-    } else if (action === 'view-md') {
-      window.open(mdUrl, '_blank')
-    } else if (action === 'open-chatgpt') {
-      const prompt = 'Read from ' + window.location.href + ' so I can ask questions about it.'
-      const chatgptUrl = 'https://chatgpt.com/?q=' + encodeURIComponent(prompt)
-      window.open(chatgptUrl, '_blank')
-    } else if (action === 'open-claude') {
-      const claudePrompt = 'Read from ' + window.location.href + ' so I can ask questions about it.'
-      const claudeUrl = 'https://claude.ai/new?q=' + encodeURIComponent(claudePrompt)
-      window.open(claudeUrl, '_blank')
-    } else if (action === 'open-gemini') {
-      const geminiPrompt = 'Read from ' + window.location.href + ' so I can ask questions about it.'
-      const geminiUrl = 'https://gemini.google.com/app?q=' + encodeURIComponent(geminiPrompt)
-      window.open(geminiUrl, '_blank')
-    }
-
-    closeMenu(true)
-  })
-
-  document.addEventListener('click', function (e) {
-    if (!menu.contains(e.target)) {
-      closeMenu(false)
-    }
+    })
   })
 })()

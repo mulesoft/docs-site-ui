@@ -69,3 +69,120 @@
   line-height: 1.2;
   margin-bottom: var(--sm);
 }
+
+.page-options-dropdown {
+  margin-bottom: var(--md);
+  position: relative;
+}
+
+.page-options-toggle {
+  margin: 0;
+  text-align: center;
+  transition: background var(--lume-g-kinetics-transition-duration) var(--lume-g-kinetics-transition-timing-function),
+    color var(--lume-g-kinetics-transition-duration) var(--lume-g-kinetics-transition-timing-function);
+  width: 100%;
+
+  &::after {
+    background: url("../img/icons/arrow-down.svg") no-repeat center;
+    background-size: contain;
+    content: "";
+    display: inline-block;
+    height: 14px;
+    margin-left: 6px;
+    transition: transform var(--lume-g-kinetics-transition-duration) var(--lume-g-kinetics-transition-timing-function);
+    vertical-align: middle;
+    width: 14px;
+  }
+
+  &[aria-expanded="true"] {
+    background: var(--sds-g-color-blue-50);
+    border-color: var(--sds-g-color-blue-50);
+    color: var(--lume-g-color-neutral-100);
+
+    &::after {
+      filter: brightness(0) invert(1);
+      transform: rotate(180deg);
+    }
+
+    &:hover::after {
+      filter: brightness(0);
+    }
+  }
+}
+
+.page-options-menu {
+  background: var(--lume-g-color-neutral-100);
+  border: 0;
+  border-radius: var(--lume-g-radius-border-2);
+  box-shadow: var(--lume-g-shadow-level-2);
+  display: none;
+  flex-direction: column;
+  margin-top: var(--xs);
+  min-width: max-content;
+  overflow: hidden;
+  position: absolute;
+  left: 0;
+  z-index: 1;
+}
+
+.page-options-menu.is-open {
+  display: flex;
+}
+
+.page-options-menu a,
+.page-options-menu button {
+  align-items: center;
+  background: var(--lume-g-color-neutral-100);
+  border: 0;
+  color: var(--steel-1);
+  cursor: pointer;
+  display: flex;
+  font-family: var(--sds-g-font-sans);
+  font-size: 16px;
+  gap: var(--xl);
+  justify-content: space-between;
+  line-height: 1.25;
+  margin: 0;
+  min-height: 44px;
+  padding: var(--sm) 24px;
+  text-decoration: none;
+  transition: background var(--lume-g-kinetics-transition-duration) var(--lume-g-kinetics-transition-timing-function);
+  white-space: nowrap;
+  width: 100%;
+}
+
+.page-options-menu .external-link-image {
+  flex-shrink: 0;
+  margin-left: auto;
+}
+
+.page-options-menu a:hover,
+.page-options-menu button:hover {
+  background: var(--sds-g-color-cloud-blue-95);
+  color: var(--sds-g-color-blue-20);
+}
+
+.page-options-menu a:focus-visible,
+.page-options-menu button:focus-visible {
+  background: var(--sds-g-color-cloud-blue-95);
+  color: var(--sds-g-color-blue-20);
+  outline: 2px solid var(--sds-g-color-blue-50);
+  outline-offset: -2px;
+}
+
+.page-options-menu a + a,
+.page-options-menu a + button,
+.page-options-menu button + a,
+.page-options-menu button + button {
+  border-top: var(--lume-g-sizing-border-1) solid var(--lume-g-color-neutral-90);
+}
+
+.page-options-status {
+  clip: rect(0 0 0 0);
+  clip-path: inset(50%);
+  height: 1px;
+  overflow: hidden;
+  position: absolute;
+  white-space: nowrap;
+  width: 1px;
+}

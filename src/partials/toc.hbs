@@ -2,7 +2,26 @@
 <div class="skip-link-container">
     <button tabindex="0" class="skip-link" data-l10n-text="right-nav-skip-to-main">Skip to main content</button>
 </div>
-{{> github}}
+<div class="page-options-dropdown">
+  <button type="button" class="mule-button-br page-options-toggle" aria-expanded="false" aria-haspopup="menu">Page Actions</button>
+  <div class="page-options-menu" role="menu" aria-label="Page actions" hidden>
+    {{#if (or preview (and (ne (site-profile) "archive") (or (and page.fileUri (not env.CI)) (and page.editUrl (not page.origin.private))))) }}
+    <a role="menuitem" target="_blank"
+      {{#if (and page.fileUri (not env.CI))}}
+      href="{{page.fileUri}}"
+      {{else}}
+      href="{{page.editUrl}}"
+      {{/if}}
+    >View on GitHub <img class="external-link-image" src="{{@root.uiRootPath}}/img/icons/external-link.svg" alt="Opens in new tab"></a>
+    {{/if}}
+    <button type="button" role="menuitem" data-action="copy-md">Copy as Markdown</button>
+    <a role="menuitem" data-action="view-md" target="_blank">View as Markdown <img class="external-link-image" src="{{@root.uiRootPath}}/img/icons/external-link.svg" alt="Opens in new tab"></a>
+    <a role="menuitem" data-action="open-chatgpt" target="_blank">Open in ChatGPT <img class="external-link-image" src="{{@root.uiRootPath}}/img/icons/external-link.svg" alt="Opens in new tab"></a>
+    <a role="menuitem" data-action="open-claude" target="_blank">Open in Claude <img class="external-link-image" src="{{@root.uiRootPath}}/img/icons/external-link.svg" alt="Opens in new tab"></a>
+    <a role="menuitem" data-action="open-gemini" target="_blank">Open in Gemini <img class="external-link-image" src="{{@root.uiRootPath}}/img/icons/external-link.svg" alt="Opens in new tab"></a>
+  </div>
+  <span class="page-options-status" role="status" aria-live="polite"></span>
+</div>
 <h1 class="toc-title hide-until-l10n" data-l10n-text="right-nav-on-this-page">On this page:</h1>
 <div class="aside-toc">
     <nav class="toc-menu" data-l10n-label="right-nav-skip-to-sections"></nav>
