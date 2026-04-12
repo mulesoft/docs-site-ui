@@ -1,40 +1,80 @@
-;(function () {
+;(() => {
   'use strict'
 
-  var dropdowns = document.querySelectorAll('.page-options-dropdown')
+  const dropdowns = document.querySelectorAll('.page-options-dropdown')
   if (!dropdowns.length) return
 
-  var mdUrl = window.location.href.replace(/(?:\.html)?(?=#|$)/, '.md')
-  var prompt = 'Read from ' + window.location.href + ' so I can ask questions about it.'
+  const mdUrl = window.location.href.replace(/(?:\.html)?(?=#|$)/, '.md')
+  const prompt = 'Read from ' + window.location.href + ' so I can ask questions about it.'
 
   // Skip markdown check on localhost (local testing)
-  var isLocalhost = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1'
+  const isLocalhost = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1'
   if (!isLocalhost) {
     fetch(mdUrl, { method: 'HEAD' })
-      .then(function (res) {
+      .then((res) => {
         if (!res.ok) {
-          dropdowns.forEach(function (d) { d.remove() })
+          dropdowns.forEach((d) => {
+            d.remove()
+          })
         }
       })
-      .catch(function () {
-        dropdowns.forEach(function (d) { d.remove() })
+      .catch(() => {
+        dropdowns.forEach((d) => {
+          d.remove()
+        })
       })
   }
 
-  dropdowns.forEach(function (dropdown) {
-    var toggle = dropdown.querySelector('.page-options-toggle')
-    var optionsPanel = dropdown.querySelector('.page-options-menu')
-    var statusEl = dropdown.querySelector('.page-options-status')
+  // Adjust sidebar top when banners are visible
+  const sidebar = document.querySelector('.toc-sidebar')
+  if (sidebar) {
+    const adjustSidebarTop = () => {
+      let offset = 0
+      const topBanner = document.querySelector('.top-banner:not(.hide)')
+      const noticeBanner = document.querySelector('.notice-banner:not(.hide)')
+      if (topBanner) offset += topBanner.offsetHeight
+      if (noticeBanner) offset += noticeBanner.offsetHeight
+      sidebar.style.top = offset ? offset + 'px' : ''
+    }
+    adjustSidebarTop()
+    // Re-check when banners are dismissed
+    document.addEventListener('click', (e) => {
+      if (e.target.closest('.close-button')) setTimeout(adjustSidebarTop, 100)
+    })
+  }
+
+  dropdowns.forEach((dropdown) => {
+    const toggle = dropdown.querySelector('.page-options-toggle')
+    const optionsPanel = dropdown.querySelector('.page-options-menu')
+    const statusEl = dropdown.querySelector('.page-options-status')
     if (!toggle || !optionsPanel) return
 
-    var menuItems = optionsPanel.querySelectorAll('[role="menuitem"]')
+    const menuItems = optionsPanel.querySelectorAll('[role="menuitem"]')
     if (!menuItems.length) return
 
+    const scrollParent = dropdown.closest('.scrollbar')
+
+    const openMenu = () => {
+      if (scrollParent) scrollParent.style.overflow = 'visible'
+      toggle.setAttribute('aria-expanded', 'true')
+      optionsPanel.removeAttribute('hidden')
+      optionsPanel.classList.add('is-open')
+      menuItems[0].focus()
+    }
+
+    const closeMenu = (restoreFocus) => {
+      if (scrollParent) scrollParent.style.overflow = ''
+      toggle.setAttribute('aria-expanded', 'false')
+      optionsPanel.classList.remove('is-open')
+      optionsPanel.setAttribute('hidden', '')
+      if (restoreFocus) toggle.focus()
+    }
+
     // Set href for link items
-    var viewMd = optionsPanel.querySelector('[data-action="view-md"]')
-    var openChatgpt = optionsPanel.querySelector('[data-action="open-chatgpt"]')
-    var openClaude = optionsPanel.querySelector('[data-action="open-claude"]')
-    var openGemini = optionsPanel.querySelector('[data-action="open-gemini"]')
+    const viewMd = optionsPanel.querySelector('[data-action="view-md"]')
+    const openChatgpt = optionsPanel.querySelector('[data-action="open-chatgpt"]')
+    const openClaude = optionsPanel.querySelector('[data-action="open-claude"]')
+    const openGemini = optionsPanel.querySelector('[data-action="open-gemini"]')
 
     if (viewMd) viewMd.href = mdUrl
     if (openChatgpt) openChatgpt.href = 'https://chatgpt.com/?q=' + encodeURIComponent(prompt)
@@ -42,10 +82,10 @@
     if (openGemini) openGemini.href = 'https://gemini.google.com/app?q=' + encodeURIComponent(prompt)
 
     // Copy button with tooltip
-    var copyBtn = optionsPanel.querySelector('[data-action="copy-md"]')
-    var copyTooltip
+    const copyBtn = optionsPanel.querySelector('[data-action="copy-md"]')
+    let copyTooltip
     if (copyBtn && typeof tippy === 'function') {
-      var isFooter = dropdown.classList.contains('page-options-footer')
+      const isFooter = dropdown.classList.contains('page-options-footer')
       copyTooltip = tippy(isFooter ? toggle : copyBtn, {
         arrow: tippy.roundArrow,
         animation: 'shift-away',
@@ -58,22 +98,26 @@
         zIndex: 'var(--z-nav-mobile)',
       })
 
-      copyBtn.addEventListener('click', function () {
+      copyBtn.addEventListener('click', () => {
         fetch(mdUrl)
-          .then(function (res) { return res.text() })
-          .then(function (text) {
-            return navigator.clipboard.writeText(text).then(function () {
+          .then((res) => res.text())
+          .then((text) =>
+            navigator.clipboard.writeText(text).then(() => {
               if (statusEl) {
                 statusEl.textContent = 'Copied to clipboard'
-                setTimeout(function () { statusEl.textContent = '' }, 3000)
+                setTimeout(() => {
+                  statusEl.textContent = ''
+                }, 3000)
               }
               if (copyTooltip) {
                 copyTooltip.show()
-                setTimeout(function () { copyTooltip.hide() }, 2000)
+                setTimeout(() => {
+                  copyTooltip.hide()
+                }, 2000)
               }
             })
-          })
-          .catch(function () {
+          )
+          .catch(() => {
             window.open(mdUrl, '_blank')
           })
         closeMenu(true)
@@ -81,33 +125,14 @@
     }
 
     // Lock the toggle and container width so the menu doesn't stretch them
-    var toggleWidth = toggle.offsetWidth
+    const toggleWidth = toggle.offsetWidth
     if (toggleWidth) {
       toggle.style.width = toggleWidth + 'px'
       dropdown.style.width = dropdown.offsetWidth + 'px'
     }
 
-    // Find scrollable ancestor that may clip the menu
-    var scrollParent = dropdown.closest('.scrollbar')
-
-    function openMenu () {
-      if (scrollParent) scrollParent.style.overflow = 'visible'
-      toggle.setAttribute('aria-expanded', 'true')
-      optionsPanel.removeAttribute('hidden')
-      optionsPanel.classList.add('is-open')
-      menuItems[0].focus()
-    }
-
-    function closeMenu (restoreFocus) {
-      if (scrollParent) scrollParent.style.overflow = ''
-      toggle.setAttribute('aria-expanded', 'false')
-      optionsPanel.classList.remove('is-open')
-      optionsPanel.setAttribute('hidden', '')
-      if (restoreFocus) toggle.focus()
-    }
-
-    toggle.addEventListener('click', function () {
-      var expanded = toggle.getAttribute('aria-expanded') === 'true'
+    toggle.addEventListener('click', () => {
+      const expanded = toggle.getAttribute('aria-expanded') === 'true'
       if (expanded) {
         closeMenu(false)
       } else {
@@ -115,23 +140,23 @@
       }
     })
 
-    toggle.addEventListener('keydown', function (e) {
+    toggle.addEventListener('keydown', (e) => {
       if (e.key === 'ArrowDown' || e.key === 'Down') {
         e.preventDefault()
         openMenu()
       }
     })
 
-    optionsPanel.addEventListener('keydown', function (e) {
-      var currentIndex = [].indexOf.call(menuItems, document.activeElement)
+    optionsPanel.addEventListener('keydown', (e) => {
+      const currentIndex = [].indexOf.call(menuItems, document.activeElement)
 
       if (e.key === 'ArrowDown' || e.key === 'Down') {
         e.preventDefault()
-        var next = (currentIndex + 1) % menuItems.length
+        const next = (currentIndex + 1) % menuItems.length
         menuItems[next].focus()
       } else if (e.key === 'ArrowUp' || e.key === 'Up') {
         e.preventDefault()
-        var prev = (currentIndex - 1 + menuItems.length) % menuItems.length
+        const prev = (currentIndex - 1 + menuItems.length) % menuItems.length
         menuItems[prev].focus()
       } else if (e.key === 'Escape' || e.key === 'Esc') {
         e.preventDefault()
@@ -142,15 +167,15 @@
     })
 
     // Close on click outside
-    document.addEventListener('click', function (e) {
+    document.addEventListener('click', (e) => {
       if (!dropdown.contains(e.target)) {
         closeMenu(false)
       }
     })
 
     // Close after clicking a link item
-    optionsPanel.querySelectorAll('a[role="menuitem"]').forEach(function (link) {
-      link.addEventListener('click', function () {
+    optionsPanel.querySelectorAll('a[role="menuitem"]').forEach((link) => {
+      link.addEventListener('click', () => {
         closeMenu(false)
       })
     })

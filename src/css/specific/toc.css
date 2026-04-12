@@ -80,6 +80,7 @@
   text-align: center;
   transition: background var(--lume-g-kinetics-transition-duration) var(--lume-g-kinetics-transition-timing-function),
     color var(--lume-g-kinetics-transition-duration) var(--lume-g-kinetics-transition-timing-function);
+  white-space: nowrap;
   width: 100%;
 
   &::after {
@@ -117,11 +118,11 @@
   box-shadow: var(--lume-g-shadow-level-2);
   display: none;
   flex-direction: column;
+  left: 0;
   margin-top: var(--xs);
   min-width: max-content;
   overflow: hidden;
   position: absolute;
-  left: 0;
   z-index: 1;
 }
 
