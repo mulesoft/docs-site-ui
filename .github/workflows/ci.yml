@@ -11,13 +11,16 @@ permissions: write-all
 jobs:
   build-and-release:
     runs-on: mulesoft-ubuntu
+    # Node 24 for JS actions; softprops/action-gh-release is still node20 in action.yml until a newer release.
+    env:
+      FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
 
     steps:
       - name: Checkout code
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
 
       - name: Setup Node.js
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v5
         with:
           node-version-file: ".nvmrc"
           cache: "npm"
