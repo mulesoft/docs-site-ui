@@ -74,12 +74,12 @@
     const viewMd = optionsPanel.querySelector('[data-action="view-md"]')
     const openChatgpt = optionsPanel.querySelector('[data-action="open-chatgpt"]')
     const openClaude = optionsPanel.querySelector('[data-action="open-claude"]')
-    const openGemini = optionsPanel.querySelector('[data-action="open-gemini"]')
+    const openPerplexity = optionsPanel.querySelector('[data-action="open-perplexity"]')
 
     if (viewMd) viewMd.href = mdUrl
     if (openChatgpt) openChatgpt.href = 'https://chatgpt.com/?q=' + encodeURIComponent(prompt)
     if (openClaude) openClaude.href = 'https://claude.ai/new?q=' + encodeURIComponent(prompt)
-    if (openGemini) openGemini.href = 'https://gemini.google.com/app?q=' + encodeURIComponent(prompt)
+    if (openPerplexity) openPerplexity.href = 'https://www.perplexity.ai/search?q=' + encodeURIComponent(prompt)
 
     // Copy button with tooltip
     const copyBtn = optionsPanel.querySelector('[data-action="copy-md"]')
