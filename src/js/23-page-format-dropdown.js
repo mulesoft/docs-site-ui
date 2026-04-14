@@ -158,6 +158,12 @@
         e.preventDefault()
         const prev = (currentIndex - 1 + menuItems.length) % menuItems.length
         menuItems[prev].focus()
+      } else if (e.key === 'Home') {
+        e.preventDefault()
+        menuItems[0].focus()
+      } else if (e.key === 'End') {
+        e.preventDefault()
+        menuItems[menuItems.length - 1].focus()
       } else if (e.key === 'Escape' || e.key === 'Esc') {
         e.preventDefault()
         closeMenu(true)
