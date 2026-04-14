@@ -86,7 +86,7 @@
     let copyTooltip
     if (copyBtn && typeof tippy === 'function') {
       const isFooter = dropdown.classList.contains('page-options-footer')
-      copyTooltip = tippy(isFooter ? toggle : copyBtn, {
+      copyTooltip = tippy(toggle, {
         arrow: tippy.roundArrow,
         animation: 'shift-away',
         content: 'Copied!',
