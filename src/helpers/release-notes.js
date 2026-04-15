@@ -162,12 +162,9 @@ const removeYear = (dateStr) => {
 const cleanTitle = (title, version) => {
   if (!title) return ''
 
-  let cleanedTitle
-  if (title.toLowerCase().startsWith('release notes for')) {
-    cleanedTitle = title.replace(/^([Rr]elease [Nn]otes [Ff]or\s*)/i, '').trim()
-  } else {
-    cleanedTitle = title.replace(/([Rr]elease [Nn]otes.*$)/i, '').trim()
-  }
+  const cleanedTitle = title.toLowerCase().startsWith('release notes for')
+    ? title.replace(/^([Rr]elease [Nn]otes [Ff]or\s*)/i, '').trim()
+    : title.replace(/([Rr]elease [Nn]otes.*$)/i, '').trim()
 
   return version ? cleanedTitle.replace(versionRegex, '').trim() : cleanedTitle
 }
