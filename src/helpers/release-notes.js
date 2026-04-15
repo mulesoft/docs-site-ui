@@ -56,7 +56,7 @@ const getSelectedAttributes = (page) => {
     latestVersionAnchor: latestVersion?.anchor,
     latestVersionName: latestVersion?.versionName,
     revdateWithoutYear: removeYear(latestVersion?.releaseDate || page.attributes?.revdate),
-    title: latestVersion?.title,
+    title: latestVersion?.title || page.title,
     url: page.url,
   }
 }
@@ -162,7 +162,12 @@ const removeYear = (dateStr) => {
 const cleanTitle = (title, version) => {
   if (!title) return ''
 
-  const cleanedTitle = title.replace(/(Release Notes.*$)/i, '').trim()
+  let cleanedTitle
+  if (title.toLowerCase().startsWith('release notes for')) {
+    cleanedTitle = title.replace(/^([Rr]elease [Nn]otes [Ff]or\s*)/i, '').trim()
+  } else {
+    cleanedTitle = title.replace(/([Rr]elease [Nn]otes.*$)/i, '').trim()
+  }
 
   return version ? cleanedTitle.replace(versionRegex, '').trim() : cleanedTitle
 }
