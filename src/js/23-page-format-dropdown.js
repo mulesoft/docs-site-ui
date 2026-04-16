@@ -44,6 +44,7 @@
   }
 
   dropdowns.forEach((dropdown) => {
+    const primaryBtn = dropdown.querySelector('.page-options-primary')
     const toggle = dropdown.querySelector('.page-options-toggle')
     const optionsPanel = dropdown.querySelector('.page-options-menu')
     const statusEl = dropdown.querySelector('.page-options-status')
@@ -81,12 +82,37 @@
     if (openClaude) openClaude.href = 'https://claude.ai/new?q=' + encodeURIComponent(prompt)
     if (openPerplexity) openPerplexity.href = 'https://www.perplexity.ai/search?q=' + encodeURIComponent(prompt)
 
-    // Copy button with tooltip
-    const copyBtn = optionsPanel.querySelector('[data-action="copy-md"]')
+    // Copy handler shared by primary button and menu copy item
+    const copyMd = () => {
+      fetch(mdUrl)
+        .then((res) => res.text())
+        .then((text) =>
+          navigator.clipboard.writeText(text).then(() => {
+            if (statusEl) {
+              statusEl.textContent = 'Copied to clipboard'
+              setTimeout(() => {
+                statusEl.textContent = ''
+              }, 3000)
+            }
+            if (copyTooltip) {
+              copyTooltip.show()
+              setTimeout(() => {
+                copyTooltip.hide()
+              }, 2000)
+            }
+          })
+        )
+        .catch(() => {
+          window.open(mdUrl, '_blank')
+        })
+    }
+
+    // Tooltip for copy feedback
     let copyTooltip
-    if (copyBtn && typeof tippy === 'function') {
+    if (primaryBtn && typeof tippy === 'function') {
       const isFooter = dropdown.classList.contains('page-options-footer')
-      copyTooltip = tippy(toggle, {
+      const combo = dropdown.querySelector('.page-options-combo')
+      copyTooltip = tippy(combo || primaryBtn, {
         arrow: tippy.roundArrow,
         animation: 'shift-away',
         content: 'Copied!',
@@ -98,37 +124,19 @@
         zIndex: 'var(--z-nav-mobile)',
       })
 
-      copyBtn.addEventListener('click', () => {
-        fetch(mdUrl)
-          .then((res) => res.text())
-          .then((text) =>
-            navigator.clipboard.writeText(text).then(() => {
-              if (statusEl) {
-                statusEl.textContent = 'Copied to clipboard'
-                setTimeout(() => {
-                  statusEl.textContent = ''
-                }, 3000)
-              }
-              if (copyTooltip) {
-                copyTooltip.show()
-                setTimeout(() => {
-                  copyTooltip.hide()
-                }, 2000)
-              }
-            })
-          )
-          .catch(() => {
-            window.open(mdUrl, '_blank')
-          })
-        closeMenu(true)
+      // Primary button directly copies
+      primaryBtn.addEventListener('click', () => {
+        copyMd()
       })
     }
 
-    // Lock the toggle and container width so the menu doesn't stretch them
-    const toggleWidth = toggle.offsetWidth
-    if (toggleWidth) {
-      toggle.style.width = toggleWidth + 'px'
-      dropdown.style.width = dropdown.offsetWidth + 'px'
+    // Menu copy button also copies
+    const menuCopyBtn = optionsPanel.querySelector('[data-action="copy-md"]')
+    if (menuCopyBtn) {
+      menuCopyBtn.addEventListener('click', () => {
+        copyMd()
+        closeMenu(true)
+      })
     }
 
     toggle.addEventListener('click', () => {
