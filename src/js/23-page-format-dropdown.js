@@ -82,7 +82,6 @@
     if (openClaude) openClaude.href = 'https://claude.ai/new?q=' + encodeURIComponent(prompt)
     if (openPerplexity) openPerplexity.href = 'https://www.perplexity.ai/search?q=' + encodeURIComponent(prompt)
 
-    // Copy handler shared by primary button and menu copy item
     const copyMd = () => {
       fetch(mdUrl)
         .then((res) => res.text())
