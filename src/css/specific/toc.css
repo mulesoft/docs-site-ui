@@ -111,6 +111,9 @@
   }
 
   &:focus-visible {
+    background: #eaf5fe;
+    border-color: #032d60;
+    color: #032d60;
     outline: 2px solid var(--sds-g-color-blue-50);
     outline-offset: -2px;
   }
@@ -144,6 +147,9 @@
   }
 
   &:focus-visible {
+    background: #eaf5fe;
+    border-color: #032d60;
+    color: #032d60;
     outline: 2px solid var(--sds-g-color-blue-50);
     outline-offset: -2px;
   }
@@ -228,7 +234,7 @@
   background: var(--sds-g-color-cloud-blue-95);
   color: var(--sds-g-color-blue-20);
   outline: 2px solid var(--sds-g-color-blue-50);
-  outline-offset: -2px;
+  outline-offset: -3px;
 }
 
 .page-options-menu a + a,
