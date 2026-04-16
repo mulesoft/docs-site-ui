@@ -237,6 +237,16 @@
   outline-offset: -3px;
 }
 
+.page-options-menu a:first-child:focus-visible,
+.page-options-menu button:first-child:focus-visible {
+  border-radius: calc(var(--lume-g-radius-border-2) - 1px) calc(var(--lume-g-radius-border-2) - 1px) 0 0;
+}
+
+.page-options-menu a:last-child:focus-visible,
+.page-options-menu button:last-child:focus-visible {
+  border-radius: 0 0 calc(var(--lume-g-radius-border-2) - 1px) calc(var(--lume-g-radius-border-2) - 1px);
+}
+
 .page-options-menu a + a,
 .page-options-menu a + button,
 .page-options-menu button + a,
