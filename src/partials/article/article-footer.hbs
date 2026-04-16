@@ -5,29 +5,29 @@
   </div>
   {{> feedback-form }}
   <div class="page-options-dropdown page-options-footer">
-    <div class="page-options-combo">
+    <div class="page-options-combo" role="group" aria-label="Page actions">
       <button type="button" class="page-options-primary" data-action="copy-md">
         <svg class="page-options-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M5 22C4.45 22 3.97917 21.8042 3.5875 21.4125C3.19583 21.0208 3 20.55 3 20V6H5V20H16V22H5ZM9 18C8.45 18 7.97917 17.8042 7.5875 17.4125C7.19583 17.0208 7 16.55 7 16V4C7 3.45 7.19583 2.97917 7.5875 2.5875C7.97917 2.19583 8.45 2 9 2H18C18.55 2 19.0208 2.19583 19.4125 2.5875C19.8042 2.97917 20 3.45 20 4V16C20 16.55 19.8042 17.0208 19.4125 17.4125C19.0208 17.8042 18.55 18 18 18H9ZM9 16H18V4H9V16Z" fill="currentColor"/></svg>
         Copy as Markdown
       </button>
-      <button type="button" class="page-options-toggle" aria-expanded="false" aria-haspopup="menu" aria-label="More page actions">
+      <button type="button" class="page-options-toggle" aria-expanded="false" aria-haspopup="menu" aria-controls="page-options-menu-footer" aria-label="More page actions">
         <svg class="page-options-chevron" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path fill-rule="evenodd" d="M6.293 9.293a1 1 0 0 1 1.414 0l4.288 4.288 4.299-4.289a1 1 0 0 1 1.412 1.416l-4.299 4.29c-.781.78-2.044.78-2.824 0l-4.29-4.29a1 1 0 0 1 0-1.415Z" clip-rule="evenodd" fill="currentColor"/></svg>
       </button>
     </div>
-    <div class="page-options-menu" role="menu" aria-label="Page actions" hidden>
+    <div id="page-options-menu-footer" class="page-options-menu" role="menu" aria-label="Page actions" hidden>
       {{#if (or preview (and (ne (site-profile) "archive") (or (and page.fileUri (not env.CI)) (and page.editUrl (not page.origin.private))))) }}
-      <a role="menuitem" tabindex="-1" target="_blank"
+      <a role="menuitem" tabindex="-1" rel="noopener" target="_blank"
         {{#if (and page.fileUri (not env.CI))}}
         href="{{page.fileUri}}"
         {{else}}
         href="{{page.editUrl}}"
         {{/if}}
-      >View on GitHub <img class="external-link-image" src="{{@root.uiRootPath}}/img/icons/external-link.svg" alt="Opens in new tab"></a>
+      >View on GitHub <img class="external-link-image" src="{{@root.uiRootPath}}/img/icons/external-link.svg" alt="" aria-hidden="true"><span class="sr-only">(opens in new tab)</span></a>
       {{/if}}
-      <a role="menuitem" tabindex="-1" data-action="view-md" target="_blank">View as Markdown <img class="external-link-image" src="{{@root.uiRootPath}}/img/icons/external-link.svg" alt="Opens in new tab"></a>
-      <a role="menuitem" tabindex="-1" data-action="open-chatgpt" target="_blank">Open in ChatGPT <img class="external-link-image" src="{{@root.uiRootPath}}/img/icons/external-link.svg" alt="Opens in new tab"></a>
-      <a role="menuitem" tabindex="-1" data-action="open-claude" target="_blank">Open in Claude <img class="external-link-image" src="{{@root.uiRootPath}}/img/icons/external-link.svg" alt="Opens in new tab"></a>
-      <a role="menuitem" tabindex="-1" data-action="open-perplexity" target="_blank">Open in Perplexity <img class="external-link-image" src="{{@root.uiRootPath}}/img/icons/external-link.svg" alt="Opens in new tab"></a>
+      <a role="menuitem" tabindex="-1" data-action="view-md" rel="noopener" target="_blank">View as Markdown <img class="external-link-image" src="{{@root.uiRootPath}}/img/icons/external-link.svg" alt="" aria-hidden="true"><span class="sr-only">(opens in new tab)</span></a>
+      <a role="menuitem" tabindex="-1" data-action="open-chatgpt" rel="noopener" target="_blank">Open in ChatGPT <img class="external-link-image" src="{{@root.uiRootPath}}/img/icons/external-link.svg" alt="" aria-hidden="true"><span class="sr-only">(opens in new tab)</span></a>
+      <a role="menuitem" tabindex="-1" data-action="open-claude" rel="noopener" target="_blank">Open in Claude <img class="external-link-image" src="{{@root.uiRootPath}}/img/icons/external-link.svg" alt="" aria-hidden="true"><span class="sr-only">(opens in new tab)</span></a>
+      <a role="menuitem" tabindex="-1" data-action="open-perplexity" rel="noopener" target="_blank">Open in Perplexity <img class="external-link-image" src="{{@root.uiRootPath}}/img/icons/external-link.svg" alt="" aria-hidden="true"><span class="sr-only">(opens in new tab)</span></a>
     </div>
     <span class="page-options-status" role="status" aria-live="polite"></span>
   </div>
