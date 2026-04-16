@@ -120,7 +120,6 @@
       top: var(--banner-height);
     }
 
-
     &.wrapper > main > .toolbar {
       top: var(--banner-height);
     }
