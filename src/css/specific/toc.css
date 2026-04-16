@@ -214,6 +214,7 @@
 .page-options-menu .external-link-image {
   flex-shrink: 0;
   margin-left: auto;
+  width: 16px;
 }
 
 .page-options-menu a:hover,
