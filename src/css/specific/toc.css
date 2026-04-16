@@ -118,8 +118,8 @@
 
 .page-options-icon {
   flex-shrink: 0;
-  height: 16px;
-  width: 16px;
+  height: var(--icon-size-default);
+  width: var(--icon-size-default);
 }
 
 .page-options-toggle {
@@ -198,7 +198,7 @@
   cursor: pointer;
   display: flex;
   font-family: var(--sds-g-font-sans);
-  font-size: 16px;
+  font-size: var(--font-size-default);
   gap: var(--xl);
   justify-content: space-between;
   line-height: 1.25;
@@ -214,7 +214,7 @@
 .page-options-menu .external-link-image {
   flex-shrink: 0;
   margin-left: auto;
-  width: 16px;
+  width: var(--icon-size-default);
 }
 
 .page-options-menu a:hover,
