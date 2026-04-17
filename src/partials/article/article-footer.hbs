@@ -15,19 +15,24 @@
       </button>
     </div>
     <div id="page-options-menu-footer" class="page-options-menu" role="menu" aria-label="Page actions" hidden>
-      {{#if (or preview (and (ne (site-profile) "archive") (or (and page.fileUri (not env.CI)) (and page.editUrl (not page.origin.private))))) }}
-      <a role="menuitem" tabindex="-1" rel="noopener" target="_blank"
-        {{#if (and page.fileUri (not env.CI))}}
-        href="{{page.fileUri}}"
-        {{else}}
-        href="{{page.editUrl}}"
+      <div class="page-options-menu-group" role="group">
+        <a role="menuitem" tabindex="-1" data-action="view-md" rel="noopener" target="_blank">View as Markdown <img class="external-link-image" src="{{@root.uiRootPath}}/img/icons/external-link.svg" alt="" aria-hidden="true"><span class="sr-only">(opens in new tab)</span></a>
+        {{#if (or preview (and (ne (site-profile) "archive") (or (and page.fileUri (not env.CI)) (and page.editUrl (not page.origin.private))))) }}
+        <a role="menuitem" tabindex="-1" rel="noopener" target="_blank"
+          {{#if (and page.fileUri (not env.CI))}}
+          href="{{page.fileUri}}"
+          {{else}}
+          href="{{page.editUrl}}"
+          {{/if}}
+        >View on GitHub <img class="external-link-image" src="{{@root.uiRootPath}}/img/icons/external-link.svg" alt="" aria-hidden="true"><span class="sr-only">(opens in new tab)</span></a>
         {{/if}}
-      >View on GitHub <img class="external-link-image" src="{{@root.uiRootPath}}/img/icons/external-link.svg" alt="" aria-hidden="true"><span class="sr-only">(opens in new tab)</span></a>
-      {{/if}}
-      <a role="menuitem" tabindex="-1" data-action="view-md" rel="noopener" target="_blank">View as Markdown <img class="external-link-image" src="{{@root.uiRootPath}}/img/icons/external-link.svg" alt="" aria-hidden="true"><span class="sr-only">(opens in new tab)</span></a>
-      <a role="menuitem" tabindex="-1" data-action="open-chatgpt" rel="noopener" target="_blank">Open in ChatGPT <img class="external-link-image" src="{{@root.uiRootPath}}/img/icons/external-link.svg" alt="" aria-hidden="true"><span class="sr-only">(opens in new tab)</span></a>
-      <a role="menuitem" tabindex="-1" data-action="open-claude" rel="noopener" target="_blank">Open in Claude <img class="external-link-image" src="{{@root.uiRootPath}}/img/icons/external-link.svg" alt="" aria-hidden="true"><span class="sr-only">(opens in new tab)</span></a>
-      <a role="menuitem" tabindex="-1" data-action="open-perplexity" rel="noopener" target="_blank">Open in Perplexity <img class="external-link-image" src="{{@root.uiRootPath}}/img/icons/external-link.svg" alt="" aria-hidden="true"><span class="sr-only">(opens in new tab)</span></a>
+      </div>
+      <div class="page-options-menu-group" role="group" aria-labelledby="open-in-label-footer">
+        <span class="page-options-menu-heading" id="open-in-label-footer">Open in...</span>
+        <a role="menuitem" tabindex="-1" data-action="open-chatgpt" rel="noopener" target="_blank">ChatGPT <img class="external-link-image" src="{{@root.uiRootPath}}/img/icons/external-link.svg" alt="" aria-hidden="true"><span class="sr-only">(opens in new tab)</span></a>
+        <a role="menuitem" tabindex="-1" data-action="open-claude" rel="noopener" target="_blank">Claude <img class="external-link-image" src="{{@root.uiRootPath}}/img/icons/external-link.svg" alt="" aria-hidden="true"><span class="sr-only">(opens in new tab)</span></a>
+        <a role="menuitem" tabindex="-1" data-action="open-perplexity" rel="noopener" target="_blank">Perplexity <img class="external-link-image" src="{{@root.uiRootPath}}/img/icons/external-link.svg" alt="" aria-hidden="true"><span class="sr-only">(opens in new tab)</span></a>
+      </div>
     </div>
     <span class="page-options-status" role="status" aria-live="polite"></span>
   </div>
