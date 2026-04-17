@@ -63,6 +63,7 @@
   --lume-c-icon-color-foreground-2: var(--sds-g-color-blue-40);
   --lume-c-icon-color-foreground-3: var(--sds-g-color-blue-60);
   --lume-c-icon-color-background-1: #fff;
+  --icon-size-default: 16px;
 
   /* Salesforce Design System typography */
   --sds-g-font-display: 'ITC Avant Garde', system-ui, -apple-system, blinkmacsystemfont, 'Segoe UI', roboto, 'Helvetica Neue', arial, 'Noto Sans', sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
@@ -86,7 +87,7 @@
   --banner-height: 50px;
   --promo-banner-height: 70px;
   --breadcrumbs-drawer-height: var(--banner-height);
-  --mobile-banner-height: 65px;
+  --mobile-banner-height: 50px;
   --footer-height: 361px;
   --nav-item-height: 32px;
   --toolbar-height: var(--banner-height);
@@ -100,6 +101,7 @@
   --lg: 20px;
   --xl: 40px;
   --xxl: 44px;
+  --btn-sm: 28px;
   --input-md: 30px;
   --input-lg: 40px;
   --screen-sm: 576px;

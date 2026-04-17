@@ -1,0 +1,32 @@
+<div class="page-options-dropdown">
+  <div class="page-options-combo" role="group" aria-label="Page actions">
+    <button type="button" class="page-options-primary" data-action="copy-md">
+      <svg class="page-options-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M5 22C4.45 22 3.97917 21.8042 3.5875 21.4125C3.19583 21.0208 3 20.55 3 20V6H5V20H16V22H5ZM9 18C8.45 18 7.97917 17.8042 7.5875 17.4125C7.19583 17.0208 7 16.55 7 16V4C7 3.45 7.19583 2.97917 7.5875 2.5875C7.97917 2.19583 8.45 2 9 2H18C18.55 2 19.0208 2.19583 19.4125 2.5875C19.8042 2.97917 20 3.45 20 4V16C20 16.55 19.8042 17.0208 19.4125 17.4125C19.0208 17.8042 18.55 18 18 18H9ZM9 16H18V4H9V16Z" fill="currentColor"/></svg>
+      Copy as Markdown
+    </button>
+    <button type="button" class="page-options-toggle" aria-expanded="false" aria-haspopup="menu" aria-controls="page-options-menu-sidebar" aria-label="More page actions">
+      <svg class="page-options-chevron" viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path fill-rule="evenodd" clip-rule="evenodd" d="M29.2922 10.9539L16.6768 23.6923C16.3076 24.0615 15.6922 24.0615 15.323 23.6923L2.70759 10.9539C2.33836 10.5846 2.33836 9.96924 2.70759 9.60001L4.06143 8.24616C4.43066 7.87693 5.04605 7.87693 5.41528 8.24616L15.323 18.2769C15.6922 18.6462 16.3076 18.6462 16.6768 18.2769L26.5845 8.3077C26.9537 7.93847 27.5691 7.93847 27.9384 8.3077L29.2922 9.66155C29.5999 10.0308 29.5999 10.5846 29.2922 10.9539Z" fill="currentColor"/></svg>
+    </button>
+  </div>
+  <div id="page-options-menu-sidebar" class="page-options-menu" role="menu" aria-label="Page actions" hidden>
+    <div class="page-options-menu-group" role="group">
+      <a role="menuitem" tabindex="-1" data-action="view-md" rel="noopener" target="_blank">View as Markdown <img class="external-link-image" src="{{@root.uiRootPath}}/img/icons/external-link.svg" alt="" aria-hidden="true"><span class="sr-only">(opens in new tab)</span></a>
+      {{#if (or preview (and (ne (site-profile) "archive") (or (and page.fileUri (not env.CI)) (and page.editUrl (not page.origin.private))))) }}
+      <a role="menuitem" tabindex="-1" rel="noopener" target="_blank"
+        {{#if (and page.fileUri (not env.CI))}}
+        href="{{page.fileUri}}"
+        {{else}}
+        href="{{page.editUrl}}"
+        {{/if}}
+      >View on GitHub <img class="external-link-image" src="{{@root.uiRootPath}}/img/icons/external-link.svg" alt="" aria-hidden="true"><span class="sr-only">(opens in new tab)</span></a>
+      {{/if}}
+    </div>
+    <div class="page-options-menu-group" role="group" aria-labelledby="open-in-label">
+      <span class="page-options-menu-heading" id="open-in-label">Open in...</span>
+      <a role="menuitem" tabindex="-1" data-action="open-chatgpt" rel="noopener" target="_blank">ChatGPT <img class="external-link-image" src="{{@root.uiRootPath}}/img/icons/external-link.svg" alt="" aria-hidden="true"><span class="sr-only">(opens in new tab)</span></a>
+      <a role="menuitem" tabindex="-1" data-action="open-claude" rel="noopener" target="_blank">Claude <img class="external-link-image" src="{{@root.uiRootPath}}/img/icons/external-link.svg" alt="" aria-hidden="true"><span class="sr-only">(opens in new tab)</span></a>
+      <a role="menuitem" tabindex="-1" data-action="open-perplexity" rel="noopener" target="_blank">Perplexity <img class="external-link-image" src="{{@root.uiRootPath}}/img/icons/external-link.svg" alt="" aria-hidden="true"><span class="sr-only">(opens in new tab)</span></a>
+    </div>
+  </div>
+  <span class="page-options-status" role="status" aria-live="polite"></span>
+</div>
