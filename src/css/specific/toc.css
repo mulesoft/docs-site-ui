@@ -253,11 +253,11 @@
       outline-offset: -3px;
     }
 
-    &:first-child:focus-visible {
+    .page-options-menu-group:first-child > &:first-child:focus-visible {
       border-radius: calc(var(--lume-g-radius-border-2) - 1px) calc(var(--lume-g-radius-border-2) - 1px) 0 0;
     }
 
-    &:last-child:focus-visible {
+    .page-options-menu-group:last-child > &:last-child:focus-visible {
       border-radius: 0 0 calc(var(--lume-g-radius-border-2) - 1px) calc(var(--lume-g-radius-border-2) - 1px);
     }
   }
