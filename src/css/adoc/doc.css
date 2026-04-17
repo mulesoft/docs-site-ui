@@ -203,7 +203,7 @@
       .notice-banner-link,
       #cta *
     ) {
-    &:not(footer *) {
+    &:not(footer *, .page-options-menu *) {
       color: var(--sds-g-color-blue-50);
 
       &:hover,
@@ -217,14 +217,16 @@
       }
     }
 
-    &:active,
-    &:focus {
-      border-radius: 5px;
-      outline: var(--sds-g-color-blue-50) auto 1px;
+    &:not(.page-options-menu *) {
+      &:active,
+      &:focus {
+        border-radius: 5px;
+        outline: var(--sds-g-color-blue-50) auto 1px;
+      }
     }
 
     &:hover {
-      &:not(.anchor, .link-subheading) {
+      &:not(.anchor, .link-subheading, .page-options-menu *) {
         margin-left: -3px;
         margin-right: -3px;
         padding: 1px 3px;

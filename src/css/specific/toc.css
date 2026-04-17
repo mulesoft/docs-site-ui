@@ -1,3 +1,7 @@
+/* =============================================
+   Table of Contents sidebar
+   ============================================= */
+
 .toc {
   max-height: 100vh;
   top: 0;
@@ -70,10 +74,14 @@
   margin-bottom: var(--sm);
 }
 
+/* =============================================
+   Page options – inline (article) variant
+   ============================================= */
+
 .page-options-inline {
   display: flex;
-  justify-content: flex-end;
-  padding-top: var(--lg);
+  justify-content: flex-start;
+  padding-top: var(--sm);
 
   @media (--lg) {
     display: none;
@@ -86,7 +94,55 @@
       padding-top: var(--xl);
     }
   }
+
+  & .page-options-primary {
+    font-size: 12px;
+    min-height: var(--btn-sm);
+    padding: 2px 8px;
+  }
+
+  & .page-options-toggle {
+    height: var(--btn-sm);
+    min-height: var(--btn-sm);
+    width: var(--btn-sm);
+
+    &:hover,
+    &:focus-visible,
+    &[aria-expanded="true"] {
+      margin-left: -1px;
+      width: calc(var(--btn-sm) + 1px);
+    }
+  }
+
+  & .page-options-chevron {
+    height: 14px;
+    width: 14px;
+  }
+
+  & .page-options-icon {
+    height: 14px;
+    width: 14px;
+  }
+
+  & .page-options-menu {
+    margin-top: var(--xs);
+
+    a,
+    button {
+      min-height: var(--btn-sm);
+      padding: var(--xs) var(--lg);
+    }
+  }
+
+  & .page-options-menu-heading {
+    min-height: var(--btn-sm);
+    padding: var(--xs) var(--lg);
+  }
 }
+
+/* =============================================
+   Page options – sidebar visibility toggle
+   ============================================= */
 
 .toc-sidebar .page-options-dropdown {
   display: none;
@@ -96,6 +152,10 @@
   }
 }
 
+/* =============================================
+   Page options – shared component styles
+   ============================================= */
+
 .page-options-dropdown {
   margin-bottom: var(--md);
   position: relative;
@@ -103,47 +163,47 @@
 
 .page-options-combo {
   align-items: stretch;
-  border-radius: 4px;
+  border-radius: var(--radius);
   display: inline-flex;
-
+  height: var(--btn-sm);
 }
 
 .page-options-primary {
   align-items: center;
   background: 0 0;
-  border: 2px solid #0176d3;
-  border-radius: 4px 0 0 4px;
-  border-right: 1px solid #0176d3;
+  border: 2px solid var(--sds-g-color-blue-50);
+  border-radius: var(--radius) 0 0 var(--radius);
+  border-right: 1px solid var(--sds-g-color-blue-50);
   box-shadow: none;
-  color: #0176d3;
+  color: var(--sds-g-color-blue-50);
   cursor: pointer;
   display: flex;
   flex: 1;
-  font-family: SFBold,Arial,sans-serif;
+  font-family: SFBold, Arial, sans-serif;
   font-size: 14px;
   gap: 6px;
   justify-content: center;
-  line-height: 28px;
+  line-height: var(--btn-sm);
   margin: 0;
-  min-height: 44px;
-  padding: 5px 10px;
+  min-height: var(--xxl);
+  padding: var(--xs) var(--sm);
   transition: background var(--lume-g-kinetics-transition-duration) var(--lume-g-kinetics-transition-timing-function),
     color var(--lume-g-kinetics-transition-duration) var(--lume-g-kinetics-transition-timing-function);
   white-space: nowrap;
 
   &:hover {
-    background: #eaf5fe;
-    border-color: #032d60;
+    background: var(--sds-g-color-cloud-blue-95);
+    border-color: var(--sds-g-color-blue-20);
     border-right-width: 2px;
-    color: #032d60;
+    color: var(--sds-g-color-blue-20);
     margin-right: -1px;
     z-index: 0;
   }
 
   &:focus-visible {
-    background: #eaf5fe;
-    border-color: #032d60;
-    color: #032d60;
+    background: var(--sds-g-color-cloud-blue-95);
+    border-color: var(--sds-g-color-blue-20);
+    color: var(--sds-g-color-blue-20);
     outline: 2px solid var(--sds-g-color-blue-50);
     outline-offset: -2px;
   }
@@ -158,30 +218,31 @@
 .page-options-toggle {
   align-items: center;
   background: 0 0;
-  border: solid #0176d3;
-  border-radius: 0 4px 4px 0;
+  border: solid var(--sds-g-color-blue-50);
+  border-radius: 0 var(--radius) var(--radius) 0;
   border-width: 2px 2px 2px 1px;
   box-shadow: none;
-  color: #0176d3;
+  color: var(--sds-g-color-blue-50);
   cursor: pointer;
   display: flex;
+  height: var(--xxl);
   justify-content: center;
   margin: 0;
   padding: 0;
   transition: background var(--lume-g-kinetics-transition-duration) var(--lume-g-kinetics-transition-timing-function),
     color var(--lume-g-kinetics-transition-duration) var(--lume-g-kinetics-transition-timing-function);
-  width: 44px;
+  width: var(--xxl);
 
   &:hover,
   &:focus-visible,
   &[aria-expanded="true"] {
-    background: #eaf5fe;
-    border-color: #032d60;
-    border-left-color: #032d60;
+    background: var(--sds-g-color-cloud-blue-95);
+    border-color: var(--sds-g-color-blue-20);
+    border-left-color: var(--sds-g-color-blue-20);
     border-left-width: 2px;
-    color: #032d60;
+    color: var(--sds-g-color-blue-20);
     margin-left: -1px;
-    width: 45px;
+    width: calc(var(--xxl) + 1px);
   }
 
   &:focus-visible {
@@ -191,14 +252,18 @@
 }
 
 .page-options-chevron {
-  height: 20px;
+  height: var(--lg);
   transition: transform var(--lume-g-kinetics-transition-duration) var(--lume-g-kinetics-transition-timing-function);
-  width: 20px;
+  width: var(--lg);
 
   .page-options-toggle[aria-expanded="true"] & {
     transform: rotate(180deg);
   }
 }
+
+/* =============================================
+   Page options – dropdown menu
+   ============================================= */
 
 .page-options-menu {
   background: var(--lume-g-color-neutral-100);
@@ -208,12 +273,12 @@
   display: none;
   flex-direction: column;
   left: 0;
-  margin-top: var(--xs);
+  margin-top: var(--sm);
   overflow: hidden;
   padding-bottom: 8px;
   padding-top: 8px;
   position: absolute;
-  width: 250px;
+  width: 230px;
   z-index: 1;
 
   &.is-open {
@@ -234,7 +299,7 @@
     justify-content: space-between;
     line-height: 1.25;
     margin: 0;
-    min-height: 44px;
+    min-height: var(--xxl);
     padding: var(--sm) 24px;
     text-decoration: none;
     transition: background var(--lume-g-kinetics-transition-duration) var(--lume-g-kinetics-transition-timing-function);
@@ -267,7 +332,6 @@
     margin-left: auto;
     width: var(--icon-size-default);
   }
-
 }
 
 .page-options-menu-group + .page-options-menu-group {
@@ -281,7 +345,7 @@
   font-family: SFBold, Arial, sans-serif;
   font-size: 14px;
   line-height: 1.25;
-  min-height: 44px;
+  min-height: var(--xxl);
   padding: var(--sm) 24px;
 }
 
