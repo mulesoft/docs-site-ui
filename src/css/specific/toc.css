@@ -168,9 +168,9 @@
   justify-content: center;
   margin: 0;
   padding: 0;
-  width: 44px;
   transition: background var(--lume-g-kinetics-transition-duration) var(--lume-g-kinetics-transition-timing-function),
     color var(--lume-g-kinetics-transition-duration) var(--lume-g-kinetics-transition-timing-function);
+  width: 44px;
 
   &:hover,
   &:focus-visible,
