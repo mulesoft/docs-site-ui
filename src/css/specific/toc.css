@@ -81,7 +81,7 @@
 .page-options-inline {
   display: flex;
   justify-content: flex-start;
-  padding-top: var(--sm);
+  margin-top: var(--md);
 
   @media (--lg) {
     display: none;
@@ -146,6 +146,7 @@
 
 .toc-sidebar .page-options-dropdown {
   display: none;
+  padding-bottom: var(--sm);
 
   @media (--lg) {
     display: block;
@@ -157,7 +158,7 @@
    ============================================= */
 
 .page-options-dropdown {
-  margin-bottom: var(--md);
+  margin-bottom: var(--sm);
   position: relative;
 }
 
