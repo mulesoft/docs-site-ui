@@ -158,7 +158,7 @@
    ============================================= */
 
 .page-options-dropdown {
-  margin-bottom: var(--sm);
+  margin-bottom: var(--xs);
   position: relative;
 }
 
