@@ -29,12 +29,8 @@
   const sidebar = document.querySelector('.toc-sidebar')
   if (sidebar) {
     const adjustSidebarTop = () => {
-      let offset = 0
       const topBanner = document.querySelector('.top-banner:not(.hide)')
-      const noticeBanner = document.querySelector('.notice-banner:not(.hide)')
-      if (topBanner) offset += topBanner.offsetHeight
-      if (noticeBanner) offset += noticeBanner.offsetHeight
-      sidebar.style.top = offset ? offset + 'px' : ''
+      sidebar.style.top = topBanner ? 'var(--banner-height)' : '0px'
     }
     adjustSidebarTop()
     // Re-check when banners are dismissed
