@@ -81,8 +81,10 @@
     const copyMd = () => {
       fetch(mdUrl)
         .then((res) => res.text())
-        .then((text) =>
-          navigator.clipboard.writeText(text).then(() => {
+        .then((text) => {
+          const h1Index = text.indexOf('\n# ')
+          const content = h1Index !== -1 ? text.substring(h1Index + 1) : text
+          return navigator.clipboard.writeText(content).then(() => {
             if (statusEl) {
               statusEl.textContent = 'Copied to clipboard'
               setTimeout(() => {
@@ -96,7 +98,7 @@
               }, 2000)
             }
           })
-        )
+        })
         .catch(() => {
           window.open(mdUrl, '_blank')
         })
