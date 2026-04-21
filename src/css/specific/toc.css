@@ -87,14 +87,6 @@
     display: none;
   }
 
-  & + .page {
-    padding-top: 0;
-
-    @media (--lg) {
-      padding-top: var(--xl);
-    }
-  }
-
   & .page-options-primary {
     font-size: 12px;
     min-height: var(--btn-sm);
@@ -124,20 +116,14 @@
     width: 14px;
   }
 
-  & .page-options-menu {
-    margin-top: var(--xs);
+  & + .page {
+    padding-top: 0;
 
-    a,
-    button {
-      min-height: var(--btn-sm);
-      padding: var(--xs) var(--lg);
+    @media (--lg) {
+      padding-top: var(--xl);
     }
   }
 
-  & .page-options-menu-heading {
-    min-height: var(--btn-sm);
-    padding: var(--xs) var(--lg);
-  }
 }
 
 /* =============================================
@@ -309,7 +295,6 @@
 
     &:hover {
       background: var(--sds-g-color-cloud-blue-95);
-      color: var(--sds-g-color-blue-20);
     }
 
     &:focus-visible {
