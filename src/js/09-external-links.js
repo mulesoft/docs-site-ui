@@ -7,7 +7,8 @@
   const appendExternalLinkIcon = (link) => {
     const isDataWeavePlaygroundLink = link?.classList.contains('dw-playground-link')
     const isFooterLink = link?.offsetParent?.tagName === 'FOOTER'
-    if (!isDataWeavePlaygroundLink && !isFooterLink) {
+    const isPageOptionsLink = link?.closest('.page-options-menu')
+    if (!isDataWeavePlaygroundLink && !isFooterLink && !isPageOptionsLink) {
       const externalLinkImg = createLinkImage('external-link', 'Leaving the Site')
       link.appendChild(externalLinkImg)
     }
