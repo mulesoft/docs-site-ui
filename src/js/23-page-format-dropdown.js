@@ -4,25 +4,20 @@
   const dropdowns = document.querySelectorAll('.page-options-dropdown')
   if (!dropdowns.length) return
 
-  const mdUrl = window.location.href.replace(/(?:\.html)?(?=#|$)/, '.md')
-  const prompt = 'Read from ' + window.location.href + ' so I can ask questions about it.'
+  const href = window.location.href
+  const mdUrl = href.endsWith('/') ? href + 'index.md' : href.replace(/(?:\.html)?(?=#|$)/, '.md')
+  const prompt = 'Read from ' + href + ' so I can ask questions about it.'
+
+  const removeDropdowns = () => dropdowns.forEach((d) => d.remove())
 
   // Skip markdown check on localhost (local testing)
   const isLocalhost = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1'
   if (!isLocalhost) {
     fetch(mdUrl, { method: 'HEAD' })
       .then((res) => {
-        if (!res.ok) {
-          dropdowns.forEach((d) => {
-            d.remove()
-          })
-        }
+        if (!res.ok) removeDropdowns()
       })
-      .catch(() => {
-        dropdowns.forEach((d) => {
-          d.remove()
-        })
-      })
+      .catch(removeDropdowns)
   }
 
   // Adjust sidebar top when banners are visible
