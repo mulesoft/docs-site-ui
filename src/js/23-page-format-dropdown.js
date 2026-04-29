@@ -1,6 +1,15 @@
 ;(() => {
   'use strict'
 
+  /** @param {string} pageAction */
+  const pushPageAction = (pageAction) => {
+    window.dataLayer = window.dataLayer || []
+    window.dataLayer.push({
+      event: 'page_actions',
+      page_action: pageAction,
+    })
+  }
+
   const dropdowns = document.querySelectorAll('.page-options-dropdown')
   if (!dropdowns.length) return
 
@@ -99,6 +108,12 @@
         })
     }
 
+    if (primaryBtn) {
+      primaryBtn.addEventListener('click', () => {
+        pushPageAction('copy-md-primary')
+      })
+    }
+
     // Tooltip for copy feedback
     let copyTooltip
     if (primaryBtn && typeof tippy === 'function') {
@@ -126,6 +141,7 @@
     const menuCopyBtn = optionsPanel.querySelector('[data-action="copy-md"]')
     if (menuCopyBtn) {
       menuCopyBtn.addEventListener('click', () => {
+        pushPageAction('copy-md-menu')
         copyMd()
         closeMenu(true)
       })
@@ -133,6 +149,7 @@
 
     toggle.addEventListener('click', () => {
       const expanded = toggle.getAttribute('aria-expanded') === 'true'
+      pushPageAction(expanded ? 'menu-close' : 'menu-open')
       if (expanded) {
         closeMenu(false)
       } else {
@@ -182,6 +199,8 @@
     // Close after clicking a link item
     optionsPanel.querySelectorAll('a[role="menuitem"]').forEach((link) => {
       link.addEventListener('click', () => {
+        const action = link.getAttribute('data-action')
+        if (action) pushPageAction(action)
         closeMenu(false)
       })
     })
