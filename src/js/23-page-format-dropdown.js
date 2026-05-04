@@ -1,15 +1,6 @@
 ;(() => {
   'use strict'
 
-  /** @param {string} pageAction */
-  const pushPageAction = (pageAction) => {
-    window.dataLayer = window.dataLayer || []
-    window.dataLayer.push({
-      event: 'page_actions',
-      page_action: pageAction,
-    })
-  }
-
   const dropdowns = document.querySelectorAll('.page-options-dropdown')
   if (!dropdowns.length) return
 
@@ -110,7 +101,13 @@
 
     if (primaryBtn) {
       primaryBtn.addEventListener('click', () => {
-        pushPageAction('copy-md-primary')
+        const h1 = document.querySelector('h1')
+        window.dataLayer = window.dataLayer || []
+        window.dataLayer.push({
+          event: 'custEv_ctaLink',
+          clickText: primaryBtn.textContent.trim(),
+          itemTitle: h1 ? h1.textContent.trim() : document.title,
+        })
       })
     }
 
@@ -141,7 +138,13 @@
     const menuCopyBtn = optionsPanel.querySelector('[data-action="copy-md"]')
     if (menuCopyBtn) {
       menuCopyBtn.addEventListener('click', () => {
-        pushPageAction('copy-md-menu')
+        const h1 = document.querySelector('h1')
+        window.dataLayer = window.dataLayer || []
+        window.dataLayer.push({
+          event: 'custEv_ctaLink',
+          clickText: menuCopyBtn.textContent.trim(),
+          itemTitle: h1 ? h1.textContent.trim() : document.title,
+        })
         copyMd()
         closeMenu(true)
       })
@@ -149,7 +152,6 @@
 
     toggle.addEventListener('click', () => {
       const expanded = toggle.getAttribute('aria-expanded') === 'true'
-      pushPageAction(expanded ? 'menu-close' : 'menu-open')
       if (expanded) {
         closeMenu(false)
       } else {
@@ -199,8 +201,13 @@
     // Close after clicking a link item
     optionsPanel.querySelectorAll('a[role="menuitem"]').forEach((link) => {
       link.addEventListener('click', () => {
-        const action = link.getAttribute('data-action')
-        if (action) pushPageAction(action)
+        const h1 = document.querySelector('h1')
+        window.dataLayer = window.dataLayer || []
+        window.dataLayer.push({
+          event: 'custEv_ctaLink',
+          clickText: link.textContent.trim(),
+          itemTitle: h1 ? h1.textContent.trim() : document.title,
+        })
         closeMenu(false)
       })
     })
