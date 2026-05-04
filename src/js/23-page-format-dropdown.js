@@ -1,6 +1,16 @@
 ;(() => {
   'use strict'
 
+  const pushCtaLink = (clickText) => {
+    const h1 = document.querySelector('h1')
+    window.dataLayer = window.dataLayer || []
+    window.dataLayer.push({
+      event: 'custEv_ctaLink',
+      clickText,
+      itemTitle: h1 ? h1.textContent.trim() : document.title,
+    })
+  }
+
   const dropdowns = document.querySelectorAll('.page-options-dropdown')
   if (!dropdowns.length) return
 
@@ -99,18 +109,6 @@
         })
     }
 
-    if (primaryBtn) {
-      primaryBtn.addEventListener('click', () => {
-        const h1 = document.querySelector('h1')
-        window.dataLayer = window.dataLayer || []
-        window.dataLayer.push({
-          event: 'custEv_ctaLink',
-          clickText: primaryBtn.textContent.trim(),
-          itemTitle: h1 ? h1.textContent.trim() : document.title,
-        })
-      })
-    }
-
     // Tooltip for copy feedback
     let copyTooltip
     if (primaryBtn && typeof tippy === 'function') {
@@ -127,9 +125,11 @@
         theme: 'copy-link-popover',
         zIndex: 'var(--z-nav-mobile)',
       })
+    }
 
-      // Primary button directly copies
+    if (primaryBtn) {
       primaryBtn.addEventListener('click', () => {
+        pushCtaLink(primaryBtn.textContent.trim())
         copyMd()
       })
     }
@@ -138,13 +138,7 @@
     const menuCopyBtn = optionsPanel.querySelector('[data-action="copy-md"]')
     if (menuCopyBtn) {
       menuCopyBtn.addEventListener('click', () => {
-        const h1 = document.querySelector('h1')
-        window.dataLayer = window.dataLayer || []
-        window.dataLayer.push({
-          event: 'custEv_ctaLink',
-          clickText: menuCopyBtn.textContent.trim(),
-          itemTitle: h1 ? h1.textContent.trim() : document.title,
-        })
+        pushCtaLink(menuCopyBtn.textContent.trim())
         copyMd()
         closeMenu(true)
       })
@@ -201,13 +195,7 @@
     // Close after clicking a link item
     optionsPanel.querySelectorAll('a[role="menuitem"]').forEach((link) => {
       link.addEventListener('click', () => {
-        const h1 = document.querySelector('h1')
-        window.dataLayer = window.dataLayer || []
-        window.dataLayer.push({
-          event: 'custEv_ctaLink',
-          clickText: link.textContent.trim(),
-          itemTitle: h1 ? h1.textContent.trim() : document.title,
-        })
+        pushCtaLink(link.textContent.trim())
         closeMenu(false)
       })
     })
