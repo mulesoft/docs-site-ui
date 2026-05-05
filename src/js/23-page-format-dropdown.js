@@ -1,13 +1,16 @@
 ;(() => {
   'use strict'
 
-  const pushCtaLink = (clickText) => {
+  const pushCtaLink = (clickText, clickUrl) => {
     const h1 = document.querySelector('h1')
     window.dataLayer = window.dataLayer || []
     window.dataLayer.push({
-      event: 'custEv_ctaLink',
+      event: 'content_click',
       clickText,
       itemTitle: h1 ? h1.textContent.trim() : document.title,
+      clickUrl,
+      elementType: 'link',
+      contentType: 'Page Options Dropdown',
     })
   }
 
@@ -129,7 +132,7 @@
 
     if (primaryBtn) {
       primaryBtn.addEventListener('click', () => {
-        pushCtaLink(primaryBtn.textContent.trim())
+        pushCtaLink(primaryBtn.textContent.trim(), mdUrl)
         copyMd()
       })
     }
@@ -138,7 +141,7 @@
     const menuCopyBtn = optionsPanel.querySelector('[data-action="copy-md"]')
     if (menuCopyBtn) {
       menuCopyBtn.addEventListener('click', () => {
-        pushCtaLink(menuCopyBtn.textContent.trim())
+        pushCtaLink(menuCopyBtn.textContent.trim(), mdUrl)
         copyMd()
         closeMenu(true)
       })
@@ -195,7 +198,7 @@
     // Close after clicking a link item
     optionsPanel.querySelectorAll('a[role="menuitem"]').forEach((link) => {
       link.addEventListener('click', () => {
-        pushCtaLink(link.textContent.trim())
+        pushCtaLink(link.textContent.trim(), link.href)
         closeMenu(false)
       })
     })
