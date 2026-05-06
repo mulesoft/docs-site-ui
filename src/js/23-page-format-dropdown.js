@@ -10,7 +10,7 @@
       itemTitle: h1 ? h1.textContent.trim() : document.title,
       clickUrl,
       elementType: 'link',
-      contentType: 'Page Options Dropdown',
+      contentType: 'AI',
     })
   }
 
