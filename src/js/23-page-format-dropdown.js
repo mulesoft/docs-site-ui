@@ -1,6 +1,19 @@
 ;(() => {
   'use strict'
 
+  const pushCtaLink = (clickText, clickUrl) => {
+    const h1 = document.querySelector('h1')
+    window.dataLayer = window.dataLayer || []
+    window.dataLayer.push({
+      event: 'content_click',
+      clickText,
+      itemTitle: h1 ? h1.textContent.trim() : document.title,
+      clickUrl,
+      elementType: 'link',
+      contentType: 'AI',
+    })
+  }
+
   const dropdowns = document.querySelectorAll('.page-options-dropdown')
   if (!dropdowns.length) return
 
@@ -115,9 +128,11 @@
         theme: 'copy-link-popover',
         zIndex: 'var(--z-nav-mobile)',
       })
+    }
 
-      // Primary button directly copies
+    if (primaryBtn) {
       primaryBtn.addEventListener('click', () => {
+        pushCtaLink(primaryBtn.textContent.trim(), mdUrl)
         copyMd()
       })
     }
@@ -126,6 +141,7 @@
     const menuCopyBtn = optionsPanel.querySelector('[data-action="copy-md"]')
     if (menuCopyBtn) {
       menuCopyBtn.addEventListener('click', () => {
+        pushCtaLink(menuCopyBtn.textContent.trim(), mdUrl)
         copyMd()
         closeMenu(true)
       })
@@ -182,6 +198,7 @@
     // Close after clicking a link item
     optionsPanel.querySelectorAll('a[role="menuitem"]').forEach((link) => {
       link.addEventListener('click', () => {
+        pushCtaLink(link.textContent.trim(), link.href)
         closeMenu(false)
       })
     })
