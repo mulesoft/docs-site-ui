@@ -197,9 +197,22 @@
 
     // Close after clicking a link item
     optionsPanel.querySelectorAll('a[role="menuitem"]').forEach((link) => {
-      link.addEventListener('click', () => {
-        pushCtaLink(link.textContent.trim(), link.href)
-        closeMenu(false)
+      link.addEventListener('click', (e) => {
+        const willOpenInNewTab = link.target === '_blank' || link.target === '_new'
+
+        if (willOpenInNewTab) {
+          e.preventDefault()
+          pushCtaLink(link.textContent.trim(), link.href)
+
+          // Wait for GA to send the hit, then open link
+          setTimeout(() => {
+            window.open(link.href, '_blank')
+            closeMenu(false)
+          }, 300)
+        } else {
+          pushCtaLink(link.textContent.trim(), link.href)
+          closeMenu(false)
+        }
       })
     })
   })
