@@ -1,7 +1,7 @@
 ;(() => {
   'use strict'
 
-  const pushCtaLink = (clickText, clickUrl) => {
+  const pushCtaLink = (clickText, clickUrl, callback) => {
     const h1 = document.querySelector('h1')
     window.dataLayer = window.dataLayer || []
     window.dataLayer.push({
@@ -11,6 +11,8 @@
       clickUrl,
       elementType: 'link',
       contentType: 'AI',
+      eventCallback: callback || (() => {}),
+      eventTimeout: 2000,
     })
   }
 
@@ -197,9 +199,19 @@
 
     // Close after clicking a link item
     optionsPanel.querySelectorAll('a[role="menuitem"]').forEach((link) => {
-      link.addEventListener('click', () => {
-        pushCtaLink(link.textContent.trim(), link.href)
-        closeMenu(false)
+      link.addEventListener('click', (e) => {
+        const willOpenInNewTab = link.target === '_blank' || link.target === '_new'
+
+        if (willOpenInNewTab) {
+          e.preventDefault()
+          pushCtaLink(link.textContent.trim(), link.href, () => {
+            window.open(link.href, '_blank')
+            closeMenu(false)
+          })
+        } else {
+          pushCtaLink(link.textContent.trim(), link.href)
+          closeMenu(false)
+        }
       })
     })
   })
