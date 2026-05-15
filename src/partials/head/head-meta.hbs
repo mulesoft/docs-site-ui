@@ -6,6 +6,8 @@
 
 {{#if page.description}}
     <meta name="description" content="{{page.description}}">
+{{else if (is-one-of (site-profile) "jp" "prod" "preview")}}
+    <meta name="description" content="MuleSoft Documentation Site">
 {{/if}}
 
 {{#if page.keywords}}
@@ -49,10 +51,6 @@
 {{else}}
     <meta name="version-with-latest" content="{{or page.displayVersion page.version}} {{#if (eq (site-profile) 'jp' )}}[最新]{{else}}[latest]{{/if}}">
     <meta name="docsearch:version" content="latest">
-{{/if}}
-
-{{#if (is-one-of (site-profile) "jp" "prod")}}
-    <meta name="description" content="MuleSoft Documentation Site">
 {{/if}}
 
 <meta name="google-site-verification" content="NDIrUbizqamSncO6tSzBUHFR8VIKcjAocR4UrnKau2s" />

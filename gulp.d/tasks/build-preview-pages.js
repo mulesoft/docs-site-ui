@@ -63,6 +63,7 @@ module.exports =
                   const attributes = doc.getAttributes()
                   pageModel.layout = doc.getAttribute('page-layout', 'default')
                   pageModel.title = doc.getDocumentTitle()
+                  pageModel.description = doc.getAttribute('description', doc.getAttribute('page-description'))
                   pageModel.url = '/' + file.relative.slice(0, -5) + '.html'
                   if (file.stem === 'home') {
                     pageModel.home = true
