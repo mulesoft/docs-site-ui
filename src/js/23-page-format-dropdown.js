@@ -1,7 +1,7 @@
 ;(() => {
   'use strict'
 
-  const pushCtaLink = (clickText, clickUrl) => {
+  const pushCtaLink = (clickText, clickUrl, callback) => {
     const h1 = document.querySelector('h1')
     window.dataLayer = window.dataLayer || []
     window.dataLayer.push({
@@ -11,6 +11,8 @@
       clickUrl,
       elementType: 'link',
       contentType: 'AI',
+      eventCallback: callback || (() => {}),
+      eventTimeout: 2000,
     })
   }
 
