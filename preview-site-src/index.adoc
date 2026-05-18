@@ -1,5 +1,6 @@
 = [.brand]#MuleSoft# Documentation
 :page-layout: home
+:description: Custom page description should override generic meta description
 :page-fragmentize:
 :!sectids:
 ifndef::env-site[:imagesdir: ../images]
