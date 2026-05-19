@@ -5,7 +5,7 @@
     const h1 = document.querySelector('h1')
     window.dataLayer = window.dataLayer || []
     window.dataLayer.push({
-      event: 'content_click',
+      event: 'custEv_ctaLink',
       clickText,
       itemTitle: h1 ? h1.textContent.trim() : document.title,
       clickUrl,
@@ -204,10 +204,9 @@
 
         if (willOpenInNewTab) {
           e.preventDefault()
-          pushCtaLink(link.textContent.trim(), link.href, () => {
-            window.open(link.href, '_blank')
-            closeMenu(false)
-          })
+          pushCtaLink(link.textContent.trim(), link.href)
+          window.open(link.href, '_blank')
+          closeMenu(false)
         } else {
           pushCtaLink(link.textContent.trim(), link.href)
           closeMenu(false)
