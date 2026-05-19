@@ -201,6 +201,15 @@
     optionsPanel.querySelectorAll('a[role="menuitem"]').forEach((link) => {
       link.addEventListener('click', (e) => {
         const willOpenInNewTab = link.target === '_blank' || link.target === '_new'
+        const action = link.getAttribute('data-action')
+
+        // Skip preventDefault for view-md and view-github since they already have href set
+        // and we don't want to open them twice
+        if (action === 'view-md' || action === 'view-github') {
+          pushCtaLink(link.textContent.trim(), link.href)
+          closeMenu(false)
+          return
+        }
 
         if (willOpenInNewTab) {
           e.preventDefault()
