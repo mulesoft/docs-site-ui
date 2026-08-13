@@ -53,6 +53,7 @@
 
     links.forEach((link) => {
       const href = link.href
+      const rawHref = link.getAttribute('href') || ''
 
       if (href.startsWith('https://www.youtube.com') || href.startsWith('https://videos.mulesoft.com')) {
         link.classList.add('lm-link-video')
@@ -60,6 +61,8 @@
         link.classList.add('lm-link-trailhead')
       } else if (
         link.classList.contains('xref') ||
+        // Unresolved Antora xrefs in preview keep the component::page form and omit .xref
+        rawHref.includes('::') ||
         href.startsWith('https://docs.mulesoft.com') ||
         href.startsWith('https://help.salesforce.com/s/articleView') ||
         href.startsWith('https://developer.salesforce.com/docs')
