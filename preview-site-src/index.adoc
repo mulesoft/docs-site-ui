@@ -24,7 +24,7 @@ The end-to-end journey for MuleSoft agentic orchestration consists of various ta
 | [.lm-bold]##Get Started##
 
 | MuleSoft AI is a set of capabilities for building, orchestrating, governing, deploying, and observing AI agents and agent networks across your enterprise.
-| Kick off your agentic journey with quickstarts and templates.
+| Start your agentic journey with guided quickstarts, templates, and planning resources that help you stand up Agent Fabric and Agentforce agents.
 
 |
 - https://www.mulesoft.com/platform/ai[Learn About MuleSoft AI]
@@ -82,7 +82,7 @@ The end-to-end journey for MuleSoft agentic orchestration consists of various ta
 | [.lm-bold]##Develop with MuleSoft AI Connectors##
 
 | Accelerate integration and agent development with AI using Anypoint Code Builder, MuleSoft connectors, MuleSoft MCP Server, and other tools.
-|
+| Connect AI models, agents, and enterprise systems with MuleSoft AI connectors for inference, vectors, MCP, Agentforce, and more.
 
 |
 - https://www.youtube.com/watch?v=1bU8nzFI_Co[Watch an Intro to MuleSoft Dev Agent]
