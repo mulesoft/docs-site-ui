@@ -53,14 +53,6 @@ Design and coordinate AI agents using a declarative approach that promotes reuse
 - https://videos.mulesoft.com/watch/wgZ5WuV6VgDbyK3bFKV2RJ[Watch a Demo About Agent Orchestration]
 - https://www.mulesoft.com/exchange/org.mule.examples/mcp-b2b-partner-manager-template/minor/0.1/[Try an MCP Tools Template for Partner Manager]
 
-| image::lm_optimize_1.png[]
-[.lm-bold]##Observe and Gain Actionable Insights##
-
-Visualize and monitor your agent network and agentic assets.
-
-- xref:agent-visualizer::index.adoc[Visualize and Explore Your Agent Network]
-- xref:monitoring::anypoint-insights-agentic.adoc[Monitor and Troubleshoot Your Agent Network]
-
 | image::lm_audience_1.png[]
 [.lm-bold]##Govern and Secure Your Agents##
 
@@ -70,6 +62,14 @@ Apply policies and secure agent network traffic.
 - xref:gateway::flex-gateway-managed-ingress-egress.adoc[Govern the Agent Network]
 - xref:gateway::flex-gateway-secure-apis.adoc[Secure the Agent Network with Policies]
 - https://videos.mulesoft.com/watch/zPeibGjqTAqa4fxF545Jwh[Watch how to Govern Your Agents]
+
+| image::lm_optimize_1.png[]
+[.lm-bold]##Observe and Gain Actionable Insights##
+
+Visualize and monitor your agent network and agentic assets.
+
+- xref:agent-visualizer::index.adoc[Visualize and Explore Your Agent Network]
+- xref:monitoring::anypoint-insights-agentic.adoc[Monitor and Troubleshoot Your Agent Network]
 |===
 
 [.lm-table, cols="1a,1a", grid="none"]
