@@ -21,7 +21,8 @@
     "preview": "npx gulp preview",
     "preview-jp": "npx gulp preview-jp",
     "clean": "rm -rf node_modules/",
-    "reinstall": "npm run clean && npm install"
+    "reinstall": "npm run clean && npm install",
+    "vendor:update": "bash ./scripts/vendor-update.sh"
   },
   "devDependencies": {
     "@asciidoctor/core": "~2.2",
@@ -29,7 +30,7 @@
     "@docsearch/css": "^4.0.0-beta.7",
     "@docsearch/js": "^4.0.0-beta.7",
     "@mulesoft/lume-icon": "file:vendor/mulesoft-lume-icon-0.1.47.tgz",
-    "@mulesoft/lume-styling-hooks": "file:vendor/mulesoft-lume-styling-hooks-1.0.32.tgz",
+    "@mulesoft/lume-styling-hooks": "file:vendor/mulesoft-lume-styling-hooks-1.0.51.tgz",
     "@octokit/rest": "20.1.2",
     "@ronilaukkarinen/gulp-stylelint": "^14.1.1",
     "asciidoctor": "3.0.4",
