@@ -122,6 +122,18 @@ In your terminal, execute the following command:
 This command installs the dependencies listed in [.path]_package.json_ into the [.path]_node_modules/_ folder inside the project.
 This folder does not get included in the UI bundle and should _not_ be committed to the source control repository.
 
+=== Update Vendored Packages
+
+_note: This step can only be performed by users with appropriate permissions._
+
+This project vendors a small set of internal MuleSoft packages from the Nexus registry using tarballs stored in the [.path]_vendor/_ directory.
+To refresh them without modifying the lockfile or the package manifest, run:
+
+ $ npm run vendor:update
+
+This script packs the current versions of the vendored packages, removes stale tarballs, and updates the corresponding `file:` entries in [.path]_package.json_.
+If the registry returns a 401 Unauthorized response, the script prompts for the MSAP username, password, and email, runs the registry login command, and retries the package pack operations.
+
 === Preview the UI
 
 The UI project is configured to preview offline.
