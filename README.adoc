@@ -134,6 +134,8 @@ To refresh them without modifying the lockfile or the package manifest, run:
 This script packs the current versions of the vendored packages, removes stale tarballs, and updates the corresponding `file:` entries in [.path]_package.json_.
 If the registry returns a 401 Unauthorized response, the script prompts for the MSAP username, password, and email, runs the registry login command, and retries the package pack operations.
 
+See https://ux.mulesoft.com/ for more information about the vendored packages.
+
 === Preview the UI
 
 The UI project is configured to preview offline.
