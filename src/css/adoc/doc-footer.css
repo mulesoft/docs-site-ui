@@ -1,7 +1,7 @@
 .doc-footer {
   padding: 300px var(--xl) var(--xl);
 
-  & button {
+  & .feedback-section button {
     border-width: 2px;
     column-gap: 4px;
     display: flex;

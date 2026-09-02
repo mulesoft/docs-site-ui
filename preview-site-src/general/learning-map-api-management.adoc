@@ -35,6 +35,7 @@ API management helps ensure that APIs are reliable, secure, and easy to use, whi
 - https://www.youtube.com/watch?v=qkbEj2s14Lo[Fifth item]
 - https://videos.mulesoft.com/watch/wgZ5WuV6VgDbyK3bFKV2RJ[Sixth item]
 - https://trailhead.salesforce.com/content/learn/modules/mulesoft-anypoint-code-builder-quick-look[Seventh item]
+- https://blogs.mulesoft.com/news/agent-scanners/[Learn How to Catalog Agents Automatically With Scanners]
 
 | image::../images/learning-map.png[]
 [.lm-bold]##Nested Lists##

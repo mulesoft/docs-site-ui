@@ -1,6 +1,4 @@
 {{#if (and page.latest.url (ne page.componentVersion.asciidoc.attributes.latestVersionSwitch false))}}
-You can switch to the
-{{#with page.latest}}
-<a class="notice-banner-link" href="{{relativize ./url}}">latest version</a>.
-{{/with}}
+You can switch to the {{#with page.latest}}<a class="notice-banner-link" href="{{relativize ./url}}">latest version</a>
+{{/with}} or use the version selector in the left navigation.
 {{/if}}

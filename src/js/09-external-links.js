@@ -7,7 +7,8 @@
   const appendExternalLinkIcon = (link) => {
     const isDataWeavePlaygroundLink = link?.classList.contains('dw-playground-link')
     const isFooterLink = link?.offsetParent?.tagName === 'FOOTER'
-    if (!isDataWeavePlaygroundLink && !isFooterLink) {
+    const isPageOptionsLink = link?.closest('.page-options-menu')
+    if (!isDataWeavePlaygroundLink && !isFooterLink && !isPageOptionsLink) {
       const externalLinkImg = createLinkImage('external-link', 'Leaving the Site')
       link.appendChild(externalLinkImg)
     }
@@ -64,7 +65,7 @@
         href.startsWith('https://developer.salesforce.com/docs')
       ) {
         link.classList.add('lm-link-help')
-      } else if (href.startsWith('https://www.mulesoft.com')) {
+      } else if (href.startsWith('https://www.mulesoft.com') || href.startsWith('https://blogs.mulesoft.com')) {
         link.classList.add('lm-link-marketing')
       }
     })

@@ -62,7 +62,7 @@
   cursor: pointer;
   display: inline-block;
   font-family: SFBold,Arial,sans-serif;
-  font-size: 16px;
+  font-size: var(--font-size-default);
   line-height: 28px;
   margin: 0 15px 15px 0;
   min-height: 44px;
@@ -90,7 +90,7 @@
   cursor: pointer;
   display: inline-block;
   font-family: SFBold,Arial,sans-serif;
-  font-size: 16px;
+  font-size: var(--font-size-default);
   line-height: 28px;
   margin: 0 15px 15px 0;
   max-width: fit-content;

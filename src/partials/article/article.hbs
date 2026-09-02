@@ -2,6 +2,9 @@
     {{#if (eq page.layout '404')}}
     {{> 404-content}}
     {{else}}
+    <div class="page-options-inline">
+      {{> page-actions-dropdown}}
+    </div>
     {{#if page.title}}
     <h1 class="page">{{{page.title}}}</h1>
     {{/if}}

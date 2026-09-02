@@ -51,17 +51,17 @@ const getResultList = (pageUIModels, maxNumberOfPages) => {
 }
 
 const getSelectedAttributes = (page) => {
-  const latestVersion = getLatestVersion(page.contents.toString(), page.attributes?.revdate)
+  const latestVersion = getLatestVersion(page.contents.toString(), page.attributes?.revdate, page.title)
   return {
     latestVersionAnchor: latestVersion?.anchor,
-    latestVersionName: latestVersion?.innerText,
+    latestVersionName: latestVersion?.versionName,
     revdateWithoutYear: removeYear(latestVersion?.releaseDate || page.attributes?.revdate),
-    title: cleanTitle(page.title, latestVersion?.innerText),
+    title: latestVersion?.title || page.title,
     url: page.url,
   }
 }
 
-const getLatestVersion = (contentsStr, pageRevDate) => {
+const getLatestVersion = (contentsStr, pageRevDate, pageTitle) => {
   const nodes = parseHTML(contentsStr)
   const versionHeaders = nodes.querySelectorAll('h2')
 
@@ -74,9 +74,17 @@ const getLatestVersion = (contentsStr, pageRevDate) => {
       if (releaseDate && datesMatch(releaseDate, pageRevDate)) {
         return {
           anchor: header.id,
-          innerText: header.innerText,
           releaseDate,
+          title: cleanTitle(pageTitle, header.innerText),
+          versionName: header.innerText,
         }
+      }
+    }
+    if (isValidDate(header.innerText)) {
+      return {
+        anchor: header.id,
+        releaseDate: pageRevDate,
+        title: cleanTitle(pageTitle),
       }
     }
   }
@@ -154,7 +162,9 @@ const removeYear = (dateStr) => {
 const cleanTitle = (title, version) => {
   if (!title) return ''
 
-  const cleanedTitle = title.replace(/(Release Notes.*$)/i, '').trim()
+  const cleanedTitle = title.toLowerCase().startsWith('release notes for')
+    ? title.replace(/^([Rr]elease [Nn]otes [Ff]or\s*)/i, '').trim()
+    : title.replace(/([Rr]elease [Nn]otes.*$)/i, '').trim()
 
   return version ? cleanedTitle.replace(versionRegex, '').trim() : cleanedTitle
 }

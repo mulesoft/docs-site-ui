@@ -6,16 +6,21 @@ on:
     branches: [main]
   workflow_dispatch:
 
+permissions: write-all
+
 jobs:
   build-and-release:
     runs-on: mulesoft-ubuntu
+    # Node 24 for JS actions; softprops/action-gh-release is still node20 in action.yml until a newer release.
+    env:
+      FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
 
     steps:
       - name: Checkout code
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
 
       - name: Setup Node.js
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v5
         with:
           node-version-file: ".nvmrc"
           cache: "npm"
@@ -50,8 +55,8 @@ jobs:
         if: github.ref == 'refs/heads/main' && (github.event_name == 'push' || github.event_name == 'workflow_dispatch')
         id: version
         run: |
-          LATEST_TAG=$(curl -s https://api.github.com/repos/mulesoft/mulesoft-docs-writing-style/releases/latest | jq -r '.tag_name // "prod-0.0.0"')
-          NEXT_VERSION=$(echo $LATEST_TAG | sed 's/prod-\([0-9]*\)/prod-$((\1+1))/')
+          LATEST_TAG=$(curl -s https://api.github.com/repos/$GITHUB_REPOSITORY/releases/latest | jq -r '.tag_name')
+          NEXT_VERSION=$(echo $LATEST_TAG | awk -F- '{printf "%s-%d\n", $1, $2+1}')
           echo "tag_name=$NEXT_VERSION" >> $GITHUB_OUTPUT
           echo "Next version will be: $NEXT_VERSION"
 
@@ -61,8 +66,17 @@ jobs:
         with:
           files: ./build/ui-bundle.zip
           generate_release_notes: true
-          name: prod-${{ steps.version.outputs.tag_name }}
-          tag_name: prod-${{ steps.version.outputs.tag_name }}
+          name: ${{ steps.version.outputs.tag_name }}
+          tag_name: ${{ steps.version.outputs.tag_name }}
+
+      - name: Update latest Github Release
+        if: github.ref == 'refs/heads/main' && (github.event_name == 'push' || github.event_name == 'workflow_dispatch')
+        uses: softprops/action-gh-release@v2
+        with:
+          files: ./build/ui-bundle.zip
+          generate_release_notes: false
+          name: latest
+          tag_name: latest
 
       - name: Create PR (for main)
         if: github.ref == 'refs/heads/main' && (github.event_name == 'push' || github.event_name == 'workflow_dispatch')

@@ -6,3 +6,6 @@
 .DS_Store
 .orig
 .idea
+
+# Cursor rules (symlinked from docs-superagent)
+.cursor

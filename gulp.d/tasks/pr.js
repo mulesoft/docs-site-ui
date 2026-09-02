@@ -63,7 +63,7 @@ const createPR = async ({ octokit, owner, repo, tagName, ref, sites, secretKey }
     newBranchName,
     tagName,
     sites,
-    secretKey
+    secretKey,
   })
 
   await octokit.pulls.create({
@@ -203,7 +203,7 @@ module.exports = (tagName, tokenEmu, secretKey) => async () => {
       tagName,
       ref: defaultBranch,
       sites: ['archive', 'en', 'jp'],
-      secretKey
+      secretKey,
     })
   } else {
     console.log('Secret key is not found, skipping PRs creation in the playbook repo.')

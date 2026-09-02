@@ -102,11 +102,7 @@ const buildJpPreviewPagesTask = createTask({
 const prTask = createTask({
   name: 'pr',
   desc: 'Create a PR in docs-site-playbook',
-  call: task.pr(
-    process.env.TAG_NAME,
-    process.env.GH_TOKEN_EMU,
-    process.env.SECRET_KEY
-  ),
+  call: task.pr(process.env.TAG_NAME, process.env.GH_TOKEN_EMU, process.env.SECRET_KEY),
 })
 
 const previewBuildTask = createTask({
