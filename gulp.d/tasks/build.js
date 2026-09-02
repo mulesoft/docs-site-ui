@@ -6,7 +6,6 @@ const buffer = require('vinyl-buffer')
 const concat = require('gulp-concat')
 const cssnano = require('cssnano')
 const fs = require('fs-extra')
-const imagemin = require('gulp-imagemin')
 const { obj: map } = require('through2')
 const merge = require('merge-stream')
 const ospath = require('path')
@@ -22,7 +21,7 @@ const replace = require('gulp-replace')
 const uglify = require('gulp-terser')
 const vfs = require('vinyl-fs')
 
-module.exports = (src, dest, preview) => () => {
+module.exports = (src, dest, preview) => (done) => {
   const opts = { base: src, cwd: src }
   const sourcemaps = preview || process.env.SOURCEMAPS === 'true'
   const postcssPlugins = [
@@ -52,7 +51,7 @@ module.exports = (src, dest, preview) => () => {
     preview ? () => {} : cssnano({ preset: 'default' }),
   ]
 
-  return merge(
+  import('gulp-imagemin').then(({ default: imagemin, gifsicle, mozjpeg, optipng, svgo }) => merge(
     vfs
       .src('js/+([0-9])-*.js', { ...opts, sourcemaps })
       .pipe(replace(/'includeLocMessagesAtBuildtime'/g, fs.readFileSync(`${src}/locales/messages.json`, 'utf-8')))
@@ -120,11 +119,11 @@ module.exports = (src, dest, preview) => () => {
     vfs.src('img/**/*.{gif,ico,jpg,png,svg}', opts).pipe(
       imagemin(
         [
-          imagemin.gifsicle(),
-          imagemin.mozjpeg(),
-          imagemin.optipng(),
-          imagemin.svgo({
-            plugins: [{ removeViewBox: false }],
+          gifsicle(),
+          mozjpeg(),
+          optipng(),
+          svgo({
+            plugins: [{ name: 'removeViewBox', active: false }],
           }),
         ].reduce((accum, it) => (it ? accum.concat(it) : accum), [])
       )
@@ -132,5 +131,5 @@ module.exports = (src, dest, preview) => () => {
     vfs.src('helpers/*.js', opts),
     vfs.src('layouts/*.hbs', opts),
     vfs.src('partials/**/*.hbs', opts)
-  ).pipe(vfs.dest(dest, { sourcemaps: sourcemaps && '.' }))
+  ).pipe(vfs.dest(dest, { sourcemaps: sourcemaps && '.' })).on('finish', done).on('error', done)).catch(done)
 }
