@@ -3,9 +3,7 @@
 
   const pushCtaLink = (clickText, clickUrl, callback) => {
     const h1 = document.querySelector('h1')
-    const cleanClickText = clickText.endsWith(' (opens in new tab)')
-      ? clickText.slice(0, -' (opens in new tab)'.length)
-      : clickText
+    const cleanClickText = clickText.replace(/\s*[(（][^)）]*[)）]\s*$/, '')
     window.dataLayer = window.dataLayer || []
     window.dataLayer.push({
       event: 'custEv_ctaLink',
