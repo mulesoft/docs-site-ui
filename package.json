@@ -85,5 +85,9 @@
   },
   "volta": {
     "node": "22.18.0"
+  },
+  "overrides": {
+    "decompress": ">=4.2.2",
+    "http-cache-semantics": ">=4.1.1"
   }
 }
