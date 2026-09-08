@@ -29,14 +29,15 @@ module.exports =
           merge(
             compileLayouts(src, layouts),
             registerHelpers(src),
-            registerPartials(src),
-            copyImages(previewSrc, previewDest)
+            registerPartials(src)
           )
         ),
+        toPromise(copyImages(previewSrc, previewDest)),
       ]).then(([baseUiModel]) =>
-        merge(
-          vfs
-            .src('**/*.adoc', {
+        toPromise(
+          merge(
+            vfs
+              .src('**/*.adoc', {
               base: previewSrc,
               cwd: previewSrc,
             })
@@ -178,9 +179,10 @@ module.exports =
                 next(null, file)
               })
             )
+          )
+            .pipe(vfs.dest(previewDest))
+            .pipe(sink())
         )
-          .pipe(vfs.dest(previewDest))
-          .pipe(sink())
       )
 
 function loadSampleUiModel (src) {
@@ -282,7 +284,10 @@ function resolvePageURL (spec, context = {}) {
 }
 
 function toPromise (stream) {
-  return new Promise((resolve, reject) => stream.on('error', reject).on('finish', resolve))
+  return new Promise((resolve, reject) => {
+    stream.on('error', reject).on('finish', resolve).on('end', resolve)
+    if (typeof stream.resume === 'function') stream.resume()
+  })
 }
 
 function fragmentize (contents) {

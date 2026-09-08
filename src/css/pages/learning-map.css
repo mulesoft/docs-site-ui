@@ -67,6 +67,16 @@
     margin-top: 24px;
   }
 
+  /* Match 2-column tables to the first two columns of 3-column tables */
+  @media (--md) {
+    .lm-table:has(> colgroup > col:nth-child(2):last-child) {
+      margin-left: 0;
+      margin-right: auto;
+      max-width: 66.6667%;
+      width: 66.6667%;
+    }
+  }
+
   /* Do not show mobile table controls for learning map */
   .table-toggle {
     display: none;

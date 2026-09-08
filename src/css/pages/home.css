@@ -43,23 +43,23 @@ body.home {
         font-size: 36px;
         line-height: 1.3;
         margin: 0 20px;
-        padding: 60px 0 30px;
+        padding: 36px 0 8px;
         text-align: center;
       }
 
       & #cta {
-        height: 154px;
         line-height: 1.35;
-        margin: 0;
+        margin: 8px 0 0;
+        padding: 0 0 28px;
         text-align: center;
       }
     }
 
     & .panels {
       display: grid;
-      gap: 30px 0;
+      gap: 20px 0;
       grid-template-columns: repeat(1,1fr);
-      margin: -50px 20px 0;
+      margin: 24px 20px 0;
       position: relative;
     }
 
@@ -67,17 +67,18 @@ body.home {
       background: #fff;
       border-radius: var(--radius);
       box-shadow: 0 10px 30px #0000001a;
+      font-size: 14px;
       line-height: 1.3;
-      padding: 30px 40px;
+      padding: 20px 24px;
 
       &.single-panel {
-        margin: -50px auto 0;
-        max-width: 400px;
+        margin: 24px auto 0;
+        max-width: 360px;
         position: relative;
       }
 
       & h2 {
-        font-size: 22px;
+        font-size: 18px;
         line-height: inherit;
         padding: 0;
       }
@@ -85,6 +86,10 @@ body.home {
       & td,
       & tr {
         border: none;
+      }
+
+      & li + li {
+        margin-top: 6px;
       }
     }
 
@@ -103,7 +108,7 @@ body.home {
       }
 
       & tr + tr td {
-        padding-top: 10px;
+        padding-top: 6px;
       }
 
       & td:first-of-type {
@@ -136,7 +141,7 @@ body.home {
       margin-right: 20px;
     }
 
-    & #the-road + .sectionbody {
+    &:not(.learning-map) #the-road + .sectionbody {
       align-items: center;
       display: grid;
       gap: 100px 0;
@@ -160,7 +165,51 @@ body.home {
       }
     }
 
-    & div.paragraph {
+    &.learning-map #the-road {
+      font-size: 33px;
+      line-height: 48px;
+      padding: 48px 0 24px;
+    }
+
+    &.learning-map #the-road + .sectionbody {
+      font-size: var(--font-size-default);
+      line-height: 24px;
+      margin-bottom: 50px;
+
+      & > .paragraph:first-child {
+        text-align: left;
+      }
+
+      & > .paragraph:nth-child(2) {
+        margin-bottom: 24px;
+        text-align: left;
+      }
+
+      & > h2 {
+        font-size: 33px;
+        line-height: 48px;
+      }
+
+      & > .ulist ul {
+        list-style: disc;
+        padding-left: var(--lg);
+      }
+
+      & .lm-table {
+        font-size: 14px;
+        line-height: 21px;
+
+        & a {
+          font-weight: var(--weight-normal);
+        }
+
+        & li + li {
+          margin-top: 0;
+        }
+      }
+    }
+
+    &:not(.learning-map) div.paragraph {
       & p {
         font-size: var(--lg);
       }
@@ -244,7 +293,7 @@ body.home {
     }
 
     & header::after {
-      bottom: 40px;
+      bottom: 24px;
       height: 125px;
       left: 50%;
       transform: translateX(323px);
@@ -252,7 +301,7 @@ body.home {
     }
 
     & header h1 {
-      padding-top: 80px;
+      padding-top: 48px;
     }
 
     & .panels {
@@ -272,7 +321,7 @@ body.home {
       margin-right: 82px;
     }
 
-    & #the-road + .sectionbody {
+    &:not(.learning-map) #the-road + .sectionbody {
       gap: 100px 75px;
       grid-auto-flow: dense;
       grid-template-columns: repeat(2,1fr);
