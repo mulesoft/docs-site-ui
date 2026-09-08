@@ -38,6 +38,15 @@
       fill: 'var(--lume-c-icon-color-foreground-3)',
     },
   ]
+  const cloudCheckPaths = [
+    // lume-icons/utility/cloud-check
+    {
+      d: 'M6.297 9.132a6.002 6.002 0 0 1 11.634.954A5.002 5.002 0 0 1 17 20H7.5A5.5 5.5 0 0 1 6.297 9.132ZM12 7a4.002 4.002 0 0 0-3.923 3.213 1 1 0 0 1-.892.8A3.5 3.5 0 0 0 7.5 18H17a3 3 0 1 0 0-6 1 1 0 0 1-1-1 4 4 0 0 0-4-4Zm2.332 4.659a1 1 0 0 1 .019 1.414l-1.841 1.89a2 2 0 0 1-2.865 0l-.361-.37a1 1 0 1 1 1.432-1.396l.361.37 1.841-1.89a1 1 0 0 1 1.415-.018Z',
+      fill: 'var(--lume-c-icon-color-foreground-3)',
+      'fill-rule': 'evenodd',
+      'clip-rule': 'evenodd',
+    },
+  ]
   const composerPaths = [
     // lume-icons/product/composer
     {
@@ -512,6 +521,11 @@
       paths: acceleratorPaths,
     },
     {
+      id: 'icon-nav-component-control-planes',
+      viewBox: '0 0 24 24',
+      paths: cloudCheckPaths,
+    },
+    {
       id: 'icon-nav-component-data-gateway', // Archive only
       viewBox: '0 0 24 24',
       paths: [
@@ -613,15 +627,7 @@
     {
       id: 'icon-nav-component-eu-control-plane',
       viewBox: '0 0 24 24',
-      paths: [
-        // lume-icons/utility/cloud-check
-        {
-          d: 'M6.297 9.132a6.002 6.002 0 0 1 11.634.954A5.002 5.002 0 0 1 17 20H7.5A5.5 5.5 0 0 1 6.297 9.132ZM12 7a4.002 4.002 0 0 0-3.923 3.213 1 1 0 0 1-.892.8A3.5 3.5 0 0 0 7.5 18H17a3 3 0 1 0 0-6 1 1 0 0 1-1-1 4 4 0 0 0-4-4Zm2.332 4.659a1 1 0 0 1 .019 1.414l-1.841 1.89a2 2 0 0 1-2.865 0l-.361-.37a1 1 0 1 1 1.432-1.396l.361.37 1.841-1.89a1 1 0 0 1 1.415-.018Z',
-          fill: 'var(--lume-c-icon-color-foreground-3)',
-          'fill-rule': 'evenodd',
-          'clip-rule': 'evenodd',
-        },
-      ],
+      paths: cloudCheckPaths,
     },
     {
       id: 'icon-nav-component-financial-services',

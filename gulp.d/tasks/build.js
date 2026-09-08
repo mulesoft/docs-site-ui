@@ -6,7 +6,6 @@ const buffer = require('vinyl-buffer')
 const concat = require('gulp-concat')
 const cssnano = require('cssnano')
 const fs = require('fs-extra')
-const imagemin = require('gulp-imagemin')
 const { obj: map } = require('through2')
 const merge = require('merge-stream')
 const ospath = require('path')
@@ -22,7 +21,7 @@ const replace = require('gulp-replace')
 const uglify = require('gulp-terser')
 const vfs = require('vinyl-fs')
 
-module.exports = (src, dest, preview) => () => {
+module.exports = (src, dest, preview) => (done) => {
   const opts = { base: src, cwd: src }
   const sourcemaps = preview || process.env.SOURCEMAPS === 'true'
   const postcssPlugins = [
@@ -52,85 +51,95 @@ module.exports = (src, dest, preview) => () => {
     preview ? () => {} : cssnano({ preset: 'default' }),
   ]
 
-  return merge(
-    vfs
-      .src('js/+([0-9])-*.js', { ...opts, sourcemaps })
-      .pipe(replace(/'includeLocMessagesAtBuildtime'/g, fs.readFileSync(`${src}/locales/messages.json`, 'utf-8')))
-      .pipe(replace(/'feedbackQuestions'/g, fs.readFileSync(`${src}/locales/feedback-questions.json`, 'utf-8')))
-      .pipe(replace(/'surveyIDs'/g, fs.readFileSync(`${src}/locales/survey-ids.json`, 'utf-8')))
-      .pipe(uglify())
-      .pipe(concat('js/site.js')),
-    vfs
-      .src('js/vendor/*.js', { ...opts, read: false })
-      .pipe(
-        // see https://gulpjs.org/recipes/browserify-multiple-destination.html
-        map((file, enc, next) => {
-          if (file.relative.endsWith('.bundle.js')) {
-            file.contents = browserify(file.relative, {
-              basedir: src,
-              detectGlobals: false,
+  import('gulp-imagemin')
+    .then(({ default: imagemin, gifsicle, mozjpeg, optipng, svgo }) =>
+      merge(
+        vfs
+          .src('js/+([0-9])-*.js', { ...opts, sourcemaps })
+          .pipe(replace(/'includeLocMessagesAtBuildtime'/g, fs.readFileSync(`${src}/locales/messages.json`, 'utf-8')))
+          .pipe(replace(/'feedbackQuestions'/g, fs.readFileSync(`${src}/locales/feedback-questions.json`, 'utf-8')))
+          .pipe(replace(/'surveyIDs'/g, fs.readFileSync(`${src}/locales/survey-ids.json`, 'utf-8')))
+          .pipe(uglify())
+          .pipe(concat('js/site.js')),
+        vfs
+          .src('js/vendor/*.js', { ...opts, read: false })
+          .pipe(
+            // see https://gulpjs.org/recipes/browserify-multiple-destination.html
+            map((file, enc, next) => {
+              if (file.relative.endsWith('.bundle.js')) {
+                file.contents = browserify(file.relative, {
+                  basedir: src,
+                  detectGlobals: false,
+                })
+                  .plugin('browser-pack-flat/plugin')
+                  .bundle()
+                file.path = file.path.slice(0, file.path.length - 10) + '.js'
+                next(null, file)
+              } else {
+                fs.readFile(file.path, 'UTF-8').then((contents) => {
+                  file.contents = Buffer.from(contents)
+                  next(null, file)
+                })
+              }
             })
-              .plugin('browser-pack-flat/plugin')
-              .bundle()
-            file.path = file.path.slice(0, file.path.length - 10) + '.js'
-            next(null, file)
-          } else {
-            fs.readFile(file.path, 'UTF-8').then((contents) => {
-              file.contents = Buffer.from(contents)
+          )
+          .pipe(buffer())
+          .pipe(uglify()),
+        vfs
+          .src(
+            [
+              require.resolve('@popperjs/core/dist/umd/popper.min.js'),
+              require.resolve('tippy.js/dist/tippy.umd.min.js'),
+            ],
+            opts
+          )
+          .pipe(
+            map((file, _enc, next) => {
+              file.contents = Buffer.from(file.contents.toString().replace(/\n\/\/# sourceMappingURL=.*/, ''))
               next(null, file)
             })
-          }
-        })
+          )
+          .pipe(concat('js/vendor/tippy.js')),
+        vfs
+          .src([require.resolve('@docsearch/js/dist/umd/index.js')], opts)
+          .pipe(
+            map((file, _enc, next) => {
+              file.contents = Buffer.from(file.contents.toString().replace(/\n\/\/# sourceMappingURL=.*/, ''))
+              next(null, file)
+            })
+          )
+          .pipe(concat('js/vendor/docsearch.js')),
+        vfs
+          .src('css/site.css', { ...opts, sourcemaps })
+          .pipe(postcss(postcssPlugins))
+          .pipe(
+            preview
+              ? map()
+              : map((file, enc, next) => {
+                file.contents = Buffer.from(file.contents.toString().replace(/(\*\/|}(?!}))/g, '$1\n'))
+                next(null, file)
+              })
+          ),
+        vfs.src('font/*.{ttf,woff*(2)}', opts),
+        vfs.src('img/**/*.{gif,ico,jpg,png,svg}', opts).pipe(
+          imagemin(
+            [
+              gifsicle(),
+              mozjpeg(),
+              optipng(),
+              svgo({
+                plugins: [{ name: 'removeViewBox', active: false }],
+              }),
+            ].reduce((accum, it) => (it ? accum.concat(it) : accum), [])
+          )
+        ),
+        vfs.src('helpers/*.js', opts),
+        vfs.src('layouts/*.hbs', opts),
+        vfs.src('partials/**/*.hbs', opts)
       )
-      .pipe(buffer())
-      .pipe(uglify()),
-    vfs
-      .src(
-        [require.resolve('@popperjs/core/dist/umd/popper.min.js'), require.resolve('tippy.js/dist/tippy.umd.min.js')],
-        opts
-      )
-      .pipe(
-        map((file, _enc, next) => {
-          file.contents = Buffer.from(file.contents.toString().replace(/\n\/\/# sourceMappingURL=.*/, ''))
-          next(null, file)
-        })
-      )
-      .pipe(concat('js/vendor/tippy.js')),
-    vfs
-      .src([require.resolve('@docsearch/js/dist/umd/index.js')], opts)
-      .pipe(
-        map((file, _enc, next) => {
-          file.contents = Buffer.from(file.contents.toString().replace(/\n\/\/# sourceMappingURL=.*/, ''))
-          next(null, file)
-        })
-      )
-      .pipe(concat('js/vendor/docsearch.js')),
-    vfs
-      .src('css/site.css', { ...opts, sourcemaps })
-      .pipe(postcss(postcssPlugins))
-      .pipe(
-        preview
-          ? map()
-          : map((file, enc, next) => {
-            file.contents = Buffer.from(file.contents.toString().replace(/(\*\/|}(?!}))/g, '$1\n'))
-            next(null, file)
-          })
-      ),
-    vfs.src('font/*.{ttf,woff*(2)}', opts),
-    vfs.src('img/**/*.{gif,ico,jpg,png,svg}', opts).pipe(
-      imagemin(
-        [
-          imagemin.gifsicle(),
-          imagemin.mozjpeg(),
-          imagemin.optipng(),
-          imagemin.svgo({
-            plugins: [{ removeViewBox: false }],
-          }),
-        ].reduce((accum, it) => (it ? accum.concat(it) : accum), [])
-      )
-    ),
-    vfs.src('helpers/*.js', opts),
-    vfs.src('layouts/*.hbs', opts),
-    vfs.src('partials/**/*.hbs', opts)
-  ).pipe(vfs.dest(dest, { sourcemaps: sourcemaps && '.' }))
+        .pipe(vfs.dest(dest, { sourcemaps: sourcemaps && '.' }))
+        .on('finish', done)
+        .on('error', done)
+    )
+    .catch(done)
 }
