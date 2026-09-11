@@ -366,8 +366,8 @@
 [data-theme="dark"] .ms-com-content-header .field--name-field-translated-footer,
 [data-theme="dark"] .ms-com-content-header .field-name-field-footer,
 [data-theme="dark"] .ms-com-content-header .field-name-field-translated-footer,
-[data-theme="dark"] .ms-com-content-header .field--name-field-footer::before, /* stylelint-disable-line selector-class-pattern */
-[data-theme="dark"] .ms-com-content-header .field--name-field-translated-footer::before, /* stylelint-disable-line selector-class-pattern */
+[data-theme="dark"] .ms-com-content-header .field--name-field-footer::before,
+[data-theme="dark"] .ms-com-content-header .field--name-field-translated-footer::before,
 [data-theme="dark"] .ms-com-content-header .field-name-field-footer::before,
 [data-theme="dark"] .ms-com-content-header .field-name-field-translated-footer::before {
   background: var(--dm-surface-2) !important;
