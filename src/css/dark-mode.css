@@ -281,6 +281,163 @@
   color: var(--dm-link-hover);
 }
 
+/* Marketing header */
+[data-theme="dark"] .ms-com-content-header .header-wrapper,
+[data-theme="dark"] .ms-com-content-header .mobile-header-top,
+[data-theme="dark"] .ms-com-content-header .mobile-header-bottom,
+[data-theme="dark"] .ms-com-content-header .mobile-header-bottom .search-form,
+[data-theme="dark"] .ms-com-content-header .mega-menu-wrapper {
+  background: var(--dm-surface-1) !important;
+  border-color: var(--dm-border) !important;
+  box-shadow: 0 1px 0 var(--dm-border) !important;
+}
+
+[data-theme="dark"] .ms-com-content-header .logo {
+  filter: brightness(0) invert(1);
+}
+
+[data-theme="dark"] .ms-com-content-header .menu-item > span,
+[data-theme="dark"] .ms-com-content-header .menu-item > a,
+[data-theme="dark"] .ms-com-content-header .mega-menu-wrapper a,
+[data-theme="dark"] .ms-com-content-header .mobile-nav > a,
+[data-theme="dark"] .ms-com-content-header .mobile-header-bottom p a {
+  color: var(--dm-link) !important;
+}
+
+[data-theme="dark"] .ms-com-content-header .menu-item > span:hover,
+[data-theme="dark"] .ms-com-content-header .menu-item > a:hover,
+[data-theme="dark"] .ms-com-content-header .mega-menu-wrapper a:hover,
+[data-theme="dark"] .ms-com-content-header .mobile-nav > a:hover,
+[data-theme="dark"] .ms-com-content-header .mobile-header-bottom p a:hover {
+  color: var(--dm-link-hover) !important;
+}
+
+[data-theme="dark"] .ms-com-content-header .menu-label,
+[data-theme="dark"] .ms-com-content-header .mega-menu-wrapper a span:not([class]),
+[data-theme="dark"] .ms-com-content-header .mobile-header-bottom p,
+[data-theme="dark"] .ms-com-content-header .contact > div > span {
+  color: var(--dm-text-secondary) !important;
+}
+
+[data-theme="dark"] .ms-com-content-header .main-menu-partners + .mega-menu-wrapper .menu > span {
+  color: var(--dm-text-secondary) !important;
+}
+
+[data-theme="dark"] .ms-com-content-header .right-side > .contact > * {
+  color: var(--dm-text-primary) !important;
+}
+
+[data-theme="dark"] .ms-com-content-header .right-side > .contact > a:hover {
+  color: var(--dm-link-hover) !important;
+}
+
+[data-theme="dark"] .ms-com-content-header .right-side .globe-icon,
+[data-theme="dark"] .ms-com-content-header .right-side .login-icon {
+  color: var(--dm-text-primary) !important;
+  filter: brightness(0) invert(1);
+}
+
+[data-theme="dark"] .ms-com-content-header .full-right-menu,
+[data-theme="dark"] .ms-com-content-header .full-right-menu::after {
+  background: var(--dm-surface-2) !important;
+}
+
+[data-theme="dark"] .ms-com-content-header .nav-main-title:hover::before,
+[data-theme="dark"] .ms-com-content-header .mega-menu-wrapper .menu a:hover::before {
+  background-color: var(--dm-surface-3) !important;
+}
+
+[data-theme="dark"] .ms-com-content-header .menu-item.active > span,
+[data-theme="dark"] .ms-com-content-header .nav-main-title .title,
+[data-theme="dark"] .ms-com-content-header .mega-menu-item-footer-featured-content {
+  color: var(--dm-text-primary) !important;
+}
+
+[data-theme="dark"] .ms-com-content-header .nav-main-title .title ~ span:not(.inline-post-flag) {
+  color: var(--dm-text-secondary) !important;
+}
+
+[data-theme="dark"] .ms-com-content-header .solutions-title .small-intro {
+  color: var(--dm-text-primary) !important;
+}
+
+/* stylelint-disable selector-class-pattern -- classes come from the marketing header endpoint */
+[data-theme="dark"] .ms-com-content-header .field--name-field-footer,
+[data-theme="dark"] .ms-com-content-header .field--name-field-translated-footer,
+[data-theme="dark"] .ms-com-content-header .field-name-field-footer,
+[data-theme="dark"] .ms-com-content-header .field-name-field-translated-footer,
+[data-theme="dark"] .ms-com-content-header .field--name-field-footer::before, /* stylelint-disable-line selector-class-pattern */
+[data-theme="dark"] .ms-com-content-header .field--name-field-translated-footer::before, /* stylelint-disable-line selector-class-pattern */
+[data-theme="dark"] .ms-com-content-header .field-name-field-footer::before,
+[data-theme="dark"] .ms-com-content-header .field-name-field-translated-footer::before {
+  background: var(--dm-surface-2) !important;
+}
+/* stylelint-enable selector-class-pattern */
+
+[data-theme="dark"] .ms-com-content-header .mobile-header-bottom .menu > li {
+  border-color: var(--dm-border) !important;
+}
+
+[data-theme="dark"] .ms-com-content-header .menu-ham span {
+  background: var(--dm-link-hover) !important;
+}
+
+[data-theme="dark"] .ms-com-content-header .mega-menu-background,
+[data-theme="dark"] .ms-com-content-header .header-overlay {
+  background: #000b !important;
+}
+
+/* Marketing footer */
+[data-theme="dark"] .ms-com-content-footer,
+[data-theme="dark"] .ms-com-content-footer .ms-com-footer,
+[data-theme="dark"] .ms-com-content-footer .footer-top,
+[data-theme="dark"] .ms-com-content-footer .footer-bottom,
+[data-theme="dark"] .ms-com-content-footer .footer-inside,
+[data-theme="dark"] .ms-com-content-footer .footer-inside::before {
+  background: var(--dm-surface-1) !important;
+  border-color: var(--dm-border) !important;
+}
+
+[data-theme="dark"] .ms-com-content-footer .footer-top .menu > li > span,
+[data-theme="dark"] .ms-com-content-footer .footer-copyright {
+  color: var(--dm-text-primary) !important;
+}
+
+[data-theme="dark"] .ms-com-content-footer a,
+[data-theme="dark"] .ms-com-content-footer button {
+  color: var(--dm-link) !important;
+}
+
+[data-theme="dark"] .ms-com-content-footer #ot-sdk-btn.ot-sdk-show-settings {
+  background: none !important;
+  border: 0 !important;
+  color: var(--dm-link) !important;
+  font-family: ESFBold, sans-serif;
+  font-size: 12px;
+  line-height: 20px;
+  margin: 0;
+  min-height: auto;
+  padding: 0;
+  width: auto;
+}
+
+[data-theme="dark"] .ms-com-content-footer a:hover,
+[data-theme="dark"] .ms-com-content-footer button:hover {
+  color: var(--dm-link-hover) !important;
+}
+
+[data-theme="dark"] .ms-com-content-footer #ot-sdk-btn.ot-sdk-show-settings:hover {
+  background: none !important;
+  color: var(--dm-link-hover) !important;
+  text-decoration: underline;
+}
+
+[data-theme="dark"] .ms-com-content-footer .footer-logo,
+[data-theme="dark"] .ms-com-content-footer .social-logos a,
+[data-theme="dark"] .ms-com-content-header .mobile-social-icons a {
+  filter: brightness(0) invert(1);
+}
+
 /* Home page */
 [data-theme="dark"] body.home .doc .panel {
   background: var(--dm-surface-2);
