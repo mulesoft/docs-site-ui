@@ -428,14 +428,16 @@
       const groupIconId = document.getElementById('icon-nav-group') && 'icon-nav-group'
       this.cleanedGroups = this.navData.groups.reduce((groupsAccum, group) => {
         let groupComponents
-        groupsAccum.push({
+        const groupData = {
           iconId: groupIconId,
           components: (groupComponents = Object.values(
             selectComponents(group.components, this.componentPool, group.exclude)
           )),
           title: group.title,
           spreadSingleItem: group.spreadSingleItem,
-        })
+          icons: group.icons !== false,
+        }
+        groupsAccum.push(groupData)
         let component
         if (!groupComponents.length) {
           groupsAccum.pop()
@@ -450,9 +452,11 @@
               : 'icon-nav-page-' + component.name + '-' + it.content?.toLowerCase().replace(/ +/g, '-')
             it.iconId = document.getElementById(iconId)
               ? iconId
-              : group.spreadSingleItem
-                ? 'icon-nav-component'
-                : it.iconId
+              : it.items
+                ? it.iconId
+                : groupData.icons && groupData.spreadSingleItem
+                  ? 'icon-nav-component'
+                  : it.iconId
           })
         }
         return groupsAccum
@@ -549,6 +553,8 @@
           }
 
           if (navItemData.items) {
+            navItem.classList.add('has-sub-items')
+            if (navItemData.iconId) navItem.classList.add('has-designated-icon')
             const navItemToggle = this.createNavItemToggle(navItemData)
             navItemToggle.ariaExpanded = navItem.classList.contains('is-active')
             navItemToggle.addEventListener('click', toggleSubNav.bind(navItem))
@@ -609,6 +615,53 @@
       return navTitle
     }
 
+    createVersionMenuGroup () {
+      const group = createElement('div')
+      group.setAttribute('role', 'group')
+      const label = createElement('div.nav-version-label')
+      label.setAttribute('role', 'presentation')
+      group.appendChild(label)
+      return { group, label }
+    }
+
+    appendVersionGroupToMenu (navVersionMenu, versionGroup) {
+      if (versionGroup.group.childNodes.length > 1) {
+        navVersionMenu.appendChild(versionGroup.group)
+      }
+    }
+
+    createVersionOption (componentData, versionData, activeVersion, currentVersionData) {
+      const navVersionOption = createElement(
+        'div.nav-version-option',
+        { dataset: { version: versionData.version } },
+        versionData.displayVersion
+      )
+      navVersionOption.setAttribute('role', 'option')
+      navVersionOption.setAttribute('tabindex', '-1')
+      navVersionOption.id = `${componentData.name}-${versionData.displayVersion}`
+      navVersionOption.addEventListener('keydown', (e) => {
+        if (isSpaceOrEnterKey(e.keyCode)) {
+          setTabIndexForVersions()
+        }
+      })
+      navVersionOption.addEventListener('focus', (e) => {
+        setAriaActiveDescendant(componentData.name, versionData.displayVersion, true)
+        e.stopPropagation()
+      })
+      navVersionOption.addEventListener('blur', () => {
+        setAriaActiveDescendant(componentData.name, versionData.displayVersion, false)
+      })
+
+      if (versionData.version === activeVersion) {
+        navVersionOption.classList.add('selected')
+      }
+      if (versionData === currentVersionData) {
+        addCurrentVersionIndicator(navVersionOption, 'tooltip-dot-nav-version')
+      }
+
+      return navVersionOption
+    }
+
     createNavVersionDropdown (navItem, componentData) {
       const navVersionDropdown = createElement('.nav-version-dropdown')
       const versions = Object.values(componentData.versions)
@@ -648,75 +701,43 @@
           navVersionWrapper.appendChild(createSvgElement('.icon.nav-version-icon', '#' + page.navVersionIconId))
         }
 
-        const currentNavGroup = createElement('div')
-        currentNavGroup.setAttribute('role', 'group')
-        const currentNavLabel = createElement('div.nav-version-label')
-        currentNavLabel.setAttribute('role', 'presentation')
-        currentNavGroup.appendChild(currentNavLabel)
+        const currentGroup = this.createVersionMenuGroup()
+        const catchallGroup = this.createVersionMenuGroup()
+        let previousVersionData
 
-        const catchallNavGroup = createElement('div')
-        catchallNavGroup.setAttribute('role', 'group')
-        const catchallNavLabel = createElement('div.nav-version-label')
-        catchallNavLabel.setAttribute('role', 'presentation')
-        catchallNavGroup.appendChild(catchallNavLabel)
-
-        versions.reduce((lastVersionData, versionData) => {
+        versions.forEach((versionData) => {
           if (!isArchiveSite()) {
             if (versionData === currentVersionData) {
-              currentNavLabel.textContent = currentVersion
-              navVersionMenu.appendChild(currentNavGroup)
+              currentGroup.label.textContent = currentVersion
             } else if (versionData.prerelease) {
-              if (!lastVersionData) {
-                currentNavLabel.textContent = 'Prerelease versions'
-                navVersionMenu.appendChild(currentNavGroup)
+              if (!previousVersionData) {
+                currentGroup.label.textContent = 'Prerelease versions'
               }
-            } else if (lastVersionData === currentVersionData) {
-              catchallNavLabel.textContent = previousVersions
-              navVersionMenu.appendChild(catchallNavGroup)
+            } else if (previousVersionData === currentVersionData) {
+              catchallGroup.label.textContent = previousVersions
             }
           } else if (versionData === currentVersionData) {
-            catchallNavLabel.textContent = 'Archived versions'
-            navVersionMenu.appendChild(catchallNavGroup)
+            catchallGroup.label.textContent = 'Archived versions'
           }
 
-          const versionDataset = {
-            version: versionData.version,
-          }
-          const navVersionOption = createElement(
-            'div.nav-version-option',
-            { dataset: versionDataset },
-            versionData.displayVersion
+          const navVersionOption = this.createVersionOption(
+            componentData,
+            versionData,
+            activeVersion,
+            currentVersionData
           )
-          navVersionOption.setAttribute('role', 'option')
-          navVersionOption.setAttribute('tabindex', '-1')
-          navVersionOption.id = `${componentData.name}-${versionData.displayVersion}`
-          navVersionOption.addEventListener('keydown', (e) => {
-            if (isSpaceOrEnterKey(e.keyCode)) {
-              setTabIndexForVersions()
-            }
-          })
-          navVersionOption.addEventListener('focus', (e) => {
-            setAriaActiveDescendant(componentData.name, versionData.displayVersion, true)
-            e.stopPropagation()
-          })
-          navVersionOption.addEventListener('blur', () => {
-            setAriaActiveDescendant(componentData.name, versionData.displayVersion, false)
-          })
-          if (versionData.version === activeVersion) {
-            navVersionOption.classList.add('selected')
-          }
-          if (versionData === currentVersionData) {
-            addCurrentVersionIndicator(navVersionOption, 'tooltip-dot-nav-version')
-          }
           if (!isArchiveSite() && versionData === currentVersionData) {
-            currentNavGroup.appendChild(navVersionOption)
+            currentGroup.group.appendChild(navVersionOption)
           } else {
-            catchallNavGroup.appendChild(navVersionOption)
+            catchallGroup.group.appendChild(navVersionOption)
           }
 
-          navVersionMenu.addEventListener('click', (e) => this.selectVersion(navVersionMenu, navItem, componentData, e))
-          return versionData
-        }, undefined)
+          previousVersionData = versionData
+        })
+
+        this.appendVersionGroupToMenu(navVersionMenu, currentGroup)
+        this.appendVersionGroupToMenu(navVersionMenu, catchallGroup)
+
         navVersionWrapper.addEventListener('mousedown', (e) => {
           this.toggleVersionMenu(navVersionMenu)
           e.preventDefault()
@@ -736,6 +757,7 @@
         autoCloseVersionDropdown(navVersionMenu)
       })
       if (versions.length > 1) navVersionDropdown.appendChild(navVersionMenu)
+      navVersionMenu.addEventListener('click', (e) => this.selectVersion(navVersionMenu, navItem, componentData, e))
       const navOptions = navVersionMenu.querySelectorAll('.nav-version-option')
       navOptions[navOptions.length - 1]?.addEventListener('blur', () => {
         autoCloseVersionDropdown(navVersionMenu)

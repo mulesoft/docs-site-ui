@@ -240,6 +240,10 @@ svg.nav-icon {
   }
 }
 
+.nav-group > .nav-list > .nav-item:not([data-component]) > .nav-list > .nav-item {
+  margin-left: 1.5em;
+}
+
 .nav-item-toggle {
   background: none;
   border: 0;
@@ -270,6 +274,19 @@ svg.nav-icon {
 }
 
 .nav-group > .nav-list > .nav-item > .nav-item-toggle {
+  display: none;
+}
+
+.nav-group > .nav-list > .nav-item.has-sub-items > .nav-text:not(.has-icon) {
+  margin-left: 2em;
+}
+
+.nav-group > .nav-list > .nav-item.has-sub-items > .nav-item-toggle {
+  display: block;
+  margin-left: 0;
+}
+
+.nav-group > .nav-list > .nav-item.has-sub-items.has-designated-icon > .nav-item-toggle {
   display: none;
 }
 
