@@ -713,6 +713,12 @@
     transform: scale(0.96);
   }
 
+  &:focus-visible {
+    border-radius: 50%;
+    outline: 2px solid var(--sds-g-color-blue-50);
+    outline-offset: 2px;
+  }
+
   & img {
     height: 20px;
     pointer-events: none;
