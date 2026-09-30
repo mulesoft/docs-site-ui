@@ -1,11 +1,14 @@
 /* Dark mode theme — toggled via data-theme="dark" on <html> */
 
 [data-theme="dark"] {
+  color-scheme: dark;
+
   --dm-bg: #0f1117;
   --dm-surface-1: #161b22;
   --dm-surface-2: #1c2333;
   --dm-surface-3: #21262d;
   --dm-border: #30363d;
+  --dm-border-strong: #6e7681;
   --dm-border-subtle: #21262d;
   --dm-text-primary: #e6edf3;
   --dm-text-secondary: #8b949e;
@@ -23,7 +26,6 @@
   --dm-caution-border: #d1242f;
   --dm-important-bg: #161005;
   --dm-important-border: #9e6a03;
-  --tertiary: var(--dm-surface-1);
   --font-color-default: var(--dm-text-primary);
   --font-color-heading: #a5c8ff;
   --font-color-heading-alternate: #79c0ff;
@@ -132,7 +134,12 @@
 [data-theme="dark"] .doc table,
 [data-theme="dark"] .doc table td,
 [data-theme="dark"] .doc table th {
-  border-color: var(--dm-border);
+  border-color: var(--dm-border-strong);
+}
+
+[data-theme="dark"] .doc table tr,
+[data-theme="dark"] .doc table td::before {
+  border-color: var(--dm-border-strong);
 }
 
 /* Cards */
@@ -154,6 +161,20 @@
 [data-theme="dark"] .nav-toggle {
   border-color: var(--dm-link);
   color: var(--dm-link);
+}
+
+[data-theme="dark"] .button-primary:not(.ms-com-content .button, nav button),
+[data-theme="dark"] .mule-button-br.solid {
+  background: #0b5cab;
+  border-color: #0b5cab;
+  color: #fff;
+}
+
+[data-theme="dark"] .button-primary:not(.ms-com-content .button, nav button):hover,
+[data-theme="dark"] .mule-button-br.solid:hover {
+  background: #032d60;
+  border-color: #79c0ff;
+  color: #fff;
 }
 
 [data-theme="dark"] .button:not(.ms-com-content .button, nav button):hover,
@@ -670,18 +691,18 @@
   background: var(--tertiary);
   border: 1px solid var(--aluminum-3);
   border-radius: 50%;
-  bottom: 28px;
+  bottom: calc(28px + env(safe-area-inset-bottom, 0px));
   box-shadow: 0 4px 12px #0000001f, 0 1px 4px #00000014;
   display: flex;
   height: 44px;
   justify-content: center;
   position: fixed;
-  right: 28px;
+  right: calc(28px + env(safe-area-inset-right, 0px));
   transition: box-shadow var(--transition-speed-sm) var(--transition-timing),
     background var(--transition-speed-sm) var(--transition-timing),
     transform var(--transition-speed-sm) var(--transition-timing);
   width: 44px;
-  z-index: var(--z-modal);
+  z-index: var(--z-banner);
 
   &:hover {
     box-shadow: 0 6px 20px #0000002e, 0 2px 6px #00000018;
@@ -697,6 +718,13 @@
     pointer-events: none;
     width: 20px;
   }
+}
+
+/* Move the floating control away while another keyboard target is focused. */
+body:has(:focus-visible:not(.dark-mode-toggle)) .dark-mode-toggle-fab {
+  opacity: 0;
+  pointer-events: none;
+  transform: translateY(calc(100% + 40px + env(safe-area-inset-bottom, 0px)));
 }
 
 [data-theme="dark"] .dark-mode-toggle.dark-mode-toggle-fab {
@@ -771,5 +799,26 @@
   .dark-mode-toggle.dark-mode-toggle-fab:hover,
   .dark-mode-toggle.dark-mode-toggle-fab:active {
     transform: none;
+  }
+}
+
+@media (forced-colors: active) {
+  .dark-mode-toggle {
+    background: ButtonFace;
+    border-color: ButtonText;
+    color: ButtonText;
+    forced-color-adjust: auto;
+  }
+
+  .dark-mode-toggle:focus-visible {
+    outline-color: Highlight;
+  }
+
+  [data-theme="dark"] .doc table,
+  [data-theme="dark"] .doc table td,
+  [data-theme="dark"] .doc table th,
+  [data-theme="dark"] .doc table tr,
+  [data-theme="dark"] .doc table td::before {
+    border-color: CanvasText;
   }
 }

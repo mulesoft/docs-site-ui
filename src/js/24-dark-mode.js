@@ -8,7 +8,22 @@
   const getPreferred = () =>
     window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches ? DARK : LIGHT
 
-  const getStored = () => localStorage.getItem(STORAGE_KEY)
+  const getStored = () => {
+    try {
+      const stored = localStorage.getItem(STORAGE_KEY)
+      return stored === DARK || stored === LIGHT ? stored : null
+    } catch (e) {
+      return null
+    }
+  }
+
+  const storeTheme = (theme) => {
+    try {
+      localStorage.setItem(STORAGE_KEY, theme)
+    } catch (e) {
+      // The selected theme still applies when storage is unavailable.
+    }
+  }
 
   const applyTheme = (theme) => {
     document.documentElement.setAttribute('data-theme', theme)
@@ -19,7 +34,6 @@
     const isDark = theme === DARK
     document.querySelectorAll('.dark-mode-toggle').forEach((btn) => {
       btn.setAttribute('aria-pressed', String(isDark))
-      btn.setAttribute('aria-label', isDark ? 'Switch to light mode' : 'Switch to dark mode')
       const img = btn.querySelector('img')
       if (!img) return
       const base = btn.getAttribute('data-ui-root') || ''
@@ -31,7 +45,7 @@
   const toggle = () => {
     const current = document.documentElement.getAttribute('data-theme') || getPreferred()
     const next = current === DARK ? LIGHT : DARK
-    localStorage.setItem(STORAGE_KEY, next)
+    storeTheme(next)
     applyTheme(next)
   }
 
@@ -50,11 +64,15 @@
     })
 
     if (window.matchMedia) {
-      window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', (e) => {
+      const preference = window.matchMedia('(prefers-color-scheme: dark)')
+      const onPreferenceChange = (e) => {
         if (!getStored()) {
           applyTheme(e.matches ? DARK : LIGHT)
         }
-      })
+      }
+
+      if (preference.addEventListener) preference.addEventListener('change', onPreferenceChange)
+      else if (preference.addListener) preference.addListener(onPreferenceChange)
     }
   }
 
