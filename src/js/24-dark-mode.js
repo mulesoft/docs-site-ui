@@ -24,7 +24,7 @@
       if (!img) return
       const base = btn.getAttribute('data-ui-root') || ''
       img.src = isDark ? `${base}/img/icons/light-mode.svg` : `${base}/img/icons/dark-mode.svg`
-      img.alt = isDark ? 'Sun icon' : 'Moon icon'
+      img.alt = ''
     })
   }
 
