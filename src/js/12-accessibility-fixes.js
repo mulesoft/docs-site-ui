@@ -25,6 +25,14 @@
     })
   }
 
+  const addTitlesToEmbeddedVideos = () => {
+    document.querySelectorAll('.videoblock iframe:not([title])').forEach((frame) => {
+      const title = frame.closest('.videoblock')?.querySelector('.title')?.textContent.trim()
+      frame.title = title || 'Embedded video'
+    })
+  }
+
   addBlankAltTextsToTipIcons()
+  addTitlesToEmbeddedVideos()
   listenForDetailsToggle()
 })()
