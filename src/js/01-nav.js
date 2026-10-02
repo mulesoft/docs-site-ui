@@ -445,6 +445,7 @@
             component.nav.items = items.slice(1)
           }
           component.nav.items.forEach(function (it) {
+            if (it.name) return
             const iconId = it.url
               ? 'icon-nav-page' + it.url.replace(/(?:\.html|\/)$/, '').replace(/[/#]/g, '-')
               : 'icon-nav-page-' + component.name + '-' + it.content?.toLowerCase().replace(/ +/g, '-')
