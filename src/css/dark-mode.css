@@ -58,6 +58,12 @@
   --sds-g-color-cloud-blue-95: #0d1b2e;
   --eyebrow-gray: #8b949e;
   --violet: #bc8cff;
+
+  /* DocSearch ships its own html[data-theme="dark"] palette (same
+     specificity as this selector but earlier in source order, so this
+     wins) — rebrand just the highlight color to match the site's link
+     color instead of the vendor default. Re-verify on package bumps. */
+  --docsearch-highlight-color: var(--dm-link);
 }
 
 /* Body background */
