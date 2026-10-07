@@ -69,6 +69,19 @@
   --sds-g-font-display: 'ITC Avant Garde', system-ui, -apple-system, blinkmacsystemfont, 'Segoe UI', roboto, 'Helvetica Neue', arial, 'Noto Sans', sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
   --sds-g-font-sans: 'Salesforce Sans', system-ui, -apple-system, blinkmacsystemfont, 'Segoe UI', roboto, 'Helvetica Neue', arial, 'Noto Sans', sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
 
+  /* admonitions (semantic tokens; dark overrides in dark-mode.css) */
+  --admon-text: var(--steel-3);
+  --admon-note-bg: transparent;
+  --admon-note-border: var(--aluminum-4);
+  --admon-tip-bg: transparent;
+  --admon-tip-border: var(--aluminum-4);
+  --admon-caution-bg: var(--lume-g-color-red-95);
+  --admon-caution-border: var(--lume-g-color-red-80);
+  --admon-caution-title: var(--lume-g-color-red-40);
+  --admon-important-bg: var(--lume-g-color-yellow-95);
+  --admon-important-border: var(--lume-g-color-yellow-70);
+  --admon-important-title: var(--lume-g-color-yellow-40);
+
   /* typography */
   --font-color-default: var(--sds-g-color-gray-10);
   --font-color-heading: var(--sds-g-color-blue-20);
