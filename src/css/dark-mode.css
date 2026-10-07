@@ -134,31 +134,28 @@
   color: var(--dm-text-primary);
 }
 
-[data-theme="dark"] .button:not(.ms-com-content .button, nav button),
 [data-theme="dark"] .nav-toggle {
   border-color: var(--dm-link);
   color: var(--dm-link);
 }
 
-[data-theme="dark"] .button-primary:not(.ms-com-content .button, nav button),
-[data-theme="dark"] .mule-button-br.solid {
-  background: #0b5cab;
-  border-color: #0b5cab;
-  color: #fff;
-}
-
-[data-theme="dark"] .button-primary:not(.ms-com-content .button, nav button):hover,
-[data-theme="dark"] .mule-button-br.solid:hover {
-  background: #032d60;
-  border-color: #79c0ff;
-  color: #fff;
-}
-
-[data-theme="dark"] .button:not(.ms-com-content .button, nav button):hover,
 [data-theme="dark"] .nav-toggle:hover {
   background: var(--dm-surface-3);
   border-color: var(--dm-link-hover);
   color: var(--dm-link-hover);
+}
+
+/* .blue-button has no in-repo CSS; its fill comes from the external
+   marketing stylesheet, so it can't be tokenized like the other buttons */
+[data-theme="dark"] .blue-button {
+  background: var(--sds-g-color-blue-50);
+  border-color: var(--sds-g-color-blue-50);
+  color: var(--tertiary);
+}
+
+[data-theme="dark"] .blue-button:hover {
+  background: var(--sds-g-color-blue-20);
+  border-color: var(--sds-g-color-blue-20);
 }
 
 /* Breadcrumbs */

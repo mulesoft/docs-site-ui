@@ -54,11 +54,11 @@
 
 .button-primary:not(.ms-com-content .button, nav button),
 .mule-button-br.solid {
-  background: #0176d3;
-  border: 2px solid #0176d3;
+  background: var(--sds-g-color-blue-50);
+  border: 2px solid var(--sds-g-color-blue-50);
   border-radius: 4px;
   box-shadow: none;
-  color: #fff;
+  color: var(--tertiary);
   cursor: pointer;
   display: inline-block;
   font-family: SFBold,Arial,sans-serif;
@@ -71,8 +71,8 @@
   text-decoration: none;
 
   &:hover {
-    background: #032d60;
-    border-color: #032d60;
+    background: var(--sds-g-color-blue-20);
+    border-color: var(--sds-g-color-blue-20);
   }
 
   &:disabled {
@@ -83,10 +83,10 @@
 .button:not(.ms-com-content .button, nav button),
 .mule-button-br {
   background: 0 0;
-  border: 2px solid #0176d3;
+  border: 2px solid var(--sds-g-color-blue-50);
   border-radius: 4px;
   box-shadow: none;
-  color: #0176d3;
+  color: var(--sds-g-color-blue-50);
   cursor: pointer;
   display: inline-block;
   font-family: SFBold,Arial,sans-serif;
@@ -104,28 +104,28 @@
   }
 
   &:hover {
-    background: #eaf5fe;
-    border-color: #032d60;
-    color: #032d60;
+    background: var(--sds-g-color-cloud-blue-95);
+    border-color: var(--sds-g-color-blue-20);
+    color: var(--sds-g-color-blue-20);
   }
 
   &.navy-blue {
-    border-color: #032d60;
-    color: #032d60;
+    border-color: var(--sds-g-color-blue-20);
+    color: var(--sds-g-color-blue-20);
 
     &:hover {
-      background: #032d60;
-      color: #fff;
+      background: var(--sds-g-color-blue-20);
+      color: var(--tertiary);
     }
 
     &.solid {
-      background: #032d60;
-      border-color: #032d60;
-      color: #fff;
+      background: var(--sds-g-color-blue-20);
+      border-color: var(--sds-g-color-blue-20);
+      color: var(--tertiary);
 
       &:hover {
-        background: #eaf5fe;
-        color: #032d60;
+        background: var(--sds-g-color-cloud-blue-95);
+        color: var(--sds-g-color-blue-20);
       }
     }
   }
