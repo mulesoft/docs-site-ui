@@ -29,6 +29,14 @@
   --admon-important-bg: #161005;
   --admon-important-border: #9e6a03;
   --admon-important-title: #fcc003;
+  --feedback-border: var(--dm-border);
+  --feedback-selected-bg: var(--dm-surface-3);
+  --feedback-selected-border: var(--dm-link);
+  --feedback-selected-text: var(--dm-link);
+  --feedback-thank-you-text: #3fb950;
+  --feedback-error-text: #f85149;
+  --feedback-invalid-border: #f85149;
+  --feedback-placeholder-text: var(--dm-text-muted);
   --font-color-default: var(--dm-text-primary);
   --font-color-heading: #a5c8ff;
   --font-color-heading-alternate: #79c0ff;
@@ -191,6 +199,7 @@
 }
 
 /* Feedback form */
+[data-theme="dark"] .feedback-section,
 [data-theme="dark"] .feedback-form {
   background: var(--dm-surface-2);
   border-color: var(--dm-border);

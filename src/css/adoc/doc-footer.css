@@ -32,9 +32,9 @@
 
 .feedback-section {
   align-self: center;
-  border-bottom: 1px solid var(--lume-g-color-neutral-80);
+  border-bottom: 1px solid var(--feedback-border);
   border-radius: 2px;
-  border-top: 1px solid var(--lume-g-color-neutral-80);
+  border-top: 1px solid var(--feedback-border);
   font-family: var(--font-sans-serif);
   font-size: 14px;
   min-width: 340px;
@@ -75,9 +75,9 @@
     }
 
     & button.selected {
-      background-color: var(--lume-g-color-blue-95);
-      border-color: var(--lume-g-color-blue-20);
-      color: var(--lume-g-color-blue-20);
+      background-color: var(--feedback-selected-bg);
+      border-color: var(--feedback-selected-border);
+      color: var(--feedback-selected-text);
     }
   }
 
@@ -122,7 +122,7 @@
   }
 
   & .feedback-form-thank-you {
-    color: var(--lume-g-color-green-50);
+    color: var(--feedback-thank-you-text);
     display: flex;
     justify-content: center;
     padding-bottom: var(--md);
@@ -134,7 +134,7 @@
   }
 
   & .validation-text {
-    color: var(--lume-g-color-red-50);
+    color: var(--feedback-error-text);
     position: relative;
     top: -8px;
 
@@ -160,7 +160,7 @@
 
   & input:not([type="button"], [type="checkbox"], [type="submit"]),
   & textarea {
-    border: 1px solid var(--lume-g-color-neutral-80);
+    border: 1px solid var(--feedback-border);
     border-radius: var(--radius);
     margin: 3px 0 8px;
     min-height: 32px;
@@ -168,11 +168,11 @@
     width: 100%;
 
     &.invalid {
-      border: 1px solid var(--lume-g-color-red-50);
+      border: 1px solid var(--feedback-invalid-border);
     }
 
     &::placeholder {
-      color: var(--lume-g-color-neutral-50);
+      color: var(--feedback-placeholder-text);
     }
   }
 
