@@ -1,4 +1,15 @@
-/* Dark mode theme — toggled via data-theme="dark" on <html> */
+/* Dark mode theme — toggled via data-theme="dark" on <html>
+ *
+ * Review checklist for new rules in this file:
+ * - Override semantic tokens (--admon-, --feedback-, --font-color-, etc.
+ *   from globals/vars.css), not primitives (--aluminum-, --steel-,
+ *   --sds-g-color-, --lume-g-color-). Primitives are redefined here only
+ *   for the small pre-existing set already in the root block below —
+ *   don't add new primitive redefinitions; add/extend a semantic token in
+ *   globals/vars.css instead and consume it from the component.
+ * - A component using raw hex instead of a token is a sign it needs a new
+ *   semantic token, not a one-off override here.
+ */
 
 [data-theme="dark"] {
   color-scheme: dark;
