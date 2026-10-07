@@ -44,7 +44,7 @@ module.exports = (src, dest, preview) => (done) => {
     postcssCustomMedia,
     postcssNesting,
     postcssVar({
-      preserve: preview ? 'preserve-computed' : false,
+      preserve: 'preserve-computed',
     }),
     preview ? postcssCalc : () => {},
     autoprefixer,
