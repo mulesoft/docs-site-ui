@@ -400,10 +400,16 @@ svg.nav-icon {
 
   & .nav-version-option.selected {
     &::after {
-      content: " ✔️";
+      background-color: currentcolor;
+      content: '';
+      display: inline-block;
       float: right;
-      font-size: xx-small;
+      height: 10px;
       margin-right: calc(0px - var(--lg));
+      mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath d='M13.5 4.5l-7 7-3-3' stroke='black' stroke-width='2' fill='none' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+      mask-repeat: no-repeat;
+      mask-size: contain;
+      width: 10px;
     }
   }
 

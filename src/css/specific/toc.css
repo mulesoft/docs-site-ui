@@ -314,7 +314,9 @@
   }
 
   .external-link-image {
+    aspect-ratio: 1;
     flex-shrink: 0;
+    height: var(--icon-size-default);
     margin-left: auto;
     width: var(--icon-size-default);
   }
