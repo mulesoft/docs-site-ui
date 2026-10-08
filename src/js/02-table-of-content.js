@@ -76,6 +76,7 @@
 
   const handleOptions = (options) => {
     options.className = 'toc toc-embedded select'
+    options.ariaLabel = jumpToText
     options.insertBefore(createJumpToLabel(), options.firstChild)
     addChangeListener(options)
   }

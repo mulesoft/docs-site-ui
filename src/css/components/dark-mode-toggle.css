@@ -1,0 +1,116 @@
+/* Dark mode toggle button — theme-agnostic base styles.
+   [data-theme="dark"] overrides live in dark-mode.css. */
+
+/* Floating dark mode toggle button (fixed bottom-right) */
+.dark-mode-toggle.dark-mode-toggle-fab {
+  align-items: center;
+  background: var(--tertiary);
+  border: 1px solid var(--aluminum-3);
+  border-radius: 50%;
+  bottom: calc(28px + env(safe-area-inset-bottom, 0px));
+  box-shadow: 0 4px 12px #0000001f, 0 1px 4px #00000014;
+  display: flex;
+  height: 44px;
+  justify-content: center;
+  position: fixed;
+  right: calc(28px + env(safe-area-inset-right, 0px));
+  transition: box-shadow var(--transition-speed-sm) var(--transition-timing),
+    background var(--transition-speed-sm) var(--transition-timing),
+    transform var(--transition-speed-sm) var(--transition-timing);
+  width: 44px;
+  z-index: var(--z-banner);
+
+  &:hover {
+    box-shadow: 0 6px 20px #0000002e, 0 2px 6px #00000018;
+    transform: scale(1.08);
+  }
+
+  &:active {
+    transform: scale(0.96);
+  }
+
+  &:focus-visible {
+    border-radius: 50%;
+    outline: 2px solid var(--sds-g-color-blue-50);
+    outline-offset: 2px;
+  }
+
+  & img {
+    height: 20px;
+    pointer-events: none;
+    width: 20px;
+  }
+}
+
+/* The FAB sits fixed bottom-right and can overlap focused content near that
+   corner, so slide/hide it away whenever keyboard focus is elsewhere. It
+   stays in the tab order and reappears on hover or when tabbed onto, so
+   this is a deliberate placement choice, not an accessibility block. */
+body:has(:focus-visible:not(.dark-mode-toggle)) .dark-mode-toggle-fab {
+  opacity: 0;
+  pointer-events: none;
+  transform: translateY(calc(100% + 40px + env(safe-area-inset-bottom, 0px)));
+}
+
+/* Dark mode toggle button (generic base styles) */
+.dark-mode-toggle {
+  align-items: center;
+  background: none;
+  border: 1px solid var(--aluminum-3);
+  border-radius: var(--radius);
+  color: var(--steel-2);
+  cursor: pointer;
+  display: flex;
+  height: 30px;
+  justify-content: center;
+  min-height: unset;
+  padding: 0 6px;
+  transition: background var(--transition-speed-sm) var(--transition-timing),
+    border-color var(--transition-speed-sm) var(--transition-timing),
+    color var(--transition-speed-sm) var(--transition-timing);
+  width: 30px;
+
+  &:hover {
+    background: var(--aluminum-2);
+    border-color: var(--aluminum-4);
+    color: var(--steel-3);
+  }
+
+  &:focus-visible {
+    border-radius: var(--radius);
+    outline: 2px solid var(--sds-g-color-blue-50);
+    outline-offset: 2px;
+  }
+
+  & img {
+    height: 16px;
+    pointer-events: none;
+    width: 16px;
+  }
+}
+
+/* Respect users who have requested reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  .dark-mode-toggle.dark-mode-toggle-fab,
+  .dark-mode-toggle {
+    transition: none;
+  }
+
+  .dark-mode-toggle.dark-mode-toggle-fab:hover,
+  .dark-mode-toggle.dark-mode-toggle-fab:active {
+    transform: none;
+  }
+}
+
+@media (forced-colors: active) {
+  .dark-mode-toggle {
+    background: ButtonFace;
+    border-color: ButtonText;
+    color: ButtonText;
+    forced-color-adjust: auto;
+  }
+
+  .dark-mode-toggle:focus-visible {
+    outline-color: Highlight;
+  }
+}

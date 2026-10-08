@@ -1,4 +1,7 @@
 :root {
+  /* Set default to prevent issues when users have prefer dark mode set. */
+  color-scheme: light;
+
   /* Salesforce Design System colors */
   --sds-c-button-color-background: #0176d3;
   --sds-c-button-color-background-hover: #023248;
@@ -68,6 +71,25 @@
   /* Salesforce Design System typography */
   --sds-g-font-display: 'ITC Avant Garde', system-ui, -apple-system, blinkmacsystemfont, 'Segoe UI', roboto, 'Helvetica Neue', arial, 'Noto Sans', sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
   --sds-g-font-sans: 'Salesforce Sans', system-ui, -apple-system, blinkmacsystemfont, 'Segoe UI', roboto, 'Helvetica Neue', arial, 'Noto Sans', sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
+  --admon-text: var(--steel-3);
+  --admon-note-bg: transparent;
+  --admon-note-border: var(--aluminum-4);
+  --admon-tip-bg: transparent;
+  --admon-tip-border: var(--aluminum-4);
+  --admon-caution-bg: var(--lume-g-color-red-95);
+  --admon-caution-border: var(--lume-g-color-red-80);
+  --admon-caution-title: var(--lume-g-color-red-40);
+  --admon-important-bg: var(--lume-g-color-yellow-95);
+  --admon-important-border: var(--lume-g-color-yellow-70);
+  --admon-important-title: var(--lume-g-color-yellow-40);
+  --feedback-border: var(--lume-g-color-neutral-80);
+  --feedback-selected-bg: var(--lume-g-color-blue-95);
+  --feedback-selected-border: var(--lume-g-color-blue-20);
+  --feedback-selected-text: var(--lume-g-color-blue-20);
+  --feedback-thank-you-text: var(--lume-g-color-green-50);
+  --feedback-error-text: var(--lume-g-color-red-50);
+  --feedback-invalid-border: var(--lume-g-color-red-50);
+  --feedback-placeholder-text: var(--lume-g-color-neutral-50);
 
   /* typography */
   --font-color-default: var(--sds-g-color-gray-10);
