@@ -31,9 +31,9 @@ html[data-theme="dark"] {
   --dm-code-border: #30363d;
   --admon-text: var(--dm-text-primary);
   --admon-note-bg: transparent;
-  --admon-note-border: #1f6feb;
+  --admon-note-border: var(--dm-border);
   --admon-tip-bg: transparent;
-  --admon-tip-border: #238636;
+  --admon-tip-border: var(--dm-border);
   --admon-caution-bg: #160c03;
   --admon-caution-border: #d1242f;
   --admon-caution-title: #feb8ab;
@@ -138,17 +138,27 @@ html[data-theme="dark"] {
   filter: invert(1);
 }
 
+/* .DocSearch-Input is set to background:transparent by the vendor,
+   but something (likely the browser's native type="search" chrome
+   under color-scheme: dark) still paints it, visibly seaming against
+   DocSearch-Form. Force it explicitly rather than relying on
+   transparent to win. */
+/* stylelint-disable-next-line selector-class-pattern */
+[data-theme="dark"] .DocSearch-Input {
+  background-color: transparent !important;
+}
+
 /* Code blocks */
 [data-theme="dark"] .doc pre {
   background: var(--dm-code-bg);
   border-color: var(--dm-code-border);
 }
 
-/* Inline code */
+/* Inline code — light mode sets no explicit color (inherits body
+   text), so dark mode shouldn't invent an accent color either */
 [data-theme="dark"] .doc code:not(pre code) {
   background: var(--dm-surface-3);
   border-color: var(--dm-border);
-  color: #e3b341;
 }
 
 /* Tables */
