@@ -11,7 +11,7 @@
  *   semantic token, not a one-off override here.
  */
 
-[data-theme="dark"] {
+html[data-theme="dark"] {
   color-scheme: dark;
 
   --dm-bg: #0f1117;
@@ -30,9 +30,9 @@
   --dm-code-bg: #161b22;
   --dm-code-border: #30363d;
   --admon-text: var(--dm-text-primary);
-  --admon-note-bg: #161b22;
+  --admon-note-bg: transparent;
   --admon-note-border: #1f6feb;
-  --admon-tip-bg: #0d1117;
+  --admon-tip-bg: transparent;
   --admon-tip-border: #238636;
   --admon-caution-bg: #160c03;
   --admon-caution-border: #d1242f;
@@ -70,15 +70,15 @@
   --eyebrow-gray: #8b949e;
   --violet: #bc8cff;
 
-  /* DocSearch ships its own html[data-theme="dark"] palette, same
-     (0,1,1) specificity as [data-theme="dark"] but earlier in source
-     order (imported inside vendor/docsearch.css, before this file) —
-     so declaring a var here (not in vendor/docsearch.css's :root,
-     which is only (0,1,0) and always loses to the vendor's own dark
-     block) wins and rebrands DocSearch to the site's dark palette
-     instead of the vendor's generic one. Re-verify on package bumps. */
+  /* DocSearch ships its own html[data-theme="dark"] palette at
+     specificity (0,1,1) — a bare [data-theme="dark"] here is only
+     (0,1,0) and always loses regardless of source order, which is why
+     this selector was changed to html[data-theme="dark"] above: tying
+     specificity lets our later-imported declaration win. Re-verify on
+     package bumps (selector or var names could change upstream). */
   --docsearch-text-color: var(--dm-text-primary);
   --docsearch-secondary-text-color: var(--dm-text-secondary);
+  --docsearch-subtle-color: var(--dm-border);
   --docsearch-highlight-color: var(--dm-link);
   --docsearch-focus-color: var(--dm-link-hover);
   --docsearch-muted-color: var(--dm-text-muted);
@@ -124,10 +124,10 @@
   border-bottom-color: var(--dm-border);
 }
 
-/* Table of contents */
-[data-theme="dark"] .toc-menu {
-  background: var(--dm-surface-1);
-  border-left-color: var(--dm-border);
+/* search.svg is a flat fill="#000" raster image, invisible on a dark
+   toolbar; invert it rather than re-exporting the asset */
+[data-theme="dark"] .docsearch-toolbar-button-icon {
+  filter: invert(1);
 }
 
 /* Code blocks */
@@ -410,12 +410,12 @@
   color: var(--dm-link-hover) !important;
 }
 
-[data-theme="dark"] .ms-com-content-header .button {
+[data-theme="dark"] .ms-com-content-header .button:not(.blue-button) {
   border-color: var(--dm-link) !important;
   color: var(--dm-link) !important;
 }
 
-[data-theme="dark"] .ms-com-content-header .button:hover {
+[data-theme="dark"] .ms-com-content-header .button:not(.blue-button):hover {
   background: var(--dm-surface-3) !important;
   border-color: var(--dm-link-hover) !important;
   color: var(--dm-link-hover) !important;
