@@ -1,14 +1,9 @@
 /* Dark mode theme — toggled via data-theme="dark" on <html>
  *
- * Review checklist for new rules in this file:
- * - Override semantic tokens (--admon-, --feedback-, --font-color-, etc.
- *   from globals/vars.css), not primitives (--aluminum-, --steel-,
- *   --sds-g-color-, --lume-g-color-). Primitives are redefined here only
- *   for the small pre-existing set already in the root block below —
- *   don't add new primitive redefinitions; add/extend a semantic token in
- *   globals/vars.css instead and consume it from the component.
- * - A component using raw hex instead of a token is a sign it needs a new
- *   semantic token, not a one-off override here.
+ * New rules should override semantic tokens (--admon-, --feedback-,
+ * --font-color-, etc. from globals/vars.css), not primitives (--aluminum-,
+ * --steel-, --sds-g-color-, --lume-g-color-). Don't add new primitive
+ * redefinitions — add/extend a semantic token instead.
  */
 
 html[data-theme="dark"] {
@@ -24,9 +19,7 @@ html[data-theme="dark"] {
   --dm-text-primary: #e6edf3;
   --dm-text-secondary: #8b949e;
 
-  /* lightened from #7d858e: that value cleared AA (4.5:1) on --dm-bg but
-     dropped to ~4.1:1 on the lighter surfaces (--dm-surface-2/-3) it also
-     gets used against via --feedback-placeholder-text/--docsearch-muted-color */
+  /* lightened from #7d858e, which failed AA contrast on --dm-surface-2/-3 */
   --dm-text-muted: #868e98;
   --dm-link: #58a6ff;
   --dm-link-hover: #79c0ff;
@@ -74,12 +67,8 @@ html[data-theme="dark"] {
   --eyebrow-gray: #8b949e;
   --violet: #bc8cff;
 
-  /* DocSearch ships its own html[data-theme="dark"] palette at
-     specificity (0,1,1) — a bare [data-theme="dark"] here is only
-     (0,1,0) and always loses regardless of source order, which is why
-     this selector was changed to html[data-theme="dark"] above: tying
-     specificity lets our later-imported declaration win. Re-verify on
-     package bumps (selector or var names could change upstream). */
+  /* DocSearch's own html[data-theme="dark"] palette outranks a bare
+     [data-theme="dark"], hence html[...] above. Re-verify on package bumps. */
   --docsearch-text-color: var(--dm-text-primary);
   --docsearch-secondary-text-color: var(--dm-text-secondary);
   --docsearch-subtle-color: var(--dm-border);
@@ -93,18 +82,12 @@ html[data-theme="dark"] {
   --docsearch-modal-background: var(--dm-surface-1);
   --docsearch-searchbox-background: var(--dm-surface-2);
 
-  /* .DocSearch-Form (the open search field) uses -focus-background, not
-     -background; match it to the modal bg so the field doesn't seam
-     against its own container. */
+  /* open search field uses -focus-background, not -background */
   --docsearch-searchbox-focus-background: var(--dm-surface-1);
   --docsearch-hit-color: var(--dm-text-primary);
   --docsearch-hit-background: var(--dm-surface-2);
 
-  /* needs to read clearly against both the collapsed toolbar button
-     (surface-2) and the footer bar (surface-1) it sits on; surface-3
-     alone was too close in lightness to both. border-strong/bg landed
-     under 4.5:1 for the small key glyphs, so use border (darker chip)
-     against text-primary (near-white) instead — ~12:1. */
+  /* surface-3 was too close in lightness to the surfaces it sits on */
   --docsearch-key-background: var(--dm-border);
   --docsearch-key-color: var(--dm-text-primary);
   --docsearch-footer-background: var(--dm-surface-1);
@@ -125,15 +108,11 @@ html[data-theme="dark"] {
   background-color: var(--dm-border);
 }
 
-/* Nav sidebar — light mode keeps this the same color as the page background
-   (--tertiary), so match that here with --dm-bg instead of a surface token */
 [data-theme="dark"] .nav {
   background: var(--dm-bg);
   box-shadow: 1px 0 0 var(--dm-border), 3px 0 15px #0004;
 }
 
-/* Toolbar — light mode matches the page background (--tertiary); mirror that
-   with --dm-bg instead of a surface token */
 [data-theme="dark"] .toolbar {
   background: var(--dm-bg);
   border-bottom-color: var(--dm-border);
@@ -161,15 +140,11 @@ html[data-theme="dark"] {
   border-color: var(--dm-code-border);
 }
 
-/* Inline code — light mode sets no explicit color (inherits body
-   text), so dark mode shouldn't invent an accent color either */
 [data-theme="dark"] .doc code:not(pre code) {
   background: var(--dm-surface-3);
   border-color: var(--dm-border);
 }
 
-/* Tables — light mode has no header or zebra-row background (plain table,
-   no nth-child striping anywhere in the codebase); don't invent one here */
 [data-theme="dark"] .doc table,
 [data-theme="dark"] .doc table td,
 [data-theme="dark"] .doc table th {
@@ -181,8 +156,6 @@ html[data-theme="dark"] {
   border-color: var(--dm-border-strong);
 }
 
-/* Cards — light mode sets no background at all (transparent, shows the page
-   color through); don't invent one here either */
 [data-theme="dark"] .card {
   border-color: var(--dm-border);
 }
@@ -196,11 +169,7 @@ html[data-theme="dark"] {
   color: var(--dm-text-primary);
 }
 
-/* Checkboxes/radios: surface-3 against aluminum-5 reads as a nearly solid
-   fill at native checkbox size (~3.3:1 border contrast, below what's legible
-   that small), making an unchecked box look checked. Use the darkest
-   surface + a lighter border for a clearly hollow unchecked state, and
-   theme the checked-state fill via accent-color. */
+/* previous surface/border combo made unchecked boxes look checked at native size */
 [data-theme="dark"] input[type="checkbox"],
 [data-theme="dark"] input[type="radio"] {
   accent-color: var(--dm-link);
@@ -219,13 +188,8 @@ html[data-theme="dark"] {
   color: var(--dm-link-hover);
 }
 
-/* .blue-button has no in-repo CSS; its fill comes from the external
-   marketing stylesheet, so it can't be tokenized like the other buttons.
-   Markup is class="button blue-button", and .button:not(.ms-com-content
-   .button, nav button) in button.css has specificity (0,3,0) from its
-   :not() argument -- higher than a bare [data-theme="dark"] .blue-button
-   (0,2,0) -- so it was winning regardless of theme. Match .button.blue-
-   button here to tie and win on source order. */
+/* .button.blue-button needed to match button.css's selector specificity
+   to win; .blue-button itself has no in-repo CSS (comes from marketing stylesheet) */
 [data-theme="dark"] .button.blue-button {
   background: var(--sds-g-color-blue-50);
   border-color: var(--sds-g-color-blue-50);
@@ -253,9 +217,6 @@ html[data-theme="dark"] {
   color: var(--dm-link-hover);
 }
 
-/* Version dropdown — light mode uses the same --tertiary token as the nav
-   it floats over (box-shadow does the separation, not a distinct fill);
-   mirror that with --dm-bg instead of a surface token */
 [data-theme="dark"] .nav-version-menu {
   background: var(--dm-bg);
   box-shadow: 0 0 0 1px var(--dm-border), 0 2px 9px #0004;
@@ -615,8 +576,6 @@ html[data-theme="dark"] {
   filter: invert(1);
 }
 
-/* Tabs — light mode has no background (defaults to #fff, the page color);
-   mirror that with --dm-bg instead of a surface token */
 [data-theme="dark"] .tabs {
   background-color: var(--dm-bg);
 }
@@ -655,9 +614,6 @@ html[data-theme="dark"] {
   border-top-color: var(--dm-border);
 }
 
-/* Collapsible blocks (details/summary) — light mode sets no background
-   (just a box-shadow against the page color); mirror that with --dm-bg
-   instead of a surface token */
 [data-theme="dark"] details {
   background: var(--dm-bg);
   box-shadow: 0 8px 12px #00000040, 0 2px 8px #00000020;
@@ -708,9 +664,6 @@ html[data-theme="dark"] {
   color: var(--dm-link-hover);
 }
 
-/* Light mode uses the same near-white token (--lume-g-color-neutral-100) for
-   the menu, and its a/button children, as the page itself (box-shadow does
-   the separation); mirror that with --dm-bg instead of a surface token */
 [data-theme="dark"] .page-options-menu {
   background: var(--dm-bg);
   box-shadow: 0 0 0 1px var(--dm-border), 0 4px 12px #00000050;
@@ -735,9 +688,7 @@ html[data-theme="dark"] {
   color: var(--dm-text-secondary);
 }
 
-/* Heading copy-link anchor icon — a solid gray (#747474) SVG with no
-   invert-friendly structure of its own, so it nearly disappears against the
-   dark background and hover pill. Flip it light like the other icon fixes. */
+/* Flat gray SVG icon, invisible on a dark background */
 [data-theme="dark"] .anchor-image {
   filter: brightness(0) invert(1);
 }
