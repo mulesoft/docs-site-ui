@@ -34,11 +34,11 @@
     const isDark = theme === DARK
     document.querySelectorAll('.dark-mode-toggle').forEach((btn) => {
       btn.setAttribute('aria-pressed', String(isDark))
-      const img = btn.querySelector('img')
-      if (!img) return
-      const base = btn.getAttribute('data-ui-root') || ''
-      img.src = isDark ? `${base}/img/icons/light-mode.svg` : `${base}/img/icons/dark-mode.svg`
-      img.alt = ''
+      const darkIcon = btn.querySelector('.dark-mode-toggle-icon-dark')
+      const lightIcon = btn.querySelector('.dark-mode-toggle-icon-light')
+      if (!darkIcon || !lightIcon) return
+      darkIcon.hidden = isDark
+      lightIcon.hidden = !isDark
     })
   }
 
