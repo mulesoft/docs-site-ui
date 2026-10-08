@@ -742,8 +742,12 @@ html[data-theme="dark"] {
   filter: brightness(0) invert(1);
 }
 
-[data-theme="dark"] .button-copy-link:hover {
-  background-color: var(--dm-surface-3);
+[data-theme="dark"] .button-copy-link {
+  background: transparent;
+
+  &:hover {
+    background-color: var(--dm-surface-3);
+  }
 }
 
 [data-theme="dark"] .dark-mode-toggle.dark-mode-toggle-fab {
