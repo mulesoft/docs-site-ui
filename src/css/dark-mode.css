@@ -23,7 +23,11 @@ html[data-theme="dark"] {
   --dm-border-subtle: #21262d;
   --dm-text-primary: #e6edf3;
   --dm-text-secondary: #8b949e;
-  --dm-text-muted: #7d858e;
+
+  /* lightened from #7d858e: that value cleared AA (4.5:1) on --dm-bg but
+     dropped to ~4.1:1 on the lighter surfaces (--dm-surface-2/-3) it also
+     gets used against via --feedback-placeholder-text/--docsearch-muted-color */
+  --dm-text-muted: #868e98;
   --dm-link: #58a6ff;
   --dm-link-hover: #79c0ff;
   --dm-link-visited: #bc8cff;
@@ -98,9 +102,11 @@ html[data-theme="dark"] {
 
   /* needs to read clearly against both the collapsed toolbar button
      (surface-2) and the footer bar (surface-1) it sits on; surface-3
-     alone was too close in lightness to both. */
-  --docsearch-key-background: var(--dm-border-strong);
-  --docsearch-key-color: var(--dm-bg);
+     alone was too close in lightness to both. border-strong/bg landed
+     under 4.5:1 for the small key glyphs, so use border (darker chip)
+     against text-primary (near-white) instead — ~12:1. */
+  --docsearch-key-background: var(--dm-border);
+  --docsearch-key-color: var(--dm-text-primary);
   --docsearch-footer-background: var(--dm-surface-1);
 }
 
@@ -111,7 +117,6 @@ html[data-theme="dark"] {
 }
 
 /* Scrollbar */
-[data-theme="dark"] html,
 [data-theme="dark"] {
   scrollbar-color: var(--dm-border) var(--dm-surface-1);
 }
@@ -257,25 +262,21 @@ html[data-theme="dark"] {
   border-color: var(--dm-border);
 }
 
-/* Feedback form */
-[data-theme="dark"] .feedback-section,
-[data-theme="dark"] .feedback-form {
-  background: var(--dm-surface-2);
-  border-color: var(--dm-border);
-}
+/* Feedback form — light mode has no background/border on these, just the
+   top/bottom border-top/border-bottom lines on .feedback-section (which
+   already resolve via --feedback-border), so dark mode shouldn't add a
+   filled box either. */
 
-/* Content images — light card backing keeps screenshots and diagrams legible on dark backgrounds */
+/* Content images — light backing keeps screenshots/diagrams with transparent
+   or white backgrounds legible on the dark page background; light mode has
+   no border/shadow/padding on images, so dark mode shouldn't invent any
+   either — background only. */
 [data-theme="dark"] .doc .imageblock img {
   background: #fff;
-  border: 1px solid #484f58;
-  box-shadow: 0 4px 16px #00000080;
-  padding: 16px;
 }
 
 [data-theme="dark"] .doc .imageblock img.img-broken {
   background: var(--dm-surface-2);
-  border-color: var(--dm-border);
-  box-shadow: none;
   color: var(--dm-text-secondary);
 }
 
@@ -318,10 +319,10 @@ html[data-theme="dark"] {
   color: #7ee787;
 }
 
-/* Notice/EOL banner */
+/* Notice/EOL banner — light mode sets no border on this banner, just a
+   background, so dark mode shouldn't add one either. */
 [data-theme="dark"] .notice-banner {
   background: #2d1f00;
-  border-color: #7a5200;
 }
 
 [data-theme="dark"] .notice-banner p {
@@ -727,54 +728,6 @@ html[data-theme="dark"] {
   color: var(--dm-text-secondary);
 }
 
-/* Floating dark mode toggle button (fixed bottom-right) */
-.dark-mode-toggle.dark-mode-toggle-fab {
-  align-items: center;
-  background: var(--tertiary);
-  border: 1px solid var(--aluminum-3);
-  border-radius: 50%;
-  bottom: calc(28px + env(safe-area-inset-bottom, 0px));
-  box-shadow: 0 4px 12px #0000001f, 0 1px 4px #00000014;
-  display: flex;
-  height: 44px;
-  justify-content: center;
-  position: fixed;
-  right: calc(28px + env(safe-area-inset-right, 0px));
-  transition: box-shadow var(--transition-speed-sm) var(--transition-timing),
-    background var(--transition-speed-sm) var(--transition-timing),
-    transform var(--transition-speed-sm) var(--transition-timing);
-  width: 44px;
-  z-index: var(--z-banner);
-
-  &:hover {
-    box-shadow: 0 6px 20px #0000002e, 0 2px 6px #00000018;
-    transform: scale(1.08);
-  }
-
-  &:active {
-    transform: scale(0.96);
-  }
-
-  &:focus-visible {
-    border-radius: 50%;
-    outline: 2px solid var(--sds-g-color-blue-50);
-    outline-offset: 2px;
-  }
-
-  & img {
-    height: 20px;
-    pointer-events: none;
-    width: 20px;
-  }
-}
-
-/* Move the floating control away while another keyboard target is focused. */
-body:has(:focus-visible:not(.dark-mode-toggle)) .dark-mode-toggle-fab {
-  opacity: 0;
-  pointer-events: none;
-  transform: translateY(calc(100% + 40px + env(safe-area-inset-bottom, 0px)));
-}
-
 [data-theme="dark"] .dark-mode-toggle.dark-mode-toggle-fab {
   background: #e6edf3;
   border-color: #8b949e;
@@ -790,43 +743,6 @@ body:has(:focus-visible:not(.dark-mode-toggle)) .dark-mode-toggle-fab {
   }
 }
 
-/* Dark mode toggle button (generic base styles) */
-.dark-mode-toggle {
-  align-items: center;
-  background: none;
-  border: 1px solid var(--aluminum-3);
-  border-radius: var(--radius);
-  color: var(--steel-2);
-  cursor: pointer;
-  display: flex;
-  height: 30px;
-  justify-content: center;
-  min-height: unset;
-  padding: 0 6px;
-  transition: background var(--transition-speed-sm) var(--transition-timing),
-    border-color var(--transition-speed-sm) var(--transition-timing),
-    color var(--transition-speed-sm) var(--transition-timing);
-  width: 30px;
-
-  &:hover {
-    background: var(--aluminum-2);
-    border-color: var(--aluminum-4);
-    color: var(--steel-3);
-  }
-
-  &:focus-visible {
-    border-radius: var(--radius);
-    outline: 2px solid var(--sds-g-color-blue-50);
-    outline-offset: 2px;
-  }
-
-  & img {
-    height: 16px;
-    pointer-events: none;
-    width: 16px;
-  }
-}
-
 [data-theme="dark"] .dark-mode-toggle {
   color: var(--dm-text-secondary);
 
@@ -837,31 +753,7 @@ body:has(:focus-visible:not(.dark-mode-toggle)) .dark-mode-toggle-fab {
   }
 }
 
-/* Respect users who have requested reduced motion */
-@media (prefers-reduced-motion: reduce) {
-  .dark-mode-toggle.dark-mode-toggle-fab,
-  .dark-mode-toggle {
-    transition: none;
-  }
-
-  .dark-mode-toggle.dark-mode-toggle-fab:hover,
-  .dark-mode-toggle.dark-mode-toggle-fab:active {
-    transform: none;
-  }
-}
-
 @media (forced-colors: active) {
-  .dark-mode-toggle {
-    background: ButtonFace;
-    border-color: ButtonText;
-    color: ButtonText;
-    forced-color-adjust: auto;
-  }
-
-  .dark-mode-toggle:focus-visible {
-    outline-color: Highlight;
-  }
-
   [data-theme="dark"] .doc table,
   [data-theme="dark"] .doc table td,
   [data-theme="dark"] .doc table th,
