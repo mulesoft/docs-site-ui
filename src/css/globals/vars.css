@@ -1,4 +1,11 @@
 :root {
+  /* head-meta.hbs declares <meta name="color-scheme" content="light dark">
+     so the browser can render native form controls (checkboxes, textareas,
+     scrollbars) per OS preference even while the page itself is in light
+     mode. Pin it explicitly; html[data-theme="dark"] overrides this with
+     higher specificity when the dark theme is active. */
+  color-scheme: light;
+
   /* Salesforce Design System colors */
   --sds-c-button-color-background: #0176d3;
   --sds-c-button-color-background-hover: #023248;

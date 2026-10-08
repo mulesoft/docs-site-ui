@@ -11,7 +11,8 @@
     min-height: unset;
     padding: 4px 12px;
 
-    & img {
+    & img,
+    & .feedback-icon {
       height: 100%;
     }
   }
