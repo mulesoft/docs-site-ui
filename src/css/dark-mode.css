@@ -741,6 +741,10 @@ html[data-theme="dark"] {
     background: var(--dm-surface-3);
     box-shadow: 0 6px 20px #00000080, 0 2px 6px #00000060;
   }
+
+  & img {
+    filter: brightness(0) invert(1);
+  }
 }
 
 [data-theme="dark"] .dark-mode-toggle {

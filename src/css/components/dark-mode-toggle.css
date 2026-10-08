@@ -35,7 +35,7 @@
     outline-offset: 2px;
   }
 
-  & .dark-mode-toggle-icon {
+  & img {
     height: 20px;
     pointer-events: none;
     width: 20px;
