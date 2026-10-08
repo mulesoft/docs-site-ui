@@ -88,11 +88,19 @@ html[data-theme="dark"] {
   --docsearch-container-background: #000c;
   --docsearch-modal-background: var(--dm-surface-1);
   --docsearch-searchbox-background: var(--dm-surface-2);
-  --docsearch-searchbox-focus-background: var(--dm-surface-2);
+
+  /* .DocSearch-Form (the open search field) uses -focus-background, not
+     -background; match it to the modal bg so the field doesn't seam
+     against its own container. */
+  --docsearch-searchbox-focus-background: var(--dm-surface-1);
   --docsearch-hit-color: var(--dm-text-primary);
   --docsearch-hit-background: var(--dm-surface-2);
-  --docsearch-key-background: var(--dm-surface-3);
-  --docsearch-key-color: var(--dm-text-secondary);
+
+  /* needs to read clearly against both the collapsed toolbar button
+     (surface-2) and the footer bar (surface-1) it sits on; surface-3
+     alone was too close in lightness to both. */
+  --docsearch-key-background: var(--dm-border-strong);
+  --docsearch-key-color: var(--dm-bg);
   --docsearch-footer-background: var(--dm-surface-1);
 }
 
