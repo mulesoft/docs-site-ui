@@ -262,15 +262,8 @@ html[data-theme="dark"] {
   border-color: var(--dm-border);
 }
 
-/* Feedback form — light mode has no background/border on these, just the
-   top/bottom border-top/border-bottom lines on .feedback-section (which
-   already resolve via --feedback-border), so dark mode shouldn't add a
-   filled box either. */
-
 /* Content images — light backing keeps screenshots/diagrams with transparent
-   or white backgrounds legible on the dark page background; light mode has
-   no border/shadow/padding on images, so dark mode shouldn't invent any
-   either — background only. */
+   or white backgrounds legible on the dark page background. */
 [data-theme="dark"] .doc .imageblock img {
   background: #fff;
 }
@@ -319,8 +312,7 @@ html[data-theme="dark"] {
   color: #7ee787;
 }
 
-/* Notice/EOL banner — light mode sets no border on this banner, just a
-   background, so dark mode shouldn't add one either. */
+/* Notice/EOL banner */
 [data-theme="dark"] .notice-banner {
   background: #2d1f00;
 }
