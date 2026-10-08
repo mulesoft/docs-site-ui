@@ -70,11 +70,30 @@
   --eyebrow-gray: #8b949e;
   --violet: #bc8cff;
 
-  /* DocSearch ships its own html[data-theme="dark"] palette (same
-     specificity as this selector but earlier in source order, so this
-     wins) — rebrand just the highlight color to match the site's link
-     color instead of the vendor default. Re-verify on package bumps. */
+  /* DocSearch ships its own html[data-theme="dark"] palette, same
+     (0,1,1) specificity as [data-theme="dark"] but earlier in source
+     order (imported inside vendor/docsearch.css, before this file) —
+     so declaring a var here (not in vendor/docsearch.css's :root,
+     which is only (0,1,0) and always loses to the vendor's own dark
+     block) wins and rebrands DocSearch to the site's dark palette
+     instead of the vendor's generic one. Re-verify on package bumps. */
+  --docsearch-text-color: var(--dm-text-primary);
+  --docsearch-secondary-text-color: var(--dm-text-secondary);
   --docsearch-highlight-color: var(--dm-link);
+  --docsearch-focus-color: var(--dm-link-hover);
+  --docsearch-muted-color: var(--dm-text-muted);
+  --docsearch-icon-color: var(--dm-text-secondary);
+  --docsearch-logo-color: var(--dm-text-primary);
+  --docsearch-background-color: var(--dm-surface-2);
+  --docsearch-container-background: #000c;
+  --docsearch-modal-background: var(--dm-surface-1);
+  --docsearch-searchbox-background: var(--dm-surface-2);
+  --docsearch-searchbox-focus-background: var(--dm-surface-2);
+  --docsearch-hit-color: var(--dm-text-primary);
+  --docsearch-hit-background: var(--dm-surface-2);
+  --docsearch-key-background: var(--dm-surface-3);
+  --docsearch-key-color: var(--dm-text-secondary);
+  --docsearch-footer-background: var(--dm-surface-1);
 }
 
 /* Body background */
@@ -171,14 +190,19 @@
 }
 
 /* .blue-button has no in-repo CSS; its fill comes from the external
-   marketing stylesheet, so it can't be tokenized like the other buttons */
-[data-theme="dark"] .blue-button {
+   marketing stylesheet, so it can't be tokenized like the other buttons.
+   Markup is class="button blue-button", and .button:not(.ms-com-content
+   .button, nav button) in button.css has specificity (0,3,0) from its
+   :not() argument -- higher than a bare [data-theme="dark"] .blue-button
+   (0,2,0) -- so it was winning regardless of theme. Match .button.blue-
+   button here to tie and win on source order. */
+[data-theme="dark"] .button.blue-button {
   background: var(--sds-g-color-blue-50);
   border-color: var(--sds-g-color-blue-50);
   color: var(--tertiary);
 }
 
-[data-theme="dark"] .blue-button:hover {
+[data-theme="dark"] .button.blue-button:hover {
   background: var(--sds-g-color-blue-20);
   border-color: var(--sds-g-color-blue-20);
 }
