@@ -735,6 +735,17 @@ html[data-theme="dark"] {
   color: var(--dm-text-secondary);
 }
 
+/* Heading copy-link anchor icon — a solid gray (#747474) SVG with no
+   invert-friendly structure of its own, so it nearly disappears against the
+   dark background and hover pill. Flip it light like the other icon fixes. */
+[data-theme="dark"] .anchor-image {
+  filter: brightness(0) invert(1);
+}
+
+[data-theme="dark"] .button-copy-link:hover {
+  background-color: var(--dm-surface-3);
+}
+
 [data-theme="dark"] .dark-mode-toggle.dark-mode-toggle-fab {
   background: var(--dm-surface-2);
   border-color: var(--dm-border);
