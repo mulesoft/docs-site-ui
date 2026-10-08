@@ -201,6 +201,18 @@ html[data-theme="dark"] {
   color: var(--dm-text-primary);
 }
 
+/* Checkboxes/radios: surface-3 against aluminum-5 reads as a nearly solid
+   fill at native checkbox size (~3.3:1 border contrast, below what's legible
+   that small), making an unchecked box look checked. Use the darkest
+   surface + a lighter border for a clearly hollow unchecked state, and
+   theme the checked-state fill via accent-color. */
+[data-theme="dark"] input[type="checkbox"],
+[data-theme="dark"] input[type="radio"] {
+  accent-color: var(--dm-link);
+  background: var(--dm-surface-1);
+  border-color: var(--dm-text-secondary);
+}
+
 [data-theme="dark"] .nav-toggle {
   border-color: var(--dm-link);
   color: var(--dm-link);
