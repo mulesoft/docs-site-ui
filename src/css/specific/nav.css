@@ -207,6 +207,9 @@ svg.nav-icon {
     }
 
     & .external-link-image {
+      aspect-ratio: 1;
+      flex-shrink: 0;
+      height: 12px;
       margin-left: 10px;
       margin-right: -5px;
       width: 12px;
