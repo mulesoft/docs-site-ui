@@ -1,6 +1,12 @@
-/* Dark mode theme — toggled via data-theme="dark" on <html> */
+/* Dark mode theme — toggled via data-theme="dark" on <html>
+ *
+ * New rules should override semantic tokens (--admon-, --feedback-,
+ * --font-color-, etc. from globals/vars.css), not primitives (--aluminum-,
+ * --steel-, --sds-g-color-, --lume-g-color-). Don't add new primitive
+ * redefinitions — add/extend a semantic token instead.
+ */
 
-[data-theme="dark"] {
+html[data-theme="dark"] {
   color-scheme: dark;
 
   --dm-bg: #0f1117;
@@ -12,20 +18,33 @@
   --dm-border-subtle: #21262d;
   --dm-text-primary: #e6edf3;
   --dm-text-secondary: #8b949e;
-  --dm-text-muted: #7d858e;
+
+  /* lightened from #7d858e, which failed AA contrast on --dm-surface-2/-3 */
+  --dm-text-muted: #868e98;
   --dm-link: #58a6ff;
   --dm-link-hover: #79c0ff;
   --dm-link-visited: #bc8cff;
   --dm-code-bg: #161b22;
   --dm-code-border: #30363d;
-  --dm-note-bg: #161b22;
-  --dm-note-border: #1f6feb;
-  --dm-tip-bg: #0d1117;
-  --dm-tip-border: #238636;
-  --dm-caution-bg: #160c03;
-  --dm-caution-border: #d1242f;
-  --dm-important-bg: #161005;
-  --dm-important-border: #9e6a03;
+  --admon-text: var(--dm-text-primary);
+  --admon-note-bg: transparent;
+  --admon-note-border: var(--dm-border);
+  --admon-tip-bg: transparent;
+  --admon-tip-border: var(--dm-border);
+  --admon-caution-bg: #160c03;
+  --admon-caution-border: #d1242f;
+  --admon-caution-title: #feb8ab;
+  --admon-important-bg: #161005;
+  --admon-important-border: #9e6a03;
+  --admon-important-title: #fcc003;
+  --feedback-border: var(--dm-border);
+  --feedback-selected-bg: var(--dm-surface-3);
+  --feedback-selected-border: var(--dm-link);
+  --feedback-selected-text: var(--dm-link);
+  --feedback-thank-you-text: #3fb950;
+  --feedback-error-text: #f85149;
+  --feedback-invalid-border: #f85149;
+  --feedback-placeholder-text: var(--dm-text-muted);
   --font-color-default: var(--dm-text-primary);
   --font-color-heading: #a5c8ff;
   --font-color-heading-alternate: #79c0ff;
@@ -47,6 +66,31 @@
   --sds-g-color-cloud-blue-95: #0d1b2e;
   --eyebrow-gray: #8b949e;
   --violet: #bc8cff;
+
+  /* DocSearch's own html[data-theme="dark"] palette outranks a bare
+     [data-theme="dark"], hence html[...] above. Re-verify on package bumps. */
+  --docsearch-text-color: var(--dm-text-primary);
+  --docsearch-secondary-text-color: var(--dm-text-secondary);
+  --docsearch-subtle-color: var(--dm-border);
+  --docsearch-highlight-color: var(--dm-link);
+  --docsearch-focus-color: var(--dm-link-hover);
+  --docsearch-muted-color: var(--dm-text-muted);
+  --docsearch-icon-color: var(--dm-text-secondary);
+  --docsearch-logo-color: var(--dm-text-primary);
+  --docsearch-background-color: var(--dm-surface-2);
+  --docsearch-container-background: #000c;
+  --docsearch-modal-background: var(--dm-surface-1);
+  --docsearch-searchbox-background: var(--dm-surface-2);
+
+  /* open search field uses -focus-background, not -background */
+  --docsearch-searchbox-focus-background: var(--dm-surface-1);
+  --docsearch-hit-color: var(--dm-text-primary);
+  --docsearch-hit-background: var(--dm-surface-2);
+
+  /* surface-3 was too close in lightness to the surfaces it sits on */
+  --docsearch-key-background: var(--dm-border);
+  --docsearch-key-color: var(--dm-text-primary);
+  --docsearch-footer-background: var(--dm-surface-1);
 }
 
 /* Body background */
@@ -56,7 +100,6 @@
 }
 
 /* Scrollbar */
-[data-theme="dark"] html,
 [data-theme="dark"] {
   scrollbar-color: var(--dm-border) var(--dm-surface-1);
 }
@@ -65,22 +108,30 @@
   background-color: var(--dm-border);
 }
 
-/* Nav sidebar */
 [data-theme="dark"] .nav {
-  background: var(--dm-surface-1);
+  background: var(--dm-bg);
   box-shadow: 1px 0 0 var(--dm-border), 3px 0 15px #0004;
 }
 
-/* Toolbar */
 [data-theme="dark"] .toolbar {
-  background: var(--dm-surface-1);
+  background: var(--dm-bg);
   border-bottom-color: var(--dm-border);
 }
 
-/* Table of contents */
-[data-theme="dark"] .toc-menu {
-  background: var(--dm-surface-1);
-  border-left-color: var(--dm-border);
+/* search.svg is a flat fill="#000" raster image, invisible on a dark
+   toolbar; invert it rather than re-exporting the asset */
+[data-theme="dark"] .docsearch-toolbar-button-icon {
+  filter: invert(1);
+}
+
+/* .DocSearch-Input is set to background:transparent by the vendor,
+   but something (likely the browser's native type="search" chrome
+   under color-scheme: dark) still paints it, visibly seaming against
+   DocSearch-Form. Force it explicitly rather than relying on
+   transparent to win. */
+/* stylelint-disable-next-line selector-class-pattern */
+[data-theme="dark"] .DocSearch-Input {
+  background-color: transparent !important;
 }
 
 /* Code blocks */
@@ -89,46 +140,9 @@
   border-color: var(--dm-code-border);
 }
 
-/* Inline code */
 [data-theme="dark"] .doc code:not(pre code) {
   background: var(--dm-surface-3);
   border-color: var(--dm-border);
-  color: #e3b341;
-}
-
-/* Admonition blocks */
-[data-theme="dark"] .admonitionblock.note tbody {
-  background: var(--dm-note-bg);
-  border-color: var(--dm-note-border);
-  color: var(--dm-text-primary);
-}
-
-[data-theme="dark"] .admonitionblock.tip tbody {
-  background: var(--dm-tip-bg);
-  border-color: var(--dm-tip-border);
-  color: var(--dm-text-primary);
-}
-
-[data-theme="dark"] .admonitionblock.caution tbody,
-[data-theme="dark"] .admonitionblock.warning tbody {
-  background: var(--dm-caution-bg);
-  border-color: var(--dm-caution-border);
-  color: var(--dm-text-primary);
-}
-
-[data-theme="dark"] .admonitionblock.important tbody {
-  background: var(--dm-important-bg);
-  border-color: var(--dm-important-border);
-  color: var(--dm-text-primary);
-}
-
-/* Tables */
-[data-theme="dark"] .doc table thead {
-  background: var(--dm-surface-3);
-}
-
-[data-theme="dark"] .doc table tr:nth-child(even) {
-  background: var(--dm-surface-2);
 }
 
 [data-theme="dark"] .doc table,
@@ -142,9 +156,7 @@
   border-color: var(--dm-border-strong);
 }
 
-/* Cards */
 [data-theme="dark"] .card {
-  background: var(--dm-surface-2);
   border-color: var(--dm-border);
 }
 
@@ -157,31 +169,36 @@
   color: var(--dm-text-primary);
 }
 
-[data-theme="dark"] .button:not(.ms-com-content .button, nav button),
+/* previous surface/border combo made unchecked boxes look checked at native size */
+[data-theme="dark"] input[type="checkbox"],
+[data-theme="dark"] input[type="radio"] {
+  accent-color: var(--dm-link);
+  background: var(--dm-surface-1);
+  border-color: var(--dm-text-secondary);
+}
+
 [data-theme="dark"] .nav-toggle {
   border-color: var(--dm-link);
   color: var(--dm-link);
 }
 
-[data-theme="dark"] .button-primary:not(.ms-com-content .button, nav button),
-[data-theme="dark"] .mule-button-br.solid {
-  background: #0b5cab;
-  border-color: #0b5cab;
-  color: #fff;
-}
-
-[data-theme="dark"] .button-primary:not(.ms-com-content .button, nav button):hover,
-[data-theme="dark"] .mule-button-br.solid:hover {
-  background: #032d60;
-  border-color: #79c0ff;
-  color: #fff;
-}
-
-[data-theme="dark"] .button:not(.ms-com-content .button, nav button):hover,
 [data-theme="dark"] .nav-toggle:hover {
   background: var(--dm-surface-3);
   border-color: var(--dm-link-hover);
   color: var(--dm-link-hover);
+}
+
+/* .button.blue-button needed to match button.css's selector specificity
+   to win; .blue-button itself has no in-repo CSS (comes from marketing stylesheet) */
+[data-theme="dark"] .button.blue-button {
+  background: var(--sds-g-color-blue-50);
+  border-color: var(--sds-g-color-blue-50);
+  color: var(--tertiary);
+}
+
+[data-theme="dark"] .button.blue-button:hover {
+  background: var(--sds-g-color-blue-20);
+  border-color: var(--sds-g-color-blue-20);
 }
 
 /* Breadcrumbs */
@@ -200,9 +217,8 @@
   color: var(--dm-link-hover);
 }
 
-/* Version dropdown */
 [data-theme="dark"] .nav-version-menu {
-  background: var(--dm-surface-2);
+  background: var(--dm-bg);
   box-shadow: 0 0 0 1px var(--dm-border), 0 2px 9px #0004;
 }
 
@@ -216,24 +232,14 @@
   border-color: var(--dm-border);
 }
 
-/* Feedback form */
-[data-theme="dark"] .feedback-form {
-  background: var(--dm-surface-2);
-  border-color: var(--dm-border);
-}
-
-/* Content images — light card backing keeps screenshots and diagrams legible on dark backgrounds */
+/* Content images — light backing keeps screenshots/diagrams with transparent
+   or white backgrounds legible on the dark page background. */
 [data-theme="dark"] .doc .imageblock img {
   background: #fff;
-  border: 1px solid #484f58;
-  box-shadow: 0 4px 16px #00000080;
-  padding: 16px;
 }
 
 [data-theme="dark"] .doc .imageblock img.img-broken {
   background: var(--dm-surface-2);
-  border-color: var(--dm-border);
-  box-shadow: none;
   color: var(--dm-text-secondary);
 }
 
@@ -279,7 +285,6 @@
 /* Notice/EOL banner */
 [data-theme="dark"] .notice-banner {
   background: #2d1f00;
-  border-color: #7a5200;
 }
 
 [data-theme="dark"] .notice-banner p {
@@ -386,12 +391,12 @@
   color: var(--dm-link-hover) !important;
 }
 
-[data-theme="dark"] .ms-com-content-header .button {
+[data-theme="dark"] .ms-com-content-header .button:not(.blue-button) {
   border-color: var(--dm-link) !important;
   color: var(--dm-link) !important;
 }
 
-[data-theme="dark"] .ms-com-content-header .button:hover {
+[data-theme="dark"] .ms-com-content-header .button:not(.blue-button):hover {
   background: var(--dm-surface-3) !important;
   border-color: var(--dm-link-hover) !important;
   color: var(--dm-link-hover) !important;
@@ -571,9 +576,8 @@
   filter: invert(1);
 }
 
-/* Tabs */
 [data-theme="dark"] .tabs {
-  background-color: var(--dm-surface-1);
+  background-color: var(--dm-bg);
 }
 
 [data-theme="dark"] .tabs li.tab {
@@ -610,9 +614,8 @@
   border-top-color: var(--dm-border);
 }
 
-/* Collapsible blocks (details/summary) */
 [data-theme="dark"] details {
-  background: var(--dm-surface-1);
+  background: var(--dm-bg);
   box-shadow: 0 8px 12px #00000040, 0 2px 8px #00000020;
 }
 
@@ -662,13 +665,13 @@
 }
 
 [data-theme="dark"] .page-options-menu {
-  background: var(--dm-surface-2);
+  background: var(--dm-bg);
   box-shadow: 0 0 0 1px var(--dm-border), 0 4px 12px #00000050;
 }
 
 [data-theme="dark"] .page-options-menu a,
 [data-theme="dark"] .page-options-menu button {
-  background: var(--dm-surface-2);
+  background: var(--dm-bg);
   color: var(--dm-text-primary);
 }
 
@@ -685,103 +688,31 @@
   color: var(--dm-text-secondary);
 }
 
-/* Floating dark mode toggle button (fixed bottom-right) */
-.dark-mode-toggle.dark-mode-toggle-fab {
-  align-items: center;
-  background: var(--tertiary);
-  border: 1px solid var(--aluminum-3);
-  border-radius: 50%;
-  bottom: calc(28px + env(safe-area-inset-bottom, 0px));
-  box-shadow: 0 4px 12px #0000001f, 0 1px 4px #00000014;
-  display: flex;
-  height: 44px;
-  justify-content: center;
-  position: fixed;
-  right: calc(28px + env(safe-area-inset-right, 0px));
-  transition: box-shadow var(--transition-speed-sm) var(--transition-timing),
-    background var(--transition-speed-sm) var(--transition-timing),
-    transform var(--transition-speed-sm) var(--transition-timing);
-  width: 44px;
-  z-index: var(--z-banner);
-
-  &:hover {
-    box-shadow: 0 6px 20px #0000002e, 0 2px 6px #00000018;
-    transform: scale(1.08);
-  }
-
-  &:active {
-    transform: scale(0.96);
-  }
-
-  &:focus-visible {
-    border-radius: 50%;
-    outline: 2px solid var(--sds-g-color-blue-50);
-    outline-offset: 2px;
-  }
-
-  & img {
-    height: 20px;
-    pointer-events: none;
-    width: 20px;
-  }
+/* Flat gray SVG icon, invisible on a dark background */
+[data-theme="dark"] .anchor-image {
+  filter: brightness(0) invert(1);
 }
 
-/* Move the floating control away while another keyboard target is focused. */
-body:has(:focus-visible:not(.dark-mode-toggle)) .dark-mode-toggle-fab {
-  opacity: 0;
-  pointer-events: none;
-  transform: translateY(calc(100% + 40px + env(safe-area-inset-bottom, 0px)));
+[data-theme="dark"] .button-copy-link {
+  background: transparent;
+
+  &:hover {
+    background-color: var(--dm-surface-3);
+  }
 }
 
 [data-theme="dark"] .dark-mode-toggle.dark-mode-toggle-fab {
-  background: #e6edf3;
-  border-color: #8b949e;
+  background: var(--dm-surface-2);
+  border-color: var(--dm-border);
   box-shadow: 0 4px 12px #00000070, 0 1px 4px #00000050;
 
   &:hover {
-    background: #fff;
+    background: var(--dm-surface-3);
     box-shadow: 0 6px 20px #00000080, 0 2px 6px #00000060;
   }
 
   & img {
-    filter: none;
-  }
-}
-
-/* Dark mode toggle button (generic base styles) */
-.dark-mode-toggle {
-  align-items: center;
-  background: none;
-  border: 1px solid var(--aluminum-3);
-  border-radius: var(--radius);
-  color: var(--steel-2);
-  cursor: pointer;
-  display: flex;
-  height: 30px;
-  justify-content: center;
-  min-height: unset;
-  padding: 0 6px;
-  transition: background var(--transition-speed-sm) var(--transition-timing),
-    border-color var(--transition-speed-sm) var(--transition-timing),
-    color var(--transition-speed-sm) var(--transition-timing);
-  width: 30px;
-
-  &:hover {
-    background: var(--aluminum-2);
-    border-color: var(--aluminum-4);
-    color: var(--steel-3);
-  }
-
-  &:focus-visible {
-    border-radius: var(--radius);
-    outline: 2px solid var(--sds-g-color-blue-50);
-    outline-offset: 2px;
-  }
-
-  & img {
-    height: 16px;
-    pointer-events: none;
-    width: 16px;
+    filter: brightness(0) invert(1);
   }
 }
 
@@ -795,31 +726,7 @@ body:has(:focus-visible:not(.dark-mode-toggle)) .dark-mode-toggle-fab {
   }
 }
 
-/* Respect users who have requested reduced motion */
-@media (prefers-reduced-motion: reduce) {
-  .dark-mode-toggle.dark-mode-toggle-fab,
-  .dark-mode-toggle {
-    transition: none;
-  }
-
-  .dark-mode-toggle.dark-mode-toggle-fab:hover,
-  .dark-mode-toggle.dark-mode-toggle-fab:active {
-    transform: none;
-  }
-}
-
 @media (forced-colors: active) {
-  .dark-mode-toggle {
-    background: ButtonFace;
-    border-color: ButtonText;
-    color: ButtonText;
-    forced-color-adjust: auto;
-  }
-
-  .dark-mode-toggle:focus-visible {
-    outline-color: Highlight;
-  }
-
   [data-theme="dark"] .doc table,
   [data-theme="dark"] .doc table td,
   [data-theme="dark"] .doc table th,

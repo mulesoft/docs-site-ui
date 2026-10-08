@@ -8,7 +8,7 @@
   & tbody {
     border: 1px solid var(--aluminum-4);
     border-radius: 2px;
-    color: var(--steel-3);
+    color: var(--admon-text);
     display: block;
     font-size: 14px;
     padding: var(--md) var(--lg) var(--sm);
@@ -38,47 +38,55 @@
   }
 
   /* types of blocks */
-  &.caution tbody {
-    background: color-mod(var(--lume-g-color-red-40) lightness(98%));
-    border-color: color-mod(var(--lume-g-color-red-40) lightness(85%));
+  &.caution tbody,
+  &.warning tbody {
+    background: var(--admon-caution-bg);
+    border-color: var(--admon-caution-border);
 
     &::before {
-      background-image: url("../img/icons/caution.svg");
-      color: color-mod(var(--lume-g-color-red-40) lightness(40%));
-      content: 'CAUTION';
+      color: var(--admon-caution-title);
     }
   }
 
+  &.caution tbody::before {
+    background-image: url("../img/icons/caution.svg");
+    content: 'CAUTION';
+  }
+
   &.important tbody {
-    background: color-mod(var(--lume-g-color-yellow-80) lightness(96%));
-    border-color: color-mod(var(--lume-g-color-yellow-80) lightness(75%));
+    background: var(--admon-important-bg);
+    border-color: var(--admon-important-border);
 
     &::before {
       background-image: url("../img/icons/important.svg");
-      color: color-mod(var(--lume-g-color-yellow-80) lightness(40%));
+      color: var(--admon-important-title);
       content: 'IMPORTANT';
     }
   }
 
-  &.note tbody::before {
-    background-image: url("../img/icons/note.svg");
-    content: 'NOTE';
-  }
-
-  &.tip tbody::before {
-    background-image: url("../img/icons/tip.svg");
-    content: 'TIP';
-  }
-
-  &.warning tbody {
-    background: color-mod(var(--lume-g-color-red-40) lightness(98%));
-    border-color: color-mod(var(--lume-g-color-red-40) lightness(85%));
+  &.note tbody {
+    background: var(--admon-note-bg);
+    border-color: var(--admon-note-border);
 
     &::before {
-      background-image: url("../img/icons/caution.svg");
-      color: color-mod(var(--lume-g-color-red-40) lightness(40%));
-      content: 'WARNING';
+      background-image: url("../img/icons/note.svg");
+      content: 'NOTE';
     }
+  }
+
+  &.tip tbody {
+    background: var(--admon-tip-bg);
+    border-color: var(--admon-tip-border);
+
+    &::before {
+      background-image: url("../img/icons/tip.svg");
+      content: 'TIP';
+    }
+  }
+
+  &.warning tbody::before {
+    background-image: url("../img/icons/caution.svg");
+    content: 'WARNING';
   }
 }
 

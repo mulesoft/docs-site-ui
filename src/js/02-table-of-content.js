@@ -18,8 +18,10 @@
 
   const addDropdownArrowAttributes = (dropdownArrow) => {
     dropdownArrow.alt = ''
+    dropdownArrow.ariaLabel = 'Expand page contents'
     dropdownArrow.classList.add('select-dropdown-arrow')
     dropdownArrow.src = `${document.getElementById('site-script').dataset.uiRootPath}/img/icons/dropdown-arrow.svg`
+    dropdownArrow.role = 'button'
   }
 
   const addSelectWrap = (startOfContent) => {
@@ -81,6 +83,7 @@
 
   const updateExpandState = () => {
     isSelectDropdownExpanded = !isSelectDropdownExpanded
+    dropdownArrow.ariaLabel = isSelectDropdownExpanded ? 'Collapse page content' : 'Expand page content'
   }
 
   const createToc = (sidebar) => {
