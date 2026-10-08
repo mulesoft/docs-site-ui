@@ -1,9 +1,5 @@
 :root {
-  /* head-meta.hbs declares <meta name="color-scheme" content="light dark">
-     so the browser can render native form controls (checkboxes, textareas,
-     scrollbars) per OS preference even while the page itself is in light
-     mode. Pin it explicitly; html[data-theme="dark"] overrides this with
-     higher specificity when the dark theme is active. */
+  /* Set default to prevent issues when users have prefer dark mode set. */
   color-scheme: light;
 
   /* Salesforce Design System colors */
@@ -75,8 +71,6 @@
   /* Salesforce Design System typography */
   --sds-g-font-display: 'ITC Avant Garde', system-ui, -apple-system, blinkmacsystemfont, 'Segoe UI', roboto, 'Helvetica Neue', arial, 'Noto Sans', sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
   --sds-g-font-sans: 'Salesforce Sans', system-ui, -apple-system, blinkmacsystemfont, 'Segoe UI', roboto, 'Helvetica Neue', arial, 'Noto Sans', sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
-
-  /* admonitions (semantic tokens; dark overrides in dark-mode.css) */
   --admon-text: var(--steel-3);
   --admon-note-bg: transparent;
   --admon-note-border: var(--aluminum-4);
@@ -88,8 +82,6 @@
   --admon-important-bg: var(--lume-g-color-yellow-95);
   --admon-important-border: var(--lume-g-color-yellow-70);
   --admon-important-title: var(--lume-g-color-yellow-40);
-
-  /* feedback form (semantic tokens; dark overrides in dark-mode.css) */
   --feedback-border: var(--lume-g-color-neutral-80);
   --feedback-selected-bg: var(--lume-g-color-blue-95);
   --feedback-selected-border: var(--lume-g-color-blue-20);

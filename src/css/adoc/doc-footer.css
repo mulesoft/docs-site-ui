@@ -11,9 +11,26 @@
     min-height: unset;
     padding: 4px 12px;
 
-    & img,
-    & .feedback-icon {
+    & img {
       height: 100%;
+    }
+
+    & .feedback-icon {
+      background-color: currentcolor;
+      display: inline-block;
+      height: 12px;
+      mask-position: center;
+      mask-repeat: no-repeat;
+      mask-size: contain;
+      width: 12px;
+    }
+
+    & .feedback-icon-up {
+      mask-image: url("../img/icons/thumb-up.svg");
+    }
+
+    & .feedback-icon-down {
+      mask-image: url("../img/icons/thumb-down.svg");
     }
   }
 
