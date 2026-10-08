@@ -125,9 +125,10 @@ html[data-theme="dark"] {
   background-color: var(--dm-border);
 }
 
-/* Nav sidebar */
+/* Nav sidebar — light mode keeps this the same color as the page background
+   (--tertiary), so match that here with --dm-bg instead of a surface token */
 [data-theme="dark"] .nav {
-  background: var(--dm-surface-1);
+  background: var(--dm-bg);
   box-shadow: 1px 0 0 var(--dm-border), 3px 0 15px #0004;
 }
 
