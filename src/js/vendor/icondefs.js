@@ -1195,7 +1195,7 @@
       ],
     },
     {
-      id: 'icon-nav-page-general-learning-map-api-management',
+      id: 'icon-nav-component-apim-home',
       viewBox: '0 0 24 24',
       paths: [
         // lume-icons/utility/api-group
@@ -1214,7 +1214,26 @@
       ],
     },
     {
-      id: 'icon-nav-page-general-contribute',
+      id: 'icon-nav-component-dev-hub',
+      viewBox: '0 0 24 24',
+      paths: [
+        // lume-icons/product/exchange
+        {
+          d: 'M5.315 4.902a9.807 9.807 0 0 0-.96 1.045l5.258 5.257 1.59-1.591-4.666-4.666c-.336-.337-.876-.371-1.222-.045ZM18.684 19.098c.345-.325.665-.674.96-1.045L14.38 12.79l-1.591 1.591 4.672 4.672c.336.337.876.371 1.222.045Z',
+          fill: 'var(--lume-c-icon-color-foreground-1)',
+        },
+        {
+          d: 'M5.96 7.552 4.357 5.947A9.709 9.709 0 0 0 2.25 12c0 2.287.787 4.39 2.106 6.053l1.605-1.605A7.466 7.466 0 0 1 4.5 12c0-1.665.543-3.204 1.46-4.448ZM18.035 7.55l1.607-1.606a9.707 9.707 0 0 1 2.104 6.053 9.714 9.714 0 0 1-2.102 6.056l-1.609-1.607a7.466 7.466 0 0 0 1.461-4.449 7.466 7.466 0 0 0-1.46-4.448Z',
+          fill: 'var(--lume-c-icon-color-foreground-2)',
+        },
+        {
+          d: 'M19.643 5.947a9.802 9.802 0 0 0-.959-1.045c-.346-.326-.886-.292-1.222.045L4.355 18.053c.295.371.615.72.96 1.045.346.326.886.292 1.222-.045L19.644 5.947Z',
+          fill: 'var(--lume-c-icon-color-foreground-3)',
+        },
+      ],
+    },
+    {
+      id: 'icon-nav-component-ms-docs-contribute',
       viewBox: '0 0 24 24',
       paths: [
         // lume-icons/utility/logo-github
@@ -1227,7 +1246,7 @@
       ],
     },
     {
-      id: 'icon-nav-page-general-use-mulesoft-docs-with-ai',
+      id: 'icon-nav-component-ms-docs-with-ai',
       viewBox: '0 0 24 24',
       paths: [
         // lume-icons/utility/logo-mulesoft
@@ -1240,7 +1259,7 @@
       ],
     },
     {
-      id: 'icon-nav-page-general-glossary',
+      id: 'icon-nav-component-ms-docs-glossary',
       viewBox: '0 0 24 24',
       paths: [
         // lume-icons/utility/documentation
@@ -1249,6 +1268,26 @@
           fill: 'var(--lume-c-icon-color-foreground-3)',
           'fill-rule': 'evenodd',
           'clip-rule': 'evenodd',
+        },
+      ],
+    },
+    {
+      id: 'icon-nav-component-general-home-ms-java-support',
+      viewBox: '0 0 24 24',
+      paths: [
+        // lume-icons/utility/code
+        {
+          d: 'M13.775 3.521a1 1 0 0 1 .774 1.184l-3.14 15a1 1 0 1 1-1.958-.41l3.14-15a1 1 0 0 1 1.184-.774Zm3.62 2.683a1 1 0 0 1 1.4.19L21.77 10.3a2.005 2.005 0 0 1 0 2.41l-.005.007-2.97 3.89a1 1 0 0 1-1.59-1.214l2.966-3.884a.011.011 0 0 0 .001-.003v-.002l-.001-.003-.001-.001-2.966-3.894a1 1 0 0 1 .19-1.402ZM6.612 6.26a1 1 0 0 1 .177 1.403L3.84 11.472a.01.01 0 0 0-.001.002v.002l.002.004 2.958 3.917a1 1 0 0 1-1.596 1.206l-2.96-3.92-.002-.003a2.005 2.005 0 0 1 0-2.41l.01-.012 2.96-3.82a1 1 0 0 1 1.403-.178Z',
+        },
+      ],
+    },
+    {
+      id: 'icon-nav-component-archive',
+      viewBox: '0 0 24 24',
+      paths: [
+        // lume-icons/utility/books
+        {
+          d: 'M2 4a2 2 0 0 1 2-2h2c.364 0 .706.097 1 .268A1.99 1.99 0 0 1 8 2h4c.565 0 1.075.234 1.438.61a2.01 2.01 0 0 1 .045-.012l1.931-.518a2 2 0 0 1 2.45 1.414l4.141 15.455a2 2 0 0 1-1.414 2.45l-1.932.517a2 2 0 0 1-2.45-1.414L14 12.256V20a2 2 0 0 1-2 2H8a1.99 1.99 0 0 1-1-.268A1.99 1.99 0 0 1 6 22H4a2 2 0 0 1-2-2V4Zm6 16h4v-2H8v2Zm-2-2H4v2h2v-2Zm2-2h4V8H8v8ZM8 6h4V4H8v2ZM6 4H4v12h2V4Zm9.036 4.393 2.07 7.728 1.932-.518-2.07-7.727-1.932.517Zm1.414-2.45-.518-1.931L14 4.53l.518 1.931 1.932-.517Zm3.106 11.592-1.932.518.517 1.931 1.932-.517-.517-1.932Z',
         },
       ],
     },
@@ -1439,7 +1478,7 @@
       ],
     },
     {
-      id: 'icon-nav-page-general-learning-map-mulesoft-ai',
+      id: 'icon-nav-component-ms-ai',
       viewBox: '0 0 24 24',
       paths: [
         // lume-icons/utility/sparkle
@@ -1452,7 +1491,17 @@
       ],
     },
     {
-      id: 'icon-nav-page-general-usage-reports',
+      id: 'icon-nav-component-ms-headless',
+      viewBox: '0 0 24 24',
+      paths: [
+        // lume-icons/product/stack
+        {
+          d: 'M11.684 4.051a1 1 0 0 1 .632 0l9 3a1 1 0 0 1 0 1.898l-9 3a1 1 0 0 1-.632 0l-9-3a1 1 0 0 1 0-1.898l9-3ZM6.162 8 12 9.946 17.838 8 12 6.054 6.162 8Zm-1.11 4.684a1 1 0 0 1 1.264-.633L12 13.946l5.684-1.895a1 1 0 0 1 .632 1.898l-6 2a1 1 0 0 1-.632 0l-6-2a1 1 0 0 1-.633-1.265Zm0 4a1 1 0 0 1 1.264-.633L12 17.946l5.684-1.895a1 1 0 0 1 .632 1.898l-6 2a1 1 0 0 1-.632 0l-6-2a1 1 0 0 1-.633-1.265Z',
+        },
+      ],
+    },
+    {
+      id: 'icon-nav-component-general-home-usage-reports',
       viewBox: '0 0 24 24',
       paths: [
         // lume-icons/utility/gauge-arrow
