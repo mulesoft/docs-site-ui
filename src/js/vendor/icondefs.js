@@ -630,10 +630,12 @@
       paths: [
         // lume-icons/product/server-on-prem
         {
-          d: 'M7 8a1 1 0 1 0 0-2 1 1 0 0 0 0 2ZM7 14a1 1 0 1 0 0-2 1 1 0 0 0 0 2ZM10 7.99a1 1 0 1 0 0-2 1 1 0 0 0 0 2ZM10 14a1 1 0 1 0 0-2 1 1 0 0 0 0 2Z"/><path d="M2 5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2h-7v1.99h5a1 1 0 1 1 0 2H6a1 1 0 1 1 0-2h5V17H4a2 2 0 0 1-2-2V5Zm18 0H4v4h16V5Zm0 6H4v4h16v-4Z',
+          d: 'M7 8a1 1 0 1 0 0-2 1 1 0 0 0 0 2ZM7 14a1 1 0 1 0 0-2 1 1 0 0 0 0 2ZM10 7.99a1 1 0 1 0 0-2 1 1 0 0 0 0 2ZM10 14a1 1 0 1 0 0-2 1 1 0 0 0 0 2Z',
           fill: 'var(--lume-c-icon-color-foreground-1)',
-          'clip-rule': 'evenodd',
-          'fill-rule': 'evenodd',
+        },
+        {
+          d: 'M2 5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2h-7v1.99h5a1 1 0 1 1 0 2H6a1 1 0 1 1 0-2h5V17H4a2 2 0 0 1-2-2V5Zm18 0H4v4h16V5Zm0 6H4v4h16v-4Z',
+          fill: 'var(--lume-c-icon-color-foreground-1)',
         },
       ],
     },
@@ -1187,7 +1189,7 @@
       paths: chevronDownPaths,
     },
     {
-      id: 'icon-nav-page-general-browser-support',
+      id: 'icon-nav-component-ms-browser-support',
       viewBox: '0 0 24 24',
       paths: [
         // lume-icons/utility/globe
@@ -1541,7 +1543,7 @@
       ],
     },
     {
-      id: 'icon-nav-component-general-home-usage-reports',
+      id: 'icon-nav-component-usage-home',
       viewBox: '0 0 24 24',
       paths: [
         // lume-icons/utility/gauge-arrow
