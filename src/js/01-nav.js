@@ -371,6 +371,7 @@
           this.navData.components.push({
             name: 'archive',
             title: 'Archived Documentation',
+            external: true,
             versions: [
               {
                 version: '',
@@ -564,9 +565,10 @@
 
     createNavTitle (navItem, componentData) {
       const navTitle = createElement('.nav-title')
-      const navLink = ['home', 'archive'].includes(componentData.name)
-        ? createElement('a.link.nav-text', componentData.title)
-        : createElement('span.link.nav-text', componentData.title)
+      const navLink =
+        componentData.name === 'home' || componentData.external
+          ? createElement('a.link.nav-text', componentData.title)
+          : createElement('span.link.nav-text', componentData.title)
       navLink.setAttribute('tabindex', '0')
       if (componentData.name === 'home') {
         const homeUrl = componentData.nav.url
@@ -574,9 +576,10 @@
           navItem.classList.add('is-active')
           navLink.ariaCurrent = 'page'
         }
-      } else if (componentData.name === 'archive') {
+      } else if (componentData.external) {
         navLink.href = componentData.nav.url
         navLink.target = '_blank'
+        navLink.rel = 'noopener'
       } else {
         navLink.ariaLabel = `Toggle ${componentData.title}`
         navLink.setAttribute('role', 'button')
