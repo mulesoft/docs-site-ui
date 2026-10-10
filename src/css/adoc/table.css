@@ -193,7 +193,7 @@ table:not(.connectors-table, div.admonitionblock table, div.colist table, div.pa
 /* tables on the homepage, for example "latest releases" */
 div.panels table {
   & p {
-    font-size: var(--font-size-default);
+    font-size: 14px;
     margin: 0;
   }
 }
