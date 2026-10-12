@@ -200,6 +200,17 @@ svg.nav-icon {
       width: min-content;
     }
 
+    &:has(> .tooltip-div) {
+      align-items: center;
+      display: flex;
+
+      & > .nav-text {
+        flex: none;
+        margin-right: 0;
+        width: auto;
+      }
+    }
+
     &.is-active {
       & > .nav-item-toggle::before {
         content: "-";
@@ -207,6 +218,7 @@ svg.nav-icon {
     }
 
     & .external-link-image {
+      align-self: center;
       aspect-ratio: 1;
       flex-shrink: 0;
       height: 12px;

@@ -441,7 +441,7 @@
           groupsAccum.pop()
         } else if (groupComponents.length === 1 && (component = groupComponents[0]).unversioned) {
           const items = component.nav.items
-          if ((items[0] || {}).url?.includes('/general/')) {
+          if (component.name === 'general' && /\/general\/(index\.html)?$/.test(items[0]?.url || '')) {
             component.nav.items = items.slice(1)
           }
           component.nav.items.forEach(function (it) {
