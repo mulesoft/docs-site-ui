@@ -441,7 +441,7 @@
           groupsAccum.pop()
         } else if (groupComponents.length === 1 && (component = groupComponents[0]).unversioned) {
           const items = component.nav.items
-          if ((items[0] || {}).url?.includes('/general/')) {
+          if (component.name === 'general' && /\/general\/(index\.html)?$/.test(items[0]?.url || '')) {
             component.nav.items = items.slice(1)
           }
           component.nav.items.forEach(function (it) {
@@ -564,9 +564,12 @@
 
     createNavTitle (navItem, componentData) {
       const navTitle = createElement('.nav-title')
-      const navLink = ['home', 'archive'].includes(componentData.name)
-        ? createElement('a.link.nav-text', componentData.title)
-        : createElement('span.link.nav-text', componentData.title)
+      // link-only entry (e.g. customNavLinks): unversioned, url, no items
+      const isSectionLink = componentData.unversioned && componentData.nav?.url && !componentData.nav.items?.length
+      const navLink =
+        ['home', 'archive'].includes(componentData.name) || isSectionLink
+          ? createElement('a.link.nav-text', componentData.title)
+          : createElement('span.link.nav-text', componentData.title)
       navLink.setAttribute('tabindex', '0')
       if (componentData.name === 'home') {
         const homeUrl = componentData.nav.url
@@ -577,6 +580,11 @@
       } else if (componentData.name === 'archive') {
         navLink.href = componentData.nav.url
         navLink.target = '_blank'
+      } else if (isSectionLink) {
+        if ((navLink.href = relativize(componentData.nav.url)) === relativize(page.url)) {
+          navItem.classList.add('is-active')
+          navLink.ariaCurrent = 'page'
+        }
       } else {
         navLink.ariaLabel = `Toggle ${componentData.title}`
         navLink.setAttribute('role', 'button')
