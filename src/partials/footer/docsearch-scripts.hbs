@@ -2,6 +2,13 @@
 <script type="text/javascript">
 ;(() => {
   'use strict'
+  const appId = '{{ env.DOCSEARCH_APP_ID }}'
+  const apiKey = '{{ env.DOCSEARCH_API_KEY }}'
+  if (!appId || !apiKey) {
+    console.error('DocSearch is not initialized because DOCSEARCH_APP_ID or DOCSEARCH_API_KEY is missing.')
+    return
+  }
+
   const searchContainer = '#docsearch'
   const searchText = MSCX.l10n.getMessage('search-toolbar-button')
   const versionLatest = 'latest'
@@ -46,8 +53,8 @@
 
   const docsearch = window.docsearch({
     container: searchContainer,
-    appId: '{{ env.DOCSEARCH_APP_ID }}',
-    apiKey: '{{ env.DOCSEARCH_API_KEY }}',
+    appId,
+    apiKey,
     indexName: 'MuleSoft Documentation',
     disableUserPersonalization: true,
     maxResultsPerGroup: 20,
