@@ -56,7 +56,7 @@
 
       if (href.startsWith('https://www.youtube.com') ||
         href.startsWith('https://videos.mulesoft.com') ||
-        href.startsWith('https://salesforce.vidyard.com/')) {
+        href.startsWith('https://salesforce.vidyard.com')) {
         link.classList.add('lm-link-video')
       } else if (href.startsWith('https://trailhead.salesforce.com')) {
         link.classList.add('lm-link-trailhead')
