@@ -245,6 +245,12 @@ svg.nav-icon {
 
       &[data-component] {
         margin-left: -0.5em;
+
+        /* Prevent nested components from looking like children of other pages in TOC.
+         * Hang the icon so the component's text lines up with sibling page text. */
+        & > .nav-title.has-icon {
+          margin-left: -1.5em;
+        }
       }
     }
 
