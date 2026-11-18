@@ -86,6 +86,22 @@ module.exports = (src, dest, preview) => (done) => {
           .pipe(buffer())
           .pipe(uglify()),
         vfs
+          .src('js/vendor/video-hub.bundle.js', { ...opts, read: false })
+          .pipe(
+            map((file, enc, next) => {
+              file.contents = browserify(file.relative, {
+                basedir: src,
+                detectGlobals: false,
+              })
+                .plugin('browser-pack-flat/plugin')
+                .bundle()
+              file.path = file.path.replace('.bundle.js', '.js')
+              next(null, file)
+            })
+          )
+          .pipe(buffer())
+          .pipe(uglify()),
+        vfs
           .src(
             [
               require.resolve('@popperjs/core/dist/umd/popper.min.js'),
@@ -122,16 +138,18 @@ module.exports = (src, dest, preview) => (done) => {
           ),
         vfs.src('font/*.{ttf,woff*(2)}', opts),
         vfs.src('img/**/*.{gif,ico,jpg,png,svg}', opts).pipe(
-          imagemin(
-            [
-              gifsicle(),
-              mozjpeg(),
-              optipng(),
-              svgo({
-                plugins: [{ name: 'removeViewBox', active: false }],
-              }),
-            ].reduce((accum, it) => (it ? accum.concat(it) : accum), [])
-          )
+          preview
+            ? map()
+            : imagemin(
+              [
+                gifsicle(),
+                mozjpeg(),
+                optipng(),
+                svgo({
+                  plugins: [{ name: 'removeViewBox', active: false }],
+                }),
+              ].reduce((accum, it) => (it ? accum.concat(it) : accum), [])
+            )
         ),
         vfs.src('helpers/*.js', opts),
         vfs.src('layouts/*.hbs', opts),

@@ -47,6 +47,8 @@ site:
                 url: /general/api-led-operate.html
           - content: Browser Support
             url: /general/browser-support.html
+          - content: Documentation Videos
+            url: /general/video-hub.html
           - content: Glossary
             url: /general/glossary.html
           - content: Contribute

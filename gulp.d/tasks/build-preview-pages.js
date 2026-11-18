@@ -30,7 +30,8 @@ module.exports =
             compileLayouts(src, layouts),
             registerHelpers(src),
             registerPartials(src),
-            copyImages(previewSrc, previewDest)
+            copyImages(previewSrc, previewDest),
+            copyAttachments(previewSrc, previewDest)
           )
         ),
       ]).then(([baseUiModel]) =>
@@ -265,6 +266,10 @@ function compileLayouts (src, layouts) {
 
 function copyImages (src, dest) {
   return vfs.src('**/*.{png,svg}', { base: src, cwd: src }).pipe(vfs.dest(dest))
+}
+
+function copyAttachments (src, dest) {
+  return vfs.src('**/_attachments/**/*', { base: src, cwd: src }).pipe(vfs.dest(dest))
 }
 
 function relativize (url) {
