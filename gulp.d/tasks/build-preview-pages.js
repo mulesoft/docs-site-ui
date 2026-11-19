@@ -30,10 +30,11 @@ module.exports =
             compileLayouts(src, layouts),
             registerHelpers(src),
             registerPartials(src),
-            copyImages(previewSrc, previewDest),
-            copyNavigationFixture(previewSrc, previewDest)
+            copyImages(previewSrc, previewDest)
           )
         ),
+        fs.copy(ospath.join(previewSrc, 'c360'), ospath.join(previewDest, 'c360')),
+        fs.copy(ospath.join(previewSrc, 'digital'), ospath.join(previewDest, 'digital')),
       ]).then(([baseUiModel]) =>
         merge(
           vfs
@@ -266,12 +267,6 @@ function compileLayouts (src, layouts) {
 
 function copyImages (src, dest) {
   return vfs.src('**/*.{png,svg}', { base: src, cwd: src }).pipe(vfs.dest(dest))
-}
-
-function copyNavigationFixture (src, dest) {
-  return vfs
-    .src('c360/experience/v2/navigation', { base: src, cwd: src })
-    .pipe(vfs.dest(dest))
 }
 
 function relativize (url) {
