@@ -5,8 +5,8 @@
   </header>
 
   <section class="video-hub-controls" aria-label="Filter videos">
-    <label class="video-hub-search">
-      <span class="sr-only">Search videos by title, topic, or keyword</span>
+      <label class="video-hub-search">
+      <span>Search videos</span>
       <svg class="video-hub-search-icon" viewBox="0 0 24 24" aria-hidden="true">
         <path d="M10 4a6 6 0 1 0 3.17 11.08l4.38 4.38a1 1 0 0 0 1.41-1.41l-4.38-4.38A6 6 0 0 0 10 4Zm-4 6a4 4 0 1 1 8 0 4 4 0 0 1-8 0Z"></path>
       </svg>
@@ -14,12 +14,15 @@
     </label>
     <label class="video-hub-product-filter">
       <span>Product</span>
-      <select data-video-product aria-label="Filter videos by product">
+      <select data-video-product>
         <option value="">All products</option>
       </select>
     </label>
-    <div class="video-hub-topics" data-video-topics aria-label="Filter videos by topic"></div>
-    <p class="video-hub-count" data-video-count aria-live="polite" role="status"></p>
+    <fieldset class="video-hub-topic-filters">
+      <legend>Filter by topic</legend>
+      <div class="video-hub-topics" data-video-topics></div>
+    </fieldset>
+    <p class="video-hub-count" data-video-count role="status"></p>
   </section>
 
   <section class="video-hub-path" data-video-path hidden aria-labelledby="video-hub-path-title">
@@ -59,7 +62,7 @@
     <div class="video-hub-dialog-bar">
       <h2 data-video-dialog-title id="video-hub-dialog-title"></h2>
       <a data-video-dialog-new-tab target="_blank" rel="noopener">Open video in new tab</a>
-      <button type="button" data-video-dialog-close aria-label="Close video player">Close</button>
+      <button type="button" data-video-dialog-close>Close</button>
     </div>
     <div class="video-hub-player">
       <iframe data-video-iframe title="Video player" allow="autoplay; fullscreen; encrypted-media" allowfullscreen></iframe>

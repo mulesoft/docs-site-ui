@@ -21,6 +21,7 @@
     } catch (error) {
       console.error('Unable to load video catalog', error)
       root.textContent = 'Videos are temporarily unavailable.'
+      root.setAttribute('role', 'status')
       return
     }
     const videos = catalog.products.flatMap(({ name, videos }) => {
@@ -64,6 +65,7 @@
     const dialogTitle = dialog.querySelector('[data-video-dialog-title]')
     const dialogNewTab = dialog.querySelector('[data-video-dialog-new-tab]')
     const dialogClose = dialog.querySelector('[data-video-dialog-close]')
+    let dialogOpener
     const topics = [...new Set(videos.flatMap((video) => video.topics || []))]
     const categoryDescriptions = {
       eme: 'Lifecycle of an AI-connected integration portfolio',
@@ -130,6 +132,7 @@
       card.querySelector('[data-video-duration]').textContent = video.duration || ''
       card.querySelector('[data-video-sequence]').textContent = video.sequence || ''
       play.setAttribute('aria-label', `Play ${video.title}`)
+      card.querySelector('[data-video-title]').id = `video-title-${video.id}`
 
       thumbnail.src = video.thumbnail
       play.addEventListener('click', () => openPlayer(video, videoUrl))
@@ -137,12 +140,11 @@
       const watch = card.querySelector('[data-video-watch]')
       if (videoUrl) {
         watch.href = videoUrl
-        watch.target = '_blank'
-        watch.rel = 'noopener'
-        watch.setAttribute(
-          'aria-label',
-        `Watch ${video.title} on Vidyard (opens in a new tab)`
-        )
+        watch.setAttribute('aria-label', `Watch video: ${video.title}`)
+        watch.addEventListener('click', (event) => {
+          event.preventDefault()
+          openPlayer(video, videoUrl)
+        })
       } else {
         watch.remove()
       }
@@ -150,6 +152,7 @@
       const docs = card.querySelector('[data-video-docs]')
       if (video.docUrl) {
         docs.href = video.docUrl
+        docs.setAttribute('aria-label', `Read docs: ${video.title}`)
       } else {
         docs.remove()
       }
@@ -194,6 +197,7 @@
         section.setAttribute('aria-labelledby', headingId)
         const count = document.createElement('span')
         count.textContent = `${items.length} ${items.length === 1 ? 'video' : 'videos'}`
+        count.className = 'video-hub-category-count'
         const description = document.createElement('span')
         description.className = 'video-hub-category-description'
         description.textContent = categoryDescriptions[productId] || ''
@@ -214,8 +218,10 @@
     }
 
     function openPlayer (video, videoUrl) {
+      dialogOpener = document.activeElement
       dialogTitle.textContent = video.title
       dialogNewTab.href = videoUrl
+      iframe.title = `Video: ${video.title}`
       iframe.src = `https://play.vidyard.com/${encodeURIComponent(video.vid)}.html?autoplay=1`
       dialog.showModal()
       dialogClose.focus()
@@ -260,6 +266,11 @@
       if (section) section.scrollIntoView({ behavior: 'smooth', block: 'start' })
     })
     dialogClose.addEventListener('click', closePlayer)
+    dialog.addEventListener('close', () => {
+      iframe.src = ''
+      dialogOpener?.focus()
+      dialogOpener = null
+    })
     dialog.addEventListener('click', (event) => {
       if (event.target === dialog) closePlayer()
     })
