@@ -1,3 +1,7 @@
+#globalnav-wrapper-c360 {
+  min-height: 72px;
+}
+
 /* specificity to override position */
 .br-nav.ms-com-content.ms-com-content-header:not(.active) {
   position: relative !important;
