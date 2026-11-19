@@ -122,16 +122,19 @@ module.exports = (src, dest, preview) => (done) => {
           ),
         vfs.src('font/*.{ttf,woff*(2)}', opts),
         vfs.src('img/**/*.{gif,ico,jpg,png,svg}', opts).pipe(
-          imagemin(
-            [
-              gifsicle(),
-              mozjpeg(),
-              optipng(),
-              svgo({
-                plugins: [{ name: 'removeViewBox', active: false }],
-              }),
-            ].reduce((accum, it) => (it ? accum.concat(it) : accum), [])
-          )
+            // Preview copies don't need native image optimization.
+          preview
+            ? map()
+            : imagemin(
+              [
+                gifsicle(),
+                mozjpeg(),
+                optipng(),
+                svgo({
+                  plugins: [{ name: 'removeViewBox', active: false }],
+                }),
+              ].reduce((accum, it) => (it ? accum.concat(it) : accum), [])
+            )
         ),
         vfs.src('helpers/*.js', opts),
         vfs.src('layouts/*.hbs', opts),
