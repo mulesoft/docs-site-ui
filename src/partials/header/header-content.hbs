@@ -6,7 +6,7 @@
     search="false"
     show-region-selector="true"
     show-button-secondary="true"
-    origin="https://wp.sfdcdigital.com/mulesoft/en-us/wp-json"
+    origin="{{#if (eq (site-profile) 'preview')}}http://localhost:8080{{else}}https://wp.sfdcdigital.com/mulesoft/en-us/wp-json{{/if}}"
     contactMenuOverride="true"
     showRegionSelector="false"
     context-nav-enabled="false"
