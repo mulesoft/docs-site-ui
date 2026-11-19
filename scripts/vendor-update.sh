@@ -6,8 +6,8 @@ if [[ -z "${INIT_CWD:-}" ]]; then
 fi
 
 pack_packages() {
-  npm pack @mulesoft/lume-icon --registry=https://nexus3.build.msap.io/repository/npm-internal/ >/dev/null
-  npm pack @mulesoft/lume-styling-hooks --registry=https://nexus3.build.msap.io/repository/npm-internal/ >/dev/null
+  npm pack @mulesoft/lume-icon --registry=https://nexus-proxy.repo.local.sfdc.net/repository/npm-internal/ >/dev/null
+  npm pack @mulesoft/lume-styling-hooks --registry=https://nexus-proxy.repo.local.sfdc.net/repository/npm-internal/ >/dev/null
 }
 
 login_to_registry() {
@@ -26,7 +26,7 @@ login_to_registry() {
     return 1
   fi
 
-  npm login --registry=https://nexus3.build.msap.io/repository/npm-internal/ --scope=@mulesoft --auth-type=legacy <<EOF
+  npm login --registry=https://nexus-proxy.repo.local.sfdc.net/repository/npm-internal/ --scope=@mulesoft --auth-type=legacy <<EOF
 $username
 $password
 $email

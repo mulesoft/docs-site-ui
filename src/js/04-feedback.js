@@ -204,7 +204,12 @@
     })
       /* eslint-enable */
       .then((response) => {
-        response.ok ? console.log('Form submitted successfully') : console.error('Error submitting form')
+        if (!response.ok) {
+          console.error(`Error submitting form: ${response.status} ${response.statusText}`)
+          return
+        }
+
+        console.log('Form submitted successfully')
       })
       .catch((error) => {
         console.error('Network error:', error)
