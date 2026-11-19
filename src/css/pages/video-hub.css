@@ -567,6 +567,7 @@
   --video-hub-dialog-control-border: var(--aluminum-4);
   --video-hub-dialog-control-color: var(--font-color-link);
   --video-hub-dialog-control-hover: var(--aluminum-3);
+
   align-items: center;
   background: var(--video-hub-dialog-bar-background);
   color: var(--video-hub-dialog-bar-color);
