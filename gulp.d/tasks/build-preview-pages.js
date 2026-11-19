@@ -34,7 +34,7 @@ module.exports =
           )
         ),
         fs.copy(ospath.join(previewSrc, 'c360'), ospath.join(previewDest, 'c360')),
-        fs.copy(ospath.join(previewSrc, 'digital'), ospath.join(previewDest, 'digital')),
+        copyCrossSiteFrameworkAssets(previewSrc, previewDest),
       ]).then(([baseUiModel]) =>
         merge(
           vfs
@@ -267,6 +267,24 @@ function compileLayouts (src, layouts) {
 
 function copyImages (src, dest) {
   return vfs.src('**/*.{png,svg}', { base: src, cwd: src }).pipe(vfs.dest(dest))
+}
+
+function copyCrossSiteFrameworkAssets (src, dest) {
+  const source = ospath.join(src, 'digital')
+  const target = ospath.join(dest, 'digital')
+  const navigationBundle = ospath.join(target, 'xsf/components/v1-stable/navs.js')
+
+  return fs.copy(source, target).then(() =>
+    fs.readFile(navigationBundle, 'utf8').then((contents) =>
+      fs.writeFile(
+        navigationBundle,
+        contents.replaceAll(
+          'https://a.sfdcstatic.com/digital/one-trust/ext/v1-stable/gdpr.js',
+          '/digital/one-trust/ext/v1-stable/gdpr.js'
+        )
+      )
+    )
+  )
 }
 
 function relativize (url) {

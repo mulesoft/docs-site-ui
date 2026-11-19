@@ -3,18 +3,6 @@
 {{else if (eq (site-profile) 'preview')}}
 <script type="module" src="{{siteRootPath}}/digital/xsf/components/v1-stable/navs.js"></script>
 <script>
-  window.cliLibsConfig = {
-    cdnScriptsOrigin: window.location.origin,
-    iis: {disabled: true},
-    userProfiles: {disabled: true},
-    visitor: {disabled: true},
-    personalization: {disabled: true},
-    demandbase: {disabled: true},
-    neustar: {disabled: true}
-  };
-  window.sfdcBase = {env: 'PROD', iisDisabled: true};
-</script>
-<script>
   window.SfdcWwwBase = window.SfdcWwwBase || {};
   window.SfdcWwwBase.gdpr = window.SfdcWwwBase.gdpr || {
     preference: function () {
@@ -24,7 +12,6 @@
     }
   };
 </script>
-<script defer type="text/javascript" src="{{siteRootPath}}/digital/@sfdc-www/clientlibs-web-components/v1-stable/bottom.js"></script>
 {{else}}
 {{!-- Cross-Site Framework global navigation and footer components. --}}
 <script type="module" src="https://a.sfdcstatic.com/digital/xsf/components/v1-stable/navs.js"></script>
