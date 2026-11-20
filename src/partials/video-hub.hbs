@@ -1,0 +1,77 @@
+<article class="doc video-hub">
+  <header class="video-hub-hero">
+    {{#if page.title}}<h1 class="page">{{{page.title}}}</h1>{{/if}}
+    <div class="video-hub-intro" data-video-intro></div>
+  </header>
+
+  <section class="video-hub-controls" aria-label="Filter videos">
+      <label class="video-hub-search">
+      <span>Search videos</span>
+      <svg class="video-hub-search-icon" viewBox="0 0 24 24" aria-hidden="true">
+        <path d="M10 4a6 6 0 1 0 3.17 11.08l4.38 4.38a1 1 0 0 0 1.41-1.41l-4.38-4.38A6 6 0 0 0 10 4Zm-4 6a4 4 0 1 1 8 0 4 4 0 0 1-8 0Z"></path>
+      </svg>
+      <input type="search" data-video-search placeholder="Search videos by title, topic, or keyword&hellip;">
+    </label>
+    <label class="video-hub-product-filter">
+      <span>Product</span>
+      <select data-video-product>
+        <option value="">All products</option>
+      </select>
+    </label>
+    <fieldset class="video-hub-topic-filters">
+      <legend>Filter by topic</legend>
+      <div class="video-hub-topics" data-video-topics></div>
+    </fieldset>
+    <p class="video-hub-count" data-video-count role="status"></p>
+  </section>
+
+  <section class="video-hub-path" data-video-path hidden aria-labelledby="video-hub-path-title">
+    <div>
+      <p class="video-hub-eyebrow">Learning path</p>
+      <h2 id="video-hub-path-title" data-video-path-title></h2>
+      <p data-video-path-description></p>
+      <ol data-video-path-steps></ol>
+    </div>
+    <a class="mule-button-br solid" data-video-path-link href="#video-hub-results">View the path</a>
+  </section>
+
+  <div class="video-hub-results" data-video-results id="video-hub-results"></div>
+
+  <template data-video-card-template>
+    <article class="video-hub-card">
+      <button class="video-hub-thumbnail" type="button" data-video-play>
+        <img data-video-thumbnail alt="" loading="lazy">
+        <span class="video-hub-play-icon" aria-hidden="true">Play</span>
+        <span class="video-hub-duration" data-video-duration></span>
+        <span class="video-hub-sequence" data-video-sequence></span>
+        <span class="video-hub-coming-soon" data-video-coming-soon hidden>Coming soon</span>
+      </button>
+      <div class="video-hub-card-body">
+        <h3 data-video-title></h3>
+        <p data-video-description></p>
+        <ul class="video-hub-tags" data-video-tags></ul>
+      </div>
+      <footer class="video-hub-card-actions">
+        <a data-video-watch>Watch video</a>
+        <a data-video-docs>Read docs</a>
+      </footer>
+    </article>
+  </template>
+
+  <dialog class="video-hub-dialog" data-video-dialog aria-labelledby="video-hub-dialog-title">
+    <div class="video-hub-dialog-bar">
+      <h2 data-video-dialog-title id="video-hub-dialog-title"></h2>
+      <a data-video-dialog-new-tab target="_blank" rel="noopener">Open video in new tab</a>
+      <button type="button" data-video-dialog-close>Close</button>
+    </div>
+    <div class="video-hub-player">
+      <iframe data-video-iframe title="Video player" allow="autoplay; fullscreen; encrypted-media" allowfullscreen></iframe>
+    </div>
+  </dialog>
+
+  <script id="video-hub-catalog" type="application/json"></script>
+
+  <div class="video-hub-source" data-video-source>
+    {{{page.contents}}}
+  </div>
+</article>

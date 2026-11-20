@@ -1,0 +1,7 @@
+= MuleSoft Documentation Videos
+:page-layout: video-hub
+:page-component-name: general
+:description: Browse MuleSoft product videos by product and topic.
+:!sectids:
+
+Browse videos by product or topic, or search titles, descriptions, and tags.
