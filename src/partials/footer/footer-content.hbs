@@ -1,5 +1,1 @@
-{{#if (eq (site-profile) 'jp')}}
-{{> footer-content-jp}}
-{{else}}
-{{> footer-content-en}}
-{{/if}}
+<hgf-footer origin="{{#if (eq (site-profile) 'preview')}}http://localhost:8080{{else}}https://wp.sfdcdigital.com/mulesoft/en-us/wp-json{{/if}}"></hgf-footer>
