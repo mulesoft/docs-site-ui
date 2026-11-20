@@ -1,6 +1,19 @@
-{{#if (eq (site-profile) 'preview')}}
-<script type="module" src="{{siteRootPath}}/digital/xsf/components/v1-stable/navs.js"></script>
 <script>
+  const localFiles = window.location.hostname === '';
+  if (localFiles) {
+    const staticOrigin = new URL('{{siteRootPath}}/', window.location.href).href;
+    document.querySelectorAll('hgf-c360nav, hgf-footer').forEach((element) => {
+      element.setAttribute('origin', staticOrigin);
+    });
+  }
+
+  const navScript = document.createElement('script');
+  navScript.type = 'module';
+  navScript.src = localFiles
+    ? '{{siteRootPath}}/digital/xsf/components/v1-stable/navs.js'
+    : '{{#if (eq (site-profile) 'preview')}}{{siteRootPath}}/digital/xsf/components/v1-stable/navs.js{{else}}https://a.sfdcstatic.com/digital/xsf/components/v1-stable/navs.js{{/if}}';
+  document.head.appendChild(navScript);
+
   window.SfdcWwwBase = window.SfdcWwwBase || {};
   window.SfdcWwwBase.gdpr = window.SfdcWwwBase.gdpr || {
     preference: function () {
@@ -10,18 +23,13 @@
     }
   };
 </script>
-{{else}}
-{{!-- Cross-Site Framework global navigation and footer components. --}}
-<script type="module" src="https://a.sfdcstatic.com/digital/xsf/components/v1-stable/navs.js"></script>
+{{#unless (eq (site-profile) 'preview')}}
 <script>
-  window.SfdcWwwBase = window.SfdcWwwBase || {};
-  window.SfdcWwwBase.gdpr = window.SfdcWwwBase.gdpr || {
-    preference: function () {
-      if (typeof OneTrust !== 'undefined' && OneTrust.ToggleInfoDisplay) {
-        OneTrust.ToggleInfoDisplay();
-      }
-    }
-  };
+  const bottomScript = document.createElement('script');
+  bottomScript.defer = true;
+  bottomScript.src = window.location.hostname === ''
+    ? '{{siteRootPath}}/digital/@sfdc-www/clientlibs-web-components/v1-stable/bottom.js'
+    : 'https://a.sfdcstatic.com/digital/@sfdc-www/clientlibs-web-components/v1-latest/bottom.js';
+  document.head.appendChild(bottomScript);
 </script>
-<script defer type="text/javascript" src="https://a.sfdcstatic.com/digital/@sfdc-www/clientlibs-web-components/v1-latest/bottom.js"></script>
-{{/if}}
+{{/unless}}

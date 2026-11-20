@@ -35,6 +35,10 @@ const previewAssets = [
     'digital/@sfdc-www/clientlibs-web-components/v1-stable/geo-data.js',
     'https://a.sfdcstatic.com/digital/@sfdc-www/clientlibs-web-components/v1-stable/geo-data.js',
   ],
+  [
+    'digital/@sfdc-www/clientlibs-web-components/v1-stable/bottom.js',
+    'https://a.sfdcstatic.com/digital/@sfdc-www/clientlibs-web-components/v1-stable/bottom.js',
+  ],
   ['digital/iis/v1-stable/iis.min.js', 'https://c.salesforce.com/digital/iis/v1-stable/iis.min.js'],
 ]
 
