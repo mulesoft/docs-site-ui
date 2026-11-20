@@ -1,7 +1,7 @@
 ;(() => {
   'use strict'
 
-  const initializeVideoHub = async () => {
+  const initializeVideoHub = () => {
     const root = document.querySelector('[data-video-results]')
     if (!root) return
 
@@ -11,50 +11,19 @@
       document.querySelector('[data-video-intro]').replaceChildren(...introSource.childNodes)
     }
     source?.remove()
-    const catalogPath = document.body.dataset.videoCatalog || '_attachments/video-hub.yml'
-    const catalogUrl = new URL(catalogPath, window.location.href)
     let catalog
     try {
-      const catalogResponse = await fetch(catalogUrl)
-      if (!catalogResponse.ok) throw new Error(`Unable to load video catalog: ${catalogResponse.status}`)
-      catalog = window.jsyaml.load(await catalogResponse.text())
+      catalog = JSON.parse(document.querySelector('#video-hub-catalog')?.textContent || '{}')
     } catch (error) {
-      console.error('Unable to load video catalog', error)
-      root.textContent = 'Videos are temporarily unavailable.'
+      console.error('Unable to read generated video catalog', error)
+      root.textContent = 'Video catalog data is invalid.'
       root.setAttribute('role', 'status')
       return
     }
-    const videos = catalog.products.flatMap(({ name, videos }) => {
-      const productId = name.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '')
-      return videos.map((video) => {
-        if (
-          !video.id ||
-          !video.vidyard_id ||
-          !video.title ||
-          !video.description ||
-          !Array.isArray(video.topics) ||
-          !Array.isArray(video.tags)
-        ) {
-          throw new Error(`Video in ${name} is missing a required id, vidyard_id, title, description, topics, or tags`)
-        }
-        return {
-          ...video,
-          productId,
-          productName: name,
-          vid: video.vidyard_id,
-          docUrl: video.docs_url,
-          thumbnail: video.vidyard_id
-            ? `https://play.vidyard.com/${encodeURIComponent(video.vidyard_id)}.jpg`
-            : '',
-        }
-      })
-    })
-    const path = catalog.learning_paths?.[0]
+    const videos = Array.isArray(catalog.videos) ? catalog.videos : []
     const intro = document.querySelector('[data-video-intro]')
     if (catalog.intro) intro.textContent = catalog.intro
-    const products = [
-      ...new Map(videos.map((video) => [video.productId, video.productName])).entries(),
-    ]
+    const products = [...new Map(videos.map((video) => [video.productId, video.product])).entries()]
     const state = { product: '', topic: '', query: '' }
     const productSelect = document.querySelector('[data-video-product]')
     const topicContainer = document.querySelector('[data-video-topics]')
@@ -67,23 +36,6 @@
     const dialogClose = dialog.querySelector('[data-video-dialog-close]')
     let dialogOpener
     const topics = [...new Set(videos.flatMap((video) => video.topics || []))]
-    const categoryDescriptions = {
-      eme: 'Lifecycle of an AI-connected integration portfolio',
-      studio: 'The IDE for building Mule applications',
-      exchange: 'Discover and reuse APIs and assets',
-      mq: 'Cloud messaging for queues and exchanges',
-      'runtime-fabric': 'Deploy Mule apps on your own infrastructure',
-      'flex-gateway': 'Secure and manage APIs anywhere',
-      'flex-gateway-pdk': 'Build custom Flex Gateway policies',
-      'api-manager': 'Secure, govern, and analyze your APIs',
-      'api-governance': 'Apply standards across your APIs',
-      'api-experience-hub': 'Branded developer portals in minutes',
-      datagraph: 'Unify APIs into a single graph',
-      'partner-manager': 'Manage B2B partners and exchange',
-      accelerators: 'Prebuilt assets for common use cases',
-      connectors: 'Connect to external systems and AI',
-    }
-
     products.forEach(([id, name]) => {
       const option = document.createElement('option')
       option.value = id
@@ -104,6 +56,7 @@
     topicButton('', 'All topics')
     topics.forEach((topic) => topicButton(topic, topic))
 
+    const path = catalog.learning_paths?.[0]
     if (path && Array.isArray(path.videos) && path.videos.length) {
       const pathSection = document.querySelector('[data-video-path]')
       pathSection.hidden = false
@@ -158,7 +111,7 @@
       }
 
       const tags = card.querySelector('[data-video-tags]')
-    ;(video.tags || []).forEach((tag) => {
+      ;(video.tags || []).forEach((tag) => {
         const item = document.createElement('li')
         item.textContent = tag
         tags.append(item)
@@ -170,9 +123,11 @@
       const matched = videos.filter((video) => {
         const searchableFields = [video.title, video.description, ...(video.tags || []), ...(video.topics || [])]
         const searchable = searchableFields.join(' ').toLowerCase()
-        return (!state.product || video.productId === state.product) &&
-        (!state.topic || (video.topics || []).includes(state.topic)) &&
-        (!state.query || searchable.includes(state.query))
+        return (
+          (!state.product || video.productId === state.product) &&
+          (!state.topic || (video.topics || []).includes(state.topic)) &&
+          (!state.query || searchable.includes(state.query))
+        )
       })
       const countLabel = matched.length === 1 ? 'video' : 'videos'
       document.querySelector('[data-video-count]').textContent = `${matched.length} ${countLabel}`
@@ -191,20 +146,17 @@
         const headingRow = document.createElement('div')
         headingRow.className = 'video-hub-category-head'
         const heading = document.createElement('h2')
-        heading.textContent = items[0].productName
+        heading.textContent = items[0].product
         const headingId = `video-category-${productId}`
         heading.id = headingId
         section.setAttribute('aria-labelledby', headingId)
         const count = document.createElement('span')
         count.textContent = `${items.length} ${items.length === 1 ? 'video' : 'videos'}`
         count.className = 'video-hub-category-count'
-        const description = document.createElement('span')
-        description.className = 'video-hub-category-description'
-        description.textContent = categoryDescriptions[productId] || ''
         const grid = document.createElement('div')
         grid.className = 'video-hub-grid'
         items.forEach((video) => grid.append(renderCard(video)))
-        headingRow.append(heading, count, description)
+        headingRow.append(heading, count)
         section.append(headingRow, grid)
         results.append(section)
       })

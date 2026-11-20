@@ -124,6 +124,47 @@ module.exports =
                       {}
                     )
                   pageModel.contents = Buffer.from(doc.convert())
+                  if (pageModel.layout === 'video-hub') {
+                    const videos = [
+                      {
+                        id: 'studio-spotlight',
+                        title: 'Product Spotlight: Anypoint Studio',
+                        description: 'A quick tour of the IDE for designing and testing Mule applications.',
+                        product: 'Anypoint Studio',
+                        productId: 'anypoint-studio',
+                        topics: ['Product spotlight', 'Get started'],
+                        tags: ['Studio', 'IDE'],
+                        vid: '3tTERQRQzDA4j9i8mqdSKg',
+                        thumbnail: 'https://play.vidyard.com/3tTERQRQzDA4j9i8mqdSKg.jpg',
+                        docUrl: 'https://docs.mulesoft.com/studio/index',
+                      },
+                      {
+                        id: 'exchange-spotlight',
+                        title: 'Product Spotlight: Anypoint Exchange',
+                        description: 'Discover and reuse APIs, connectors, and other assets.',
+                        product: 'Anypoint Exchange',
+                        productId: 'anypoint-exchange',
+                        topics: ['Product spotlight', 'Portfolio'],
+                        tags: ['Exchange', 'Catalog'],
+                        vid: 'AMb7MEyBVUxwpJWvaSCEWH',
+                        thumbnail: 'https://play.vidyard.com/AMb7MEyBVUxwpJWvaSCEWH.jpg',
+                        docUrl: 'https://docs.mulesoft.com/exchange/index',
+                      },
+                    ]
+                    const catalog = JSON.stringify({
+                      intro: 'Browse videos by product or topic, or search titles, descriptions, and documentation.',
+                      videos,
+                      topics: [...new Set(videos.flatMap(({ topics }) => topics))],
+                      learning_paths: [],
+                    }).replace(/</g, '\\u003c')
+                    const html = pageModel.contents.toString()
+                    pageModel.contents = Buffer.from(
+                      html.replace(
+                        '<script id="video-hub-catalog" type="application/json"></script>',
+                      `<script id="video-hub-catalog" type="application/json">${catalog}</script>`
+                      )
+                    )
+                  }
                   if (doc.isAttribute('page-fragmentize')) {
                     pageModel.contents = fragmentize(pageModel.contents)
                   }
