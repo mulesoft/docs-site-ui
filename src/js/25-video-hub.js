@@ -57,19 +57,30 @@
     topics.forEach((topic) => topicButton(topic, topic))
 
     const path = catalog.learning_paths?.[0]
-    if (path && Array.isArray(path.videos) && path.videos.length) {
+    if (path && Array.isArray(path.steps) && path.steps.length) {
       const pathSection = document.querySelector('[data-video-path]')
       pathSection.hidden = false
       document.querySelector('[data-video-path-title]').textContent = path.title || ''
       document.querySelector('[data-video-path-description]').textContent = path.description || ''
       const steps = document.querySelector('[data-video-path-steps]')
-      path.videos.forEach((id) => {
-        const video = videos.find((item) => item.id === id)
-        if (!video) return
+      path.steps.forEach((item) => {
         const step = document.createElement('li')
-        step.textContent = video.title
+        const title = document.createElement('span')
+        title.textContent = item.title
+        step.append(title)
+        if (item.tags?.length) {
+          const tags = document.createElement('span')
+          tags.className = 'video-hub-path-step-tags'
+          tags.textContent = item.tags.join(', ')
+          step.append(tags)
+        }
         steps.append(step)
       })
+      if (path.planned) {
+        const count = document.querySelector('[data-video-path-planned]')
+        count.textContent = `${path.planned} planned`
+        count.hidden = false
+      }
     } else {
       document.querySelector('[data-video-path]').remove()
     }
@@ -79,16 +90,23 @@
       const play = card.querySelector('[data-video-play]')
       const thumbnail = card.querySelector('[data-video-thumbnail]')
       const videoUrl = `https://share.vidyard.com/watch/${encodeURIComponent(video.vid)}`
+      const cardNewTab = card.querySelector('[data-video-new-tab]')
 
       card.querySelector('[data-video-title]').textContent = video.title || ''
       card.querySelector('[data-video-description]').textContent = video.description || ''
       card.querySelector('[data-video-duration]').textContent = video.duration || ''
-      card.querySelector('[data-video-sequence]').textContent = video.sequence || ''
       play.setAttribute('aria-label', `Play ${video.title}`)
       card.querySelector('[data-video-title]').id = `video-title-${video.id}`
 
       thumbnail.src = video.thumbnail
       play.addEventListener('click', () => openPlayer(video, videoUrl))
+      if (videoUrl) {
+        cardNewTab.href = videoUrl
+        cardNewTab.setAttribute('aria-label', `Open video in new tab: ${video.title}`)
+        cardNewTab.title = `Open video in new tab: ${video.title}`
+      } else {
+        cardNewTab.remove()
+      }
 
       const watch = card.querySelector('[data-video-watch]')
       if (videoUrl) {
@@ -153,10 +171,14 @@
         const count = document.createElement('span')
         count.textContent = `${items.length} ${items.length === 1 ? 'video' : 'videos'}`
         count.className = 'video-hub-category-count'
+        const description = document.createElement('span')
+        description.className = 'video-hub-category-description'
+        description.textContent = items.find((video) => video.productDescription)?.productDescription || ''
+        if (!description.textContent) description.hidden = true
         const grid = document.createElement('div')
         grid.className = 'video-hub-grid'
         items.forEach((video) => grid.append(renderCard(video)))
-        headingRow.append(heading, count)
+        headingRow.append(heading, count, description)
         section.append(headingRow, grid)
         results.append(section)
       })
@@ -213,7 +235,7 @@
         item.setAttribute('aria-pressed', String(item.dataset.topic === ''))
       })
       render()
-      const firstPathVideo = path && videos.find((video) => video.id === path.videos[0])
+      const firstPathVideo = path && videos.find((video) => video.title === path.steps[0]?.title)
       const section = firstPathVideo && document.getElementById(`video-product-${firstPathVideo.productId}`)
       if (section) section.scrollIntoView({ behavior: 'smooth', block: 'start' })
     })

@@ -131,9 +131,10 @@ module.exports =
                         title: 'Product Spotlight: Anypoint Studio',
                         description: 'A quick tour of the IDE for designing and testing Mule applications.',
                         product: 'Anypoint Studio',
+                        productDescription: 'Design, test, and deploy Mule applications with Anypoint Studio.',
                         productId: 'anypoint-studio',
                         topics: ['Product spotlight', 'Get started'],
-                        tags: ['Studio', 'IDE'],
+                        tags: ['Overview', 'Onboarding'],
                         vid: '3tTERQRQzDA4j9i8mqdSKg',
                         thumbnail: 'https://play.vidyard.com/3tTERQRQzDA4j9i8mqdSKg.jpg',
                         docUrl: 'https://docs.mulesoft.com/studio/index',
@@ -143,9 +144,10 @@ module.exports =
                         title: 'Product Spotlight: Anypoint Exchange',
                         description: 'Discover and reuse APIs, connectors, and other assets.',
                         product: 'Anypoint Exchange',
+                        productDescription: 'Discover and reuse APIs, connectors, and other assets.',
                         productId: 'anypoint-exchange',
                         topics: ['Product spotlight', 'Portfolio'],
-                        tags: ['Exchange', 'Catalog'],
+                        tags: ['Portfolio', 'Catalog'],
                         vid: 'AMb7MEyBVUxwpJWvaSCEWH',
                         thumbnail: 'https://play.vidyard.com/AMb7MEyBVUxwpJWvaSCEWH.jpg',
                         docUrl: 'https://docs.mulesoft.com/exchange/index',
@@ -155,7 +157,29 @@ module.exports =
                       intro: 'Browse videos by product or topic, or search titles, descriptions, and documentation.',
                       videos,
                       topics: [...new Set(videos.flatMap(({ topics }) => topics))],
-                      learning_paths: [],
+                      learning_paths: [
+                        {
+                          title: 'Get going with the Enhanced MuleSoft Experience',
+                          description: [
+                            'Eight videos that take you from sign-in to a fully governed,',
+                            'monitored AI portfolio, in order.',
+                          ].join(' '),
+                          planned: 8,
+                          steps: [
+                            {
+                              title: 'Get Started with the Enhanced MuleSoft Experience',
+                              tags: ['Overview', 'Onboarding'],
+                            },
+                            { title: 'Navigate Your Portfolio', tags: ['Portfolio', 'Navigation'] },
+                            { title: 'Register' },
+                            { title: 'Discover' },
+                            { title: 'Instances' },
+                            { title: 'Govern' },
+                            { title: 'Monitor' },
+                            { title: 'Cost' },
+                          ],
+                        },
+                      ],
                     }).replace(/</g, '\\u003c')
                     const html = pageModel.contents.toString()
                     pageModel.contents = Buffer.from(

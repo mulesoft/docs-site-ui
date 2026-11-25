@@ -29,6 +29,7 @@
     <div>
       <p class="video-hub-eyebrow">Learning path</p>
       <h2 id="video-hub-path-title" data-video-path-title></h2>
+      <span class="video-hub-path-planned" data-video-path-planned hidden></span>
       <p data-video-path-description></p>
       <ol data-video-path-steps></ol>
     </div>
@@ -43,9 +44,13 @@
         <img data-video-thumbnail alt="" loading="lazy">
         <span class="video-hub-play-icon" aria-hidden="true">Play</span>
         <span class="video-hub-duration" data-video-duration></span>
-        <span class="video-hub-sequence" data-video-sequence></span>
         <span class="video-hub-coming-soon" data-video-coming-soon hidden>Coming soon</span>
       </button>
+      <a class="video-hub-card-new-tab" data-video-new-tab target="_blank" rel="noopener">
+        <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+          <path d="M14 3h7v7h-2V6.41l-9.29 9.3-1.42-1.42 9.3-9.29H14V3ZM5 5h6v2H7v10h10v-4h2v6H5V5Z"></path>
+        </svg>
+      </a>
       <div class="video-hub-card-body">
         <h3 data-video-title></h3>
         <p data-video-description></p>
@@ -61,8 +66,16 @@
   <dialog class="video-hub-dialog" data-video-dialog aria-labelledby="video-hub-dialog-title">
     <div class="video-hub-dialog-bar">
       <h2 data-video-dialog-title id="video-hub-dialog-title"></h2>
-      <a data-video-dialog-new-tab target="_blank" rel="noopener">Open video in new tab</a>
-      <button type="button" data-video-dialog-close>Close</button>
+      <a data-video-dialog-new-tab target="_blank" rel="noopener" aria-label="Open video in new tab" title="Open video in new tab">
+        <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+          <path d="M14 3h7v7h-2V6.41l-9.29 9.3-1.42-1.42 9.3-9.29H14V3ZM5 5h6v2H7v10h10v-4h2v6H5V5Z"></path>
+        </svg>
+      </a>
+      <button type="button" data-video-dialog-close aria-label="Close video" title="Close video">
+        <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+          <path d="m6.4 5 5.6 5.6L17.6 5 19 6.4l-5.6 5.6L19 17.6 17.6 19 12 13.4 6.4 19 5 17.6l5.6-5.6L5 6.4 6.4 5Z"></path>
+        </svg>
+      </button>
     </div>
     <div class="video-hub-player">
       <iframe data-video-iframe title="Video player" allow="autoplay; fullscreen; encrypted-media" allowfullscreen></iframe>
