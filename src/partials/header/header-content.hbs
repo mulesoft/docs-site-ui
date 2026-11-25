@@ -1,9 +1,14 @@
-{{#if (eq (site-profile) 'jp')}}
-{{> header-content-jp}}
-{{else}}
-    {{#if (eq (site-profile) 'archive')}}
-    {{> header-content-archive}}
-    {{else}}
-    {{> header-content-en}}
-    {{/if}}
-{{/if}}
+<div id="globalnav-wrapper-c360" class="globalnav--wrapper-c360">
+  <hgf-c360nav
+    search="false"
+    show-region-selector="true"
+    show-button-secondary="true"
+    origin="{{#if (eq (site-profile) 'preview')}}http://localhost:8080{{else}}https://wp.sfdcdigital.com/mulesoft/en-us/wp-json{{/if}}"
+    contactMenuOverride="true"
+    showRegionSelector="false"
+    context-nav-enabled="false"
+    show-button-main="true"
+    enable-iis="false"
+    hide-contact="false">
+  </hgf-c360nav>
+</div>
