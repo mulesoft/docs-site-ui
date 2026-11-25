@@ -68,7 +68,8 @@ const buildTask = createTask({
   call: task.build(
     srcDir,
     destDir,
-    process.argv.slice(2).some((name) => name.startsWith('preview'))
+    process.argv.slice(2).some((name) => name.startsWith('preview')),
+    previewSrcDir
   ),
 })
 

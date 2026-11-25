@@ -19,6 +19,28 @@ html[data-theme="dark"] {
   --dm-text-primary: #e6edf3;
   --dm-text-secondary: #8b949e;
 
+  /* Global navigation and footer render in shadow DOM and consume SDS tokens. */
+  --sds-g-color-neutral-base-1: #161b22;
+  --sds-g-color-neutral-base-2: #1c2333;
+  --sds-g-color-neutral-base-3: #21262d;
+  --sds-g-color-neutral-base-4: #30363d;
+  --sds-g-color-neutral-base-contrast-1: #e6edf3;
+  --sds-g-color-neutral-base-contrast-2: #c9d1d9;
+  --sds-g-color-neutral-base-contrast-3: #8b949e;
+  --sds-g-color-neutral-base-contrast-4: #6e7681;
+  --sds-g-color-neutral-inverse-1: #e6edf3;
+  --sds-g-color-neutral-inverse-2: #c9d1d9;
+  --sds-g-color-neutral-inverse-3: #8b949e;
+  --sds-g-color-neutral-inverse-4: #6e7681;
+  --sds-g-color-neutral-inverse-contrast-1: #e6edf3;
+  --sds-g-color-neutral-inverse-contrast-2: #c9d1d9;
+  --sds-g-color-neutral-inverse-contrast-3: #8b949e;
+  --sds-g-color-neutral-inverse-contrast-4: #6e7681;
+  --sds-g-color-border-base-1: #30363d;
+  --sds-g-color-border-base-2: #484f58;
+  --sds-g-color-border-inverse-1: #6e7681;
+  --sds-g-color-border-inverse-2: #8b949e;
+
   /* lightened from #7d858e, which failed AA contrast on --dm-surface-2/-3 */
   --dm-text-muted: #868e98;
   --dm-link: #58a6ff;
@@ -91,6 +113,54 @@ html[data-theme="dark"] {
   --docsearch-key-background: var(--dm-border);
   --docsearch-key-color: var(--dm-text-primary);
   --docsearch-footer-background: var(--dm-surface-1);
+}
+
+html[data-theme="dark"] hgf-c360nav,
+html[data-theme="dark"] hgf-c360nav::part(base) {
+  color-scheme: dark;
+
+  --sds-g-color-neutral-base-1: #161b22;
+  --sds-g-color-neutral-base-2: #1c2333;
+  --sds-g-color-neutral-base-3: #21262d;
+  --sds-g-color-neutral-base-4: #30363d;
+  --sds-g-color-neutral-base-contrast-1: #e6edf3;
+  --sds-g-color-neutral-base-contrast-2: #c9d1d9;
+  --sds-g-color-neutral-base-contrast-3: #8b949e;
+  --sds-g-color-neutral-base-contrast-4: #6e7681;
+  --sds-g-color-neutral-inverse-1: #e6edf3;
+  --sds-g-color-neutral-inverse-2: #c9d1d9;
+  --sds-g-color-neutral-inverse-3: #8b949e;
+  --sds-g-color-neutral-inverse-4: #6e7681;
+  --sds-g-color-neutral-inverse-contrast-1: #e6edf3;
+  --sds-g-color-neutral-inverse-contrast-2: #c9d1d9;
+  --sds-g-color-neutral-inverse-contrast-3: #8b949e;
+  --sds-g-color-neutral-inverse-contrast-4: #6e7681;
+  --sds-g-color-border-base-1: #30363d;
+  --sds-g-color-border-base-2: #484f58;
+  --sds-g-color-border-inverse-1: #6e7681;
+  --sds-g-color-border-inverse-2: #8b949e;
+  --c360-nav-c-header-background: #161b22;
+  --c360-nav-c-link-color: #79c0ff;
+  --c360-nav-c-utility-color: #e6edf3;
+  --c360-nav-c-utility-icon-filter: brightness(0) invert(1);
+  --c360-nav-c-utility-hover-icon-filter: brightness(0) invert(1);
+  --sds-c-button-text-color: #79c0ff;
+  --sds-c-button-text-color-hover: #a5c8ff;
+}
+
+/* C360 class names are supplied by the external navigation component. */
+/* stylelint-disable selector-class-pattern */
+html[data-theme="dark"] hgf-c360nav .c360-nav__nav-items,
+html[data-theme="dark"] hgf-c360nav .c360-nav__nav-items-list--l1 {
+  background-color: var(--dm-surface-1);
+}
+/* stylelint-enable selector-class-pattern */
+
+html[data-theme="dark"] hgf-footer {
+  --hgf-c-footer-heading-color: #e6edf3;
+  --hgf-c-footer-logo-filter: brightness(0) invert(1);
+  --hgf-c-footer-icon-color: #fff;
+  --hgf-c-footer-icon-filter: brightness(0) invert(1);
 }
 
 /* Body background */
@@ -384,6 +454,10 @@ html[data-theme="dark"] {
 }
 
 [data-theme="dark"] .ms-com-content-header .right-side > .contact > * {
+  color: var(--dm-text-primary) !important;
+}
+
+[data-theme="dark"] .ms-com-content-header .right-side > .contact > div > span {
   color: var(--dm-text-primary) !important;
 }
 

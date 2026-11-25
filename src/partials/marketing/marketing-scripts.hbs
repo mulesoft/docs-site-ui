@@ -1,18 +1,12 @@
 <script>
   const localFiles = window.location.hostname === '';
-  if (localFiles) {
-    const staticOrigin = new URL('{{siteRootPath}}/', window.location.href).href;
-    document.querySelectorAll('hgf-c360nav, hgf-footer').forEach((element) => {
-      element.setAttribute('origin', staticOrigin);
-    });
-  }
-
-  const navScript = document.createElement('script');
-  navScript.type = 'module';
-  navScript.src = localFiles
-    ? '{{siteRootPath}}/digital/xsf/components/v1-stable/navs.js'
-    : '{{#if (eq (site-profile) 'preview')}}{{siteRootPath}}/digital/xsf/components/v1-stable/navs.js{{else}}https://a.sfdcstatic.com/digital/xsf/components/v1-stable/navs.js{{/if}}';
-  document.head.appendChild(navScript);
+  const loadScript = (src) => new Promise((resolve, reject) => {
+    const script = document.createElement('script');
+    script.src = src;
+    script.onload = resolve;
+    script.onerror = reject;
+    document.head.appendChild(script);
+  });
 
   window.SfdcWwwBase = window.SfdcWwwBase || {};
   window.SfdcWwwBase.gdpr = window.SfdcWwwBase.gdpr || {
@@ -22,14 +16,40 @@
       }
     }
   };
+
+  const syncFooterTheme = () => {
+    const footer = document.querySelector('hgf-footer');
+    if (footer) footer.setAttribute('theme', document.documentElement.dataset.theme === 'dark' ? 'dark' : 'light');
+  };
+  syncFooterTheme();
+  new MutationObserver(syncFooterTheme).observe(document.documentElement, {
+    attributes: true,
+    attributeFilter: ['data-theme']
+  });
+
+  if (localFiles) {
+    document.querySelectorAll('hgf-c360nav, hgf-footer').forEach((element) => {
+      element.setAttribute('origin', '');
+    });
+    Promise.all([
+      loadScript('{{@root.uiRootPath}}/c360/experience/v1/navigation.js'),
+      loadScript('{{@root.uiRootPath}}/c360/experience/v2/navigation.js')
+    ]).then(() => loadScript('{{@root.uiRootPath}}/digital/xsf/components/v1-stable/navs.js'))
+      .catch((error) => console.error('Unable to load local navigation assets', error));
+  } else {
+    const navScript = document.createElement('script');
+    navScript.type = '{{#if (eq (site-profile) 'preview')}}text/javascript{{else}}module{{/if}}';
+    navScript.src = '{{#if (eq (site-profile) 'preview')}}{{siteRootPath}}/digital/xsf/components/v1-stable/navs.js{{else}}https://a.sfdcstatic.com/digital/xsf/components/v1-stable/navs.js{{/if}}';
+    document.head.appendChild(navScript);
+  }
 </script>
 {{#unless (eq (site-profile) 'preview')}}
 <script>
   const bottomScript = document.createElement('script');
   bottomScript.defer = true;
-  bottomScript.src = window.location.hostname === ''
-    ? '{{siteRootPath}}/digital/@sfdc-www/clientlibs-web-components/v1-stable/bottom.js'
-    : 'https://a.sfdcstatic.com/digital/@sfdc-www/clientlibs-web-components/v1-latest/bottom.js';
-  document.head.appendChild(bottomScript);
+  if (!localFiles) {
+    bottomScript.src = 'https://a.sfdcstatic.com/digital/@sfdc-www/clientlibs-web-components/v1-latest/bottom.js';
+    document.head.appendChild(bottomScript);
+  }
 </script>
 {{/unless}}

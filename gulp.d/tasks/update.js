@@ -7,22 +7,8 @@ const pretty = require('pretty')
 
 const languages = ['en', 'jp']
 const previewAssets = [
-  [
-    'c360/experience/v1/navigation',
-    'https://wp.sfdcdigital.com/mulesoft/en-us/wp-json/c360/experience/v1/navigation',
-  ],
-  [
-    'c360/experience/v2/navigation',
-    'https://wp.sfdcdigital.com/mulesoft/en-us/wp-json/c360/experience/v2/navigation',
-  ],
-  [
-    'digital/xsf/components/v1-stable/navs.js',
-    'https://a.sfdcstatic.com/digital/xsf/components/v1-stable/navs.js',
-  ],
-  [
-    'digital/one-trust/ext/v1-stable/gdpr.js',
-    'https://a.sfdcstatic.com/digital/one-trust/ext/v1-stable/gdpr.js',
-  ],
+  ['digital/xsf/components/v1-stable/navs.js', 'https://a.sfdcstatic.com/digital/xsf/components/v1-stable/navs.js'],
+  ['digital/one-trust/ext/v1-stable/gdpr.js', 'https://a.sfdcstatic.com/digital/one-trust/ext/v1-stable/gdpr.js'],
   [
     'digital/@sfdc-ogs/v1-stable/sdk/interactions-core.js',
     'https://a.sfdcstatic.com/digital/@sfdc-ogs/v1-stable/sdk/interactions-core.js',
@@ -99,9 +85,7 @@ async function updatePreviewAssets (partialsDir) {
             )
           }
         } else {
-          const data = await response.json()
-          if (relativePath.endsWith('/navigation')) stripSearchAccessToken(data)
-          content = JSON.stringify(data)
+          content = await response.text()
         }
 
         const destination = ospath.join(projectRoot, 'preview-site-src', relativePath)
@@ -112,20 +96,6 @@ async function updatePreviewAssets (partialsDir) {
       }
     })
   )
-}
-
-function stripSearchAccessToken (value) {
-  if (Array.isArray(value)) {
-    value.forEach(stripSearchAccessToken)
-  } else if (value && typeof value === 'object') {
-    Object.keys(value).forEach((key) => {
-      if (key.toLowerCase() === 'accesstoken') {
-        delete value[key]
-      } else {
-        stripSearchAccessToken(value[key])
-      }
-    })
-  }
 }
 
 async function getUrlParams (contentType) {
