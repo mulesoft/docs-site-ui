@@ -76,16 +76,11 @@
         }
         steps.append(step)
       })
-      if (path.planned) {
-        const count = document.querySelector('[data-video-path-planned]')
-        count.textContent = `${path.planned} planned`
-        count.hidden = false
-      }
     } else {
       document.querySelector('[data-video-path]').remove()
     }
 
-    function renderCard (video) {
+    function renderCard (video, sequence) {
       const card = template.content.firstElementChild.cloneNode(true)
       const play = card.querySelector('[data-video-play]')
       const thumbnail = card.querySelector('[data-video-thumbnail]')
@@ -95,6 +90,7 @@
       card.querySelector('[data-video-title]').textContent = video.title || ''
       card.querySelector('[data-video-description]').textContent = video.description || ''
       card.querySelector('[data-video-duration]').textContent = video.duration || ''
+      card.querySelector('[data-video-sequence]').textContent = sequence
       play.setAttribute('aria-label', `Play ${video.title}`)
       card.querySelector('[data-video-title]').id = `video-title-${video.id}`
 
@@ -177,7 +173,7 @@
         if (!description.textContent) description.hidden = true
         const grid = document.createElement('div')
         grid.className = 'video-hub-grid'
-        items.forEach((video) => grid.append(renderCard(video)))
+        items.forEach((video, index) => grid.append(renderCard(video, index + 1)))
         headingRow.append(heading, count, description)
         section.append(headingRow, grid)
         results.append(section)
